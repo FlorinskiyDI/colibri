@@ -24,6 +24,7 @@ namespace IdentityServer.Webapi.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        //test
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
