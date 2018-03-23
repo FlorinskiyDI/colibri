@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  identityserver.webapi:
+    image: identityserver.webapi
+    build:
+      context: .
+      dockerfile: IdentityServer.Webapi/Dockerfile

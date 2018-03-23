@@ -20,7 +20,7 @@ namespace IdentityServer.Webapi
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
-                .UseUrls("http://localhost:44363")
+                //.UseUrls("http://localhost:5050") // not working in docker
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()

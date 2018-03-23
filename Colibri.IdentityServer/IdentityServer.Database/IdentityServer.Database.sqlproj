@@ -7,7 +7,7 @@
     <Name>IdentityServer.Database</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{cf1f4e76-3429-4afc-8282-41296557c69a}</ProjectGuid>
+    <ProjectGuid>{d64333b6-303d-4825-a232-b12d322c30d4}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
