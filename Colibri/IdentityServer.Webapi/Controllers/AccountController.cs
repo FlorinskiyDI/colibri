@@ -18,16 +18,17 @@ using System.Globalization;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
 using IdentityServer4.Services;
+using IdentityServer.Webapi.Configurations;
 
 namespace IdentityServer.Webapi.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        //test
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
@@ -38,6 +39,7 @@ namespace IdentityServer.Webapi.Controllers
             IPersistedGrantService persistedGrantService,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
+            ISmsSender smsSender,
             ILoggerFactory loggerFactory,
             IIdentityServerInteractionService interaction,
             IClientStore clientStore)
@@ -46,6 +48,7 @@ namespace IdentityServer.Webapi.Controllers
             _persistedGrantService = persistedGrantService;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _interaction = interaction;
             _clientStore = clientStore;
@@ -166,9 +169,6 @@ namespace IdentityServer.Webapi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Logout(string logoutId)
         {
-            var item = CultureInfo.CurrentCulture;
-            var item2 = CultureInfo.CurrentUICulture;
-
             if (User.Identity.IsAuthenticated == false)
             {
                 // if the user is not authenticated, then just show logged out page
@@ -200,9 +200,6 @@ namespace IdentityServer.Webapi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Logout(LogoutViewModel model)
         {
-            var item = CultureInfo.CurrentCulture;
-            var item2 = CultureInfo.CurrentUICulture;
-
             var idp = User?.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
             var subjectId = HttpContext.User.Identity.GetSubjectId();
 
@@ -243,9 +240,10 @@ namespace IdentityServer.Webapi.Controllers
                 SignOutIframeUrl = logout?.SignOutIFrameUrl
             };
 
-            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "angular2client");
+            await _persistedGrantService.RemoveAllGrantsAsync(subjectId, "singleapp");
 
-            return View("LoggedOut", vm);
+            return Redirect(Clients.HOST_URL + "/index.html");
+            //return View("LoggedOut", vm);
         }
 
         //
@@ -268,7 +266,24 @@ namespace IdentityServer.Webapi.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, IsAdmin = model.IsAdmin };
+                var dataEventsRole = "dataEventRecords.user";
+                var securedFilesRole = "securedFiles.user";
+                if (model.IsAdmin)
+                {
+                    dataEventsRole = "dataEventRecords.admin";
+                    securedFilesRole = "securedFiles.admin";
+                }
+
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    IsAdmin = model.IsAdmin,
+                    DataEventRecordsRole = dataEventsRole,
+                    SecuredFilesRole = securedFilesRole,
+                    AccountExpires = DateTime.UtcNow.AddDays(7.0)
+                };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -532,7 +547,11 @@ namespace IdentityServer.Webapi.Controllers
             if (model.SelectedProvider == "Email")
             {
                 await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
-            }            
+            }
+            else if (model.SelectedProvider == "Phone")
+            {
+                await _smsSender.SendSmsAsync(await _userManager.GetPhoneNumberAsync(user), message);
+            }
 
             return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }

@@ -11,5 +11,8 @@ namespace IdentityServer.Webapi.Data
         public bool IsAdmin { get; set; }
         public string DataEventRecordsRole { get; set; }
         public string SecuredFilesRole { get; set; }
+
+
+        public DateTime AccountExpires { get; set; }
     }
 }
