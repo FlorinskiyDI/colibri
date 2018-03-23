@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  survey.webapi:
+    image: survey.webapi
+    build:
+      context: .
+      dockerfile: Survey.Webapi/Dockerfile
+
+  survey.spa:
+    image: survey.spa
+    build:
+      context: .
+      dockerfile: Survey.Spa/Dockerfile
+
