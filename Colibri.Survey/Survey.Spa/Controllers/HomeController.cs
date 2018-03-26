@@ -1,17 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using ManagementPortal.Models.ViewModel;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Survey.Spa.Models;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Survey.Spa;
 
-namespace Survey.Spa.Controllers
+namespace ManagementPortal.Controllers
 {
     public class HomeController : Controller
     {
+
+        private readonly IOptionsSnapshot<AppSettings> _settings;
+        private readonly IHostingEnvironment _env;
+        public HomeController(IHostingEnvironment env, IOptionsSnapshot<AppSettings> settings)
+        {
+            _env = env;
+            _settings = settings;
+        }
+
         public IActionResult Index()
         {
+            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ALARM_API_URL")))
+            {
+                _settings.Value.AlarmApiUrl = Environment.GetEnvironmentVariable("ALARM_API_URL");
+            }
+
+            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("PORTAL_VERSION")))
+            {
+                _settings.Value.PortalVersion = Environment.GetEnvironmentVariable("PORTAL_VERSION");
+            }
+
+            ViewBag.ServerSettings = JsonConvert.SerializeObject(_settings.Value);
             return View();
         }
 
@@ -33,5 +54,21 @@ namespace Survey.Spa.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-    }
+
+        public IActionResult Configuration()
+        {
+            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ALARM_API_URL")))
+            {
+                _settings.Value.AlarmApiUrl = Environment.GetEnvironmentVariable("ALARM_API_URL");
+            }
+
+            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("PORTAL_VERSION")))
+            {
+                _settings.Value.PortalVersion = Environment.GetEnvironmentVariable("PORTAL_VERSION");
+            }
+
+            return Json(_settings.Value);
+        } 
+
+    }    
 }

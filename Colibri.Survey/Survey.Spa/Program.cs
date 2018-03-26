@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
-namespace Survey.Spa
+namespace ManagementPortal
 {
     public class Program
     {
@@ -19,6 +12,8 @@ namespace Survey.Spa
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseApplicationInsights()
+                .UseUrls("http://*:53458", "http://127.0.0.1:53458")
                 .UseStartup<Startup>()
                 .Build();
     }
