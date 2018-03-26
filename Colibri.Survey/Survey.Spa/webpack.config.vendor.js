@@ -50,19 +50,12 @@ const vendorModules = [
     'lodash/groupBy',
     'lodash/omit',
     // Etc
-    '@aspnet/signalr-client/dist/browser/signalr-clientES5-1.0.0-alpha1-final',
     '@agm/core',
     '@ngx-translate/core',
     'bootstrap',
-    'popper.js',
-    'ngx-bootstrap/tabs',
     'moment',
-    'primeng/primeng',
     'jquery',
-    'fullcalendar',
-    'openlayers',
-    'zone.js',
-    'highlight.js/lib/highlight',
+    'zone.js'
 ];
 
 module.exports = (env) => {
@@ -74,8 +67,7 @@ module.exports = (env) => {
             rules: [
                 { test: /\.(png|gif|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' },
                 { test: /\.css$/, use: ['to-string-loader', 'css-loader'] },
-                { test: require.resolve('moment'), use: [{ loader: 'expose-loader', options: 'moment' }] },
-                { test: require.resolve('highlight.js/lib/highlight'), use: [{ loader: 'expose-loader', options: 'hljs' }] },
+                { test: require.resolve('moment'), use: [{ loader: 'expose-loader', options: 'moment' }] },                
                 { test: require.resolve('jquery'), use: [{ loader: 'expose-loader', options: '$' }, { loader: 'expose-loader', options: 'jQuery' }] },
             ]
         },

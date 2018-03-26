@@ -1,8 +1,6 @@
 import './polyfills';
 import 'bootstrap';
 import 'jquery';
-const hljs = require('highlight.js/lib/highlight');
- (window as any).hljs = hljs;
 
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/first';
@@ -23,8 +21,8 @@ if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => {
         // Before restarting the app, we create a new root element and dispose the old one
-        const oldRootElem = document.querySelector('body');
-        const newRootElem = document.createElement('body');
+        const oldRootElem = document.querySelector('app-root');
+        const newRootElem = document.createElement('app-root');
         if (oldRootElem && oldRootElem.parentNode) { oldRootElem.parentNode.insertBefore(newRootElem, oldRootElem); }
         // modulePromise.then(appModule => appModule.destroy());
         // tslint:disable-next-line:no-use-before-declare

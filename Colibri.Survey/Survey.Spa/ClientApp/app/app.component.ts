@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
-    selector: 'app',
+    selector: 'app-root',
     animations: [ ],
     templateUrl: './app.component.html',
     styleUrls: [ '../styles/custom.shared.scss' ],

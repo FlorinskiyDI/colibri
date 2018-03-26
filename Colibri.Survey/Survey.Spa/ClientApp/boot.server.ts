@@ -1,6 +1,5 @@
 ﻿import 'reflect-metadata';
 import 'zone.js';
-import { APP_BASE_HREF } from '@angular/common';
 import { enableProdMode, ApplicationRef, NgZone } from '@angular/core';
 import { platformDynamicServer, PlatformState, INITIAL_CONFIG } from '@angular/platform-server';
 import { createServerRenderer, RenderResult } from 'aspnet-prerendering';
@@ -10,9 +9,7 @@ enableProdMode();
 
 export default createServerRenderer(params => {
     const providers = [
-        { provide: INITIAL_CONFIG, useValue: { document: '<body></body>', url: params.url } },
-        { provide: APP_BASE_HREF, useValue: params.baseUrl },
-        { provide: 'BASE_URL', useValue: params.origin + params.baseUrl },
+        { provide: INITIAL_CONFIG, useValue: { document: '<app-root></app-root>', url: params.url } }
     ];
 
     return platformDynamicServer(providers).bootstrapModule(AppModule).then(moduleRef => {
