@@ -2,5 +2,5 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class Configuration {
-    public Server = 'http://localhost:5050/';
+    public Server = 'http://localhost:5151/';
 }

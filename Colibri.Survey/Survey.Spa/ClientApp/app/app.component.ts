@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { OidcSecurityService } from './auth/services/oidc.security.service';
@@ -6,7 +6,12 @@ import { OidcSecurityService } from './auth/services/oidc.security.service';
 @Component({
     selector: 'app-root',
     templateUrl: 'app.component.html',
-    styleUrls: ['./app.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    styleUrls: [
+        './app.component.scss',
+        '../../node_modules/bootstrap/dist/css/bootstrap.min.css',
+    ],
+
 })
 
 export class AppComponent implements OnInit, OnDestroy {

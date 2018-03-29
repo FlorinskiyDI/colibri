@@ -1,15 +1,83 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app.routes';
+import { Configuration } from './app.constants';
+import { routing } from './app.routes';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
+import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
+import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
+import { UserManagementService } from './user-management/UserManagementService';
+
+import { AuthModule } from './auth/modules/auth.module';
+import { OidcSecurityService } from './auth/services/oidc.security.service';
+import { OpenIDImplicitFlowConfiguration } from './auth/modules/auth.configuration';
+
+import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.module';
+import { AuthWellKnownEndpoints } from './auth/models/auth.well-known-endpoints';
+
 
 @NgModule({
     imports: [
-        BrowserModule,
-        AppRoutingModule
+        routing,
+        DataEventRecordsModule,
+        AuthModule.forRoot(),
     ],
-    declarations: [],
-    providers: [],
-    exports: []
+    declarations: [ ],
+    providers: [
+        OidcSecurityService,
+        UserManagementService,
+        Configuration,
+        HasAdminRoleAuthenticationGuard,
+        HasAdminRoleCanLoadGuard
+    ],
+    exports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule
+    ]
 })
 
-export class AppModuleShared { }
+export class AppModuleShared {
+    constructor(
+        public oidcSecurityService: OidcSecurityService
+    ) {
+        const openIDImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
+
+        openIDImplicitFlowConfiguration.stsServer = 'http://localhost:5050';
+        openIDImplicitFlowConfiguration.redirect_url = 'http://localhost:8082';
+        // The Client MUST validate that the aud (audience) Claim contains its client_id value registered at the Issuer identified by the iss (issuer) Claim as an audience.
+        // The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
+        openIDImplicitFlowConfiguration.client_id = 'singleapp';
+        openIDImplicitFlowConfiguration.response_type = 'id_token token';
+        openIDImplicitFlowConfiguration.scope = 'dataEventRecords openid';
+        openIDImplicitFlowConfiguration.post_logout_redirect_uri = 'http://localhost:8082/Unauthorized';
+        openIDImplicitFlowConfiguration.start_checksession = false;
+        openIDImplicitFlowConfiguration.silent_renew = true;
+        openIDImplicitFlowConfiguration.post_login_route = '/dataeventrecords';
+        // HTTP 403
+        openIDImplicitFlowConfiguration.forbidden_route = '/Forbidden';
+        // HTTP 401
+        openIDImplicitFlowConfiguration.unauthorized_route = '/Unauthorized';
+        openIDImplicitFlowConfiguration.log_console_warning_active = true;
+        openIDImplicitFlowConfiguration.log_console_debug_active = true;
+        // id_token C8: The iat Claim can be used to reject tokens that were issued too far away from the current time,
+        // limiting the amount of time that nonces need to be stored to prevent attacks.The acceptable range is Client specific.
+        openIDImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = 10;
+
+        const authWellKnownEndpoints = new AuthWellKnownEndpoints();
+        authWellKnownEndpoints.issuer = 'http://localhost:5050';
+        authWellKnownEndpoints.jwks_uri = 'http://localhost:5050/.well-known/openid-configuration/jwks';
+        authWellKnownEndpoints.authorization_endpoint = 'http://localhost:5050/connect/authorize';
+        authWellKnownEndpoints.token_endpoint = 'http://localhost:5050/connect/token';
+        authWellKnownEndpoints.userinfo_endpoint = 'http://localhost:5050/connect/userinfo';
+        authWellKnownEndpoints.end_session_endpoint = 'http://localhost:5050/connect/endsession';
+        authWellKnownEndpoints.check_session_iframe = 'http://localhost:5050/connect/checksession';
+        authWellKnownEndpoints.revocation_endpoint = 'http://localhost:5050/connect/revocation';
+        authWellKnownEndpoints.introspection_endpoint = 'http://localhost:5050/connect/introspect';
+
+        this.oidcSecurityService.setupModule(openIDImplicitFlowConfiguration, authWellKnownEndpoints);
+    }
+}

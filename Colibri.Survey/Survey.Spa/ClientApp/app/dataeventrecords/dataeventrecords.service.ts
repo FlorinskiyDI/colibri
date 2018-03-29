@@ -15,7 +15,7 @@ export class DataEventRecordsService {
     constructor(private http: HttpClient, configuration: Configuration, private _securityService: OidcSecurityService) {
         console.log(this.actionUrl);
         console.log('----------------');
-        this.actionUrl = `${configuration.Server}api/DataEventRecords/`;
+        this.actionUrl = `${configuration.Server}api/TestAuth/`;
     }
 
     private setHeaders() {

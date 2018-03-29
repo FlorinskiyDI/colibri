@@ -50,11 +50,11 @@ const vendorModules = [
     'lodash/groupBy',
     'lodash/omit',
     // Etc
-    '@agm/core',
     '@ngx-translate/core',
-    'bootstrap',
+    // 'bootstrap',
     'moment',
     'jquery',
+    'bootstrap/dist/js/bootstrap',
     'zone.js'
 ];
 
@@ -77,6 +77,7 @@ module.exports = (env) => {
             library: '[name]_[hash]'
         },
         plugins: [
+            new webpack.ContextReplacementPlugin(/\@angular(\\|\/)core(\\|\/)esm5/, path.resolve(__dirname, "./ClientApp")), // Workaround for https://github.com/angular/angular/issues/14898
             new webpack.ContextReplacementPlugin(/\@angular\b.*\b(bundles|linker)/, path.join(__dirname, './ClientApp')), // Workaround for https://github.com/angular/angular/issues/11580
             new webpack.ContextReplacementPlugin(/angular(\\|\/)core(\\|\/)@angular/, path.join(__dirname, './ClientApp')), // Workaround for https://github.com/angular/angular/issues/14898
             new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en|sv/), //MomentJS locales

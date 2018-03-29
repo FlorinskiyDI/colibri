@@ -1,6 +1,6 @@
 import './polyfills';
-import 'bootstrap';
-import 'jquery';
+// import 'bootstrap';
+// import 'jquery';
 
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/first';

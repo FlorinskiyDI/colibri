@@ -1,6 +1,8 @@
 ﻿import { Injectable } from '@angular/core';
 
-import { KJUR, KEYUTIL, hextob64u } from 'jsrsasign';
+// import { KJUR, KEYUTIL, hextob64u } from 'jsrsasign';
+const jsrsasign = require('jsrsasign');
+
 import { ArrayHelperService } from './oidc-array-helper.service';
 import { TokenHelperService } from './oidc-token-helper.service';
 import { LoggerService } from './oidc.logger.service';
@@ -346,8 +348,8 @@ export class OidcSecurityValidation {
                         (key.kty as string) === 'RSA' &&
                         (key.use as string) === 'sig'
                     ) {
-                        const publickey = KEYUTIL.getKey(key);
-                        isValid = KJUR.jws.JWS.verify(id_token, publickey, [
+                        const publickey = jsrsasign.KEYUTIL.getKey(key);
+                        isValid = jsrsasign.KJUR.jws.JWS.verify(id_token, publickey, [
                             'RS256'
                         ]);
                         if (!isValid) {
@@ -363,8 +365,8 @@ export class OidcSecurityValidation {
             // kid in the Jose header of id_token
             for (const key of jwtkeys.keys) {
                 if ((key.kid as string) === (kid as string)) {
-                    const publickey = KEYUTIL.getKey(key);
-                    isValid = KJUR.jws.JWS.verify(id_token, publickey, [
+                    const publickey = jsrsasign.KEYUTIL.getKey(key);
+                    isValid = jsrsasign.KJUR.jws.JWS.verify(id_token, publickey, [
                         'RS256'
                     ]);
                     if (!isValid) {
@@ -436,9 +438,9 @@ export class OidcSecurityValidation {
     }
 
     private generate_at_hash(access_token: any): string {
-        const hash = KJUR.crypto.Util.hashString(access_token, 'sha256');
+        const hash = jsrsasign.KJUR.crypto.Util.hashString(access_token, 'sha256');
         const first128bits = hash.substr(0, hash.length / 2);
-        const testdata = hextob64u(first128bits);
+        const testdata = jsrsasign.hextob64u(first128bits);
 
         return testdata;
     }
