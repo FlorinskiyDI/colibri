@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanLoad } from '@angular/router';
 
-import { OidcSecurityService } from '../auth/services/oidc.security.service';
+import { OidcSecurityService } from 'core/auth/services/oidc.security.service';
 
 @Injectable()
 export class HasAdminRoleCanLoadGuard implements CanLoad {

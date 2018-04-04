@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { OidcSecurityService } from './auth/services/oidc.security.service';
+import { OidcSecurityService } from './core/auth/services/oidc.security.service';
 
 @Component({
     selector: 'app-root',

@@ -22,12 +22,35 @@ namespace IdentityServer.Webapi
     {
         private readonly IHostingEnvironment _environment;
 
+
+        //public Startup(IHostingEnvironment env)
+        //{
+        //    var userName = Environment.UserName.Replace(".", "-");
+        //    if (string.IsNullOrWhiteSpace(userName))
+        //        userName = "docker";
+
+        //    var builder = new ConfigurationBuilder()
+        //        .SetBasePath(env.ContentRootPath)
+        //        .AddJsonFile("appsettings.json", true, true)
+        //        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+        //        .AddJsonFile($"appsettings.{userName}.json", true)
+        //        .AddEnvironmentVariables();
+
+        //    Configuration = builder.Build();
+        //}
+
         public Startup(IHostingEnvironment env)
         {
+            // appsettings
+            var userName = Environment.UserName.Replace(".", "-");
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+            if(!string.IsNullOrWhiteSpace(userName))
+            {
+                builder.AddJsonFile($"appsettings.{userName}.json", true);
+            }
 
             _environment = env;
 

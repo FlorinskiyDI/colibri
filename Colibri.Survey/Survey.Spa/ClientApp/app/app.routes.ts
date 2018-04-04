@@ -1,8 +1,8 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { ForbiddenComponent } from './core/forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
-import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { UnauthorizedComponent } from './core/unauthorized/unauthorized.component';
 
 import { UserManagementComponent } from './user-management/user-management.component';
 

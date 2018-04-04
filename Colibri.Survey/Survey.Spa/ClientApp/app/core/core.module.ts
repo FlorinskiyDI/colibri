@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AppModuleShared } from './app.module.shared';
+
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { ForbiddenComponent } from './core/forbidden/forbidden.component';
 import { HomeComponent } from './home/home.component';
 import { UnauthorizedComponent } from './core/unauthorized/unauthorized.component';
 import { UserManagementComponent } from './user-management/user-management.component';
-import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+
 
 declare let window: any;
 
@@ -33,7 +36,7 @@ declare let window: any;
         { provide: 'API_URL', useValue: getApiUrl() }
     ]
 })
-export class AppModule {
+export class CoreModule {
 }
 
 export function getApiUrl() {

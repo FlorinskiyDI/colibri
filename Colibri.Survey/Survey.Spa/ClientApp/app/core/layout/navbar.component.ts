@@ -7,7 +7,7 @@ import { OidcSecurityService } from 'core/auth/services/oidc.security.service';
     templateUrl: 'navigation.component.html'
 })
 
-export class NavigationComponent implements OnInit, OnDestroy {
+export class NavbarComponent implements OnInit, OnDestroy {
 
     hasAdminRole = false;
     hasDataEventRecordsAdminRole = false;

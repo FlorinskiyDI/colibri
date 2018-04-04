@@ -10,12 +10,12 @@ import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthentica
 import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
 import { UserManagementService } from './user-management/UserManagementService';
 
-import { AuthModule } from './auth/modules/auth.module';
-import { OidcSecurityService } from './auth/services/oidc.security.service';
-import { OpenIDImplicitFlowConfiguration } from './auth/modules/auth.configuration';
+import { AuthModule } from './core/auth/modules/auth.module';
+import { OidcSecurityService } from './core/auth/services/oidc.security.service';
+import { OpenIDImplicitFlowConfiguration } from './core/auth/modules/auth.configuration';
 
 import { DataEventRecordsModule } from './dataeventrecords/dataeventrecords.module';
-import { AuthWellKnownEndpoints } from './auth/models/auth.well-known-endpoints';
+import { AuthWellKnownEndpoints } from './core/auth/models/auth.well-known-endpoints';
 
 
 @NgModule({
