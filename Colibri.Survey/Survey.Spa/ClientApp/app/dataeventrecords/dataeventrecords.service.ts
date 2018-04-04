@@ -12,10 +12,14 @@ export class DataEventRecordsService {
     private actionUrl: string;
     private headers: HttpHeaders;
 
-    constructor(private http: HttpClient, configuration: Configuration, private _securityService: OidcSecurityService) {
+    constructor(
+        private http: HttpClient,
+        private configuration: Configuration,
+        private _securityService: OidcSecurityService
+    ) {
         console.log(this.actionUrl);
         console.log('----------------');
-        this.actionUrl = `${configuration.Server}api/TestAuth/`;
+        this.actionUrl = `${this.configuration.Server}api/TestAuth/`;
     }
 
     private setHeaders() {

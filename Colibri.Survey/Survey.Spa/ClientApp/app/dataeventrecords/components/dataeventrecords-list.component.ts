@@ -5,6 +5,8 @@ import { OidcSecurityService } from 'core/auth/services/oidc.security.service';
 import { DataEventRecordsService } from '../dataeventrecords.service';
 import { DataEventRecord } from '../models/DataEventRecord';
 
+import { Restangular } from 'ngx-restangular';
+
 @Component({
     selector: 'app-dataeventrecords-list',
     templateUrl: 'dataeventrecords-list.component.html'
@@ -22,7 +24,7 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
     userData: boolean;
 
     constructor(
-
+        private restangular: Restangular,
         private _dataEventRecordsService: DataEventRecordsService,
         public oidcSecurityService: OidcSecurityService,
     ) {
@@ -71,6 +73,15 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
     }
 
     private getData() {
+
+        debugger
+        this.restangular.all('testauth').getList().subscribe(
+            (data: any) => {
+                console.log(data);
+                console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            }
+        );
+
         this._dataEventRecordsService
             .GetAll()
             .subscribe(data => this.DataEventRecords = data,

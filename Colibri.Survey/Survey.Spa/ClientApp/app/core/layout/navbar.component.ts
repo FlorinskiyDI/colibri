@@ -4,7 +4,7 @@ import { OidcSecurityService } from 'core/auth/services/oidc.security.service';
 
 @Component({
     selector: 'app-navigation',
-    templateUrl: 'navigation.component.html'
+    templateUrl: 'navbar.component.html'
 })
 
 export class NavbarComponent implements OnInit, OnDestroy {

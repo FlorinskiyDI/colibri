@@ -1,9 +1,9 @@
 {
-  "name": "Colibri",
+  "name": "colibri",
   "version": "0.0.0",
   "private": true,
   "repository": "",
-  "author": "Colibri",
+  "author": "FlorinskiyDI",
   "scripts": {
     "build:dev": "webpack",
     "build:dev-clean": "npm run clean && webpack --config webpack.config.vendor.js && webpack",
@@ -25,6 +25,7 @@
     "@angular/router": "5.2.9",
     "@ngx-translate/core": "~8.0.0",
     "@ngx-translate/http-loader": "2.0.1",
+    "ngx-restangular": "2.2.1",
     "aspnet-prerendering": "3.0.1",
     "aspnet-webpack": "2.0.3",
     "bootstrap": "3.3.7",

@@ -1,41 +1,34 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
 
-import { AppModuleShared } from './app.module.shared';
-
-import { AppComponent } from './app.component';
-import { NavigationComponent } from './navigation/navigation.component';
-import { ForbiddenComponent } from './core/forbidden/forbidden.component';
-import { HomeComponent } from './home/home.component';
-import { UnauthorizedComponent } from './core/unauthorized/unauthorized.component';
-import { UserManagementComponent } from './user-management/user-management.component';
-
-
+/* component */ import { NavbarComponent } from 'core/layout/navbar.component';
+/* component */ import { ForbiddenComponent } from 'core/forbidden/forbidden.component';
+/* component */ import { UnauthorizedComponent } from 'core/unauthorized/unauthorized.component';
 declare let window: any;
 
 @NgModule({
-    bootstrap: [AppComponent],
     declarations: [
-        AppComponent,
-        NavigationComponent,
+        NavbarComponent,
         ForbiddenComponent,
         ForbiddenComponent,
-        HomeComponent,
-        UnauthorizedComponent,
-        UserManagementComponent
+        UnauthorizedComponent
+    ],
+    exports: [
+        NavbarComponent        
     ],
     imports: [
-        RouterModule,
-        HttpClientModule,
-        AppModuleShared,
-        BrowserAnimationsModule
-    ],
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule
+     ],
     providers: [
         { provide: 'API_URL', useValue: getApiUrl() }
     ]
 })
+
 export class CoreModule {
 }
 

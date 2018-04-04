@@ -1,42 +1,49 @@
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppModuleShared } from './app.module.shared';
-import { AppComponent } from './app.component';
-import { NavigationComponent } from './navigation/navigation.component';
-import { ForbiddenComponent } from './core/forbidden/forbidden.component';
-import { HomeComponent } from './home/home.component';
-import { UnauthorizedComponent } from './core/unauthorized/unauthorized.component';
-import { UserManagementComponent } from './user-management/user-management.component';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { RestangularModule, Restangular } from 'ngx-restangular';
+
+/* module */ import { CoreModule } from 'core/core.module';
+/* module */ import { AppModuleShared } from './app.module.shared';
+/* component */ import { AppComponent } from './app.component';
+/* component */ import { HomeComponent } from './home/home.component';
+/* component */ import { UserManagementComponent } from './user-management/user-management.component';
+/* service */ import { OidcSecurityService } from 'core/auth/services/oidc.security.service';
 declare let window: any;
+
+
 
 @NgModule({
     bootstrap: [AppComponent],
     declarations: [
         AppComponent,
-        NavigationComponent,
-        ForbiddenComponent,
-        ForbiddenComponent,
         HomeComponent,
-        UnauthorizedComponent,
         UserManagementComponent
     ],
     imports: [
+        // Importing RestangularModule and making default configs for restanglar
+        RestangularModule.forRoot(RestangularConfigFactory),
         RouterModule,
         HttpClientModule,
+        CoreModule,
         AppModuleShared,
         BrowserAnimationsModule
     ],
-    providers: [
-        { provide: 'API_URL', useValue: getApiUrl() }
-    ]
+    providers: [ ]
 })
+
 export class AppModule {
 }
 
-export function getApiUrl() {
-    return window['serverSettings']!.AlarmApiUrl;
+// Function for setting the default restangular configuration
+export function RestangularConfigFactory (RestangularProvider: any, oidcSecurityService: OidcSecurityService) {
+    RestangularProvider.setBaseUrl(window['serverSettings']!.AlarmApiUrl);
+    // by each request to the server receive a token and update headers with it
+    RestangularProvider.addFullRequestInterceptor((element: any, operation: any, path: any, url: any, headers: any, params: any) => {
+        debugger
+        let bearerToken = oidcSecurityService.getToken();        
+        return { headers: Object.assign({}, headers, {Authorization: `Bearer ${bearerToken}`}) };
+    });   
 }
-
