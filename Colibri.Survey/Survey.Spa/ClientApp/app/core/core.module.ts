@@ -16,14 +16,14 @@ declare let window: any;
         UnauthorizedComponent
     ],
     exports: [
-        NavbarComponent        
+        NavbarComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
         RouterModule
-     ],
+    ],
     providers: [
         { provide: 'API_URL', useValue: getApiUrl() }
     ]

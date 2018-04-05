@@ -68,26 +68,22 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
         console.log('Try to delete' + id);
         this._dataEventRecordsService.Delete(id)
             .subscribe((() => console.log('subscribed')),
-            error => this.oidcSecurityService.handleError(error),
-            () => this.getData());
+                error => this.oidcSecurityService.handleError(error),
+                () => this.getData());
     }
 
     private getData() {
-
-        debugger
         this.restangular.all('testauth').getList().subscribe(
             (data: any) => {
                 console.log(data);
-                console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
             }
         );
 
         this._dataEventRecordsService
             .GetAll()
             .subscribe(data => this.DataEventRecords = data,
-            error => this.oidcSecurityService.handleError(error),
-            () => console.log('getData Get all completed'));
+                error => this.oidcSecurityService.handleError(error),
+                () => console.log('getData Get all completed'));
     }
-
-
 }
