@@ -2,6 +2,8 @@
 import { Subscription } from 'rxjs/Subscription';
 
 import { OidcSecurityService } from './core/auth/services/oidc.security.service';
+// import 'bootstrap';
+import 'jquery';
 
 @Component({
     selector: 'app-root',
@@ -10,8 +12,10 @@ import { OidcSecurityService } from './core/auth/services/oidc.security.service'
     styleUrls: [
         './app.component.scss',
         '../../node_modules/bootstrap/dist/css/bootstrap.min.css',
-    ],
-
+        '../../node_modules/bootstrap/dist/css/bootstrap-theme.min.css',
+        '../../node_modules/roboto-fontface/css/roboto/roboto-fontface.css',
+        '../styles/custom.shared.scss'
+    ]
 })
 
 export class AppComponent implements OnInit, OnDestroy {

@@ -51,10 +51,9 @@ const vendorModules = [
     'lodash/omit',
     // Etc
     '@ngx-translate/core',
-    // 'bootstrap',
+    'bootstrap',
     'moment',
     'jquery',
-    'bootstrap/dist/js/bootstrap',
     'zone.js'
 ];
 
@@ -95,6 +94,10 @@ module.exports = (env) => {
             new webpack.DllPlugin({
                 path: path.join(__dirname, 'wwwroot', 'dist', '[name]-manifest.json'),
                 name: '[name]_[hash]'
+            }),
+            new webpack.ProvidePlugin({
+                $: "jquery",
+                jQuery: "jquery"
             })
         ].concat(isDevBuild ? [
         ] : [

@@ -14,25 +14,16 @@ namespace Survey.Webapi
 {
     public class Startup
     {
+
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add Cors support to the service
             services.AddCors();
-            //var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
-            //policy.Headers.Add("*");
-            //policy.Methods.Add("*");
-            //policy.Origins.Add("*");
-            //policy.SupportsCredentials = true;
-            //services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
-
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
              .AddIdentityServerAuthentication(options =>
              {
@@ -40,9 +31,7 @@ namespace Survey.Webapi
                  options.ApiName = "dataEventRecords";
                  options.ApiSecret = "dataEventRecordsSecret";
              });
-
-            //services.AddAuthorization();
-
+            
             services.AddMvc()
             .AddControllersAsServices()
             .AddJsonOptions(options =>
