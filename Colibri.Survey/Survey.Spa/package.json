@@ -26,6 +26,7 @@
     "@ngx-translate/core": "~8.0.0",
     "@ngx-translate/http-loader": "2.0.1",
     "ngx-restangular": "2.2.1",
+    "ngx-bootstrap": "2.0.3",
     "aspnet-prerendering": "3.0.1",
     "aspnet-webpack": "2.0.3",
     "bootstrap": "3.3.7",
@@ -40,7 +41,8 @@
     "popper.js": "1.14.1",
     "jsrsasign": "8.0.7",
     "ajv": "6.4.0",
-    "roboto-fontface": "0.9.0"
+    "roboto-fontface": "0.9.0",
+    "material-icons": "0.2.1"
   },
   "devDependencies": {
     "@types/intl-tel-input": "0.0.8",

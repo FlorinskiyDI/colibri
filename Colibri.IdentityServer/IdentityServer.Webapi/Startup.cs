@@ -22,23 +22,6 @@ namespace IdentityServer.Webapi
     {
         private readonly IHostingEnvironment _environment;
 
-
-        //public Startup(IHostingEnvironment env)
-        //{
-        //    var userName = Environment.UserName.Replace(".", "-");
-        //    if (string.IsNullOrWhiteSpace(userName))
-        //        userName = "docker";
-
-        //    var builder = new ConfigurationBuilder()
-        //        .SetBasePath(env.ContentRootPath)
-        //        .AddJsonFile("appsettings.json", true, true)
-        //        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
-        //        .AddJsonFile($"appsettings.{userName}.json", true)
-        //        .AddEnvironmentVariables();
-
-        //    Configuration = builder.Build();
-        //}
-
         public Startup(IHostingEnvironment env)
         {
             // appsettings
@@ -96,24 +79,7 @@ namespace IdentityServer.Webapi
                   options.ApiSecret = "dataEventRecordsSecret";
                   options.SupportedTokens = SupportedTokens.Both;
               });
-
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-            //IdentityServerAuthenticationOptions identityServerValidationOptions = new IdentityServerAuthenticationOptions
-            //{
-            //    Authority = Config.HOST_URL + "/",
-            //    AllowedScopes = new List<string> { "dataEventRecords" },
-            //    ApiSecret = "dataEventRecordsSecret",
-            //    ApiName = "dataEventRecords",
-            //    AutomaticAuthenticate = true,
-            //    SupportedTokens = SupportedTokens.Both,
-            //    // TokenRetriever = _tokenRetriever,
-            //    // required if you want to return a 403 and not a 401 for forbidden responses
-            //    AutomaticChallenge = true,
-            //};
-
-            //app.UseIdentityServerAuthentication(identityServerValidationOptions);
-
+ 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>

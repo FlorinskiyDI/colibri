@@ -73,12 +73,12 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
     }
 
     private getData() {
-        this.restangular.all('testauth').getList().subscribe(
-            (data: any) => {
-                console.log(data);
-                console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-            }
-        );
+        // this.restangular.all('testauth').getList().subscribe(
+        //     (data: any) => {
+        //         console.log(data);
+        //         console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        //     }
+        // );
 
         this._dataEventRecordsService
             .GetAll()

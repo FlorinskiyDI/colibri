@@ -3,7 +3,12 @@ body {
     background-color: #F9F9F9;
 }
 
+// navbar
 .navbar { min-height: 40px; }
 .navbar-brand { height: 40px; padding: 10px 15px; }
 .nav > li > a { padding: 10px 15px; }
 .navbar-default { background-image: none; font-size: 13px; }
+
+// dropdown-menu
+.dropdown-menu>li>a:focus,
+.dropdown-menu>li>a:hover { background-image: none; }

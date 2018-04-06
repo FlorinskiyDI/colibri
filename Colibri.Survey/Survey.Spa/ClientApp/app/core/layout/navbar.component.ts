@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { OidcSecurityService } from 'core/auth/services/oidc.security.service';
+
+/* service */ import { OidcSecurityService } from 'core/auth/services/oidc.security.service';
 
 @Component({
     selector: 'app-navigation',
@@ -13,10 +14,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     hasDataEventRecordsAdminRole = false;
 
     isAuthorizedSubscription: Subscription;
+    getUserDataSubscription: Subscription;
     isAuthorized: boolean;
 
     userDataSubscription: Subscription;
-    userData: any;
+    userData: any = {};
 
     constructor(public oidcSecurityService: OidcSecurityService) {
     }
@@ -33,7 +35,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
         this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
             (userData: any) => {
-
+                this.userData = userData;
                 if (userData && userData !== '' && userData.role) {
                     for (let i = 0; i < userData.role.length; i++) {
                         if (userData.role[i] === 'dataEventRecords.admin') {

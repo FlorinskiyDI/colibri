@@ -14,8 +14,8 @@
     </RootPath>
     <RootNamespace>IdentityServer.Database</RootNamespace>
     <AssemblyName>IdentityServer.Database</AssemblyName>
-    <ModelCollation>1033, CI</ModelCollation>
-    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <ModelCollation>1049,CI</ModelCollation>
+    <DefaultFileStructure>Undefined</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <TargetLanguage>CS</TargetLanguage>
@@ -23,6 +23,8 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>Cyrillic_General_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -57,5 +59,18 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Group" />
+    <Folder Include="AspNetIdentity" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="__EFMigrationsHistory.sql" />
+    <Build Include="AspNetIdentity\AspNetRoleClaims.sql" />
+    <Build Include="AspNetIdentity\AspNetRoles.sql" />
+    <Build Include="AspNetIdentity\AspNetUserClaims.sql" />
+    <Build Include="AspNetIdentity\AspNetUserLogins.sql" />
+    <Build Include="AspNetIdentity\AspNetUserRoles.sql" />
+    <Build Include="AspNetIdentity\AspNetUsers.sql" />
+    <Build Include="AspNetIdentity\AspNetUserTokens.sql" />
+    <Build Include="Group\Groups.sql" />
   </ItemGroup>
 </Project>
