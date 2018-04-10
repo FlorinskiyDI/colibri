@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 /* component */ import { NavbarComponent } from 'core/layout/navbar.component';
 /* component */ import { ForbiddenComponent } from 'core/forbidden/forbidden.component';
 /* component */ import { UnauthorizedComponent } from 'core/unauthorized/unauthorized.component';
+/* component */ import { LoginComponent } from 'core/login/login.component';
 declare let window: any;
 
 @NgModule({
@@ -11,7 +12,8 @@ declare let window: any;
         NavbarComponent,
         ForbiddenComponent,
         ForbiddenComponent,
-        UnauthorizedComponent
+        UnauthorizedComponent,
+        LoginComponent
     ],
     exports: [
         NavbarComponent

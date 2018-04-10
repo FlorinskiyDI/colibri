@@ -1,5 +1,6 @@
 body {
-    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    // font-family: 'Roboto', sans-serif;
     background-color: #F9F9F9;
 }
 
@@ -7,7 +8,7 @@ body {
 .navbar { min-height: 40px; }
 .navbar-brand { height: 40px; padding: 10px 15px; }
 .nav > li > a { padding: 10px 15px; }
-.navbar-default { background-image: none; font-size: 13px; }
+.navbar-default { background-image: none; font-size: 12px; }
 
 // dropdown-menu
 .dropdown-menu>li>a:focus,

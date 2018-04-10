@@ -5,7 +5,7 @@ import { OidcSecurityService } from 'core/auth/services/oidc.security.service';
 import { DataEventRecordsService } from '../dataeventrecords.service';
 import { DataEventRecord } from '../models/DataEventRecord';
 
-import { Restangular } from 'ngx-restangular';
+// import { Restangular } from 'ngx-restangular';
 
 @Component({
     selector: 'app-dataeventrecords-list',
@@ -24,7 +24,7 @@ export class DataEventRecordsListComponent implements OnInit, OnDestroy {
     userData: boolean;
 
     constructor(
-        private restangular: Restangular,
+        // private restangular: Restangular,
         private _dataEventRecordsService: DataEventRecordsService,
         public oidcSecurityService: OidcSecurityService,
     ) {
