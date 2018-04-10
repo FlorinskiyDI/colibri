@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 /* module */ import { CoreModule } from 'core/core.module';
-/* module */ import { DataEventRecordsModule } from 'dataeventrecords/dataeventrecords.module';
 /* shared */ import { CoreModuleShared } from 'core//core.module.shared';
 /* route */ import { routing } from './app.routes';
 /* guard */ import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
@@ -15,8 +14,7 @@ import { CommonModule } from '@angular/common';
     imports: [
         routing,
         CoreModule,
-        CoreModuleShared,
-        DataEventRecordsModule
+        CoreModuleShared
     ],
     declarations: [ ],
     providers: [

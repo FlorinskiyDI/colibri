@@ -1,0 +1,35 @@
+.wrapper--block { padding: 0px 15px; }
+.wrapper--y-center {
+    min-height: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex; 
+
+    -webkit-box-align : center;
+    -webkit-align-items : center;
+    -moz-box-align : center;
+    -ms-flex-align : center;
+    align-items : center;
+    width: 100%;
+    
+    -webkit-box-pack : center;
+    -moz-box-pack : center;
+    -ms-flex-pack : center;
+    -webkit-justify-content : center;
+    justify-content : center;
+}
+.panel--block {
+    box-shadow:
+        0px 3px 1px -2px rgba(0,0,0,0.2),
+        0px 2px 2px 0px rgba(0,0,0,0.14),
+        0px 1px 5px 0px rgba(0,0,0,0.12);
+    border-radius: 0px;
+    width: 400px;
+    margin: 0 auto; 
+}
+
+.btn--default { padding: 4px 10px; }
+.h5--text { margin-top: 5px; margin-bottom: 5px; }

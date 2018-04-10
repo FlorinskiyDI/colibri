@@ -33,7 +33,7 @@ export class CoreModuleShared {
         openIDImplicitFlowConfiguration.post_logout_redirect_uri = 'http://localhost:8082/Unauthorized';
         openIDImplicitFlowConfiguration.start_checksession = false;
         openIDImplicitFlowConfiguration.silent_renew = true;
-        openIDImplicitFlowConfiguration.post_login_route = '/dataeventrecords';
+        openIDImplicitFlowConfiguration.post_login_route = '/'; // !!!
         // HTTP 403
         openIDImplicitFlowConfiguration.forbidden_route = '/Forbidden';
         // HTTP 401

@@ -61,7 +61,7 @@ export class OidcSecurityService {
         private tokenHelperService: TokenHelperService,
         private loggerService: LoggerService,
         private zone: NgZone
-    ) {}
+    ) { }
 
     setupModule(
         openIDImplicitFlowConfiguration: OpenIDImplicitFlowConfiguration,
@@ -95,8 +95,8 @@ export class OidcSecurityService {
             this.loggerService.logDebug('IsAuthorized setup module');
             this.loggerService.logDebug(this.oidcSecurityCommon.idToken);
             if (this.oidcSecurityValidation.isTokenExpired(
-                    this.oidcSecurityCommon.idToken,
-                    this.authConfiguration.silent_renew_offset_in_seconds)
+                this.oidcSecurityCommon.idToken,
+                this.authConfiguration.silent_renew_offset_in_seconds)
             ) {
                 this.loggerService.logDebug('IsAuthorized setup module; id_token isTokenExpired');
             } else {
@@ -215,7 +215,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.authNonce = nonce;
         this.loggerService.logDebug(
             'AuthorizedController created. local state: ' +
-                this.oidcSecurityCommon.authStateControl
+            this.oidcSecurityCommon.authStateControl
         );
 
         const url = this.createAuthorizeUrl(
@@ -237,7 +237,7 @@ export class OidcSecurityService {
 
         const result: any = hash
             .split('&')
-            .reduce(function(resultData: any, item: string) {
+            .reduce(function (resultData: any, item: string) {
                 const parts = item.split('=');
                 resultData[parts[0]] = parts[1];
                 return resultData;
@@ -460,7 +460,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.authNonce = nonce;
         this.loggerService.logDebug(
             'RefreshSession created. adding myautostate: ' +
-                this.oidcSecurityCommon.authStateControl
+            this.oidcSecurityCommon.authStateControl
         );
 
         const url = this.createAuthorizeUrl(
@@ -629,7 +629,7 @@ export class OidcSecurityService {
     private onUserDataChanged() {
         this.loggerService.logDebug(
             `onUserDataChanged: last = ${this.lastUserData}, new = ${
-                this._userData.value
+            this._userData.value
             }`
         );
 

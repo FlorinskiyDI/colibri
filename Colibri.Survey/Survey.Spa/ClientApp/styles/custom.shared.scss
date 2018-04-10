@@ -1,15 +1,16 @@
 body {
     font-size: 12px;
     // font-family: 'Roboto', sans-serif;
-    background-color: #F9F9F9;
+    background-color: #FAFAFA;
 }
 
 // navbar
 .navbar { min-height: 40px; }
 .navbar-brand { height: 40px; padding: 10px 15px; }
-.nav > li > a { padding: 10px 15px; }
+.nav > li > a { padding: 10px 15px; cursor: pointer; }
 .navbar-default { background-image: none; font-size: 12px; }
 
 // dropdown-menu
+.dropdown-menu { font-size: 12px; }
 .dropdown-menu>li>a:focus,
-.dropdown-menu>li>a:hover { background-image: none; }
+.dropdown-menu>li>a:hover { background-image: none; cursor: pointer; }

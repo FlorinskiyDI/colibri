@@ -1,20 +1,26 @@
 import { Routes, RouterModule } from '@angular/router';
 
-import { ForbiddenComponent } from './core/forbidden/forbidden.component';
-import { HomeComponent } from './home/home.component';
-import { UnauthorizedComponent } from './core/unauthorized/unauthorized.component';
-import { LoginComponent } from './core/login/login.component';
+/* component */ import { ForbiddenComponent } from './core/forbidden/forbidden.component';
+/* component */ import { HomeComponent } from './home/home.component';
+/* component */ import { LayoutComponent } from 'core/layout/layout.component';
+/* component */ import { UnauthorizedComponent } from './core/unauthorized/unauthorized.component';
+/* component */ import { LoginComponent } from './core/login/login.component';
+/* component */ import { UserManagementComponent } from './user-management/user-management.component';
 
-import { UserManagementComponent } from './user-management/user-management.component';
-
-import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
-import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
+/* guard */ import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
+/* guard */ import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
 
 const appRoutes: Routes = [
-    { 
-        path: '', component: HomeComponent,
-        canActivate: [HasAdminRoleAuthenticationGuard],
-    },    
+    {
+        path: '', component: LayoutComponent,
+        canActivate: [ HasAdminRoleAuthenticationGuard ],
+        children: [
+            {
+                path: '',
+                component: HomeComponent,
+            }
+        ]
+    },
     { path: 'login', component: LoginComponent },
     { path: 'uihome', component: HomeComponent },
     {
