@@ -1,4 +1,16 @@
-<app-navigation></app-navigation>
-<div style="margin-top: 45px;">
-    <router-outlet></router-outlet>
+<app-navigation>    
+</app-navigation>
+
+<div style="margin-top: 50px;">
+
+    <ol class="breadcrumb">
+        <li  *ngFor="let breadcrumb of breadcrumbs$ | async; let i = index; let count = count" class="breadcrumb-item">
+            <span *ngIf="i+1 != count"><a [routerLink]="[breadcrumb.url]">{{ breadcrumb.label }}</a></span>
+            <span *ngIf="i+1 == count">{{ breadcrumb.label }}</span>
+        </li>
+    </ol>
+
+    <router-outlet>
+    </router-outlet>
+
 </div>

@@ -18,7 +18,7 @@
     "importHelpers": true,
     "noEmitHelpers": true,
     "noUnusedLocals": true,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "noImplicitAny": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,

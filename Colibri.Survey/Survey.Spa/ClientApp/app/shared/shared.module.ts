@@ -34,6 +34,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 /* primeng */ import { AccordionModule } from 'primeng/components/accordion/accordion';
 /* primeng */ import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
 
+/* material */ import { MatTooltipModule } from '@angular/material/tooltip';
+/* material */import { MatIconModule } from '@angular/material/icon';
+
 /* ngx-bootstrap */ import { TabsModule } from 'ngx-bootstrap/tabs';
 /* ngx-bootstrap */ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 @NgModule({
@@ -59,7 +62,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         FileUploadModule, DataTableModule, DialogModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, OverlayPanelModule, ButtonModule,
         ScheduleModule, TooltipModule, ChartModule, ColorPickerModule, TooltipModule, ListboxModule, RadioButtonModule,
         // ngx-bootstrap
-        TabsModule.forRoot(), BsDropdownModule.forRoot()
+        TabsModule.forRoot(), BsDropdownModule.forRoot(),
+        // material
+        MatTooltipModule, MatIconModule
     ],
     declarations: [],
     entryComponents: [],
@@ -75,7 +80,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         FileUploadModule, DataTableModule, DialogModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, OverlayPanelModule, ButtonModule,
         ScheduleModule, TooltipModule, ChartModule, ColorPickerModule, TooltipModule, ListboxModule, RadioButtonModule,
         // ngx-bootstrap
-        TabsModule, BsDropdownModule
+        TabsModule, BsDropdownModule,
+        // material
+        MatTooltipModule, MatIconModule
     ]
 })
 

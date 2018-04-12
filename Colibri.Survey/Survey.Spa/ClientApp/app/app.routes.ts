@@ -13,14 +13,21 @@ import { Routes, RouterModule } from '@angular/router';
 const appRoutes: Routes = [
     {
         path: '', component: LayoutComponent,
-        canActivate: [ HasAdminRoleAuthenticationGuard ],
+        canActivate: [HasAdminRoleAuthenticationGuard],
+        data: { breadcrumb: 'Layout' },
         children: [
             {
-                path: '',
+                path: 'home',
                 component: HomeComponent,
-            }
+                data: { breadcrumb: 'Home page' },
+            },
+            {
+                path: '',
+                loadChildren: 'modules/groups/group.module#GroupModule',
+            },
         ]
     },
+
     { path: 'login', component: LoginComponent },
     { path: 'uihome', component: HomeComponent },
     {

@@ -10,13 +10,21 @@ import 'jquery';
     templateUrl: 'app.component.html',
     encapsulation: ViewEncapsulation.None,
     styleUrls: [
-        './app.component.scss',
         '../../node_modules/bootstrap/dist/css/bootstrap.min.css',
         '../../node_modules/bootstrap/dist/css/bootstrap-theme.min.css',
+
+        '../../node_modules/primeng/resources/primeng.css',
+        '../../node_modules/primeng/resources/themes/bootstrap/theme.css',
+
         '../../node_modules/roboto-fontface/css/roboto/roboto-fontface.css',
         '../../node_modules/material-icons/iconfont/material-icons.css',
+
+        '../../node_modules/@angular/material/_theming.scss',
+        '../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
+
         '../styles/custom.material-icons.scss',
-        '../styles/custom.shared.scss'
+        '../styles/custom.shared.scss',
+        './app.component.scss'
     ]
 })
 

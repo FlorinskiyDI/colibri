@@ -5,7 +5,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'app-navigation',
-    templateUrl: 'navbar.component.html'
+    templateUrl: 'navbar.component.html',
+    styleUrls: ['./navbar.component.scss']
 })
 
 export class NavbarComponent implements OnInit, OnDestroy {

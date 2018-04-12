@@ -1,16 +1,22 @@
 body {
     font-size: 12px;
-    // font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: #FAFAFA;
 }
 
-// navbar
-.navbar { min-height: 40px; }
-.navbar-brand { height: 40px; padding: 10px 15px; }
-.nav > li > a { padding: 10px 15px; cursor: pointer; }
-.navbar-default { background-image: none; font-size: 12px; }
+
 
 // dropdown-menu
 .dropdown-menu { font-size: 12px; }
 .dropdown-menu>li>a:focus,
 .dropdown-menu>li>a:hover { background-image: none; cursor: pointer; }
+
+.ui-tooltip {
+    
+    // opacity: 1;
+    // transform: scale(1);
+    // transform-origin: right center 0;
+    // transition-delay: 0.3s;
+    // transform: scaleY(1) scaleX(1)  translateX(0px);
+}
+.cdk-overlay-container { z-index: 1031; } // more than bootstrap nav {{1030}}
