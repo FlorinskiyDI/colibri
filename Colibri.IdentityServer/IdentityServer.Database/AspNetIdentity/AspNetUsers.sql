@@ -18,9 +18,7 @@
     [SecurityStamp]        NVARCHAR (MAX)     NULL,
     [TwoFactorEnabled]     BIT                NOT NULL,
     [UserName]             NVARCHAR (256)     NULL,
-	[GroupId] UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
 
-	CONSTRAINT [FK_Subscriptions_ToSubscriptionTypes] FOREIGN KEY ([GroupId]) REFERENCES [dbo].[Groups]([Id]),
     CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 

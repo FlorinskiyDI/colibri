@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using System;
 using Microsoft.AspNetCore.Http;
+using IdentityServer.Webapi.Extensions;
 
 namespace IdentityServer.Webapi
 {
@@ -30,7 +31,7 @@ namespace IdentityServer.Webapi
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-            if(!string.IsNullOrWhiteSpace(userName))
+            if (!string.IsNullOrWhiteSpace(userName))
             {
                 builder.AddJsonFile($"appsettings.{userName}.json", true);
             }
@@ -59,9 +60,9 @@ namespace IdentityServer.Webapi
            .Build();
 
             services.AddTransient<IProfileService, IdentityProfileService>();
-
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddDependencies(Configuration);
 
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
@@ -79,7 +80,7 @@ namespace IdentityServer.Webapi
                   options.ApiSecret = "dataEventRecordsSecret";
                   options.SupportedTokens = SupportedTokens.Both;
               });
- 
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
@@ -145,6 +146,9 @@ namespace IdentityServer.Webapi
             }
 
             app.UseIdentityServer();
+
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            SqlConnectionFactory.ConnectionString = connectionString;
 
             app.UseMvc(routes =>
             {

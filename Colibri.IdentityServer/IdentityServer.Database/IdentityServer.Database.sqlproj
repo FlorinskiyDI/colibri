@@ -72,5 +72,7 @@
     <Build Include="AspNetIdentity\AspNetUsers.sql" />
     <Build Include="AspNetIdentity\AspNetUserTokens.sql" />
     <Build Include="Group\Groups.sql" />
+    <Build Include="Group\ApplicationUserGroups.sql" />
+    <Build Include="Group\GroupNodes.sql" />
   </ItemGroup>
 </Project>

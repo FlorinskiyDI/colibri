@@ -33,12 +33,14 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 /* primeng */ import { TabViewModule } from 'primeng/components/tabview/tabview';
 /* primeng */ import { AccordionModule } from 'primeng/components/accordion/accordion';
 /* primeng */ import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
+/* primeng */ import { TableModule } from 'primeng/table';
 
 /* material */ import { MatTooltipModule } from '@angular/material/tooltip';
 /* material */import { MatIconModule } from '@angular/material/icon';
 
 /* ngx-bootstrap */ import { TabsModule } from 'ngx-bootstrap/tabs';
 /* ngx-bootstrap */ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
 @NgModule({
     imports: [
         // modules
@@ -60,7 +62,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         // primeng
         TabViewModule, TabMenuModule, ConfirmDialogModule, AccordionModule, InputTextareaModule, InputSwitchModule, CheckboxModule, CalendarModule,
         FileUploadModule, DataTableModule, DialogModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, OverlayPanelModule, ButtonModule,
-        ScheduleModule, TooltipModule, ChartModule, ColorPickerModule, TooltipModule, ListboxModule, RadioButtonModule,
+        ScheduleModule, TooltipModule, ChartModule, ColorPickerModule, TooltipModule, ListboxModule, RadioButtonModule, TableModule,
         // ngx-bootstrap
         TabsModule.forRoot(), BsDropdownModule.forRoot(),
         // material
@@ -78,7 +80,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         // primeng
         TabViewModule, TabMenuModule, ConfirmDialogModule, AccordionModule, InputTextareaModule, InputSwitchModule, CheckboxModule, CalendarModule,
         FileUploadModule, DataTableModule, DialogModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, OverlayPanelModule, ButtonModule,
-        ScheduleModule, TooltipModule, ChartModule, ColorPickerModule, TooltipModule, ListboxModule, RadioButtonModule,
+        ScheduleModule, TooltipModule, ChartModule, ColorPickerModule, TooltipModule, ListboxModule, RadioButtonModule, TableModule,
         // ngx-bootstrap
         TabsModule, BsDropdownModule,
         // material

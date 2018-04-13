@@ -14,7 +14,7 @@ import 'jquery';
         '../../node_modules/bootstrap/dist/css/bootstrap-theme.min.css',
 
         '../../node_modules/primeng/resources/primeng.css',
-        '../../node_modules/primeng/resources/themes/bootstrap/theme.css',
+        '../../node_modules/primeng/resources/themes/omega/theme.css',
 
         '../../node_modules/roboto-fontface/css/roboto/roboto-fontface.css',
         '../../node_modules/material-icons/iconfont/material-icons.css',
