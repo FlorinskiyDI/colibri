@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import 'rxjs/add/operator/distinctUntilChanged';
 
@@ -7,13 +7,18 @@ import 'rxjs/add/operator/distinctUntilChanged';
     templateUrl: 'layout.component.html'
 })
 
-export class LayoutComponent {
+export class LayoutComponent implements OnInit {
     breadcrumbs$: any;
 
     constructor(
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) {
+
+
+    }
+
+    ngOnInit() {
         this.breadcrumbs$ = this.router.events
             .filter(event => event instanceof NavigationEnd)
             .distinctUntilChanged()
@@ -24,7 +29,6 @@ export class LayoutComponent {
                 console.log(data);
             }
         );
-
     }
 
     private buildBreadCrumb(

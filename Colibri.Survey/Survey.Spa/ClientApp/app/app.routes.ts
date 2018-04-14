@@ -13,7 +13,7 @@ import { Routes, RouterModule } from '@angular/router';
 const appRoutes: Routes = [
     {
         path: '', component: LayoutComponent,
-        canActivate: [HasAdminRoleAuthenticationGuard],
+        // canActivate: [HasAdminRoleAuthenticationGuard],
         data: { breadcrumb: 'Layout' },
         children: [
             {
@@ -24,6 +24,10 @@ const appRoutes: Routes = [
             {
                 path: '',
                 loadChildren: 'modules/groups/group.module#GroupModule',
+            },
+            {
+                path: '',
+                loadChildren: 'modules/surveys/survey.module#SurveyModule',
             },
         ]
     },
