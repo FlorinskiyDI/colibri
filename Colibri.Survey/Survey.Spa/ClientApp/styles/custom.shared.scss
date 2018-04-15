@@ -1,10 +1,59 @@
 body {
     font-size: 12px;
     font-family: 'Roboto', sans-serif;
-    background-color: #FAFAFA;
+    background-color: #fff;
 }
 
+/* poppins-regular - latin */
+@font-face {
+  font-family: "SegoeUIRegular";
+  src: url("~/dist/fonts/SegoeUI/SegoeUIRegular/SegoeUIRegular.eot");
+  src: url("~/dist/fonts/SegoeUI/SegoeUIRegular/SegoeUIRegular.eot?#iefix")format("embedded-opentype"),
+  url("~/dist/fonts/SegoeUI/SegoeUIRegular/SegoeUIRegular.woff") format("woff"),
+  url("~/dist/fonts/SegoeUI/SegoeUIRegular/SegoeUIRegular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
 
+@font-face {
+  font-family: "SegoeUIBold";
+  src: url("~/dist/fonts/SegoeUI/SegoeUIBold/SegoeUIBold.eot");
+  src: url("~/dist/fonts/SegoeUI/SegoeUIBold/SegoeUIBold.eot?#iefix")format("embedded-opentype"),
+  url("~/dist/fonts/SegoeUI/SegoeUIBold/SegoeUIBold.woff") format("woff"),
+  url("~/dist/fonts/SegoeUI/SegoeUIBold/SegoeUIBold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+// @font-face {
+//   font-family: "SegoeUIItalic";
+//   src: url("~/dist/fonts/SegoeUI/SegoeUIItalic/SegoeUIItalic.eot");
+//   src: url("~/dist/fonts/SegoeUI/SegoeUIItalic/SegoeUIItalic.eot?#iefix")format("embedded-opentype"),
+//   url("~/dist/fonts/SegoeUI/SegoeUIItalic/SegoeUIItalic.woff") format("woff"),
+//   url("~/dist/fonts/SegoeUI/SegoeUIItalic/SegoeUIItalic.ttf") format("truetype");
+//   font-style: normal;
+//   font-weight: normal;
+// }
+
+// @font-face {
+//   font-family: "SegoeUILight";
+//   src: url("~/dist/fonts/SegoeUI/SegoeUILight/SegoeUILight.eot");
+//   src: url("~/dist/fonts/SegoeUI/SegoeUILight/SegoeUILight.eot?#iefix")format("embedded-opentype"),
+//   url("~/dist/fonts/SegoeUI/SegoeUILight/SegoeUILight.woff") format("woff"),
+//   url("~/dist/fonts/SegoeUI/SegoeUILight/SegoeUILight.ttf") format("truetype");
+//   font-style: normal;
+//   font-weight: normal;
+// }
+
+// @font-face {
+//   font-family: "SegoeUISemiBold";
+//   src: url("~/dist/fonts/SegoeUI/SegoeUISemiBold/SegoeUISemiBold.eot");
+//   src: url("~/dist/fonts/SegoeUI/SegoeUISemiBold/SegoeUISemiBold.eot?#iefix")format("embedded-opentype"),
+//   url("~/dist/fonts/SegoeUI/SegoeUISemiBold/SegoeUISemiBold.woff") format("woff"),
+//   url("~/dist/fonts/SegoeUI/SegoeUISemiBold/SegoeUISemiBold.ttf") format("truetype");
+//   font-style: normal;
+//   font-weight: normal;
+// }
 
 // dropdown-menu
 .dropdown-menu { font-size: 12px; }

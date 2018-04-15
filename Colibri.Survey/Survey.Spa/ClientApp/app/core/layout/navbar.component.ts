@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 /* service */ import { OidcSecurityService } from 'core/auth/services/oidc.security.service';
@@ -10,6 +10,9 @@ import { Subscription } from 'rxjs/Subscription';
 })
 
 export class NavbarComponent implements OnInit, OnDestroy {
+
+    @Output()
+    toggle: EventEmitter<any> = new EventEmitter<any>();
 
     hasAdminRole = false;
     hasDataEventRecordsAdminRole = false;
@@ -65,5 +68,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     logout() {
         console.log('Do logout logic');
         this.oidcSecurityService.logoff();
+    }
+
+    toggleMenu() {
+        this.toggle.emit();
     }
 }
