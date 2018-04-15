@@ -9,7 +9,6 @@ namespace IdentityServer.Webapi.Data
     {
         public virtual DbSet<ApplicationUserGroups> ApplicationUserGroups { get; set; }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public virtual DbSet<GroupNodes> GroupNodes { get; set; }
         public virtual DbSet<Groups> Groups { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -44,23 +43,6 @@ namespace IdentityServer.Webapi.Data
                     .HasConstraintName("FK_ApplicationUserGroups_ToAspNetUsers");
             });
 
-            modelBuilder.Entity<GroupNodes>(entity =>
-            {
-                entity.HasKey(e => new { e.AncestorId, e.OffspringId });
-
-                entity.HasOne(d => d.Ancestor)
-                    .WithMany(p => p.GroupNodesAncestor)
-                    .HasForeignKey(d => d.AncestorId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GroupNodes_ToAncestor");
-
-                entity.HasOne(d => d.Offspring)
-                    .WithMany(p => p.GroupNodesOffspring)
-                    .HasForeignKey(d => d.OffspringId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_GroupNodes_ToOffspring");
-            });
-
             modelBuilder.Entity<Groups>(entity =>
             {
                 entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
@@ -70,14 +52,6 @@ namespace IdentityServer.Webapi.Data
                     .HasForeignKey(d => d.ParentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Groups_ToGroups");
-
-                //entity.HasMany(p => p.GroupNodesAncestor)
-                //    .WithOne()
-                //    .HasForeignKey(d => d.AncestorId);
-
-                //entity.HasMany(p => p.GroupNodesOffspring)
-                //    .WithOne()
-                //    .HasForeignKey(d => d.OffspringId);
             });
 
             #region AspNetCore Identity

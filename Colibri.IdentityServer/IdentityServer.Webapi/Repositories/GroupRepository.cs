@@ -11,7 +11,7 @@ namespace IdentityServer.Webapi.Repositories
     public class GroupRepository: IGroupRepository
     {
         
-        public virtual async Task<IEnumerable<Groups>> GetAllAsync()
+        public async Task<IEnumerable<Groups>> GetAllAsync()
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -19,13 +19,22 @@ namespace IdentityServer.Webapi.Repositories
             }
         }
 
-        public virtual async Task<Groups> GetAsync(Guid id)
+        public async Task<IEnumerable<Groups>> GetSubGroupsAsync(Guid id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                return await ctx.Set<Groups>()
+                    .Where(i => i.ParentId == id)
+                    .ToArrayAsync();
+            }
+        }
+
+        public async Task<Groups> GetAsync(Guid id)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =  await ctx.Set<Groups>()
                     .Where(i => i.Id == id)
-                   .Include(x => x.GroupNodesOffspring)
                     .SingleOrDefaultAsync();
                 return entity;
             }
