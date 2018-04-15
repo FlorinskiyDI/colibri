@@ -24,8 +24,9 @@ namespace IdentityServer.Webapi.Repositories
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =  await ctx.Set<Groups>()
-                    .Include(x => x.GroupNodesOffspring).ThenInclude(y => y.Offspring)
-                    .SingleOrDefaultAsync(x => x.Id == id);
+                    .Where(i => i.Id == id)
+                   .Include(x => x.GroupNodesOffspring)
+                    .SingleOrDefaultAsync();
                 return entity;
             }
         }

@@ -59,20 +59,18 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="Group" />
-    <Folder Include="AspNetIdentity" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="__EFMigrationsHistory.sql" />
-    <Build Include="AspNetIdentity\AspNetRoleClaims.sql" />
-    <Build Include="AspNetIdentity\AspNetRoles.sql" />
-    <Build Include="AspNetIdentity\AspNetUserClaims.sql" />
-    <Build Include="AspNetIdentity\AspNetUserLogins.sql" />
-    <Build Include="AspNetIdentity\AspNetUserRoles.sql" />
-    <Build Include="AspNetIdentity\AspNetUsers.sql" />
-    <Build Include="AspNetIdentity\AspNetUserTokens.sql" />
-    <Build Include="Group\Groups.sql" />
-    <Build Include="Group\ApplicationUserGroups.sql" />
-    <Build Include="Group\GroupNodes.sql" />
+    <Build Include="Groups.sql" />
+    <Build Include="AspNetRoles.sql" />
+    <Build Include="AspNetUsers.sql" />
+    <Build Include="AspNetUserTokens.sql" />
+    <Build Include="GroupNodes.sql" />
+    <Build Include="AspNetRoleClaims.sql" />
+    <Build Include="ApplicationUserGroups.sql" />
+    <Build Include="AspNetUserClaims.sql" />
+    <Build Include="AspNetUserLogins.sql" />
+    <Build Include="AspNetUserRoles.sql" />
   </ItemGroup>
 </Project>

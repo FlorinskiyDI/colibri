@@ -71,10 +71,13 @@ namespace IdentityServer.Webapi.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Groups_ToGroups");
 
-                entity.HasMany(d => d.GroupNodesOffspring)
-                    .WithOne(c => c.Offspring)
-                    .HasForeignKey(d => d.AncestorId);
+                //entity.HasMany(p => p.GroupNodesAncestor)
+                //    .WithOne()
+                //    .HasForeignKey(d => d.AncestorId);
 
+                //entity.HasMany(p => p.GroupNodesOffspring)
+                //    .WithOne()
+                //    .HasForeignKey(d => d.OffspringId);
             });
 
             #region AspNetCore Identity

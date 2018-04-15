@@ -11,3 +11,8 @@ GO
 CREATE NONCLUSTERED INDEX [IX_AspNetUserRoles_RoleId]
     ON [dbo].[AspNetUserRoles]([RoleId] ASC);
 
+
+GO
+CREATE NONCLUSTERED INDEX [IX_AspNetUserRoles_UserId]
+    ON [dbo].[AspNetUserRoles]([UserId] ASC);
+
