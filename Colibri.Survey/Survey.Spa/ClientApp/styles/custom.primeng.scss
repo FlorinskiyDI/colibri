@@ -1,0 +1,18 @@
+
+.ui-widget-content { background: inherit; }
+.ui-fieldset { padding: 0px 0px 0px 5px; }
+.ui-fieldset .ui-fieldset-legend { padding: 0px; }
+/* p-fieldset */
+// .ui-fieldset, .ui-fieldset .ui-fieldset-legend { padding: 0em 1em; }
+legend {
+    font-size: 12px;
+    width: inherit;
+    border: none !important;
+    margin-bottom: 0px;
+    background-color: inherit !important;
+}
+.ui-fieldset-toggleable .ui-fieldset-legend a { padding: 0em 0.5em; }
+
+.fa-minus:before { content: "\F147"; }
+.fa-plus:before { content: "\F196"; }
+/* !End p-fieldset */

@@ -13,16 +13,22 @@ import 'jquery';
         '../../node_modules/bootstrap/dist/css/bootstrap.min.css',
         '../../node_modules/bootstrap/dist/css/bootstrap-theme.min.css',
 
-        '../../node_modules/primeng/resources/primeng.css',
-        '../../node_modules/primeng/resources/themes/omega/theme.css',
+
 
         '../../node_modules/roboto-fontface/css/roboto/roboto-fontface.css',
         '../../node_modules/material-icons/iconfont/material-icons.css',
+        '../../node_modules/font-awesome/css/font-awesome.css',
 
         '../../node_modules/@angular/material/_theming.scss',
         '../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
 
         '../styles/custom.material-icons.scss',
+        
+        '../../node_modules/primeng/resources/primeng.css',
+        '../../node_modules/primeng/resources/themes/omega/theme.css',
+
+        '../styles/custom.primeng.scss',  
+        '../styles/custom.bootstrap.scss',        
         '../styles/custom.shared.scss',
         './app.component.scss'
     ]

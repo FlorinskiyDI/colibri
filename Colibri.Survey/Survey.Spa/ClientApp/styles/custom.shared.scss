@@ -1,71 +1,35 @@
 body {
-    font-size: 12px;
-    font-family: 'Roboto', sans-serif;
-    background-color: #fff;
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
+  background-color: #FAFAFA;
 }
 
-/* poppins-regular - latin */
-@font-face {
-  font-family: "SegoeUIRegular";
-  src: url("~/dist/fonts/SegoeUI/SegoeUIRegular/SegoeUIRegular.eot");
-  src: url("~/dist/fonts/SegoeUI/SegoeUIRegular/SegoeUIRegular.eot?#iefix")format("embedded-opentype"),
-  url("~/dist/fonts/SegoeUI/SegoeUIRegular/SegoeUIRegular.woff") format("woff"),
-  url("~/dist/fonts/SegoeUI/SegoeUIRegular/SegoeUIRegular.ttf") format("truetype");
-  font-style: normal;
-  font-weight: normal;
-}
 
-@font-face {
-  font-family: "SegoeUIBold";
-  src: url("~/dist/fonts/SegoeUI/SegoeUIBold/SegoeUIBold.eot");
-  src: url("~/dist/fonts/SegoeUI/SegoeUIBold/SegoeUIBold.eot?#iefix")format("embedded-opentype"),
-  url("~/dist/fonts/SegoeUI/SegoeUIBold/SegoeUIBold.woff") format("woff"),
-  url("~/dist/fonts/SegoeUI/SegoeUIBold/SegoeUIBold.ttf") format("truetype");
-  font-style: normal;
-  font-weight: normal;
-}
-
-// @font-face {
-//   font-family: "SegoeUIItalic";
-//   src: url("~/dist/fonts/SegoeUI/SegoeUIItalic/SegoeUIItalic.eot");
-//   src: url("~/dist/fonts/SegoeUI/SegoeUIItalic/SegoeUIItalic.eot?#iefix")format("embedded-opentype"),
-//   url("~/dist/fonts/SegoeUI/SegoeUIItalic/SegoeUIItalic.woff") format("woff"),
-//   url("~/dist/fonts/SegoeUI/SegoeUIItalic/SegoeUIItalic.ttf") format("truetype");
-//   font-style: normal;
-//   font-weight: normal;
-// }
-
-// @font-face {
-//   font-family: "SegoeUILight";
-//   src: url("~/dist/fonts/SegoeUI/SegoeUILight/SegoeUILight.eot");
-//   src: url("~/dist/fonts/SegoeUI/SegoeUILight/SegoeUILight.eot?#iefix")format("embedded-opentype"),
-//   url("~/dist/fonts/SegoeUI/SegoeUILight/SegoeUILight.woff") format("woff"),
-//   url("~/dist/fonts/SegoeUI/SegoeUILight/SegoeUILight.ttf") format("truetype");
-//   font-style: normal;
-//   font-weight: normal;
-// }
-
-// @font-face {
-//   font-family: "SegoeUISemiBold";
-//   src: url("~/dist/fonts/SegoeUI/SegoeUISemiBold/SegoeUISemiBold.eot");
-//   src: url("~/dist/fonts/SegoeUI/SegoeUISemiBold/SegoeUISemiBold.eot?#iefix")format("embedded-opentype"),
-//   url("~/dist/fonts/SegoeUI/SegoeUISemiBold/SegoeUISemiBold.woff") format("woff"),
-//   url("~/dist/fonts/SegoeUI/SegoeUISemiBold/SegoeUISemiBold.ttf") format("truetype");
-//   font-style: normal;
-//   font-weight: normal;
-// }
 
 // dropdown-menu
 .dropdown-menu { font-size: 12px; }
 .dropdown-menu>li>a:focus,
 .dropdown-menu>li>a:hover { background-image: none; cursor: pointer; }
 
-.ui-tooltip {
-    
-    // opacity: 1;
-    // transform: scale(1);
-    // transform-origin: right center 0;
-    // transition-delay: 0.3s;
-    // transform: scaleY(1) scaleX(1)  translateX(0px);
-}
 .cdk-overlay-container { z-index: 1031; } // more than bootstrap nav {{1030}}
+
+
+
+
+/* page-default */
+.clbr--page-default .clbr--page-title {
+  padding: 10px 0px 7px 0px;
+  font-size: 14px;
+}
+
+.clbr--page-default .clbr--page-content {
+  .clbr--filter {
+    .form-group { margin: 0px 8px 8px 3px; }
+  }
+  .clbr--btn-inline {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    .btn { margin-right: 5px; }
+  }
+}
+/* !End page-default */

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 @Component({
     selector: 'group-grid-cmp',
     templateUrl: './group-grid.component.html',
+    styleUrls: ['./group-grid.component.scss']
 })
 export class GroupGridComponent {
 
