@@ -1,0 +1,23 @@
+.dnd-sortable-drag{
+    border: 1px dotted red;
+    margin: 5px;
+}
+
+
+aside {
+    width: 200px;
+    border-right: 1px solid #cccedb;
+    background-color: #fff;
+}
+
+#ng-sidebar-container {
+    display: block;
+    position: absolute;
+    top: 47px;
+    height: calc(100% - 47px);
+}
+section {
+    position: absolute;
+    top: 33px;
+    height: calc(100% - 47px);
+}
