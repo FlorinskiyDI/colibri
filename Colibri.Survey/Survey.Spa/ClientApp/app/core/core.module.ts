@@ -1,4 +1,4 @@
-import { NgModule,  NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule,  NO_ERRORS_SCHEMA } from '@angular/core';
 
 /* module */ import { SharedModule } from 'shared/shared.module';
 /* component */ import { NavbarComponent } from 'core/layout/navbar.component';
@@ -7,6 +7,7 @@ import { NgModule,  NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/co
 /* component */ import { UnauthorizedComponent } from 'core/unauthorized/unauthorized.component';
 /* component */ import { LoginComponent } from 'core/login/login.component';
 import { SidebarModule } from 'ng-sidebar';
+import { DndModule } from 'ng2-dnd';
 declare let window: any;
 
 @NgModule({
@@ -19,16 +20,20 @@ declare let window: any;
         LoginComponent
     ],
     exports: [
-        NavbarComponent
+        DndModule,
+        NavbarComponent,
+
     ],
     imports: [
+        DndModule.forRoot(),
         SidebarModule.forRoot(),
-        SharedModule
+        SharedModule,
+        
     ],
     providers: [
         { provide: 'API_URL', useValue: getApiUrl() }
     ],
-    schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [NO_ERRORS_SCHEMA]
 })
 
 export class CoreModule {

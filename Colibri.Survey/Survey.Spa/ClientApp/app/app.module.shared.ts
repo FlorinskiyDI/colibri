@@ -9,12 +9,14 @@ import { CommonModule } from '@angular/common';
 /* guard */ import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
 /* guard */ import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
 /* service */ import { UserManagementService } from './user-management/UserManagementService';
+import { DndModule } from 'ng2-dnd';
 
 @NgModule({
     imports: [
         routing,
         CoreModule,
-        CoreModuleShared
+        CoreModuleShared,
+        DndModule.forRoot(),
     ],
     declarations: [ ],
     providers: [
@@ -26,7 +28,8 @@ import { CommonModule } from '@angular/common';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
+        DndModule
     ]
 })
 

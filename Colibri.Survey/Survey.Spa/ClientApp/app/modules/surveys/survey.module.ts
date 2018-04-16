@@ -5,11 +5,12 @@ import { NgModule } from '@angular/core';
 /* component */ import { SurveyComponent } from './survey.component';
 /* component */ import { SurveyBuilderComponent } from './survey-builder/survey-builder.component';
 
-
+import { DndModule } from 'ng2-dnd';
 @NgModule({
     imports: [
         SurveyRoutingModule,
-        SharedModule
+        SharedModule,
+        DndModule.forRoot(),
     ],
     declarations: [
         SurveyComponent,

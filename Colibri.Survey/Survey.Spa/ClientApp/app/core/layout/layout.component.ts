@@ -10,7 +10,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 export class LayoutComponent implements OnInit {
     breadcrumbs$: any;
-
+    simpleDrop = 0;
     constructor(
         private router: Router,
         private activatedRoute: ActivatedRoute
