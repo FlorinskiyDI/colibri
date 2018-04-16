@@ -19,12 +19,12 @@ export class LayoutComponent implements OnInit {
 
     }
     private _opened = false;
-    private _modeNum = 1;
+    private _modeNum = 0;
     private _positionNum = 0;
-    private _dock = true;
+    private _dock = false;
     private _closeOnClickOutside = false;
     private _closeOnClickBackdrop = false;
-    private _showBackdrop = false;
+    private _showBackdrop = true;
     private _animate = true;
     private _trapFocus = true;
     private _autoFocus = true;

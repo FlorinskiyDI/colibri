@@ -1,26 +1,102 @@
-<h4>Simple Drag-and-Drop</h4>
+<div id="d-wrapper-survey-builder" >
+111111111111111111
+
+
+</div>
+
+
+
+
+<!-- <h4>Drag-and-Drop - Shopping basket</h4>
 <div class="row">
     <div class="col-sm-3">
-        <div class="card border-dark mb-3">
-            <div class="card-header">Available to drag</div>
-            <div class="card-body text-dark">
-
-                <div class="card text-white bg-primary mb-3" style="max-width: 20rem;" 
-                    dnd-draggable (dragEnabled)="true">
-                    <div class="card-body">
-                        <p class="card-text">Drag Me</p>
+        <div class="panel panel-success">
+            <div class="panel-heading">Available products</div>
+            <div class="panel-body">
+                <div *ngFor="let product of availableProducts" class="panel panel-default" dnd-draggable [dragEnabled]="product.quantity>0"
+                    [dragData]="product" (onDragSuccess)="orderedProduct($event)" [dropZones]="['demo1']">
+                    <div class="panel-body">
+                        <div [hidden]="product.quantity===0">{{product.name}} - \${{product.cost}}
+                            <br>(available: {{product.quantity}})</div>
+                        <div [hidden]="product.quantity>0">
+                            <del>{{product.name}}</del>
+                            <br>(NOT available)</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-sm-3">
-        <div class="card border-info mb-3" style="max-width: 20rem;">
-            <div class="card-header">Place to drop</div>
-            <div class="card-body text-info" 
-                    dnd-droppable (onDropSuccess)="simpleDrop=simpleDrop + 1">
-                <p class="card-text" *ngIf="simpleDrop">Dropped {{simpleDrop}} times</p>
+        <div dnd-droppable (onDropSuccess)="addToBasket($event)" [dropZones]="['demo1']" class="panel panel-info">
+            <div class="panel-heading">Shopping Basket
+                <br>(to pay: \${{totalCost()}})</div>
+            <div class="panel-body">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        First Team
+                    </div>
+                    <div class="panel-body" dnd-sortable-container [dropZones]="['boxers-zone']" [sortableData]="listTeamOne">
+                        <ul class="list-group">
+                            <li *ngFor="let item of listTeamOne; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item.dragData | json}}</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        First Team
+    </div>
+    <div class="panel-body" dnd-sortable-container [dropZones]="['boxers-zone']" [sortableData]="listTeamOne">
+        <ul class="list-group">
+            <li *ngFor="let item of listTeamOne; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item.dragData | json}}</li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Favorite drinks
+            </div>
+            <div class="panel-body">
+                <ul class="list-group" dnd-sortable-container [sortableData]="listTeamOne">
+                    <li *ngFor="let item of listTeamOne; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item | json}} count {{i}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h4>Simple sortable</h4>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Favorite drinks
+            </div>
+            <div class="panel-body">
+                <ul class="list-group" dnd-sortable-container [sortableData]="listOne">
+                    <li (onChange)="changeSort($event)" (drop)="checkOnMouseUp($event)" *ngFor="let item of listOne; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                My prefences:
+                <br/>
+                <span *ngFor="let item of listOne; let i = index">{{i + 1}}) {{item}}11111111111
+                    <br/>
+                </span>
+            </div>
+        </div>
+    </div>
+</div> -->
