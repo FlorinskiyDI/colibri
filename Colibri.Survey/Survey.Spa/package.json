@@ -47,7 +47,8 @@
     "@angular/material": "5.2.4",
     "font-awesome": "4.7.0",
     "ng-sidebar": "7.0.1",
-    "ng2-dnd": "5.0.2"
+    "ng2-dnd": "5.0.2",
+    "angular-split": "1.0.0-rc.3"
   },
   "devDependencies": {
     "@types/intl-tel-input": "0.0.8",

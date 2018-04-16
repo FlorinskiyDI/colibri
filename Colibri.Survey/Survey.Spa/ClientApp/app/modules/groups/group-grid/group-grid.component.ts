@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 
 @Component({
     selector: 'group-grid-cmp',
     templateUrl: './group-grid.component.html',
-    styleUrls: ['./group-grid.component.scss']
+    styleUrls: ['./group-grid.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class GroupGridComponent {
 
@@ -21,14 +22,14 @@ export class GroupGridComponent {
         this.groups = [
             {
                 'data': {
-                    'name': 'name1',
+                    'name': 'name1 test test test test test test test test',
                     'description': 'description1'
                 },
                 'leaf': false
             },
             {
                 'data': {
-                    'name': 'name2',
+                    'name': 'name2 test test test test test test test test',
                     'description': 'description2'
                 },
                 'leaf': false
@@ -45,17 +46,15 @@ export class GroupGridComponent {
             event.node.children = [
                 {
                     'data': {
-                        'name': 'Lazy Folder 0',
-                        'size': '75kb',
-                        'type': 'Folder'
+                        'name': 'name1 test test test test test test test test test test test test test test test test',
+                        'description': 'description1'
                     },
                     'leaf': false
                 },
                 {
                     'data': {
-                        'name': 'Lazy Folder 1',
-                        'size': '150kb',
-                        'type': 'Folder'
+                        'name': 'name2 test test test test test test test test test test test test test test test test',
+                        'description': 'description2'
                     },
                     'leaf': false
                 }

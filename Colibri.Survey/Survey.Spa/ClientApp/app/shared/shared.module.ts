@@ -10,6 +10,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 /* translate */ import { TranslateLoader } from '@ngx-translate/core';
 /* translate */ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+/* angular-split */ import { AngularSplitModule } from 'angular-split';
+
 /* primeng */ import { RadioButtonModule } from 'primeng/components/radiobutton/radiobutton';
 /* primeng */ import { ListboxModule } from 'primeng/components/listbox/listbox';
 /* primeng */ import { ChartModule } from 'primeng/components/chart/chart';
@@ -69,7 +71,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         // ngx-bootstrap
         TabsModule.forRoot(), BsDropdownModule.forRoot(),
         // material
-        MatTooltipModule, MatIconModule
+        MatTooltipModule, MatIconModule,
+        // else
+        AngularSplitModule
     ],
     declarations: [],
     entryComponents: [],
@@ -88,7 +92,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         // ngx-bootstrap
         TabsModule, BsDropdownModule,
         // material
-        MatTooltipModule, MatIconModule
+        MatTooltipModule, MatIconModule,
+        // else
+        AngularSplitModule
     ]
 })
 

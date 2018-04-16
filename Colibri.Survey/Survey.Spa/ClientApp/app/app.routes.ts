@@ -27,6 +27,10 @@ const appRoutes: Routes = [
             },
             {
                 path: '',
+                loadChildren: 'modules/users/user.module#UserModule',
+            },
+            {
+                path: '',
                 loadChildren: 'modules/surveys/survey.module#SurveyModule',
             },
         ]
