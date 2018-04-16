@@ -1,4 +1,4 @@
-import { NgModule,  NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 
 /* module */ import { SharedModule } from 'shared/shared.module';
 /* component */ import { NavbarComponent } from 'core/layout/navbar.component';
@@ -27,8 +27,7 @@ declare let window: any;
     imports: [
         DndModule.forRoot(),
         SidebarModule.forRoot(),
-        SharedModule,
-        
+        SharedModule
     ],
     providers: [
         { provide: 'API_URL', useValue: getApiUrl() }

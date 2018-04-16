@@ -26,7 +26,12 @@
             <button class="btn btn-sm btn-default notification" id="notification">Export</button>
         </div>
 
-        <p-table [value]="cars">
+        <p-treeTable [value]="groups" selectionMode="single" [(selection)]="selectedFile" (onNodeExpand)="loadNode($event)">
+            <p-column field="name" header="Name"></p-column>
+            <p-column field="description" header="Description"></p-column>
+        </p-treeTable>
+
+        <!-- <p-table [value]="cars">
             <ng-template pTemplate="header">
                 <tr>
                     <th>Vin</th>
@@ -43,7 +48,7 @@
                     <td>{{car.color}}</td>
                 </tr>
             </ng-template>
-        </p-table>
+        </p-table> -->
 
     </div>
 </div>

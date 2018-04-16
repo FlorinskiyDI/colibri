@@ -23,12 +23,12 @@ import 'jquery';
         '../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
 
         '../styles/custom.material-icons.scss',
-        
+
         '../../node_modules/primeng/resources/primeng.css',
         '../../node_modules/primeng/resources/themes/omega/theme.css',
 
-        '../styles/custom.primeng.scss',  
-        '../styles/custom.bootstrap.scss',        
+        '../styles/custom.primeng.scss',
+        '../styles/custom.bootstrap.scss',
         '../styles/custom.shared.scss',
         './app.component.scss'
     ]

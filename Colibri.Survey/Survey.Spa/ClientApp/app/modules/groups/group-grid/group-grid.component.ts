@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TreeNode } from 'primeng/api';
 
 @Component({
     selector: 'group-grid-cmp',
@@ -7,14 +8,58 @@ import { Component } from '@angular/core';
 })
 export class GroupGridComponent {
 
+
+    groups: TreeNode[];
+    selectedGroups: TreeNode[];
+
     cars: any[] = [];
 
-    constructor() {
-        this.cars = [
-            { 'brand': 'VW', 'year': 2012, 'color': 'Orange', 'vin': 'dsad231ff' },
-            { 'brand': 'Audi', 'year': 2011, 'color': 'Black', 'vin': 'gwregre345' },
-            { 'brand': 'Renault', 'year': 2005, 'color': 'Gray', 'vin': 'h354htr' },
-            { 'brand': 'BMW', 'year': 2003, 'color': 'Blue', 'vin': 'j6w54qgh' }
+    constructor() { }
+
+    ngOnInit() {
+
+        this.groups = [
+            {
+                'data': {
+                    'name': 'name1',
+                    'description': 'description1'
+                },
+                'leaf': false
+            },
+            {
+                'data': {
+                    'name': 'name2',
+                    'description': 'description2'
+                },
+                'leaf': false
+            }
         ];
+    }
+
+    selectedGroup(data: any) {
+        console.log(data);
+    }
+
+    loadNode(event: any) {
+        if (event.node) {
+            event.node.children = [
+                {
+                    'data': {
+                        'name': 'Lazy Folder 0',
+                        'size': '75kb',
+                        'type': 'Folder'
+                    },
+                    'leaf': false
+                },
+                {
+                    'data': {
+                        'name': 'Lazy Folder 1',
+                        'size': '150kb',
+                        'type': 'Folder'
+                    },
+                    'leaf': false
+                }
+            ];
+        }
     }
 }
