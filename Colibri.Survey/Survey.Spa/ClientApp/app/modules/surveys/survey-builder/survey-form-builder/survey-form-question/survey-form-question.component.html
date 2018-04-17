@@ -1,0 +1,86 @@
+<!-- <pre class='checkquestion'>{{question | json}}</pre> -->
+<div class="d-question-wrapper">
+    <div [formGroup]="form">
+        <label [attr.for]="question.key">{{question.label}}</label>
+        <label *ngIf="question.required" style="color:red">*</label>
+
+        <div [ngSwitch]="question.controlType">
+            <div *ngSwitchCase="'textbox'" [formGroupName]="question.key">
+                <!-- 
+        {{question.key | json}}
+        {{question.type | json}} -->
+                <input [formControlName]="'answer'" [id]="question.key" [type]="question.type">
+            </div>
+
+
+
+            <div *ngSwitchCase="'textarea'" [formGroupName]="question.key">
+                <textarea rows="5" [formControlName]="'answer'" [id]="question.key" style="width: 300px"></textarea>
+            </div>
+
+
+
+            <div *ngSwitchCase="'dropdown'" [formGroupName]="question.key">
+                <select [id]="question.key" [formControlName]="'answer'" style="width: 200px">
+                    <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+                </select>
+            </div>
+
+
+            <div *ngSwitchCase="'radio'">
+                {{question.options | json}}
+                <div class="form-check" *ngFor="let opt of question.options" [formGroupName]="question.key">
+                    <input [formControlName]="'answer'" name="answer" type="radio" [value]="opt.key">
+                    <label class="form-check-label">
+                        {{opt.value}}
+                    </label>
+                </div>
+            </div>
+
+
+
+            <div *ngSwitchCase="'checkbox'" [formGroupName]="question.key">
+                <div *ngFor="let opt of question.options">
+                    <input type="checkbox" (change)="onChange(question.key, opt.label, $event.target.checked)" [checked]="opt.value"> {{opt.label}}
+                    <br>
+                </div>
+                <!-- <div class="form-check" *ngFor="let opt of question.options">
+        <input [id]="opt.key"  [formControlName]="question.key"   class="form-check-input" type="checkbox" [checked]="opt.value">
+        <label class="form-check-label">
+          {{opt.label}}
+        </label>
+      </div> -->
+            </div>
+
+
+            <div *ngSwitchCase="'grid-radio'" [formGroupName]="question.key">
+
+                <table>
+
+                    <!-- <tr *ngFor="let item of myForm.controls.scheduleDetail.controls; let i=index" [formGroupName]="i"> -->
+                    <tr>
+                        <td>////</td>
+                        <td *ngFor="let item of question.grid.cols let i=index">
+                            {{item.label}}
+                        </td>
+                    </tr>
+                    <tr *ngFor="let item of question.grid.rows let i=index">
+                        <td>{{item.label}}</td>
+                        <td *ngFor="let item2 of question.grid.cols let i=index">
+                            {{item2.label}}
+                            <input name="{{item2.label}}" type='radio'>
+                        </td>
+
+                    </tr>
+
+                </table>
+                <br>
+            </div>
+            <div [formGroupName]="question.key" *ngIf="question.isAdditionalAnswer">
+                additional answer:
+                <input [formControlName]="'additionalAnswer'" type="text">
+            </div>
+        </div>
+        <div class="errorMessage" *ngIf="!isValid && isDirty">{{question.label}} is required!!!</div>
+    </div>
+</div>

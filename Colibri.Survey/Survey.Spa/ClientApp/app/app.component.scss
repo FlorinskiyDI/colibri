@@ -19,5 +19,13 @@ aside {
 section {
     position: absolute;
     top: 33px;
-    height: calc(100% - 47px);
+    width: 100%;
+    height: calc(100% - 33px);
+}
+
+
+
+ng-sidebar-content {
+    display: block;
+    width: 100%;
 }

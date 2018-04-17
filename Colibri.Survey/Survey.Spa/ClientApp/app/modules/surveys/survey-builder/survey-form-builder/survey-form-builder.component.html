@@ -1,0 +1,55 @@
+<div>
+
+  <div class="panel-body">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        Sortable zone
+      </div>
+      <div class="panel-body" dnd-sortable-container [dropZones]="['boxers-zone']" [sortableData]="listTeamOne">
+        <ul class="list-group">
+          <li *ngFor="let item of listTeamOne; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item.dragData | json}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+
+    <div *ngFor="let question of questions" class="form-row">
+      <survey-form-question [question]="question" [form]="form"></survey-form-question>
+    </div>
+
+    <div class="form-row">
+      <button type="submit" [disabled]="!form.valid">Save</button>
+    </div>
+  </form>
+
+  <div *ngIf="payLoad" class="form-row">
+
+    <!-- <strong>Saved the following values</strong>
+          <br>
+          <pre>{{payLoad | json}}</pre> -->
+
+  </div>
+  <!-- <br>
+      
+        1. <button (click)="addNewQuestionEmail(true)">Add new texBox question( required true )</button>
+        <button (click)="addNewQuestionEmail(false)">Add new texBox question( required false )</button>
+        <button (click)="changeValidForEmail0()">Change validator for Email0</button>
+      
+        <br><br>
+        2. <button (click)="addNewQuestionDrop(true)">Add new dropDown question( required true )</button>
+        <button (click)="addNewQuestionDrop(false)">Add new dropDown question( required false )</button>
+        <br><br>
+      
+        3. <button (click)="addNewQuestionCheckbox(true, false)">Add new checkbox question( required true )</button>
+        <button (click)="addNewQuestionCheckbox(false, false)">Add new checkbox question( required false )</button>
+        <button (click)="addNewRowsForCheckbox0()">Add new variable for  checkbox0</button>
+        <br><br>
+        ... <button (click)="addNewQuestionCheckbox(false,true)">Add new checkbox question with additiona answer( required false )</button>
+        <br><br>
+        ... <button (click)="addNewQuestionCheckbox(true,true)">Add new checkbox question with additiona answer( required true )</button>
+        <br><br> -->
+</div>

@@ -1,7 +1,37 @@
-#d-wrapper-survey-builder{
-    background-color: #fdfdfd;
-    border: 1px solid silver;
-    margin: 5px;
+
+#d-builder-wrapper{
+    background-color: silver;
+    // border: 1px solid silver;
+    // padding: 5px;
     height: 100%;
     width: 100%;
+}
+
+#d-builder-widgets{
+    background-color: white;
+    position: absolute;
+    height: 100%;
+    width: 15%;
+    padding: 10px;
+
+}
+#d-builder-body{
+    background-color: #f0f0e3;
+    height: 100%;position: absolute;
+    left: 15%;
+    width: 55%;
+    padding: 10px;
+    overflow: auto;
+}
+#d-builder-option{
+    background-color: #ddddd4;
+    height: 100%;position: absolute;
+    width: 30%;
+    right: 0px;
+    overflow: auto;
+    padding: 10px;
+}
+
+.dnd-drag-start {
+    border: 1px solid green;
 }
