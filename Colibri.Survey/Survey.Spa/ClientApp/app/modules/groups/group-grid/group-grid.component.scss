@@ -1,9 +1,6 @@
-
-.group-grid-cmp {
-    
-    .ui-fieldset.fieldset--group-band { position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; }
-
+.cmp--group-grid {
+    .clbr--cust--fieldset-groups.ui-fieldset { position: absolute; top: 0px; bottom: 5px; left: 0px; right: 5px; }
+    .clbr--cust--split-area-right { position: relative; margin-left: 5px; margin-bottom: 5px; }
 }
 
-split-area { position: relative;  }
-ui-fieldset { position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; }
+

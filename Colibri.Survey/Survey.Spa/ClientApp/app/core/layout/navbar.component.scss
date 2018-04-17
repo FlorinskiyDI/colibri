@@ -4,6 +4,13 @@
 .nav > li > a { padding: 10px 15px; cursor: pointer; }
 .navbar-default { background-image: none; font-size: 12px; }
 
+// dropdown-menu
+.dropdown-menu { font-size: 12px; }
+.dropdown-menu>li>a:focus,
+.dropdown-menu>li>a:hover { background-image: none; cursor: pointer; }
+
+
+
 .button--toggle {
     &.navbar-toggle {
         display: initial !important;

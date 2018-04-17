@@ -1,0 +1,43 @@
+<div class="cmp--group-member-grid">
+    <div class="clbr--filter">
+        <p-fieldset legend="Filter" [toggleable]="true">
+            <div class="form-group form-group-sm form--group-xs">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input class="form-control" type="text" placeholder="global search">
+                    </div>
+                </div>
+            </div>
+        </p-fieldset>
+    </div>
+
+    <div class="clbr--btn-inline">
+        <button class="btn btn-sm btn-default notification">
+            <i class="fa fa-plus"></i>Add member</button>
+        <button class="btn btn-sm btn-default notification">
+            <i class="fa fa-pencil"></i>Edit</button>
+        <button class="btn btn-sm btn-default notification">
+            <i class="fa fa-remove"></i>Remove</button>
+        <button class="btn btn-sm btn-default notification" (click)="dtGroupMembers.exportCSV()">
+                <i class="fa fa-file-excel-o"></i>Excel</button>
+    </div>
+
+    <p-table #dtGroupMembers [columns]="gridCols" [value]="gridItems">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Vin</th>
+                <th>Year</th>
+                <th>Brand</th>
+                <th>Color</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-car>
+            <tr>
+                <td>{{car.vin}}</td>
+                <td>{{car.year}}</td>
+                <td>{{car.brand}}</td>
+                <td>{{car.color}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

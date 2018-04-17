@@ -1,0 +1,9 @@
+<div class="cmp--group-tree">
+    <div class="clbr--btn-inline">
+        <button class="btn btn-sm btn-default notification">
+            <i class="fa fa-file-o"></i>Create</button>
+        <button class="btn btn-sm btn-default notification">
+            <i class="fa fa-remove"></i>Remove</button>
+    </div>
+    <p-tree [value]="treeItems" selectionMode="single" (onNodeExpand)="loadNode($event)" [(selection)]="selectedFile"></p-tree>
+</div>
