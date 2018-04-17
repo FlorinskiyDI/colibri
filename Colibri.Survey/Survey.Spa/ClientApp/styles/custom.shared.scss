@@ -27,3 +27,8 @@ body {
 /* ANGULAR-SPLIT */
 split-gutter { flex-basis: 5px !important; }
 /* !End ANGULAR-SPLIT */
+
+.fa-drag-handle:before {
+  content: "\f142 \f142";
+  letter-spacing: 2px;
+}

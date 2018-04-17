@@ -8,20 +8,28 @@ export class GroupMemberGridComponent {
 
     gridItems: any[] = [];
     gridCols: any[] = [];
+    gridFilter: boolean = false;
+    drpdwnStatuses: any[] = [];
 
     constructor() {
         this.gridItems = [
-            { 'brand': 'VW', 'year': 2012, 'color': 'Orange', 'vin': 'dsad231ff' },
-            { 'brand': 'Audi', 'year': 2011, 'color': 'Black', 'vin': 'gwregre345' },
-            { 'brand': 'Renault', 'year': 2005, 'color': 'Gray', 'vin': 'h354htr' },
-            { 'brand': 'BMW', 'year': 2003, 'color': 'Blue', 'vin': 'j6w54qgh' }
+            { 'userName': 'user 1', 'email': 'user1@gmail.com', 'col1': 'col1', 'col2': 'col2' },
+            { 'userName': 'user 2', 'email': 'user2@gmail.com', 'col1': 'col1', 'col2': 'col2' },
+            { 'userName': 'user 3', 'email': 'user3@gmail.com', 'col1': 'col1', 'col2': 'col2' },
+            { 'userName': 'user 4', 'email': 'user4@gmail.com', 'col1': 'col1', 'col2': 'col2' }
         ];
 
         this.gridCols = [
-            { field: 'brand', header: 'Brand' },
-            { field: 'year', header: 'Year' },
-            { field: 'color', header: 'Color' },
-            { field: 'vin', header: 'Vin' }
+            { field: 'userName', header: 'User name' },
+            { field: 'email', header: 'E-mail' },
+            { field: 'col1', header: 'Col 1' },
+            { field: 'col2', header: 'Col 2' }
         ];
+
+        this.drpdwnStatuses = [
+            { },
+            { label: 'status 1', value: 'data' },
+            { label: 'status 2', value: 'data' },
+        ]
     }
 }

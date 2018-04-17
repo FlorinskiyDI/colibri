@@ -1,43 +1,57 @@
 <div class="cmp--group-member-grid">
+
     <div class="clbr--filter">
-        <p-fieldset legend="Filter" [toggleable]="true">
-            <div class="form-group form-group-sm form--group-xs">
-                <div class="row">
-                    <div class="col-md-3">
-                        <input class="form-control" type="text" placeholder="global search">
+        <p-fieldset legend="Filter" [toggleable]="true" collapsed="true">
+            <form class="form-horizontal" action='' method="POST">
+                <div class="control-group form-group-sm form--group-xs">
+                    <div class="controls">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input class="form-control" type="text" placeholder="search text">
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="control-group form-group-sm form--group-xs">
+                    <div class="controls">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <p-dropdown [ngModelOptions]="{standalone: true}" [options]="drpdwnStatuses" [(ngModel)]="statuses" [style]="{'width':'100%'}"
+                                    placeholder="member status"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>           
         </p-fieldset>
     </div>
 
     <div class="clbr--btn-inline">
         <button class="btn btn-sm btn-default notification">
-            <i class="fa fa-plus"></i>Add member</button>
-        <button class="btn btn-sm btn-default notification">
-            <i class="fa fa-pencil"></i>Edit</button>
-        <button class="btn btn-sm btn-default notification">
-            <i class="fa fa-remove"></i>Remove</button>
-        <button class="btn btn-sm btn-default notification" (click)="dtGroupMembers.exportCSV()">
-                <i class="fa fa-file-excel-o"></i>Excel</button>
+            <i class="fa fa-plus"></i>Add member(s)</button>
+        <button class="btn btn-sm btn-default notification" [attr.disabled]="!selectedGroup ? '' : null">
+            <i class="fa fa-remove"></i>Unsubscribe</button>
+        <button class="btn btn-sm btn-default notification" [attr.disabled]="!selectedGroup ? '' : null">
+            <i class="fa fa-eye"></i>View</button>
+        <button style="float: right;" class="btn btn-sm btn-default notification" (click)="dtGroupMembers.exportCSV()">
+            <i class="fa fa-file-excel-o"></i>Excel</button>
     </div>
 
-    <p-table #dtGroupMembers [columns]="gridCols" [value]="gridItems">
-        <ng-template pTemplate="header">
+    <p-table [paginator]="true" [rows]="10" [columns]="gridCols" [value]="gridItems" [resizableColumns]="true" selectionMode="single" [(selection)]="selectedGroup">
+        <ng-template pTemplate="header" let-columns>
             <tr>
-                <th>Vin</th>
-                <th>Year</th>
-                <th>Brand</th>
-                <th>Color</th>
+                <th *ngFor="let col of gridCols" pResizableColumn>
+                    {{col.header}}
+                </th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-car>
-            <tr>
-                <td>{{car.vin}}</td>
-                <td>{{car.year}}</td>
-                <td>{{car.brand}}</td>
-                <td>{{car.color}}</td>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of gridCols">
+                    {{rowData[col.field]}}
+                </td>
             </tr>
         </ng-template>
     </p-table>
+        
 </div>

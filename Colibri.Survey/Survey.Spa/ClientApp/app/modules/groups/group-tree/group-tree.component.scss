@@ -1,12 +1,14 @@
 .cmp--group-tree {
     .ui-tree.ui-widget-content {
         position: absolute;
-        top: 50px;
+        top: 90px;
         bottom: 0px;
         left: 0px;
         right: 0px;
         // width: 100%; // !!! this value set in file - custom.primeng.scss 
     }
+
+    .form-group { margin-bottom: 10px; }
 }
 
 

@@ -1,9 +1,18 @@
 <div class="cmp--group-tree">
+    <div class="form-group form-group-sm form--group-xs">
+        <div class="row">
+            <div class="col-sm-12">
+                <input class="form-control" type="text" placeholder="search text">
+            </div>
+        </div>
+    </div>
     <div class="clbr--btn-inline">
         <button class="btn btn-sm btn-default notification">
             <i class="fa fa-file-o"></i>Create</button>
-        <button class="btn btn-sm btn-default notification">
-            <i class="fa fa-remove"></i>Remove</button>
+        <button class="btn btn-sm btn-default notification" (click)="blockedPanel = !blockedPanel">
+            <i class="fa fa-remove"></i>Remove</button> {{blockedPanel}}
     </div>
-    <p-tree [value]="treeItems" selectionMode="single" (onNodeExpand)="loadNode($event)" [(selection)]="selectedFile"></p-tree>
+    <p-tree selectionMode="single" [value]="treeItems" [loading]="loading" (onNodeExpand)="loadNode($event)" [(selection)]="selectedFile">
+    </p-tree>
+
 </div>
