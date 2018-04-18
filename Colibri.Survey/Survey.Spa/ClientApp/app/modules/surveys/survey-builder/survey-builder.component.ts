@@ -3,8 +3,10 @@ import { Component } from '@angular/core';
 // import { QuestionBase } from '../../../shared/Models/form-builder/question-base.model';
 
 import { ControTypes } from '../../../shared/constants/control-types.constant';
+import { AvailableQuestions } from '../../../shared/models/form-builder/form-control/available-question.model';
 
 import { QuestionService } from '../../../shared/services/api/question.service';
+import { QuestionControlService } from '../../../shared/services/question-control.service';
 
 
 @Component({
@@ -13,19 +15,37 @@ import { QuestionService } from '../../../shared/services/api/question.service';
     styleUrls: [
         './survey-builder.component.scss'
     ],
-    providers: [QuestionService]
+    providers: [QuestionService, QuestionControlService]
 })
 export class SurveyBuilderComponent {
     questions: any[];
+    newquestion: any;
+
+
     temporaryAnser: any;
-    availableQuestions: string[] = [
-        ControTypes.checkbox,
-        ControTypes.dropdown,
-        ControTypes.gridRadio,
-        ControTypes.radio,
-        ControTypes.textarea,
-        ControTypes.textbox
+    // availableQuestions: string[] = [
+    //     ControTypes.checkbox,
+    //     ControTypes.dropdown,
+    //     ControTypes.gridRadio,
+    //     ControTypes.radio,
+    //     ControTypes.textarea,
+    //     ControTypes.textbox
+    // ];
+
+    availableQuestions: Array<AvailableQuestions> = [
+
+        new AvailableQuestions(ControTypes.textbox, 1, 'dropZonesName1'),
+        new AvailableQuestions(ControTypes.textarea, 2, 'dropZonesName2'),
+        new AvailableQuestions(ControTypes.radio, 3, 'dropZonesName3'),
+        new AvailableQuestions(ControTypes.checkbox, 4, 'dropZonesName4'),
+        new AvailableQuestions(ControTypes.dropdown, 5, 'dropZonesName5'),
+        new AvailableQuestions(ControTypes.gridRadio, 6, 'dropZonesName6'),
+
+
     ];
+
+    availableQuestionsOption: any;
+
 
 
 
@@ -39,17 +59,94 @@ export class SurveyBuilderComponent {
     availableProducts: Array<Product> = [];
     shoppingBasket: Array<Product> = [];
 
-    constructor(service: QuestionService) {
+    constructor(
+        public questionService: QuestionService,
+        public questionControlService: QuestionControlService
+    ) {
 
+
+        this.availableQuestionsOption = {
+            allowquestion: ['dropZonesName1', 'dropZonesName2', 'dropZonesName3', 'dropZonesName4', 'dropZonesName5', 'dropZonesName6'],
+            availableQuestions: [
+                { name: ControTypes.textbox, order: 1, dropZonesName: 'dropZonesName1' } as AvailableQuestions,
+                { name: ControTypes.textarea, order: 2, dropZonesName: 'dropZonesName2' } as AvailableQuestions,
+                { name: ControTypes.radio, order: 3, dropZonesName: 'dropZonesName3' } as AvailableQuestions,
+                { name: ControTypes.checkbox, order: 4, dropZonesName: 'dropZonesName4' } as AvailableQuestions,
+                { name: ControTypes.dropdown, order: 5, dropZonesName: 'dropZonesName5' } as AvailableQuestions,
+                { name: ControTypes.gridRadio, order: 6, dropZonesName: 'dropZonesName6' } as AvailableQuestions
+            ],
+        };
         this.listTeamOne5.push('111111111111112');
-        this.listTeamOne.push('11111111111111');
+        // this.listTeamOne.push('11111111111111');
 
-        this.questions = service.getQuestions();
+        this.questions = questionService.getQuestions();
         this.availableProducts.push(new Product('Blue Shoes', 3, 35));
         this.availableProducts.push(new Product('Good Jacket', 1, 90));
         this.availableProducts.push(new Product('Red Shirt', 5, 12));
         this.availableProducts.push(new Product('Blue Jeans', 4, 60));
     }
+
+
+
+    getQuestonDropzones() {
+        // console.log('101010101010101010101010101010101010101010101010101010101010101010101');
+        // console.log(this.availableQuestions);
+        // console.log('101010101010101010101010101010101010101010101010101010101010101010101');
+        const dropZoneList: any[] = [];
+        this.availableQuestions.forEach(val => {
+            dropZoneList.push(val.dropZonesName);
+        });
+        return dropZoneList;
+    }
+
+    addNewQuestion($event: any) {
+        debugger
+        switch ($event.dragData.name) {
+            case ControTypes.textbox: {
+                this.newquestion = this.questionControlService.addTextboxControl();
+                console.log(ControTypes.textbox);
+                break;
+            }
+
+            case ControTypes.textarea: {
+                console.log(ControTypes.textarea);
+                break;
+            }
+
+            case ControTypes.radio: {
+                console.log(ControTypes.radio);
+                break;
+            }
+
+            case ControTypes.checkbox: {
+                console.log(ControTypes.checkbox);
+                break;
+            }
+            case ControTypes.checkbox: {
+                console.log(ControTypes.dropdown);
+                break;
+            }
+            case ControTypes.checkbox: {
+                console.log(ControTypes.gridRadio);
+                break;
+            }
+
+            default: {
+                console.log('Invalid choice');
+                break;
+            }
+        }
+    }
+
+
+
+
+    onDragEnd() {
+        console.log('onDragEndonDragEndonDragEndonDragEndonDragEndonDragEndonDragEnd');
+    }
+
+
+
 
     orderedProduct($event: any) {
         // const orderedProduct: Product = $event.dragData;
@@ -97,11 +194,14 @@ export class SurveyBuilderComponent {
         if ($event) {
             this.widgets.push($event.dragData);
             this.listTeamOne.push($event.dragData);
+            console.log('777777777777777777777777777777777777777777777');
+            console.log('777777777777777777777777777777777777777777777');
+            console.log('777777777777777777777777777777777777777777777');
         }
     }
 
     listBoxers: Array<string> = ['Sugar Ray Robinson',
-    'Muhammad Ali', 'George Foreman', 'Joe Frazier', 'Jake LaMotta', 'Joe Louis', 'Jack Dempsey', 'Rocky Marciano', 'Mike Tyson', 'Oscar De La Hoya'];
+        'Muhammad Ali', 'George Foreman', 'Joe Frazier', 'Jake LaMotta', 'Joe Louis', 'Jack Dempsey', 'Rocky Marciano', 'Mike Tyson', 'Oscar De La Hoya'];
 
     listTeamTwo: Array<string> = [];
 
@@ -125,6 +225,7 @@ export class SurveyBuilderComponent {
 
     addTo1($event: any) {
         this.targetList1.push($event.dragData);
+
     }
 }
 
@@ -140,3 +241,10 @@ class Container {
 class Widget {
     constructor(public name: string) { }
 }
+
+
+
+// evailabal question list
+// class AvailableQuestions {
+//     constructor(public name: string, public order: number, public dropZonesName: string) { }
+// }

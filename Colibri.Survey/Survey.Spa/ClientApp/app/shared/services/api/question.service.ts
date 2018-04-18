@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { TextboxQuestion } from '../../Models/form-builder/question-textbox.model';
 // import { DropdownQuestion } from '../../Models/form-builder/question-dropdown.model';
-// import { QuestionBase } from '../../Models/form-builder/question-base.model';
+import { QuestionBase } from '../../Models/form-builder/question-base.model';
 // import { TextAreaQuestion } from '../../Models/form-builder/question-textarea.model';
 // import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
 // import { CheckboxQuestion } from '../../Models/form-builder/question-checkbox.model';

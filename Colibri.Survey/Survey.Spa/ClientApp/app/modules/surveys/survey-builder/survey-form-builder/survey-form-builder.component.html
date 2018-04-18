@@ -1,6 +1,6 @@
 <div>
 
-  <div class="panel-body">
+  <!-- <div class="panel-body">
     <div class="panel panel-success">
       <div class="panel-heading">
         Sortable zone
@@ -11,28 +11,48 @@
         </ul>
       </div>
     </div>
-  </div>
+  </div> -->
 
 
 
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
-    <div *ngFor="let question of questions" class="form-row">
+    <div class="panel-body" dnd-sortable-container [dragEnabled]="true" (dragend)="onDragEnd1()" [dropZones]="questionSettings.allowquestion"
+      [sortableData]="questions">
+
+      <ul class="list-group">
+        <li *ngFor="let item of questions; let i = index" class="list-group-item" (dragend)="onDragEnd1()" dnd-sortable [sortableIndex]="i">{{item | json}}
+
+          <div class="panel-body" style="background-color: silver" dnd-droppable (dragend)="onDragEnd1()" (onDropSuccess)="addNewQuestion($event)"
+            [dropZones]="questionSettings.allowquestion">
+            <survey-form-question [question]="item" [form]="form"></survey-form-question>
+          </div>
+
+
+        </li>
+      </ul>
+    </div>
+    <div class="form-row">
+      <button type="submit" [disabled]="!form.valid">Save</button>
+    </div>
+
+
+    <!-- <div *ngFor="let question of questions" class="form-row">
       <survey-form-question [question]="question" [form]="form"></survey-form-question>
     </div>
 
     <div class="form-row">
       <button type="submit" [disabled]="!form.valid">Save</button>
-    </div>
+    </div> -->
   </form>
 
-  <div *ngIf="payLoad" class="form-row">
+  <!-- <div *ngIf="payLoad" class="form-row">
 
-    <!-- <strong>Saved the following values</strong>
-          <br>
-          <pre>{{payLoad | json}}</pre> -->
+    <strong>Saved the following values</strong>
+    <br>
+    <pre>{{payLoad | json}}</pre>
 
-  </div>
+  </div> -->
   <!-- <br>
       
         1. <button (click)="addNewQuestionEmail(true)">Add new texBox question( required true )</button>
