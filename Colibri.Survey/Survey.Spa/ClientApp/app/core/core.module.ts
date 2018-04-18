@@ -1,4 +1,6 @@
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { SidebarModule } from 'ng-sidebar';
+import { DndModule } from 'ng2-dnd';
 
 /* module */ import { SharedModule } from 'shared/shared.module';
 /* component */ import { NavbarComponent } from 'core/layout/navbar.component';
@@ -6,8 +8,6 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 /* component */ import { ForbiddenComponent } from 'core/forbidden/forbidden.component';
 /* component */ import { UnauthorizedComponent } from 'core/unauthorized/unauthorized.component';
 /* component */ import { LoginComponent } from 'core/login/login.component';
-import { SidebarModule } from 'ng-sidebar';
-import { DndModule } from 'ng2-dnd';
 declare let window: any;
 
 @NgModule({

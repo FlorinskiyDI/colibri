@@ -3,11 +3,11 @@ import { Component, Output, Input, EventEmitter } from '@angular/core';
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 
 @Component({
-    selector: 'dialog-group-member-add-cmp',
-    templateUrl: './dialog-group-member-add.component.html'
+    selector: 'dialog-group-member-detail-cmp',
+    templateUrl: './dialog-group-member-detail.component.html'
 })
 
-export class DialogGroupMemberAddComponent {
+export class DialogGroupMemberDetailComponent {
     dialogConfig: DialogDataModel<any> = new DialogDataModel();
     @Output() onChange = new EventEmitter<any>();
     @Output() onCancel = new EventEmitter<any>();

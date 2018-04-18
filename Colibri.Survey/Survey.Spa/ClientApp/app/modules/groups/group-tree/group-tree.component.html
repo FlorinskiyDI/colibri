@@ -2,17 +2,24 @@
     <div class="form-group form-group-sm form--group-xs">
         <div class="row">
             <div class="col-sm-12">
-                <input class="form-control" type="text" placeholder="search text">
+                <input class="form-control" type="text" (ngModelChange)="searchGroups($event)" [(ngModel)]="searchValue" placeholder="search text">
             </div>
         </div>
     </div>
     <div class="clbr--btn-inline">
-        <button class="btn btn-sm btn-default notification">
+        <button class="btn btn-sm btn-default notification" (click)="createGroup()">
             <i class="fa fa-file-o"></i>Create</button>
-        <button class="btn btn-sm btn-default notification" (click)="blockedPanel = !blockedPanel">
-            <i class="fa fa-remove"></i>Remove</button> {{blockedPanel}}
+        <button [attr.disabled]="!selectedGroup ? '' : null" class="btn btn-sm btn-default notification" (click)="removeGroup(selectedGroup.data)">
+            <i class="fa fa-remove"></i>Remove</button>
     </div>
-    <p-tree selectionMode="single" [value]="treeItems" [loading]="loading" (onNodeExpand)="loadNode($event)" [(selection)]="selectedFile">
+    <p-tree selectionMode="single" [value]="treeItems" [loading]="treeloading" (onNodeSelect)="selectGroup($event)" (onNodeExpand)="loadNode($event)" [(selection)]="selectedGroup">
     </p-tree>
 
 </div>
+
+<dialog-group-create-cmp
+    [config]="dialogGroupCreateConfig"
+    (onChange)="dialogGroupCreateOnChange($event)"
+    (onCancel)="dialogGroupCreateOnCancel($event)"
+    (onHide)="dialogGroupCreateOnHide($event)">
+</dialog-group-create-cmp>

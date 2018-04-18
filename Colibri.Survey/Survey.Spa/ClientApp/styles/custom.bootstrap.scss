@@ -36,4 +36,8 @@
 }
 /* .form-control */
 
-
+.form-group {
+    margin-bottom: 10px;
+    .valid-feedback { color: #dc3545; }
+}
+.form-horizontal .form-group-sm .control-label { font-weight: 400; }

@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
 
+/* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
+
 @Component({
     selector: 'group-member-grid-cmp',
     templateUrl: './group-member-grid.component.html'
 })
 export class GroupMemberGridComponent {
+
+
+    dialogGroupMemberAddConfig: DialogDataModel<any>;
 
     gridItems: any[] = [];
     gridCols: any[] = [];
@@ -27,9 +32,14 @@ export class GroupMemberGridComponent {
         ];
 
         this.drpdwnStatuses = [
-            { },
+            {},
             { label: 'status 1', value: 'data' },
             { label: 'status 2', value: 'data' },
         ];
     }
+
+    public dialogGroupMemberAddOpen() { this.dialogGroupMemberAddConfig = new DialogDataModel<any>(true); }
+    public dialogGroupMemberAddOnChange() { console.log('dialogGroupMemberAddOnChange'); }
+    public dialogGroupMemberAddCancel() { console.log('dialogGroupMemberAddCancel'); }
+    public dialogGroupMemberAddOnHide() { console.log('dialogGroupMemberAddOnHide'); }
 }

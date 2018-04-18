@@ -27,17 +27,17 @@
     </div>
 
     <div class="clbr--btn-inline">
-        <button class="btn btn-sm btn-default notification">
+        <button class="btn btn-sm btn-default notification" (click)="dialogGroupMemberAddOpen()">
             <i class="fa fa-plus"></i>Add member(s)</button>
-        <button class="btn btn-sm btn-default notification" [attr.disabled]="!selectedGroup ? '' : null">
+        <button class="btn btn-sm btn-default notification" [attr.disabled]="!selectedMember ? '' : null">
             <i class="fa fa-remove"></i>Unsubscribe</button>
-        <button class="btn btn-sm btn-default notification" [attr.disabled]="!selectedGroup ? '' : null">
-            <i class="fa fa-eye"></i>View</button>
+        <button class="btn btn-sm btn-default notification" [attr.disabled]="!selectedMember ? '' : null">
+            <i class="fa fa-info"></i>Details</button>
         <button style="float: right;" class="btn btn-sm btn-default notification" (click)="dtGroupMembers.exportCSV()">
             <i class="fa fa-file-excel-o"></i>Excel</button>
     </div>
 
-    <p-table [paginator]="true" [rows]="10" [columns]="gridCols" [value]="gridItems" [resizableColumns]="true" selectionMode="single" [(selection)]="selectedGroup">
+    <p-table [paginator]="true" [rows]="10" [columns]="gridCols" [value]="gridItems" [resizableColumns]="true" selectionMode="single" [(selection)]="selectedMember">
         <ng-template pTemplate="header" let-columns>
             <tr>
                 <th *ngFor="let col of gridCols" pResizableColumn>
@@ -55,3 +55,10 @@
     </p-table>
         
 </div>
+
+<dialog-group-member-add-cmp
+    [config]="dialogGroupMemberAddConfig"
+    (onChange)="dialogGroupMemberAddOnChange($event)"
+    (onCancel)="dialogGroupMemberAddOnCancel($event)"
+    (onHide)="dialogGroupMemberAddOnHide($event)">
+</dialog-group-member-add-cmp>
