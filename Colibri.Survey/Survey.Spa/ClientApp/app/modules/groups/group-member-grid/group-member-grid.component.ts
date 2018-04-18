@@ -8,7 +8,7 @@ export class GroupMemberGridComponent {
 
     gridItems: any[] = [];
     gridCols: any[] = [];
-    gridFilter: boolean = false;
+    gridFilter = false;
     drpdwnStatuses: any[] = [];
 
     constructor() {
@@ -30,6 +30,6 @@ export class GroupMemberGridComponent {
             { },
             { label: 'status 1', value: 'data' },
             { label: 'status 2', value: 'data' },
-        ]
+        ];
     }
 }

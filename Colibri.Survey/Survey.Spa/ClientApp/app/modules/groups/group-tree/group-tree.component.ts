@@ -11,7 +11,7 @@ import { TreeDragDropService } from 'primeng/components/common/api';
 export class GroupTreeComponent {
 
     treeItems: any[] = [];
-    loading: boolean = false;
+    loading = false;
 
     constructor(
     ) {
