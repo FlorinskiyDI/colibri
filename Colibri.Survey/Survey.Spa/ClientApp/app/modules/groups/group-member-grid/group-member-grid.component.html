@@ -22,22 +22,23 @@
                         </div>
                     </div>
                 </div>
-            </form>           
+            </form>
         </p-fieldset>
     </div>
 
     <div class="clbr--btn-inline">
         <button class="btn btn-sm btn-default notification" (click)="dialogGroupMemberAddOpen()">
             <i class="fa fa-plus"></i>Add member(s)</button>
-        <button class="btn btn-sm btn-default notification" [attr.disabled]="!selectedMember ? '' : null">
+        <button (click)="memberUnsubscribe(selectedMember.id)" class="btn btn-sm btn-default notification" [attr.disabled]="!selectedMember ? '' : null">
             <i class="fa fa-remove"></i>Unsubscribe</button>
-        <button class="btn btn-sm btn-default notification" [attr.disabled]="!selectedMember ? '' : null">
+        <button (click)="dialogGroupMemberDetailOpen(selectedMember.id)" class="btn btn-sm btn-default notification" [attr.disabled]="!selectedMember ? '' : null">
             <i class="fa fa-info"></i>Details</button>
         <button style="float: right;" class="btn btn-sm btn-default notification" (click)="dtGroupMembers.exportCSV()">
             <i class="fa fa-file-excel-o"></i>Excel</button>
     </div>
 
-    <p-table [paginator]="true" [rows]="10" [columns]="gridCols" [value]="gridItems" [resizableColumns]="true" selectionMode="single" [(selection)]="selectedMember">
+    <p-table [paginator]="true" [rows]="10" [columns]="gridCols" [value]="gridItems" [resizableColumns]="true" selectionMode="single"
+        [(selection)]="selectedMember">
         <ng-template pTemplate="header" let-columns>
             <tr>
                 <th *ngFor="let col of gridCols" pResizableColumn>
@@ -53,7 +54,7 @@
             </tr>
         </ng-template>
     </p-table>
-        
+
 </div>
 
 <dialog-group-member-add-cmp
@@ -62,3 +63,17 @@
     (onCancel)="dialogGroupMemberAddOnCancel($event)"
     (onHide)="dialogGroupMemberAddOnHide($event)">
 </dialog-group-member-add-cmp>
+
+<dialog-group-member-detail-cmp
+    [config]="dialogGroupMemberDetailConfig"    
+    (onHide)="dialogGroupMemberDetailOnHide($event)">
+</dialog-group-member-detail-cmp>
+
+<p-confirmDialog #cd header="Confirmation">
+    <p-footer>
+        <button class="btn btn-sm btn-default notification" (click)="cd.accept()">
+            <i class="fa fa-check"></i>Yes</button>
+        <button class="btn btn-sm btn-default notification" (click)="cd.reject()">
+            <i class="fa fa-remove"></i>No</button>
+    </p-footer>
+</p-confirmDialog>

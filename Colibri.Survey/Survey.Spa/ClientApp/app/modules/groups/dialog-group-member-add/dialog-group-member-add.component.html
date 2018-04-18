@@ -1,8 +1,15 @@
-<p-dialog header="Member add" minWidth="500" showEffect="fade"
-    [responsive]="true" [modal]="true"
-    (onHide)="dialogHide($event)"    
+<p-dialog header="Member add" minWidth="500" showEffect="fade" [responsive]="true" [modal]="true" (onHide)="dialogHide($event)"
     [(visible)]="dialogConfig.visible">
 
-    Content
-    
+    <form-group-member-add-cmp #ctrlFormGroupMemberAdd
+        [config]="formGroupMemberAddConfig"
+        (onChange)="formGroupMemberAddOnChange($event)">
+    </form-group-member-add-cmp>
+
+    <p-footer>
+        <button class="btn btn-sm btn-default notification" (click)="formSave()">
+            <i class="fa fa-check"></i>Save</button>
+        <button class="btn btn-sm btn-default notification" (click)="dialogCancel()">
+            <i class="fa fa-remove"></i>Cancel</button>
+    </p-footer>
 </p-dialog>

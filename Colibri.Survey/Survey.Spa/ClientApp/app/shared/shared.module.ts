@@ -41,7 +41,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 /* primeng */ import { TreeModule } from 'primeng/tree';
 /* primeng */ import { BlockUIModule } from 'primeng/blockui';
 /* primeng */ import { PanelModule } from 'primeng/panel';
-/* primeng */  import { DragDropModule } from 'primeng/dragdrop';
+/* primeng */ import { DragDropModule } from 'primeng/dragdrop';
+/* primeng */ import { ChipsModule } from 'primeng/chips';
 
 /* material */ import { MatTooltipModule } from '@angular/material/tooltip';
 /* material */import { MatIconModule } from '@angular/material/icon';
@@ -71,7 +72,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         TabViewModule, TabMenuModule, ConfirmDialogModule, AccordionModule, InputTextareaModule, InputSwitchModule, CheckboxModule, CalendarModule,
         FileUploadModule, DataTableModule, DialogModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, OverlayPanelModule, ButtonModule,
         ScheduleModule, TooltipModule, ChartModule, ColorPickerModule, TooltipModule, ListboxModule, RadioButtonModule, TableModule, FieldsetModule,
-        TreeTableModule, TreeModule, BlockUIModule, PanelModule, DragDropModule,
+        TreeTableModule, TreeModule, BlockUIModule, PanelModule, DragDropModule, ChipsModule,
         // ngx-bootstrap
         TabsModule.forRoot(), BsDropdownModule.forRoot(),
         // material
@@ -92,7 +93,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         TabViewModule, TabMenuModule, ConfirmDialogModule, AccordionModule, InputTextareaModule, InputSwitchModule, CheckboxModule, CalendarModule,
         FileUploadModule, DataTableModule, DialogModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, OverlayPanelModule, ButtonModule,
         ScheduleModule, TooltipModule, ChartModule, ColorPickerModule, TooltipModule, ListboxModule, RadioButtonModule, TableModule, FieldsetModule,
-        TreeTableModule, TreeModule, BlockUIModule, PanelModule, DragDropModule,
+        TreeTableModule, TreeModule, BlockUIModule, PanelModule, DragDropModule, ChipsModule,
         // ngx-bootstrap
         TabsModule, BsDropdownModule,
         // material

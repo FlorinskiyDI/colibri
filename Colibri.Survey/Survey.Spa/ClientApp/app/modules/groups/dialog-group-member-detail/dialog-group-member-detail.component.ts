@@ -9,8 +9,6 @@ import { Component, Output, Input, EventEmitter } from '@angular/core';
 
 export class DialogGroupMemberDetailComponent {
     dialogConfig: DialogDataModel<any> = new DialogDataModel();
-    @Output() onChange = new EventEmitter<any>();
-    @Output() onCancel = new EventEmitter<any>();
     @Output() onHide = new EventEmitter<any>();
     @Input()
     get config() { return this.dialogConfig; }
@@ -25,20 +23,10 @@ export class DialogGroupMemberDetailComponent {
 
     ngOnInit() { }
     ngOnDestroy() {
-        this.onCancel.unsubscribe();
-        this.onChange.unsubscribe();
         this.onHide.unsubscribe();
     }
 
-    // #region Dialog action handling
-    public dialogCancel() {
-        this.dialogConfig.visible = false;
-        this.onCancel.emit();
-    }
-    public dialogChange(data: any | null = null) {
-        this.dialogConfig.visible = false;
-        this.onChange.emit(data);
-    }
+    // #region Dialog action handling    
     public dialogHide() {
         this.onHide.emit();
         this._cmpClear();

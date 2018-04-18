@@ -2,7 +2,7 @@ import { Component, Output, Input, EventEmitter, ViewChild } from '@angular/core
 
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 /* component-config */ import { FormGroupCreateConfig } from './form-group-create/form-group-create.component';
-/* component-config */ import { FormGroupCreateComponent } from './form-group-create/form-group-create.component';
+/* component */ import { FormGroupCreateComponent } from './form-group-create/form-group-create.component';
 
 @Component({
     selector: 'dialog-group-create-cmp',
@@ -25,6 +25,7 @@ export class DialogGroupCreateComponent {
 
     @ViewChild('ctrlFormGroupCreate') ctrlFormGroupCreate: FormGroupCreateComponent;
     formGroupConfig: FormGroupCreateConfig;
+    blockedPanel: boolean = false;
 
     constructor() { }
 
@@ -44,7 +45,6 @@ export class DialogGroupCreateComponent {
 
     // #region Dialog action handling
     public dialogCancel() {
-        this.ctrlFormGroupCreate.formReset();
         this.dialogConfig.visible = false;
         this.onCancel.emit();
     }
@@ -53,6 +53,8 @@ export class DialogGroupCreateComponent {
         this.onChange.emit(data);
     }
     public dialogHide() {
+        this.blockedPanel = false;
+        this.ctrlFormGroupCreate.formReset();
         this.onHide.emit();
         this._cmpClear();
     }
@@ -60,14 +62,16 @@ export class DialogGroupCreateComponent {
 
     private _cmpInitialize(data: any = null) {
         const that = this;
-        // this.formGroupConfig = new FormGroupCreateConfig(data);
         this._stub1().then(function (value: any) {
             that.formGroupConfig = new FormGroupCreateConfig(value);
+            that.blockedPanel = false;
         });
+
     }
     private _cmpClear() { }
 
     _stub1() {
+        this.blockedPanel = true
         return new Promise(function (resolve, reject) {
             window.setTimeout(function () {
                 const data = [
@@ -75,7 +79,7 @@ export class DialogGroupCreateComponent {
                     { name: 'Group 2', id: '222' },
                 ];
                 resolve(data);
-            }, 1000);
+            }, 1500);
         });
     }
 }

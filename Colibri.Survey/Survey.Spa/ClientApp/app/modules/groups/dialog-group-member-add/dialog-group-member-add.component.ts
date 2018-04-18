@@ -1,6 +1,8 @@
-import { Component, Output, Input, EventEmitter } from '@angular/core';
+import { Component, Output, Input, EventEmitter, ViewChild } from '@angular/core';
 
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
+/* component */ import { FormGroupMemberAddComponent } from './form-group-member-add/form-group-member-add.component';
+/* component-config */ import { FormGroupMemberAddConfig } from './form-group-member-add/form-group-member-add.component';
 
 @Component({
     selector: 'dialog-group-member-add-cmp',
@@ -21,6 +23,8 @@ export class DialogGroupMemberAddComponent {
         }
     }
 
+    @ViewChild('ctrlFormGroupMemberAdd') ctrlFormGroupMemberAdd: FormGroupMemberAddComponent;
+    formGroupMemberAddConfig: FormGroupMemberAddConfig;
     constructor() { }
 
     ngOnInit() { }
@@ -28,6 +32,13 @@ export class DialogGroupMemberAddComponent {
         this.onCancel.unsubscribe();
         this.onChange.unsubscribe();
         this.onHide.unsubscribe();
+    }
+
+    public formGroupMemberAddOnChange(data: any) {
+        this.dialogChange(data);
+    }
+    public formSave() {
+        this.ctrlFormGroupMemberAdd.formSubmit();
     }
 
     // #region Dialog action handling
@@ -40,6 +51,7 @@ export class DialogGroupMemberAddComponent {
         this.onChange.emit(data);
     }
     public dialogHide() {
+        this.ctrlFormGroupMemberAdd.formReset();
         this.onHide.emit();
         this._cmpClear();
     }
@@ -47,7 +59,7 @@ export class DialogGroupMemberAddComponent {
 
     private _cmpInitialize(data: any) {
         if (data) {
-            console.log(data);
+            this.formGroupMemberAddConfig = new FormGroupMemberAddConfig(data);
         }
     }
     private _cmpClear() { }

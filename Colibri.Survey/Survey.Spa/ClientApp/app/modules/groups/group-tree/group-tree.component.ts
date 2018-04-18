@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { TreeDragDropService } from 'primeng/components/common/api';
+import { ConfirmationService } from 'primeng/api';
 
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 
@@ -8,7 +9,7 @@ import { TreeDragDropService } from 'primeng/components/common/api';
     templateUrl: './group-tree.component.html',
     styleUrls: ['./group-tree.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    providers: [TreeDragDropService]
+    providers: [TreeDragDropService, ConfirmationService]
 })
 export class GroupTreeComponent {
 
@@ -17,7 +18,9 @@ export class GroupTreeComponent {
     treeItems: any[] = [];
     treeloading = false;
 
-    constructor() {
+    constructor(
+        private confirmationService: ConfirmationService
+    ) {
         const that = this;
         this._stub1().then(function (data: any) {
             that.treeItems = data;
@@ -26,7 +29,20 @@ export class GroupTreeComponent {
     }
 
     public createGroup() { this.dialogGroupCreateOpen(); }
-    public removeGroup(data: any) { console.log(`removeGroup - ${data.id}`); }
+    public removeGroup(data: any) {
+        console.log(`removeGroup - ${data.id}`);
+        const that = this;
+        this.confirmationService.confirm({
+            message: 'Are you sure that you want to remove this group?',
+            accept: () => {
+                that.selectedGroup = null;
+                this._stub1().then(function (value: any) {
+                    that.treeItems = value;
+                    that.treeloading = false;
+                });
+            }
+        });
+    }
     public selectGroup(data: any) { console.log(`selectGroup - ${data.node && data.node.data && data.node.data.id}`); }
     public searchGroups(data: any) {
         const that = this;
@@ -70,7 +86,7 @@ export class GroupTreeComponent {
                     { 'label': 'Test log name for node 3', 'data': { 'id': 3 }, 'leaf': false }
                 ];
                 resolve(data);
-            }, 1000);
+            }, 1500);
         });
     }
 
@@ -83,7 +99,7 @@ export class GroupTreeComponent {
                     { 'label': 'Test log name for node 2', 'data': { 'id': 2 } },
                 ];
                 resolve(data);
-            }, 1000);
+            }, 1500);
         });
     }
 
