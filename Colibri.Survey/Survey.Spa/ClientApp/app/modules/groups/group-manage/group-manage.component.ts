@@ -2,12 +2,12 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 
 @Component({
-    selector: 'group-grid-cmp',
-    templateUrl: './group-grid.component.html',
-    styleUrls: ['./group-grid.component.scss'],
+    selector: 'group-manage-cmp',
+    templateUrl: './group-manage.component.html',
+    styleUrls: ['./group-manage.component.scss'],
     encapsulation: ViewEncapsulation.None,
 })
-export class GroupGridComponent {
+export class GroupManageComponent {
 
 
     groups: TreeNode[];
