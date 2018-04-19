@@ -1,6 +1,6 @@
 import { Component, Output, Input, EventEmitter, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { BlockableUI } from 'primeng/primeng'
+import { BlockableUI } from 'primeng/primeng';
 
 @Component({
     selector: 'form-group-create-cmp',
@@ -65,7 +65,7 @@ export class FormGroupCreateComponent implements BlockableUI {
         this.formBuild();
     }
 
-    getBlockableElement(): HTMLElement { 
+    getBlockableElement(): HTMLElement {
         return this.el.nativeElement.children[0];
     }
 }

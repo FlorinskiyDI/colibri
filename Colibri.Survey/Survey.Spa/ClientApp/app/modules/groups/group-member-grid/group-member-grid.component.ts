@@ -6,12 +6,12 @@ import { ConfirmationService } from 'primeng/api';
 @Component({
     selector: 'group-member-grid-cmp',
     templateUrl: './group-member-grid.component.html',
-    providers: [ ConfirmationService ]
+    providers: [ConfirmationService]
 })
 export class GroupMemberGridComponent {
 
 
-    dialogGroupMemberAddConfig: DialogDataModel<any>;    
+    dialogGroupMemberAddConfig: DialogDataModel<any>;
     dialogGroupMemberDetailConfig: DialogDataModel<any>;
     selectedMember: any;
 
@@ -48,7 +48,7 @@ export class GroupMemberGridComponent {
         this.confirmationService.confirm({
             message: 'Are you sure that you want to unsubscribe this member?',
             accept: () => {
-                this.selectedMember = null;               
+                this.selectedMember = null;
             }
         });
     }

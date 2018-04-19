@@ -1,4 +1,4 @@
-import { Component, Output, Input, EventEmitter, ElementRef } from '@angular/core';
+import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -16,16 +16,14 @@ export class FormGroupMemberAddComponent {
             this.configData = data;
             this.formIsValid = true;
             this._cmpInitialize(data);
-            
+
         }
     }
 
     formGroup: FormGroup;
     formIsValid = true;
 
-    constructor(
-        private el: ElementRef
-    ) {
+    constructor( ) {
         this.formBuild();
     }
 

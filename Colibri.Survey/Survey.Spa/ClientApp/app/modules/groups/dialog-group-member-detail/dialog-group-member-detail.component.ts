@@ -26,7 +26,7 @@ export class DialogGroupMemberDetailComponent {
         this.onHide.unsubscribe();
     }
 
-    // #region Dialog action handling    
+    // #region Dialog action handling
     public dialogHide() {
         this.onHide.emit();
         this._cmpClear();

@@ -25,7 +25,7 @@ export class DialogGroupCreateComponent {
 
     @ViewChild('ctrlFormGroupCreate') ctrlFormGroupCreate: FormGroupCreateComponent;
     formGroupConfig: FormGroupCreateConfig;
-    blockedPanel: boolean = false;
+    blockedPanel = false;
 
     constructor() { }
 
@@ -71,7 +71,7 @@ export class DialogGroupCreateComponent {
     private _cmpClear() { }
 
     _stub1() {
-        this.blockedPanel = true
+        this.blockedPanel = true;
         return new Promise(function (resolve, reject) {
             window.setTimeout(function () {
                 const data = [
