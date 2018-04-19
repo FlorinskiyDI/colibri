@@ -19,7 +19,7 @@ export class GUID {
             const r = (d + Math.random() * 16) % 16 | 0;
             d = Math.floor(d / 16);
             // tslint:disable-next-line:no-bitwise
-            const val = (c === 'x' ? r : ( r & 0x3 | 0x8 )).toString(16);
+            const val = (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
             return val;
         });
     }

@@ -28,7 +28,7 @@
 
 
             <div *ngSwitchCase="'radio'">
-                {{question.options | json}}
+                <!-- {{question.options | json}} -->
                 <div class="form-check" *ngFor="let opt of question.options" [formGroupName]="question.key">
                     <input [formControlName]="'answer'" name="answer" type="radio" [value]="opt.key">
                     <label class="form-check-label">
@@ -53,22 +53,22 @@
             </div>
 
 
-            <div *ngSwitchCase="'grid-radio'" [formGroupName]="question.key">
+            <div *ngSwitchCase="'gridRadio'" [formGroupName]="question.key">
 
                 <table>
 
                     <!-- <tr *ngFor="let item of myForm.controls.scheduleDetail.controls; let i=index" [formGroupName]="i"> -->
                     <tr>
                         <td>////</td>
-                        <td *ngFor="let item of question.grid.cols let i=index">
-                            {{item.label}}
+                        <td *ngFor="let itemColLabel of question.grid.cols let iItemColLabel=index">
+                            {{itemColLabel.label}}
                         </td>
                     </tr>
-                    <tr *ngFor="let item of question.grid.rows let i=index">
-                        <td>{{item.label}}</td>
-                        <td *ngFor="let item2 of question.grid.cols let i=index">
-                            {{item2.label}}
-                            <input name="{{item2.label}}" type='radio'>
+                    <tr *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index">
+                        <td>{{itemRowLabel.label}}</td>
+                        <td *ngFor="let itemCol of question.grid.cols let iItemCol=index">
+                            <input name="{{itemRowLabel.id}}" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.key, itemRowLabel.label, $event.target.checked)"
+                                type='radio'>
                         </td>
 
                     </tr>

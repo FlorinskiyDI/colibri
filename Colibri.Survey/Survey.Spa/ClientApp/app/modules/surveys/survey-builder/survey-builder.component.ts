@@ -99,44 +99,7 @@ export class SurveyBuilderComponent {
         return dropZoneList;
     }
 
-    addNewQuestion($event: any) {
-        debugger
-        switch ($event.dragData.name) {
-            case ControTypes.textbox: {
-                this.newquestion = this.questionControlService.addTextboxControl();
-                console.log(ControTypes.textbox);
-                break;
-            }
 
-            case ControTypes.textarea: {
-                console.log(ControTypes.textarea);
-                break;
-            }
-
-            case ControTypes.radio: {
-                console.log(ControTypes.radio);
-                break;
-            }
-
-            case ControTypes.checkbox: {
-                console.log(ControTypes.checkbox);
-                break;
-            }
-            case ControTypes.checkbox: {
-                console.log(ControTypes.dropdown);
-                break;
-            }
-            case ControTypes.checkbox: {
-                console.log(ControTypes.gridRadio);
-                break;
-            }
-
-            default: {
-                console.log('Invalid choice');
-                break;
-            }
-        }
-    }
 
 
 

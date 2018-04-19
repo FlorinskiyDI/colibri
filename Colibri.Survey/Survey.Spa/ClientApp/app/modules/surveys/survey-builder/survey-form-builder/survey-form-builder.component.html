@@ -21,9 +21,9 @@
       [sortableData]="questions">
 
       <ul class="list-group">
-        <li *ngFor="let item of questions; let i = index" class="list-group-item" (dragend)="onDragEnd1()" dnd-sortable [sortableIndex]="i">{{item | json}}
-
-          <div class="panel-body" style="background-color: silver" dnd-droppable (dragend)="onDragEnd1()" (onDropSuccess)="addNewQuestion($event)"
+        <li *ngFor="let item of questions; let i = index" class="list-group-item" (dragend)="onDragEnd1()" dnd-sortable [sortableIndex]="i">
+          <!-- {{item | json}} -->
+          <div class="panel-body" style="background-color: silver" dnd-droppable (dragend)="onDragEnd1()" (onDropSuccess)="addNewQuestion($event, i)"
             [dropZones]="questionSettings.allowquestion">
             <survey-form-question [question]="item" [form]="form"></survey-form-question>
           </div>

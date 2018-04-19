@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { ControTypes } from '../../../../shared/constants/control-types.constant';
 
 import { QuestionControlService } from '../../../../shared/services/question-control.service';
-import { AvailableQuestions } from '../../../../shared/models/form-builder/form-control/available-question.model';
+// import { AvailableQuestions } from '../../../../shared/models/form-builder/form-control/available-question.model';
 // import { DropdownQuestion } from '../../../../shared/Models/form-builder/question-dropdown.model';
 import { QuestionBase } from '../../../../shared/Models/form-builder/question-base.model';
 // import { TextboxQuestion } from '../../../../shared/Models/form-builder/question-textbox.model';
@@ -38,9 +38,7 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         this.form = this.qcs.toFormGroup(this.questions);
-        console.log('101010101010101010101010101010101010101010101010101010101010101010101');
-        console.log(this.questionSettings);
-        console.log('101010101010101010101010101010101010101010101010101010101010101010101');
+
     }
 
 
@@ -51,26 +49,37 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
     }
 
 
-    addNewQuestion($event: any) {
-        const index = this.questions.find((x: any) => !!x.name  );
-        if(index as AvailableQuestions)
-        this.questions.removeAt(index);
-        // this.questions.findIndex
+    addNewQuestion($event: any, index: number) {
 
-        debugger
+        // organisere question orden
+        this.questions.forEach(x => {
+            const indexOf = this.questions.indexOf(x);
+            x.order = indexOf;
+        });
+
+        this.questions.splice(index, 1); // remove AvailableQuestions object
+
+
+        console.log('101010101010101010101010101010101010101010101010101010101010101010101');
+        console.log($event.dragData);
+        console.log(index);
+        console.log('101010101010101010101010101010101010101010101010101010101010101010101');
+
         switch ($event.dragData.name) {
             case ControTypes.textbox: {
-                this.newquestion = this.questionControlService.addTextboxControl();
+                this.newquestion = this.questionControlService.addTextboxControl(index);
                 console.log(ControTypes.textbox);
                 break;
             }
 
             case ControTypes.textarea: {
+                this.newquestion = this.questionControlService.addTextareaControl(index);
                 console.log(ControTypes.textarea);
                 break;
             }
 
             case ControTypes.radio: {
+                this.newquestion = this.questionControlService.addRadioButtonControl(index);
                 console.log(ControTypes.radio);
                 break;
             }
@@ -79,11 +88,12 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
                 console.log(ControTypes.checkbox);
                 break;
             }
-            case ControTypes.checkbox: {
+            case ControTypes.dropdown: {
+                this.newquestion = this.questionControlService.addDropdownControl(index);
                 console.log(ControTypes.dropdown);
                 break;
             }
-            case ControTypes.checkbox: {
+            case ControTypes.gridRadio: {
                 console.log(ControTypes.gridRadio);
                 break;
             }
@@ -99,6 +109,9 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
         }));
         this.count++;
         this.questions.push(this.newquestion);
+        this.questions.sort((a, b) => a.order - b.order);
+
+
     }
 
     onDragEnd1() {
