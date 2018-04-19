@@ -49,8 +49,20 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
     }
 
 
-    addNewQuestion($event: any, index: number) {
+    changeQuestionorders(item: any, index: number) {
+        console.log('changeQuestionorderschangeQuestionorderschangeQuestionorderschangeQuestionorders');
+        console.log(item);
+        console.log(index);
+        console.log('changeQuestionorderschangeQuestionorderschangeQuestionorderschangeQuestionorders');
+        this.questions.forEach(x => {
+            const indexOf = this.questions.indexOf(x);
+            x.order = indexOf;
+        });
+    }
 
+
+    addNewQuestion($event: any, index: number) {
+        // debugger
         // organisere question orden
         this.questions.forEach(x => {
             const indexOf = this.questions.indexOf(x);
