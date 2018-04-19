@@ -104,8 +104,10 @@ export class SurveyBuilderComponent {
 
 
 
-    onDragEnd() {
-        console.log('onDragEndonDragEndonDragEndonDragEndonDragEndonDragEndonDragEnd');
+    onDragEnd8(event: any) {
+        console.log('88888888888888888888899999999999999999999999');
+        console.log(event);
+        console.log('88888888888888888888899999999999999999999999');
     }
 
 
