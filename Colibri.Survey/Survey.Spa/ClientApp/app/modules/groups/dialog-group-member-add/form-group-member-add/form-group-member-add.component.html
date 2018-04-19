@@ -6,9 +6,12 @@
             <div class="form-group form-group-sm form--group-xs">
                 <label class="col-md-2 control-label" for="name">Members</label>
                 <div class="col-md-9">
-                    <p-chips formControlName="members"></p-chips>                    
+                    <p-chips formControlName="members" (onAdd)="chipsOnAdd($event)" (onRemove)="chipsOnRemove($event)"></p-chips>
                     <span class="valid-feedback" *ngIf="formGroup.get('members').hasError('required') && formGroup.get('members').touched || formGroup.get('members').hasError('required') && !formIsValid">
                         Value is required
+                    </span>
+                    <span class="valid-feedback" *ngIf="!formGroup.get('members').hasError('required') && !formIsValidEmail">
+                        Email address you entered is not valid 
                     </span>
                 </div>
             </div>

@@ -1,6 +1,9 @@
 import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+
+import { CHECK_EMAIL } from 'shared/helpers/check-email.helper';
+
 @Component({
     selector: 'form-group-member-add-cmp',
     templateUrl: './form-group-member-add.component.html'
@@ -22,8 +25,9 @@ export class FormGroupMemberAddComponent {
 
     formGroup: FormGroup;
     formIsValid = true;
+    formIsValidEmail = true;
 
-    constructor( ) {
+    constructor() {
         this.formBuild();
     }
 
@@ -32,12 +36,25 @@ export class FormGroupMemberAddComponent {
         this.onChange.unsubscribe();
     }
 
+    chipsOnAdd(event: any) {
+        this.formIsValidEmail = true;
+        if (!CHECK_EMAIL.validateEmail(event.value)) {
+            this.formIsValidEmail = false;
+            const index = this.formGroup.controls.members.value.findIndex((x: any) => x === event.value);
+            this.formGroup.controls.members.value.splice(index, 1);
+            console.log(this.formGroup.controls.members.value);
+        }
+    }
+    chipsOnRemove(event: any) {
+        this.formIsValidEmail = true;
+    }
+
+
     private formBuild(data: any = {}): void {
         this.formGroup = new FormGroup({
             'members': new FormControl(data.name, [Validators.required])
         });
     }
-
     public formSubmit() {
         console.log('formSubmit');
         this.onChange.emit();
@@ -53,6 +70,7 @@ export class FormGroupMemberAddComponent {
         }
     }
     private _cmpClear() {
+        this.formIsValidEmail = true;
         this.formIsValid = true;
         this.formBuild();
     }
