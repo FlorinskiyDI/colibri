@@ -1,12 +1,16 @@
 import { Component, Output, Input, EventEmitter, ViewChild } from '@angular/core';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 /* component-config */ import { FormGroupCreateConfig } from './form-group-create/form-group-create.component';
 /* component */ import { FormGroupCreateComponent } from './form-group-create/form-group-create.component';
 
+
+
 @Component({
     selector: 'dialog-group-create-cmp',
-    templateUrl: './dialog-group-create.component.html'
+    templateUrl: './dialog-group-create.component.html',
+    providers: [ MessageService ]
 })
 
 export class DialogGroupCreateComponent {
@@ -27,7 +31,9 @@ export class DialogGroupCreateComponent {
     formGroupConfig: FormGroupCreateConfig;
     blockedPanel = false;
 
-    constructor() { }
+    constructor(
+        private messageService: MessageService
+    ) { }
 
     ngOnInit() { }
     ngOnDestroy() {
@@ -49,6 +55,7 @@ export class DialogGroupCreateComponent {
         this.onCancel.emit();
     }
     public dialogChange(data: any | null = null) {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was created successfully'  });
         this.dialogConfig.visible = false;
         this.onChange.emit(data);
     }

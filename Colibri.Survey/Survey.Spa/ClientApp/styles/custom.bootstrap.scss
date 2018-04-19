@@ -14,9 +14,11 @@
 /* !End button */
 
 /* form-group */
-
 .form--group-xs {
     &.form-group-sm .form-control { height: 26px; }
+}
+.form--verical {
+    label { font-weight: 500; font-size: 11px; color: #666666;}
 }
 /* !End form-group */
 
@@ -41,3 +43,5 @@
     .valid-feedback { color: #dc3545; }
 }
 .form-horizontal .form-group-sm .control-label { font-weight: 400; }
+
+.navbar-fixed-bottom, .navbar-fixed-top { z-index: 1000 }

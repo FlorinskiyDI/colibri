@@ -1,15 +1,22 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { TreeDragDropService } from 'primeng/components/common/api';
 import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
+/* service */ import { GroupManageTransferService } from '../group-manage/group-manage.transfer.service';
+
 
 @Component({
     selector: 'group-tree-cmp',
     templateUrl: './group-tree.component.html',
     styleUrls: ['./group-tree.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    providers: [TreeDragDropService, ConfirmationService]
+    providers: [
+        TreeDragDropService,
+        ConfirmationService,
+        MessageService
+    ]
 })
 export class GroupTreeComponent {
 
@@ -19,12 +26,16 @@ export class GroupTreeComponent {
     treeloading = false;
 
     constructor(
+        private messageService: MessageService,
+        private groupManageTransferService: GroupManageTransferService,
         private confirmationService: ConfirmationService
     ) {
         const that = this;
         this._stub1().then(function (data: any) {
             that.treeItems = data;
             that.treeloading = false;
+            that.selectedGroup = data[0];
+            that.groupManageTransferService.sendSelectedGroupId(data[0].data.id);
         });
     }
 
@@ -39,11 +50,17 @@ export class GroupTreeComponent {
                 this._stub1().then(function (value: any) {
                     that.treeItems = value;
                     that.treeloading = false;
+                    that.selectedGroup = value[0];
                 });
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was removed successfully' });
             }
         });
     }
-    public selectGroup(data: any) { console.log(`selectGroup - ${data.node && data.node.data && data.node.data.id}`); }
+    public selectGroup(data: any) {
+        if (data.node && data.node.data && data.node.data.id) {
+            this.groupManageTransferService.sendSelectedGroupId(data.node.data.id);
+        }
+    }
     public searchGroups(data: any) {
         const that = this;
         if (data === '') {
@@ -51,12 +68,14 @@ export class GroupTreeComponent {
                 that.treeItems = value;
                 that.selectedGroup = null;
                 that.treeloading = false;
+                that.selectedGroup = value[0];
             });
         } else {
             this._stub2().then(function (value: any) {
                 that.treeItems = value;
                 that.selectedGroup = null;
                 that.treeloading = false;
+                that.selectedGroup = value[0];
             });
         }
     }

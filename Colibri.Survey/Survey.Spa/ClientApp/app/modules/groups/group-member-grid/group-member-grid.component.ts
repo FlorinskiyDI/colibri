@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 
 @Component({
     selector: 'group-member-grid-cmp',
     templateUrl: './group-member-grid.component.html',
-    providers: [ConfirmationService]
+    providers: [ ConfirmationService, MessageService ]
 })
 export class GroupMemberGridComponent {
 
@@ -21,6 +22,7 @@ export class GroupMemberGridComponent {
     drpdwnStatuses: any[] = [];
 
     constructor(
+        private messageService: MessageService,
         private confirmationService: ConfirmationService
     ) {
         this.gridItems = [
@@ -49,12 +51,15 @@ export class GroupMemberGridComponent {
             message: 'Are you sure that you want to unsubscribe this member?',
             accept: () => {
                 this.selectedMember = null;
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Member was unsubscribed successfully'  });
             }
         });
     }
 
     public dialogGroupMemberAddOpen() { this.dialogGroupMemberAddConfig = new DialogDataModel<any>(true); }
-    public dialogGroupMemberAddOnChange() { console.log('dialogGroupMemberAddOnChange'); }
+    public dialogGroupMemberAddOnChange() {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Member was added successfully'  });
+     }
     public dialogGroupMemberAddOnCancel() { console.log('dialogGroupMemberAddOnCancel'); }
     public dialogGroupMemberAddOnHide() { console.log('dialogGroupMemberAddOnHide'); }
 

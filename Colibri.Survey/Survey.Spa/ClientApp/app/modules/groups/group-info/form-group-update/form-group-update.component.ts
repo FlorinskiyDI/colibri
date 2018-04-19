@@ -2,13 +2,12 @@ import { Component, Output, Input, EventEmitter, ElementRef } from '@angular/cor
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BlockableUI } from 'primeng/primeng';
 
-
 @Component({
-    selector: 'form-group-create-cmp',
-    templateUrl: './form-group-create.component.html'
+    selector: 'form-group-update-cmp',
+    templateUrl: './form-group-update.component.html'
 })
 
-export class FormGroupCreateComponent implements BlockableUI {
+export class FormGroupUpdateComponent implements BlockableUI {
     configData: any;
     @Output() onChange = new EventEmitter<any>();
     @Input()
@@ -49,11 +48,11 @@ export class FormGroupCreateComponent implements BlockableUI {
         this.onChange.emit();
         this._cmpClear();
     }
-    public formReset() {
+    public formCancel() {
         this._cmpClear();
     }
 
-    private _cmpInitialize(data: FormGroupCreateConfig) {
+    private _cmpInitialize(data: FormGroupUpdateConfig) {
         if (data) {
             const groups = data.groups.map((item: any) => { return { label: item.name, value: item.id }; });
             this.drpdwnGroups = [{ label: 'None' }];
@@ -71,7 +70,7 @@ export class FormGroupCreateComponent implements BlockableUI {
     }
 }
 
-export class FormGroupCreateConfig {
+export class FormGroupUpdateConfig {
     private _groups: any[];
     get groups(): any { return this._groups; }
 

@@ -37,7 +37,7 @@
             <i class="fa fa-file-excel-o"></i>Excel</button>
     </div>
 
-    <p-table [paginator]="true" [rows]="10" [columns]="gridCols" [value]="gridItems" [resizableColumns]="true" selectionMode="single"
+    <p-table #dtGroupMembers [paginator]="true" [rows]="10" [columns]="gridCols" [value]="gridItems" [resizableColumns]="true" selectionMode="single"
         [(selection)]="selectedMember">
         <ng-template pTemplate="header" let-columns>
             <tr>
@@ -77,3 +77,6 @@
             <i class="fa fa-remove"></i>No</button>
     </p-footer>
 </p-confirmDialog>
+
+<p-growl styleClass="clbr--growl-icon-none" [life]="5000">
+</p-growl>

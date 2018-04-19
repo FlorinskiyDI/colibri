@@ -11,6 +11,10 @@ import { NgModule } from '@angular/core';
 /* component */ import { DialogGroupMemberDetailComponent } from './dialog-group-member-detail/dialog-group-member-detail.component';
 /* component */ import { FormGroupMemberAddComponent } from './dialog-group-member-add/form-group-member-add/form-group-member-add.component';
 /* component */ import { FormGroupCreateComponent } from './dialog-group-create/form-group-create/form-group-create.component';
+/* component */ import { GroupInfoComponent } from './group-info/group-info.component';
+/* component */ import { FormGroupUpdateComponent } from './group-info/form-group-update/form-group-update.component';
+/* service */ import { GroupManageTransferService } from './group-manage/group-manage.transfer.service';
+
 
 
 @NgModule({
@@ -27,8 +31,12 @@ import { NgModule } from '@angular/core';
         DialogGroupMemberAddComponent,
         DialogGroupMemberDetailComponent,
         FormGroupCreateComponent,
-        FormGroupMemberAddComponent
+        FormGroupMemberAddComponent,
+        GroupInfoComponent,
+        FormGroupUpdateComponent
     ],
-    providers: [ ]
+    providers: [
+        GroupManageTransferService
+    ]
 })
 export class GroupModule { }
