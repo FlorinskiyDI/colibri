@@ -23,11 +23,11 @@ export class SurveyFormQuestionComponent {
     constructor(private fb: FormBuilder) { }
 
 
-    onChange(key: any, label: string, isChecked: boolean) {
-
-        const answer: any = 'answer';
+    onChange(key: string, label: string, isChecked: boolean) {
+        debugger
+        // const answer: any = 'answer';
         const checkBoxArray = <FormArray>this.form.controls[key];
-        const checkBoxControl: any = checkBoxArray.controls[answer];
+        const checkBoxControl = checkBoxArray.controls['answer'];
         console.log(checkBoxArray);
         if (isChecked) {
             checkBoxControl.push(new FormControl(label));
@@ -37,6 +37,21 @@ export class SurveyFormQuestionComponent {
         }
     }
 
+
+    // onChange(key: string, label: string, isChecked: boolean) {
+    //     debugger
+    //     console.log(key);
+    //     const checkBoxArray = <FormArray>this.form.controls[key];
+    //     let checkBoxControl = checkBoxArray.controls['answer'];
+    //     checkBoxControl = this.fb.array([]);
+    //     console.log(checkBoxArray);
+    //     if (isChecked) {
+    //       checkBoxControl.push(new FormControl(label));
+    //     } else {
+    //       const index = checkBoxControl.controls.findIndex(x => x.value === label)
+    //       checkBoxControl.removeAt(index);
+    //     }
+    //   }
 
     onChangeGridRadio(itemRowLabel: any, itemCol: any, key: string, label: string, isChecked: boolean) {
         const radioArray = <FormArray>this.form.controls[key];

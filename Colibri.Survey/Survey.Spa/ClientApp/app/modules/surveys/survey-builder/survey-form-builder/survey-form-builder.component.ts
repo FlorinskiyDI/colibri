@@ -17,7 +17,6 @@ import { QuestionBase } from '../../../../shared/Models/form-builder/question-ba
     providers: [QuestionControlService]
 })
 export class SurveyFormBuilderComponent implements OnInit, OnChanges {
-    count = 0;
     @Input() questionSettings: any;
     @Input() questions: QuestionBase<any>[] = [];
     @Input() question: QuestionBase<any>;
@@ -38,7 +37,7 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         this.form = this.qcs.toFormGroup(this.questions);
-
+        // debugger
     }
 
 
@@ -49,11 +48,7 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
     }
 
 
-    changeQuestionorders(item: any, index: number) {
-        console.log('changeQuestionorderschangeQuestionorderschangeQuestionorderschangeQuestionorders');
-        console.log(item);
-        console.log(index);
-        console.log('changeQuestionorderschangeQuestionorderschangeQuestionorderschangeQuestionorders');
+    changeQuestionOrders(item: any, index: number) {
         this.questions.forEach(x => {
             const indexOf = this.questions.indexOf(x);
             x.order = indexOf;
@@ -80,33 +75,28 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
         switch ($event.dragData.name) {
             case ControTypes.textbox: {
                 this.newquestion = this.questionControlService.addTextboxControl(index);
-                console.log(ControTypes.textbox);
                 break;
             }
 
             case ControTypes.textarea: {
                 this.newquestion = this.questionControlService.addTextareaControl(index);
-                console.log(ControTypes.textarea);
                 break;
             }
 
             case ControTypes.radio: {
                 this.newquestion = this.questionControlService.addRadioButtonControl(index);
-                console.log(ControTypes.radio);
                 break;
             }
 
             case ControTypes.checkbox: {
-                console.log(ControTypes.checkbox);
+                this.newquestion = this.questionControlService.addCheckBoxControl(index);
                 break;
             }
             case ControTypes.dropdown: {
                 this.newquestion = this.questionControlService.addDropdownControl(index);
-                console.log(ControTypes.dropdown);
                 break;
             }
             case ControTypes.gridRadio: {
-                console.log(ControTypes.gridRadio);
                 break;
             }
 
@@ -115,19 +105,21 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
                 break;
             }
         }
+        debugger
         this.form.addControl(this.newquestion.key, this.fb.group({
-            'answer': this.newquestion.required ? new FormControl(this.newquestion.value || '') : new FormControl(this.newquestion.value || '', Validators.required),
+            'answer': !this.newquestion.required ? new FormControl(this.newquestion.value || '') : new FormControl(this.newquestion.value || '', Validators.required),
             'additionalAnswer': new FormControl('')
         }));
-        this.count++;
         this.questions.push(this.newquestion);
         this.questions.sort((a, b) => a.order - b.order);
-
-
     }
 
+
+    onDragEnd8() {
+        console.log('8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888');
+    }
     onDragEnd1() {
-        console.log('onDragEndonDragEndonDragEndonDragEndonDragEndonDragEndonDragEnd');
+        console.log('3333333333333333333333311111111133333333333333333333333333333333333333333333333333333333333333333333333');
     }
 
 
