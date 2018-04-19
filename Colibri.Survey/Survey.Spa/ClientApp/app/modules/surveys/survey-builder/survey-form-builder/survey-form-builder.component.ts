@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, OnChanges, EventEmitter, Output } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup} from '@angular/forms';
 import { ControTypes } from '../../../../shared/constants/control-types.constant';
 
+import { QuestionTransferService } from '../../../../shared/transfers/question-transfer.service';
 import { QuestionControlService } from '../../../../shared/services/question-control.service';
 // import { AvailableQuestions } from '../../../../shared/models/form-builder/form-control/available-question.model';
 // import { DropdownQuestion } from '../../../../shared/Models/form-builder/question-dropdown.model';
@@ -28,12 +29,32 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
     newquestion: any;
 
     constructor(
+        private questionTransferService: QuestionTransferService,
         private qcs: QuestionControlService,
         public questionControlService: QuestionControlService,
-        private fb: FormBuilder
+        // private fb: FormBuilder
     ) {
-        // console.log(questionSettings);
+        this.questionTransferService.getDropQuestion().subscribe((data: any) => {
+            console.log('some question wass deleted');
+            console.log(data);
+
+
+            // remove question
+            this.form.removeControl(data.key);
+            console.log(this.form);
+            this.sortQuestionByIndex();
+        });
     }
+
+    sortQuestionByIndex() {
+        this.questions.forEach(x => {
+            const indexOf = this.questions.indexOf(x);
+            x.order = indexOf;
+        });
+    }
+
+
+
 
     ngOnInit() {
         this.form = this.qcs.toFormGroup(this.questions);
@@ -77,17 +98,14 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
                 this.newquestion = this.questionControlService.addTextboxControl(index);
                 break;
             }
-
             case ControTypes.textarea: {
                 this.newquestion = this.questionControlService.addTextareaControl(index);
                 break;
             }
-
             case ControTypes.radio: {
                 this.newquestion = this.questionControlService.addRadioButtonControl(index);
                 break;
             }
-
             case ControTypes.checkbox: {
                 this.newquestion = this.questionControlService.addCheckBoxControl(index);
                 break;
@@ -97,6 +115,7 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
                 break;
             }
             case ControTypes.gridRadio: {
+                this.newquestion = this.questionControlService.addGridRadioControl(index);
                 break;
             }
 
@@ -105,11 +124,18 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
                 break;
             }
         }
-        debugger
-        this.form.addControl(this.newquestion.key, this.fb.group({
-            'answer': !this.newquestion.required ? new FormControl(this.newquestion.value || '') : new FormControl(this.newquestion.value || '', Validators.required),
-            'additionalAnswer': new FormControl('')
-        }));
+
+
+        // this.form.addControl(this.newquestion.key, this.fb.group({
+        //     'answer': !this.newquestion.required ? new FormControl(this.newquestion.value || '') : new FormControl(this.newquestion.value || '', Validators.required),
+        //     'additionalAnswer': new FormControl('')
+        // }));
+        const group: any = {};
+        this.form.addControl(this.newquestion.key, this.questionControlService.addTypeAnswer(this.newquestion, group)
+        );
+
+
+
         this.questions.push(this.newquestion);
         this.questions.sort((a, b) => a.order - b.order);
     }

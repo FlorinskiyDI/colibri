@@ -8,6 +8,7 @@ import { AvailableQuestions } from '../../../shared/models/form-builder/form-con
 import { QuestionService } from '../../../shared/services/api/question.service';
 import { QuestionControlService } from '../../../shared/services/question-control.service';
 
+import { QuestionTransferService } from '../../../shared/transfers/question-transfer.service';
 
 @Component({
     selector: 'survey-builder-cmp',
@@ -60,6 +61,7 @@ export class SurveyBuilderComponent {
     shoppingBasket: Array<Product> = [];
 
     constructor(
+        private questionTransferService: QuestionTransferService,
         public questionService: QuestionService,
         public questionControlService: QuestionControlService
     ) {
@@ -101,7 +103,9 @@ export class SurveyBuilderComponent {
 
 
 
-
+    removeDragQuestion(question: any) {
+        this.questionTransferService.setDropQuestion(question);
+    }
 
 
     onDragEnd8(event: any) {

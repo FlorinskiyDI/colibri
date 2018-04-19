@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 /* guard */ import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
 /* guard */ import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
 /* service */ import { UserManagementService } from './user-management/UserManagementService';
+import { QuestionTransferService } from './shared/transfers/question-transfer.service';
 import { DndModule } from 'ng2-dnd';
 
 @NgModule({
@@ -22,7 +23,8 @@ import { DndModule } from 'ng2-dnd';
     providers: [
         UserManagementService,
         HasAdminRoleAuthenticationGuard,
-        HasAdminRoleCanLoadGuard
+        HasAdminRoleCanLoadGuard,
+        QuestionTransferService
     ],
     exports: [
         CommonModule,

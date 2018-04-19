@@ -6,326 +6,46 @@
         <div class="col-sm-12">
             Drag availableQuestions
             <input type="checkbox" [(ngModel)]="dragOperation" />
-            <div dnd-sortable-container style="background: green" (onDropSuccess)="onDragEnd9($event)" [sortableData]="availableQuestions"
-                [dropZones]="['container-dropZone']">
+            <div dnd-sortable-container (onDropSuccess)="onDragEnd9($event)" [sortableData]="availableQuestions" [dropZones]="['container-dropZone']">
                 <div class="col-sm12" *ngFor="let question of availableQuestionsOption.availableQuestions; let i = index" dnd-sortable [sortableIndex]="i"
                     [dragEnabled]="dragOperation">
-                    <!-- <div class="panel-body" style="background-color: silver" dnd-droppable (onDropSuccess)="onDragEnd8($event)"
-                        [dropZones]="availableQuestionsOption.allowquestion"> -->
-                        <div class="panel panel-warning" dnd-sortable-container (dragend)="onDragEnd8($event)" [sortableData]="availableQuestions" (onDropSuccess)="dragEnd9($event)"
-                            [dropZones]="[question.dropZonesName]">
-                            <!-- <div [dropZones]="['container-dropZone']" style="background-color: black" dnd-droppable (dragend)="dragEnd9(true)" (onDropSuccess)="dragEnd9(true)"> -->
-                            <!-- <div class="panel-heading">
-                                count container {{ i + 1 }} --- {{'dropZonesName' + (i+1)}}
-                            </div> -->
-                            <div class="panel-body">
-                                <ul class="list-group">
-                                    <div *ngFor="let widget of availableQuestionsOption.availableQuestions; let x = index">
-                                        <li *ngIf="i == x" class="list-group-item" (onDropSuccess)="onDragEnd8($event)" dnd-sortable [sortableIndex]="x" [dragEnabled]="!dragOperation" [dragData]="widget">
-                                            {{widget.name}}
-                                        </li>
-                                    </div>
-                                </ul>
-                            </div>
-                            <!-- </div> -->
+
+                    <div class="panel panel-warning" dnd-sortable-container (dragend)="onDragEnd8($event)" [sortableData]="availableQuestions"
+                        (onDropSuccess)="dragEnd9($event)" [dropZones]="[question.dropZonesName]">
+
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <div *ngFor="let widget of availableQuestionsOption.availableQuestions; let x = index">
+                                    <li *ngIf="i == x" class="list-group-item" (onDropSuccess)="removeDragQuestion($event)" dnd-sortable [sortableIndex]="x" [dragEnabled]="!dragOperation"
+                                        [dragData]="widget">
+                                        {{widget.name}}
+                                    </li>
+                                </div>
+                            </ul>
                         </div>
-                    <!-- </div> -->
+
+                    </div>
+
                 </div>
             </div>
         </div>
-        <!-- <div class="panel panel-success">
-            <div class="panel-heading">Available widgets</div>
-            <div class="panel-body">
-                <div *ngFor="let item of availableQuestions" class="panel panel-default" dnd-draggable [dragEnabled]="true" [dragData]="item"
-                    (onDragSuccess)="orderedProduct($event)" [dropZones]="['survey-zone']">
-                    <div class="panel-body">
-                        {{item}}
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
     <div id="d-builder-body">
-
-
         <div class="col-sm-12">
             <div class="panel panel-info">
                 <div class="panel-heading">Form builder </div>
-                <!-- <div class="panel-body" dnd-droppable (onDropSuccess)="dragEnd9($event)" [dropZones]="availableQuestionsOption.allowquestion"> -->
 
                 <survey-from-builder [questions]="questions" [questionSettings]="availableQuestionsOption" (temporaryAnser)="temporaryAnser = $event"></survey-from-builder>
-                <!-- <div class="panel-body" dnd-sortable-container [dragEnabled]="true" [dropZones]="availableQuestionsOption.allowquestion"
-                        [sortableData]="questions">
-
-                        <ul class="list-group">
-                            <li *ngFor="let item of questions; let i = index" class="list-group-item" (dragend)="onDragEnd()" dnd-sortable [sortableIndex]="i">{{item | json}}
-
-                                <div class="panel-body" style="background-color: silver" dnd-droppable (onDropSuccess)="addNewQuestion($event)" [dropZones]="availableQuestionsOption.allowquestion">
-                                    1111111111111111
-                                </div>
-
-
-                            </li>
-                        </ul>
-                    </div> -->
-
-
-                <!-- <div *ngFor="let widget of widgets" class="panel panel-default">
-                        <div class="panel-body">
-
-                            {{widget}}
-                        </div>
-                    </div> -->
-                <!-- </div> -->
+             
             </div>
         </div>
-
-
-
-
-
-        <!-- <div dnd-droppable (onDropSuccess)="addToBasket($event)" [dropZones]="['survey-zone']" class="panel panel-info">
-            <div class="panel-heading">Drop zone
-            </div>
-            <survey-from-builder [questions]="questions" (temporaryAnser)="temporaryAnser = $event"></survey-from-builder>
-
-
-
-            <div class="panel-body">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        Sortable zone
-                    </div>
-                    <div class="panel-body" dnd-sortable-container [dropZones]="['boxers-zone']" [sortableData]="listTeamOne">
-                        <ul class="list-group">
-                            <li *ngFor="let item of listTeamOne; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item.dragData | json}}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
     <div id="d-builder-option">
         <pre>{{questions | json}}</pre>
         <pre>{{temporaryAnser | json}}</pre>
-
-
-        <!-- <div class="row">
-            <div class="col-sm-3">
-                <div class="panel panel-warning" dnd-sortable-container [sortableData]="[sourceList]" [dropZones]="['source-dropZone']">
-                    <div class="panel-heading">Source List</div>
-                    <div class="panel-body">
-                        <ul class="list-group">
-                            <li *ngFor="let source of sourceList; let x = index" class="list-group-item" dnd-sortable [sortableIndex]="x" [dragEnabled]="true"
-                                [dragData]="source">{{source.name}}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">Target List</div>
-                    <div class="panel-body" dnd-droppable (onDropSuccess)="addTo1($event)" [dropZones]="['source-dropZone']">
-                        <ul class="list-group">
-                            <li *ngFor="let target of targetList1" class="list-group-item">
-                                {{target.name}}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <h4>Multi list sortable</h4>
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        Available boxers
-                    </div>
-                    <div class="panel-body" dnd-sortable-container [dragEnabled]="false" [dropZones]="['boxers-zone3']" [sortableData]="listBoxers">
-                        <ul class="list-group">
-                            <li *ngFor="let item of listBoxers; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item}}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-3">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        First Team
-                    </div>
-                    <div class="panel-body" dnd-sortable-container [dragEnabled]="true" [dropZones]="[ 'boxers-zone']" [sortableData]="listTeamOne">
-
-                        <ul class="list-group">
-                            <li *ngFor="let item of listTeamOne; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item}}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        Second Team
-                    </div>
-                    <div class="panel-body" dnd-sortable-container [dropZones]="['boxers-zone', 'boxers-zone1']" [sortableData]="listTeamTwo">
-                        <ul class="list-group">
-                            <li *ngFor="let item of listTeamTwo; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item}}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
--->
-        <h4>Move items between multi list sortable containers</h4>
-        <div class="row">
-            <div class="col-sm-3">
-                Drag Containers
-                <input type="checkbox" [(ngModel)]="dragOperation" />
-                <div dnd-sortable-container (dragend)="onDragEnd()" (onDropSuccess)="dragEnd9($event)" [sortableData]="containers" [dropZones]="['container-dropZone']">
-                    <div class="col-sm3" *ngFor="let container of containers; let i = index" dnd-sortable [sortableIndex]="i" [dragEnabled]="dragOperation">
-                        <div class="panel panel-warning" (dragend)="onDragEnd()" (onDropSuccess)="dragEnd9($event)" dnd-sortable-container [sortableData]="[]"
-                            [dropZones]="['widget-dropZone']">
-                            <div class="panel-heading">
-                                {{container.id}} - {{container.name}}
-                            </div>
-                            <div class="panel-body">
-                                <ul class="list-group">
-                                    <div *ngFor="let widget of containers; let x = index">
-                                        <li *ngIf="i == x" class="list-group-item" dnd-sortable [sortableIndex]="x" [dragEnabled]="!dragOperation" [dragData]="widget">{{widget.name}}</li>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="panel panel-info">
-                    <div class="panel-heading">Widgets</div>
-                    <div class="panel-body" dnd-droppable (onDropSuccess)="addTo($event)" [dropZones]="['widget-dropZone']">
-
-
-                        <div style="background-color: green" class="panel-body" (onDropSuccess)="addTo($event)" dnd-sortable-container [dragEnabled]="true"
-                            [dropZones]="[ 'boxers-zone','widget-dropZone']" [sortableData]="listTeamOne">
-
-                            <ul class="list-group">
-                                <li *ngFor="let item of listTeamOne; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item}}</li>
-                            </ul>
-                        </div>
-
-
-                        <div style="background-color: red" *ngFor="let widget of widgets" class="panel panel-default">
-                            <div class="panel-body">
-
-                                {{widget}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-</div>
-
-
-
-
-<!-- <h4>Drag-and-Drop - Shopping basket</h4>
-<div class="row">
-    <div class="col-sm-3">
-        <div class="panel panel-success">
-            <div class="panel-heading">Available products</div>
-            <div class="panel-body">
-                <div *ngFor="let product of availableProducts" class="panel panel-default" dnd-draggable [dragEnabled]="product.quantity>0"
-                    [dragData]="product" (onDragSuccess)="orderedProduct($event)" [dropZones]="['demo1']">
-                    <div class="panel-body">
-                        <div [hidden]="product.quantity===0">{{product.name}} - \${{product.cost}}
-                            <br>(available: {{product.quantity}})</div>
-                        <div [hidden]="product.quantity>0">
-                            <del>{{product.name}}</del>
-                            <br>(NOT available)</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-3">
-        <div dnd-droppable (onDropSuccess)="addToBasket($event)" [dropZones]="['demo1']" class="panel panel-info">
-            <div class="panel-heading">Shopping Basket
-                <br>(to pay: \${{totalCost()}})</div>
-            <div class="panel-body">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        First Team
-                    </div>
-                    <div class="panel-body" dnd-sortable-container [dropZones]="['boxers-zone']" [sortableData]="listTeamOne">
-                        <ul class="list-group">
-                            <li *ngFor="let item of listTeamOne; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item.dragData | json}}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="panel panel-success">
-    <div class="panel-heading">
-        First Team
-    </div>
-    <div class="panel-body" dnd-sortable-container [dropZones]="['boxers-zone']" [sortableData]="listTeamOne">
-        <ul class="list-group">
-            <li *ngFor="let item of listTeamOne; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item.dragData | json}}</li>
-        </ul>
     </div>
 </div>
 
 
-<div class="row">
-    <div class="col-sm-3">
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                Favorite drinks
-            </div>
-            <div class="panel-body">
-                <ul class="list-group" dnd-sortable-container [sortableData]="listTeamOne">
-                    <li *ngFor="let item of listTeamOne; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item | json}} count {{i}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
 
 
-<h4>Simple sortable</h4>
-<div class="row">
-    <div class="col-sm-3">
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                Favorite drinks
-            </div>
-            <div class="panel-body">
-                <ul class="list-group" dnd-sortable-container [sortableData]="listOne">
-                    <li (onChange)="changeSort($event)" (drop)="checkOnMouseUp($event)" *ngFor="let item of listOne; let i = index" class="list-group-item" dnd-sortable [sortableIndex]="i">{{item}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                My prefences:
-                <br/>
-                <span *ngFor="let item of listOne; let i = index">{{i + 1}}) {{item}}11111111111
-                    <br/>
-                </span>
-            </div>
-        </div>
-    </div>
-</div> -->

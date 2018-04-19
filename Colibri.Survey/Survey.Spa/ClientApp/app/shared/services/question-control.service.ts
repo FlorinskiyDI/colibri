@@ -12,56 +12,60 @@ import { DropdownQuestion } from '../Models/form-builder/question-dropdown.model
 import { TextAreaQuestion } from '../Models/form-builder/question-textarea.model';
 import { RadioQuestion } from '../Models/form-builder/question-radio.model';
 import { CheckboxQuestion } from '../Models/form-builder/question-checkbox.model';
-// import { GridRadioQuestion } from '../Models/form-builder/question-grid-radio.model';
+import { GridRadioQuestion } from '../Models/form-builder/question-grid-radio.model';
 
 @Injectable()
 export class QuestionControlService {
 
-  constructor(private fb: FormBuilder) { }
 
+
+  constructor(private fb: FormBuilder) { }
+  group: any = {};
   questionsLength: number;
   // questionList: any[];
 
   toFormGroup(questions: QuestionBase<any>[]) {
     // this.questionList = questions;
 
-    const group: any = {};
-
-
-
-
-
-
     questions.forEach((question: any) => {
-      switch (question.controlType) {
-        case ControTypes.checkbox: {
-          group[question.key] = this.fb.group({
-            'answer': question.required ? this.fb.array([], Validators.required) : this.fb.array([]),
-            'additionalAnswer': new FormControl('')
-          });
-          break;
-        }
-        case ControTypes.gridRadio: {
-          group[question.key] = this.fb.group({
-            'answer': question.required ? this.fb.array([], Validators.required) : this.fb.array([]),
-            'additionalAnswer': new FormControl('')
-          });
-          break;
-        }
-        default: {
-          group[question.key] = this.fb.group({
-            'answer': new FormControl(question.value || ''),
-            'additionalAnswer': new FormControl('')
-          });
-          break;
-        }
-      }
 
+      this.addTypeAnswer(question, this.group);
     });
-    return new FormGroup(group);
+
+
+
+    return new FormGroup(this.group);
   }
 
 
+
+  addTypeAnswer(question: QuestionBase<any>, group: any): any {
+
+    switch (question.controlType) {
+      case ControTypes.checkbox: {
+        group[question.key] = this.fb.group({
+          'answer': question.required ? this.fb.array([], Validators.required) : this.fb.array([]),
+          'additionalAnswer': new FormControl('')
+        });
+        break;
+      }
+      case ControTypes.gridRadio: {
+        group[question.key] = this.fb.group({
+          'answer': question.required ? this.fb.array([], Validators.required) : this.fb.array([]),
+          'additionalAnswer': new FormControl('')
+        });
+        break;
+      }
+      default: {
+        group[question.key] = this.fb.group({
+          'answer': new FormControl(question.value || ''),
+          'additionalAnswer': new FormControl('')
+        });
+        break;
+      }
+    }
+    return group[question.key];
+  }
 
 
   addTextboxControl(index: number): QuestionBase<any> {
@@ -152,8 +156,46 @@ export class QuestionControlService {
       isAdditionalAnswer: false
     });
     return question;
-
   }
 
+
+  addGridRadioControl(index: number): QuestionBase<any> {
+    const key = GUID.getNewGUIDString(); // new guid
+
+
+    const question = new GridRadioQuestion({
+      id: '10b08afca4dff80e975f4910ee85efff',
+      key: key,
+      label: 'grid question',
+      type: 'grid',
+      grid: {
+        cellInputType: 'radio',  // radio, checkbox
+        rows: [
+          {
+            id: '48b09d72e6fb0d2a63985eef4018346e',
+            orderNo: 1,
+            label: 'row 1'
+          }
+        ],
+        cols: [
+          {
+            id: 'ace63d4001112c28e97b00ff67ceeeca',
+            orderNo: 1,
+            label: 'col 1'
+          },
+          {
+            id: '24062ae1fc97dead41d337ede7f2e55e',
+            orderNo: 2,
+            label: 'col2'
+          }
+        ]
+      },
+      pageFlowModifier: false,
+      order: index,
+      required: false,
+      isAdditionalAnswer: true
+    });
+    return question;
+  }
 
 }
