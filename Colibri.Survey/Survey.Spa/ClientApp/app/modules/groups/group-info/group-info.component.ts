@@ -35,7 +35,7 @@ export class GroupInfoComponent {
             });
         }
     }
-    private _cmpClear() { }
+    // private _cmpClear() { }
 
     public formGroupUpdateOnChange(data: any) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was updated successfully' });

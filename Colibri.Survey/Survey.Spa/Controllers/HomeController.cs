@@ -3,6 +3,7 @@ using System.Diagnostics;
 using ManagementPortal.Models.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Survey.Spa;
@@ -11,42 +12,39 @@ namespace ManagementPortal.Controllers
 {
     public class HomeController : Controller
     {
-
-        private readonly IOptionsSnapshot<AppSettings> _settings;
+        private IConfiguration _configuration;
+        private readonly IOptionsSnapshot<SpaSettings> _settings;
         private readonly IHostingEnvironment _env;
-        public HomeController(IHostingEnvironment env, IOptionsSnapshot<AppSettings> settings)
-        {
+        public HomeController(
+            IHostingEnvironment env,
+            IOptionsSnapshot<SpaSettings> settings,
+            IConfiguration configuration
+        ) {
             _env = env;
             _settings = settings;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
-        {
-            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ALARM_API_URL")))
-            {
-                _settings.Value.AlarmApiUrl = Environment.GetEnvironmentVariable("ALARM_API_URL");
-            }
-
-            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("PORTAL_VERSION")))
-            {
-                _settings.Value.PortalVersion = Environment.GetEnvironmentVariable("PORTAL_VERSION");
-            }
-
+        {            
+            var identityServerApiUrl = _configuration["SpaSettings:IdentityServerApiUrl"];
+            _settings.Value.IdentityServerApiUrl = !string.IsNullOrEmpty(identityServerApiUrl) ? identityServerApiUrl : null;
+            var serveyApiUrl = _configuration["SpaSettings:ServeyApiUrl"];
+            _settings.Value.ServeyApiUrl = !string.IsNullOrEmpty(serveyApiUrl) ? serveyApiUrl : null;
             ViewBag.ServerSettings = JsonConvert.SerializeObject(_settings.Value);
+
             return View();
         }
 
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
@@ -54,21 +52,5 @@ namespace ManagementPortal.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        public IActionResult Configuration()
-        {
-            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ALARM_API_URL")))
-            {
-                _settings.Value.AlarmApiUrl = Environment.GetEnvironmentVariable("ALARM_API_URL");
-            }
-
-            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("PORTAL_VERSION")))
-            {
-                _settings.Value.PortalVersion = Environment.GetEnvironmentVariable("PORTAL_VERSION");
-            }
-
-            return Json(_settings.Value);
-        } 
-
-    }    
+    }
 }

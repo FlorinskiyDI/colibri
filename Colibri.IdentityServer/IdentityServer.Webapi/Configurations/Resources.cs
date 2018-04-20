@@ -39,6 +39,22 @@ namespace IdentityServer.Webapi.Configurations
                         }
                     },
                     UserClaims = { "role", "admin", "user", "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" }
+                },
+                 new ApiResource("api2")
+                {
+                    ApiSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    Scopes =
+                    {
+                        new Scope
+                        {
+                            Name = "dataeventrecordsscope",
+                            DisplayName = "Scope for the dataEventRecords ApiResource"
+                        }
+                    },
+                    UserClaims = { "role", "admin", "user" , "api2" }
                 }
             };
         }

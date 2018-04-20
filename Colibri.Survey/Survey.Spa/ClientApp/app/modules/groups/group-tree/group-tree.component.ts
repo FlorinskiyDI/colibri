@@ -4,7 +4,8 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
-/* service */ import { GroupManageTransferService } from '../group-manage/group-manage.transfer.service';
+/* service-transfer */ import { GroupManageTransferService } from '../group-manage/group-manage.transfer.service';
+/* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 
 
 @Component({
@@ -27,16 +28,19 @@ export class GroupTreeComponent {
 
     constructor(
         private messageService: MessageService,
+        private confirmationService: ConfirmationService,
         private groupManageTransferService: GroupManageTransferService,
-        private confirmationService: ConfirmationService
+        private groupsApiService: GroupsApiService,
     ) {
-        const that = this;
-        this._stub1().then(function (data: any) {
-            that.treeItems = data;
-            that.treeloading = false;
-            that.selectedGroup = data[0];
-            that.groupManageTransferService.sendSelectedGroupId(data[0].data.id);
-        });
+        // const that = this;
+        // this._stub1().then(function (data: any) {
+        //     that.treeItems = data;
+        //     that.treeloading = false;
+        //     that.selectedGroup = data[0];
+        //     that.groupManageTransferService.sendSelectedGroupId(data[0].data.id);
+        // });
+
+        this._requestGetGroups();
     }
 
     public createGroup() { this.dialogGroupCreateOpen(); }
@@ -85,6 +89,19 @@ export class GroupTreeComponent {
     public dialogGroupCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
     public dialogGroupCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
 
+
+    _requestGetGroups() {
+        debugger
+        this.groupsApiService.getAll();
+        // this.groupsApiService.getAll().subscribe((data: any) => {
+        //     debugger
+        //     console.log(data);
+        //     this.treeItems = data;
+        //     this.treeloading = false;
+        //     this.selectedGroup = data[0];
+        //     this.groupManageTransferService.sendSelectedGroupId(data[0].data.id);
+        // });
+    }
 
     loadNode(event: any) {
         this.treeloading = true;

@@ -10,45 +10,45 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 /* translate */ import { TranslateLoader } from '@ngx-translate/core';
 /* translate */ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-/* angular-split */ import { AngularSplitModule } from 'angular-split';
+/* module-primeng */ import { RadioButtonModule } from 'primeng/components/radiobutton/radiobutton';
+/* module-primeng */ import { ListboxModule } from 'primeng/components/listbox/listbox';
+/* module-primeng */ import { ChartModule } from 'primeng/components/chart/chart';
+/* module-primeng */ import { TooltipModule } from 'primeng/components/tooltip/tooltip';
+/* module-primeng */ import { ColorPickerModule } from 'primeng/components/colorpicker/colorpicker';
+/* module-primeng */ import { ScheduleModule } from 'primeng/components/schedule/schedule';
+/* module-primeng */ import { ButtonModule } from 'primeng/components/button/button';
+/* module-primeng */ import { OverlayPanelModule } from 'primeng/components/overlaypanel/overlaypanel';
+/* module-primeng */ import { InputTextModule } from 'primeng/components/inputtext/inputtext';
+/* module-primeng */ import { AutoCompleteModule } from 'primeng/components/autocomplete/autocomplete';
+/* module-primeng */ import { DropdownModule } from 'primeng/components/dropdown/dropdown';
+/* module-primeng */ import { GrowlModule } from 'primeng/components/growl/growl';
+/* module-primeng */ import { DialogModule } from 'primeng/components/dialog/dialog';
+/* module-primeng */ import { DataTableModule } from 'primeng/components/datatable/datatable';
+/* module-primeng */ import { FileUploadModule } from 'primeng/components/fileupload/fileupload';
+/* module-primeng */ import { CalendarModule } from 'primeng/components/calendar/calendar';
+/* module-primeng */ import { CheckboxModule } from 'primeng/components/checkbox/checkbox';
+/* module-primeng */ import { InputSwitchModule } from 'primeng/components/inputswitch/inputswitch';
+/* module-primeng */ import { InputTextareaModule } from 'primeng/components/inputtextarea/inputtextarea';
+/* module-primeng */ import { TabMenuModule } from 'primeng/components/tabmenu/tabmenu';
+/* module-primeng */ import { TabViewModule } from 'primeng/components/tabview/tabview';
+/* module-primeng */ import { AccordionModule } from 'primeng/components/accordion/accordion';
+/* module-primeng */ import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
+/* module-primeng */ import { TableModule } from 'primeng/table';
+/* module-primeng */ import { FieldsetModule } from 'primeng/fieldset';
+/* module-primeng */ import { TreeTableModule } from 'primeng/treetable';
+/* module-primeng */ import { TreeModule } from 'primeng/tree';
+/* module-primeng */ import { BlockUIModule } from 'primeng/blockui';
+/* module-primeng */ import { PanelModule } from 'primeng/panel';
+/* module-primeng */ import { DragDropModule } from 'primeng/dragdrop';
+/* module-primeng */ import { ChipsModule } from 'primeng/chips';
+/* module-angular-split */ import { AngularSplitModule } from 'angular-split';
+/* module-material */ import { MatTooltipModule } from '@angular/material/tooltip';
+/* module-material */import { MatIconModule } from '@angular/material/icon';
+/* module-ngx-bootstrap */ import { TabsModule } from 'ngx-bootstrap/tabs';
+/* module-ngx-bootstrap */ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
-/* primeng */ import { RadioButtonModule } from 'primeng/components/radiobutton/radiobutton';
-/* primeng */ import { ListboxModule } from 'primeng/components/listbox/listbox';
-/* primeng */ import { ChartModule } from 'primeng/components/chart/chart';
-/* primeng */ import { TooltipModule } from 'primeng/components/tooltip/tooltip';
-/* primeng */ import { ColorPickerModule } from 'primeng/components/colorpicker/colorpicker';
-/* primeng */ import { ScheduleModule } from 'primeng/components/schedule/schedule';
-/* primeng */ import { ButtonModule } from 'primeng/components/button/button';
-/* primeng */ import { OverlayPanelModule } from 'primeng/components/overlaypanel/overlaypanel';
-/* primeng */ import { InputTextModule } from 'primeng/components/inputtext/inputtext';
-/* primeng */ import { AutoCompleteModule } from 'primeng/components/autocomplete/autocomplete';
-/* primeng */ import { DropdownModule } from 'primeng/components/dropdown/dropdown';
-/* primeng */ import { GrowlModule } from 'primeng/components/growl/growl';
-/* primeng */ import { DialogModule } from 'primeng/components/dialog/dialog';
-/* primeng */ import { DataTableModule } from 'primeng/components/datatable/datatable';
-/* primeng */ import { FileUploadModule } from 'primeng/components/fileupload/fileupload';
-/* primeng */ import { CalendarModule } from 'primeng/components/calendar/calendar';
-/* primeng */ import { CheckboxModule } from 'primeng/components/checkbox/checkbox';
-/* primeng */ import { InputSwitchModule } from 'primeng/components/inputswitch/inputswitch';
-/* primeng */ import { InputTextareaModule } from 'primeng/components/inputtextarea/inputtextarea';
-/* primeng */ import { TabMenuModule } from 'primeng/components/tabmenu/tabmenu';
-/* primeng */ import { TabViewModule } from 'primeng/components/tabview/tabview';
-/* primeng */ import { AccordionModule } from 'primeng/components/accordion/accordion';
-/* primeng */ import { ConfirmDialogModule } from 'primeng/components/confirmdialog/confirmdialog';
-/* primeng */ import { TableModule } from 'primeng/table';
-/* primeng */ import { FieldsetModule } from 'primeng/fieldset';
-/* primeng */ import { TreeTableModule } from 'primeng/treetable';
-/* primeng */ import { TreeModule } from 'primeng/tree';
-/* primeng */ import { BlockUIModule } from 'primeng/blockui';
-/* primeng */ import { PanelModule } from 'primeng/panel';
-/* primeng */ import { DragDropModule } from 'primeng/dragdrop';
-/* primeng */ import { ChipsModule } from 'primeng/chips';
-
-/* material */ import { MatTooltipModule } from '@angular/material/tooltip';
-/* material */import { MatIconModule } from '@angular/material/icon';
-
-/* ngx-bootstrap */ import { TabsModule } from 'ngx-bootstrap/tabs';
-/* ngx-bootstrap */ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+/* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
+/* service-api */ import { UsersApiService } from 'shared/services/api/users.api.service';
 
 @NgModule({
     imports: [
@@ -108,7 +108,9 @@ export class SharedModule {
         return {
             ngModule: SharedModule,
             providers: [
-                TranslateStore
+                TranslateStore,
+                GroupsApiService,
+                UsersApiService
             ]
         };
     }

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using IdentityServer.Webapi.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServer.Webapi.Controllers
 {
-    [Produces("application/json")]
+    [Authorize()]
     [Route("api/groups")]
     public class GroupsController : Controller
     {

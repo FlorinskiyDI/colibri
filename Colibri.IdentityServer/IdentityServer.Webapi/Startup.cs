@@ -16,6 +16,7 @@ using System.Linq;
 using System;
 using Microsoft.AspNetCore.Http;
 using IdentityServer.Webapi.Extensions;
+using IdentityServer4.Validation;
 
 namespace IdentityServer.Webapi
 {
@@ -54,14 +55,17 @@ namespace IdentityServer.Webapi
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            var guestPolicy = new AuthorizationPolicyBuilder()
-           .RequireAuthenticatedUser()
-           .RequireClaim("scope", "dataEventRecords")
-           .Build();
+           // var guestPolicy = new AuthorizationPolicyBuilder()
+           //.RequireAuthenticatedUser()
+           //.RequireClaim("scope", "dataEventRecords")
+           //.Build();
+
+
 
             services.AddTransient<IProfileService, IdentityProfileService>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IExtensionGrantValidator, DelegationGrantValidator>();
             services.AddDependencies(Configuration);
 
             services.AddIdentityServer()
@@ -75,31 +79,11 @@ namespace IdentityServer.Webapi
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
               .AddIdentityServerAuthentication(options =>
               {
-                  options.Authority = Clients.HOST_URL + "/";
+                  options.Authority = "http://localhost:5050/";
                   options.ApiName = "dataEventRecords";
                   options.ApiSecret = "dataEventRecordsSecret";
-                  options.SupportedTokens = SupportedTokens.Both;
               });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
-                {
-                    policyAdmin.RequireClaim("role", "dataEventRecords.admin");
-                });
-                options.AddPolicy("admin", policyAdmin =>
-                {
-                    policyAdmin.RequireClaim("role", "admin");
-                });
-                options.AddPolicy("dataEventRecordsUser", policyUser =>
-                {
-                    policyUser.RequireClaim("role", "dataEventRecords.user");
-                });
-                options.AddPolicy("dataEventRecords", policyUser =>
-                {
-                    policyUser.RequireClaim("scope", "dataEventRecords");
-                });
-            });
 
             services.AddMvc();
         }
@@ -108,30 +92,7 @@ namespace IdentityServer.Webapi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-            var angularRoutes = new[] {
-                "/Unauthorized",
-                "/Forbidden",
-                "/uihome",
-                "/dataeventrecords",
-                "/dataeventrecords/",
-                "/dataeventrecords/create",
-                "/dataeventrecords/edit/",
-                "/dataeventrecords/list",
-                "/usermanagement",
-                };
-
-            app.Use(async (context, next) =>
-            {
-                if (context.Request.Path.HasValue && null != angularRoutes.FirstOrDefault(
-                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
-                {
-                    context.Request.Path = new PathString("/");
-                }
-
-                await next();
-            });
-
+             
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
@@ -150,6 +111,14 @@ namespace IdentityServer.Webapi
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             SqlConnectionFactory.ConnectionString = connectionString;
 
+            app.UseCors(options => options
+               //.WithOrigins("http://localhost:5151")
+               .AllowAnyOrigin()
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials()
+           );
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

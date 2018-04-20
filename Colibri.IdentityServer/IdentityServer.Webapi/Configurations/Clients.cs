@@ -47,7 +47,19 @@ namespace IdentityServer.Webapi.Configurations
                         "securedfilesscope",
                         "role"
                     }
+                },
+                new Client
+                {
+                    ClientId = "api1",
+                    ClientSecrets = new List<Secret> {
+                        new Secret("secret".Sha256())
+                    },
+                    AllowedGrantTypes = { "delegation" },
+                    AllowedScopes = new List<string> {
+                        "api2"
+                    }
                 }
+
             };
         }
 

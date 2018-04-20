@@ -11,6 +11,7 @@ import { RestangularModule } from 'ngx-restangular';
 /* component */ import { HomeComponent } from './home/home.component';
 /* component */ import { UserManagementComponent } from './user-management/user-management.component';
 /* service */ import { OidcSecurityService } from 'core/auth/services/oidc.security.service';
+/* helpers */ import { Helpers } from 'shared/helpers/helpers';
 declare let window: any;
 
 @NgModule({
@@ -22,25 +23,41 @@ declare let window: any;
     ],
     imports: [
         // Importing RestangularModule and making default configs for restanglar
-        RestangularModule.forRoot(RestangularConfigFactory),
+        RestangularModule.forRoot([OidcSecurityService], RestangularConfigFactory),
         RouterModule,
         HttpClientModule,
         CoreModule,
         AppModuleShared,
         BrowserAnimationsModule
     ],
-    providers: []
+    providers: [
+        { provide: 'SURVEY_API_URL', useValue: getApiUrl() },
+        { provide: 'IDENTITY_SERVER_API_URL', useValue: getApiUrl() }
+    ]
 })
 
 export class AppModule {
 }
 
+export function getApiUrl() {
+    const url = window['serverSettings'].ServeyApiUrl;
+    return Helpers.endsWithSlash(url);
+}
+
 // Function for setting the default restangular configuration
 export function RestangularConfigFactory(RestangularProvider: any, oidcSecurityService: OidcSecurityService) {
-    RestangularProvider.setBaseUrl(window['serverSettings']!.AlarmApiUrl);
+    const serverSettings: any = Helpers.endsWithSlash(window['serverSettings'].ServeyApiUrl);
+    if (!serverSettings) { console.error('!!! There are no server settings'); }
+
+    RestangularProvider.setBaseUrl('http://localhost:5050');
     // by each request to the server receive a token and update headers with it
     RestangularProvider.addFullRequestInterceptor((element: any, operation: any, path: any, url: any, headers: any, params: any) => {
         const bearerToken = oidcSecurityService.getToken();
-        return { headers: Object.assign({}, headers, { Authorization: `Bearer ${bearerToken}` }) };
+        return {
+            headers: Object.assign({},
+                headers,
+                { Authorization: `Bearer ${bearerToken}` }
+            )
+        };
     });
 }
