@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 // import { QuestionBase } from '../../../shared/Models/form-builder/question-base.model';
 
@@ -16,6 +16,7 @@ import { QuestionTransferService } from '../../../shared/transfers/question-tran
     styleUrls: [
         './survey-builder.component.scss'
     ],
+    encapsulation: ViewEncapsulation.None,
     providers: [QuestionService, QuestionControlService]
 })
 export class SurveyBuilderComponent {

@@ -2,33 +2,63 @@
 
 
     <div id="d-builder-widgets">
+        <div class="d-builder-widgets-header">
+            <p class="d--text-tools-header"> Toolbox</p>
 
-        <div class="col-sm-12">
-            Drag availableQuestions
-            <input type="checkbox" [(ngModel)]="dragOperation" />
-            <div dnd-sortable-container (onDropSuccess)="onDragEnd9($event)" [sortableData]="availableQuestions" [dropZones]="['container-dropZone']">
-                <div class="col-sm12" *ngFor="let question of availableQuestionsOption.availableQuestions; let i = index" dnd-sortable [sortableIndex]="i"
-                    [dragEnabled]="dragOperation">
-
-                    <div class="panel panel-warning" dnd-sortable-container (dragend)="onDragEnd8($event)" [sortableData]="availableQuestions"
-                        (onDropSuccess)="dragEnd9($event)" [dropZones]="[question.dropZonesName]">
-
-                        <div class="panel-body">
-                            <ul class="list-group">
-                                <div *ngFor="let widget of availableQuestionsOption.availableQuestions; let x = index">
-                                    <li *ngIf="i == x" class="list-group-item" (onDropSuccess)="removeDragQuestion($event)" dnd-sortable [sortableIndex]="x" [dragEnabled]="!dragOperation"
-                                        [dragData]="widget">
-                                        {{widget.name}}
-                                    </li>
-                                </div>
-                            </ul>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
         </div>
+        <div class="d-builder-widgets-body">
+            <p-accordion [multiple]="true">
+                <p-accordionTab header="Basic Question" [selected]="true">
+
+                    <!-- <input type="checkbox" [(ngModel)]="dragOperation" /> -->
+                    <div dnd-sortable-container [sortableData]="availableQuestions" [dropZones]="['container-dropZone']">
+                        <div *ngFor="let question of availableQuestionsOption.availableQuestions; let i = index" dnd-sortable [sortableIndex]="i"
+                            [dragEnabled]="dragOperation">
+
+                            <div class="d-panel-sortable" dnd-sortable-container (dragend)="onDragEnd8($event)" [sortableData]="availableQuestions" [dropZones]="[question.dropZonesName]">
+
+
+                                <div style="background:green" *ngFor="let widget of availableQuestionsOption.availableQuestions; let x = index">
+                                    <div *ngIf="i == x" class="d--repeat-allow-question-wrapper" (onDropSuccess)="removeDragQuestion($event)" dnd-sortable [sortableIndex]="x"
+                                        [dragEnabled]="!dragOperation" [dragData]="widget">
+                                        <div class="d--repeat-allow-question">
+                                            <!-- {{widget.name}} -->
+
+                                            <div class="repeat-block_1">
+                                                <p class="icon fa fa-arrow-circle-down" href="#"></p>
+                                            </div>
+
+                                            <div class="repeat-block_2">
+                                                <div class="werw">
+                                                        <p>111</p>
+                                                        <p>222</p>
+                                                </div>
+                                               
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </p-accordionTab>
+                <p-accordionTab header="Advanced Question">
+                    Content 2
+                </p-accordionTab>
+                <p-accordionTab header="Additional Controls">
+                    Content 3
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+
+
+
     </div>
     <div id="d-builder-body">
         <div class="col-sm-12">
@@ -36,7 +66,7 @@
                 <div class="panel-heading">Form builder </div>
 
                 <survey-from-builder [questions]="questions" [questionSettings]="availableQuestionsOption" (temporaryAnser)="temporaryAnser = $event"></survey-from-builder>
-             
+
             </div>
         </div>
     </div>
@@ -45,7 +75,3 @@
         <pre>{{temporaryAnser | json}}</pre>
     </div>
 </div>
-
-
-
-

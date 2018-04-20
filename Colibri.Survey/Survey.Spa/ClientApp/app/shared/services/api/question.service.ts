@@ -19,8 +19,8 @@ export class QuestionService {
       new TextboxQuestion({
         key: 'firstName',
         label: 'First name',
-        value: 'Bombasto',
-        required: false,
+        value: '',
+        required: true,
         order: 0,
         isAdditionalAnswer: false
       }),
@@ -42,7 +42,7 @@ export class QuestionService {
         key: 'lastname',
         label: 'last name',
         value: '',
-        required: false,
+        required: true,
         order: 1,
         isAdditionalAnswer: false
       }),
