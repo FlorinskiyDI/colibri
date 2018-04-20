@@ -15,21 +15,10 @@
     position: absolute;
     margin: 5px;
     height: calc(100% - 10px); // 10px = margin-top + margin-bottom
-    width: calc(15% - 10px); // 10px = margin-left + margin-rignt
+    width: calc(20% - 10px); // 10px = margin-left + margin-rignt
     padding: 0px;
     overflow: auto;
     border: 1px solid #8694B5;
-    // &::-webkit-scrollbar {
-    //     width: 20px;
-    //     background-color: #CCCEDB;
-    //     padding: 5px;
-    //     margin: 10px;
-    // } 
-    // &::-webkit-scrollbar-thumb {
-    //     background-color: rgb(188, 189, 199);
-    //     padding: 10px;
-    // }
-
 
         .d-builder-widgets-header{
             height: 21px;
@@ -49,36 +38,66 @@
             padding: 2px 2px 2px 2px;
         }
     .d--repeat-allow-question-wrapper {
-        background: #fff;
-        
+        background: #fff;     
         padding: 0px;
 
+        &:hover {
+            background-color: #FAFAFA;
+        }
+
         .d--repeat-allow-question{
-            height: 70px;
+            height: 52px;
             border: 1px solid silver;
             margin-bottom: 1px;
             display: flex;
             .repeat-block_1 {
                 text-align: center;
-                width: 30px;
+                width: 40px;
                 height: 100%;
-                background: green;
-                line-height: 70px;
+                line-height: 52px;
+
+                p {
+                    font-size: 15px;
+                    color: #000;
+                }
+
+            }
+            .repeat-block_2 {
+                font-size: 8px;
+                width: calc(100% - 40px);
+                height: 100%;
+
+                #outer {
+                    width: 100%;
+                    position: relative;
+                    height: 52px;
+                }
+                #inner {
+                    width: 100%;
+                    position: absolute;
+                    top: 25%;
+                    padding: 0px 4px 0px 4px;
+                    height: 30px;
+                    .d--mainText {
+                        font-size: 12px;
+                        color: #000;
+                        font-weight: bold;
+                    }
+                    .d--descriptionText {
+                        font-size: 11px;
+                        color: #000;
+                        font-weight: 400;
+                    }
+                    p {
+                        margin: 0px;
+                    }
+                }
+
                 p {
                     font-size: 12px;
                     color: #fff;
                 }
 
-            }
-            .repeat-block_2 {
-                width: 50px;
-                height: 100%;
-                background: silver;
-                line-height: 70px;
-                p {
-                    font-size: 12px;
-                    color: #fff;
-                }
                 h4 {
                     font-size: 8px;
                 }
@@ -122,8 +141,8 @@
 
     margin: 5px 5px 5px 0px;
     height: calc(100% - 10px); // 10px = margin-top + margin-bottom
-    width: calc(55% - 5px); // 10px = margin-left + margin-rignt
-    left: 15%;
+    width: calc(50% - 5px); // 10px = margin-left + margin-rignt
+    left: 20%;
     // width: 55%;
     // padding: 10px;
     overflow: auto;

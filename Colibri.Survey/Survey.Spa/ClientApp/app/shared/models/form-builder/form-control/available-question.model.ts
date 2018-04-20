@@ -1,3 +1,10 @@
 export class AvailableQuestions {
-    constructor(public name: string, public order: number, public dropZonesName: string) { }
+    constructor(
+        public type: string,
+        public name: string,
+        public order: number,
+        public dropZonesName: string,
+        public description: string,
+        public icon: string // awesome icon name
+    ) { }
 }

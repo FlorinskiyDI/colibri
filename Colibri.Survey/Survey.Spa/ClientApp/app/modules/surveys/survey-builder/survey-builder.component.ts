@@ -36,12 +36,13 @@ export class SurveyBuilderComponent {
 
     availableQuestions: Array<AvailableQuestions> = [
 
-        new AvailableQuestions(ControTypes.textbox, 1, 'dropZonesName1'),
-        new AvailableQuestions(ControTypes.textarea, 2, 'dropZonesName2'),
-        new AvailableQuestions(ControTypes.radio, 3, 'dropZonesName3'),
-        new AvailableQuestions(ControTypes.checkbox, 4, 'dropZonesName4'),
-        new AvailableQuestions(ControTypes.dropdown, 5, 'dropZonesName5'),
-        new AvailableQuestions(ControTypes.gridRadio, 6, 'dropZonesName6'),
+        new AvailableQuestions(
+            ControTypes.textbox, 'Textbox', 1, 'dropZonesName1', 'Textbox description', 'fa-font'),
+        new AvailableQuestions(ControTypes.textarea, 'Textarea', 2, 'dropZonesName2', 'Texarea description', 'fa-text-width'),
+        new AvailableQuestions(ControTypes.radio, 'Radiogroup', 3, 'dropZonesName3', 'Radio group description', 'fa-dot-circle-o'),
+        new AvailableQuestions(ControTypes.checkbox, 'Checkbox', 4, 'dropZonesName4', 'Checkbox description', 'fa-check-square-o'),
+        new AvailableQuestions(ControTypes.dropdown, 'Dropdown', 5, 'dropZonesName5', 'Dropdown description', 'fa-indent'),
+        new AvailableQuestions(ControTypes.gridRadio, 'Grid (single choice)', 6, 'dropZonesName6', 'grid description', 'fa-table'),
 
 
     ];
@@ -71,12 +72,12 @@ export class SurveyBuilderComponent {
         this.availableQuestionsOption = {
             allowquestion: ['dropZonesName1', 'dropZonesName2', 'dropZonesName3', 'dropZonesName4', 'dropZonesName5', 'dropZonesName6'],
             availableQuestions: [
-                { name: ControTypes.textbox, order: 1, dropZonesName: 'dropZonesName1' } as AvailableQuestions,
-                { name: ControTypes.textarea, order: 2, dropZonesName: 'dropZonesName2' } as AvailableQuestions,
-                { name: ControTypes.radio, order: 3, dropZonesName: 'dropZonesName3' } as AvailableQuestions,
-                { name: ControTypes.checkbox, order: 4, dropZonesName: 'dropZonesName4' } as AvailableQuestions,
-                { name: ControTypes.dropdown, order: 5, dropZonesName: 'dropZonesName5' } as AvailableQuestions,
-                { name: ControTypes.gridRadio, order: 6, dropZonesName: 'dropZonesName6' } as AvailableQuestions
+                { type: ControTypes.textbox, name: 'Textbox', order: 1, dropZonesName: 'dropZonesName1', description: 'Textbox description', icon: 'fa-font'} as AvailableQuestions,
+                { type: ControTypes.textarea, name: 'Textarea', order: 2, dropZonesName: 'dropZonesName2', description: 'Texarea description', icon: 'fa-text-width'} as AvailableQuestions,
+                { type: ControTypes.radio, name: 'Radiogroup', order: 3, dropZonesName: 'dropZonesName3', description: 'Radio group description', icon: 'fa-dot-circle-o'} as AvailableQuestions,
+                { type: ControTypes.checkbox, name: 'Checkbox', order: 4, dropZonesName: 'dropZonesName4', description: 'Checkbox description', icon: 'fa-check-square-o'} as AvailableQuestions,
+                { type: ControTypes.dropdown, name: 'Dropdown', order: 5, dropZonesName: 'dropZonesName5', description: 'Dropdown description', icon: 'fa-indent'} as AvailableQuestions,
+                { type: ControTypes.gridRadio, name: 'Grid (single choice)', order: 6, dropZonesName: 'dropZonesName6', description: 'grid description', icon: 'fa-table'} as AvailableQuestions
             ],
         };
         this.listTeamOne5.push('111111111111112');

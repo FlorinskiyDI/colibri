@@ -93,7 +93,7 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
         console.log(index);
         console.log('101010101010101010101010101010101010101010101010101010101010101010101');
 
-        switch ($event.dragData.name) {
+        switch ($event.dragData.type) {
             case ControTypes.textbox: {
                 this.newquestion = this.questionControlService.addTextboxControl(index);
                 break;

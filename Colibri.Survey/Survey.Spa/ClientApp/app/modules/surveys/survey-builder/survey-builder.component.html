@@ -25,16 +25,25 @@
                                             <!-- {{widget.name}} -->
 
                                             <div class="repeat-block_1">
-                                                <p class="icon fa fa-arrow-circle-down" href="#"></p>
+                                                <p class="icon fa {{widget.icon}}" href="#"></p>
                                             </div>
 
                                             <div class="repeat-block_2">
-                                                <div class="werw">
+                                                <!-- <div class="werw">
                                                         <p>111</p>
                                                         <p>222</p>
+                                                </div> -->
+                                                <!-- <div class="parent">
+                                                    <div class="child">
+                                                        Test Test Test <br/> Test Test Test <br/> Test Test Test
+                                                    </div>
+                                                </div> -->
+                                                <div id="outer">
+                                                    <div id="inner">
+                                                        <p class="d--mainText">{{widget.name}}</p>
+                                                        <p class="d--descriptionText">{{widget.description}}.</p>
+                                                    </div>
                                                 </div>
-                                               
-
                                             </div>
 
                                         </div>
@@ -53,6 +62,9 @@
                 </p-accordionTab>
                 <p-accordionTab header="Additional Controls">
                     Content 3
+                </p-accordionTab>
+                <p-accordionTab header="Another Controls">
+                    Content 4
                 </p-accordionTab>
             </p-accordion>
         </div>
