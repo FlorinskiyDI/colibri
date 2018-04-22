@@ -15,7 +15,7 @@ namespace IdentityServer.Webapi.Repositories
         {
             using (var ctx = new ApplicationDbContext())
             {
-                return await ctx.Set<Groups>().ToArrayAsync();
+                return await ctx.Set<Groups>().ToListAsync();
             }
         }
 

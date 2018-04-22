@@ -29,7 +29,7 @@ export class CoreModuleShared {
         // The ID Token MUST be rejected if the ID Token does not list the Client as a valid audience, or if it contains additional audiences not trusted by the Client.
         openIDImplicitFlowConfiguration.client_id = 'singleapp';
         openIDImplicitFlowConfiguration.response_type = 'id_token token';
-        openIDImplicitFlowConfiguration.scope = 'dataEventRecords openid';
+        openIDImplicitFlowConfiguration.scope = 'dataEventRecords openid api2';
         openIDImplicitFlowConfiguration.post_logout_redirect_uri = 'http://localhost:8082/Unauthorized';
         openIDImplicitFlowConfiguration.start_checksession = false;
         openIDImplicitFlowConfiguration.silent_renew = true;

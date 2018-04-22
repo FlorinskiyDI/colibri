@@ -46,10 +46,10 @@ export function getApiUrl() {
 
 // Function for setting the default restangular configuration
 export function RestangularConfigFactory(RestangularProvider: any, oidcSecurityService: OidcSecurityService) {
-    const serverSettings: any = Helpers.endsWithSlash(window['serverSettings'].ServeyApiUrl);
-    if (!serverSettings) { console.error('!!! There are no server settings'); }
+    const serveyApiUrl: any = Helpers.endsWithSlash(window['serverSettings'].ServeyApiUrl);
+    if (!serveyApiUrl) { console.error('!!! There are no server settings'); }
 
-    RestangularProvider.setBaseUrl('http://localhost:5050');
+    RestangularProvider.setBaseUrl(serveyApiUrl);
     // by each request to the server receive a token and update headers with it
     RestangularProvider.addFullRequestInterceptor((element: any, operation: any, path: any, url: any, headers: any, params: any) => {
         const bearerToken = oidcSecurityService.getToken();

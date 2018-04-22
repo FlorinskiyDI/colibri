@@ -17,6 +17,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using IdentityServer.Webapi.Extensions;
 using IdentityServer4.Validation;
+using Newtonsoft.Json.Serialization;
 
 namespace IdentityServer.Webapi
 {
@@ -55,10 +56,10 @@ namespace IdentityServer.Webapi
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-           // var guestPolicy = new AuthorizationPolicyBuilder()
-           //.RequireAuthenticatedUser()
-           //.RequireClaim("scope", "dataEventRecords")
-           //.Build();
+            // var guestPolicy = new AuthorizationPolicyBuilder()
+            //.RequireAuthenticatedUser()
+            //.RequireClaim("scope", "dataEventRecords")
+            //.Build();
 
 
 
@@ -76,23 +77,29 @@ namespace IdentityServer.Webapi
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<IdentityProfileService>();
 
+            services.AddAuthorization();
+
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
               .AddIdentityServerAuthentication(options =>
               {
-                  options.Authority = "http://localhost:5050/";
-                  options.ApiName = "dataEventRecords";
-                  options.ApiSecret = "dataEventRecordsSecret";
+                  options.ApiName = "api2";
+                  options.ApiSecret = "secret";
+                  options.RequireHttpsMetadata = false;
+                  options.SupportedTokens = SupportedTokens.Jwt;
               });
 
 
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+             {
+                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+             });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-             
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
 

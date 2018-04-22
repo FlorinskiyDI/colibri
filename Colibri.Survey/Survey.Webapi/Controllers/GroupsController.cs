@@ -7,25 +7,38 @@ using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using RestSharp.Authenticators;
+using Survey.Webapi.Models.RestModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Survey.Webapi.Controllers
 {
     [Authorize()]
-    [Route("api/[controller]")]
+    [Route("api/groups")]
     public class GroupsController : Controller
     {
-        // GET: api/<controller>
-        [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        private IConfiguration _configuration;
+
+        public GroupsController(
+            IConfiguration configuration
+        )
         {
-            var identityServerApiUrl = "http://localhost:5050";  // IdentityServer4 host
+            _configuration = configuration;
+        }
+
+
+        // GET: api/groups
+        [HttpGet]
+        public async Task<IActionResult> GetListGroups()
+        {
+            var identityServerApiUrl = _configuration["IdentityServer:ApiUrl"];  // IdentityServer4 host
             var disco = await DiscoveryClient.GetAsync(identityServerApiUrl); // discover endpoints from metadata
             var userToken = await HttpContext.GetTokenAsync("access_token"); // user token
+            var idToken = await HttpContext.GetTokenAsync("id_token"); // user token
 
             // create token client
             var client = new TokenClient(disco.TokenEndpoint, "api1", "secret");
@@ -33,31 +46,23 @@ namespace Survey.Webapi.Controllers
             var payload = new { token = userToken };
             var tokenResponse = await client.RequestCustomGrantAsync("delegation", "api2", payload);
 
-            //var restClient = new RestClient(identityServerApiUrl);
-            //var request = new RestRequest("/api/groups", Method.GET);
-            //restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(userToken);
-            //var response = await restClient.ExecuteTaskAsync(request);
+            // call to identity server for get groups
+            var restClient = new RestClient("http://localhost:5050");
+            //restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
+            var request = new RestRequest();
+            request.Resource = "/api/groups";
+            request.Method = Method.GET;
+            IRestResponse<List<Groups>> response = await restClient.ExecuteTaskAsync<List<Groups>>(request);
 
-            //call api
-            var httpClient = new HttpClient();
-            httpClient.SetBearerToken(tokenResponse.AccessToken);
-            var response = await httpClient.GetAsync("http://localhost:5050/api/groups");
-            if (!response.IsSuccessStatusCode)
+            if (!response.IsSuccessful)
             {
                 Console.WriteLine(response.StatusCode);
+                return StatusCode(500);
             }
             else
             {
-                var content = response.Content.ReadAsStringAsync().Result;
-                Console.WriteLine("User claims \n" + JArray.Parse(content));
+                return Ok(response.Data);
             }
-
-            var list = new List<Test>();
-            list.Add(new Test());
-            list.Add(new Test());
-            list.Add(new Test());
-
-            return Ok(list);
         }
 
     }

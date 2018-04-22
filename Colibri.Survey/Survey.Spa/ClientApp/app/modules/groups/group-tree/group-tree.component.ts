@@ -91,7 +91,6 @@ export class GroupTreeComponent {
 
 
     _requestGetGroups() {
-        debugger
         this.groupsApiService.getAll();
         // this.groupsApiService.getAll().subscribe((data: any) => {
         //     debugger
