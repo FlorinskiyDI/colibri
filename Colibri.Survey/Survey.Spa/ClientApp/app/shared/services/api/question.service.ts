@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { TextboxQuestion } from '../../Models/form-builder/question-textbox.model';
-// import { DropdownQuestion } from '../../Models/form-builder/question-dropdown.model';
+import { DropdownQuestion } from '../../Models/form-builder/question-dropdown.model';
 import { QuestionBase } from '../../Models/form-builder/question-base.model';
 import { TextAreaQuestion } from '../../Models/form-builder/question-textarea.model';
-// import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
-// import { CheckboxQuestion } from '../../Models/form-builder/question-checkbox.model';
+import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
+import { CheckboxQuestion } from '../../Models/form-builder/question-checkbox.model';
 import { GridRadioQuestion } from '../../Models/form-builder/question-grid-radio.model';
 @Injectable()
 export class QuestionService {
@@ -25,18 +25,18 @@ export class QuestionService {
         isAdditionalAnswer: false
       }),
 
-      // new DropdownQuestion({
-      //   key: 'brave',
-      //   label: 'Bravery Rating',
-      //   options: [
-      //     { key: 'solid', value: 'Solid' },
-      //     { key: 'great', value: 'Great' },
-      //     { key: 'good', value: 'Good' },
-      //     { key: 'unproven', value: 'Unproven' }
-      //   ],
-      //   order: 0,
-      //   isAdditionalAnswer: false
-      // }),
+      new DropdownQuestion({
+        key: 'brave',
+        label: 'Bravery Rating',
+        options: [
+          { key: 'solid', value: 'Solid' },
+          { key: 'great', value: 'Great' },
+          { key: 'good', value: 'Good' },
+          { key: 'unproven', value: 'Unproven' }
+        ],
+        order: 0,
+        isAdditionalAnswer: false
+      }),
 
       new TextAreaQuestion({
         key: 'lastname',
@@ -47,41 +47,41 @@ export class QuestionService {
         isAdditionalAnswer: false
       }),
 
-      // new TextboxQuestion({
-      //   key: 'emailAddress',
-      //   label: 'Email',
-      //   type: 'email',
-      //   order: 2,
-      //   isAdditionalAnswer: false
-      // }),
+      new TextboxQuestion({
+        key: 'emailAddress',
+        label: 'Email',
+        type: 'email',
+        order: 2,
+        isAdditionalAnswer: false
+      }),
 
-      // new RadioQuestion({
-      //   key: 'Radion question',
-      //   label: 'Bravery radion',
-      //   options: [
-      //     { key: 'Option 1', value: 'opt_1' },
-      //     { key: 'Option 2', value: 'opt_2' },
-      //     { key: 'Option 3', value: 'opt_3' },
-      //     { key: 'Option 4', value: 'opt_4' }
-      //   ],
-      //   order: 7,
-      //   required: false,
-      // }),
+      new RadioQuestion({
+        key: 'Radion question',
+        label: 'Bravery radion',
+        options: [
+          { key: 'Option 1', value: 'opt_1' },
+          { key: 'Option 2', value: 'opt_2' },
+          { key: 'Option 3', value: 'opt_3' },
+          { key: 'Option 4', value: 'opt_4' }
+        ],
+        order: 7,
+        required: false,
+      }),
 
-      // new CheckboxQuestion({
-      //   key: 'Checkbox groupe',
-      //   label: 'Bravery checkbox',
-      //   options: [
-      //     { key: 'opt_1', label: 'Option 1', value: false },
-      //     { key: 'opt_2', label: 'Option 2', value: false },
-      //     { key: 'opt_3', label: 'Option 3', value: false },
-      //     { key: 'opt_4', label: 'Option 4', value: false },
-      //     { key: 'opt_5', label: 'Option 5', value: false }
-      //   ],
-      //   order: 0,
-      //   required: false,
-      //   isAdditionalAnswer: false
-      // }),
+      new CheckboxQuestion({
+        key: 'Checkbox groupe',
+        label: 'Bravery checkbox',
+        options: [
+          { key: 'opt_1', label: 'Option 1', value: false },
+          { key: 'opt_2', label: 'Option 2', value: false },
+          { key: 'opt_3', label: 'Option 3', value: false },
+          { key: 'opt_4', label: 'Option 4', value: false },
+          { key: 'opt_5', label: 'Option 5', value: false }
+        ],
+        order: 0,
+        required: false,
+        isAdditionalAnswer: false
+      }),
 
       new GridRadioQuestion({
         id: '10b08afca4dff80e975f4910ee85ef3f',
