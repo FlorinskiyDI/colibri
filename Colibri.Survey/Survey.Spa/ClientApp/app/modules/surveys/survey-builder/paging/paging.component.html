@@ -1,0 +1,27 @@
+<div class='wrapper'>
+    <div class='carousel-wrapper'>
+        <div class='carousel' fxLayout='row' fxLayoutAlign='center stretch'>
+            <ul class='ulCollection' *ngFor='let items of batches' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
+                <li (click)="selectPage(item.title)"   [ngClass]='{"active": selectItem == item.title}' *ngFor='let item of items' fxLayout='column' fxLayoutAlign='center center'>
+                    <div class='text'>{{item.title}}</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+</div>
+<div class="d-paging-buttons">
+    <div class='arrow-left' (click)='slideBackward(1)'>
+        <!-- <i class='material-icons'>keyboard_arrow_left</i> -->
+        <i class='fa fa-chevron-left'></i>
+    </div>
+    <div class='arrow-right' (click)='slideForward(-1)'>
+            <i class='fa fa-chevron-right'></i>
+        <!-- <i class='material-icons'>keyboard_arrow_right</i> -->
+    </div>
+    <div class='save-survey' (click)='addPage()'>
+            <i class='fa fa-plus'></i>
+            <!-- <i class='fa fa-chevron-right'></i> -->
+    </div>
+</div>

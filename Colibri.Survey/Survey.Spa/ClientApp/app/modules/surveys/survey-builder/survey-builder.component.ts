@@ -20,6 +20,8 @@ import { QuestionTransferService } from '../../../shared/transfers/question-tran
     providers: [QuestionService, QuestionControlService]
 })
 export class SurveyBuilderComponent {
+
+    widgets: Array<object>;
     questions: any[];
     newquestion: any;
 
@@ -72,12 +74,12 @@ export class SurveyBuilderComponent {
         this.availableQuestionsOption = {
             allowquestion: ['dropZonesName1', 'dropZonesName2', 'dropZonesName3', 'dropZonesName4', 'dropZonesName5', 'dropZonesName6'],
             availableQuestions: [
-                { type: ControTypes.textbox, name: 'Textbox', order: 1, dropZonesName: 'dropZonesName1', description: 'Textbox description', icon: 'fa-font'} as AvailableQuestions,
-                { type: ControTypes.textarea, name: 'Textarea', order: 2, dropZonesName: 'dropZonesName2', description: 'Texarea description', icon: 'fa-text-width'} as AvailableQuestions,
-                { type: ControTypes.radio, name: 'Radiogroup', order: 3, dropZonesName: 'dropZonesName3', description: 'Radio group description', icon: 'fa-dot-circle-o'} as AvailableQuestions,
-                { type: ControTypes.checkbox, name: 'Checkbox', order: 4, dropZonesName: 'dropZonesName4', description: 'Checkbox description', icon: 'fa-check-square-o'} as AvailableQuestions,
-                { type: ControTypes.dropdown, name: 'Dropdown', order: 5, dropZonesName: 'dropZonesName5', description: 'Dropdown description', icon: 'fa-indent'} as AvailableQuestions,
-                { type: ControTypes.gridRadio, name: 'Grid (single choice)', order: 6, dropZonesName: 'dropZonesName6', description: 'grid description', icon: 'fa-table'} as AvailableQuestions
+                { type: ControTypes.textbox, name: 'Textbox', order: 1, dropZonesName: 'dropZonesName1', description: 'Textbox description', icon: 'fa-font' } as AvailableQuestions,
+                { type: ControTypes.textarea, name: 'Textarea', order: 2, dropZonesName: 'dropZonesName2', description: 'Texarea description', icon: 'fa-text-width' } as AvailableQuestions,
+                { type: ControTypes.radio, name: 'Radiogroup', order: 3, dropZonesName: 'dropZonesName3', description: 'Radio group description', icon: 'fa-dot-circle-o' } as AvailableQuestions,
+                { type: ControTypes.checkbox, name: 'Checkbox', order: 4, dropZonesName: 'dropZonesName4', description: 'Checkbox description', icon: 'fa-check-square-o' } as AvailableQuestions,
+                { type: ControTypes.dropdown, name: 'Dropdown', order: 5, dropZonesName: 'dropZonesName5', description: 'Dropdown description', icon: 'fa-indent' } as AvailableQuestions,
+                { type: ControTypes.gridRadio, name: 'Grid (single choice)', order: 6, dropZonesName: 'dropZonesName6', description: 'grid description', icon: 'fa-table' } as AvailableQuestions
             ],
         };
         this.listTeamOne5.push('111111111111112');
@@ -90,7 +92,16 @@ export class SurveyBuilderComponent {
         this.availableProducts.push(new Product('Blue Jeans', 4, 60));
     }
 
-
+    ngOnInit() {
+        this.widgets = this.generateWidgets(11);
+    }
+    generateWidgets = (num: number) => {
+        const result = [];
+        for (let i = 0; i < num; i++) {
+            result.push({ title: 'Page ' + ( i + 1 ) + '*' });
+        }
+        return result;
+    }
 
     getQuestonDropzones() {
         // console.log('101010101010101010101010101010101010101010101010101010101010101010101');
@@ -160,7 +171,7 @@ export class SurveyBuilderComponent {
         new Container(3, 'Container 3', [new Widget('5'), new Widget('6')])
     ];
 
-    widgets: Array<Widget> = [];
+    // widgets: Array<Widget> = [];
     addTo($event: any) {
         if ($event) {
             this.widgets.push($event.dragData);

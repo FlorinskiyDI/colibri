@@ -1,0 +1,126 @@
+.d-builder-body-header{
+
+    .active {
+ 
+        background-color: #FFF29D;
+        color: #000;
+        
+    }
+    .d-paging-buttons{
+        position: absolute;
+        width:12%;
+        right: 0px;
+        background-color: #324464;
+        // background-color: red;
+        height: 21px;
+        // margin:0px 10px 0px 10px;
+    }
+
+    .wrapper{
+        height: 21px;   
+        width: 100%;
+        position: absolute;
+        // position: absolute;
+        width: 100%;
+        // background-color: silver;
+      }
+      
+      .carousel-wrapper{
+        box-sizing: border-box;
+        // padding: 0 40px;
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+      }
+      
+      .carousel{
+        position: relative;
+        overflow: hidden;
+        transition-duration: 1000ms;
+      }
+      
+      ul{
+        background-color: #324464;
+        list-style: none;
+        position: relative;
+        float: left;
+        width: 100%;
+        padding-left: 0px;
+        display: flex;
+        padding: 0px;
+        margin: 0px;
+      }
+      
+      li{
+        height: 21px;
+        color: #fff;
+      width: 130px;
+      background-color: #5B7199;
+      border-right: 1px solid #324464;
+      padding: 3px 5px 0px 5px;
+      }
+
+      .save-survey, .arrow-right, .arrow-left {
+          &:hover {
+              color: red;
+              cursor: pointer;
+          }
+      }
+
+      .arrow-right {
+        font-size: 11px;
+        position: absolute;
+        color: #fff;
+        top: 50%;
+        bottom: 50%;
+        left: 50%;
+        // width: 40px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        transition-duration: 300ms;
+        transform: translate(-50%, -50%);
+        // background: white;
+        z-index: 2;
+      }
+      
+      .arrow-left {
+        left: 10px;
+        font-size: 11px;
+        position: absolute;
+        color: #fff;
+        top: 50%;
+        bottom: 50%;
+        // bottom: 50%;
+        // left: 10px;
+        // width: 40px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        transition-duration: 300ms;
+        // background: white;
+        z-index: 2;
+      
+      }
+      
+      .save-survey {
+          right: 10px;
+        font-size: 15px;
+        position: absolute;
+        color: #fff;
+        top: 2px;
+        bottom: 5px;
+        // width: 40px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        transition-duration: 300ms;
+        // background: white;
+        z-index: 2;
+      
+      }
+      
+}
