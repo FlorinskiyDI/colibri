@@ -135,13 +135,13 @@
 }
 
 #d-builder-body{
-    background-color: #f0f0e3;
+    // background-color: #f0f0e3;
     position: absolute;
     margin: 5px 5px 5px 0px;
     height: calc(100% - 10px); // 10px = margin-top + margin-bottom
-    width: calc(50% - 5px); // 10px = margin-left + margin-rignt
+    width: calc(55% - 5px); // 10px = margin-left + margin-rignt
     left: 20%;
-    overflow: auto;
+    // overflow: auto;
     // border: 1px solid #8694B5;
 
     .d-builder-body-header {
@@ -154,6 +154,7 @@
 
     .d-builder-body-content{
         top:21px;
+        overflow: auto;
         height: calc( 100% - 21px);
         position: absolute;
         width: 100%;
@@ -167,7 +168,7 @@
     margin: 5px 5px 5px 0px;
     position: absolute;
     height: calc(100% - 10px); // 10px = margin-top + margin-bottom
-    width: calc(30% - 5px); // 10px = margin-left + margin-rignt
+    width: calc(25% - 5px); // 10px = margin-left + margin-rignt
     right: 0px;
     overflow: auto;
     padding: 10px;

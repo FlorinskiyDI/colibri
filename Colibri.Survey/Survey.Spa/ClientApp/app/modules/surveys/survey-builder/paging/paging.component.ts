@@ -22,7 +22,7 @@ export class PagingComponent implements OnInit, AfterViewChecked {
     carouselWrapperWidth: number;
     count = 0;
     ii = 0;
-    selectItem = 'Page 1';
+    selectItem = 'Page 1*';
     constructor(
         private elementRef: ElementRef,
         private changeDetectorRef: ChangeDetectorRef

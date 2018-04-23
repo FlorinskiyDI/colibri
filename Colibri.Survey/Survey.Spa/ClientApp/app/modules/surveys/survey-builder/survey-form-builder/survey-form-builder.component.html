@@ -1,30 +1,33 @@
-<div>
+<div class="body-question-builder">
 
-  <p *ngIf="form.valid" style="color: green; font-weight: bold"> form is required: {{form.valid | json}}</p>
-  <p *ngIf="!form.valid" style="color: red; font-weight: bold"> form is required: {{form.valid | json}}</p>
+  <!-- <p *ngIf="form.valid" style="color: green; font-weight: bold"> form is required: {{form.valid | json}}</p>
+  <p *ngIf="!form.valid" style="color: red; font-weight: bold"> form is required: {{form.valid | json}}</p> -->
 
+  <div class="header"></div>
+  <div class="body">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+      <!-- {{questionSettings.allowquestion | json}} -->
+      <div class="question-list"  dnd-sortable-container (onDropSuccess)="onDragEnd1($event)" (dragend)="onDragEnd1()" [dropZones]="questionSettings.allowquestion"
+        [sortableData]="questions">
 
-  <form (ngSubmit)="onSubmit()" [formGroup]="form">
-    {{questionSettings.allowquestion | json}}
-    <div class="panel-body" dnd-sortable-container (onDropSuccess)="onDragEnd1($event)"   (dragend)="onDragEnd1()" [dropZones]="questionSettings.allowquestion"
-      [sortableData]="questions">
+        <ul class="d-list-group">
+          <li *ngFor="let item of questions; let i = index" class="d-repeat-question" (dragend)="onDragEnd1($event)" [dragData]="item"
+            (onDropSuccess)="onDragEnd1($event)" dnd-sortable [sortableIndex]="i">
+            <!-- {{item | json}} -->
+            <div class="d-item-question" dnd-droppable (onDropSuccess)="!!$event.dragData.name ? addNewQuestion($event, i) : changeQuestionOrders(item, i)"
+              [dropZones]="questionSettings.allowquestion">
 
-      <ul class="list-group">
-        <li *ngFor="let item of questions; let i = index" class="list-group-item" (dragend)="onDragEnd1($event)" [dragData]="item"  (onDropSuccess)="onDragEnd1($event)"  dnd-sortable [sortableIndex]="i">
-          <!-- {{item | json}} -->
-          <div class="panel-body" style="background-color: silver" dnd-droppable    (onDropSuccess)="!!$event.dragData.name ? addNewQuestion($event, i) : changeQuestionOrders(item, i)"
-            [dropZones]="questionSettings.allowquestion">
+              <!-- {{questionSettings.allowquestion | json}} -->
+              <survey-form-question [question]="item" [form]="form"></survey-form-question>
 
-            <!-- {{questionSettings.allowquestion | json}} -->
-            <survey-form-question [question]="item" [form]="form"></survey-form-question>
+            </div>
 
-          </div>
-
-        </li>
-      </ul>
-    </div>
-    <div class="form-row">
-      <button type="submit" [disabled]="!form.valid">Save</button>
-    </div>
-  </form>
+          </li>
+        </ul>
+      </div>
+      <div class="form-row">
+        <button type="submit" [disabled]="!form.valid">Save</button>
+      </div>
+    </form>
+  </div>
 </div>

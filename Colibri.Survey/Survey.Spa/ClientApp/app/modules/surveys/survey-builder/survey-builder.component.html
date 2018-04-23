@@ -76,15 +76,18 @@
         <div class="d-builder-body-header">
             <paging [items]='widgets'></paging>
         </div>
-        <div class="d-builder-body-content"></div>
-        <!-- <div class="col-sm-12">
-            <div class="panel panel-info">
-                <div class="panel-heading">Form builder </div>
+        <div class="d-builder-body-content">
 
-                <survey-from-builder [questions]="questions" [questionSettings]="availableQuestionsOption" (temporaryAnser)="temporaryAnser = $event"></survey-from-builder>
+            <!-- <div class="col-sm-12"> -->
+                <!-- <div class="panel panel-info"> -->
+                    <!-- <div class="panel-heading">Form builder </div> -->
 
-            </div>
-        </div> -->
+                    <survey-from-builder [questions]="questions" [questionSettings]="availableQuestionsOption" (temporaryAnser)="temporaryAnser = $event"></survey-from-builder>
+
+                <!-- </div> -->
+            <!-- </div> -->
+        </div>
+
     </div>
     <div id="d-builder-option">
         <pre>{{questions | json}}</pre>
