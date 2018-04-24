@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 
+
+import { QuestionBase } from '../../Models/form-builder/question-base.model';
+
 import { TextboxQuestion } from '../../Models/form-builder/question-textbox.model';
 import { DropdownQuestion } from '../../Models/form-builder/question-dropdown.model';
-import { QuestionBase } from '../../Models/form-builder/question-base.model';
 import { TextAreaQuestion } from '../../Models/form-builder/question-textarea.model';
 import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
 import { CheckboxQuestion } from '../../Models/form-builder/question-checkbox.model';
@@ -19,6 +21,7 @@ export class QuestionService {
       new TextboxQuestion({
         key: 'firstName',
         label: 'First name',
+        description: 'some description',
         value: '',
         required: true,
         order: 0,
@@ -28,6 +31,7 @@ export class QuestionService {
       new DropdownQuestion({
         key: 'brave',
         label: 'Bravery Rating',
+        description: 'some description',
         options: [
           { key: 'solid', value: 'Solid' },
           { key: 'great', value: 'Great' },
@@ -41,6 +45,7 @@ export class QuestionService {
       new TextAreaQuestion({
         key: 'lastname',
         label: 'last name',
+        description: 'some description',
         value: '',
         required: true,
         order: 1,
@@ -58,6 +63,7 @@ export class QuestionService {
       new RadioQuestion({
         key: 'Radion question',
         label: 'Bravery radion',
+        description: 'some description',
         options: [
           { key: 'Option 1', value: 'opt_1' },
           { key: 'Option 2', value: 'opt_2' },
@@ -71,6 +77,7 @@ export class QuestionService {
       new CheckboxQuestion({
         key: 'Checkbox groupe',
         label: 'Bravery checkbox',
+        description: 'some description',
         options: [
           { key: 'opt_1', label: 'Option 1', value: false },
           { key: 'opt_2', label: 'Option 2', value: false },
@@ -87,6 +94,7 @@ export class QuestionService {
         id: '10b08afca4dff80e975f4910ee85ef3f',
         key: 'grid radio',
         label: 'grid question',
+        description: 'some description',
         type: 'grid',
         grid: {
           cellInputType: 'radio',  // radio, checkbox

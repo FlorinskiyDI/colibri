@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnChanges, EventEmitter, Output } from '@angular/core';
-import { FormGroup} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ControTypes } from '../../../../shared/constants/control-types.constant';
 
 import { QuestionTransferService } from '../../../../shared/transfers/question-transfer.service';
@@ -22,6 +22,8 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
     @Input() questions: QuestionBase<any>[] = [];
     @Input() question: QuestionBase<any>;
     form: FormGroup;
+
+    editQuestionKey = '';
 
     @Output()
     temporaryAnser: EventEmitter<any> = new EventEmitter<any>();
@@ -53,8 +55,18 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
         });
     }
 
+    setQuestionOption(question: any, checked: boolean) {
+        if (checked) {
+            console.log('send option to rightbar!');
+            console.log(checked);
+        }
+        console.log('turn off edit state!');
 
+    }
 
+    editQuestionEvent(item: any) {
+        console.log(item.cheked);
+    }
 
     ngOnInit() {
         this.form = this.qcs.toFormGroup(this.questions);

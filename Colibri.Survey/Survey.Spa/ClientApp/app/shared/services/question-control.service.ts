@@ -73,6 +73,7 @@ export class QuestionControlService {
     const question = new TextboxQuestion({
       key: key,
       label: 'default question text for type control "textbox"',
+      description: 'some description!',
       type: 'email',
       order: index,
       required: false,
@@ -87,6 +88,7 @@ export class QuestionControlService {
     const question = new TextAreaQuestion({
       key: key,
       label: 'default question text for type control "textarea"',
+      description: 'some description!',
       type: 'textarea',
       order: index,
       required: false,
@@ -100,6 +102,7 @@ export class QuestionControlService {
     const question = new RadioQuestion({
       key: key,
       label: 'default question text for type control "radiobutton"',
+      description: 'some description!',
       options: [
         { key: 'Option 1', value: 'opt_1' },
         { key: 'Option 2', value: 'opt_2' },
@@ -123,6 +126,7 @@ export class QuestionControlService {
     const question = new CheckboxQuestion({
       key: key,
       label: 'Bravery checkbox',
+      description: 'some description!',
       options: [
         { key: 'opt_1', label: 'Option 1', value: false },
         { key: 'opt_2', label: 'Option 2', value: false },
@@ -145,6 +149,7 @@ export class QuestionControlService {
     const question = new DropdownQuestion({
       key: key,
       label: 'default question text for type control "dropdown"',
+      description: 'some description!',
       options: [
         { key: 'solid', value: 'Solid' },
         { key: 'great', value: 'Great' },
@@ -167,6 +172,7 @@ export class QuestionControlService {
       id: '10b08afca4dff80e975f4910ee85efff',
       key: key,
       label: 'grid question',
+      description: 'some description!',
       type: 'grid',
       grid: {
         cellInputType: 'radio',  // radio, checkbox

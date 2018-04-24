@@ -2,7 +2,8 @@ import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 
 import { QuestionBase } from '../../../../../shared/models/form-builder/question-base.model';
-
+import { ControlOptionModel } from '../../../../../shared/models/form-builder/form-control/control-option.model';
+import { GUID } from '../../../../../shared/helpers/guide-type.helper';
 @Component({
     selector: 'survey-form-question',
     templateUrl: './survey-form-question.component.html',
@@ -14,6 +15,8 @@ export class SurveyFormQuestionComponent {
 
     @Input() question: QuestionBase<any>;
     @Input() form: FormGroup;
+    @Input() isEditQuestion: boolean;
+
     get isValid() {
         return this.form.controls[this.question.key].valid;
     }
@@ -24,7 +27,7 @@ export class SurveyFormQuestionComponent {
 
 
     onChange(key: string, label: string, isChecked: boolean) {
-        debugger
+
         // const answer: any = 'answer';
         const checkBoxArray = <FormArray>this.form.controls[key];
         const checkBoxControl = checkBoxArray.controls['answer'];
@@ -35,6 +38,33 @@ export class SurveyFormQuestionComponent {
             const index = checkBoxControl.controls.findIndex((x: any) => x.value === label);
             checkBoxControl.removeAt(index);
         }
+    }
+
+
+    setOption(event: any, key: string, input: any) {
+        this.form.controls[key].setValue = input.value;
+        console.log(input.value);
+        console.log(event.target.value);
+    }
+
+
+    addItem(mass: any[]) {
+        const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...');
+        mass.push(item);
+    }
+
+    addRow(mass: any) {
+        const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...');
+        mass.grid.rows.push(item);
+    }
+
+    addCol(mass: any) {
+        const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...');
+        mass.grid.cols.push(item);
+    }
+
+    deleteItem(index: number, mass: ControlOptionModel[]) {
+        mass.splice(index, 1);
     }
 
 

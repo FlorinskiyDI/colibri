@@ -11,11 +11,11 @@
         [sortableData]="questions">
 
         <ul class="d-list-group">
-          <li *ngFor="let item of questions; let i = index" class="d-repeat-question"  (dragend)="onDragEnd1($event)" [dragData]="item"
-            (onDropSuccess)="onDragEnd1($event)" dnd-sortable [sortableIndex]="i">
+          <li *ngFor="let item of questions; let i = index"  class="d-repeat-question" [ngClass]='{"d-edit-repeat-question": editQuestionKey == item.key}'
+            (dragend)="onDragEnd1($event)" [dragData]="item" (onDropSuccess)="onDragEnd1($event)" dnd-sortable [dragEnabled]="!editCheckbox.checked" [sortableIndex]="i">
             <!-- {{item | json}} -->
 
-            <!-- [ngClass]='{"d-edit-repeat-question": editibleCheckbox.checked}' -->
+            <!--  -->
             <!-- <div class="d-question-header" >
                 <input #editibleCheckbox type="checkbox">
               <p>Question № {{i + 1}}</p>
@@ -24,36 +24,38 @@
               </p>
             </div> -->
             <div class="d-question-wrapp">
-              <div class="d-item-opt">
+              <div class="d-item-left-section">
                 <div class="d-item-opt-controls">
-                  <input type="checkbox"> {{'Q' + (i+1)}}
+                  <input #editCheckbox name="editCheckbox" type="radio" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? editQuestionKey = item.key: editQuestionKey = ''"> {{'Q' + (i+1)}}
                 </div>
               </div>
-              <div class="d-item-question" dnd-droppable (onDropSuccess)="!!$event.dragData.name ? addNewQuestion($event, i) : changeQuestionOrders(item, i)"
+              <div class="d-item-right-section" dnd-droppable   (onDropSuccess)="!!$event.dragData.name ? addNewQuestion($event, i) : changeQuestionOrders(item, i)"
                 [dropZones]="questionSettings.allowquestion">
 
                 <!-- {{questionSettings.allowquestion | json}} -->
 
                 <!-- <div class="d-question-wrapper"></div> -->
 
-                <survey-form-question [question]="item" [form]="form"></survey-form-question>
+                <survey-form-question [isEditQuestion]="editCheckbox.checked" [question]="item" [form]="form"></survey-form-question>
+                <!-- <div *ngIf="editCheckbox.checked">
+                  edit area!!!
+                </div> -->
+              </div>
+
+            </div>
+            <!-- <div class="d-question-wrapp">
+              <div class="d-item-left-section">
+                <div class="d-item-opt-controls">
+                  <input type="checkbox"> {{'Q' + (i+1)}}
+                </div>
+              </div>
+              <div class="d-item-right-section">
+
+                22222222222222222
 
               </div>
-              
-            </div>
-            <div class="d-question-wrapp">
-                <div class="d-item-opt">
-                  <div class="d-item-opt-controls">
-                    <input type="checkbox"> {{'Q' + (i+1)}}
-                  </div>
-                </div>
-                <div class="d-item-question" >
-  
-                 22222222222222222
-  
-                </div>
-                
-              </div>
+
+            </div> -->
           </li>
         </ul>
       </div>

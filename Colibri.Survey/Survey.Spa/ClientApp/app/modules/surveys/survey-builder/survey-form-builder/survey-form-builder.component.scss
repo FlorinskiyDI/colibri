@@ -1,8 +1,9 @@
 .body-question-builder{
     // background-color: #626E83;
-    background-color: #EEEEF2;
+    // background-color: #EEEEF2
+    background-color: #5F6C81;
     min-height: 100%;
-    padding-bottom: 60px;
+    // padding-bottom: 60px;
     .header {
         // height: 60px;
         // width: 100%;
@@ -11,17 +12,18 @@
         height: 60px;
         /* align-items: center; */
         margin: 0 auto;
-        // background-color: #fff;
+        background-color: #fff;
         //  background-color: silver;
     }
 
     .body {
         width: 98%;
-        height: auto;
+        height: 100%;
         // border: 1px solid #CCCEDB;
-        align-items: ce;
+        align-items: center;
+        padding-top: 30px;
         margin: 0 auto; 
-        // background-color: #fff;
+        background-color: #fff;
 
         .question-list {
             // background-color: green;
@@ -36,8 +38,11 @@
                 display: block;
                 position: relative;
                 border: 1px solid #cfd6e5;
-                margin-bottom: 4px;
+                // margin-bottom: 4px;
                 background-color: #fff;
+
+                margin: 6px;
+
 
                 &:hover {
                     // background-color: #FAFAFA;
@@ -67,7 +72,7 @@
                 .d-question-wrapp {
                     display: flex;
                 }
-                .d-item-opt {
+                .d-item-left-section {
                     // min-height: calc( 100% - 1px );
                     width: 8%;
                     border-right: 1px solid #cfd6e5;
@@ -87,7 +92,7 @@
                     }
                 }
 
-                .d-item-question{
+                .d-item-right-section{
                     width: 92%;
                     // position: absolute;
                     // width: 95px;
@@ -100,13 +105,14 @@
 
                 border: 1px solid #4D6082;
 
-                .d-question-header {
-                    background-color: #4D6082;
-                    color: #fff;
+                .d-item-left-section {
+                    background-color: #C5CCDA;
+                    border-right: 1px solid #a2acbf;
+                    // color: #fff;
+                }
 
-                    .d-header-button-delete{
-                        color: #fff;
-                    }
+                .d-item-right-section{
+                    background-color: #CFD6E5;
                 }
             }
 
