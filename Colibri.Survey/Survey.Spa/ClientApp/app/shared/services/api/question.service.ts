@@ -23,7 +23,7 @@ export class QuestionService {
         label: 'First name',
         description: 'some description',
         value: '',
-        required: false,
+        required: true,
         order: 0,
         isAdditionalAnswer: false
       }),

@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { QuestionTransferService } from '../../../../shared/transfers/question-transfer.service';
 
-import {  FormGroup, Validators } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 @Component({
     selector: 'question-option',
     templateUrl: './question-option.component.html',
@@ -13,7 +13,7 @@ import {  FormGroup, Validators } from '@angular/forms';
 export class QuestionOptionComponent {
 
     questionOption: any = {};
-    questionControl: any;
+    questionControl: FormGroup;
     constructor(
         private questionTransferService: QuestionTransferService,
         // private fb: FormBuilder
@@ -34,10 +34,13 @@ export class QuestionOptionComponent {
         debugger
         if (state) {
             console.log(this.questionControl);
-            this.questionControl.controls['answer'].clearValidators();
+            this.questionControl.controls['answer'].setValidators(Validators.required);
             this.questionControl.controls['answer'].updateValueAndValidity();
+
         } else {
-            this.questionControl.controls['answer'].setAsyncValidators(Validators.required);
+
+
+            this.questionControl.controls['answer'].clearValidators();
             this.questionControl.controls['answer'].updateValueAndValidity();
         }
     }

@@ -58,7 +58,7 @@ export class QuestionControlService {
       }
       default: {
         group[question.key] = this.fb.group({
-          'answer': question.required ? new FormControl(question.value || '') : new FormControl(question.value || '', Validators.required),
+          'answer': !question.required ? new FormControl(question.value || '') : new FormControl(question.value || '', Validators.required),
           'additionalAnswer': new FormControl('')
         });
         break;

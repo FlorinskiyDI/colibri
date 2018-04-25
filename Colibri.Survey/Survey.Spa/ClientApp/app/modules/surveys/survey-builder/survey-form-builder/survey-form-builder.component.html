@@ -3,8 +3,8 @@
 
 
   <div class="header">
-      <p *ngIf="form.valid" style="color: green; font-weight: bold"> form is required: {{form.valid | json}}</p>
-      <p *ngIf="!form.valid" style="color: red; font-weight: bold"> form is required: {{form.valid | json}}</p>
+      <p *ngIf="form.valid" style="color: green; font-weight: bold"> {{form.valid | json}}</p>
+      <p *ngIf="!form.valid" style="color: red; font-weight: bold"> {{form.valid | json}}</p>
   </div>
   <div class="body">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
@@ -25,26 +25,30 @@
                 <i class="fa fa-times"></i>
               </p>
             </div> -->
-            <div class="d-question-wrapp">
-              <div class="d-item-left-section">
-                <div class="d-item-opt-controls">
-                  <input #editCheckbox name="editCheckbox" type="radio" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? editQuestionKey = item.key: editQuestionKey = ''"> {{'Q' + (i+1)}}
-                </div>
-              </div>
-              <div class="d-item-right-section" dnd-droppable   (onDropSuccess)="!!$event.dragData.name ? addNewQuestion($event, i) : changeQuestionOrders(item, i)"
+           
+              
+              <div class="d-question-wrapp" dnd-droppable   (onDropSuccess)="!!$event.dragData.name ? addNewQuestion($event, i) : changeQuestionOrders(item, i)"
                 [dropZones]="questionSettings.allowquestion">
+                <div class="d-item-left-section">
+                    <div class="d-item-opt-controls">
+                      <input #editCheckbox name="editCheckbox" type="radio" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? editQuestionKey = item.key: editQuestionKey = ''"> {{'Q' + (i+1)}}
+                    </div>
+                  </div>
+                  <div class="d-item-right-section">
+                      <survey-form-question [isEditQuestion]="editCheckbox.checked" [question]="item" [form]="form"></survey-form-question>
+                      
+                  </div>
 
                 <!-- {{questionSettings.allowquestion | json}} -->
 
                 <!-- <div class="d-question-wrapper"></div> -->
 
-                <survey-form-question [isEditQuestion]="editCheckbox.checked" [question]="item" [form]="form"></survey-form-question>
                 <!-- <div *ngIf="editCheckbox.checked">
                   edit area!!!
                 </div> -->
               </div>
 
-            </div>
+          
             <!-- <div class="d-question-wrapp">
               <div class="d-item-left-section">
                 <div class="d-item-opt-controls">

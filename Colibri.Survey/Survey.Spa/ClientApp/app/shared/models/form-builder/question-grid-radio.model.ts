@@ -3,7 +3,7 @@ import { ControTypes } from '../../constants/control-types.constant';
 
 export class GridRadioQuestion extends QuestionBase<string> {
     controlType = ControTypes.gridRadio;
-      options: {key: string, value: string}[] = [];
+      options: {key: string, value: string, label: string}[] = [];
       grid: any;
 
     constructor(options: any = {}) {
