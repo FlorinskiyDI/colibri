@@ -6,8 +6,8 @@ import { QuestionBase } from '../../Models/form-builder/question-base.model';
 // import { TextboxQuestion } from '../../Models/form-builder/question-textbox.model';
 // import { DropdownQuestion } from '../../Models/form-builder/question-dropdown.model';
 // import { TextAreaQuestion } from '../../Models/form-builder/question-textarea.model';
-import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
-// import { CheckboxQuestion } from '../../Models/form-builder/question-checkbox.model';
+// import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
+import { CheckboxQuestion } from '../../Models/form-builder/question-checkbox.model';
 // import { GridRadioQuestion } from '../../Models/form-builder/question-grid-radio.model';
 @Injectable()
 export class QuestionService {
@@ -57,37 +57,40 @@ export class QuestionService {
       // }),
 
 
-      new RadioQuestion({
-        //  controlType: 'radio', // same as in control-type.constant.ts
-        id: 'id_Radion question',
-        text: 'Bravery radion',
-        description: 'some description',
-        options: [
-          { id: 'id_Option 1', label: '', value: 'Option 1', order: 1 },
-          { id: 'id_Option 2', label: '', value: 'Option 2', order: 2 },
-          { id: 'id_Option 3', label: '', value: 'Option 3', order: 3 },
-          { id: 'id_Option 4', label: '', value: 'Option 4', order: 4 },
-        ],
-        order: 7,
-        required: false,
-        isAdditionalAnswer: false
-      }),
-
-      // new CheckboxQuestion({
-      //   key: 'Checkbox groupe',
-      //   label: 'Bravery checkbox',
+      // new RadioQuestion({
+      //   //  controlType: 'radio', // same as in control-type.constant.ts
+      //   id: 'id_Radion question',
+      //   text: 'Bravery radion',
       //   description: 'some description',
       //   options: [
-      //     { key: 'opt_1', label: 'Option 1', value: false },
-      //     { key: 'opt_2', label: 'Option 2', value: false },
-      //     { key: 'opt_3', label: 'Option 3', value: false },
-      //     { key: 'opt_4', label: 'Option 4', value: false },
-      //     { key: 'opt_5', label: 'Option 5', value: false }
+      //     { id: 'id_Option 1', label: '', value: 'Option 1', order: 1 },
+      //     { id: 'id_Option 2', label: '', value: 'Option 2', order: 2 },
+      //     { id: 'id_Option 3', label: '', value: 'Option 3', order: 3 },
+      //     { id: 'id_Option 4', label: '', value: 'Option 4', order: 4 },
       //   ],
-      //   order: 0,
+      //   order: 7,
       //   required: false,
       //   isAdditionalAnswer: false
       // }),
+
+      new CheckboxQuestion({
+        id: 'id_Checkbox groupe',
+        text: 'Bravery checkbox',
+        description: 'some description',
+        options: [
+          { id: 'id_Option 1', label: false, value: 'Variable 1', order: 1 },
+          { id: 'id_Option 2', label: true, value: 'Variable 1', order: 2 },
+          { id: 'id_Option 3', label: false, value: 'Variable 1', order: 3 },
+          // { key: 'opt_1', label: 'Option 1', value: false },
+          // { key: 'opt_2', label: 'Option 2', value: false },
+          // { key: 'opt_3', label: 'Option 3', value: false },
+          // { key: 'opt_4', label: 'Option 4', value: false },
+          // { key: 'opt_5', label: 'Option 5', value: false }
+        ],
+        order: 0,
+        required: false,
+        isAdditionalAnswer: false
+      }),
 
       // new GridRadioQuestion({
       //   id: '10b08afca4dff80e975f4910ee85ef3f',

@@ -126,14 +126,11 @@ export class QuestionControlService {
 
     const question = new CheckboxQuestion({
       id: id,
-      label: 'Bravery checkbox',
+      text: 'Bravery checkbox',
       description: 'some description!',
       options: [
-        { id: 'opt_1', label: 'Option 1', value: false },
-        { id: 'opt_2', label: 'Option 2', value: false },
-        { id: 'opt_3', label: 'Option 3', value: false },
-        { id: 'opt_4', label: 'Option 4', value: false },
-        { id: 'opt_5', label: 'Option 5', value: false }
+        new ControlOptionModel(GUID.getNewGUIDString(), false, 'variable 1', 0),
+        new ControlOptionModel(GUID.getNewGUIDString(), false, 'variable 2', 1),
       ],
       order: index,
       required: false,

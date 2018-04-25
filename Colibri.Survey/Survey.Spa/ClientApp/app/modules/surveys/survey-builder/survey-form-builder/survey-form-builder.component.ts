@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ControTypes } from '../../../../shared/constants/control-types.constant';
 
@@ -43,6 +43,10 @@ export class SurveyFormBuilderComponent implements OnInit {
         });
     }
 
+    ngOnInit() {
+        this.form = this.qcs.toFormGroup(this.questions);
+    }
+
     sortQuestionByIndex() {
         this.questions.forEach(x => {
             const indexOf = this.questions.indexOf(x);
@@ -58,23 +62,8 @@ export class SurveyFormBuilderComponent implements OnInit {
                     control: this.form.controls[question.id]
                 }
             );
-
         }
-
-
     }
-
-    editQuestionEvent(item: any) {
-
-    }
-
-    ngOnInit() {
-        this.form = this.qcs.toFormGroup(this.questions);
-
-    }
-
-
-
 
     changeQuestionOrders(item: any, index: number) {
         this.questions.forEach(x => {
