@@ -1,7 +1,7 @@
 export class QuestionBase<T> {
     value: T;
-    key: string;
-    label: string;
+    id: string;
+    text: string;
     description: string;
     required: boolean;
     order: number;
@@ -10,8 +10,8 @@ export class QuestionBase<T> {
     grid: any;
     constructor(options: {
         value?: T,
-        key?: string,
-        label?: string,
+        id?: string,
+        text?: string,
         description?: string,
         required?: boolean,
         order?: number,
@@ -21,8 +21,8 @@ export class QuestionBase<T> {
     } = {}) {
         console.log(options);
         this.value = options.value;
-        this.key = options.key || '';
-        this.label = options.label || '';
+        this.id = options.id || '';
+        this.text = options.text || '';
         this.description = options.description || '';
         this.required = !!options.required;
         this.order = options.order === undefined ? 1 : options.order;

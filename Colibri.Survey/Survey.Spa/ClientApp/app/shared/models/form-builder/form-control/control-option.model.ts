@@ -1,8 +1,9 @@
 export class ControlOptionModel {
 
     constructor(
-        public key: string,
+        public id: string,
         public label: string,
-        public value: string
+        public value: string,
+        public order: number
     ) { }
 }

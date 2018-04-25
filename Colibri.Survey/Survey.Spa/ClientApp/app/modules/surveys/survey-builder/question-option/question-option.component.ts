@@ -19,7 +19,6 @@ export class QuestionOptionComponent {
         // private fb: FormBuilder
     ) {
         this.questionTransferService.getQuestionOption().subscribe((data: any) => {
-            // debugger
             this.questionOption = data.question;
             this.questionControl = data.control;
             // const answerControl = data.control.get['answer'];
@@ -31,7 +30,6 @@ export class QuestionOptionComponent {
         });
     }
     changeQuestionValidation(state: boolean) {
-        debugger
         if (state) {
             console.log(this.questionControl);
             this.questionControl.controls['answer'].setValidators(Validators.required);
@@ -42,6 +40,13 @@ export class QuestionOptionComponent {
 
             this.questionControl.controls['answer'].clearValidators();
             this.questionControl.controls['answer'].updateValueAndValidity();
+        }
+    }
+
+
+    AddAdditionalQuestion (state: boolean) {
+        if (!state) {
+            this.questionControl.controls['additionalAnswer'].setValue('');
         }
     }
 }

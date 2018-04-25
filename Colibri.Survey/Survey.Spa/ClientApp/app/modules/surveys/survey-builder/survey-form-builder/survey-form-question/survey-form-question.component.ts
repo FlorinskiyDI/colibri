@@ -18,9 +18,9 @@ export class SurveyFormQuestionComponent {
     @Input() isEditQuestion: boolean;
 
     get isValid() {
-        return this.form.controls[this.question.key].valid;
+        return this.form.controls[this.question.id].valid;
     }
-    get isDirty() { return this.form.controls[this.question.key].dirty; }
+    get isDirty() { return this.form.controls[this.question.id].dirty; }
 
 
     constructor(private fb: FormBuilder) { }
@@ -49,17 +49,17 @@ export class SurveyFormQuestionComponent {
 
 
     addItem(mass: any[]) {
-        const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...');
+        const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...', 1);
         mass.push(item);
     }
 
     addRow(mass: any) {
-        const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...');
+        const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...', 1);
         mass.grid.rows.push(item);
     }
 
     addCol(mass: any) {
-        const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...');
+        const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...', 1);
         mass.grid.cols.push(item);
     }
 
@@ -69,7 +69,6 @@ export class SurveyFormQuestionComponent {
 
 
     // onChange(key: string, label: string, isChecked: boolean) {
-    //     debugger
     //     console.log(key);
     //     const checkBoxArray = <FormArray>this.form.controls[key];
     //     let checkBoxControl = checkBoxArray.controls['answer'];
@@ -108,7 +107,6 @@ export class SurveyFormQuestionComponent {
 
 
         // let item = answerControl.controls.forEach(element => {
-        //   debugger
         //   if (element.controls['row'].controls['id'].value == itemRowLabel.id) {
         //     let ind = element.index;
         //     return ind;
@@ -129,7 +127,6 @@ export class SurveyFormQuestionComponent {
         answerControl.push(formGroup);
         this.lastSelectRowId = formGroup;
 
-        //   debugger
         // answerControl = [];
         //   if (isChecked && this.lastSelectRowId == '' || this.lastSelectRowId == itemRowLabel.id ) {
         //     console.log('workkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');

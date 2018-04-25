@@ -3,65 +3,31 @@
 
 
   <div class="header">
-      <p *ngIf="form.valid" style="color: green; font-weight: bold"> {{form.valid | json}}</p>
-      <p *ngIf="!form.valid" style="color: red; font-weight: bold"> {{form.valid | json}}</p>
+    <p *ngIf="form.valid" style="color: green; font-weight: bold"> {{form.valid | json}}</p>
+    <p *ngIf="!form.valid" style="color: red; font-weight: bold"> {{form.valid | json}}</p>
   </div>
   <div class="body">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <!-- {{questionSettings.allowquestion | json}} -->
-      <div class="question-list" dnd-sortable-container (onDropSuccess)="onDragEnd1($event)" (dragend)="onDragEnd1()" [dropZones]="questionSettings.allowquestion"
-        [sortableData]="questions">
+      <div class="question-list" dnd-sortable-container [dropZones]="questionSettings.allowquestion" [sortableData]="questions">
 
         <ul class="d-list-group">
-          <li *ngFor="let item of questions; let i = index"  class="d-repeat-question" [ngClass]='{"d-edit-repeat-question": editQuestionKey == item.key}'
-            (dragend)="onDragEnd1($event)" [dragData]="item" (onDropSuccess)="onDragEnd1($event)" dnd-sortable [dragEnabled]="!editCheckbox.checked" [sortableIndex]="i">
-            <!-- {{item | json}} -->
+          <li *ngFor="let item of questions; let i = index" class="d-repeat-question" [ngClass]='{"d-edit-repeat-question": editQuestionKey == item.id}'
+            [dragData]="item" dnd-sortable [dragEnabled]="!editCheckbox.checked" [sortableIndex]="i">
 
-            <!--  -->
-            <!-- <div class="d-question-header" >
-                <input #editibleCheckbox type="checkbox">
-              <p>Question № {{i + 1}}</p>
-              <p *ngIf="editibleCheckbox.checked" class="d-header-button-delete">
-                <i class="fa fa-times"></i>
-              </p>
-            </div> -->
-           
-              
-              <div class="d-question-wrapp" dnd-droppable   (onDropSuccess)="!!$event.dragData.name ? addNewQuestion($event, i) : changeQuestionOrders(item, i)"
-                [dropZones]="questionSettings.allowquestion">
-                <div class="d-item-left-section">
-                    <div class="d-item-opt-controls">
-                      <input #editCheckbox name="editCheckbox" type="radio" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? editQuestionKey = item.key: editQuestionKey = ''"> {{'Q' + (i+1)}}
-                    </div>
-                  </div>
-                  <div class="d-item-right-section">
-                      <survey-form-question [isEditQuestion]="editCheckbox.checked" [question]="item" [form]="form"></survey-form-question>
-                      
-                  </div>
 
-                <!-- {{questionSettings.allowquestion | json}} -->
-
-                <!-- <div class="d-question-wrapper"></div> -->
-
-                <!-- <div *ngIf="editCheckbox.checked">
-                  edit area!!!
-                </div> -->
-              </div>
-
-          
-            <!-- <div class="d-question-wrapp">
+            <div class="d-question-wrapp" dnd-droppable (onDropSuccess)="!!$event.dragData.name ? addNewQuestion($event, i) : changeQuestionOrders(item, i)"
+              [dropZones]="questionSettings.allowquestion">
               <div class="d-item-left-section">
                 <div class="d-item-opt-controls">
-                  <input type="checkbox"> {{'Q' + (i+1)}}
+                  <input #editCheckbox name="editCheckbox" type="radio" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? editQuestionKey = item.id: editQuestionKey = ''"> {{'Q' + (i+1)}}
                 </div>
               </div>
               <div class="d-item-right-section">
-
-                22222222222222222
+                <survey-form-question [isEditQuestion]="editCheckbox.checked" [question]="item" [form]="form"></survey-form-question>
 
               </div>
-
-            </div> -->
+            </div>
           </li>
         </ul>
       </div>

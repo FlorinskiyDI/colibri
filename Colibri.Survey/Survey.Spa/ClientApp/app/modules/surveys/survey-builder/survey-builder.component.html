@@ -57,8 +57,8 @@
                         </div>
                     </div>
                 </p-accordionTab>
-                <p-accordionTab header="Advanced Question" [selected]="true">
-                    <pre>{{questions | json}}</pre>
+                <p-accordionTab header="Advanced Question" [selected]="false">
+                    
                 </p-accordionTab>
                 <p-accordionTab header="Additional Controls" [selected]="true">
                     <pre>{{temporaryAnser | json}}</pre>
@@ -94,5 +94,6 @@
     </div>
     <div id="d-builder-option">
         <question-option></question-option>
+        <pre>{{questions | json}}</pre>
     </div>
 </div>

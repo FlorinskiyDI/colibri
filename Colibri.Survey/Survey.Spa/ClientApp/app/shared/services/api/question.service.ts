@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 
 import { QuestionBase } from '../../Models/form-builder/question-base.model';
 
-import { TextboxQuestion } from '../../Models/form-builder/question-textbox.model';
+// import { TextboxQuestion } from '../../Models/form-builder/question-textbox.model';
 // import { DropdownQuestion } from '../../Models/form-builder/question-dropdown.model';
 // import { TextAreaQuestion } from '../../Models/form-builder/question-textarea.model';
-// import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
+import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
 // import { CheckboxQuestion } from '../../Models/form-builder/question-checkbox.model';
 // import { GridRadioQuestion } from '../../Models/form-builder/question-grid-radio.model';
 @Injectable()
@@ -18,61 +18,60 @@ export class QuestionService {
 
     const questions: QuestionBase<any>[] = [
 
-      new TextboxQuestion({
-        key: 'firstName',
-        label: 'First name',
-        description: 'some description',
-        value: '',
-        required: true,
-        order: 0,
-        isAdditionalAnswer: false
-      }),
+      // new TextboxQuestion({
+      // //  controlType: 'textbox', // same as in control-type.constant.ts
+      //   id: 'id_firstName',
+      //   text: 'First name',
+      //   description: 'some description',
+      //   value: '',
+      //   required: true,
+      //   order: 0,
+      //   isAdditionalAnswer: true
+      // }),
 
       // new DropdownQuestion({
-      //   key: 'brave',
-      //   label: 'Bravery Rating',
+      //   // controlType: 'dropdown', // same as in control-type.constant.ts
+      //   id: 'id_brave', // unique value
+      //   text: 'Bravery Rating (text)',
       //   description: 'some description',
       //   options: [
-      //     { key: 'solid', value: 'Solid' },
-      //     { key: 'great', value: 'Great' },
-      //     { key: 'good', value: 'Good' },
-      //     { key: 'unproven', value: 'Unproven' }
+      //     { id: 'id_solid', label: '', value: 'Solid', order: 1 },
+      //     { id: 'id_great', label: '', value: 'Great', order: 2 },
+      //     { id: 'id_good', label: '', value: 'Good', order: 3 },
+      //     { id: 'id_unproven', label: '', value: 'Unproven', order: 4 }
       //   ],
       //   order: 0,
+      //   required: false,
       //   isAdditionalAnswer: false
       // }),
 
       // new TextAreaQuestion({
-      //   key: 'lastname',
-      //   label: 'last name',
+      // //  controlType: 'textarea', // same as in control-type.constant.ts
+      //   id: 'id_lastname',
+      //   text: 'last name',
       //   description: 'some description',
       //   value: '',
-      //   required: true,
+      //   required: false,
       //   order: 1,
       //   isAdditionalAnswer: false
       // }),
 
-      // new TextboxQuestion({
-      //   key: 'emailAddress',
-      //   label: 'Email',
-      //   type: 'email',
-      //   order: 2,
-      //   isAdditionalAnswer: false
-      // }),
 
-      // new RadioQuestion({
-      //   key: 'Radion question',
-      //   label: 'Bravery radion',
-      //   description: 'some description',
-      //   options: [
-      //     { key: 'Option 1', value: 'opt_1' },
-      //     { key: 'Option 2', value: 'opt_2' },
-      //     { key: 'Option 3', value: 'opt_3' },
-      //     { key: 'Option 4', value: 'opt_4' }
-      //   ],
-      //   order: 7,
-      //   required: false,
-      // }),
+      new RadioQuestion({
+        //  controlType: 'radio', // same as in control-type.constant.ts
+        id: 'id_Radion question',
+        text: 'Bravery radion',
+        description: 'some description',
+        options: [
+          { id: 'id_Option 1', label: '', value: 'Option 1', order: 1 },
+          { id: 'id_Option 2', label: '', value: 'Option 2', order: 2 },
+          { id: 'id_Option 3', label: '', value: 'Option 3', order: 3 },
+          { id: 'id_Option 4', label: '', value: 'Option 4', order: 4 },
+        ],
+        order: 7,
+        required: false,
+        isAdditionalAnswer: false
+      }),
 
       // new CheckboxQuestion({
       //   key: 'Checkbox groupe',
@@ -95,7 +94,6 @@ export class QuestionService {
       //   key: 'grid radio',
       //   label: 'grid question',
       //   description: 'some description',
-      //   type: 'grid',
       //   grid: {
       //     cellInputType: 'radio',  // radio, checkbox
       //     rows: [

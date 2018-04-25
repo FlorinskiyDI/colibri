@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 
+import { ControlOptionModel } from '../models/form-builder/form-control/control-option.model';
 import { QuestionBase } from '../models/form-builder/question-base.model';
 import { ControTypes } from '../constants/control-types.constant';
 
@@ -40,42 +41,44 @@ export class QuestionControlService {
 
 
   addTypeAnswer(question: QuestionBase<any>, group: any): any {
-    debugger
+
     switch (question.controlType) {
       case ControTypes.checkbox: {
-        group[question.key] = this.fb.group({
-          'answer': question.required ?  this.fb.array([]) : this.fb.array([], Validators.required),
+        group[question.id] = this.fb.group({
+          'type': new FormControl(question.controlType),
+          'answer': question.required ? this.fb.array([]) : this.fb.array([], Validators.required),
           'additionalAnswer': new FormControl('')
         });
         break;
       }
       case ControTypes.gridRadio: {
-        group[question.key] = this.fb.group({
+        group[question.id] = this.fb.group({
+          'type': new FormControl(question.controlType),
           'answer': question.required ? this.fb.array([]) : this.fb.array([], Validators.required),
           'additionalAnswer': new FormControl('')
         });
         break;
       }
       default: {
-        group[question.key] = this.fb.group({
+        group[question.id] = this.fb.group({
+          'type': new FormControl(question.controlType),
           'answer': !question.required ? new FormControl(question.value || '') : new FormControl(question.value || '', Validators.required),
           'additionalAnswer': new FormControl('')
         });
         break;
       }
     }
-    debugger
-    return group[question.key];
+
+    return group[question.id];
   }
 
 
   addTextboxControl(index: number): QuestionBase<any> {
-    const key = GUID.getNewGUIDString(); // new guid
+    const id = GUID.getNewGUIDString(); // new guid
     const question = new TextboxQuestion({
-      key: key,
-      label: 'default question text for type control "textbox"',
+      id: id,
+      text: 'default question text for type control "textbox"',
       description: 'some description!',
-      type: 'email',
       order: index,
       required: false,
       isAdditionalAnswer: false
@@ -85,12 +88,11 @@ export class QuestionControlService {
 
 
   addTextareaControl(index: number): QuestionBase<any> {
-    const key = GUID.getNewGUIDString(); // new guid
+    const id = GUID.getNewGUIDString(); // new guid
     const question = new TextAreaQuestion({
-      key: key,
-      label: 'default question text for type control "textarea"',
+      id: id,
+      text: 'default question text for type control "textarea"',
       description: 'some description!',
-      type: 'textarea',
       order: index,
       required: false,
       isAdditionalAnswer: false
@@ -99,41 +101,39 @@ export class QuestionControlService {
   }
 
   addRadioButtonControl(index: number): QuestionBase<any> {
-    const key = GUID.getNewGUIDString(); // new guid
+    const id = GUID.getNewGUIDString(); // new guid
     const question = new RadioQuestion({
-      key: key,
-      label: 'default question text for type control "radiobutton"',
+      id: id,
+      text: 'new "radiobutton"',
       description: 'some description!',
       options: [
-        { key: 'Option 1', value: 'opt_1' },
-        { key: 'Option 2', value: 'opt_2' },
-        { key: 'Option 3', value: 'opt_3' },
-        { key: 'Option 4', value: 'opt_4' }
+        new ControlOptionModel(GUID.getNewGUIDString(), '', 'radio 1', 0),
+        new ControlOptionModel(GUID.getNewGUIDString(), '', 'radio 2', 1),
       ],
       order: index,
       required: false,
       isAdditionalAnswer: false
     });
-    debugger
+
     return question;
   }
 
 
 
   addCheckBoxControl(index: number): QuestionBase<any> {
-    const key = GUID.getNewGUIDString(); // new guid
+    const id = GUID.getNewGUIDString(); // new guid
 
 
     const question = new CheckboxQuestion({
-      key: key,
+      id: id,
       label: 'Bravery checkbox',
       description: 'some description!',
       options: [
-        { key: 'opt_1', label: 'Option 1', value: false },
-        { key: 'opt_2', label: 'Option 2', value: false },
-        { key: 'opt_3', label: 'Option 3', value: false },
-        { key: 'opt_4', label: 'Option 4', value: false },
-        { key: 'opt_5', label: 'Option 5', value: false }
+        { id: 'opt_1', label: 'Option 1', value: false },
+        { id: 'opt_2', label: 'Option 2', value: false },
+        { id: 'opt_3', label: 'Option 3', value: false },
+        { id: 'opt_4', label: 'Option 4', value: false },
+        { id: 'opt_5', label: 'Option 5', value: false }
       ],
       order: index,
       required: false,
@@ -145,17 +145,15 @@ export class QuestionControlService {
 
   addDropdownControl(index: number): QuestionBase<any> {
 
-    const key = GUID.getNewGUIDString(); // new guid
+    const id = GUID.getNewGUIDString(); // new guid
 
     const question = new DropdownQuestion({
-      key: key,
-      label: 'default question text for type control "dropdown"',
+      id: id,
+      text: 'default question text for type control "dropdown"',
       description: 'some description!',
       options: [
-        { key: 'solid', value: 'Solid' },
-        { key: 'great', value: 'Great' },
-        { key: 'good', value: 'Good' },
-        { key: 'unproven', value: 'Unproven' }
+        new ControlOptionModel(GUID.getNewGUIDString(), '', 'dropdown value 1', 0),
+        new ControlOptionModel(GUID.getNewGUIDString(), '', 'dropdown value 2', 1)
       ],
       order: index,
       required: false,
@@ -166,15 +164,14 @@ export class QuestionControlService {
 
 
   addGridRadioControl(index: number): QuestionBase<any> {
-    const key = GUID.getNewGUIDString(); // new guid
+    const id = GUID.getNewGUIDString(); // new guid
 
 
     const question = new GridRadioQuestion({
       id: '10b08afca4dff80e975f4910ee85efff',
-      key: key,
+      id: id,
       label: 'grid question',
       description: 'some description!',
-      type: 'grid',
       grid: {
         cellInputType: 'radio',  // radio, checkbox
         rows: [

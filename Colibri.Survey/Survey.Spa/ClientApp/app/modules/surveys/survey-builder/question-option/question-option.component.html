@@ -1,4 +1,4 @@
 
 ({{questionOption.required}}) is required question: <input type="checkbox"  [(ngModel)]="questionOption.required" #validationCheckbox (click)="changeQuestionValidation(validationCheckbox.checked)">
 <br>
-Add aditional input: <input type="checkbox" [(ngModel)]="questionOption.isAdditionalAnswer">
+Add aditional input: <input type="checkbox" [(ngModel)]="questionOption.isAdditionalAnswer" #AdditionalCheckbox (click)="AddAdditionalQuestion(AdditionalCheckbox.checked)">

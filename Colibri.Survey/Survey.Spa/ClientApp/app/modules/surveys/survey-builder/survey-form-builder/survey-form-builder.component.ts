@@ -17,7 +17,7 @@ import { QuestionBase } from '../../../../shared/Models/form-builder/question-ba
     styleUrls: ['./survey-form-builder.component.scss'],
     providers: [QuestionControlService]
 })
-export class SurveyFormBuilderComponent implements OnInit, OnChanges {
+export class SurveyFormBuilderComponent implements OnInit {
     @Input() questionSettings: any;
     @Input() questions: QuestionBase<any>[] = [];
     @Input() question: QuestionBase<any>;
@@ -37,13 +37,8 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
         // private fb: FormBuilder
     ) {
         this.questionTransferService.getDropQuestion().subscribe((data: any) => {
-            console.log('some question wass deleted');
-            console.log(data);
-
-
             // remove question
-            this.form.removeControl(data.key);
-            console.log(this.form);
+            this.form.removeControl(data.id);
             this.sortQuestionByIndex();
         });
     }
@@ -59,36 +54,26 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
         if (checked) {
             this.questionTransferService.setQuestionOption(
                 {
-                    question : question,
-                    control : this.form.controls[question.key]
+                    question: question,
+                    control: this.form.controls[question.id]
                 }
             );
-            console.log('send option to rightbar!');
-            console.log(checked);
+
         }
-        console.log('turn off edit state!');
+
 
     }
 
     editQuestionEvent(item: any) {
-        console.log(item.cheked);
+
     }
 
     ngOnInit() {
         this.form = this.qcs.toFormGroup(this.questions);
-        console.log('0000000000000000000000000000000000000000000000');
-        console.log(this.form.valid);
-        console.log(this.form);
-        console.log('0000000000000000000000000000000000000000000000');
-        // debugger
-    }
-
-
-    ngOnChanges(changes: any) {
-
-        // this.doSomething(changes.categoryId.currentValue);
 
     }
+
+
 
 
     changeQuestionOrders(item: any, index: number) {
@@ -100,7 +85,6 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
 
 
     addNewQuestion($event: any, index: number) {
-        // debugger
         // organisere question orden
         this.questions.forEach(x => {
             const indexOf = this.questions.indexOf(x);
@@ -108,13 +92,6 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
         });
 
         this.questions.splice(index, 1); // remove AvailableQuestions object
-
-
-        console.log('101010101010101010101010101010101010101010101010101010101010101010101');
-        console.log($event.dragData);
-        console.log(index);
-        console.log('101010101010101010101010101010101010101010101010101010101010101010101');
-
         switch ($event.dragData.type) {
             case ControTypes.textbox: {
                 this.newquestion = this.questionControlService.addTextboxControl(index);
@@ -146,123 +123,14 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
                 break;
             }
         }
-
-
-        // this.form.addControl(this.newquestion.key, this.fb.group({
-        //     'answer': !this.newquestion.required ? new FormControl(this.newquestion.value || '') : new FormControl(this.newquestion.value || '', Validators.required),
-        //     'additionalAnswer': new FormControl('')
-        // }));
-        // console.log('0000000000000000000000000000000000000000000000');
-        // console.log(this.form.valid);
-        // console.log(this.form);
-        // console.log('0000000000000000000000000000000000000000000000');
         const group: any = {};
-        this.form.addControl(this.newquestion.key, this.questionControlService.addTypeAnswer(this.newquestion, group)
+        this.form.addControl(this.newquestion.id, this.questionControlService.addTypeAnswer(this.newquestion, group)
         );
-
-        // console.log('0000000000000000000000000000000000000000000000');
-        // console.log(this.form.valid);
-        // console.log(this.form);
-        // console.log('0000000000000000000000000000000000000000000000');
 
         this.questions.push(this.newquestion);
         this.questions.sort((a, b) => a.order - b.order);
     }
 
-
-    onDragEnd8() {
-        console.log('8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888');
-    }
-    onDragEnd1(event: any) {
-        console.log('3333333333333333333333311111111133333333333333333333333333333333333333333333333333333333333333333333333');
-        console.log(event);
-        console.log('3333333333333333333333311111111133333333333333333333333333333333333333333333333333333333333333333333333');
-    }
-
-
-    // addNewQuestionEmail(valReque: boolean) {
-    //     const key = 'Email' + this.count;
-    //     const quest = new TextboxQuestion({
-    //         key: key,
-    //         label: 'Email' + this.count,
-    //         type: 'email',
-    //         order: 2,
-    //         required: valReque,
-    //         isAdditionalAnswer: false
-    //     });
-
-    //     this.form.addControl(key, this.fb.group({
-    //         'answer': quest.required ? new FormControl(quest.value || '') : new FormControl(quest.value || '', Validators.required),
-    //         'additionalAnswer': new FormControl('')
-    //     }));
-    //     this.count++;
-    //     this.questions.push(quest);
-    // }
-
-
-
-    // addNewQuestionDrop(valReque: boolean) {
-    //     const key = 'DropDown' + this.count;
-    //     const questDrop = new DropdownQuestion({
-    //         key: key,
-    //         label: 'Bravery Rating',
-    //         options: [
-    //             { key: 'solid', value: 'Solid' },
-    //             { key: 'great', value: 'Great' },
-    //             { key: 'good', value: 'Good' },
-    //             { key: 'unproven', value: 'Unproven' }
-    //         ],
-    //         order: 5,
-    //         required: valReque,
-    //         isAdditionalAnswer: false
-    //     });
-    //     this.form.addControl(key, this.fb.group({
-    //         'answer': questDrop.required ? new FormControl(questDrop.value || '') : new FormControl(questDrop.value || '', Validators.required),
-    //         'additionalAnswer': new FormControl('')
-    //     }));
-    //     this.count++;
-    //     this.questions.push(questDrop);
-    // }
-
-
-    // addNewQuestionCheckbox(valReque: boolean, isAdditional: boolean) {
-
-    //     const key = 'Checkbox' + this.count;
-    //     const questCheckbox = new CheckboxQuestion({
-    //         key: key,
-    //         label: 'checkbox' + this.count,
-    //         options: [
-    //             { key: 'opt_11', label: 'Option 11', value: false },
-    //             { key: 'opt_22', label: 'Option 22', value: false }
-    //         ],
-    //         order: 6,
-    //         required: valReque,
-    //         isAdditionalAnswer: isAdditional
-    //     });
-
-    //     this.form.addControl(key,
-    //         this.fb.group({
-    //             'answer': questCheckbox.required ? this.fb.array([], Validators.required) : this.fb.array([]),
-    //             'additionalAnswer': new FormControl('')
-    //         })
-
-    //     );
-    //     this.form.addControl(key, questCheckbox.required ? this.fb.array([], Validators.required) : this.fb.array([]));
-    //     this.count++;
-    //     this.questions.push(questCheckbox);
-    // }
-
-    // addNewRowsForCheckbox0() {
-    //     const question = this.questions.find((val) => val.key === 'Checkbox0') as CheckboxQuestion;
-    //     question.options.push({ key: 'opt_33', value: false, label: 'Option 33' });
-    // }
-
-
-    // changeValidForEmail0() {
-    //     console.log(this.form.controls['Email0'].valid);
-    //     this.form.controls['Email0'].clearValidators();
-    //     this.form.get('Email0').updateValueAndValidity();
-    // }
 
     onSubmit() {
         this.payLoad = this.form.value;
