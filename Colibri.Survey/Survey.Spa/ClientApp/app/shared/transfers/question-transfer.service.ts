@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 export class QuestionTransferService {
     // private subject = new Subject<any>();
     private modelsubject = new Subject<any>();
+    private optionsubject = new Subject<any>();
 
 
     // -start transer 1- Communicating Between Components device-details and devcie-id-mapping
@@ -28,5 +29,13 @@ export class QuestionTransferService {
         return this.modelsubject.asObservable();
     }
 
+
+    // get  question
+    setQuestionOption(data: any) {
+        this.optionsubject.next(data);
+    }
+    getQuestionOption(): Observable<any> {
+        return this.optionsubject.asObservable();
+    }
 
 }

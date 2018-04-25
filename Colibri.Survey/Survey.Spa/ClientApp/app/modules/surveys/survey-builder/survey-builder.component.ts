@@ -24,7 +24,7 @@ export class SurveyBuilderComponent {
     widgets: Array<object>;
     questions: any[];
     newquestion: any;
-
+    questionOption: any = {};
 
     temporaryAnser: any;
     // availableQuestions: string[] = [
@@ -172,15 +172,15 @@ export class SurveyBuilderComponent {
     ];
 
     // widgets: Array<Widget> = [];
-    addTo($event: any) {
-        if ($event) {
-            this.widgets.push($event.dragData);
-            this.listTeamOne.push($event.dragData);
-            console.log('777777777777777777777777777777777777777777777');
-            console.log('777777777777777777777777777777777777777777777');
-            console.log('777777777777777777777777777777777777777777777');
-        }
-    }
+    // addTo($event: any) {
+    //     if ($event) {
+    //         this.widgets.push($event.dragData);
+    //         this.listTeamOne.push($event.dragData);
+    //         console.log('777777777777777777777777777777777777777777777');
+    //         console.log('777777777777777777777777777777777777777777777');
+    //         console.log('777777777777777777777777777777777777777777777');
+    //     }
+    // }
 
     listBoxers: Array<string> = ['Sugar Ray Robinson',
         'Muhammad Ali', 'George Foreman', 'Joe Frazier', 'Jake LaMotta', 'Joe Louis', 'Jack Dempsey', 'Rocky Marciano', 'Mike Tyson', 'Oscar De La Hoya'];

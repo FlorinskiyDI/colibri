@@ -8,7 +8,7 @@
         </div>
         <div class="d-builder-widgets-body">
             <p-accordion [multiple]="true">
-                <p-accordionTab header="Basic Question" [selected]="true">
+                <p-accordionTab header="Basic Question" [selected]="false">
 
                     <!-- <input type="checkbox" [(ngModel)]="dragOperation" /> -->
                     <div dnd-sortable-container [sortableData]="availableQuestions" [dropZones]="['container-dropZone']">
@@ -57,16 +57,19 @@
                         </div>
                     </div>
                 </p-accordionTab>
-                <p-accordionTab header="Advanced Question">
-                    Content 2
+                <p-accordionTab header="Advanced Question" [selected]="true">
+                    <pre>{{questions | json}}</pre>
                 </p-accordionTab>
-                <p-accordionTab header="Additional Controls">
-                    Content 3
+                <p-accordionTab header="Additional Controls" [selected]="true">
+                    <pre>{{temporaryAnser | json}}</pre>
                 </p-accordionTab>
                 <p-accordionTab header="Another Controls">
                     Content 4
                 </p-accordionTab>
             </p-accordion>
+
+            <!-- <pre>{{questions | json}}</pre>
+            <pre>{{temporaryAnser | json}}</pre> -->
         </div>
 
 
@@ -79,18 +82,17 @@
         <div class="d-builder-body-content">
 
             <!-- <div class="col-sm-12"> -->
-                <!-- <div class="panel panel-info"> -->
-                    <!-- <div class="panel-heading">Form builder </div> -->
+            <!-- <div class="panel panel-info"> -->
+            <!-- <div class="panel-heading">Form builder </div> -->
 
-                    <survey-from-builder [questions]="questions" [questionSettings]="availableQuestionsOption" (temporaryAnser)="temporaryAnser = $event"></survey-from-builder>
+            <survey-from-builder [questions]="questions" [questionSettings]="availableQuestionsOption" (temporaryAnser)="temporaryAnser = $event"></survey-from-builder>
 
-                <!-- </div> -->
+            <!-- </div> -->
             <!-- </div> -->
         </div>
 
     </div>
     <div id="d-builder-option">
-        <pre>{{questions | json}}</pre>
-        <pre>{{temporaryAnser | json}}</pre>
+        <question-option></question-option>
     </div>
 </div>

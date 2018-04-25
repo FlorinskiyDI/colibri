@@ -40,30 +40,31 @@ export class QuestionControlService {
 
 
   addTypeAnswer(question: QuestionBase<any>, group: any): any {
-
+    debugger
     switch (question.controlType) {
       case ControTypes.checkbox: {
         group[question.key] = this.fb.group({
-          'answer': question.required ? this.fb.array([], Validators.required) : this.fb.array([]),
+          'answer': question.required ?  this.fb.array([]) : this.fb.array([], Validators.required),
           'additionalAnswer': new FormControl('')
         });
         break;
       }
       case ControTypes.gridRadio: {
         group[question.key] = this.fb.group({
-          'answer': question.required ? this.fb.array([], Validators.required) : this.fb.array([]),
+          'answer': question.required ? this.fb.array([]) : this.fb.array([], Validators.required),
           'additionalAnswer': new FormControl('')
         });
         break;
       }
       default: {
         group[question.key] = this.fb.group({
-          'answer': new FormControl(question.value || ''),
+          'answer': question.required ? new FormControl(question.value || '') : new FormControl(question.value || '', Validators.required),
           'additionalAnswer': new FormControl('')
         });
         break;
       }
     }
+    debugger
     return group[question.key];
   }
 
@@ -113,7 +114,7 @@ export class QuestionControlService {
       required: false,
       isAdditionalAnswer: false
     });
-
+    debugger
     return question;
   }
 

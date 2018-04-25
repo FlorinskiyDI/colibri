@@ -13,7 +13,7 @@
 
         <div [ngSwitch]="question.controlType">
             <div *ngSwitchCase="'textbox'" [formGroupName]="question.key">
-                <input [formControlName]="'answer'" disabled="true" [id]="question.key" [type]="question.type">
+                <input [formControlName]="'answer'"  [id]="question.key" [type]="question.type">
             </div>
 
 

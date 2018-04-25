@@ -1,9 +1,11 @@
 <div class="body-question-builder">
 
-  <!-- <p *ngIf="form.valid" style="color: green; font-weight: bold"> form is required: {{form.valid | json}}</p>
-  <p *ngIf="!form.valid" style="color: red; font-weight: bold"> form is required: {{form.valid | json}}</p> -->
 
-  <div class="header"></div>
+
+  <div class="header">
+      <p *ngIf="form.valid" style="color: green; font-weight: bold"> form is required: {{form.valid | json}}</p>
+      <p *ngIf="!form.valid" style="color: red; font-weight: bold"> form is required: {{form.valid | json}}</p>
+  </div>
   <div class="body">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <!-- {{questionSettings.allowquestion | json}} -->

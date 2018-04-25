@@ -57,6 +57,12 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
 
     setQuestionOption(question: any, checked: boolean) {
         if (checked) {
+            this.questionTransferService.setQuestionOption(
+                {
+                    question : question,
+                    control : this.form.controls[question.key]
+                }
+            );
             console.log('send option to rightbar!');
             console.log(checked);
         }
@@ -70,6 +76,10 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         this.form = this.qcs.toFormGroup(this.questions);
+        console.log('0000000000000000000000000000000000000000000000');
+        console.log(this.form.valid);
+        console.log(this.form);
+        console.log('0000000000000000000000000000000000000000000000');
         // debugger
     }
 
@@ -142,11 +152,18 @@ export class SurveyFormBuilderComponent implements OnInit, OnChanges {
         //     'answer': !this.newquestion.required ? new FormControl(this.newquestion.value || '') : new FormControl(this.newquestion.value || '', Validators.required),
         //     'additionalAnswer': new FormControl('')
         // }));
+        // console.log('0000000000000000000000000000000000000000000000');
+        // console.log(this.form.valid);
+        // console.log(this.form);
+        // console.log('0000000000000000000000000000000000000000000000');
         const group: any = {};
         this.form.addControl(this.newquestion.key, this.questionControlService.addTypeAnswer(this.newquestion, group)
         );
 
-
+        // console.log('0000000000000000000000000000000000000000000000');
+        // console.log(this.form.valid);
+        // console.log(this.form);
+        // console.log('0000000000000000000000000000000000000000000000');
 
         this.questions.push(this.newquestion);
         this.questions.sort((a, b) => a.order - b.order);
