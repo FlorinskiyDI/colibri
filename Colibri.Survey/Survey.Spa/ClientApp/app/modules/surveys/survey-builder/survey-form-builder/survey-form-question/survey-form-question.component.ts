@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 
 import { QuestionBase } from '../../../../../shared/models/form-builder/question-base.model';
+import { CheckboxQuestion } from '../../../../../shared/models/form-builder/question-checkbox.model';
 import { ControlOptionModel } from '../../../../../shared/models/form-builder/form-control/control-option.model';
 import { GUID } from '../../../../../shared/helpers/guide-type.helper';
 @Component({
@@ -26,26 +27,29 @@ export class SurveyFormQuestionComponent {
     constructor(private fb: FormBuilder) { }
 
 
-    onChange(key: string, label: string, isChecked: boolean) {
-
+    onChange(questonId: string, optionId: string, isChecked: boolean, index: number) {
+        const checkboxquestion = this.question as CheckboxQuestion;
+        const option = checkboxquestion.options.find((x: ControlOptionModel) => x.id === optionId);
+        option.label = isChecked;
+        debugger
         // const answer: any = 'answer';
-        const checkBoxArray = <FormArray>this.form.controls[key];
+        const checkBoxArray = <FormArray>this.form.controls[questonId];
         const checkBoxControl = checkBoxArray.controls['answer'];
-        console.log(checkBoxArray);
+        console.log(this.question);
         if (isChecked) {
-            checkBoxControl.push(new FormControl(label));
+            checkBoxControl.push(new FormControl(optionId));
         } else {
-            const index = checkBoxControl.controls.findIndex((x: any) => x.value === label);
+            const index = checkBoxControl.controls.findIndex((x: any) => x.value === optionId);
             checkBoxControl.removeAt(index);
         }
     }
 
 
-    setOption(event: any, key: string, input: any) {
-        this.form.controls[key].setValue = input.value;
-        console.log(input.value);
-        console.log(event.target.value);
-    }
+    // setOption(event: any, key: string, input: any) {
+    //     this.form.controls[key].setValue = input.value;
+    //     console.log(input.value);
+    //     console.log(event.target.value);
+    // }
 
 
     addItem(mass: any[]) {

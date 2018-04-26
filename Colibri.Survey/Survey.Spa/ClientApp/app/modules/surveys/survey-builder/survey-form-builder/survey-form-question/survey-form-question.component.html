@@ -45,7 +45,7 @@
 
             <div *ngSwitchCase="'checkbox'" [formGroupName]="question.id">
                 <div *ngFor="let opt of question.options">
-                    <input type="checkbox" (change)="onChange(question.id, opt.label, $event.target.checked)" [checked]="opt.value"> {{opt.label}}
+                    <input type="checkbox"   (change)="onChange(question.id, opt.id, $event.target.checked)" [checked]="opt.label"> {{opt.value}}
                     <br>
                 </div>
                 <!-- <div class="form-check" *ngFor="let opt of question.options">
@@ -154,11 +154,11 @@
 
             <div *ngSwitchCase="'checkbox'">
                 question:
-                <input [type]="text" [(ngModel)]="question.label" (keyup)="question.label = $event.target.value">
+                <input [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
                 <br> description:
                 <input [type]="text" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value">
                 <div *ngFor="let opt of question.options; let i = index">
-                    <input [type]="text" [(ngModel)]="opt.label" (keyup)="opt.label = $event.target.value">
+                    <input [type]="text" [(ngModel)]="opt.value" (keyup)="opt.value = $event.target.value">
                     <button (click)="deleteItem(i, question.options)" type="button">x</button>
                 </div>
                 <button (click)="addItem(question.options)" type="button">Add item</button>

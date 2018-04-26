@@ -46,12 +46,13 @@ export class QuestionControlService {
       case ControTypes.checkbox: {
         group[question.id] = this.fb.group({
           'type': new FormControl(question.controlType),
-          'answer': question.required ? this.fb.array([]) : this.fb.array([], Validators.required),
+          'answer': !question.required ? this.fb.array([]) : this.fb.array([], Validators.required),
           'additionalAnswer': new FormControl('')
         });
         break;
       }
       case ControTypes.gridRadio: {
+        debugger
         group[question.id] = this.fb.group({
           'type': new FormControl(question.controlType),
           'answer': question.required ? this.fb.array([]) : this.fb.array([], Validators.required),
@@ -165,7 +166,6 @@ export class QuestionControlService {
 
 
     const question = new GridRadioQuestion({
-      id: '10b08afca4dff80e975f4910ee85efff',
       id: id,
       label: 'grid question',
       description: 'some description!',
