@@ -1,7 +1,10 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { QuestionTransferService } from '../../../../shared/transfers/question-transfer.service';
-
 import { FormGroup, Validators } from '@angular/forms';
+
+import { GridRadioQuestion } from '../../../../shared/models/form-builder/question-base.model';
+import { QuestionTransferService } from '../../../../shared/transfers/question-transfer.service';
+import { ControTypes } from '../../../../shared/constants/control-types.constant';
+import { FormControl } from '@angular/forms/src/model';
 @Component({
     selector: 'question-option',
     templateUrl: './question-option.component.html',
@@ -24,27 +27,47 @@ export class QuestionOptionComponent {
             // const answerControl = data.control.get['answer'];
             // answerControl.clearValidators();
             // answerControl.updateValueAndValidity();
-
-            console.log('111111111111111111111');
-
         });
     }
     changeQuestionValidation(state: boolean) {
-        if (state) {
-            console.log(this.questionControl);
-            this.questionControl.controls['answer'].setValidators(Validators.required);
-            this.questionControl.controls['answer'].updateValueAndValidity();
+        console.log(this.questionOption);
+        switch (this.questionOption.controlType) {
 
-        } else {
+            case ControTypes.gridRadio: {
 
+                const gridQuestion = this.questionOption;
+                const rowsGroup: any = this.questionControl.controls['rows'];
+                gridQuestion.grid.rows.forEach((item: any) => {
+                    if (state) {
+                        console.log('set require grid');
+                        rowsGroup.controls[item.id].controls['label'].setValidators(Validators.required);
+                        rowsGroup.controls[item.id].controls['label'].updateValueAndValidity();
+                    } else {
+                        console.log('delete require grid');
+                        rowsGroup.controls[item.id].controls['label'].clearValidators();
+                        rowsGroup.controls[item.id].controls['label'].updateValueAndValidity();
+                    }
+                });
+                debugger
+                break;
+            }
+            default: {
+                if (state) {
 
-            this.questionControl.controls['answer'].clearValidators();
-            this.questionControl.controls['answer'].updateValueAndValidity();
+                    this.questionControl.controls['answer'].setValidators(Validators.required);
+                    this.questionControl.controls['answer'].updateValueAndValidity();
+                } else {
+                    this.questionControl.controls['answer'].clearValidators();
+                    this.questionControl.controls['answer'].updateValueAndValidity();
+                }
+            }
         }
+
+
     }
 
 
-    AddAdditionalQuestion (state: boolean) {
+    AddAdditionalQuestion(state: boolean) {
         if (!state) {
             this.questionControl.controls['additionalAnswer'].setValue('');
         }

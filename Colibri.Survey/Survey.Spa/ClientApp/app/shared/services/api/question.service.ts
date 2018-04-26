@@ -121,7 +121,7 @@ export class QuestionService {
         },
         pageFlowModifier: false,
         order: 2,
-        required: false,
+        required: true,
         isAdditionalAnswer: true
       })
     ];

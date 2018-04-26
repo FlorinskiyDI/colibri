@@ -63,14 +63,14 @@ export class QuestionControlService {
         const groupGrid: any = {};
         question.grid.rows.forEach((item: any) => {
           groupGrid[item.id] = this.fb.group({
-            'label': new FormControl('', Validators.required)
+            'label': !question.required ? new FormControl(item.label || '') : new FormControl(item.label || '', Validators.required),
           });
         });
 
         group[question.id] = this.fb.group({
           'type': new FormControl(question.controlType),
           'rows': this.fb.group(groupGrid),
-          'answer': !question.required ? this.fb.array([]) : this.fb.array([], Validators.required),
+          'answer': this.fb.array([]) ,
           'additionalAnswer': new FormControl('')
         });
         debugger
