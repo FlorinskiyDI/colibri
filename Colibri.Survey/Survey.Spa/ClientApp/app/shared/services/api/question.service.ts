@@ -6,9 +6,9 @@ import { QuestionBase } from '../../Models/form-builder/question-base.model';
 // import { TextboxQuestion } from '../../Models/form-builder/question-textbox.model';
 // import { DropdownQuestion } from '../../Models/form-builder/question-dropdown.model';
 // import { TextAreaQuestion } from '../../Models/form-builder/question-textarea.model';
-import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
-import { CheckboxQuestion } from '../../Models/form-builder/question-checkbox.model';
-// import { GridRadioQuestion } from '../../Models/form-builder/question-grid-radio.model';
+// import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
+// import { CheckboxQuestion } from '../../Models/form-builder/question-checkbox.model';
+import { GridRadioQuestion } from '../../Models/form-builder/question-grid-radio.model';
 @Injectable()
 export class QuestionService {
 
@@ -57,98 +57,73 @@ export class QuestionService {
       // }),
 
 
-      new RadioQuestion({
-        //  controlType: 'radio', // same as in control-type.constant.ts
-        id: 'id_Radion question',
-        text: 'Bravery radion',
-        description: 'some description',
-        options: [
-          { id: 'id_Option 1', label: false, value: 'Option 1', order: 1 },
-          { id: 'id_Option 2', label: false, value: 'Option 2', order: 2 },
-          { id: 'id_Option 3', label: false, value: 'Option 3', order: 3 },
-          { id: 'id_Option 4', label: false, value: 'Option 4', order: 4 },
-        ],
-        order: 7,
-        required: false,
-        isAdditionalAnswer: false
-      }),
-
-      new CheckboxQuestion({
-        id: 'id_Checkbox groupe',
-        text: 'Bravery checkbox',
-        description: 'some description',
-        options: [
-          { id: 'id_Option 1', label: false, value: 'Variable 1', order: 1 },
-          { id: 'id_Option 2', label: false, value: 'Variable 2', order: 2 },
-          { id: 'id_Option 3', label: false, value: 'Variable 3', order: 3 },
-        ],
-        order: 0,
-        required: true,
-        isAdditionalAnswer: true
-      }),
-
-      // new GridRadioQuestion({
-      //   id: '10b08afca4dff80e975f4910ee85ef3f',
-      //   key: 'grid radio',
-      //   label: 'grid question',
+      // new RadioQuestion({
+      //   //  controlType: 'radio', // same as in control-type.constant.ts
+      //   id: 'id_Radion question',
+      //   text: 'Bravery radion',
       //   description: 'some description',
-      //   grid: {
-      //     cellInputType: 'radio',  // radio, checkbox
-      //     rows: [
-      //       {
-      //         id: '48b09d72e6fb0d2a63985eef4018346e',
-      //         orderNo: 1,
-      //         label: 'row 1'
-      //       },
-      //       {
-      //         id: 'f35a6e5d1ce9407b5ece224198032cb6',
-      //         orderNo: 2,
-      //         label: 'row 2'
-      //       },
-      //       {
-      //         id: 'f35a6e5d1ce9407b5ece224198032cb8',
-      //         orderNo: 3,
-      //         label: 'row 3'
-      //       },
-      //       {
-      //         id: 'f35a6e5d1ce9407b5ece224198032cb9',
-      //         orderNo: 4,
-      //         label: 'row 4'
-      //       }
-      //     ],
-      //     cols: [
-      //       {
-      //         id: 'ace63d4001112c28e97b00ff67ceeeca',
-      //         orderNo: 1,
-      //         label: 'col 1'
-      //       },
-      //       {
-      //         id: '24062ae1fc97dead41d337ede7f2e55e',
-      //         orderNo: 2,
-      //         label: 'col2'
-      //       },
-      //       {
-      //         id: '24062ae1fc97dead41d337ede7f2e35e',
-      //         orderNo: 3,
-      //         label: 'col3'
-      //       },
-      //       {
-      //         id: '24062ae1fc97dead41d337ede7f2e45e',
-      //         orderNo: 4,
-      //         label: 'col4'
-      //       },
-      //       {
-      //         id: '24062ae1fc97dead41d337ede7f2e54e',
-      //         orderNo: 5,
-      //         label: 'col5'
-      //       },
-      //     ]
-      //   },
-      //   pageFlowModifier: false,
-      //   order: 2,
+      //   options: [
+      //     { id: 'id_Option 1', label: false, value: 'Option 1', order: 1 },
+      //     { id: 'id_Option 2', label: false, value: 'Option 2', order: 2 },
+      //     { id: 'id_Option 3', label: false, value: 'Option 3', order: 3 },
+      //     { id: 'id_Option 4', label: false, value: 'Option 4', order: 4 },
+      //   ],
+      //   order: 7,
       //   required: false,
+      //   isAdditionalAnswer: false
+      // }),
+
+      // new CheckboxQuestion({
+      //   //  controlType: 'checkbox', // same as in control-type.constant.ts
+      //   id: 'id_Checkbox groupe',
+      //   text: 'Bravery checkbox',
+      //   description: 'some description',
+      //   options: [
+      //     { id: 'id_Option 1', label: false, value: 'Variable 1', order: 1 },
+      //     { id: 'id_Option 2', label: false, value: 'Variable 2', order: 2 },
+      //     { id: 'id_Option 3', label: false, value: 'Variable 3', order: 3 },
+      //   ],
+      //   order: 0,
+      //   required: true,
       //   isAdditionalAnswer: true
-      // })
+      // }),
+
+      new GridRadioQuestion({
+        //  controlType: 'gridRadio', // same as in control-type.constant.ts
+        id: 'id_grid radio',
+        text: 'grid question',
+        description: 'some description',
+        grid: {
+          cellInputType: 'radio',  // radio, checkbox
+          rows: [
+            { id: 'id_question1', label: null, value: 'Variable question 1', order: 1 },
+            { id: 'id_question2', label: null, value: 'Variable question 2', order: 2 },
+            { id: 'id_question3', label: null, value: 'Variable question 3', order: 3 },
+            { id: 'id_question4', label: null, value: 'Variable question 4', order: 4 }
+            // {
+            //   id: 'f35a6e5d1ce9407b5ece224198032cb6',
+            //   orderNo: 2,
+            //   label: 'row 2'
+            // },
+          ],
+          cols: [
+            { id: 'id_answer1', label: null, value: 'answer 1', order: 1 },
+            { id: 'id_answer2', label: null, value: 'answer 2', order: 2 },
+            { id: 'id_answer3', label: null, value: 'answer 3', order: 3 },
+            { id: 'id_answer4', label: null, value: 'answer 4', order: 4 },
+            { id: 'id_answer5', label: null, value: 'answer 5', order: 5 }
+            // {
+            //   id: '24062ae1fc97dead41d337ede7f2e54e',
+            //   orderNo: 5,
+            //   label: 'col5'
+            // },
+          ]
+        },
+        pageFlowModifier: false,
+        order: 2,
+        required: false,
+        isAdditionalAnswer: true
+      })
     ];
 
     return questions.sort((a, b) => a.order - b.order);

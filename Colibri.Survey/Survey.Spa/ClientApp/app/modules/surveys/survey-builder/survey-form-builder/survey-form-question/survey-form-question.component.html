@@ -45,7 +45,7 @@
 
             <div *ngSwitchCase="'checkbox'" [formGroupName]="question.id">
                 <div *ngFor="let opt of question.options">
-                    <input type="checkbox"   (change)="onChange(question.id, opt.id, $event.target.checked)" [checked]="opt.label"> {{opt.value}}
+                    <input type="checkbox" (change)="onChange(question.id, opt.id, $event.target.checked)" [checked]="opt.label"> {{opt.value}}
                     <br>
                 </div>
                 <!-- <div class="form-check" *ngFor="let opt of question.options">
@@ -57,24 +57,59 @@
             </div>
 
 
+
             <div *ngSwitchCase="'gridRadio'" [formGroupName]="question.id">
-                <table>
+                <div [formGroupName]="'rows'">
+                    <!-- <div [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index">
+                            <input #val [formControlName]="'label'" name="label" value="itemRowLabel.value"  
+                            type='radio'>
+                            <input #val [formControlName]="'label'" name="label" value="itemRowLabel.value"  
+                            type='radio'>
+                            <p>11{{val.checked}}11</p>
+                    </div> -->
+                    <table style="border: 1px solid black">
+                        <tr style="border: 1px solid black">
+                            <td style="border: 1px solid black">////</td>
+                            <td *ngFor="let itemColLabel of question.grid.cols let iItemColLabel=index" style="border: 1px solid black">
+                                {{itemColLabel.value}}
+                            </td>
+                        </tr>
+                        <tr [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index" style="border: 1px solid black">
+                            <td style="border: 1px solid black">{{itemRowLabel.value}}11 11</td>
+                            <td *ngFor="let itemCol of question.grid.cols let iItemCol=index"  style="border: 1px solid black">
+                                <!-- <p > {{itemRowLabel.value}}</p>
+                                <p > {{itemCol.value}}</p>
+                                <p > {{itemCol.id}}</p> -->
+                       
+                                <input [formControlName]="'label'"  value="{{itemCol.id}}"
+                                    type='radio'>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <br>
+            </div>
+
+
+
+            <!-- <div *ngSwitchCase="'gridRadio'" [formGroupName]="question.id">
+                <table [formGroupName]="'answer'">
                     <tr>
                         <td>////</td>
                         <td *ngFor="let itemColLabel of question.grid.cols let iItemColLabel=index">
-                            {{itemColLabel.label}}
+                            {{itemColLabel.value}}
                         </td>
                     </tr>
                     <tr *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index">
-                        <td>{{itemRowLabel.label}}</td>
+                        <td>{{itemRowLabel.value}}</td>
                         <td *ngFor="let itemCol of question.grid.cols let iItemCol=index">
-                            <input name="{{itemRowLabel.id}}" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.label, $event.target.checked)"
-                                type='radio'>
+                            <input name="{{itemRowLabel.id}}"  (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value, $event.target.checked)"
+                                type='radio' >
                         </td>
                     </tr>
                 </table>
                 <br>
-            </div>
+            </div> -->
             <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
                 additional answer:
                 <input [formControlName]="'additionalAnswer'" type="text">
