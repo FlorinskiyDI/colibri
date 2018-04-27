@@ -89,6 +89,17 @@
                         left: 50%;
                         margin-right: -50%;
                         transform: translate(-50%, -10%) ;
+
+                        input[type=checkbox], input[type=radio] {
+                            vertical-align: middle;
+                            position: relative;
+                            bottom: 1px;
+                            margin: 0px;
+                        }
+                        input[type=radio] {
+                            bottom: 2px;
+                        }
+                        
                     }
                 }
 
@@ -98,6 +109,19 @@
                     // width: 95px;
                     // right: 0px;
                     // background-color: #fff;
+                }
+
+
+
+                .d-btn-option {
+                    background-color: #606D82;
+                    border: 1px solid #c5ccda;
+                    color: #c5ccda;
+                    padding: 6px 8px;
+                    border-radius: 3px;
+                    font-size: 10px;
+                    cursor: pointer;
+                    margin: 5px;
                 }
             }
 

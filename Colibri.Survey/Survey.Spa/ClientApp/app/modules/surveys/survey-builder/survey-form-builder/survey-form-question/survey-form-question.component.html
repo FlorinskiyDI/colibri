@@ -16,11 +16,19 @@
         <div [ngSwitch]="question.controlType">
             <div *ngSwitchCase="'textbox'" [formGroupName]="question.id">
                 <input [formControlName]="'answer'" [id]="question.id">
+                <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
+                    additional answer:
+                    <input [formControlName]="'additionalAnswer'" type="text">
+                </div>
             </div>
 
 
             <div *ngSwitchCase="'textarea'" [formGroupName]="question.id">
                 <textarea rows="5" [formControlName]="'answer'" [disabled]="true" [id]="question.id" style="width: 300px"></textarea>
+                <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
+                    additional answer:
+                    <input [formControlName]="'additionalAnswer'" type="text">
+                </div>
             </div>
 
 
@@ -29,6 +37,10 @@
 
                     <option *ngFor="let opt of question.options" [value]="opt.id">{{opt.value}}</option>
                 </select>
+                <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
+                    additional answer:
+                    <input [formControlName]="'additionalAnswer'" type="text">
+                </div>
             </div>
 
 
@@ -39,6 +51,10 @@
                     <label class="form-check-label">
                         {{opt.value}}
                     </label>
+                </div>
+                <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
+                    additional answer:
+                    <input [formControlName]="'additionalAnswer'" type="text">
                 </div>
             </div>
 
@@ -54,12 +70,16 @@
                                     {{opt.label}}
                                   </label>
                                 </div> -->
+                <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
+                    additional answer:
+                    <input [formControlName]="'additionalAnswer'" type="text">
+                </div>
             </div>
 
 
 
             <div *ngSwitchCase="'gridRadio'" [formGroupName]="question.id">
-                <div [formGroupName]="'rows'">
+                <div>
                     <!-- <div [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index">
                             <input #val [formControlName]="'label'" name="label" value="itemRowLabel.value"  
                             type='radio'>
@@ -67,7 +87,7 @@
                             type='radio'>
                             <p>11{{val.checked}}11</p>
                     </div> -->
-                    <table style="border: 1px solid black">
+                    <!-- <table style="border: 1px solid black">
                         <tr style="border: 1px solid black">
                             <td style="border: 1px solid black">////</td>
                             <td *ngFor="let itemColLabel of question.grid.cols let iItemColLabel=index" style="border: 1px solid black">
@@ -76,16 +96,47 @@
                         </tr>
                         <tr [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index" style="border: 1px solid black">
                             <td style="border: 1px solid black">{{itemRowLabel.value}}11 11</td>
-                            <td *ngFor="let itemCol of question.grid.cols let iItemCol=index"  style="border: 1px solid black">
-                                <!-- <p > {{itemRowLabel.value}}</p>
-                                <p > {{itemCol.value}}</p>
-                                <p > {{itemCol.id}}</p> -->
-                       
-                                <input [formControlName]="'label'"  value="{{itemCol.id}}"
+                            <td *ngFor="let itemCol of question.grid.cols let iItemCol=index" style="border: 1px solid black">
+              
+
+                                <input [formControlName]="'label'" value="{{itemCol.id}}" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value, $event.target.checked)"
                                     type='radio'>
                             </td>
                         </tr>
-                    </table>
+                    </table> -->
+                    <div class="hscroll">
+
+                        <table   cellspacing="0" cellpadding="6">
+                            <tbody [formGroupName]="'rows'">
+                                <tr>
+                                    <td style="width: 25%">
+                                        <!-- / -->
+                                    </td>
+                                    <td class="d-align-right-cell" align="right" *ngFor="let itemColLabel of question.grid.cols let iItemColLabel=index" >
+                                        {{itemColLabel.value}}
+                                    </td>
+                                </tr>
+                                <tr [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index" >
+                                    <td  class="d-align-right-cell">{{iItemRowLabel + 1}}. {{itemRowLabel.value}}</td>
+                                    <td *ngFor="let itemCol of question.grid.cols let iItemCol=index" >
+
+
+                                        <input [formControlName]="'label'" value="{{itemCol.id}}" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value, $event.target.checked)"
+                                            type='radio'>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tr>
+                                <td class="d-align-right-cell">Additional answer:</td>
+
+                                <td [attr.colspan]="question.grid.cols.length">
+                                    <textarea rows="3" placeholder="your text..." class="d-cell-input"  [formControlName]="'additionalAnswer'" type="text"></textarea>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
                 </div>
                 <br>
             </div>
@@ -110,10 +161,7 @@
                 </table>
                 <br>
             </div> -->
-            <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
-                additional answer:
-                <input [formControlName]="'additionalAnswer'" type="text">
-            </div>
+
         </div>
     </div>
 </div>
@@ -204,27 +252,28 @@
 
             <div *ngSwitchCase="'gridRadio'">
 
-                <input [type]="text" [(ngModel)]="question.label" (keyup)="question.label = $event.target.value">
+                <input [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
                 <br> description:
                 <input [type]="text" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value">
                 <p>--------------------------------------------------------- </p>
                 rows:
                 <br>
                 <div *ngFor="let row of question.grid.rows; let i = index">
-                    <input [type]="text" [(ngModel)]="row.label" (keyup)="row.label = $event.target.value">
+                    <input [type]="text" [(ngModel)]="row.value" (keyup)="row.value = $event.target.value">
                     <button (click)="deleteItem(i, question.grid.rows)" type="button">x</button>
                 </div>
-                <button (click)="addItem(question.grid.rows)" type="button">Add item</button>
+                <button (click)="addRow(question.grid.rows, question.id)" type="button">Add row</button>
                 <br>
 
                 <p>--------------------------------------------------------- </p>
                 cols:
                 <br>
                 <div *ngFor="let col of question.grid.cols; let i = index">
-                    <input [type]="text" [(ngModel)]="col.label" (keyup)="col.label = $event.target.value">
+                    
+                    <input [type]="text" [(ngModel)]="col.value" (keyup)="col.value = $event.target.value">
                     <button (click)="deleteItem(i, question.grid.cols)" type="button">x</button>
                 </div>
-                <button (click)="addItem(question.grid.cols)" type="button">Add item</button>
+                <button (click)="addItem(question.grid.cols)" type="button">Add col</button>
                 <br>
                 <p *ngIf="question.isAdditionalAnswer">!!!!! Additional answer !!!!!</p>
             </div>

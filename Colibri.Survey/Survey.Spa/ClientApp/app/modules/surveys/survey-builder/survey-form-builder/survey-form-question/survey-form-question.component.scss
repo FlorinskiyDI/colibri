@@ -12,3 +12,43 @@
                     // margin-right: 10px;
     
 }
+
+.hscroll {
+    overflow-x: auto; /* Horizontal */
+
+
+    // border: solid 1px #DDEEEE;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+
+
+    table {
+        width: 100%;
+    }
+    td {
+        height: 30px;
+        padding: 5px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .d-align-right-cell{
+        text-align: left;
+    }
+
+    .d-cell-input {
+        width: 100%;
+        max-width: 100%;
+        border: 1px solid #7A7A7A;
+        resize: none;
+    }
+
+    tbody td {
+        border: solid 1px #4d6082;
+        color: #333;
+        padding: 10px;
+        font-size: 12px;
+        // text-shadow: 1px 1px 1px #fff;
+    }
+  }

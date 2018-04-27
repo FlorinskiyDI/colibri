@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ControTypes } from '../../../../shared/constants/control-types.constant';
 
@@ -15,9 +15,10 @@ import { QuestionBase } from '../../../../shared/Models/form-builder/question-ba
     selector: 'survey-from-builder',
     templateUrl: './survey-form-builder.component.html',
     styleUrls: ['./survey-form-builder.component.scss'],
-    providers: [QuestionControlService]
+    providers: [QuestionControlService],
+    // changeDetection: ChangeDetectionStrategy.Default,
 })
-export class SurveyFormBuilderComponent implements OnInit {
+export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
     @Input() questionSettings: any;
     @Input() questions: QuestionBase<any>[] = [];
     @Input() question: QuestionBase<any>;
@@ -30,7 +31,10 @@ export class SurveyFormBuilderComponent implements OnInit {
     payLoad = '';
     newquestion: any;
 
+    CheckedOptQuestion: string;
+
     constructor(
+        private cdr: ChangeDetectorRef,
         private questionTransferService: QuestionTransferService,
         private qcs: QuestionControlService,
         public questionControlService: QuestionControlService,
@@ -55,6 +59,7 @@ export class SurveyFormBuilderComponent implements OnInit {
     }
 
     setQuestionOption(question: any, checked: boolean) {
+        this.CheckedOptQuestion = question.id;
         if (checked) {
             this.questionTransferService.setQuestionOption(
                 {
@@ -62,7 +67,10 @@ export class SurveyFormBuilderComponent implements OnInit {
                     control: this.form.controls[question.id]
                 }
             );
+        } else {
+            this.questionTransferService.setQuestionOption(null);
         }
+
     }
 
     changeQuestionOrders(item: any, index: number) {
@@ -124,5 +132,12 @@ export class SurveyFormBuilderComponent implements OnInit {
     onSubmit() {
         this.payLoad = this.form.value;
         this.temporaryAnser.emit(this.payLoad);
+    }
+
+
+
+    ngAfterContentChecked() {
+
+        this.cdr.detectChanges();
     }
 }

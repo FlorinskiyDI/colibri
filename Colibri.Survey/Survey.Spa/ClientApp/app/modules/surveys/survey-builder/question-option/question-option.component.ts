@@ -1,10 +1,10 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 
-import { GridRadioQuestion } from '../../../../shared/models/form-builder/question-base.model';
+// import { GridRadioQuestion } from '../../../../shared/models/form-builder/question-base.model';
 import { QuestionTransferService } from '../../../../shared/transfers/question-transfer.service';
 import { ControTypes } from '../../../../shared/constants/control-types.constant';
-import { FormControl } from '@angular/forms/src/model';
+// import { FormControl } from '@angular/forms/src/model';
 @Component({
     selector: 'question-option',
     templateUrl: './question-option.component.html',
@@ -15,15 +15,22 @@ import { FormControl } from '@angular/forms/src/model';
 })
 export class QuestionOptionComponent {
 
-    questionOption: any = {};
+    questionOption: any = null;
     questionControl: FormGroup;
     constructor(
         private questionTransferService: QuestionTransferService,
         // private fb: FormBuilder
     ) {
         this.questionTransferService.getQuestionOption().subscribe((data: any) => {
-            this.questionOption = data.question;
-            this.questionControl = data.control;
+            if (data != null) {
+                this.questionOption = data.question;
+                this.questionControl = data.control;
+            } else {
+                this.questionOption = null;
+                this.questionControl = null;
+            }
+
+
             // const answerControl = data.control.get['answer'];
             // answerControl.clearValidators();
             // answerControl.updateValueAndValidity();
@@ -48,7 +55,6 @@ export class QuestionOptionComponent {
                         rowsGroup.controls[item.id].controls['label'].updateValueAndValidity();
                     }
                 });
-                debugger
                 break;
             }
             default: {

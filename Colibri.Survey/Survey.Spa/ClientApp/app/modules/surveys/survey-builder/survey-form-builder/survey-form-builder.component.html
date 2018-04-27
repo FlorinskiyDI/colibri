@@ -5,7 +5,7 @@
   <div class="header">
     <p *ngIf="form.valid" style="color: green; font-weight: bold"> {{form.valid | json}}</p>
     <p *ngIf="!form.valid" style="color: red; font-weight: bold"> {{form.valid | json}}</p>
-    {{this.form.value | json}}
+    <!-- {{this.form.value | json}} -->
   </div>
   <div class="body">
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
@@ -21,7 +21,14 @@
               [dropZones]="questionSettings.allowquestion">
               <div class="d-item-left-section">
                 <div class="d-item-opt-controls">
-                  <input #editCheckbox name="editCheckbox" type="radio" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? editQuestionKey = item.id: editQuestionKey = ''"> {{'Q' + (i+1)}}
+                  <input id="inputCheckQuestion" [checked]="CheckedOptQuestion == item.id" #editCheckbox name="editCheckbox" type="checkbox" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? editQuestionKey = item.id: editQuestionKey = ''">
+                  <label for="inputCheckQuestion"> {{'Q' + (i+1)}}</label>
+
+                  <br>
+                  <button type="button" *ngIf="item.required && editCheckbox.checked" class="d-btn-option" title="Require question">
+                    <i class="fa fa-asterisk"></i>
+                  </button>
+       
                 </div>
               </div>
               <div class="d-item-right-section">

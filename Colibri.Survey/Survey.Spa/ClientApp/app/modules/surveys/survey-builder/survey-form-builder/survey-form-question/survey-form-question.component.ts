@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, AfterContentChecked, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 
 import { QuestionBase } from '../../../../../shared/models/form-builder/question-base.model';
@@ -9,8 +9,9 @@ import { GUID } from '../../../../../shared/helpers/guide-type.helper';
     selector: 'survey-form-question',
     templateUrl: './survey-form-question.component.html',
     styleUrls: ['./survey-form-question.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SurveyFormQuestionComponent {
+export class SurveyFormQuestionComponent implements AfterContentChecked {
 
     lastSelectRowId: any;
 
@@ -24,14 +25,15 @@ export class SurveyFormQuestionComponent {
     get isDirty() { return this.form.controls[this.question.id].dirty; }
 
 
-    constructor(private fb: FormBuilder) { }
+    constructor(
+        private cdr: ChangeDetectorRef,
+        private fb: FormBuilder) { }
 
 
     onChange(questonId: string, optionId: string, isChecked: boolean, index: number) {
         const checkboxquestion = this.question as CheckboxQuestion;
         const option = checkboxquestion.options.find((x: ControlOptionModel) => x.id === optionId);
         option.label = isChecked;
-        debugger
         // const answer: any = 'answer';
         const checkBoxArray = <FormArray>this.form.controls[questonId];
         const checkBoxControl = checkBoxArray.controls['answer'];
@@ -39,7 +41,7 @@ export class SurveyFormQuestionComponent {
         if (isChecked) {
             checkBoxControl.push(new FormControl(optionId));
         } else {
-            const index = checkBoxControl.controls.findIndex((x: any) => x.value === optionId);
+            index = checkBoxControl.controls.findIndex((x: any) => x.value === optionId);
             checkBoxControl.removeAt(index);
         }
     }
@@ -57,14 +59,26 @@ export class SurveyFormQuestionComponent {
         mass.push(item);
     }
 
-    addRow(mass: any) {
-        const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...', 1);
-        mass.grid.rows.push(item);
+    addRow(mass: any, questionId: string) {
+        const groupRows: any = {};
+        const rowId = GUID.getNewGUIDString(); // !!! user twice, (formbuildr, json)
+        groupRows[rowId] = this.fb.group({
+            'label': new FormControl('')
+        });
+
+        const questionArray = this.form.controls[questionId] as FormGroup;
+        const constRows = questionArray.controls['rows'] as FormGroup;
+        constRows.controls[GUID.getNewGUIDString()] = this.fb.group(groupRows);
+
+        const item = new ControlOptionModel(rowId, '', 'your text...', 1);
+        mass.push(item);
     }
+
+
 
     addCol(mass: any) {
         const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...', 1);
-        mass.grid.cols.push(item);
+        mass.push(item);
     }
 
     deleteItem(index: number, mass: ControlOptionModel[]) {
@@ -86,6 +100,8 @@ export class SurveyFormQuestionComponent {
     //     }
     //   }
 
+
+
     onChangeGridRadio(itemRowLabel: any, itemCol: any, key: string, label: string, isChecked: boolean) {
         const radioArray = <FormArray>this.form.controls[key];
         const answer = 'answer';
@@ -95,33 +111,25 @@ export class SurveyFormQuestionComponent {
 
         const group: any = {};
 
+
+
         group['row'] = this.fb.group({
             'id': new FormControl(itemRowLabel.id),
-            'label': new FormControl(itemRowLabel.label)
+            'label': new FormControl(itemRowLabel.value)
         });
         group['col'] = this.fb.group({
             'id': new FormControl(itemCol.id),
-            'label': new FormControl(itemCol.label)
+            'label': new FormControl(itemCol.value)
         });
 
-        // let item2 = answerControl.controls.findIndex(x => x.controls['row'].controls['id'].value == itemRowLabel.id).;
 
         const item2 = answerControl.controls.findIndex((x: any) => x.controls['row'].controls['id'].value === itemRowLabel.id);
         const needcontrol = answerControl.controls[item2];
 
-
-        // let item = answerControl.controls.forEach(element => {
-        //   if (element.controls['row'].controls['id'].value == itemRowLabel.id) {
-        //     let ind = element.index;
-        //     return ind;
-        //   }
-        // });
-        // if (needcontrol.controls['row'].controls['id'].value == ) {
-
-        // }
         if (!!needcontrol) {
             answerControl.removeAt(item2);
         }
+
 
         // let index = answerControl.controls.findIndex(x => x.id == itemRowLabel.id)
         // // let index = group.controls.findIndex(x => x.id == itemRowLabel.id)
@@ -146,5 +154,10 @@ export class SurveyFormQuestionComponent {
         console.log(radioArray);
         console.log('000000000000000000000000000');
 
+    }
+
+    ngAfterContentChecked() {
+
+        this.cdr.detectChanges();
     }
 }
