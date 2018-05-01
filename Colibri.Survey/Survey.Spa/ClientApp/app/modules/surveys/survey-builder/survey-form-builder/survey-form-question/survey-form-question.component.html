@@ -270,13 +270,14 @@
 
                 </div>
                 <br>
-                <div class="d-item-wrapper"  *ngFor="let row of question.grid.rows; let i = index">
+                <div #focusItem class="d-item-wrapper"  *ngFor="let row of question.grid.rows; let i = index; last as isLast;">
                     <div class="d-item-label">
                         <p class="d-label-text">Row {{i + 1}}</p>
                     </div>
                     <div class="d-item-content">
-                        <div class="d-repeat-item">
-                            <input #focusItem  class="d-input-textbox" [type]="text" [(ngModel)]="row.value" (keyup)="row.value = $event.target.value">
+                        <div  class="d-repeat-item">
+                            <input #input   autofocus   class="d-input-textbox" [type]="text"  [(ngModel)]="row.value" (keyup)="row.value = $event.target.value">
+                            <input *ngIf="last" placeholder="Add new item..." class="d-input-textbox" (click)="addRow(question.grid.rows, question.id); Setfocus(question.id)" > 
                         </div>
                     </div>
                 </div>  

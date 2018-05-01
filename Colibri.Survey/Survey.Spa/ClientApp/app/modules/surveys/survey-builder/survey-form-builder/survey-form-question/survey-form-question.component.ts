@@ -1,5 +1,10 @@
-import { Component, Input, AfterContentChecked, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
+import {
+    Component, Input, AfterContentChecked,
+    ViewChildren, QueryList, ChangeDetectorRef, AfterViewInit, OnDestroy,
+    ChangeDetectionStrategy, ViewChild, ElementRef
+} from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 
 import { QuestionBase } from '../../../../../shared/models/form-builder/question-base.model';
 import { CheckboxQuestion } from '../../../../../shared/models/form-builder/question-checkbox.model';
@@ -13,14 +18,15 @@ import { GUID } from '../../../../../shared/helpers/guide-type.helper';
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [AnswerControlService],
 })
-export class SurveyFormQuestionComponent implements AfterContentChecked {
+export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestroy, AfterViewInit {
 
     lastSelectRowId: any;
-    @ViewChild('focusItem') rows: ElementRef;
-
+    // @ViewChild('focusItem') rows: ElementRef;
+    @ViewChildren('input') rows: QueryList<any>;
     @Input() question: QuestionBase<any>;
     @Input() form: FormGroup;
     @Input() isEditQuestion: boolean;
+    private sub1 = new Subscription();
 
     get isValid() {
         return this.form.controls[this.question.id].valid;
@@ -50,12 +56,15 @@ export class SurveyFormQuestionComponent implements AfterContentChecked {
         }
     }
 
-    Setfocus(id: any) {
+    Setfocus(id: string) {
+        // debugger
+        // console.log('id.target.value');
+        const vv = this.rows;
+        vv.last.focus();
         debugger
-        console.log(this.rows);
-        debugger
-        // const val = this.form.controls[id].get('rows') as FormGroup;
-        this.rows.nativeElement.last.focus();
+        const val = this.form.controls[id].get('rows').get('id_question2').get('label');
+
+        // this.rows.nativeElement.focus();
         // this.rows.first().nativeElement.focus();
 
     }
@@ -98,7 +107,21 @@ export class SurveyFormQuestionComponent implements AfterContentChecked {
         mass.push(item);
     }
 
+    ngAfterViewInit() {
+        debugger
+        this.sub1 = this.rows.changes.subscribe(resp => {
+            debugger
+            if (this.rows.length > 1) {
+                this.rows.last.nativeElement.focus();
+            }
+        });
+    }
 
+
+    // memory leak avoidance
+    ngOnDestroy() {
+        this.sub1.unsubscribe();
+    }
 
     addCol(mass: any) {
         const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...', 1);
