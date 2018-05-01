@@ -106,19 +106,19 @@
                     </table> -->
                     <div class="hscroll">
 
-                        <table   cellspacing="0" cellpadding="6">
+                        <table cellspacing="0" cellpadding="6">
                             <tbody [formGroupName]="'rows'">
                                 <tr>
                                     <td style="width: 25%">
                                         <!-- / -->
                                     </td>
-                                    <td class="d-align-right-cell" align="right" *ngFor="let itemColLabel of question.grid.cols let iItemColLabel=index" >
+                                    <td class="d-align-right-cell" align="right" *ngFor="let itemColLabel of question.grid.cols let iItemColLabel=index">
                                         {{itemColLabel.value}}
                                     </td>
                                 </tr>
-                                <tr [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index" >
-                                    <td  class="d-align-right-cell">{{iItemRowLabel + 1}}. {{itemRowLabel.value}}</td>
-                                    <td *ngFor="let itemCol of question.grid.cols let iItemCol=index" >
+                                <tr [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index">
+                                    <td class="d-align-right-cell">{{iItemRowLabel + 1}}. {{itemRowLabel.value}}</td>
+                                    <td *ngFor="let itemCol of question.grid.cols let iItemCol=index">
 
 
                                         <input [formControlName]="'label'" value="{{itemCol.id}}" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value, $event.target.checked)"
@@ -130,7 +130,7 @@
                                 <td class="d-align-right-cell">Additional answer:</td>
 
                                 <td [attr.colspan]="question.grid.cols.length">
-                                    <textarea rows="3" placeholder="your text..." class="d-cell-input"  [formControlName]="'additionalAnswer'" type="text"></textarea>
+                                    <textarea rows="3" placeholder="your text..." class="d-cell-input" [formControlName]="'additionalAnswer'" type="text"></textarea>
                                 </td>
                             </tr>
 
@@ -168,10 +168,8 @@
 
 
 
-<div *ngIf="isEditQuestion" class="d-question-wrapper">
-
-    <div>
-        <!-- <label [attr.for]="question.id">{{question.label}}</label> -->
+<div *ngIf="isEditQuestion" class="d-question-wrapper ">
+    <div class="form-builder-controls">
         <div *ngIf="!!question.name">
             {{question.name}}
         </div>
@@ -236,6 +234,7 @@
 
 
             <div *ngSwitchCase="'checkbox'">
+
                 question:
                 <input [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
                 <br> description:
@@ -251,25 +250,61 @@
 
 
             <div *ngSwitchCase="'gridRadio'">
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Question text:</p>
+                    </div>
+                    <div class="d-item-content">
+                        <input class="d-input-textbox" [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
+                    </div>
 
-                <input [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
-                <br> description:
-                <input [type]="text" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value">
-                <p>--------------------------------------------------------- </p>
-                rows:
+                </div>
+
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Description:</p>
+                    </div>
+                    <div class="d-item-content">
+                        <textarea #toFocus rows="3" class="d-input-textarea" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value"></textarea>
+                    </div>
+
+                </div>
+                <br>
+                <div class="d-item-wrapper"  *ngFor="let row of question.grid.rows; let i = index">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Row {{i + 1}}</p>
+                    </div>
+                    <div class="d-item-content">
+                        <div class="d-repeat-item">
+                            <input #focusItem  class="d-input-textbox" [type]="text" [(ngModel)]="row.value" (keyup)="row.value = $event.target.value">
+                        </div>
+                    </div>
+                </div>  
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                    </div>
+                    <div class="d-item-content">
+                        <div class="d-repeat-item">
+                            <input placeholder="Add new item..." class="d-input-textbox" (click)="addRow(question.grid.rows, question.id); Setfocus(focusItem)" > 
+                            <!-- target -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- rows:
                 <br>
                 <div *ngFor="let row of question.grid.rows; let i = index">
                     <input [type]="text" [(ngModel)]="row.value" (keyup)="row.value = $event.target.value">
                     <button (click)="deleteItem(i, question.grid.rows)" type="button">x</button>
                 </div>
                 <button (click)="addRow(question.grid.rows, question.id)" type="button">Add row</button>
-                <br>
+                <br> -->
 
                 <p>--------------------------------------------------------- </p>
                 cols:
                 <br>
                 <div *ngFor="let col of question.grid.cols; let i = index">
-                    
+
                     <input [type]="text" [(ngModel)]="col.value" (keyup)="col.value = $event.target.value">
                     <button (click)="deleteItem(i, question.grid.cols)" type="button">x</button>
                 </div>

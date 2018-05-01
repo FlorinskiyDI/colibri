@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { QuestionBase } from '../../Models/form-builder/question-base.model';
 
-import { TextboxQuestion } from '../../Models/form-builder/question-textbox.model';
+// import { TextboxQuestion } from '../../Models/form-builder/question-textbox.model';
 // import { DropdownQuestion } from '../../Models/form-builder/question-dropdown.model';
 // import { TextAreaQuestion } from '../../Models/form-builder/question-textarea.model';
 // import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
@@ -18,16 +18,16 @@ export class QuestionService {
 
     const questions: QuestionBase<any>[] = [
 
-      new TextboxQuestion({
-      //  controlType: 'textbox', // same as in control-type.constant.ts
-        id: 'id_firstName',
-        text: 'First name',
-        description: 'some description',
-        value: '',
-        required: false,
-        order: 0,
-        isAdditionalAnswer: false
-      }),
+      // new TextboxQuestion({
+      // //  controlType: 'textbox', // same as in control-type.constant.ts
+      //   id: 'id_firstName',
+      //   text: 'First name',
+      //   description: 'some description',
+      //   value: '',
+      //   required: false,
+      //   order: 0,
+      //   isAdditionalAnswer: false
+      // }),
 
       // new DropdownQuestion({
       //   // controlType: 'dropdown', // same as in control-type.constant.ts
@@ -91,8 +91,8 @@ export class QuestionService {
       new GridRadioQuestion({
         //  controlType: 'gridRadio', // same as in control-type.constant.ts
         id: 'id_grid radio',
-        text: 'grid question',
-        description: 'some description',
+        text: 'Grid question, some text for long input, some text for long input, some text for long input, some text for long input',
+        description: 'Some description ...',
         grid: {
           cellInputType: 'radio',  // radio, checkbox
           rows: [

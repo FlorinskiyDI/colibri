@@ -1,4 +1,4 @@
-import { Component, Input, AfterContentChecked, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, AfterContentChecked, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 
 import { QuestionBase } from '../../../../../shared/models/form-builder/question-base.model';
@@ -16,6 +16,7 @@ import { GUID } from '../../../../../shared/helpers/guide-type.helper';
 export class SurveyFormQuestionComponent implements AfterContentChecked {
 
     lastSelectRowId: any;
+    @ViewChild('focusItem') rows: ElementRef;
 
     @Input() question: QuestionBase<any>;
     @Input() form: FormGroup;
@@ -49,7 +50,15 @@ export class SurveyFormQuestionComponent implements AfterContentChecked {
         }
     }
 
+    Setfocus(id: any) {
+        debugger
+        console.log(this.rows);
+        debugger
+        // const val = this.form.controls[id].get('rows') as FormGroup;
+        this.rows.nativeElement.last.focus();
+        // this.rows.first().nativeElement.focus();
 
+    }
     // setOption(event: any, key: string, input: any) {
     //     this.form.controls[key].setValue = input.value;
     //     console.log(input.value);
@@ -77,12 +86,13 @@ export class SurveyFormQuestionComponent implements AfterContentChecked {
 
 
         // const someValue = this.form.controls['value2'].controls['value2'].controls['value3']
-        debugger
+        // debugger
         const val = this.form.controls[questionId].get('rows') as FormGroup;
 
         const group: any = {};
         const key = GUID.getNewGUIDString();
         val.addControl(key, this.answerControlService.addItemAnswer(group));
+
 
         const item = new ControlOptionModel(key, '', 'your text...', 1);
         mass.push(item);
