@@ -4,12 +4,14 @@ import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { QuestionBase } from '../../../../../shared/models/form-builder/question-base.model';
 import { CheckboxQuestion } from '../../../../../shared/models/form-builder/question-checkbox.model';
 import { ControlOptionModel } from '../../../../../shared/models/form-builder/form-control/control-option.model';
+import { AnswerControlService } from '../../../../../shared/Services/answer-control.service';
 import { GUID } from '../../../../../shared/helpers/guide-type.helper';
 @Component({
     selector: 'survey-form-question',
     templateUrl: './survey-form-question.component.html',
     styleUrls: ['./survey-form-question.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [AnswerControlService],
 })
 export class SurveyFormQuestionComponent implements AfterContentChecked {
 
@@ -26,6 +28,7 @@ export class SurveyFormQuestionComponent implements AfterContentChecked {
 
 
     constructor(
+        private answerControlService: AnswerControlService,
         private cdr: ChangeDetectorRef,
         private fb: FormBuilder) { }
 
@@ -60,17 +63,28 @@ export class SurveyFormQuestionComponent implements AfterContentChecked {
     }
 
     addRow(mass: any, questionId: string) {
-        const groupRows: any = {};
-        const rowId = GUID.getNewGUIDString(); // !!! user twice, (formbuildr, json)
-        groupRows[rowId] = this.fb.group({
-            'label': new FormControl('')
-        });
+        // const groupRows: any = {};
+        // const rowId = GUID.getNewGUIDString(); // !!! user twice, (formbuildr, json)
+        // groupRows[rowId] = this.fb.group({
+        //     'label': new FormControl('')
+        // });
 
-        const questionArray = this.form.controls[questionId] as FormGroup;
-        const constRows = questionArray.controls['rows'] as FormGroup;
-        constRows.controls[GUID.getNewGUIDString()] = this.fb.group(groupRows);
+        // const questionArray = this.form.controls[questionId] as FormGroup;
+        // const constRows = questionArray.controls['rows'] as FormGroup;
+        // constRows.controls[GUID.getNewGUIDString()] = this.fb.group(groupRows);
 
-        const item = new ControlOptionModel(rowId, '', 'your text...', 1);
+
+
+
+        // const someValue = this.form.controls['value2'].controls['value2'].controls['value3']
+        debugger
+        const val = this.form.controls[questionId].get('rows') as FormGroup;
+
+        const group: any = {};
+        const key = GUID.getNewGUIDString();
+        val.addControl(key, this.answerControlService.addItemAnswer(group));
+
+        const item = new ControlOptionModel(key, '', 'your text...', 1);
         mass.push(item);
     }
 
@@ -106,9 +120,6 @@ export class SurveyFormQuestionComponent implements AfterContentChecked {
         const radioArray = <FormArray>this.form.controls[key];
         const answer = 'answer';
         const answerControl = radioArray.controls[answer];
-
-
-
         const group: any = {};
 
 
