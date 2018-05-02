@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 
 import { QuestionBase } from '../../Models/form-builder/question-base.model';
 
-// import { TextboxQuestion } from '../../Models/form-builder/question-textbox.model';
-// import { DropdownQuestion } from '../../Models/form-builder/question-dropdown.model';
-// import { TextAreaQuestion } from '../../Models/form-builder/question-textarea.model';
-// import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
-// import { CheckboxQuestion } from '../../Models/form-builder/question-checkbox.model';
+import { TextboxQuestion } from '../../Models/form-builder/question-textbox.model';
+import { DropdownQuestion } from '../../Models/form-builder/question-dropdown.model';
+import { TextAreaQuestion } from '../../Models/form-builder/question-textarea.model';
+import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
+import { CheckboxQuestion } from '../../Models/form-builder/question-checkbox.model';
 import { GridRadioQuestion } from '../../Models/form-builder/question-grid-radio.model';
 @Injectable()
 export class QuestionService {
@@ -18,75 +18,75 @@ export class QuestionService {
 
     const questions: QuestionBase<any>[] = [
 
-      // new TextboxQuestion({
-      // //  controlType: 'textbox', // same as in control-type.constant.ts
-      //   id: 'id_firstName',
-      //   text: 'First name',
-      //   description: 'some description',
-      //   value: '',
-      //   required: false,
-      //   order: 0,
-      //   isAdditionalAnswer: false
-      // }),
+      new TextboxQuestion({
+      //  controlType: 'textbox', // same as in control-type.constant.ts
+        id: 'id_firstName',
+        text: 'First name',
+        description: 'some description',
+        value: '',
+        required: true,
+        order: 0,
+        isAdditionalAnswer: true
+      }),
 
-      // new DropdownQuestion({
-      //   // controlType: 'dropdown', // same as in control-type.constant.ts
-      //   id: 'id_brave', // unique value
-      //   text: 'Bravery Rating (text)',
-      //   description: 'some description',
-      //   options: [
-      //     { id: 'id_solid', label: '', value: 'Solid', order: 1 },
-      //     { id: 'id_great', label: '', value: 'Great', order: 2 },
-      //     { id: 'id_good', label: '', value: 'Good', order: 3 },
-      //     { id: 'id_unproven', label: '', value: 'Unproven', order: 4 }
-      //   ],
-      //   order: 0,
-      //   required: false,
-      //   isAdditionalAnswer: false
-      // }),
+      new DropdownQuestion({
+        // controlType: 'dropdown', // same as in control-type.constant.ts
+        id: 'id_brave', // unique value
+        text: 'Bravery Rating (text)',
+        description: 'some description',
+        options: [
+          { id: 'id_solid', label: '', value: 'Solid', order: 1 },
+          { id: 'id_great', label: '', value: 'Great', order: 2 },
+          { id: 'id_good', label: '', value: 'Good', order: 3 },
+          { id: 'id_unproven', label: '', value: 'Unproven', order: 4 }
+        ],
+        order: 0,
+        required: true,
+        isAdditionalAnswer: true
+      }),
 
-      // new TextAreaQuestion({
-      // //  controlType: 'textarea', // same as in control-type.constant.ts
-      //   id: 'id_lastname',
-      //   text: 'last name',
-      //   description: 'some description',
-      //   value: '',
-      //   required: false,
-      //   order: 1,
-      //   isAdditionalAnswer: false
-      // }),
+      new TextAreaQuestion({
+      //  controlType: 'textarea', // same as in control-type.constant.ts
+        id: 'id_lastname',
+        text: 'last name',
+        description: 'some description',
+        value: '',
+        required: true,
+        order: 1,
+        isAdditionalAnswer: true
+      }),
 
 
-      // new RadioQuestion({
-      //   //  controlType: 'radio', // same as in control-type.constant.ts
-      //   id: 'id_Radion question',
-      //   text: 'Bravery radion',
-      //   description: 'some description',
-      //   options: [
-      //     { id: 'id_Option 1', label: false, value: 'Option 1', order: 1 },
-      //     { id: 'id_Option 2', label: false, value: 'Option 2', order: 2 },
-      //     { id: 'id_Option 3', label: false, value: 'Option 3', order: 3 },
-      //     { id: 'id_Option 4', label: false, value: 'Option 4', order: 4 },
-      //   ],
-      //   order: 7,
-      //   required: false,
-      //   isAdditionalAnswer: false
-      // }),
+      new RadioQuestion({
+        //  controlType: 'radio', // same as in control-type.constant.ts
+        id: 'id_Radion question',
+        text: 'Bravery radion',
+        description: 'some description',
+        options: [
+          { id: 'id_Option 1', label: false, value: 'Option 1', order: 1 },
+          { id: 'id_Option 2', label: false, value: 'Option 2', order: 2 },
+          { id: 'id_Option 3', label: false, value: 'Option 3', order: 3 },
+          { id: 'id_Option 4', label: false, value: 'Option 4', order: 4 },
+        ],
+        order: 7,
+        required: true,
+        isAdditionalAnswer: true
+      }),
 
-      // new CheckboxQuestion({
-      //   //  controlType: 'checkbox', // same as in control-type.constant.ts
-      //   id: 'id_Checkbox groupe',
-      //   text: 'Bravery checkbox',
-      //   description: 'some description',
-      //   options: [
-      //     { id: 'id_Option 1', label: false, value: 'Variable 1', order: 1 },
-      //     { id: 'id_Option 2', label: false, value: 'Variable 2', order: 2 },
-      //     { id: 'id_Option 3', label: false, value: 'Variable 3', order: 3 },
-      //   ],
-      //   order: 0,
-      //   required: true,
-      //   isAdditionalAnswer: true
-      // }),
+      new CheckboxQuestion({
+        //  controlType: 'checkbox', // same as in control-type.constant.ts
+        id: 'id_Checkbox groupe',
+        text: 'Bravery checkbox',
+        description: 'some description',
+        options: [
+          { id: 'id_Option 1', label: false, value: 'Variable 1', order: 1 },
+          { id: 'id_Option 2', label: false, value: 'Variable 2', order: 2 },
+          { id: 'id_Option 3', label: false, value: 'Variable 3', order: 3 },
+        ],
+        order: 0,
+        required: true,
+        isAdditionalAnswer: true
+      }),
 
       new GridRadioQuestion({
         //  controlType: 'gridRadio', // same as in control-type.constant.ts

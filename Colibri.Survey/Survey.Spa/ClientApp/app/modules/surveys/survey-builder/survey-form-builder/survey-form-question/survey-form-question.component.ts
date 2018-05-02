@@ -20,21 +20,17 @@ import { GUID } from '../../../../../shared/helpers/guide-type.helper';
 })
 export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestroy, AfterViewInit {
 
-    isDeleteRow = false;
-    valueTest: any = null;
-    lengthRows: number;
-    lengthItem: number;
+    isChangeRow = true;
+    lengthRows = 0;
+    lengthItems = 0;
     lastSelectRowId: any;
-    isRowsChange = true;
     // @ViewChild('focusItem') rows: ElementRef;
     @ViewChildren('inputRow') rows: QueryList<any>;
-    @ViewChildren('inputItem') items: QueryList<any>;
+    @ViewChildren('inputCol') cols: QueryList<any>;
     @Input() question: QuestionBase<any>;
     @Input() form: FormGroup;
     @Input() isEditQuestion: boolean;
-
     private sub1 = new Subscription();
-    private sub2 = new Subscription();
 
     get isValid() {
         return this.form.controls[this.question.id].valid;
@@ -45,29 +41,25 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     constructor(
         private answerControlService: AnswerControlService,
         private cdr: ChangeDetectorRef,
-        private fb: FormBuilder) {
+        private fb: FormBuilder) { }
 
-
-    }
 
     ngOnInit() {
-        debugger
-        if (this.question) {
-            debugger
+
+        if (this.question.grid) {
+
             this.lengthRows = this.question.grid.rows.length;
-            this.lengthItem = this.question.grid.cols.length;
+            this.lengthItems = this.question.grid.cols.length;
             console.log(this.lengthRows);
-            console.log(this.lengthItem);
-            console.log(this.lengthRows);
-            console.log(this.lengthItem);
-            console.log(this.lengthRows);
-            console.log(this.lengthItem);
-            console.log(this.lengthRows);
-            console.log(this.lengthItem);
+            console.log(this.lengthItems);
         } else {
-            this.lengthItem = this.question.options.length;
+            if (this.question.options) {
+                this.lengthItems = this.question.options.length;
+            }
+
         }
     }
+
 
 
     onChange(questonId: string, optionId: string, isChecked: boolean, index: number) {
@@ -86,47 +78,78 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
         }
     }
 
+    Setfocus(id: string) {
 
+        // console.log('id.target.value');
+        // const vv = this.rows as any;
+        // this.rows.last.nativeElement.focus();
+        // const val = this.form.controls[id].get('rows').get('id_question2').get('label');
+
+        // this.rows.nativeElement.focus();
+        // this.rows.first().nativeElement.focus();
+
+    }
 
 
 
     addItem(mass: any[]) {
-        this.isRowsChange = false;
         const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...', 1);
-        this.lengthItem = mass.length;
+
+        this.lengthItems = mass.length;
         mass.push(item);
+        this.isChangeRow = false;
     }
 
     addRow(mass: any, questionId: string) {
-        this.isRowsChange = true;
         const val = this.form.controls[questionId].get('rows') as FormGroup;
         const group: any = {};
         const key = GUID.getNewGUIDString();
-        val.addControl(key, this.answerControlService.addItemAnswer(group));
+        val.addControl(key, this.answerControlService.addItemAnswer(group, this.question.required));
         const item = new ControlOptionModel(key, '', 'your text...', 1);
+
         this.lengthRows = mass.length;
         mass.push(item);
+        this.isChangeRow = true;
     }
+
+
+    deleteRow(control: any, index: number, mass: ControlOptionModel[]) {
+
+        if (mass.length > 1) {
+            mass.splice(index, 1);
+            const contrls = this.form.controls[this.question.id].get('rows') as FormGroup;
+            contrls.removeControl(control.id);
+            this.lengthRows = mass.length;
+            this.isChangeRow = true;
+        }
+
+    }
+
+    deleteItem(index: number, mass: ControlOptionModel[]) {
+        if (mass.length > 1) {
+            mass.splice(index, 1);
+            this.lengthItems = mass.length;
+            this.isChangeRow = false;
+        }
+    }
+
+
 
     ngAfterViewInit() {
 
-        console.log(this.isRowsChange);
         this.sub1 = this.rows.changes.subscribe(resp => {
             debugger
-            if (this.rows.length > this.lengthRows && this.rows.length !== this.lengthRows) {
+            if (this.rows.length > this.lengthRows && this.isChangeRow) {
                 this.rows.last.nativeElement.focus();
             }
         });
 
-        this.sub2 = this.items.changes.subscribe(resp => {
+        this.sub1 = this.cols.changes.subscribe(resp => {
             debugger
-            if (this.items.length > this.lengthItem && this.items.length !== this.lengthItem) {
-                this.items.last.nativeElement.focus();
+            if (this.cols.length > this.lengthItems && !this.isChangeRow) {
+                this.cols.last.nativeElement.focus();
             }
         });
-
-
-
 
     }
 
@@ -134,25 +157,14 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     // memory leak avoidance
     ngOnDestroy() {
         this.sub1.unsubscribe();
-        this.sub2.unsubscribe();
     }
 
     addCol(mass: any) {
         const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...', 1);
-        mass.push(item);
+        // mass.push(item);
     }
 
 
-    deleteRow(index: number, mass: ControlOptionModel[]) {
-        this.isRowsChange = true;
-        mass.splice(index, 1);
-        this.lengthRows = mass.length;
-    }
-    deleteItem(index: number, mass: ControlOptionModel[]) {
-        this.isRowsChange = false;
-        mass.splice(index, 1);
-        this.lengthItem = mass.length;
-    }
 
 
     // onChange(key: string, label: string, isChecked: boolean) {

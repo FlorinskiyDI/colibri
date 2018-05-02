@@ -52,7 +52,7 @@ export class QuestionControlService {
         break;
       }
       case ControTypes.gridRadio: {
-        // debugger
+
         // group[question.id] = this.fb.group({
         //   'type': new FormControl(question.controlType),
         //   'answer': question.required ? this.fb.array([]) : this.fb.array([], Validators.required),
@@ -70,10 +70,10 @@ export class QuestionControlService {
         group[question.id] = this.fb.group({
           'type': new FormControl(question.controlType),
           'rows': this.fb.group(groupGrid),
-          'answer': this.fb.array([]) ,
+          'answer': this.fb.array([]),
           'additionalAnswer': new FormControl('')
         });
-        debugger
+
         break;
       }
 
@@ -201,33 +201,22 @@ export class QuestionControlService {
 
     const question = new GridRadioQuestion({
       id: id,
-      label: 'grid question',
-      description: 'some description!',
+      text: 'Grid question, some text for long input, some text for long input, some text for long input, some text for long input',
+      description: 'Some description ...',
       grid: {
         cellInputType: 'radio',  // radio, checkbox
         rows: [
-          {
-            id: '48b09d72e6fb0d2a63985eef4018346e',
-            orderNo: 1,
-            label: 'row 1'
-          }
+          { id: 'id_question1', label: null, value: 'Variable question 1', order: 1 },
+          { id: 'id_question2', label: null, value: 'Variable question 2', order: 2 }
         ],
         cols: [
-          {
-            id: 'ace63d4001112c28e97b00ff67ceeeca',
-            orderNo: 1,
-            label: 'col 1'
-          },
-          {
-            id: '24062ae1fc97dead41d337ede7f2e55e',
-            orderNo: 2,
-            label: 'col2'
-          }
+          { id: 'id_answer1', label: null, value: 'answer 1', order: 1 },
+          { id: 'id_answer2', label: null, value: 'answer 2', order: 2 },
         ]
       },
       pageFlowModifier: false,
       order: index,
-      required: false,
+      required: true,
       isAdditionalAnswer: true
     });
     return question;

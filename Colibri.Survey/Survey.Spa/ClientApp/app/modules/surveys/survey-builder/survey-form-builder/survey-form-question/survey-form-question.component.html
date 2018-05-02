@@ -1,93 +1,95 @@
 <!-- <pre class='checkquestion'>{{question | json}}</pre> -->
 <!-- <p>{{isEditQuestion}}</p> -->
 <div *ngIf="!isEditQuestion" class="d-question-wrapper">
-    <!-- <p>111{{question.controlType}}111</p> -->
-    <div [formGroup]="form">
-        <label [attr.for]="question.id">{{question.text}}
-            <label *ngIf="question.required" style="color:red">*</label>
-        </label>
-        <br>
-        <p>{{question.description}}</p>
-        <!-- <label *ngIf="question.required" style="color:red">*</label> -->
-        <div *ngIf="!!question.name">
-            {{question.name}}
-        </div>
-
-        <div [ngSwitch]="question.controlType">
-            <div *ngSwitchCase="'textbox'" [formGroupName]="question.id">
-                <input [formControlName]="'answer'" [id]="question.id">
-                <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
-                    additional answer:
-                    <input [formControlName]="'additionalAnswer'" type="text">
-                </div>
+    <div class="form-viewr-controls">
+        <!-- <p>111{{question.controlType}}111</p> -->
+        <div [formGroup]="form">
+            <label [attr.for]="question.id">{{question.text}}
+                <label *ngIf="question.required" style="color:red">*</label>
+            </label>
+            <br>
+            <p>{{question.description}}</p>
+            <!-- <label *ngIf="question.required" style="color:red">*</label> -->
+            <div *ngIf="!!question.name">
+                {{question.name}}
             </div>
 
-
-            <div *ngSwitchCase="'textarea'" [formGroupName]="question.id">
-                <textarea rows="5" [formControlName]="'answer'" [disabled]="true" [id]="question.id" style="width: 300px"></textarea>
-                <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
-                    additional answer:
-                    <input [formControlName]="'additionalAnswer'" type="text">
+            <div [ngSwitch]="question.controlType">
+                <div *ngSwitchCase="'textbox'" [formGroupName]="question.id">
+                    <input [formControlName]="'answer'" [id]="question.id">
+                    <!-- <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer"></div> -->
+                    <div *ngIf="question.isAdditionalAnswer">
+                        additional answer:
+                        <input [formControlName]="'additionalAnswer'" type="text">
+                    </div>
                 </div>
-            </div>
 
 
-            <div *ngSwitchCase="'dropdown'" [formGroupName]="question.id">
-                <select [id]="question.id" [disabled]="true" [formControlName]="'answer'" style="width: 200px">
-
-                    <option *ngFor="let opt of question.options" [value]="opt.id">{{opt.value}}</option>
-                </select>
-                <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
-                    additional answer:
-                    <input [formControlName]="'additionalAnswer'" type="text">
+                <div *ngSwitchCase="'textarea'" [formGroupName]="question.id">
+                    <textarea rows="5" [formControlName]="'answer'" [disabled]="true" [id]="question.id" style="width: 300px"></textarea>
+                    <div *ngIf="question.isAdditionalAnswer">
+                        additional answer:
+                        <input [formControlName]="'additionalAnswer'" type="text">
+                    </div>
                 </div>
-            </div>
 
 
-            <div *ngSwitchCase="'radio'">
-                <!-- {{question.options | json}} -->
-                <div class="form-check" *ngFor="let opt of question.options" [formGroupName]="question.id">
-                    <input [formControlName]="'answer'" name="answer" type="radio" [value]="opt.id">
-                    <label class="form-check-label">
-                        {{opt.value}}
-                    </label>
+                <div *ngSwitchCase="'dropdown'" [formGroupName]="question.id">
+                    <select [id]="question.id" [disabled]="true" [formControlName]="'answer'" style="width: 200px">
+
+                        <option *ngFor="let opt of question.options" [value]="opt.id">{{opt.value}}</option>
+                    </select>
+                    <div *ngIf="question.isAdditionalAnswer">
+                        additional answer:
+                        <input [formControlName]="'additionalAnswer'" type="text">
+                    </div>
                 </div>
-                <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
-                    additional answer:
-                    <input [formControlName]="'additionalAnswer'" type="text">
-                </div>
-            </div>
 
 
-            <div *ngSwitchCase="'checkbox'" [formGroupName]="question.id">
-                <div *ngFor="let opt of question.options">
-                    <input type="checkbox" (change)="onChange(question.id, opt.id, $event.target.checked)" [checked]="opt.label"> {{opt.value}}
-                    <br>
+                <div *ngSwitchCase="'radio'">
+                    <!-- {{question.options | json}} -->
+                    <div class="form-check" *ngFor="let opt of question.options" [formGroupName]="question.id">
+                        <input [formControlName]="'answer'" name="answer" type="radio" [value]="opt.id">
+                        <label class="form-check-label">
+                            {{opt.value}}
+                        </label>
+                    </div>
+                    <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
+                        additional answer:
+                        <input [formControlName]="'additionalAnswer'" type="text">
+                    </div>
                 </div>
-                <!-- <div class="form-check" *ngFor="let opt of question.options">
+
+
+                <div *ngSwitchCase="'checkbox'" [formGroupName]="question.id">
+                    <div *ngFor="let opt of question.options">
+                        <input type="checkbox" (change)="onChange(question.id, opt.id, $event.target.checked)" [checked]="opt.label"> {{opt.value}}
+                        <br>
+                    </div>
+                    <!-- <div class="form-check" *ngFor="let opt of question.options">
                                   <input [id]="opt.id"  [formControlName]="question.id"   class="form-check-input" type="checkbox" [checked]="opt.value">
                                   <label class="form-check-label">
                                     {{opt.label}}
                                   </label>
                                 </div> -->
-                <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
-                    additional answer:
-                    <input [formControlName]="'additionalAnswer'" type="text">
+                    <div *ngIf="question.isAdditionalAnswer">
+                        additional answer:
+                        <input [formControlName]="'additionalAnswer'" type="text">
+                    </div>
                 </div>
-            </div>
 
 
 
-            <div *ngSwitchCase="'gridRadio'" [formGroupName]="question.id">
-                <div>
-                    <!-- <div [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index">
+                <div *ngSwitchCase="'gridRadio'" [formGroupName]="question.id">
+                    <div>
+                        <!-- <div [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index">
                             <input #val [formControlName]="'label'" name="label" value="itemRowLabel.value"  
                             type='radio'>
                             <input #val [formControlName]="'label'" name="label" value="itemRowLabel.value"  
                             type='radio'>
                             <p>11{{val.checked}}11</p>
                     </div> -->
-                    <!-- <table style="border: 1px solid black">
+                        <!-- <table style="border: 1px solid black">
                         <tr style="border: 1px solid black">
                             <td style="border: 1px solid black">////</td>
                             <td *ngFor="let itemColLabel of question.grid.cols let iItemColLabel=index" style="border: 1px solid black">
@@ -104,46 +106,46 @@
                             </td>
                         </tr>
                     </table> -->
-                    <div class="hscroll">
+                        <div class="hscroll">
 
-                        <table cellspacing="0" cellpadding="6">
-                            <tbody [formGroupName]="'rows'">
-                                <tr>
-                                    <td style="width: 25%">
-                                        <!-- / -->
-                                    </td>
-                                    <td class="d-align-right-cell" align="right" *ngFor="let itemColLabel of question.grid.cols let iItemColLabel=index">
-                                        {{itemColLabel.value}}
+                            <table cellspacing="0" cellpadding="6">
+                                <tbody [formGroupName]="'rows'">
+                                    <tr>
+                                        <td style="width: 25%">
+                                            <!-- / -->
+                                        </td>
+                                        <td class="d-align-right-cell" align="right" *ngFor="let itemColLabel of question.grid.cols let iItemColLabel=index">
+                                            {{itemColLabel.value}}
+                                        </td>
+                                    </tr>
+                                    <tr [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index">
+                                        <td class="d-align-right-cell">{{iItemRowLabel + 1}}. {{itemRowLabel.value}}</td>
+                                        <td *ngFor="let itemCol of question.grid.cols let iItemCol=index">
+
+
+                                            <input [formControlName]="'label'" value="{{itemCol.id}}" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value, $event.target.checked)"
+                                                type='radio'>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tr *ngIf="question.isAdditionalAnswer">
+                                    <td class="d-align-right-cell">Additional answer:</td>
+
+                                    <td [attr.colspan]="question.grid.cols.length">
+                                        <textarea rows="3" placeholder="your text..." class="d-cell-input" [formControlName]="'additionalAnswer'" type="text"></textarea>
                                     </td>
                                 </tr>
-                                <tr [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index">
-                                    <td class="d-align-right-cell">{{iItemRowLabel + 1}}. {{itemRowLabel.value}}</td>
-                                    <td *ngFor="let itemCol of question.grid.cols let iItemCol=index">
 
+                            </table>
 
-                                        <input [formControlName]="'label'" value="{{itemCol.id}}" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value, $event.target.checked)"
-                                            type='radio'>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tr>
-                                <td class="d-align-right-cell">Additional answer:</td>
-
-                                <td [attr.colspan]="question.grid.cols.length">
-                                    <textarea rows="3" placeholder="your text..." class="d-cell-input" [formControlName]="'additionalAnswer'" type="text"></textarea>
-                                </td>
-                            </tr>
-
-                        </table>
-
+                        </div>
                     </div>
+                    <br>
                 </div>
-                <br>
-            </div>
 
 
 
-            <!-- <div *ngSwitchCase="'gridRadio'" [formGroupName]="question.id">
+                <!-- <div *ngSwitchCase="'gridRadio'" [formGroupName]="question.id">
                 <table [formGroupName]="'answer'">
                     <tr>
                         <td>////</td>
@@ -162,6 +164,7 @@
                 <br>
             </div> -->
 
+            </div>
         </div>
     </div>
 </div>
@@ -176,86 +179,12 @@
 
         <div [ngSwitch]="question.controlType">
             <div *ngSwitchCase="'textbox'">
-                question:
-                <input [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
-                <br> description:
-                <input [type]="text" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value">
-                <br>
-                <input disabled="true">
-                <br>
-                <p *ngIf="question.isAdditionalAnswer">!!!!! Additional answer !!!!!</p>
-            </div>
-
-
-            <div *ngSwitchCase="'textarea'">
-                question:
-                <input [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
-                <br> description:
-                <input [type]="text" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value">
-                <br>
-                <textarea disabled="true"></textarea>
-                <br>
-                <p *ngIf="question.isAdditionalAnswer">!!!!! Additional answer !!!!!</p>
-            </div>
-
-
-            <div *ngSwitchCase="'dropdown'">
-                question:
-                <input [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
-                <br> description:
-                <input [type]="text" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value">
-                <p>--------------------------------------------------</p>
-                <div *ngFor="let opt of question.options; let i = index">
-                    <input [type]="text" [(ngModel)]="opt.value" (keyup)="opt.value = $event.target.value">
-                    <button (click)="deleteItem(i, question.options)" type="button">x</button>
-                </div>
-                <button (click)="addItem(question.options)" type="button">Add item</button>
-                <!-- <select [id]="question.id" [formControlName]="'answer'" style="width: 200px">
-                            <option *ngFor="let opt of question.options" [value]="opt.id">{{opt.value}}</option>
-                        </select> -->
-                <br>
-                <p *ngIf="question.isAdditionalAnswer">!!!!! Additional answer !!!!!</p>
-            </div>
-
-
-            <div *ngSwitchCase="'radio'">
-                question:
-                <input [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
-                <br> description:
-                <input [type]="text" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value">
-                <div *ngFor="let opt of question.options; let i = index">
-                    <input [type]="text" [(ngModel)]="opt.value" (keyup)="opt.value = $event.target.value">
-                    <button (click)="deleteItem(i, question.options)" type="button">x</button>
-                </div>
-                <button (click)="addItem(question.options)" type="button">Add item</button>
-                <br>
-                <p *ngIf="question.isAdditionalAnswer">!!!!! Additional answer !!!!!</p>
-            </div>
-
-
-            <div *ngSwitchCase="'checkbox'">
-
-                question:
-                <input [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
-                <br> description:
-                <input [type]="text" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value">
-                <div *ngFor="let opt of question.options; let i = index">
-                    <input [type]="text" [(ngModel)]="opt.value" (keyup)="opt.value = $event.target.value">
-                    <button (click)="deleteItem(i, question.options)" type="button">x</button>
-                </div>
-                <button (click)="addItem(question.options)" type="button">Add item</button>
-                <br>
-                <p *ngIf="question.isAdditionalAnswer">!!!!! Additional answer !!!!!</p>
-            </div>
-
-
-            <div *ngSwitchCase="'gridRadio'">
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
                         <p class="d-label-text">Question text:</p>
                     </div>
                     <div class="d-item-content">
-                        <input class="d-input-textbox" [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
+                        <input autofocus class="d-input-textbox" [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
                     </div>
 
                 </div>
@@ -267,17 +196,268 @@
                     <div class="d-item-content">
                         <textarea #toFocus rows="3" class="d-input-textarea" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value"></textarea>
                     </div>
+                </div>
+                <br>
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text"></p>
+                    </div>
+                    <div class="d-item-content">
+                        <input class="d-input-textbox" disabled="true" value="">
+                    </div>
+                </div>
 
+
+            </div>
+
+
+            <div *ngSwitchCase="'textarea'">
+
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Question text:</p>
+                    </div>
+                    <div class="d-item-content">
+                        <input autofocus class="d-input-textbox" [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
+                    </div>
+
+                </div>
+
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Description:</p>
+                    </div>
+                    <div class="d-item-content">
+                        <textarea #toFocus rows="3" class="d-input-textarea" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value"></textarea>
+                    </div>
+                </div>
+                <br>
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text"></p>
+                    </div>
+                    <div class="d-item-content">
+                        <textarea class="d-input-textarea" disabled="true"></textarea>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div *ngSwitchCase="'dropdown'">
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Question text:</p>
+                    </div>
+                    <div class="d-item-content">
+                        <input autofocus class="d-input-textbox" [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
+                    </div>
+
+                </div>
+
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Description:</p>
+                    </div>
+                    <div class="d-item-content">
+                        <textarea #toFocus rows="3" class="d-input-textarea" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value"></textarea>
+                    </div>
+                </div>
+                <br>
+                <div class="d-item-wrapper" *ngFor="let item of question.options; let i = index;">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Item {{i + 1}}</p>
+                    </div>
+                    <div class="d-item-content">
+                        <div class="d-repeat-item">
+
+                            <input autofocus #inputCol class="d-input-textbox" [type]="text" [(ngModel)]="item.value" (keyup)="item.value = $event.target.value">
+                            <button *ngIf="question.options.length > 1" (click)="deleteItem(i, question.options)" type="button">x</button>
+                            <!-- <input *ngIf="last" placeholder="Add new item..." class="d-input-textbox" (click)="addRow(question.grid.rows, question.id); Setfocus(question.id)" >  -->
+                        </div>
+                    </div>
+                </div>
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                    </div>
+                    <div class="d-item-content">
+                        <div class="d-repeat-item">
+                            <input placeholder="Add new item..." class="d-input-textbox" (click)="addItem(question.options); $event.preventDefault()">
+                            <!-- target -->
+                        </div>
+                    </div>
+                </div>
+                <!-- question:
+                <input [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
+                <br> description:
+                <input [type]="text" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value">
+                <p>--------------------------------------------------</p>
+                <div *ngFor="let opt of question.options; let i = index">
+                    <input [type]="text" [(ngModel)]="opt.value" (keyup)="opt.value = $event.target.value">
+                    <button (click)="deleteItem(i, question.options)" type="button">x</button>
+                </div>
+                <button (click)="addItem(question.options)" type="button">Add item</button>
+                <br>
+                <p *ngIf="question.isAdditionalAnswer">!!!!! Additional answer !!!!!</p> -->
+            </div>
+
+
+            <div *ngSwitchCase="'radio'">
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Question text:</p>
+                    </div>
+                    <div class="d-item-content">
+                        <input autofocus class="d-input-textbox" [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
+                    </div>
+                </div>
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Description:</p>
+                    </div>
+                    <div class="d-item-content">
+                        <textarea #toFocus rows="3" class="d-input-textarea" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value"></textarea>
+                    </div>
+                </div>
+
+                <br>
+                <div class="d-item-wrapper" *ngFor="let item of question.options; let i = index;">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Item {{i + 1}}</p>
+                    </div>
+                    <div class="d-item-content">
+                        <div class="d-repeat-item">
+                            <button class="d-button-radio">
+                                <i class="fa fa-circle-o"></i>
+                            </button>
+
+                            <input autofocus #inputCol class="d-input-textbox" [type]="text" [(ngModel)]="item.value" (keyup)="item.value = $event.target.value">
+                            <button *ngIf="question.options.length > 1" (click)="deleteItem(i, question.options)" type="button">x</button>
+                            <!-- <input *ngIf="last" placeholder="Add new item..." class="d-input-textbox" (click)="addRow(question.grid.rows, question.id); Setfocus(question.id)" >  -->
+                        </div>
+                    </div>
+                </div>
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+
+                    </div>
+                    <div class="d-item-content">
+                        <div class="d-repeat-item">
+                            <button class="d-button-radio" style="color:transparent">
+                                <i class="fa fa-circle-o"></i>
+                            </button>
+                            <input placeholder="Add new item..." class="d-input-textbox" (click)="addItem(question.options); $event.preventDefault()">
+                            <!-- target -->
+                        </div>
+                    </div>
+                </div>
+                <!-- question:
+                <input [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
+                <br> description:
+                <input [type]="text" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value">
+                <div *ngFor="let opt of question.options; let i = index">
+                    <input [type]="text" [(ngModel)]="opt.value" (keyup)="opt.value = $event.target.value">
+                    <button (click)="deleteItem(i, question.options)" type="button">x</button>
+                </div>
+                <button (click)="addItem(question.options)" type="button">Add item</button>
+                <br>
+                <p *ngIf="question.isAdditionalAnswer">!!!!! Additional answer !!!!!</p> -->
+            </div>
+
+
+            <div *ngSwitchCase="'checkbox'">
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Question text:</p>
+                    </div>
+                    <div class="d-item-content">
+                        <input autofocus class="d-input-textbox" [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
+                    </div>
+                </div>
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Description:</p>
+                    </div>
+                    <div class="d-item-content">
+                        <textarea #toFocus rows="3" class="d-input-textarea" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value"></textarea>
+                    </div>
+                </div>
+
+                <br>
+                <div class="d-item-wrapper" *ngFor="let item of question.options; let i = index;">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Item {{i + 1}}</p>
+                    </div>
+                    <div class="d-item-content">
+                        <div class="d-repeat-item">
+                            <button class="d-button-checkbox">
+                                <i class="fa fa-square-o"></i>
+                            </button>
+
+
+                            <input autofocus #inputCol class="d-input-textbox" [type]="text" [(ngModel)]="item.value" (keyup)="item.value = $event.target.value">
+                            <button *ngIf="question.options.length > 1" (click)="deleteItem(i, question.options)" type="button">x</button>
+                            <!-- <input *ngIf="last" placeholder="Add new item..." class="d-input-textbox" (click)="addRow(question.grid.rows, question.id); Setfocus(question.id)" >  -->
+                        </div>
+                    </div>
+                </div>
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+
+                    </div>
+                    <div class="d-item-content">
+                        <div class="d-repeat-item">
+                            <button class="d-button-radio" style="color:transparent">
+                                <i class="fa fa-circle-o"></i>
+                            </button>
+                            <input placeholder="Add new item..." class="d-input-textbox" (click)="addItem(question.options); $event.preventDefault()">
+                            <!-- target -->
+                        </div>
+                    </div>
+                </div>
+                <!-- question:
+                <input [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
+                <br> description:
+                <input [type]="text" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value">
+                <div *ngFor="let opt of question.options; let i = index">
+                    <input [type]="text" [(ngModel)]="opt.value" (keyup)="opt.value = $event.target.value">
+                    <button (click)="deleteItem(i, question.options)" type="button">x</button>
+                </div>
+                <button (click)="addItem(question.options)" type="button">Add item</button>
+                <br>
+                <p *ngIf="question.isAdditionalAnswer">!!!!! Additional answer !!!!!</p> -->
+            </div>
+
+
+            <div *ngSwitchCase="'gridRadio'">
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Question text:</p>
+                    </div>
+                    <div class="d-item-content">
+                        <input autofocus class="d-input-textbox" [type]="text" [(ngModel)]="question.text" (keyup)="question.text = $event.target.value">
+                    </div>
+
+                </div>
+
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Description:</p>
+                    </div>
+                    <div class="d-item-content">
+                        <textarea #toFocus rows="3" class="d-input-textarea" [(ngModel)]="question.description" (keyup)="question.description = $event.target.value"></textarea>
+                    </div>
                 </div>
                 <br>
                 <div class="d-item-wrapper" *ngFor="let row of question.grid.rows; let i = index; last as isLast;">
                     <div class="d-item-label">
-                        <p class="d-label-text">Row {{i + 1}}</p>
+                        <p class="d-label-text">Row {{i + 1}} {{row.required}}</p>
                     </div>
                     <div class="d-item-content">
                         <div class="d-repeat-item">
-                            <input  #inputRow class="d-input-textbox" [type]="text" [(ngModel)]="row.value" (keyup)="row.value = $event.target.value">
-                            <button (click)="deleteRow(i, question.grid.rows)" type="button">x</button>
+                            <input autofocus #inputRow class="d-input-textbox" [type]="text" [(ngModel)]="row.value" (keyup)="row.value = $event.target.value">
+                            <button *ngIf="question.grid.rows.length > 1" (click)="deleteRow(row, i, question.grid.rows)" type="button">x</button>
                             <!-- <input *ngIf="last" placeholder="Add new item..." class="d-input-textbox" (click)="addRow(question.grid.rows, question.id); Setfocus(question.id)"> -->
                         </div>
                     </div>
@@ -298,12 +478,12 @@
                 <br>
                 <div class="d-item-wrapper" *ngFor="let col of question.grid.cols; let i = index;">
                     <div class="d-item-label">
-                        <p class="d-label-text">Col{{i + 1}}</p>
+                        <p class="d-label-text">Col {{i + 1}}</p>
                     </div>
                     <div class="d-item-content">
                         <div class="d-repeat-item">
-                            <input #inputItem class="d-input-textbox" [type]="text" [(ngModel)]="col.value" (keyup)="col.value = $event.target.value">
-                            <button (click)="deleteItem(i, question.grid.cols)" type="button">x</button>
+                            <input autofocus #inputCol class="d-input-textbox" [type]="text" [(ngModel)]="col.value" (keyup)="col.value = $event.target.value">
+                            <button *ngIf="question.grid.cols.length > 1" (click)="deleteItem(i, question.grid.cols)" type="button">x</button>
                             <!-- <input *ngIf="last" placeholder="Add new item..." class="d-input-textbox" (click)="addRow(question.grid.rows, question.id); Setfocus(question.id)" >  -->
                         </div>
                     </div>
@@ -313,7 +493,7 @@
                     </div>
                     <div class="d-item-content">
                         <div class="d-repeat-item">
-                            <input placeholder="Add new col..." class="d-input-textbox" (click)="addItem(question.grid.cols)">
+                            <input placeholder="Add new col..." class="d-input-textbox" (click)="addItem(question.grid.cols); $event.preventDefault()">
                             <!-- target -->
                         </div>
                     </div>
@@ -328,7 +508,7 @@
                 <button (click)="addRow(question.grid.rows, question.id)" type="button">Add row</button>
                 <br> -->
 
-                <p>--------------------------------------------------------- </p>
+                <!-- <p>--------------------------------------------------------- </p>
                 cols:
                 <br>
                 <div *ngFor="let col of question.grid.cols; let i = index">
@@ -338,8 +518,10 @@
                 </div>
                 <button (click)="addItem(question.grid.cols)" type="button">Add col</button>
                 <br>
-                <p *ngIf="question.isAdditionalAnswer">!!!!! Additional answer !!!!!</p>
+                <p *ngIf="question.isAdditionalAnswer">!!!!! Additional answer !!!!!</p> -->
+
             </div>
+
             <!-- <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer">
                 additional answer:
                 <input [formControlName]="'additionalAnswer'" type="text">

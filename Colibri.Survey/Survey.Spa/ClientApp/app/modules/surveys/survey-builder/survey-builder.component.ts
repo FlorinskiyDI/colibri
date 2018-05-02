@@ -135,33 +135,7 @@ export class SurveyBuilderComponent {
         // orderedProduct.quantity--;
     }
 
-    addToBasket($event: any) {
-        console.log('888888888888888888888888888888888');
-        console.log($event);
-        this.listTeamOne.push($event);
-        console.log(this.listTeamOne);
-    }
-
-    totalCost(): number {
-        return 6;
-    }
-
-    changeSort(event: any) {
-        console.log(event);
-    }
-
-
-    checkOnMouseUp(event: any) {
-        console.log('eventeventeventeventeventeventevent');
-        console.log(event);
-        console.log('eventeventeventeventeventeventevent');
-    }
-    transferDataSuccess($event: any) {
-        console.log('777777777777777777777777777777777777777777777');
-        console.log($event);
-        this.listTeamOne.push($event);
-    }
-
+ 
 
     dragOperation = false;
 

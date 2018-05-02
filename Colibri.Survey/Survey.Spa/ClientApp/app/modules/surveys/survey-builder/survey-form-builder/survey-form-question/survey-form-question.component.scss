@@ -10,6 +10,15 @@
     min-height: 160px;
         // margin-left: 10px;
                     // margin-right: 10px;
+
+
+    .form-viewr-controls {
+        padding: 20px;
+    }
+
+
+
+
     .form-builder-controls {
         padding: 10px;
         margin-top: 30px;
@@ -26,7 +35,7 @@
             width: 60%;
             font-size: 12px;
             border: 1px solid #7A7A7A;
-            background-color: #fafafa;
+            // background-color: #fafafa;
             padding: 5px;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -37,7 +46,7 @@
             
             width: 60%;
             border: 1px solid #7A7A7A;
-            background-color: #fafafa;
+            // background-color: #fafafa;
             padding: 5px;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -62,6 +71,17 @@
                 height: 100%;
                 width: 85%;
                 // background: silver;
+                .d-button-radio {
+                    background-color: transparent;
+                    border: 0px;
+         
+                }
+
+                .d-button-checkbox {
+                    background-color: transparent;
+                    border: 0px;
+                    font-size: 14px;
+                }
             }
         }
         

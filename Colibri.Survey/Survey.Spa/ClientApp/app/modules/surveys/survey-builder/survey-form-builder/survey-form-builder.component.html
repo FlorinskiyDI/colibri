@@ -28,6 +28,10 @@
                   <button type="button" *ngIf="item.required && editCheckbox.checked" class="d-btn-option" title="Require question">
                     <i class="fa fa-asterisk"></i>
                   </button>
+                  <br>
+                  <button type="button" *ngIf="item.isAdditionalAnswer && editCheckbox.checked" class="d-btn-option" title="Additional answer">
+                      <i class="fa fa-share "></i>
+                    </button>
        
                 </div>
               </div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormBuilder } from '@angular/forms';
+import { FormControl, FormBuilder, Validators } from '@angular/forms';
 
 // import { ControlOptionModel } from '../models/form-builder/form-control/control-option.model';
 // import { QuestionBase } from '../models/form-builder/question-base.model';
@@ -23,9 +23,9 @@ export class AnswerControlService {
   constructor(private fb: FormBuilder) { }
 
 
-  addItemAnswer(group: any): any {
+  addItemAnswer(group: any, required: boolean): any {
     return group[GUID.getNewGUIDString()] = this.fb.group({
-        'label': new FormControl('')
+      'label': !required ? new FormControl('') : new FormControl('', Validators.required)
     });
   }
 
