@@ -7,6 +7,7 @@ export class QuestionBase<T> {
     order: number;
     controlType: string;
     isAdditionalAnswer: boolean;
+    options: any;
     grid: any;
     constructor(options: {
         value?: T,
@@ -17,7 +18,8 @@ export class QuestionBase<T> {
         order?: number,
         controlType?: string,
         isAdditionalAnswer?: boolean,
-        grid?: any
+        grid?: any,
+        options?: any
     } = {}) {
         console.log(options);
         this.value = options.value;
@@ -29,5 +31,6 @@ export class QuestionBase<T> {
         this.controlType = options.controlType || '';
         this.isAdditionalAnswer = !!options.isAdditionalAnswer;
         this.grid = options.grid;
+        this.options = options.options;
     }
 }

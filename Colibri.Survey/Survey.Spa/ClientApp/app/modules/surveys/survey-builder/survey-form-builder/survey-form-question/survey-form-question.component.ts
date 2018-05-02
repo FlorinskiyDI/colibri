@@ -20,13 +20,21 @@ import { GUID } from '../../../../../shared/helpers/guide-type.helper';
 })
 export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestroy, AfterViewInit {
 
+    isDeleteRow = false;
+    valueTest: any = null;
+    lengthRows: number;
+    lengthItem: number;
     lastSelectRowId: any;
+    isRowsChange = true;
     // @ViewChild('focusItem') rows: ElementRef;
-    @ViewChildren('input') rows: QueryList<any>;
+    @ViewChildren('inputRow') rows: QueryList<any>;
+    @ViewChildren('inputItem') items: QueryList<any>;
     @Input() question: QuestionBase<any>;
     @Input() form: FormGroup;
     @Input() isEditQuestion: boolean;
+
     private sub1 = new Subscription();
+    private sub2 = new Subscription();
 
     get isValid() {
         return this.form.controls[this.question.id].valid;
@@ -37,7 +45,29 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     constructor(
         private answerControlService: AnswerControlService,
         private cdr: ChangeDetectorRef,
-        private fb: FormBuilder) { }
+        private fb: FormBuilder) {
+
+
+    }
+
+    ngOnInit() {
+        debugger
+        if (this.question) {
+            debugger
+            this.lengthRows = this.question.grid.rows.length;
+            this.lengthItem = this.question.grid.cols.length;
+            console.log(this.lengthRows);
+            console.log(this.lengthItem);
+            console.log(this.lengthRows);
+            console.log(this.lengthItem);
+            console.log(this.lengthRows);
+            console.log(this.lengthItem);
+            console.log(this.lengthRows);
+            console.log(this.lengthItem);
+        } else {
+            this.lengthItem = this.question.options.length;
+        }
+    }
 
 
     onChange(questonId: string, optionId: string, isChecked: boolean, index: number) {
@@ -56,71 +86,55 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
         }
     }
 
-    Setfocus(id: string) {
-        // debugger
-        // console.log('id.target.value');
-        const vv = this.rows;
-        vv.last.focus();
-        debugger
-        const val = this.form.controls[id].get('rows').get('id_question2').get('label');
 
-        // this.rows.nativeElement.focus();
-        // this.rows.first().nativeElement.focus();
 
-    }
-    // setOption(event: any, key: string, input: any) {
-    //     this.form.controls[key].setValue = input.value;
-    //     console.log(input.value);
-    //     console.log(event.target.value);
-    // }
 
 
     addItem(mass: any[]) {
+        this.isRowsChange = false;
         const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...', 1);
+        this.lengthItem = mass.length;
         mass.push(item);
     }
 
     addRow(mass: any, questionId: string) {
-        // const groupRows: any = {};
-        // const rowId = GUID.getNewGUIDString(); // !!! user twice, (formbuildr, json)
-        // groupRows[rowId] = this.fb.group({
-        //     'label': new FormControl('')
-        // });
-
-        // const questionArray = this.form.controls[questionId] as FormGroup;
-        // const constRows = questionArray.controls['rows'] as FormGroup;
-        // constRows.controls[GUID.getNewGUIDString()] = this.fb.group(groupRows);
-
-
-
-
-        // const someValue = this.form.controls['value2'].controls['value2'].controls['value3']
-        // debugger
+        this.isRowsChange = true;
         const val = this.form.controls[questionId].get('rows') as FormGroup;
-
         const group: any = {};
         const key = GUID.getNewGUIDString();
         val.addControl(key, this.answerControlService.addItemAnswer(group));
-
-
         const item = new ControlOptionModel(key, '', 'your text...', 1);
+        this.lengthRows = mass.length;
         mass.push(item);
     }
 
     ngAfterViewInit() {
-        debugger
+
+        console.log(this.isRowsChange);
         this.sub1 = this.rows.changes.subscribe(resp => {
             debugger
-            if (this.rows.length > 1) {
+            if (this.rows.length > this.lengthRows && this.rows.length !== this.lengthRows) {
                 this.rows.last.nativeElement.focus();
             }
         });
+
+        this.sub2 = this.items.changes.subscribe(resp => {
+            debugger
+            if (this.items.length > this.lengthItem && this.items.length !== this.lengthItem) {
+                this.items.last.nativeElement.focus();
+            }
+        });
+
+
+
+
     }
 
 
     // memory leak avoidance
     ngOnDestroy() {
         this.sub1.unsubscribe();
+        this.sub2.unsubscribe();
     }
 
     addCol(mass: any) {
@@ -128,8 +142,16 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
         mass.push(item);
     }
 
-    deleteItem(index: number, mass: ControlOptionModel[]) {
+
+    deleteRow(index: number, mass: ControlOptionModel[]) {
+        this.isRowsChange = true;
         mass.splice(index, 1);
+        this.lengthRows = mass.length;
+    }
+    deleteItem(index: number, mass: ControlOptionModel[]) {
+        this.isRowsChange = false;
+        mass.splice(index, 1);
+        this.lengthItem = mass.length;
     }
 
 

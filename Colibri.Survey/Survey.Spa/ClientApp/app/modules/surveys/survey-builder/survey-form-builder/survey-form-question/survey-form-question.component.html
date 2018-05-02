@@ -270,23 +270,50 @@
 
                 </div>
                 <br>
-                <div #focusItem class="d-item-wrapper"  *ngFor="let row of question.grid.rows; let i = index; last as isLast;">
+                <div class="d-item-wrapper" *ngFor="let row of question.grid.rows; let i = index; last as isLast;">
                     <div class="d-item-label">
                         <p class="d-label-text">Row {{i + 1}}</p>
                     </div>
                     <div class="d-item-content">
-                        <div  class="d-repeat-item">
-                            <input #input   autofocus   class="d-input-textbox" [type]="text"  [(ngModel)]="row.value" (keyup)="row.value = $event.target.value">
-                            <input *ngIf="last" placeholder="Add new item..." class="d-input-textbox" (click)="addRow(question.grid.rows, question.id); Setfocus(question.id)" > 
+                        <div class="d-repeat-item">
+                            <input  #inputRow class="d-input-textbox" [type]="text" [(ngModel)]="row.value" (keyup)="row.value = $event.target.value">
+                            <button (click)="deleteRow(i, question.grid.rows)" type="button">x</button>
+                            <!-- <input *ngIf="last" placeholder="Add new item..." class="d-input-textbox" (click)="addRow(question.grid.rows, question.id); Setfocus(question.id)"> -->
                         </div>
                     </div>
-                </div>  
+                </div>
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
                     </div>
                     <div class="d-item-content">
                         <div class="d-repeat-item">
-                            <input placeholder="Add new item..." class="d-input-textbox" (click)="addRow(question.grid.rows, question.id); Setfocus(focusItem)" > 
+                            <input placeholder="Add new row..." class="d-input-textbox" (click)="addRow(question.grid.rows, question.id)">
+                            <!-- target -->
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <br>
+                <div class="d-item-wrapper" *ngFor="let col of question.grid.cols; let i = index;">
+                    <div class="d-item-label">
+                        <p class="d-label-text">Col{{i + 1}}</p>
+                    </div>
+                    <div class="d-item-content">
+                        <div class="d-repeat-item">
+                            <input #inputItem class="d-input-textbox" [type]="text" [(ngModel)]="col.value" (keyup)="col.value = $event.target.value">
+                            <button (click)="deleteItem(i, question.grid.cols)" type="button">x</button>
+                            <!-- <input *ngIf="last" placeholder="Add new item..." class="d-input-textbox" (click)="addRow(question.grid.rows, question.id); Setfocus(question.id)" >  -->
+                        </div>
+                    </div>
+                </div>
+                <div class="d-item-wrapper">
+                    <div class="d-item-label">
+                    </div>
+                    <div class="d-item-content">
+                        <div class="d-repeat-item">
+                            <input placeholder="Add new col..." class="d-input-textbox" (click)="addItem(question.grid.cols)">
                             <!-- target -->
                         </div>
                     </div>
