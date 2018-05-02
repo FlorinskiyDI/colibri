@@ -21,7 +21,6 @@ export class QuestionBase<T> {
         grid?: any,
         options?: any
     } = {}) {
-        console.log(options);
         this.value = options.value;
         this.id = options.id || '';
         this.text = options.text || '';

@@ -138,14 +138,14 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     ngAfterViewInit() {
 
         this.sub1 = this.rows.changes.subscribe(resp => {
-            debugger
+
             if (this.rows.length > this.lengthRows && this.isChangeRow) {
                 this.rows.last.nativeElement.focus();
             }
         });
 
         this.sub1 = this.cols.changes.subscribe(resp => {
-            debugger
+
             if (this.cols.length > this.lengthItems && !this.isChangeRow) {
                 this.cols.last.nativeElement.focus();
             }

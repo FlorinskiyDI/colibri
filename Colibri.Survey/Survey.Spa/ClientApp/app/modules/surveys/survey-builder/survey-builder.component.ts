@@ -60,7 +60,7 @@ export class SurveyBuilderComponent {
 
     listOne: Array<string> = ['Coffee', 'Orange Juice', 'Red Wine', 'Unhealty drink!', 'Water'];
     listTeamOne: Array<string> = [];
-    listTeamOne5: Array<string> = [];
+
     availableProducts: Array<Product> = [];
     shoppingBasket: Array<Product> = [];
 
@@ -82,7 +82,7 @@ export class SurveyBuilderComponent {
                 { type: ControTypes.gridRadio, name: 'Grid (single choice)', order: 6, dropZonesName: 'dropZonesName6', description: 'grid description', icon: 'fa-table' } as AvailableQuestions
             ],
         };
-        this.listTeamOne5.push('111111111111112');
+
         // this.listTeamOne.push('11111111111111');
 
         this.questions = questionService.getQuestions();
