@@ -7,7 +7,7 @@ export class QuestionTransferService {
     // private subject = new Subject<any>();
     private modelsubject = new Subject<any>();
     private optionsubject = new Subject<any>();
-
+    private idsubject = new Subject<any>();
 
     // -start transer 1- Communicating Between Components device-details and devcie-id-mapping
     // sendDeviceID(id: string) {
@@ -36,6 +36,15 @@ export class QuestionTransferService {
     }
     getQuestionOption(): Observable<any> {
         return this.optionsubject.asObservable();
+    }
+
+
+    // for check drag control if lost focus without need area
+    setDropQuestionId(id: any) {
+        this.idsubject.next(id);
+    }
+    getDropQuestionId(): Observable<any> {
+        return this.idsubject.asObservable();
     }
 
 }

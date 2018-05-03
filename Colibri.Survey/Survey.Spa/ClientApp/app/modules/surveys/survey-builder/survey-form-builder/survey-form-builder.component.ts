@@ -45,6 +45,17 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
             this.form.removeControl(data.id);
             this.sortQuestionByIndex();
         });
+        this.questionTransferService.getDropQuestionId().subscribe((data: any) => { // check drag control if lost focus without need area
+            debugger
+
+            this.questions.forEach((item: any, index: number) => {
+                const value = item as QuestionBase<any>;
+                if (!value.id) {
+                    this.questions.splice(index, 1);
+                }
+            });
+            debugger
+        });
     }
 
     ngOnInit() {

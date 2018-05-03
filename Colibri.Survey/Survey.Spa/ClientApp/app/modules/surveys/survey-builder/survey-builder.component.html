@@ -9,7 +9,7 @@
         <div class="d-builder-widgets-body">
             <p-accordion [multiple]="true">
                 <p-accordionTab header="Basic Question" [selected]="true">
-                    <pre>{{availableQuestions | json}}</pre>
+                    <!-- <pre>{{availableQuestions | json}}</pre> -->
                     <!-- <input type="checkbox" [(ngModel)]="dragOperation" /> -->
                     <div dnd-sortable-container [sortableData]="availableQuestionsOption.availableQuestions" [dropZones]="['container-dropZone']">
                         <div *ngFor="let question of availableQuestionsOption.availableQuestions; let i = index" dnd-sortable [sortableIndex]="i"

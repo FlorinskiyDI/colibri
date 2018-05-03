@@ -126,8 +126,10 @@ export class SurveyBuilderComponent {
         console.log(event);
         console.log(data);
         console.log('88888888888888888888899999999999999999999999');
+        debugger
         this.availableQuestions.push(data);
         this.availableQuestions.sort((a: any, b: any) => a.order - b.order );
+        this.questionTransferService.setDropQuestionId(data);
     }
 
 

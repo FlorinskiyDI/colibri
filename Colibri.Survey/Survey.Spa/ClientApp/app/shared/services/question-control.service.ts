@@ -216,8 +216,8 @@ export class QuestionControlService {
       },
       pageFlowModifier: false,
       order: index,
-      required: true,
-      isAdditionalAnswer: true
+      required: false,
+      isAdditionalAnswer: false
     });
     return question;
   }
