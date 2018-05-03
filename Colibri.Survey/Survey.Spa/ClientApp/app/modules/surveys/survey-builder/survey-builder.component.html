@@ -8,18 +8,18 @@
         </div>
         <div class="d-builder-widgets-body">
             <p-accordion [multiple]="true">
-                <p-accordionTab header="Basic Question" [selected]="false">
-
+                <p-accordionTab header="Basic Question" [selected]="true">
+                    <pre>{{availableQuestions | json}}</pre>
                     <!-- <input type="checkbox" [(ngModel)]="dragOperation" /> -->
-                    <div dnd-sortable-container [sortableData]="availableQuestions" [dropZones]="['container-dropZone']">
+                    <div dnd-sortable-container [sortableData]="availableQuestionsOption.availableQuestions" [dropZones]="['container-dropZone']">
                         <div *ngFor="let question of availableQuestionsOption.availableQuestions; let i = index" dnd-sortable [sortableIndex]="i"
                             [dragEnabled]="dragOperation">
 
-                            <div class="d-panel-sortable" dnd-sortable-container (dragend)="onDragEnd8($event)" [sortableData]="availableQuestions" [dropZones]="[question.dropZonesName]">
+                            <div class="d-panel-sortable" dnd-sortable-container  [sortableData]="availableQuestions" [dropZones]="[question.dropZonesName]">
 
 
                                 <div style="background:green" *ngFor="let widget of availableQuestionsOption.availableQuestions; let x = index">
-                                    <div *ngIf="i == x" class="d--repeat-allow-question-wrapper" (onDropSuccess)="removeDragQuestion($event)" dnd-sortable [sortableIndex]="x"
+                                    <div *ngIf="i == x" class="d--repeat-allow-question-wrapper" (dragend)="onDragEnd8($event, widget)" (onDropSuccess)="removeDragQuestion($event)" dnd-sortable [sortableIndex]="x"
                                         [dragEnabled]="!dragOperation" [dragData]="widget">
                                         <div class="d--repeat-allow-question">
                                             <!-- {{widget.name}} -->
@@ -58,7 +58,7 @@
                     </div>
                 </p-accordionTab>
                 <p-accordionTab header="Advanced Question" [selected]="false">
-                    
+
                 </p-accordionTab>
                 <p-accordionTab header="Additional Controls" [selected]="true">
                     <pre>{{temporaryAnser | json}}</pre>

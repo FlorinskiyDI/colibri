@@ -98,7 +98,7 @@ export class SurveyBuilderComponent {
     generateWidgets = (num: number) => {
         const result = [];
         for (let i = 0; i < num; i++) {
-            result.push({ title: 'Page ' + ( i + 1 ) + '*' });
+            result.push({ title: 'Page ' + (i + 1) + '*' });
         }
         return result;
     }
@@ -121,10 +121,13 @@ export class SurveyBuilderComponent {
     }
 
 
-    onDragEnd8(event: any) {
+    onDragEnd8(event: any, data: any) {
         console.log('88888888888888888888899999999999999999999999');
         console.log(event);
+        console.log(data);
         console.log('88888888888888888888899999999999999999999999');
+        this.availableQuestions.push(data);
+        this.availableQuestions.sort((a: any, b: any) => a.order - b.order );
     }
 
 
@@ -135,7 +138,7 @@ export class SurveyBuilderComponent {
         // orderedProduct.quantity--;
     }
 
- 
+
 
     dragOperation = false;
 
