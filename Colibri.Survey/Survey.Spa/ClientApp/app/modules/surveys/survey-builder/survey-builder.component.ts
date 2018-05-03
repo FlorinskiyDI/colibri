@@ -4,11 +4,13 @@ import { Component, ViewEncapsulation } from '@angular/core';
 
 import { ControTypes } from '../../../shared/constants/control-types.constant';
 import { AvailableQuestions } from '../../../shared/models/form-builder/form-control/available-question.model';
+import { SurveyModel } from '../../../shared/models/form-builder/survey.model';
 
 import { QuestionService } from '../../../shared/services/api/question.service';
 import { QuestionControlService } from '../../../shared/services/question-control.service';
 
 import { QuestionTransferService } from '../../../shared/transfers/question-transfer.service';
+import { PageModel } from 'shared/Models/form-builder/page.model';
 
 @Component({
     selector: 'survey-builder-cmp',
@@ -21,11 +23,11 @@ import { QuestionTransferService } from '../../../shared/transfers/question-tran
 })
 export class SurveyBuilderComponent {
 
-    widgets: Array<object>;
+    pageinglist: any[];
     questions: any[];
     newquestion: any;
     questionOption: any = {};
-
+    survey: SurveyModel;
     temporaryAnser: any;
     // availableQuestions: string[] = [
     //     ControTypes.checkbox,
@@ -85,7 +87,11 @@ export class SurveyBuilderComponent {
 
         // this.listTeamOne.push('11111111111111');
 
-        this.questions = questionService.getQuestions();
+        // this.questions = this.survey.pages[0].questions;
+        // this.questions = questionService.getQuestions();
+
+
+
         this.availableProducts.push(new Product('Blue Shoes', 3, 35));
         this.availableProducts.push(new Product('Good Jacket', 1, 90));
         this.availableProducts.push(new Product('Red Shirt', 5, 12));
@@ -93,15 +99,38 @@ export class SurveyBuilderComponent {
     }
 
     ngOnInit() {
-        this.widgets = this.generateWidgets(11);
-    }
-    generateWidgets = (num: number) => {
-        const result = [];
-        for (let i = 0; i < num; i++) {
-            result.push({ title: 'Page ' + (i + 1) + '*' });
+        this.survey = this.questionService.getNewQuestions();
+
+        if (this.survey.pages) {
+            debugger
+            this.questions = this.survey.pages[0].questions;
+            this.pageinglist = this.generatePagingList(this.survey.pages);
         }
+        // this.pages = this.generateWidgets(11);
+
+    }
+
+
+    changeData() {
+        console.log('change data chanage dada');
+
+        // this.questions = this.questionService.getNewQuestions();
+    }
+
+    generatePagingList(pages: any[]) {
+        const result: any[] = [];
+        this.questions.forEach((item: any, index: number) => {
+            result.push({ title: 'Pageff ' + (index + 1), id: item.id } );
+        });
         return result;
     }
+    // generateWidgets = (num: number) => {
+    //     const result = [];
+    //     for (let i = 0; i < num; i++) {
+    //         result.push({ title: 'Page ' + (i + 1) + '*' });
+    //     }
+    //     return result;
+    // }
 
     getQuestonDropzones() {
         // console.log('101010101010101010101010101010101010101010101010101010101010101010101');
@@ -126,9 +155,9 @@ export class SurveyBuilderComponent {
         console.log(event);
         console.log(data);
         console.log('88888888888888888888899999999999999999999999');
-        debugger
+
         this.availableQuestions.push(data);
-        this.availableQuestions.sort((a: any, b: any) => a.order - b.order );
+        this.availableQuestions.sort((a: any, b: any) => a.order - b.order);
         this.questionTransferService.setDropQuestionId(data);
     }
 

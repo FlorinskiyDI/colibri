@@ -1,25 +1,30 @@
 import { Injectable } from '@angular/core';
 
 
-import { QuestionBase } from '../../Models/form-builder/question-base.model';
+import { SurveyModel } from '../../Models/form-builder/survey.model';
+import { PageModel } from '../../Models/form-builder/page.model';
 
+
+
+import { QuestionBase } from '../../Models/form-builder/question-base.model';
 import { TextboxQuestion } from '../../Models/form-builder/question-textbox.model';
 import { DropdownQuestion } from '../../Models/form-builder/question-dropdown.model';
 import { TextAreaQuestion } from '../../Models/form-builder/question-textarea.model';
 import { RadioQuestion } from '../../Models/form-builder/question-radio.model';
 import { CheckboxQuestion } from '../../Models/form-builder/question-checkbox.model';
 import { GridRadioQuestion } from '../../Models/form-builder/question-grid-radio.model';
+
+
 @Injectable()
 export class QuestionService {
 
   // Todo: get from a remote source of question metadata
   // Todo: make asynchronous
   getQuestions() {
-
     const questions: QuestionBase<any>[] = [
 
       new TextboxQuestion({
-      //  controlType: 'textbox', // same as in control-type.constant.ts
+        //  controlType: 'textbox', // same as in control-type.constant.ts
         id: 'id_firstName',
         text: 'First name',
         description: 'some description',
@@ -127,5 +132,55 @@ export class QuestionService {
     ];
 
     return questions.sort((a, b) => a.order - b.order);
+  }
+
+
+  getNewQuestions() {
+    const questions: QuestionBase<any>[] = [
+
+
+
+
+      new TextboxQuestion({
+        //  controlType: 'textbox', // same as in control-type.constant.ts
+        id: 'id_firstName11',
+        text: 'First name (change data)',
+        description: 'some description (change data)',
+        value: '',
+        required: true,
+        order: 0,
+        isAdditionalAnswer: true
+      })
+    ];
+
+    const survey: SurveyModel = {
+      //  controlType: 'textbox', // same as in control-type.constant.ts
+      id: 'id_firstName11',
+      name: 'survey name 1',
+      description: 'First name (change data)',
+      pages: [
+        new PageModel(
+          {
+            id: 'id_page 1',
+            name: 'page name 1',
+            description: 'page 1 description (change data)',
+            order: 1,
+            questions: questions
+          }
+        ),
+      ]
+    };
+
+
+    // const survey: SurveyModel = {
+
+    //   id: '7180d9e3d0c341bb99c91c73d5b973d1',
+    //   name: 'survey name 1',
+    //   description: 'some description for survey ',
+    //   pages: null
+
+    // };
+
+    return survey;
   }
 }
