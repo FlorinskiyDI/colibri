@@ -119,7 +119,7 @@ export class SurveyBuilderComponent {
 
     generatePagingList(pages: any[]) {
         const result: any[] = [];
-        this.questions.forEach((item: any, index: number) => {
+        pages.forEach((item: any, index: number) => {
             result.push({ title: 'Pageff ' + (index + 1), id: item.id } );
         });
         return result;

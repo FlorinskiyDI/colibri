@@ -168,6 +168,15 @@ export class QuestionService {
             questions: questions
           }
         ),
+        new PageModel(
+          {
+            id: 'id_page 2',
+            name: 'page name 2',
+            description: 'page 2 description (change data)',
+            order: 2,
+            questions: questions
+          }
+        ),
       ]
     };
 
