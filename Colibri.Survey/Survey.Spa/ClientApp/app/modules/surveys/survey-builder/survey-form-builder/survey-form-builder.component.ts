@@ -20,12 +20,10 @@ import { QuestionBase } from '../../../../shared/Models/form-builder/question-ba
 })
 export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
     @Input() questionSettings: any;
-    // @Input() questions: QuestionBase<any>[] = [];
-    @Input() page: any;
-    // @Input() question: QuestionBase<any>;
+    @Input() questions: QuestionBase<any>[] = [];
+    @Input() question: QuestionBase<any>;
     form: FormGroup;
 
-    questions: QuestionBase<any>[] = [];
     pageId: any;
     editQuestionKey = '';
 
@@ -57,19 +55,13 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
             });
         });
         this.questionTransferService.getQuestions().subscribe((page: any) => { // updata formbuild after select page
-            // this.questions = page.questions;
+
             console.log('55555555555555555555555');
             console.log('55555555555555555555555');
 
             console.log(this.form);
             console.log('55555555555555555555555');
             console.log('55555555555555555555555');
-
-            this.pageId = page.id;
-            const pageGroup: any = {};
-            pageGroup[this.pageId] = this.qcs.toFormGroup(page.questions);
-            this.form = pageGroup[this.pageId];
-
             // this.form =  this.fb.group([]);
             // this.form = this.fb.group(page.id, this.qcs.toFormGroup(page.questions));
             debugger
@@ -78,16 +70,27 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
 
     ngOnInit() {
         debugger
-        console.log('work work work work work work work work work work work work work work work work work work work work work work ');
-        this.questions = this.page.questions;
-        this.pageId = this.page.id;
+        this.pageId = 'id_page1';
+        // const item: any = {};
         const page: any = {};
         page[this.pageId] = this.qcs.toFormGroup(this.questions);
+        // item[this.pageId] = this.fb.group(this.pageId, this.qcs.toFormGroup(this.questions));
+        // this.form = item;
+        // this.form.addControl(this.pageId, this.qcs.toFormGroup(this.questions));
+        // this.form = this.fb.group(this.pageId, this.qcs.toFormGroup(this.questions));
+
+
+
+
         this.form = new FormGroup(page);
-        debugger
+
+
+
+
+        
         // this.form = this.qcs.toFormGroup(this.questions);
-
-
+        debugger
+        
     }
 
     sortQuestionByIndex() {
@@ -164,21 +167,13 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
             }
         }
         const group: any = {};
-        const formGroup = this.form.controls[this.page.id] as FormGroup;
-        formGroup.addControl(this.newquestion.id, this.questionControlService.addTypeAnswer(this.newquestion, group)
+        this.form.addControl(this.newquestion.id, this.questionControlService.addTypeAnswer(this.newquestion, group)
         );
 
         this.questions.push(this.newquestion);
         this.questions.sort((a, b) => a.order - b.order);
     }
 
-
-    questionOption(question: any): any {
-        return  {
-            question: question,
-            pageId: this.page.id
-        };
-    }
 
     onSubmit() {
         this.payLoad = this.form.value;

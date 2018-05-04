@@ -5,7 +5,7 @@
   <div class="header">
     <p *ngIf="form.valid" style="color: green; font-weight: bold"> {{form.valid | json}}</p>
     <p *ngIf="!form.valid" style="color: red; font-weight: bold"> {{form.valid | json}}</p>
-    {{page | json}}
+    {{questions | json}}
     --------------------------------------
     {{this.form.value | json}}
     <!-- {{this.form.value | json}} -->
@@ -39,7 +39,7 @@
                 </div>
               </div>
               <div class="d-item-right-section">
-                <survey-form-question [isEditQuestion]="editCheckbox.checked" [questionOption]="questionOption(item)" [form]="form"></survey-form-question>
+                <survey-form-question [isEditQuestion]="editCheckbox.checked" [question]="item" [form]="form"></survey-form-question>
 
               </div>
             </div>

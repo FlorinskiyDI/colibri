@@ -25,8 +25,7 @@ import { QuestionBase } from 'shared/Models/form-builder/question-base.model';
 export class SurveyBuilderComponent {
 
     pageinglist: any[];
-    // questions: QuestionBase<any>[];
-    page: any;
+    questions: QuestionBase<any>[];
     newquestion: any;
     questionOption: any = {};
     survey: SurveyModel;
@@ -95,8 +94,8 @@ export class SurveyBuilderComponent {
         this.survey = this.questionService.getNewQuestions();
 
         if (this.survey.pages) {
-            this.page = this.survey.pages[0];
-            // this.questions = this.survey.pages[0].questions;
+
+            this.questions = this.survey.pages[0].questions;
             this.pageinglist = this.generatePagingList(this.survey.pages);
         }
 
@@ -114,17 +113,17 @@ export class SurveyBuilderComponent {
 
 
     GetQuestionByPage(id: any) {
-        debugger
-        const getPage = this.survey.pages.find(item => item.id === id);
-        // this.questionTransferService.setQuestions(getPage);
-        this.page = getPage;
+
+        const page = this.survey.pages.find(item => item.id === id);
+        this.questionTransferService.setQuestions(page);
+        this.questions = page.questions;
     }
 
 
     changeData() {
         console.log('change data chanage dada');
 
-        this.page.questions = this.questionService.getQuestions();
+        this.questions = this.questionService.getQuestions();
     }
 
     generatePagingList(pages: any[]) {
