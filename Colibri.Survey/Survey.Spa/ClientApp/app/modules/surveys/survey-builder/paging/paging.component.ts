@@ -37,7 +37,7 @@ export class PagingComponent implements OnInit, AfterViewChecked {
     }
 
     selectPage(item: any) {
-        debugger
+        
         this.pageId.emit(item.id);
         console.log(item);
         this.selectItem = item;

@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 export class QuestionTransferService {
     // private subject = new Subject<any>();
     private modelsubject = new Subject<any>();
+    private questionsubject = new Subject<any>();
     private optionsubject = new Subject<any>();
     private idsubject = new Subject<any>();
     private flickersubject = new Subject<any>();
@@ -19,7 +20,13 @@ export class QuestionTransferService {
 
 
 
-
+    // list questio nfor select page
+    setQuestions(data: any) {
+        this.questionsubject.next(data);
+    }
+    getQuestions(): Observable<any> {
+        return this.questionsubject.asObservable();
+    }
 
     // remove question
     setDropQuestion(data: any) {

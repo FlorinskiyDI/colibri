@@ -10,6 +10,7 @@ import { QuestionService } from '../../../shared/services/api/question.service';
 import { QuestionControlService } from '../../../shared/services/question-control.service';
 
 import { QuestionTransferService } from '../../../shared/transfers/question-transfer.service';
+import { QuestionBase } from 'shared/Models/form-builder/question-base.model';
 // import { PageModel } from 'shared/Models/form-builder/page.model';
 
 @Component({
@@ -24,7 +25,8 @@ import { QuestionTransferService } from '../../../shared/transfers/question-tran
 export class SurveyBuilderComponent {
 
     pageinglist: any[];
-    questions: any[];
+    // questions: QuestionBase<any>[];
+    page: any;
     newquestion: any;
     questionOption: any = {};
     survey: SurveyModel;
@@ -93,8 +95,8 @@ export class SurveyBuilderComponent {
         this.survey = this.questionService.getNewQuestions();
 
         if (this.survey.pages) {
-            debugger
-            this.questions = this.survey.pages[0].questions;
+            this.page = this.survey.pages[0];
+            // this.questions = this.survey.pages[0].questions;
             this.pageinglist = this.generatePagingList(this.survey.pages);
         }
 
@@ -113,15 +115,16 @@ export class SurveyBuilderComponent {
 
     GetQuestionByPage(id: any) {
         debugger
-        const page = this.survey.pages.find(item => item.id === id);
-        this.questions = page.questions;
+        const getPage = this.survey.pages.find(item => item.id === id);
+        // this.questionTransferService.setQuestions(getPage);
+        this.page = getPage;
     }
 
 
     changeData() {
         console.log('change data chanage dada');
 
-        // this.questions = this.questionService.getNewQuestions();
+        this.page.questions = this.questionService.getQuestions();
     }
 
     generatePagingList(pages: any[]) {

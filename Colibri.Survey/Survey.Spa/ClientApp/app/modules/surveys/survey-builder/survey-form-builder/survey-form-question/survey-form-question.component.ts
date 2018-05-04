@@ -27,15 +27,15 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     // @ViewChild('focusItem') rows: ElementRef;
     @ViewChildren('inputRow') rows: QueryList<any>;
     @ViewChildren('inputCol') cols: QueryList<any>;
-    @Input() question: QuestionBase<any>;
+    @Input() questionOption: any;
     @Input() form: FormGroup;
     @Input() isEditQuestion: boolean;
     private sub1 = new Subscription();
 
     get isValid() {
-        return this.form.controls[this.question.id].valid;
+        return this.form.controls[this.questionOption.question.id].valid;
     }
-    get isDirty() { return this.form.controls[this.question.id].dirty; }
+    get isDirty() { return this.form.controls[this.questionOption.question.id].dirty; }
 
 
     constructor(
@@ -46,15 +46,15 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
 
     ngOnInit() {
 
-        if (this.question.grid) {
+        if (this.questionOption.question.grid) {
 
-            this.lengthRows = this.question.grid.rows.length;
-            this.lengthItems = this.question.grid.cols.length;
+            this.lengthRows = this.questionOption.question.grid.rows.length;
+            this.lengthItems = this.questionOption.question.grid.cols.length;
             console.log(this.lengthRows);
             console.log(this.lengthItems);
         } else {
-            if (this.question.options) {
-                this.lengthItems = this.question.options.length;
+            if (this.questionOption.question.options) {
+                this.lengthItems = this.questionOption.question.options.length;
             }
 
         }
@@ -63,13 +63,13 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
 
 
     onChange(questonId: string, optionId: string, isChecked: boolean, index: number) {
-        const checkboxquestion = this.question as CheckboxQuestion;
+        const checkboxquestion = this.questionOption.question as CheckboxQuestion;
         const option = checkboxquestion.options.find((x: ControlOptionModel) => x.id === optionId);
         option.label = isChecked;
         // const answer: any = 'answer';
         const checkBoxArray = <FormArray>this.form.controls[questonId];
         const checkBoxControl = checkBoxArray.controls['answer'];
-        console.log(this.question);
+        console.log(this.questionOption.question);
         if (isChecked) {
             checkBoxControl.push(new FormControl(optionId));
         } else {
@@ -101,10 +101,11 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     }
 
     addRow(mass: any, questionId: string) {
-        const val = this.form.controls[questionId].get('rows') as FormGroup;
+        debugger
+        const val = this.form.get(this.questionOption.pageId).get(questionId).get('rows') as FormGroup;
         const group: any = {};
         const key = GUID.getNewGUIDString();
-        val.addControl(key, this.answerControlService.addItemAnswer(group, this.question.required));
+        val.addControl(key, this.answerControlService.addItemAnswer(group, this.questionOption.question.required));
         const item = new ControlOptionModel(key, '', 'your text...', 1);
 
         this.lengthRows = mass.length;
@@ -117,7 +118,7 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
 
         if (mass.length > 1) {
             mass.splice(index, 1);
-            const contrls = this.form.controls[this.question.id].get('rows') as FormGroup;
+            const contrls = this.form.get(this.questionOption.pageId).get(this.questionOption.question.id).get('rows') as FormGroup;
             contrls.removeControl(control.id);
             this.lengthRows = mass.length;
             this.isChangeRow = true;
