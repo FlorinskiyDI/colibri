@@ -2,7 +2,7 @@
     <div class='carousel-wrapper'>
         <div class='carousel' fxLayout='row' fxLayoutAlign='center stretch'>
             <ul class='ulCollection' *ngFor='let items of batches' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
-                <li (click)="selectPage(item.title)"   [ngClass]='{"active": selectItem == item.title}' *ngFor='let item of items' fxLayout='column' fxLayoutAlign='center center'>
+                <li (click)="selectPage(item)"   [ngClass]='{"active": selectItem == item.title}' *ngFor='let item of items' fxLayout='column' fxLayoutAlign='center center'>
                     <div class='text'>{{item.title}}</div>
                 </li>
             </ul>

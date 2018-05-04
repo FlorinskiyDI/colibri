@@ -8,7 +8,7 @@ export class QuestionTransferService {
     private modelsubject = new Subject<any>();
     private optionsubject = new Subject<any>();
     private idsubject = new Subject<any>();
-
+    private flickersubject = new Subject<any>();
     // -start transer 1- Communicating Between Components device-details and devcie-id-mapping
     // sendDeviceID(id: string) {
     //     this.subject.next({ deviceid: id });
@@ -45,6 +45,15 @@ export class QuestionTransferService {
     }
     getDropQuestionId(): Observable<any> {
         return this.idsubject.asObservable();
+    }
+
+
+    // for change option field background color after click to notification button on question builder
+    setFlickerOption(id: number) {
+        this.flickersubject.next(id);
+    }
+    getFlickerOption(): Observable<any> {
+        return this.flickersubject.asObservable();
     }
 
 }

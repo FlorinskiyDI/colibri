@@ -10,7 +10,7 @@ import { QuestionService } from '../../../shared/services/api/question.service';
 import { QuestionControlService } from '../../../shared/services/question-control.service';
 
 import { QuestionTransferService } from '../../../shared/transfers/question-transfer.service';
-import { PageModel } from 'shared/Models/form-builder/page.model';
+// import { PageModel } from 'shared/Models/form-builder/page.model';
 
 @Component({
     selector: 'survey-builder-cmp',
@@ -90,7 +90,13 @@ export class SurveyBuilderComponent {
         // this.questions = this.survey.pages[0].questions;
         // this.questions = questionService.getQuestions();
 
+        this.survey = this.questionService.getNewQuestions();
 
+        if (this.survey.pages) {
+            debugger
+            this.questions = this.survey.pages[0].questions;
+            this.pageinglist = this.generatePagingList(this.survey.pages);
+        }
 
         this.availableProducts.push(new Product('Blue Shoes', 3, 35));
         this.availableProducts.push(new Product('Good Jacket', 1, 90));
@@ -99,15 +105,16 @@ export class SurveyBuilderComponent {
     }
 
     ngOnInit() {
-        this.survey = this.questionService.getNewQuestions();
 
-        if (this.survey.pages) {
-            debugger
-            this.questions = this.survey.pages[0].questions;
-            this.pageinglist = this.generatePagingList(this.survey.pages);
-        }
         // this.pages = this.generateWidgets(11);
 
+    }
+
+
+    GetQuestionByPage(id: any) {
+        debugger
+        const page = this.survey.pages.find(item => item.id === id);
+        this.questions = page.questions;
     }
 
 
@@ -120,7 +127,7 @@ export class SurveyBuilderComponent {
     generatePagingList(pages: any[]) {
         const result: any[] = [];
         pages.forEach((item: any, index: number) => {
-            result.push({ title: 'Pageff ' + (index + 1), id: item.id } );
+            result.push({ title: 'Pageff ' + (index + 1), id: item.id });
         });
         return result;
     }

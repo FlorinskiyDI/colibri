@@ -15,6 +15,9 @@ import { ControTypes } from '../../../../shared/constants/control-types.constant
 })
 export class QuestionOptionComponent {
 
+    divRequied = false;
+    divAdditional = false;
+
     questionOption: any = null;
     questionControl: FormGroup;
     constructor(
@@ -29,11 +32,21 @@ export class QuestionOptionComponent {
                 this.questionOption = null;
                 this.questionControl = null;
             }
+        });
+        this.questionTransferService.getFlickerOption().subscribe((id: number) => {
+            if (id === 1) {
+                this.divRequied = true;
+                setTimeout(() => {
+                    this.divRequied = false;
+                }, 500); // time as transition property in css
+            }
+            if (id === 2) {
+                this.divAdditional = true;
+                setTimeout(() => {
+                    this.divAdditional = false;
+                }, 500); // time as transition property in css
+            }
 
-
-            // const answerControl = data.control.get['answer'];
-            // answerControl.clearValidators();
-            // answerControl.updateValueAndValidity();
         });
     }
     changeQuestionValidation(state: boolean) {

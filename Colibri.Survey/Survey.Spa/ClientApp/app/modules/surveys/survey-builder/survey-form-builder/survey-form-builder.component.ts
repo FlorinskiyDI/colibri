@@ -40,6 +40,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         public questionControlService: QuestionControlService,
         // private fb: FormBuilder
     ) {
+        debugger
         this.questionTransferService.getDropQuestion().subscribe((data: any) => {
             // remove question
             this.form.removeControl(data.id);
@@ -53,10 +54,12 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
                 }
             });
         });
+        debugger
+        this.form = this.qcs.toFormGroup(this.questions);
     }
 
     ngOnInit() {
-        this.form = this.qcs.toFormGroup(this.questions);
+
     }
 
     sortQuestionByIndex() {
@@ -88,6 +91,10 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         });
     }
 
+
+    flickerNotificationField(id: number) {
+        this.questionTransferService.setFlickerOption(id);
+    }
 
     addNewQuestion($event: any, index: number) {
         // organisere question orden

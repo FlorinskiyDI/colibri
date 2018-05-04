@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, ViewEncapsulation, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
+import { Component, Input, ElementRef, ViewEncapsulation, EventEmitter, Output, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 
 @Component({
     selector: 'paging',
@@ -9,7 +9,10 @@ import { Component, Input, ElementRef, ViewEncapsulation, OnInit, ChangeDetector
     encapsulation: ViewEncapsulation.None,
 })
 export class PagingComponent implements OnInit, AfterViewChecked {
+
+    @Output() pageId: EventEmitter<any> = new EventEmitter<any>();
     @Input() items: Array<object>;
+
     currentItem = 0;
     carousel: any;
     position = 0;
@@ -33,7 +36,9 @@ export class PagingComponent implements OnInit, AfterViewChecked {
         this.carouselWrapper = this.elementRef.nativeElement.querySelector('.carousel-wrapper');
     }
 
-    selectPage(item: string) {
+    selectPage(item: any) {
+        debugger
+        this.pageId.emit(item.id);
         console.log(item);
         this.selectItem = item;
     }
