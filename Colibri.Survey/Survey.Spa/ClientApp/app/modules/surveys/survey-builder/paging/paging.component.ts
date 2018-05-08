@@ -1,5 +1,5 @@
 import { Component, Input, ElementRef, ViewEncapsulation, EventEmitter, Output, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
-
+import { QuestionTransferService } from '../../../../shared/transfers/question-transfer.service';
 @Component({
     selector: 'paging',
     templateUrl: './paging.component.html',
@@ -11,7 +11,7 @@ import { Component, Input, ElementRef, ViewEncapsulation, EventEmitter, Output, 
 export class PagingComponent implements OnInit, AfterViewChecked {
 
     @Output() pageId: EventEmitter<any> = new EventEmitter<any>();
-    @Input() items: Array<object>;
+    @Input() items: any[] = [];
 
     currentItem = 0;
     carousel: any;
@@ -25,22 +25,24 @@ export class PagingComponent implements OnInit, AfterViewChecked {
     carouselWrapperWidth: number;
     count = 0;
     ii = 0;
-    selectItem = 'Page 1*';
+    selectItem: string;
     constructor(
+        private questionTransferService: QuestionTransferService,
         private elementRef: ElementRef,
         private changeDetectorRef: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
+
+        this.selectItem = this.items[0].id;
         this.carousel = this.elementRef.nativeElement.querySelector('.carousel');
         this.carouselWrapper = this.elementRef.nativeElement.querySelector('.carousel-wrapper');
     }
 
     selectPage(item: any) {
-        
+
         this.pageId.emit(item.id);
-        console.log(item);
-        this.selectItem = item;
+        this.selectItem = item.id;
     }
 
     renderBatches = () => {
@@ -91,6 +93,10 @@ export class PagingComponent implements OnInit, AfterViewChecked {
         this.translation = -85;
         this.selectItem = value.title;
 
+    }
+
+    deletePage(id: string, index: string) {
+        this.questionTransferService.setdeletePageId(id);
     }
 
 

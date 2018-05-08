@@ -74,6 +74,11 @@ export class SurveyBuilderComponent {
         public questionControlService: QuestionControlService
     ) {
 
+        this.questionTransferService.getdeletePageId().subscribe((data: any) => {
+            console.log('delete page delete page delete page delete page' + data);
+        });
+
+
 
         this.availableQuestionsOption = {
             allowquestion: ['dropZonesName1', 'dropZonesName2', 'dropZonesName3', 'dropZonesName4', 'dropZonesName5', 'dropZonesName6'],
@@ -117,8 +122,8 @@ export class SurveyBuilderComponent {
         console.log('work work work work work work work  111111111111111');
         const page = this.survey.pages.find(item => item.id === id);
         this.questionTransferService.setQuestions(page);
-        this.page = page;
-        this.questions = page.questions;
+        // this.page = page;
+        // this.questions = page.questions;
     }
 
 

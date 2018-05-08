@@ -90,6 +90,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
     }
 
     ngOnInit() {
+        console.log('11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111______22222');
         this.questions = this.page.questions;
         this.pageId = this.page.id; // before toFormGroup();
         // const item: any = {};

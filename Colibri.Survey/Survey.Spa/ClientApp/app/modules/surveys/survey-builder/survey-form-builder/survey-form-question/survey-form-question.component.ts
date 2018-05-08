@@ -46,7 +46,7 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
 
 
     ngOnInit() {
-        console.log('111111111111111111111111111111111111111111111111111111111111111111111111111111111111');
+        console.log('111111111111111111111111111111111111111111111111111111111111111111111111111111111111_survey-form-question');
         if (this.question.grid) {
 
             this.lengthRows = this.question.grid.rows.length;

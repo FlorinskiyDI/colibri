@@ -2,7 +2,14 @@
     <div class='carousel-wrapper'>
         <div class='carousel' fxLayout='row' fxLayoutAlign='center stretch'>
             <ul class='ulCollection' *ngFor='let items of batches' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
-                <li (click)="selectPage(item)"   [ngClass]='{"active": selectItem == item.title}' *ngFor='let item of items' fxLayout='column' fxLayoutAlign='center center'>
+                <li (click)="selectPage(item)" [ngClass]='{"active": selectItem == item.id}' *ngFor='let item of items; let i = index' fxLayout='column'
+                    fxLayoutAlign='center center'>
+
+                    <div class="deletePageButton">
+                        <button (click)="deletePage(item.id)" type="button" title="Delete page">
+                            <i class="fa fa-asterisk"></i>
+                        </button>
+                    </div>
                     <div class='text'>{{item.title}}</div>
                 </li>
             </ul>
@@ -17,11 +24,11 @@
         <i class='fa fa-chevron-left'></i>
     </div>
     <div class='arrow-right' (click)='slideForward(-1)'>
-            <i class='fa fa-chevron-right'></i>
+        <i class='fa fa-chevron-right'></i>
         <!-- <i class='material-icons'>keyboard_arrow_right</i> -->
     </div>
     <div class='save-survey' (click)='addPage()'>
-            <i class='fa fa-plus'></i>
-            <!-- <i class='fa fa-chevron-right'></i> -->
+        <i class='fa fa-plus'></i>
+        <!-- <i class='fa fa-chevron-right'></i> -->
     </div>
 </div>
