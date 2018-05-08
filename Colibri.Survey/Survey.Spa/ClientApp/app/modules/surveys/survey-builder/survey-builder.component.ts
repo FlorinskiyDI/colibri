@@ -75,7 +75,23 @@ export class SurveyBuilderComponent {
     ) {
 
         this.questionTransferService.getdeletePageId().subscribe((data: any) => {
-            console.log('delete page delete page delete page delete page' + data);
+            console.log('delete page delete page delete page delete page' + data.id);
+
+            const deletepage = this.survey.pages.find(x => x.id === data.id);
+            const index = this.survey.pages.indexOf(deletepage);
+            this.survey.pages.splice(index, 1);
+            debugger
+            let page = null;
+            if (data.index > 0) {
+                page = this.survey.pages[data.index - 1];
+                this.questionTransferService.setQuestions(page);
+            } else {
+                page = this.survey.pages[0];
+                this.questionTransferService.setQuestions(page);
+            }
+            // this.page = page;
+
+
         });
 
 
@@ -100,7 +116,7 @@ export class SurveyBuilderComponent {
         this.survey = this.questionService.getSurvey();
 
         if (this.survey.pages) {
-            this.page = this.survey.pages[0]
+            this.page = this.survey.pages[0];
             // this.questions = this.survey.pages[0].questions;
             this.pageinglist = this.generatePagingList(this.survey.pages);
         }
@@ -136,7 +152,7 @@ export class SurveyBuilderComponent {
     generatePagingList(pages: any[]) {
         const result: any[] = [];
         pages.forEach((item: any, index: number) => {
-            result.push({ title: 'Pageff ' + (index + 1), id: item.id });
+            result.push({ title: 'Page', id: item.id });
         });
         return result;
     }

@@ -2,15 +2,15 @@
     <div class='carousel-wrapper'>
         <div class='carousel' fxLayout='row' fxLayoutAlign='center stretch'>
             <ul class='ulCollection' *ngFor='let items of batches' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
-                <li (click)="selectPage(item)" [ngClass]='{"active": selectItem == item.id}' *ngFor='let item of items; let i = index' fxLayout='column'
+                <li  [ngClass]='{"active": selectItem == item.id}' *ngFor='let item of items; let i = index' fxLayout='column'
                     fxLayoutAlign='center center'>
 
                     <div class="deletePageButton">
-                        <button (click)="deletePage(item.id)" type="button" title="Delete page">
-                            <i class="fa fa-asterisk"></i>
+                        <button *ngIf="items.length > 1" (click)="deletePage(item.id, i,  $event); " type="button" title="Delete page">
+                            <i class="fa fa-times"></i>
                         </button>
                     </div>
-                    <div class='text'>{{item.title}}</div>
+                    <div (click)="selectPage(item)" class='text' style="height: 100%">{{item.title + " " + (i + 1) }}</div>
                 </li>
             </ul>
         </div>

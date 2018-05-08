@@ -69,7 +69,7 @@ export class QuestionTransferService {
 
 
     // for change option field background color after click to notification button on question builder
-    setdeletePageId(id: string) {
+    setdeletePageId(id: any) {
         this.deletePagesubject.next(id);
     }
     getdeletePageId(): Observable<any> {

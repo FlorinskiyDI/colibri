@@ -58,6 +58,9 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
                 }
             });
         });
+        this.questionTransferService.getdeletePageId().subscribe((data: any) => {
+            this.form.removeControl(data.id);
+        });
         this.questionTransferService.getQuestions().subscribe((page: any) => { // updata formbuild after select page
 
 
@@ -75,10 +78,11 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
                 // this.form = this.fb.group(this.pageId, this.qcs.toFormGroup(this.questions));
 
                 // this.form = new FormGroup(data);
+                // const dataPage = this.form.controls[this.page.id] as FormGroup;
                 this.form.addControl(this.pageId, this.qcs.toFormGroup(questionList));
             }
 
-
+            this.page = page;
             this.questions = page.questions;
 
 
@@ -186,7 +190,8 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
             }
         }
         const group: any = {};
-        this.form.addControl(this.newquestion.id, this.questionControlService.addTypeAnswer(this.newquestion, group)
+        const dataPage = this.form.controls[this.page.id] as FormGroup;
+        dataPage.addControl(this.newquestion.id, this.questionControlService.addTypeAnswer(this.newquestion, group)
         );
 
         this.questions.push(this.newquestion);

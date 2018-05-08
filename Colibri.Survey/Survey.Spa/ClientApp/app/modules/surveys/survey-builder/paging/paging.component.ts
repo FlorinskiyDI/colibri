@@ -95,8 +95,13 @@ export class PagingComponent implements OnInit, AfterViewChecked {
 
     }
 
-    deletePage(id: string, index: string) {
-        this.questionTransferService.setdeletePageId(id);
+    deletePage(id: string, index: number, event: any) {
+        this.questionTransferService.setdeletePageId({id: id, index: index});
+        debugger
+        this.items.splice(index, 1);
+        this.batches[0].splice(index, 1);
+        // event.preventDefault();
+        // event.stopPropagation();
     }
 
 
