@@ -14,7 +14,7 @@
                 {{question.name}}
             </div>
 
-            <div [formGroupName]="'id_page1'" [ngSwitch]="question.controlType">
+            <div [formGroupName]="pageId" [ngSwitch]="question.controlType">
                 <div *ngSwitchCase="'textbox'" [formGroupName]="question.id">
                     <input [formControlName]="'answer'" [id]="question.id">
                     <!-- <div [formGroupName]="question.id" *ngIf="question.isAdditionalAnswer"></div> -->

@@ -24,6 +24,7 @@ import { QuestionBase } from 'shared/Models/form-builder/question-base.model';
 })
 export class SurveyBuilderComponent {
 
+    page: any = {};
     pageinglist: any[];
     questions: QuestionBase<any>[];
     newquestion: any;
@@ -91,11 +92,11 @@ export class SurveyBuilderComponent {
         // this.questions = this.survey.pages[0].questions;
         // this.questions = questionService.getQuestions();
 
-        this.survey = this.questionService.getNewQuestions();
+        this.survey = this.questionService.getSurvey();
 
         if (this.survey.pages) {
-
-            this.questions = this.survey.pages[0].questions;
+            this.page = this.survey.pages[0]
+            // this.questions = this.survey.pages[0].questions;
             this.pageinglist = this.generatePagingList(this.survey.pages);
         }
 
@@ -113,18 +114,19 @@ export class SurveyBuilderComponent {
 
 
     GetQuestionByPage(id: any) {
-
+        console.log('work work work work work work work  111111111111111');
         const page = this.survey.pages.find(item => item.id === id);
         this.questionTransferService.setQuestions(page);
+        this.page = page;
         this.questions = page.questions;
     }
 
 
-    changeData() {
-        console.log('change data chanage dada');
+    // changeData() {
+    //     console.log('change data chanage dada');
 
-        this.questions = this.questionService.getQuestions();
-    }
+    //     this.questions = this.questionService.getQuestions();
+    // }
 
     generatePagingList(pages: any[]) {
         const result: any[] = [];

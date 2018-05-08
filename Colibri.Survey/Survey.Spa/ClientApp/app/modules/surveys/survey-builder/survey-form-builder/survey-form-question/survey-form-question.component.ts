@@ -28,6 +28,7 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     @ViewChildren('inputRow') rows: QueryList<any>;
     @ViewChildren('inputCol') cols: QueryList<any>;
     @Input() question: QuestionBase<any>;
+    @Input() pageId: string;
     @Input() form: FormGroup;
     @Input() isEditQuestion: boolean;
     private sub1 = new Subscription();

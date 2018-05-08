@@ -135,7 +135,7 @@ export class QuestionService {
   }
 
 
-  getNewQuestions() {
+  getSurvey() {
     const questions: QuestionBase<any>[] = [
 
 
@@ -252,7 +252,7 @@ export class QuestionService {
 
     const survey: SurveyModel = {
       //  controlType: 'textbox', // same as in control-type.constant.ts
-      id: 'id_firstName11',
+      id: 'id_survey1',
       name: 'survey name 1',
       description: 'First name (change data)',
       pages: [

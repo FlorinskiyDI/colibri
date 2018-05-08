@@ -20,10 +20,13 @@ import { QuestionBase } from '../../../../shared/Models/form-builder/question-ba
 })
 export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
     @Input() questionSettings: any;
-    @Input() questions: QuestionBase<any>[] = [];
+    @Input() page: any = {};
+
     @Input() question: QuestionBase<any>;
     form: FormGroup;
 
+    existPagesId: string[] = [];
+    questions: QuestionBase<any>[] = [];
     pageId: any;
     editQuestionKey = '';
 
@@ -41,6 +44,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         public questionControlService: QuestionControlService,
         private fb: FormBuilder
     ) {
+
         this.questionTransferService.getDropQuestion().subscribe((data: any) => {
             // remove question
             this.form.removeControl(data.id);
@@ -56,41 +60,55 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         });
         this.questionTransferService.getQuestions().subscribe((page: any) => { // updata formbuild after select page
 
-            console.log('55555555555555555555555');
-            console.log('55555555555555555555555');
 
-            console.log(this.form);
-            console.log('55555555555555555555555');
-            console.log('55555555555555555555555');
+            const questionList = page.questions;
+            this.pageId = page.id; // before toFormGroup();
+            const pageId = this.existPagesId.find(x => x === page.id);
+            // debugger
+            if (!pageId) {
+                const data: any = {};
+                data[this.pageId] = this.qcs.toFormGroup(questionList);
+                this.existPagesId.push(this.pageId);
+                // item[this.pageId] = this.fb.group(this.pageId, this.qcs.toFormGroup(this.questions));
+                // this.form = item;
+                // this.form.addControl(this.pageId, this.qcs.toFormGroup(this.questions));
+                // this.form = this.fb.group(this.pageId, this.qcs.toFormGroup(this.questions));
+
+                // this.form = new FormGroup(data);
+                this.form.addControl(this.pageId, this.qcs.toFormGroup(questionList));
+            }
+
+
+            this.questions = page.questions;
+
+
+
             // this.form =  this.fb.group([]);
             // this.form = this.fb.group(page.id, this.qcs.toFormGroup(page.questions));
-            debugger
+
         });
     }
 
     ngOnInit() {
-        debugger
-        this.pageId = 'id_page1';
+        this.questions = this.page.questions;
+        this.pageId = this.page.id; // before toFormGroup();
         // const item: any = {};
         const page: any = {};
         page[this.pageId] = this.qcs.toFormGroup(this.questions);
+        this.existPagesId.push(this.pageId);
         // item[this.pageId] = this.fb.group(this.pageId, this.qcs.toFormGroup(this.questions));
         // this.form = item;
         // this.form.addControl(this.pageId, this.qcs.toFormGroup(this.questions));
         // this.form = this.fb.group(this.pageId, this.qcs.toFormGroup(this.questions));
-
-
-
-
         this.form = new FormGroup(page);
 
 
 
 
-        
+
         // this.form = this.qcs.toFormGroup(this.questions);
-        debugger
-        
+
+
     }
 
     sortQuestionByIndex() {
