@@ -56,10 +56,10 @@ namespace IdentityServer.Webapi
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            // var guestPolicy = new AuthorizationPolicyBuilder()
-            //.RequireAuthenticatedUser()
-            //.RequireClaim("scope", "dataEventRecords")
-            //.Build();
+            var guestPolicy = new AuthorizationPolicyBuilder()
+           .RequireAuthenticatedUser()
+           .RequireClaim("scope", "dataEventRecords")
+           .Build();
 
 
 
@@ -77,17 +77,36 @@ namespace IdentityServer.Webapi
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<IdentityProfileService>();
 
-            services.AddAuthorization();
+
 
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
               .AddIdentityServerAuthentication(options =>
               {
-                  options.ApiName = "api2";
-                  options.ApiSecret = "secret";
-                  options.RequireHttpsMetadata = false;
-                  options.SupportedTokens = SupportedTokens.Jwt;
+                  options.Authority = "http://localhost:5050" + "/";
+                  options.ApiName = "dataEventRecords";
+                  options.ApiSecret = "dataEventRecordsSecret";
+                  options.SupportedTokens = SupportedTokens.Both;
               });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
+                {
+                    policyAdmin.RequireClaim("role", "dataEventRecords.admin");
+                });
+                options.AddPolicy("admin", policyAdmin =>
+                {
+                    policyAdmin.RequireClaim("role", "admin");
+                });
+                options.AddPolicy("dataEventRecordsUser", policyUser =>
+                {
+                    policyUser.RequireClaim("role", "dataEventRecords.user");
+                });
+                options.AddPolicy("dataEventRecords", policyUser =>
+                {
+                    policyUser.RequireClaim("scope", "dataEventRecords");
+                });
+            });
 
             services.AddMvc().AddJsonOptions(options =>
              {
@@ -99,6 +118,7 @@ namespace IdentityServer.Webapi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
@@ -113,7 +133,7 @@ namespace IdentityServer.Webapi
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseIdentityServer();
+
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             SqlConnectionFactory.ConnectionString = connectionString;
@@ -124,8 +144,10 @@ namespace IdentityServer.Webapi
                .AllowAnyHeader()
                .AllowAnyMethod()
                .AllowCredentials()
-           );
-            app.UseAuthentication();
+            );
+
+            app.UseIdentityServer();
+            //app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
