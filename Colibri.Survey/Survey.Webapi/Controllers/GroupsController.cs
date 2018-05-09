@@ -48,7 +48,7 @@ namespace Survey.Webapi.Controllers
 
             // call to identity server for get groups
             var restClient = new RestClient("http://localhost:5050");
-            //restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
+            restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
             var request = new RestRequest();
             request.Resource = "/api/groups";
             request.Method = Method.GET;

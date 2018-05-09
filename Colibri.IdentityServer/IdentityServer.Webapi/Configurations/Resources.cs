@@ -17,7 +17,7 @@ namespace IdentityServer.Webapi.Configurations
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
                 new IdentityResource("dataeventrecordsscope",new []{ "role", "admin", "user", "dataEventRecords", "dataEventRecords.admin" , "dataEventRecords.user" } ),
-                new IdentityResource("testtest",new []{ "role" })
+                new IdentityResource("testtest",new []{ "role", "admin", "user" })
             };
         }
 
@@ -52,10 +52,10 @@ namespace IdentityServer.Webapi.Configurations
                         new Scope
                         {
                             Name = "testtest",
-                            DisplayName = "Scope for the dataEventRecords ApiResource"
+                            DisplayName = "Scope for the testtest ApiResource"
                         }
                     },
-                    UserClaims = {"api2", "role" }
+                    UserClaims = {"api2", "role", "user", "api2" }
                 }
             };
         }

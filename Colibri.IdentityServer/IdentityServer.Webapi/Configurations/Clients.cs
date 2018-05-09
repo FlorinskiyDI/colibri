@@ -61,15 +61,11 @@ namespace IdentityServer.Webapi.Configurations
                         new Secret("secret".Sha256())
                     },
 
-                    AllowedGrantTypes = { "delegation" },
+                    AllowedGrantTypes = { "implicit", "delegation" },
 
                     AllowedScopes = new List<string>
                     {
-                         "openid",
-                        "dataEventRecords",
-                        "dataeventrecordsscope",
-                        "securedFiles",
-                        "securedfilesscope",
+                        "openid",
                         "role",
                         "api2"
                     }

@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Http;
 using IdentityServer.Webapi.Extensions;
 using IdentityServer4.Validation;
 using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace IdentityServer.Webapi
 {
@@ -83,9 +84,10 @@ namespace IdentityServer.Webapi
               .AddIdentityServerAuthentication(options =>
               {
                   options.Authority = "http://localhost:5050" + "/";
-                  options.ApiName = "dataEventRecords";
-                  options.ApiSecret = "dataEventRecordsSecret";
+                  options.ApiName = "api2";
+                  options.ApiSecret = "secret";
                   options.SupportedTokens = SupportedTokens.Both;
+                  options.RequireHttpsMetadata = false;
               });
 
             services.AddAuthorization(options =>
@@ -111,6 +113,7 @@ namespace IdentityServer.Webapi
             services.AddMvc().AddJsonOptions(options =>
              {
                  options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
              });
         }
 
