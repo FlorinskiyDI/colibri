@@ -15,12 +15,12 @@
                         <div *ngFor="let question of availableQuestionsOption.availableQuestions; let i = index" dnd-sortable [sortableIndex]="i"
                             [dragEnabled]="dragOperation">
 
-                            <div class="d-panel-sortable" dnd-sortable-container  [sortableData]="availableQuestions" [dropZones]="[question.dropZonesName]">
+                            <div class="d-panel-sortable" dnd-sortable-container [sortableData]="availableQuestions" [dropZones]="[question.dropZonesName]">
 
 
                                 <div style="background:green" *ngFor="let widget of availableQuestionsOption.availableQuestions; let x = index">
-                                    <div *ngIf="i == x" class="d--repeat-allow-question-wrapper" (dragend)="onDragEnd8($event, widget)" (onDropSuccess)="removeDragQuestion($event)" dnd-sortable [sortableIndex]="x"
-                                        [dragEnabled]="!dragOperation" [dragData]="widget">
+                                    <div *ngIf="i == x" class="d--repeat-allow-question-wrapper" (dragend)="onDragEnd8($event, widget)" (onDropSuccess)="removeDragQuestion($event)"
+                                        dnd-sortable [sortableIndex]="x" [dragEnabled]="!dragOperation" [dragData]="widget">
                                         <div class="d--repeat-allow-question">
                                             <!-- {{widget.name}} -->
 
@@ -93,6 +93,11 @@
 
     </div>
     <div id="d-builder-option">
+        <div class="d-builder-widgets-header">
+            <p class="d--text-tools-header"> Survey Explorer</p>
+
+        </div>
+        <div class="d-builder-widgets-body"></div>
         <question-option></question-option>
         <pre>{{survey | json}}</pre>
     </div>
