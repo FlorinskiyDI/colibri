@@ -44,7 +44,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         public questionControlService: QuestionControlService,
         private fb: FormBuilder
     ) {
-
+ 
         this.questionTransferService.getDropQuestion().subscribe((data: any) => {
             // remove question
             this.form.removeControl(data.id);
@@ -84,12 +84,6 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
 
             this.page = page;
             this.questions = page.questions;
-
-
-
-            // this.form =  this.fb.group([]);
-            // this.form = this.fb.group(page.id, this.qcs.toFormGroup(page.questions));
-
         });
     }
 

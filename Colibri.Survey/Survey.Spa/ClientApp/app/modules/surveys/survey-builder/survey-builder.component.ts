@@ -6,6 +6,8 @@ import { ControTypes } from '../../../shared/constants/control-types.constant';
 import { AvailableQuestions } from '../../../shared/models/form-builder/form-control/available-question.model';
 import { SurveyModel } from '../../../shared/models/form-builder/survey.model';
 
+import { PageModel } from '../../../shared/models/form-builder/page.model';
+
 import { QuestionService } from '../../../shared/services/api/question.service';
 import { QuestionControlService } from '../../../shared/services/question-control.service';
 
@@ -73,6 +75,17 @@ export class SurveyBuilderComponent {
         public questionService: QuestionService,
         public questionControlService: QuestionControlService
     ) {
+        this.questionTransferService.getIdByNewPage().subscribe((id: any) => {
+            const page = new PageModel({
+                id: id,
+                name: 'page name',
+                description: 'page description',
+                order: 10,
+                questions: []
+            });
+            this.survey.pages.push(page);
+            this.questionTransferService.setQuestions(page);
+        });
 
         this.questionTransferService.getdeletePageId().subscribe((data: any) => {
             console.log('delete page delete page delete page delete page' + data.id);

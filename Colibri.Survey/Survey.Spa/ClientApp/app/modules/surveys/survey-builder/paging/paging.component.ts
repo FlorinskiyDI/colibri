@@ -1,5 +1,6 @@
 import { Component, Input, ElementRef, ViewEncapsulation, EventEmitter, Output, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { QuestionTransferService } from '../../../../shared/transfers/question-transfer.service';
+import { GUID } from 'shared/helpers/guide-type.helper';
 @Component({
     selector: 'paging',
     templateUrl: './paging.component.html',
@@ -24,7 +25,7 @@ export class PagingComponent implements OnInit, AfterViewChecked {
     carouselWrapper: any;
     carouselWrapperWidth: number;
     count = 0;
-    ii = 0;
+
     selectItem: string;
     constructor(
         private questionTransferService: QuestionTransferService,
@@ -86,16 +87,19 @@ export class PagingComponent implements OnInit, AfterViewChecked {
     }
 
     addPage() {
-        const value = { title: 'Page ' + 30 + this.ii + '*' };
-        this.ii++;
-        this.items.push(value);
-        console.log(this.items);
+        const generatePageId = GUID.getNewGUIDString();
+        const value = { title: 'Page', id: generatePageId };
 
+        this.items.push(value);
         this.renderBatches();
         this.setBatchSize();
-        this.carousel.style.transform = 'translateX(' + -85 + '%)';
-        this.translation = -85;
-        this.selectItem = value.title;
+        if (this.items.length > 6) {
+            this.carousel.style.transform = 'translateX(' + -10 + '%)';
+            this.translation = -10;
+        }
+
+        this.selectItem = value.id;
+        this.questionTransferService.setIdByNewPage(generatePageId);
 
     }
 
