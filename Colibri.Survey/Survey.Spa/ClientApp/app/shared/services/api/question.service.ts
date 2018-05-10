@@ -274,6 +274,15 @@ export class QuestionService {
             questions: questions2
           }
         ),
+        new PageModel(
+          {
+            id: 'id_page3',
+            name: 'page name 3',
+            description: 'page 3 description',
+            order: 3,
+            questions: []
+          }
+        ),
       ]
     };
 

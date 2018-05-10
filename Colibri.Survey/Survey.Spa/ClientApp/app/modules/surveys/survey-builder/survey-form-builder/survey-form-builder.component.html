@@ -5,10 +5,7 @@
   <div class="header">
     <p *ngIf="form.valid" style="color: green; font-weight: bold"> {{form.valid | json}}</p>
     <p *ngIf="!form.valid" style="color: red; font-weight: bold"> {{form.valid | json}}</p>
-    {{page.id | json}}------------------
-    {{page | json}}
-    --------------------------------------
-    {{this.form.value | json}}
+    {{page.id | json}}------------------ {{page | json}} -------------------------------------- {{this.form.value | json}}
     <!-- {{this.form.value | json}} -->
   </div>
   <div class="body">
@@ -17,6 +14,21 @@
       <div class="question-list" dnd-sortable-container [dropZones]="questionSettings.allowquestion" [sortableData]="questions">
 
         <ul class="d-list-group">
+
+
+          <div *ngIf="questions.length == 0">
+            <li *ngFor="let item of [1]; let i = index" class="d-repeat-question" [dragData]="item" style="height: 100px; background-color: green"
+              dnd-sortable [dragEnabled]="false" [sortableIndex]="i">
+
+
+              <div class="d-question-wrapp" style="height: 100px" dnd-droppable (onDropSuccess)="!!$event.dragData.name ? addNewQuestion($event, i) : changeQuestionOrders(item, i)"
+                [dropZones]="questionSettings.allowquestion"></div>
+            </li>
+          </div>
+
+
+
+
           <li *ngFor="let item of questions; let i = index" class="d-repeat-question" [ngClass]='{"d-edit-repeat-question": editQuestionKey == item.id}'
             [dragData]="item" dnd-sortable [dragEnabled]="!editCheckbox.checked" [sortableIndex]="i">
 
@@ -25,18 +37,21 @@
               [dropZones]="questionSettings.allowquestion">
               <div class="d-item-left-section">
                 <div class="d-item-opt-controls">
-                  <input id="inputCheckQuestion" [checked]="CheckedOptQuestion == item.id" #editCheckbox name="editCheckbox" type="checkbox" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? editQuestionKey = item.id: editQuestionKey = ''">
+                  <input id="inputCheckQuestion" [checked]="CheckedOptQuestion == item.id" #editCheckbox name="editCheckbox" type="checkbox"
+                    (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? editQuestionKey = item.id: editQuestionKey = ''">
                   <label for="inputCheckQuestion"> {{'Q' + (i+1)}}</label>
 
                   <br>
-                  <button (click)="flickerNotificationField(1)" type="button" *ngIf="item.required && editCheckbox.checked" class="d-btn-option" title="Require question">
+                  <button (click)="flickerNotificationField(1)" type="button" *ngIf="item.required && editCheckbox.checked" class="d-btn-option"
+                    title="Require question">
                     <i class="fa fa-asterisk"></i>
                   </button>
                   <br>
-                  <button (click)="flickerNotificationField(2)" type="button" *ngIf="item.isAdditionalAnswer && editCheckbox.checked" class="d-btn-option" title="Additional answer">
-                      <i class="fa fa-share "></i>
-                    </button>
-       
+                  <button (click)="flickerNotificationField(2)" type="button" *ngIf="item.isAdditionalAnswer && editCheckbox.checked" class="d-btn-option"
+                    title="Additional answer">
+                    <i class="fa fa-share "></i>
+                  </button>
+
                 </div>
               </div>
               <div class="d-item-right-section">

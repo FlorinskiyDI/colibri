@@ -29,10 +29,13 @@ export class QuestionControlService {
     this.group = {};
     // this.questionList = questions;
     debugger
-    questions.forEach((question: any) => {
+    if (questions) {
+      questions.forEach((question: any) => {
 
-      this.addTypeAnswer(question, this.group);
-    });
+        this.addTypeAnswer(question, this.group);
+      });
+    }
+
 
 
 

@@ -25,6 +25,7 @@ export class QuestionOptionComponent {
         // private fb: FormBuilder
     ) {
         this.questionTransferService.getQuestionOption().subscribe((data: any) => {
+            debugger
             if (data != null) {
                 this.questionOption = data.question;
                 this.questionControl = data.control;
@@ -50,6 +51,7 @@ export class QuestionOptionComponent {
         });
     }
     changeQuestionValidation(state: boolean) {
+        debugger
         console.log(this.questionOption);
         switch (this.questionOption.controlType) {
 

@@ -80,6 +80,9 @@ export class SurveyBuilderComponent {
             const deletepage = this.survey.pages.find(x => x.id === data.id);
             const index = this.survey.pages.indexOf(deletepage);
             this.survey.pages.splice(index, 1);
+
+            this.pageinglist = this.generatePagingList(this.survey.pages);
+            console.log('change paginglist');
             debugger
             let page = null;
             if (data.index > 0) {
@@ -89,6 +92,7 @@ export class SurveyBuilderComponent {
                 page = this.survey.pages[0];
                 this.questionTransferService.setQuestions(page);
             }
+
             // this.page = page;
 
 
@@ -96,6 +100,10 @@ export class SurveyBuilderComponent {
 
 
 
+
+    }
+
+    ngOnInit() {
         this.availableQuestionsOption = {
             allowquestion: ['dropZonesName1', 'dropZonesName2', 'dropZonesName3', 'dropZonesName4', 'dropZonesName5', 'dropZonesName6'],
             availableQuestions: [
@@ -107,11 +115,6 @@ export class SurveyBuilderComponent {
                 { type: ControTypes.gridRadio, name: 'Grid (single choice)', order: 6, dropZonesName: 'dropZonesName6', description: 'grid description', icon: 'fa-table' } as AvailableQuestions
             ],
         };
-
-        // this.listTeamOne.push('11111111111111');
-
-        // this.questions = this.survey.pages[0].questions;
-        // this.questions = questionService.getQuestions();
 
         this.survey = this.questionService.getSurvey();
 
@@ -125,12 +128,6 @@ export class SurveyBuilderComponent {
         this.availableProducts.push(new Product('Good Jacket', 1, 90));
         this.availableProducts.push(new Product('Red Shirt', 5, 12));
         this.availableProducts.push(new Product('Blue Jeans', 4, 60));
-    }
-
-    ngOnInit() {
-
-        // this.pages = this.generateWidgets(11);
-
     }
 
 

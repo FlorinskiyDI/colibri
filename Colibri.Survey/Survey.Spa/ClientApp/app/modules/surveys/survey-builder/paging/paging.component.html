@@ -5,12 +5,12 @@
                 <li  [ngClass]='{"active": selectItem == item.id}' *ngFor='let item of items; let i = index' fxLayout='column'
                     fxLayoutAlign='center center'>
 
-                    <div class="deletePageButton">
-                        <button *ngIf="items.length > 1" (click)="deletePage(item.id, i,  $event); " type="button" title="Delete page">
+                    <div class="deletePageblock">
+                        <button class="deletepage" *ngIf="items.length > 1" (click)="deletePage(item.id, i,  $event); " type="button" title="Delete page">
                             <i class="fa fa-times"></i>
                         </button>
                     </div>
-                    <div (click)="selectPage(item)" class='text' style="height: 100%">{{item.title + " " + (i + 1) }}</div>
+                    <div (click)="selectPage(item)" class='textBlock' style="height: 100%">{{item.title + " " + (i + 1) }}</div>
                 </li>
             </ul>
         </div>

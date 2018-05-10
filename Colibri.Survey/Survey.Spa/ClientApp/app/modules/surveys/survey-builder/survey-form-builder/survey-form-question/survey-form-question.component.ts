@@ -68,7 +68,7 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
         const option = checkboxquestion.options.find((x: ControlOptionModel) => x.id === optionId);
         option.label = isChecked;
         // const answer: any = 'answer';
-        const checkBoxArray = <FormArray>this.form.controls[questonId];
+        const checkBoxArray = <FormArray>this.form.get(this.pageId).get(questonId);
         const checkBoxControl = checkBoxArray.controls['answer'];
         console.log(this.question);
         if (isChecked) {
@@ -102,7 +102,7 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     }
 
     addRow(mass: any, questionId: string) {
-        const val = this.form.controls[questionId].get('rows') as FormGroup;
+        const val = this.form.get(this.pageId).get(questionId).get('rows') as FormGroup;
         const group: any = {};
         const key = GUID.getNewGUIDString();
         val.addControl(key, this.answerControlService.addItemAnswer(group, this.question.required));
@@ -118,7 +118,7 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
 
         if (mass.length > 1) {
             mass.splice(index, 1);
-            const contrls = this.form.controls[this.question.id].get('rows') as FormGroup;
+            const contrls = this.form.get(this.pageId).get(this.question.id).get('rows') as FormGroup;
             contrls.removeControl(control.id);
             this.lengthRows = mass.length;
             this.isChangeRow = true;
@@ -185,7 +185,7 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
 
 
     onChangeGridRadio(itemRowLabel: any, itemCol: any, key: string, label: string, isChecked: boolean) {
-        const radioArray = <FormArray>this.form.controls[key];
+        const radioArray = <FormArray>this.form.get(this.pageId).get(key);
         const answer = 'answer';
         const answerControl = radioArray.controls[answer];
         const group: any = {};

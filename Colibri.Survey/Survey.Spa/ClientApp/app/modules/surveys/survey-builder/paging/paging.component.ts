@@ -30,10 +30,14 @@ export class PagingComponent implements OnInit, AfterViewChecked {
         private questionTransferService: QuestionTransferService,
         private elementRef: ElementRef,
         private changeDetectorRef: ChangeDetectorRef
-    ) { }
+    ) {
+        this.questionTransferService.getQuestions().subscribe((page: any) => { // updata formbuild after select page
+            this.selectItem = page.id;
+        });
+    }
 
     ngOnInit() {
-
+        console.log('work ngOnInit after change page');
         this.selectItem = this.items[0].id;
         this.carousel = this.elementRef.nativeElement.querySelector('.carousel');
         this.carouselWrapper = this.elementRef.nativeElement.querySelector('.carousel-wrapper');
@@ -96,7 +100,7 @@ export class PagingComponent implements OnInit, AfterViewChecked {
     }
 
     deletePage(id: string, index: number, event: any) {
-        this.questionTransferService.setdeletePageId({id: id, index: index});
+        this.questionTransferService.setdeletePageId({ id: id, index: index });
         debugger
         this.items.splice(index, 1);
         this.batches[0].splice(index, 1);

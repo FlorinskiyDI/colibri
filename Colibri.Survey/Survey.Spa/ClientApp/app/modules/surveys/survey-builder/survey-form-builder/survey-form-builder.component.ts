@@ -129,7 +129,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
             this.questionTransferService.setQuestionOption(
                 {
                     question: question,
-                    control: this.form.controls[question.id]
+                    control: this.form.get(this.page.id).get(question.id)
                 }
             );
         } else {

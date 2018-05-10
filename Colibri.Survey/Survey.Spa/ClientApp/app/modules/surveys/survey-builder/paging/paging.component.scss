@@ -1,7 +1,21 @@
 .d-builder-body-header{
 
-    .deletePageButton {
+    .deletePageblock {
       float: right;
+
+      .deletepage {
+        border: transparent;
+        background-color: transparent;
+        font-size: 10px;
+        height: 16px;
+        width: 16px;
+        padding: 4px 12px 0px 5px;
+      }
+     
+    }
+
+    .textBlock {
+      padding: 3px 5px 0px 5px;
     }
     .active {
  
@@ -64,7 +78,7 @@
       width: 130px;
       background-color: #5B7199;
       border-right: 1px solid #324464;
-      padding: 3px 5px 0px 5px;
+      
 
       &:hover {
         background-color: #5B7199;
