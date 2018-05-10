@@ -1,6 +1,7 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, Input } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 
+import { QuestionControlService } from '../../../../shared/services/question-control.service';
 // import { GridRadioQuestion } from '../../../../shared/models/form-builder/question-base.model';
 import { QuestionTransferService } from '../../../../shared/transfers/question-transfer.service';
 import { ControTypes } from '../../../../shared/constants/control-types.constant';
@@ -17,16 +18,48 @@ export class QuestionOptionComponent {
 
     divRequied = false;
     divAdditional = false;
+    question: any;
+    control: any;
+    types: any[] = [];
+    selectedType = '';
+
+    @Input() questionTypes: any = {};
+
 
     questionOption: any = null;
     questionControl: FormGroup;
     constructor(
+        public questionService: QuestionControlService,
         private questionTransferService: QuestionTransferService,
         // private fb: FormBuilder
     ) {
+
+
+
+
+        // this.types = [
+        //     { label: 'Audi', value: 'Audi', icon:  },
+        //     { label: 'BMW', value: 'BMW' },
+        //     { label: 'Fiat', value: 'Fiat' },
+        //     { label: 'Ford', value: 'Ford' },
+        //     { label: 'Honda', value: 'Honda' },
+        //     { label: 'Jaguar', value: 'Jaguar' },
+        //     { label: 'Mercedes', value: 'Mercedes' },
+        //     { label: 'Renault', value: 'Renault' },
+        //     { label: 'VW', value: 'VW' },
+        //     { label: 'Volvo', value: 'Volvo' }
+        // ];
+
+
+
+
+
         this.questionTransferService.getQuestionOption().subscribe((data: any) => {
             debugger
             if (data != null) {
+                this.question = data.question;
+                this.control = data.control;
+                this.selectedType = data.question.controlType;
                 this.questionOption = data.question;
                 this.questionControl = data.control;
             } else {
@@ -50,6 +83,24 @@ export class QuestionOptionComponent {
 
         });
     }
+
+
+    changeQuestion() {
+        debugger
+        console.log(this.selectedType);
+        const group: any = {};
+        const val = this.questionService.addTypeAnswer(this.question, group);
+        this.control = val;
+    }
+
+    ngOnInit() {
+        debugger
+        this.questionTypes.availableQuestions.forEach((item: any) => {
+            this.types.push({ label: item.name, value: item.type, icon: item.icon });
+        });
+    }
+
+
     changeQuestionValidation(state: boolean) {
         debugger
         console.log(this.questionOption);

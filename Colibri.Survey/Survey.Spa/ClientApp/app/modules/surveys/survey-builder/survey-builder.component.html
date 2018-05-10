@@ -93,12 +93,24 @@
 
     </div>
     <div id="d-builder-option">
-        <div class="d-builder-widgets-header">
-            <p class="d--text-tools-header"> Survey Explorer</p>
+        <div class="d-builder-option-header">
+            <p class="d--text-tools-header"> Survey Explorer (chenged)</p>
+        </div>
+        <div class="d-action-buttons">
+            <button type="button" class="d-option-button">
+                <i class="fa fa-save"></i>
+            </button>
+            <button type="button" class="d-option-button">
+                <i class="fa fa-clone "></i>
+            </button>
+
+            <button type="button" class="d-option-button">
+                <i class="fa fa-area-chart"></i>
+            </button>
 
         </div>
-        <div class="d-builder-widgets-body"></div>
-        <question-option></question-option>
-        <pre>{{survey | json}}</pre>
+        <div class="d-builder-option-body"></div>
+        <question-option [questionTypes]="availableQuestionsOption"></question-option>
+        <!-- <pre>{{survey | json}}</pre> -->
     </div>
 </div>

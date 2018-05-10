@@ -124,7 +124,11 @@
                     margin: 5px;
                 }
             }
-
+            .dnd-sortable-drag{
+                border: 1px dashed #324464;
+                
+                background-color: #CCCEDB;
+            }
             .d-edit-repeat-question{
 
                 border: 1px solid #4D6082;
@@ -142,6 +146,8 @@
 
         }
     }
+
+
 
 
     .dnd-sortable-drag{

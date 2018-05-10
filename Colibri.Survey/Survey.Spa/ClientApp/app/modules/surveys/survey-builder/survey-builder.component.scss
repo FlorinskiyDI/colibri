@@ -5,6 +5,7 @@
     // padding: 5px;
     height: 100%;
     width: 100%;
+    outline: none !important;
 }
 
 
@@ -15,7 +16,7 @@
     position: absolute;
     margin: 5px;
     height: calc(100% - 10px); // 10px = margin-top + margin-bottom
-    width: calc(17% - 10px); // 10px = margin-left + margin-rignt
+    width: calc(20% - 10px); // 10px = margin-left + margin-rignt
     padding: 0px;
     overflow: auto;
     border: 1px solid #8694B5;
@@ -128,19 +129,15 @@
 
 
 
-.dnd-sortable-drag{
-    border: 2px dotted green;
-    margin: 1px;
-    background-color: #CCCEDB;
-}
+
 
 #d-builder-body{
     // background-color: #f0f0e3;
     position: absolute;
     margin: 5px 5px 5px 0px;
     height: calc(100% - 10px); // 10px = margin-top + margin-bottom
-    width: calc(58% - 5px); // 10px = margin-left + margin-rignt
-    left: 17%;
+    width: calc(60% - 5px); // 10px = margin-left + margin-rignt
+    left: 20%;
     // overflow: auto;
     // border: 1px solid #8694B5;
 
@@ -163,32 +160,53 @@
         border-top: 3px solid #FFF29D;
     }
 }
+
+
 #d-builder-option{
     background-color: #CFD6E5;
     margin: 5px 5px 5px 0px;
     position: absolute;
     height: calc(100% - 10px); // 10px = margin-top + margin-bottom
-    width: calc(25% - 5px); // 10px = margin-left + margin-rignt
+    width: calc(20% - 5px); // 10px = margin-left + margin-rignt
     right: 0px;
     overflow: auto;
     // padding: 10px;
     border: 1px solid #8694B5;
 
-    .d-builder-widgets-header{
+    .d-builder-option-header{
         height: 21px;
         line-height: 21px;
         padding-left: 6px;
         background-color: #4D6082;
         width: 100%;
         display: inline-block;
+
         .d--text-tools-header{
             font-size: 12px;
             color: #fff;
             margin: 0px;
         }
     }
+    .d-action-buttons {
+        background-color: #CFD6E5;
+        height: 32px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
 
-    .d-builder-widgets-body{
+        .d-option-button {
+            color: #000;
+            font-size: 14px;
+            background-color: transparent;
+            border: 1px solid #CFD6E5;
+            
+            &:hover {
+                background-color: #FFF29D;
+            }
+        }
+    }
+
+    .d-builder-option-body{
         padding: 2px 2px 2px 2px;
     }
 }
@@ -199,4 +217,10 @@
 
 #d-builder-widgets ul {
     margin: 0px;
+}
+
+.dnd-sortable-drag{
+    border: 1px dashed #324464;
+    margin: 1px;
+    background-color: #CCCEDB;
 }
