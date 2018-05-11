@@ -105,7 +105,7 @@ export class PagingComponent implements OnInit, AfterViewChecked {
 
     deletePage(id: string, index: number, event: any) {
         this.questionTransferService.setdeletePageId({ id: id, index: index });
-        debugger
+
         this.items.splice(index, 1);
         this.batches[0].splice(index, 1);
         // event.preventDefault();
@@ -140,6 +140,7 @@ export class PagingComponent implements OnInit, AfterViewChecked {
         console.log('move paginator page in left');
     }
     chunk = (arr: any, n: any) => {
+        // tslint:disable-next-line:no-bitwise
         const val = arr.slice(0, (arr.length + n - 1) / n | 0).map((c: any, i: any) => arr.slice(n * i, n * i + n));
         return val;
     }

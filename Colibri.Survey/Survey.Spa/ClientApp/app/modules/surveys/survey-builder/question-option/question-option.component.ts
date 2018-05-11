@@ -55,7 +55,7 @@ export class QuestionOptionComponent {
 
 
         this.questionTransferService.getQuestionOption().subscribe((data: any) => {
-            debugger
+
             if (data != null) {
                 this.question = data.question;
                 this.control = data.control;
@@ -86,7 +86,7 @@ export class QuestionOptionComponent {
 
 
     changeQuestion() {
-        debugger
+
         console.log(this.selectedType);
         const group: any = {};
         const val = this.questionService.addTypeAnswer(this.question, group);
@@ -94,7 +94,7 @@ export class QuestionOptionComponent {
     }
 
     ngOnInit() {
-        debugger
+
         this.questionTypes.availableQuestions.forEach((item: any) => {
             this.types.push({ label: item.name, value: item.type, icon: item.icon });
         });
@@ -102,7 +102,7 @@ export class QuestionOptionComponent {
 
 
     changeQuestionValidation(state: boolean) {
-        debugger
+
         console.log(this.questionOption);
         switch (this.questionOption.controlType) {
 
@@ -139,7 +139,7 @@ export class QuestionOptionComponent {
     }
 
     HideOption(type: string) {
-        if (type !== ControTypes.textbox && type !== ControTypes.textarea ) {
+        if (type !== ControTypes.textbox && type !== ControTypes.textarea) {
             return true;
         } else {
             return false;

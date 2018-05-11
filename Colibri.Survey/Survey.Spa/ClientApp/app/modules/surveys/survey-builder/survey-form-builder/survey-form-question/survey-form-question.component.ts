@@ -1,7 +1,7 @@
 import {
     Component, Input, AfterContentChecked,
     ViewChildren, QueryList, ChangeDetectorRef, AfterViewInit, OnDestroy,
-    ChangeDetectionStrategy, ViewChild, ElementRef
+    ChangeDetectionStrategy
 } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
@@ -24,19 +24,18 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     lengthRows = 0;
     lengthItems = 0;
     lastSelectRowId: any;
-    // @ViewChild('focusItem') rows: ElementRef;
     @ViewChildren('inputRow') rows: QueryList<any>;
     @ViewChildren('inputCol') cols: QueryList<any>;
     @Input() question: QuestionBase<any>;
     @Input() pageId: string;
     @Input() form: FormGroup;
     @Input() isEditQuestion: boolean;
-    private sub1 = new Subscription();
+    private sub = new Subscription();
 
     get isValid() {
         return this.form.controls[this.question.id].valid;
     }
-    get isDirty() { return this.form.controls[this.question.id].dirty; }
+    // get isDirty() { return this.form.controls[this.question.id].dirty; }
 
 
     constructor(
@@ -63,7 +62,7 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
 
 
 
-    onChange(questonId: string, optionId: string, isChecked: boolean, index: number) {
+    onChange(questonId: string, optionId: string, isChecked: boolean, index: any) {
         const checkboxquestion = this.question as CheckboxQuestion;
         const option = checkboxquestion.options.find((x: ControlOptionModel) => x.id === optionId);
         option.label = isChecked;
@@ -114,7 +113,7 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     }
 
 
-    deleteRow(control: any, index: number, mass: ControlOptionModel[]) {
+    deleteRow(control: any, index: any, mass: ControlOptionModel[]) {
 
         if (mass.length > 1) {
             mass.splice(index, 1);
@@ -126,7 +125,7 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
 
     }
 
-    deleteItem(index: number, mass: ControlOptionModel[]) {
+    deleteItem(index: any, mass: ControlOptionModel[]) {
         if (mass.length > 1) {
             mass.splice(index, 1);
             this.lengthItems = mass.length;
@@ -138,17 +137,17 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
 
     ngAfterViewInit() {
 
-        this.sub1 = this.rows.changes.subscribe(resp => {
+        this.sub = this.rows.changes.subscribe((resp: any) => {
 
             if (this.rows.length > this.lengthRows && this.isChangeRow) {
-                this.rows.last.nativeElement.focus();
+                this.rows.last().nativeElement.focus();
             }
         });
 
-        this.sub1 = this.cols.changes.subscribe(resp => {
+        this.sub = this.cols.changes.subscribe((resp: any) => {
 
             if (this.cols.length > this.lengthItems && !this.isChangeRow) {
-                this.cols.last.nativeElement.focus();
+                this.cols.last().nativeElement.focus();
             }
         });
 
@@ -157,13 +156,10 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
 
     // memory leak avoidance
     ngOnDestroy() {
-        this.sub1.unsubscribe();
+        this.sub.unsubscribe();
     }
 
-    addCol(mass: any) {
-        const item = new ControlOptionModel(GUID.getNewGUIDString(), '', 'your text...', 1);
-        // mass.push(item);
-    }
+
 
 
 
@@ -187,7 +183,7 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     onChangeGridRadio(itemRowLabel: any, itemCol: any, key: string, label: string, isChecked: boolean) {
         const radioArray = <FormArray>this.form.get(this.pageId).get(key);
         const answer = 'answer';
-        const answerControl = radioArray.controls[answer];
+        const answerControl = radioArray.get(answer);
         const group: any = {};
 
 
@@ -202,8 +198,8 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
         });
 
 
-        const item2 = answerControl.controls.findIndex((x: any) => x.controls['row'].controls['id'].value === itemRowLabel.id);
-        const needcontrol = answerControl.controls[item2];
+        const item2 = answerControl.controls.findIndex((x: any) => x.get('row').get('id').value === itemRowLabel.id);
+        const needcontrol = answerControl.get(item2);
 
         if (!!needcontrol) {
             answerControl.removeAt(item2);
@@ -218,15 +214,6 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
         answerControl.push(formGroup);
         this.lastSelectRowId = formGroup;
 
-        // answerControl = [];
-        //   if (isChecked && this.lastSelectRowId == '' || this.lastSelectRowId == itemRowLabel.id ) {
-        //     console.log('workkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
-
-        //   } else {
-
-        //     // let index = answerControl.controls.findIndex(x => x.id == itemCol.id)
-        //     // checkBoxControl.re.removeAt(index);
-        //   }
 
 
         console.log('000000000000000000000000000');

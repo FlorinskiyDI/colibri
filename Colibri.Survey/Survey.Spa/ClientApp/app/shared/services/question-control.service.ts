@@ -28,7 +28,7 @@ export class QuestionControlService {
   toFormGroup(questions: QuestionBase<any>[]) {
     this.group = {};
     // this.questionList = questions;
-    debugger
+
     if (questions) {
       questions.forEach((question: any) => {
 

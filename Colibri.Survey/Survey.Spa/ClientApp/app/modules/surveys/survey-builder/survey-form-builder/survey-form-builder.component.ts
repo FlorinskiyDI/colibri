@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, EventEmitter, Output, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ControTypes } from '../../../../shared/constants/control-types.constant';
 
 import { QuestionTransferService } from '../../../../shared/transfers/question-transfer.service';
@@ -42,9 +42,9 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         private questionTransferService: QuestionTransferService,
         private qcs: QuestionControlService,
         public questionControlService: QuestionControlService,
-        private fb: FormBuilder
+
     ) {
- 
+
         this.questionTransferService.getDropQuestion().subscribe((data: any) => {
             // remove question
             this.form.removeControl(data.id);
@@ -67,7 +67,6 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
             const questionList = page.questions;
             this.pageId = page.id; // before toFormGroup();
             const pageId = this.existPagesId.find(x => x === page.id);
-            // debugger
             if (!pageId) {
                 const data: any = {};
                 data[this.pageId] = this.qcs.toFormGroup(questionList);

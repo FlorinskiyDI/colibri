@@ -67,8 +67,7 @@ export class SurveyBuilderComponent {
     listOne: Array<string> = ['Coffee', 'Orange Juice', 'Red Wine', 'Unhealty drink!', 'Water'];
     listTeamOne: Array<string> = [];
 
-    availableProducts: Array<Product> = [];
-    shoppingBasket: Array<Product> = [];
+
 
     constructor(
         private questionTransferService: QuestionTransferService,
@@ -96,7 +95,7 @@ export class SurveyBuilderComponent {
 
             this.pageinglist = this.generatePagingList(this.survey.pages);
             console.log('change paginglist');
-            debugger
+
             let page = null;
             if (data.index > 0) {
                 page = this.survey.pages[data.index - 1];
@@ -136,11 +135,6 @@ export class SurveyBuilderComponent {
             // this.questions = this.survey.pages[0].questions;
             this.pageinglist = this.generatePagingList(this.survey.pages);
         }
-
-        this.availableProducts.push(new Product('Blue Shoes', 3, 35));
-        this.availableProducts.push(new Product('Good Jacket', 1, 90));
-        this.availableProducts.push(new Product('Red Shirt', 5, 12));
-        this.availableProducts.push(new Product('Blue Jeans', 4, 60));
     }
 
 
@@ -166,18 +160,9 @@ export class SurveyBuilderComponent {
         });
         return result;
     }
-    // generateWidgets = (num: number) => {
-    //     const result = [];
-    //     for (let i = 0; i < num; i++) {
-    //         result.push({ title: 'Page ' + (i + 1) + '*' });
-    //     }
-    //     return result;
-    // }
+
 
     getQuestonDropzones() {
-        // console.log('101010101010101010101010101010101010101010101010101010101010101010101');
-        // console.log(this.availableQuestions);
-        // console.log('101010101010101010101010101010101010101010101010101010101010101010101');
         const dropZoneList: any[] = [];
         this.availableQuestions.forEach(val => {
             dropZoneList.push(val.dropZonesName);
@@ -204,33 +189,11 @@ export class SurveyBuilderComponent {
     }
 
 
-
-
-    orderedProduct($event: any) {
-        // const orderedProduct: Product = $event.dragData;
-        // orderedProduct.quantity--;
-    }
-
-
-
     dragOperation = false;
 
-    containers: Array<Container> = [
-        new Container(1, 'Container 1', [new Widget('1'), new Widget('2')]),
-        new Container(2, 'Container 2', [new Widget('3'), new Widget('4')]),
-        new Container(3, 'Container 3', [new Widget('5'), new Widget('6')])
-    ];
 
-    // widgets: Array<Widget> = [];
-    // addTo($event: any) {
-    //     if ($event) {
-    //         this.widgets.push($event.dragData);
-    //         this.listTeamOne.push($event.dragData);
-    //         console.log('777777777777777777777777777777777777777777777');
-    //         console.log('777777777777777777777777777777777777777777777');
-    //         console.log('777777777777777777777777777777777777777777777');
-    //     }
-    // }
+
+
 
     listBoxers: Array<string> = ['Sugar Ray Robinson',
         'Muhammad Ali', 'George Foreman', 'Joe Frazier', 'Jake LaMotta', 'Joe Louis', 'Jack Dempsey', 'Rocky Marciano', 'Mike Tyson', 'Oscar De La Hoya'];
@@ -238,41 +201,13 @@ export class SurveyBuilderComponent {
     listTeamTwo: Array<string> = [];
 
 
-
-
-
-
-    sourceList: Widget[] = [
-        new Widget('1'), new Widget('2'),
-        new Widget('3'), new Widget('4'),
-        new Widget('5'), new Widget('6')
-    ];
-
-    targetList1: Widget[] = [];
-    targetList2: Widget[] = [];
-
-    addTo2($event: any) {
-        this.targetList2.push($event.dragData);
-    }
-
-    addTo1($event: any) {
-        this.targetList1.push($event.dragData);
-
-    }
-}
-
-class Product {
-    constructor(public name: string, public quantity: number, public cost: number) { }
 }
 
 
-class Container {
-    constructor(public id: number, public name: string, public widgets: Array<Widget>) { }
-}
 
-class Widget {
-    constructor(public name: string) { }
-}
+
+
+
 
 
 
