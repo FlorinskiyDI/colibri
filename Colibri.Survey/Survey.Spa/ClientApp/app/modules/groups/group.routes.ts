@@ -1,7 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 
 /* component */ import { GroupComponent } from './group.component';
-/* component */ import { GroupGridComponent } from './group-grid/group-grid.component';
+/* component */ import { GroupManageComponent } from './group-manage/group-manage.component';
 
 const routes: Routes = [
     {
@@ -11,7 +11,7 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: GroupGridComponent,
+                component: GroupManageComponent,
                 data: { breadcrumb: 'Grid' },
             },
         ]

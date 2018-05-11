@@ -46,7 +46,7 @@ namespace ManagementPortal
             });
 
             services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
-            services.Configure<AppSettings>(Configuration);
+            services.Configure<SpaSettings>(Configuration);
             services.AddMvc();
 
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Fastest);

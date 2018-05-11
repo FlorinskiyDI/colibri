@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
+import { SharedModule } from './shared/shared.module';
 /* module */ import { CoreModule } from 'core/core.module';
 /* shared */ import { CoreModuleShared } from 'core//core.module.shared';
 /* route */ import { routing } from './app.routes';
@@ -18,8 +19,9 @@ import { DndModule } from 'ng2-dnd';
         CoreModule,
         CoreModuleShared,
         DndModule.forRoot(),
+        SharedModule.forRoot()
     ],
-    declarations: [ ],
+    declarations: [],
     providers: [
         UserManagementService,
         HasAdminRoleAuthenticationGuard,
@@ -31,7 +33,8 @@ import { DndModule } from 'ng2-dnd';
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-        DndModule
+        DndModule,
+        SharedModule
     ]
 })
 

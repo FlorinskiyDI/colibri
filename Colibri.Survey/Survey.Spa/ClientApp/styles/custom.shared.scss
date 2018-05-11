@@ -5,32 +5,31 @@ body {
   outline: none !important;
 }
 
+/* CLBR COMMON */
+.clbr--pos--relative { position: relative; }
+.clbr--pos--absolute { position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; }
+/* !End CLBR COMMON */
 
+/*clbr page */
+.clbr--page .clbr--page-title { padding: 10px 0px 7px 0px; font-size: 14px; }
+.clbr--page .clbr--page-content { position: absolute; top: 37px; bottom: 0px; left: 0px; right: 0px; }
+.clbr--page .clbr--page-content .clbr--filter { margin-bottom: 8px; }
+.clbr--page .clbr--page-content .clbr--filter .form-group { margin: 0px 8px 8px 3px; }
+.clbr--page .clbr--page-content .clbr--btn-inline {
+  margin-bottom: 8px;
+  .btn { margin-right: 5px; }
+}
+/* !End clbr page */
 
-// dropdown-menu
-.dropdown-menu { font-size: 12px; }
-.dropdown-menu>li>a:focus,
-.dropdown-menu>li>a:hover { background-image: none; cursor: pointer; }
-
+/* ANGULAR-MATERIAL */
 .cdk-overlay-container { z-index: 1031; } // more than bootstrap nav {{1030}}
+/* !End ANGULAR-MATERIAL */
 
+/* ANGULAR-SPLIT */
+split-gutter { flex-basis: 5px !important; }
+/* !End ANGULAR-SPLIT */
 
-
-
-/* page-default */
-.clbr--page-default .clbr--page-title {
-  padding: 10px 0px 7px 0px;
-  font-size: 14px;
+.fa-drag-handle:before {
+  content: "\f142 \f142";
+  letter-spacing: 2px;
 }
-
-.clbr--page-default .clbr--page-content {
-  .clbr--filter {
-    .form-group { margin: 0px 8px 8px 3px; }
-  }
-  .clbr--btn-inline {
-    margin-top: 8px;
-    margin-bottom: 8px;
-    .btn { margin-right: 5px; }
-  }
-}
-/* !End page-default */

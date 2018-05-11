@@ -13,6 +13,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "IdentityServer.Database", "
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1E799C9E-CD30-4494-9FC4-A077BAAB5198}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApi", "..\TestApi\TestApi.csproj", "{A5495EE6-C113-4958-8755-B7CD12A6A17D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{1E799C9E-CD30-4494-9FC4-A077BAAB5198}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E799C9E-CD30-4494-9FC4-A077BAAB5198}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E799C9E-CD30-4494-9FC4-A077BAAB5198}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5495EE6-C113-4958-8755-B7CD12A6A17D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5495EE6-C113-4958-8755-B7CD12A6A17D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5495EE6-C113-4958-8755-B7CD12A6A17D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5495EE6-C113-4958-8755-B7CD12A6A17D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -40,6 +46,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7A96272F-DB06-453E-BA40-9B426E85C429} = {9213BE63-DB0E-4457-9E69-D51A312F7107}
 		{D64333B6-303D-4825-A232-B12D322C30D4} = {127AA04A-24EA-4E19-A402-B3EF9F752F2E}
+		{A5495EE6-C113-4958-8755-B7CD12A6A17D} = {9213BE63-DB0E-4457-9E69-D51A312F7107}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {299DA73E-A338-45E6-88C7-251F71ABD915}

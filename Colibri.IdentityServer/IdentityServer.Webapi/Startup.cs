@@ -16,6 +16,9 @@ using System.Linq;
 using System;
 using Microsoft.AspNetCore.Http;
 using IdentityServer.Webapi.Extensions;
+using IdentityServer4.Validation;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace IdentityServer.Webapi
 {
@@ -59,9 +62,12 @@ namespace IdentityServer.Webapi
            .RequireClaim("scope", "dataEventRecords")
            .Build();
 
+
+
             services.AddTransient<IProfileService, IdentityProfileService>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<IExtensionGrantValidator, DelegationGrantValidator>();
             services.AddDependencies(Configuration);
 
             services.AddIdentityServer()
@@ -72,13 +78,16 @@ namespace IdentityServer.Webapi
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<IdentityProfileService>();
 
+
+
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
               .AddIdentityServerAuthentication(options =>
               {
-                  options.Authority = Clients.HOST_URL + "/";
-                  options.ApiName = "dataEventRecords";
-                  options.ApiSecret = "dataEventRecordsSecret";
+                  options.Authority = "http://localhost:5050" + "/";
+                  options.ApiName = "api2";
+                  options.ApiSecret = "secret";
                   options.SupportedTokens = SupportedTokens.Both;
+                  options.RequireHttpsMetadata = false;
               });
 
             services.AddAuthorization(options =>
@@ -101,7 +110,11 @@ namespace IdentityServer.Webapi
                 });
             });
 
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+             {
+                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+             });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -109,28 +122,6 @@ namespace IdentityServer.Webapi
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            var angularRoutes = new[] {
-                "/Unauthorized",
-                "/Forbidden",
-                "/uihome",
-                "/dataeventrecords",
-                "/dataeventrecords/",
-                "/dataeventrecords/create",
-                "/dataeventrecords/edit/",
-                "/dataeventrecords/list",
-                "/usermanagement",
-                };
-
-            app.Use(async (context, next) =>
-            {
-                if (context.Request.Path.HasValue && null != angularRoutes.FirstOrDefault(
-                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
-                {
-                    context.Request.Path = new PathString("/");
-                }
-
-                await next();
-            });
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
@@ -145,11 +136,21 @@ namespace IdentityServer.Webapi
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseIdentityServer();
+
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             SqlConnectionFactory.ConnectionString = connectionString;
 
+            app.UseCors(options => options
+               //.WithOrigins("http://localhost:5151")
+               .AllowAnyOrigin()
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials()
+            );
+
+            app.UseIdentityServer();
+            //app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

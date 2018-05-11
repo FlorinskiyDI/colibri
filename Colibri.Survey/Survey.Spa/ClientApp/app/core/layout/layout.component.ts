@@ -126,7 +126,7 @@ export class LayoutComponent implements OnInit {
 
         this.breadcrumbs$.subscribe(
             (data: any) => {
-                console.log(data);
+                // console.log(data);
             }
         );
     }

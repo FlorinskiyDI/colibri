@@ -17,4 +17,31 @@
 .form--group-xs {
     &.form-group-sm .form-control { height: 26px; }
 }
+.form--verical {
+    label { font-weight: 500; font-size: 11px; color: #666666;}
+}
 /* !End form-group */
+
+
+/* control-group */
+.control-group {
+    margin-bottom: 5px;
+}
+/* !End control-group */
+
+/* form-control */
+.form-control {
+    &:focus { 
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 3px rgba(102,175,233,.6);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 3px rgba(102,175,233,.6);
+     }
+}
+/* .form-control */
+
+.form-group {
+    margin-bottom: 10px;
+    .valid-feedback { color: #dc3545; }
+}
+.form-horizontal .form-group-sm .control-label { font-weight: 400; }
+
+.navbar-fixed-bottom, .navbar-fixed-top { z-index: 1000 }

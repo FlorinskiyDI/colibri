@@ -1,6 +1,7 @@
 ﻿using IdentityServer4.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,6 +14,8 @@ namespace IdentityServer.Webapi.Configurations
         // clients want to access resources (aka scopes)
         public static IEnumerable<Client> GetClients()
         {
+            var cc = GrantTypes.Implicit;
+
             // client credentials client
             return new List<Client>
             {
@@ -22,7 +25,7 @@ namespace IdentityServer.Webapi.Configurations
                     ClientId = "singleapp",
                     AccessTokenType = AccessTokenType.Reference,
                     //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = { "implicit", "delegation" },
                     RequireConsent = false,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
@@ -45,9 +48,29 @@ namespace IdentityServer.Webapi.Configurations
                         "dataeventrecordsscope",
                         "securedFiles",
                         "securedfilesscope",
-                        "role"
+                        "role",
+                        "api2"
+                    }
+                },
+
+                new Client
+                {
+                    ClientId = "api1",
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("secret".Sha256())
+                    },
+
+                    AllowedGrantTypes = { "implicit", "delegation" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        "openid",
+                        "role",
+                        "api2"
                     }
                 }
+
             };
         }
 

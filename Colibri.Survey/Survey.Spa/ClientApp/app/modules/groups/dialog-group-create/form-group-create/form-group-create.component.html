@@ -1,0 +1,32 @@
+<div class="cmp-form-group-creat row">
+    <div class="col-md-12">
+
+        <form class="form-horizontal needs-validation" role="form" #formGroupCreate="ngForm" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+
+            <div class="form-group form-group-sm form--group-xs">
+                <label class="col-md-3 control-label" for="name">Name</label>
+                <div class="col-md-9">
+                    <input formControlName="name" id="name" name="name" type="text" placeholder="Enter name" class="form-control">
+                    <span class="valid-feedback" *ngIf="formGroup.get('name').hasError('required') && formGroup.get('name').touched || formGroup.get('name').hasError('required') && !formIsValid">
+                        Value is required
+                    </span>
+                </div>
+            </div>
+            <div class="form-group form-group-sm form--group-xs">
+                <label class="col-md-3 control-label" for="email">Parent group</label>
+                <div class="col-md-9">
+                    <p-dropdown [options]="drpdwnGroups" formControlName="parentId" autoWidth="false" [style]="{'width':'100%'}"></p-dropdown>
+                </div>
+            </div>
+            <div class="form-group form-group-sm">
+                <label class="col-md-3 control-label" for="message">Description</label>
+                <div class="col-md-9">
+                    <textarea class="form-control" id="message" name="message" placeholder="Please enter description here..." rows="5"></textarea>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+

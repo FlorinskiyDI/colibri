@@ -13,7 +13,7 @@ import { Routes, RouterModule } from '@angular/router';
 const appRoutes: Routes = [
     {
         path: '', component: LayoutComponent,
-        // canActivate: [HasAdminRoleAuthenticationGuard],
+        canActivate: [HasAdminRoleAuthenticationGuard],
         data: { breadcrumb: 'Layout' },
         children: [
             {

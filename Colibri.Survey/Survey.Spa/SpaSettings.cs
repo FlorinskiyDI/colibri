@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Survey.Spa
 {
-    public class AppSettings
+    public class SpaSettings
     {
-        public string AlarmApiUrl { get; set; }
-        public string PortalVersion { get; set; }
+        public string IdentityServerApiUrl { get; set; }
+        public string ServeyApiUrl { get; set; }
     }
 }
