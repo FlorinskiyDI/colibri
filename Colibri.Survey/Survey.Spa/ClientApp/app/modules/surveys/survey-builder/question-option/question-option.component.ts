@@ -138,6 +138,13 @@ export class QuestionOptionComponent {
 
     }
 
+    HideOption(type: string) {
+        if (type !== ControTypes.textbox && type !== ControTypes.textarea ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     AddAdditionalQuestion(state: boolean) {
         if (!state) {
