@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
@@ -35,7 +36,12 @@ namespace Survey.Webapi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetListGroups()
         {
-            var identityServerApiUrl = _configuration["IdentityServer:ApiUrl"];  // IdentityServer4 host
+
+            var currentUser = this.User;
+            bool IsAdmin = currentUser.IsInRole("admin");
+
+            var user = HttpContext.User;
+            var identityServerApiUrl = _configuration["IdentityServer:Url"];  // IdentityServer4 host
             var disco = await DiscoveryClient.GetAsync(identityServerApiUrl); // discover endpoints from metadata
             var userToken = await HttpContext.GetTokenAsync("access_token"); // user token
             var idToken = await HttpContext.GetTokenAsync("id_token"); // user token

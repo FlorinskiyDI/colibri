@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Survey.DomainModelLayer.Entities;
+using Survey.InfrastructureLayer.Context;
 
 namespace Survey.Webapi
 {
@@ -21,13 +27,26 @@ namespace Survey.Webapi
         {
             Configuration = configuration;
         }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 
-            services.AddMvc()
+
+            services.AddMvcCore()
+                .AddAuthorization()
+                .AddJsonFormatters();
+
+            //services.AddMvc(config =>
+            //{
+            //    //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+            //    //config.Filters.Add(new AuthorizeFilter(policy));
+            //})
+
             //.AddControllersAsServices()
+            services.AddMvc()
             .AddJsonOptions(options =>
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -35,7 +54,7 @@ namespace Survey.Webapi
             });
 
             services.AddCors();
-
+            //services.AddAuthorization();
             var authority = Configuration["IdentityServer:Url"];
             var apiName = Configuration["IdentityServer:ApiResource:ApiName"];
             var apiSecret = Configuration["IdentityServer:ApiResource:ApiSecret"];
@@ -45,7 +64,12 @@ namespace Survey.Webapi
                      options.Authority = authority;
                      options.ApiName = apiName;
                      options.ApiSecret = apiSecret;
+                     options.RequireHttpsMetadata = false;
                  });
+
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //     .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,19 +88,20 @@ namespace Survey.Webapi
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-            //app.UseCors("corsGlobalPolicy");
-            //app.UseCors(builder =>builder
-            //    .AllowAnyOrigin()
-            //    .AllowAnyHeader()
-            //    .AllowAnyMethod()
-            //    .AllowCredentials()
-            //);
-            app.UseCors( options => options
-                .WithOrigins("http://localhost:8082")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials()
+
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            SqlConnectionFactory.ConnectionString = connectionString;
+
+
+
+            app.UseCors(options => options
+               .WithOrigins("http://localhost:8082")
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials()
            );
+
+            
             app.UseAuthentication();
             app.UseMvc(routes =>
             {
