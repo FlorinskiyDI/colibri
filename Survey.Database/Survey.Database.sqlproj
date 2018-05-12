@@ -62,5 +62,12 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="survey\SurveySections.sql" />
+    <Build Include="survey\Questions.sql" />
+    <Build Include="survey\Pages.sql" />
+    <Build Include="survey\InputTypes.sql" />
+    <Build Include="survey\OptionGroups.sql" />
+    <Build Include="survey\OptionChoises.sql" />
+    <Build Include="survey\Question_Options.sql" />
+    <Build Include="survey\Answers.sql" />
   </ItemGroup>
 </Project>
