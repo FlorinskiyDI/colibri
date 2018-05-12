@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
-// import { QuestionBase } from '../../../shared/Models/form-builder/question-base.model';
+// import { QuestionBase } from '../../../shared/models/form-builder/question-base.model';
 
 import { ControTypes } from '../../../shared/constants/control-types.constant';
 import { AvailableQuestions } from '../../../shared/models/form-builder/form-control/available-question.model';
@@ -12,8 +12,8 @@ import { QuestionService } from '../../../shared/services/api/question.service';
 import { QuestionControlService } from '../../../shared/services/question-control.service';
 
 import { QuestionTransferService } from '../../../shared/transfers/question-transfer.service';
-import { QuestionBase } from 'shared/Models/form-builder/question-base.model';
-// import { PageModel } from 'shared/Models/form-builder/page.model';
+import { QuestionBase } from 'shared/models/form-builder/question-base.model';
+// import { PageModel } from 'shared/models/form-builder/page.model';
 
 @Component({
     selector: 'survey-builder-cmp',

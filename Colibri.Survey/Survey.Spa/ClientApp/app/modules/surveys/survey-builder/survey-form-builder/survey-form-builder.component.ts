@@ -1,14 +1,14 @@
 import { Component, Input, OnInit, EventEmitter, Output, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ControTypes } from '../../../../shared/constants/control-types.constant';
+import { ControTypes } from 'shared/constants/control-types.constant';
 
-import { QuestionTransferService } from '../../../../shared/transfers/question-transfer.service';
-import { QuestionControlService } from '../../../../shared/services/question-control.service';
-// import { AvailableQuestions } from '../../../../shared/models/form-builder/form-control/available-question.model';
-// import { DropdownQuestion } from '../../../../shared/Models/form-builder/question-dropdown.model';
-import { QuestionBase } from '../../../../shared/Models/form-builder/question-base.model';
-// import { TextboxQuestion } from '../../../../shared/Models/form-builder/question-textbox.model';
-// import { CheckboxQuestion } from '../../../../shared/Models/form-builder/question-checkbox.model';
+import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
+import { QuestionControlService } from 'shared/services/question-control.service';
+// import { AvailableQuestions } from 'shared/models/form-builder/form-control/available-question.model';
+// import { DropdownQuestion } from 'shared/models/form-builder/question-dropdown.model';
+import { QuestionBase } from 'shared/models/form-builder/question-base.model';
+// import { TextboxQuestion } from 'shared/models/form-builder/question-textbox.model';
+// import { CheckboxQuestion } from 'shared/models/form-builder/question-checkbox.model';
 
 
 @Component({
