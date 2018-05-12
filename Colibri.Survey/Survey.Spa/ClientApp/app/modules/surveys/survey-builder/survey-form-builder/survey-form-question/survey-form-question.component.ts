@@ -35,7 +35,7 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     get isValid() {
         return this.form.controls[this.question.id].valid;
     }
-    // get isDirty() { return this.form.controls[this.question.id].dirty; }
+    get isDirty() { return this.form.controls[this.question.id].dirty; }
 
 
     constructor(
@@ -63,12 +63,30 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
 
 
     onChange(questonId: string, optionId: string, isChecked: boolean, index: any) {
+        // const checkboxquestion = this.question as CheckboxQuestion;
+        // const option = checkboxquestion.options.find((x: ControlOptionModel) => x.id === optionId);
+        // option.label = isChecked;
+        // // const answer: any = 'answer';
+        // const checkBoxArray = <FormArray>this.form.get(this.pageId).get(questonId);
+        // const checkBoxControl = checkBoxArray.controls['answer'];
+        // console.log(this.question);
+        // if (isChecked) {
+        //     checkBoxControl.addControl(new FormControl(optionId));
+        // } else {
+        //     index = checkBoxControl.controls.findIndex((x: any) => x.value === optionId);
+        //     checkBoxControl.removeAt(index);
+        // }
+
         const checkboxquestion = this.question as CheckboxQuestion;
         const option = checkboxquestion.options.find((x: ControlOptionModel) => x.id === optionId);
         option.label = isChecked;
         // const answer: any = 'answer';
-        const checkBoxArray = <FormArray>this.form.get(this.pageId).get(questonId);
-        const checkBoxControl = checkBoxArray.controls['answer'];
+        // const checkBoxArray = <FormGroup>this.form.controls[this.pageId];
+        const questionArray = <FormArray>this.form.controls[this.pageId].get(questonId);
+        const val: any = 'answer';
+        const checkBoxControl = questionArray.controls[val] as FormArray;
+        // const checkBoxArray = <FormArray>this.form.get(this.pageId).get(questonId);
+        // const checkBoxControl = checkBoxArray.controls['answer'];
         console.log(this.question);
         if (isChecked) {
             checkBoxControl.push(new FormControl(optionId));
@@ -140,14 +158,14 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
         this.sub = this.rows.changes.subscribe((resp: any) => {
 
             if (this.rows.length > this.lengthRows && this.isChangeRow) {
-                this.rows.last().nativeElement.focus();
+                this.rows.last.nativeElement.focus();
             }
         });
 
         this.sub = this.cols.changes.subscribe((resp: any) => {
 
             if (this.cols.length > this.lengthItems && !this.isChangeRow) {
-                this.cols.last().nativeElement.focus();
+                this.cols.last.nativeElement.focus();
             }
         });
 
@@ -181,9 +199,15 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
 
 
     onChangeGridRadio(itemRowLabel: any, itemCol: any, key: string, label: string, isChecked: boolean) {
-        const radioArray = <FormArray>this.form.get(this.pageId).get(key);
-        const answer = 'answer';
-        const answerControl = radioArray.get(answer);
+
+
+        const radioArray = <FormArray>this.form.controls[this.pageId].get(key);
+        const val: any = 'answer';
+        const answerControl = radioArray.controls[val] as FormArray;
+
+        // const radioArray = <FormArray>this.form.get(this.pageId).get(key);
+        // const answer = 'answer';
+        // const answerControl = radioArray.controls[answer];
         const group: any = {};
 
 
@@ -198,8 +222,8 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
         });
 
 
-        const item2 = answerControl.controls.findIndex((x: any) => x.get('row').get('id').value === itemRowLabel.id);
-        const needcontrol = answerControl.get(item2);
+        const item2 = answerControl.controls.findIndex((x: any) => x.controls['row'].controls['id'].value === itemRowLabel.id);
+        const needcontrol = answerControl.controls[item2];
 
         if (!!needcontrol) {
             answerControl.removeAt(item2);
@@ -214,6 +238,15 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
         answerControl.push(formGroup);
         this.lastSelectRowId = formGroup;
 
+        // answerControl = [];
+        //   if (isChecked && this.lastSelectRowId == '' || this.lastSelectRowId == itemRowLabel.id ) {
+        //     console.log('workkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
+
+        //   } else {
+
+        //     // let index = answerControl.controls.findIndex(x => x.id == itemCol.id)
+        //     // checkBoxControl.re.removeAt(index);
+        //   }
 
 
         console.log('000000000000000000000000000');
@@ -227,3 +260,4 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
         this.cdr.detectChanges();
     }
 }
+

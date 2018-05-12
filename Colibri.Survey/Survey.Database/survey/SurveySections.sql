@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[SurveySections] (
+    [Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT (NEWSEQUENTIALID()), 
+    [Name] NVARCHAR(500) NOT NULL, 
+    [Description] NVARCHAR(MAX) NULL, 
+);

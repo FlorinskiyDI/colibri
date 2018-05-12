@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[Pages] (
+    [Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT (NEWSEQUENTIALID()), 
+    [Name] NVARCHAR(250) NOT NULL, 
+    [Description] NVARCHAR(MAX) NULL, 
+	[OrderNo] INT NOT NULL, 
+	[Survey_Id] UNIQUEIDENTIFIER NOT NULL, 
+	CONSTRAINT [FK_Pages_SurveySections] FOREIGN KEY ([Survey_Id]) REFERENCES [dbo].[SurveySections]([Id]), 
+);
