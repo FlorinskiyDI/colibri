@@ -14,6 +14,8 @@ export class QuestionTransferService {
     private deletePagesubject = new Subject<any>();
     private pageidsubject = new Subject<any>();
 
+    private changeQuestionsubject = new Subject<any>();
+
     // -start transer 1- Communicating Between Components device-details and devcie-id-mapping
     // sendDeviceID(id: string) {
     //     this.subject.next({ deviceid: id });
@@ -84,5 +86,15 @@ export class QuestionTransferService {
     getIdByNewPage(): Observable<any> {
         return this.pageidsubject.asObservable();
     }
+
+
+    // for change option field background color after click to notification button on question builder
+    setDataForChangeQuestion(data: any) {
+        this.changeQuestionsubject.next(data);
+    }
+    getDataForChangeQuestion(): Observable<any> {
+        return this.changeQuestionsubject.asObservable();
+    }
+
 
 }

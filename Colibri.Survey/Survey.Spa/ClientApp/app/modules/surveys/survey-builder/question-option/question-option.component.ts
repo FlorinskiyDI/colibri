@@ -88,14 +88,29 @@ export class QuestionOptionComponent {
     }
 
 
-    changeQuestion() {
-        debugger
-        console.log(this.selectedType);
+    changeQuestion(event: any) {
+
+
+
         const group: any = {};
 
-        const geterateQuestion: any = this.getQuestionByType(this.selectedType, 1);
-        this.questionService.addTypeAnswer(geterateQuestion, group);
-        // this.control = this.newquestion;
+        this.getQuestionByType(event.value, this.question.order);
+        const answerControl = this.questionService.addTypeAnswer(this.newquestion, group);
+
+
+        const order = this.question.order;
+        const id = this.question.id;
+        
+
+        this.questionTransferService.setDataForChangeQuestion({
+            control: answerControl,
+            index: order,
+            object: this.newquestion,
+            id: id,
+        });
+        // 
+        // this.question = this.newquestion;
+        // this.control = answerControl;
     }
 
     ngOnInit() {
@@ -107,7 +122,7 @@ export class QuestionOptionComponent {
 
 
     changeQuestionValidation(state: boolean) {
-
+        console.log('77777777777777777777777777777777777888888888888888888888888888888888888');
         console.log(this.questionOption);
         switch (this.questionOption.controlType) {
 

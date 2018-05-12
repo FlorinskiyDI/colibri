@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, EventEmitter, Output, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { ControTypes } from 'shared/constants/control-types.constant';
 
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
@@ -38,13 +38,35 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
     CheckedOptQuestion: string;
 
     constructor(
+        private fb: FormBuilder,
         private cdr: ChangeDetectorRef,
         private questionTransferService: QuestionTransferService,
         // private qcs: QuestionControlService,
         public questionControlService: QuestionControlService,
 
     ) {
+        this.questionTransferService.getDataForChangeQuestion().subscribe((data: any) => {
+    
 
+            debugger
+            // this.questions.forEach(function (item: any, i: number) {
+            //     if (i === data.index) {
+            //         item = data.object;
+            //     }
+            // });
+            data.object.id = this.questions[data.index].id;
+            this.questions[data.index] = data.object;
+
+            const val = this.form.controls[this.page.id] as FormGroup;
+            val.controls[data.id] = data.control;
+            val.controls[data.id].clearValidators();
+            val.controls[data.id].updateValueAndValidity();
+
+            this.setQuestionOption(data.object, true);
+            console.log('datadatadatadatadatadatadatadatadatadatadatadatadatadatadata');
+            console.log(this.form);
+            console.log('datadatadatadatadatadatadatadatadatadatadatadatadatadatadata');
+        });
         this.questionTransferService.getDropQuestion().subscribe((data: any) => {
             // remove question
             this.form.removeControl(data.id);

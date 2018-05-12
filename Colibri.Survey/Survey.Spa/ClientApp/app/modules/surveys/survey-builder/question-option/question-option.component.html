@@ -1,6 +1,6 @@
 <div *ngIf="questionOption">
-        <p class="d-text-description">Change Question Type</p>
-    <p-dropdown (onChange)="changeQuestion()" [options]="types" class="d-dropdown" [(ngModel)]="selectedType" [style]="{'width':'100%', 'font-size':'12px'}"
+    <p class="d-text-description">Change Question Type</p>
+    <p-dropdown (onChange)="changeQuestion($event)" [options]="types" class="d-dropdown" [(ngModel)]="selectedType" [style]="{'width':'100%', 'font-size':'12px'}"
         filter="true">
 
 
@@ -28,13 +28,14 @@
     </div>
     <!-- {{questionOption | json}} -->
     <div [ngClass]='{"changeColor": divAdditional == true}'>
-        <div  [ngClass]='{"flickDiv": divAdditional == true}'>
+        <div [ngClass]='{"flickDiv": divAdditional == true}'>
             11Add aditional input:
             <input type="checkbox" [(ngModel)]="questionOption.isAdditionalAnswer" #AdditionalCheckbox (click)="AddAdditionalQuestion(AdditionalCheckbox.checked)">
         </div>
     </div>
 
-
+    <pre>{{control.value | json}}</pre>
+    <pre>{{question | json}}</pre>
 </div>
 
 <!-- <pre>{{questionTypes.availableQuestions | json}}</pre>
