@@ -85,9 +85,9 @@
       }
       }
 
-      .save-survey, .arrow-right, .arrow-left {
+      .add-page, .arrow-right, .arrow-left {
           &:hover {
-              color: red;
+              color: rgb(185, 212, 202);
               cursor: pointer;
           }
       }
@@ -130,9 +130,9 @@
       
       }
       
-      .save-survey {
+      .add-page {
           right: 10px;
-        font-size: 15px;
+        font-size: 11px;
         position: absolute;
         color: #fff;
         top: 2px;

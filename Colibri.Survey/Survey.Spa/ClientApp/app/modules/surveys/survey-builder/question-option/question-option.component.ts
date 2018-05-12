@@ -23,12 +23,15 @@ export class QuestionOptionComponent {
     types: any[] = [];
     selectedType = '';
 
+    newquestion: any;
+
     @Input() questionTypes: any = {};
 
 
     questionOption: any = null;
     questionControl: FormGroup;
     constructor(
+        // public questionControlService: QuestionControlService,
         public questionService: QuestionControlService,
         private questionTransferService: QuestionTransferService,
         // private fb: FormBuilder
@@ -86,11 +89,13 @@ export class QuestionOptionComponent {
 
 
     changeQuestion() {
-
+        debugger
         console.log(this.selectedType);
         const group: any = {};
-        const val = this.questionService.addTypeAnswer(this.question, group);
-        this.control = val;
+
+        const geterateQuestion: any = this.getQuestionByType(this.selectedType, 1);
+        this.questionService.addTypeAnswer(geterateQuestion, group);
+        // this.control = this.newquestion;
     }
 
     ngOnInit() {
@@ -149,6 +154,45 @@ export class QuestionOptionComponent {
     AddAdditionalQuestion(state: boolean) {
         if (!state) {
             this.questionControl.controls['additionalAnswer'].setValue('');
+        }
+    }
+
+
+
+
+
+
+    getQuestionByType(value: any, index: any) {
+        switch (value) {
+            case ControTypes.textbox: {
+                this.newquestion = this.questionService.addTextboxControl(index);
+                break;
+            }
+            case ControTypes.textarea: {
+                this.newquestion = this.questionService.addTextareaControl(index);
+                break;
+            }
+            case ControTypes.radio: {
+                this.newquestion = this.questionService.addRadioButtonControl(index);
+                break;
+            }
+            case ControTypes.checkbox: {
+                this.newquestion = this.questionService.addCheckBoxControl(index);
+                break;
+            }
+            case ControTypes.dropdown: {
+                this.newquestion = this.questionService.addDropdownControl(index);
+                break;
+            }
+            case ControTypes.gridRadio: {
+                this.newquestion = this.questionService.addGridRadioControl(index);
+                break;
+            }
+
+            default: {
+                console.log('Invalid choice');
+                break;
+            }
         }
     }
 }

@@ -28,7 +28,7 @@
     </div>
     <!-- {{questionOption | json}} -->
     <div [ngClass]='{"changeColor": divAdditional == true}'>
-        <div *ngIf="HideOption(questionOption.controlType)" [ngClass]='{"flickDiv": divAdditional == true}'>
+        <div  [ngClass]='{"flickDiv": divAdditional == true}'>
             11Add aditional input:
             <input type="checkbox" [(ngModel)]="questionOption.isAdditionalAnswer" #AdditionalCheckbox (click)="AddAdditionalQuestion(AdditionalCheckbox.checked)">
         </div>

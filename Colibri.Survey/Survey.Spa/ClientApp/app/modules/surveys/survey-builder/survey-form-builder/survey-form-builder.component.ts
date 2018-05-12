@@ -40,7 +40,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
     constructor(
         private cdr: ChangeDetectorRef,
         private questionTransferService: QuestionTransferService,
-        private qcs: QuestionControlService,
+        // private qcs: QuestionControlService,
         public questionControlService: QuestionControlService,
 
     ) {
@@ -69,7 +69,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
             const pageId = this.existPagesId.find(x => x === page.id);
             if (!pageId) {
                 const data: any = {};
-                data[this.pageId] = this.qcs.toFormGroup(questionList);
+                data[this.pageId] = this.questionControlService.toFormGroup(questionList);
                 this.existPagesId.push(this.pageId);
                 // item[this.pageId] = this.fb.group(this.pageId, this.qcs.toFormGroup(this.questions));
                 // this.form = item;
@@ -78,7 +78,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
 
                 // this.form = new FormGroup(data);
                 // const dataPage = this.form.controls[this.page.id] as FormGroup;
-                this.form.addControl(this.pageId, this.qcs.toFormGroup(questionList));
+                this.form.addControl(this.pageId, this.questionControlService.toFormGroup(questionList));
             }
 
             this.page = page;
@@ -92,7 +92,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         this.pageId = this.page.id; // before toFormGroup();
         // const item: any = {};
         const page: any = {};
-        page[this.pageId] = this.qcs.toFormGroup(this.questions);
+        page[this.pageId] = this.questionControlService.toFormGroup(this.questions);
         this.existPagesId.push(this.pageId);
         // item[this.pageId] = this.fb.group(this.pageId, this.qcs.toFormGroup(this.questions));
         // this.form = item;
@@ -151,7 +151,21 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         });
 
         this.questions.splice(index, 1); // remove AvailableQuestions object
-        switch ($event.dragData.type) {
+        this.getQuestionByType($event.dragData.type, index);
+        const group: any = {};
+        const dataPage = this.form.controls[this.page.id] as FormGroup;
+        dataPage.addControl(this.newquestion.id, this.questionControlService.addTypeAnswer(this.newquestion, group)
+        );
+
+        this.questions.push(this.newquestion);
+        this.questions.sort((a, b) => a.order - b.order);
+    }
+
+
+
+
+    getQuestionByType(value: any, index: any) {
+        switch (value) {
             case ControTypes.textbox: {
                 this.newquestion = this.questionControlService.addTextboxControl(index);
                 break;
@@ -182,13 +196,6 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
                 break;
             }
         }
-        const group: any = {};
-        const dataPage = this.form.controls[this.page.id] as FormGroup;
-        dataPage.addControl(this.newquestion.id, this.questionControlService.addTypeAnswer(this.newquestion, group)
-        );
-
-        this.questions.push(this.newquestion);
-        this.questions.sort((a, b) => a.order - b.order);
     }
 
 
