@@ -35,13 +35,17 @@ namespace Survey.Webapi
             });
 
             services.AddCors();
+
+            var authority = Configuration["IdentityServer:Url"];
+            var apiName = Configuration["IdentityServer:ApiResource:ApiName"];
+            var apiSecret = Configuration["IdentityServer:ApiResource:ApiSecret"];
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-             .AddIdentityServerAuthentication(options =>
-             {
-                 options.Authority = "http://localhost:5050/";
-                 options.ApiName = "dataEventRecords";
-                 options.ApiSecret = "dataEventRecordsSecret";
-             });
+                 .AddIdentityServerAuthentication(options =>
+                 {
+                     options.Authority = authority;
+                     options.ApiName = apiName;
+                     options.ApiSecret = apiSecret;
+                 });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
