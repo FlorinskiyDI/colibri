@@ -59,16 +59,17 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="survey" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="survey\Answers.sql" />
-    <Build Include="survey\InputTypes.sql" />
-    <Build Include="survey\OptionChoises.sql" />
-    <Build Include="survey\OptionGroups.sql" />
-    <Build Include="survey\Pages.sql" />
-    <Build Include="survey\Question_Options.sql" />
-    <Build Include="survey\Questions.sql" />
-    <Build Include="survey\SurveySections.sql" />
+    <Build Include="SurveySections.sql" />
+    <Build Include="Answers.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="InputTypes.sql" />
+    <Build Include="OptionChoises.sql" />
+    <Build Include="OptionGroups.sql" />
+    <Build Include="Pages.sql" />
+    <Build Include="Question_Options.sql" />
+    <Build Include="Questions.sql" />
   </ItemGroup>
 </Project>

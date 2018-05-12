@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer.Webapi", "IdentityServer.Webapi\IdentityServer.Webapi.csproj", "{7A96272F-DB06-453E-BA40-9B426E85C429}"
 EndProject
@@ -12,8 +12,6 @@ EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "IdentityServer.Database", "IdentityServer.Database\IdentityServer.Database.sqlproj", "{D64333B6-303D-4825-A232-B12D322C30D4}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1E799C9E-CD30-4494-9FC4-A077BAAB5198}"
-EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Survey.Database", "..\Survey.Database\Survey.Database.sqlproj", "{68E92DBB-7262-46D5-93E7-C1B7A3A823A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +33,6 @@ Global
 		{1E799C9E-CD30-4494-9FC4-A077BAAB5198}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E799C9E-CD30-4494-9FC4-A077BAAB5198}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E799C9E-CD30-4494-9FC4-A077BAAB5198}.Release|Any CPU.Build.0 = Release|Any CPU
-		{68E92DBB-7262-46D5-93E7-C1B7A3A823A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68E92DBB-7262-46D5-93E7-C1B7A3A823A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68E92DBB-7262-46D5-93E7-C1B7A3A823A5}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{68E92DBB-7262-46D5-93E7-C1B7A3A823A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68E92DBB-7262-46D5-93E7-C1B7A3A823A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{68E92DBB-7262-46D5-93E7-C1B7A3A823A5}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,7 +40,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7A96272F-DB06-453E-BA40-9B426E85C429} = {9213BE63-DB0E-4457-9E69-D51A312F7107}
 		{D64333B6-303D-4825-A232-B12D322C30D4} = {127AA04A-24EA-4E19-A402-B3EF9F752F2E}
-		{68E92DBB-7262-46D5-93E7-C1B7A3A823A5} = {127AA04A-24EA-4E19-A402-B3EF9F752F2E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {299DA73E-A338-45E6-88C7-251F71ABD915}

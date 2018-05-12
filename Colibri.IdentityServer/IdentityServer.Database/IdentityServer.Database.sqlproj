@@ -59,17 +59,18 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="AdpNetIdentity" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="__EFMigrationsHistory.sql" />
     <Build Include="Groups.sql" />
-    <Build Include="AspNetRoles.sql" />
-    <Build Include="AspNetUsers.sql" />
-    <Build Include="AspNetUserTokens.sql" />
-    <Build Include="AspNetRoleClaims.sql" />
     <Build Include="ApplicationUserGroups.sql" />
-    <Build Include="AspNetUserClaims.sql" />
-    <Build Include="AspNetUserLogins.sql" />
-    <Build Include="AspNetUserRoles.sql" />
+    <Build Include="AdpNetIdentity\AspNetRoleClaims.sql" />
+    <Build Include="AdpNetIdentity\AspNetRoles.sql" />
+    <Build Include="AdpNetIdentity\AspNetUserClaims.sql" />
+    <Build Include="AdpNetIdentity\AspNetUserLogins.sql" />
+    <Build Include="AdpNetIdentity\AspNetUserRoles.sql" />
+    <Build Include="AdpNetIdentity\AspNetUsers.sql" />
+    <Build Include="AdpNetIdentity\AspNetUserTokens.sql" />
   </ItemGroup>
 </Project>
