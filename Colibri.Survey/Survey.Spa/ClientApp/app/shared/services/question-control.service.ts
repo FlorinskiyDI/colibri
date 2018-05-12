@@ -115,6 +115,7 @@ export class QuestionControlService {
   addTextboxControl(index: number): QuestionBase<any> {
     const id = GUID.getNewGUIDString(); // new guid
     const question = new TextboxQuestion({
+      value: '',
       id: id,
       text: 'default question text for type control "textbox"',
       description: 'some description!',
@@ -129,6 +130,7 @@ export class QuestionControlService {
   addTextareaControl(index: number): QuestionBase<any> {
     const id = GUID.getNewGUIDString(); // new guid
     const question = new TextAreaQuestion({
+      value: '',
       id: id,
       text: 'default question text for type control "textarea"',
       description: 'some description!',

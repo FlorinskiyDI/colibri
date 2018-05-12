@@ -5,6 +5,7 @@
   <div class="header">
     <p *ngIf="form.valid" style="color: green; font-weight: bold"> {{form.valid | json}}</p>
     <p *ngIf="!form.valid" style="color: red; font-weight: bold"> {{form.valid | json}}</p>
+    <pre>{{form.controls[page.id].valid | json}}</pre>
     {{page.id | json}}------------------ {{page | json}} -------------------------------------- {{this.form.value | json}}
     <!-- {{this.form.value | json}} -->
   </div>

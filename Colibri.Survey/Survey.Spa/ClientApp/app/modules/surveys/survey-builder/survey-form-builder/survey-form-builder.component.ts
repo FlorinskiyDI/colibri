@@ -58,14 +58,10 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
             this.questions[data.index] = data.object;
 
             const val = this.form.controls[this.page.id] as FormGroup;
-            val.controls[data.id] = data.control;
-            val.controls[data.id].clearValidators();
-            val.controls[data.id].updateValueAndValidity();
+            // val.controls[data.id] = data.control;
 
             this.setQuestionOption(data.object, true);
-            console.log('datadatadatadatadatadatadatadatadatadatadatadatadatadatadata');
-            console.log(this.form);
-            console.log('datadatadatadatadatadatadatadatadatadatadatadatadatadatadata');
+
         });
         this.questionTransferService.getDropQuestion().subscribe((data: any) => {
             // remove question
@@ -229,7 +225,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
 
 
     ngAfterContentChecked() {
-
+        this.form.updateValueAndValidity();
         this.cdr.detectChanges();
     }
 }
