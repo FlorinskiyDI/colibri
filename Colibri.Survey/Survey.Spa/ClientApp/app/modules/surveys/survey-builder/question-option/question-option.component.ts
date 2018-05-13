@@ -100,7 +100,7 @@ export class QuestionOptionComponent {
 
         const order = this.question.order;
         const id = this.question.id;
-        
+
 
         this.questionTransferService.setDataForChangeQuestion({
             control: answerControl,
@@ -108,7 +108,6 @@ export class QuestionOptionComponent {
             object: this.newquestion,
             id: id,
         });
-        // 
         // this.question = this.newquestion;
         // this.control = answerControl;
     }

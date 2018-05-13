@@ -19,9 +19,7 @@ export class GroupsApiService {
         const baseAccounts = this.restangular.all('api/groups');
 
         // This will query /accounts and return a observable.
-        baseAccounts.getList().subscribe((data: any) => {
-            console.log(data);
-        });
+        return baseAccounts.getList();
         // const value = this.restangular.one(this.apiServer).getList('api/groups');
         // return value;
     }
