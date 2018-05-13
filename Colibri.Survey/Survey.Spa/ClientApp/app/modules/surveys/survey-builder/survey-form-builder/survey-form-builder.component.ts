@@ -46,19 +46,19 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
 
     ) {
         this.questionTransferService.getDataForChangeQuestion().subscribe((data: any) => {
-    
 
-            debugger
+            this.form.controls[this.page.id].updateValueAndValidity();
+
             // this.questions.forEach(function (item: any, i: number) {
             //     if (i === data.index) {
             //         item = data.object;
             //     }
             // });
-            data.object.id = this.questions[data.index].id;
-            this.questions[data.index] = data.object;
+            // data.object.id = this.questions[data.index].id;
+            // this.questions[data.index] = data.object;
 
             const val = this.form.controls[this.page.id] as FormGroup;
-            // val.controls[data.id] = data.control;
+            val.controls[data.id] = data.control;
 
             this.setQuestionOption(data.object, true);
 
