@@ -58,10 +58,14 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
             // this.questions[data.index] = data.object;
 
             const val = this.form.controls[this.page.id] as FormGroup;
-            val.controls[data.id] = data.control;
+            this.form.controls[this.page.id].updateValueAndValidity();
+            // 
 
-            this.setQuestionOption(data.object, true);
-
+            // this.setQuestionOption(data.object, true);
+            // val.controls[data.id] = data.control;
+            // val.removeControl(data.id);
+            // val.controls = data.control;
+            debugger
         });
         this.questionTransferService.getDropQuestion().subscribe((data: any) => {
             // remove question
