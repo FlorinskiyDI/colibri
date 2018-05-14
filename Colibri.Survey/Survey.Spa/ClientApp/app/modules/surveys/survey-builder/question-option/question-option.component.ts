@@ -93,10 +93,12 @@ export class QuestionOptionComponent {
         const group: any = {};
         this.getQuestionByType(event.value, this.question.order);
         this.newquestion.id = this.question.id;
-        this.questionService.addTypeAnswer(this.newquestion, group);
+
+        debugger
+        const contrl = this.questionService.addTypeAnswer(this.newquestion, group);
         debugger
         this.questionTransferService.setDataForChangeQuestion({
-            control: group,
+            control: contrl,
             object: this.newquestion
         });
     }
