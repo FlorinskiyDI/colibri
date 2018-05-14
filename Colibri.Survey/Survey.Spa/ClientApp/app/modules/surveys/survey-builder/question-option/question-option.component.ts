@@ -90,27 +90,15 @@ export class QuestionOptionComponent {
 
     changeQuestion(event: any) {
 
-
-
         const group: any = {};
-
         this.getQuestionByType(event.value, this.question.order);
-        const answerControl = this.questionService.addTypeAnswer(this.newquestion, group);
-
-
-        const order = this.question.order;
-        const id = this.question.id;
-
-
+        this.newquestion.id = this.question.id;
+        this.questionService.addTypeAnswer(this.newquestion, group);
+        debugger
         this.questionTransferService.setDataForChangeQuestion({
-            control: answerControl,
-            index: order,
-            object: this.newquestion,
-            id: id,
+            control: group,
+            object: this.newquestion
         });
-        //
-        // this.question = this.newquestion;
-        // this.control = answerControl;
     }
 
     ngOnInit() {
@@ -145,7 +133,7 @@ export class QuestionOptionComponent {
             }
             default: {
                 if (state) {
-                    
+
                     this.questionControl.controls['answer'].setValidators(Validators.required);
                     this.questionControl.controls['answer'].updateValueAndValidity();
                 } else {
@@ -178,6 +166,7 @@ export class QuestionOptionComponent {
 
 
     getQuestionByType(value: any, index: any) {
+        this.newquestion = {};
         switch (value) {
             case ControTypes.textbox: {
                 this.newquestion = this.questionService.addTextboxControl(index);

@@ -47,22 +47,38 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
     ) {
         this.questionTransferService.getDataForChangeQuestion().subscribe((data: any) => {
 
-            this.form.controls[this.page.id].updateValueAndValidity();
+            // this.form.controls[this.page.id].updateValueAndValidity();
 
-            // this.questions.forEach(function (item: any, i: number) {
-            //     if (i === data.index) {
+            // this.page.questions.forEach(function (item: any, i: number) {
+            //     if (item.id === data.object.id) {
             //         item = data.object;
             //     }
             // });
-            // data.object.id = this.questions[data.index].id;
-            // this.questions[data.index] = data.object;
 
-            const val = this.form.controls[this.page.id] as FormGroup;
-            this.form.controls[this.page.id].updateValueAndValidity();
+            // data.object.id = this.questions[data.index].id;
+            debugger
+            this.page.questions[data.object.order] = data.object;
+
+            // const val = this.form.controls[this.page.id] as FormGroup;
+            // val.controls[data.object.order] = data.control;
+
+
+            this.questionTransferService.setQuestionOption(
+                {
+                    question: this.page.questions[data.object.order],
+                    control: this.form.get(this.page.id).get(data.object.id)
+                }
+            );
             // 
 
-            // this.setQuestionOption(data.object, true);
-            // val.controls[data.id] = data.control;
+            // this.setQuestionOption(this.page.questions[data.object.order], true);
+            debugger
+            this.form.controls[this.page.id].get(data.object.id).get('answer').clearValidators();
+            this.form.controls[this.page.id].get(data.object.id).get('answer').updateValueAndValidity();
+            this.form.controls[this.page.id].updateValueAndValidity();
+            this.form.updateValueAndValidity();
+            // val.controls[data.object.order] = data.control;
+            // this.form.controls[this.page.id].updateValueAndValidity();
             // val.removeControl(data.id);
             // val.controls = data.control;
             debugger

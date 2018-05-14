@@ -74,18 +74,6 @@ export class SurveyBuilderComponent {
         public questionService: QuestionService,
         public questionControlService: QuestionControlService
     ) {
-        this.questionTransferService.getDataForChangeQuestion().subscribe((data: any) => {
-
-
-            data.object.id = this.survey.pages[0].questions[data.index].id;
-            this.survey.pages[0].questions[data.index] = data.object;
-
-
-        });
-
-
-
-
         this.questionTransferService.getIdByNewPage().subscribe((id: any) => {
             const page = new PageModel({
                 id: id,

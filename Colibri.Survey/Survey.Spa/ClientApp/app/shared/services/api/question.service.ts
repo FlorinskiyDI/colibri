@@ -145,8 +145,18 @@ export class QuestionService {
         text: 'First name (change data)',
         description: 'some description (change data)',
         value: '',
-        required: true,
+        required: false,
         order: 0,
+        isAdditionalAnswer: true
+      }),
+      new TextboxQuestion({
+        //  controlType: 'textbox', // same as in control-type.constant.ts
+        id: 'id_firstName22',
+        text: 'First name (change data22)',
+        description: 'some description (change data22)',
+        value: '',
+        required: true,
+        order: 1,
         isAdditionalAnswer: true
       })
     ];
