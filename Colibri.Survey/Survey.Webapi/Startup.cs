@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using IdentityServer4.AccessTokenValidation;
-using Microsoft.AspNetCore.Authorization;
+﻿using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Survey.DomainModelLayer.Entities;
 using Survey.InfrastructureLayer.Context;
+using AutoMapper;
+using Survey.ApplicationLayer.Configurations;
+using Survey.InfrastructureLayer.Configurations;
+using Survey.Webapi.Configurations;
 
 namespace Survey.Webapi
 {
@@ -33,43 +29,43 @@ namespace Survey.Webapi
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-
-
-            services.AddMvcCore()
-                .AddAuthorization()
-                .AddJsonFormatters();
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //     .AddDefaultTokenProviders();
 
             //services.AddMvc(config =>
             //{
             //    //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             //    //config.Filters.Add(new AuthorizeFilter(policy));
             //})
+            services.AddInfrastructureDependencies();
+            services.AddApplicationDependencies();
 
-            //.AddControllersAsServices()
+            services.AddMvcCore()
+                .AddAuthorization()
+                .AddJsonFormatters(); 
+
             services.AddMvc()
-            .AddJsonOptions(options =>
-            {
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
 
             services.AddCors();
-            //services.AddAuthorization();
+
             var authority = Configuration["IdentityServer:Url"];
             var apiName = Configuration["IdentityServer:ApiResource:ApiName"];
             var apiSecret = Configuration["IdentityServer:ApiResource:ApiSecret"];
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                 .AddIdentityServerAuthentication(options =>
-                 {
-                     options.Authority = authority;
-                     options.ApiName = apiName;
-                     options.ApiSecret = apiSecret;
-                     options.RequireHttpsMetadata = false;
-                 });
+                .AddIdentityServerAuthentication(options =>
+                { 
+                    options.Authority = authority;
+                    options.ApiName = apiName;
+                    options.ApiSecret = apiSecret;
+                    options.RequireHttpsMetadata = false;
+                });
 
-            //services.AddIdentity<ApplicationUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //     .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,6 +99,10 @@ namespace Survey.Webapi
 
             
             app.UseAuthentication();
+
+            //app.UseContextMiddleware();
+            app.UseProfileMiddleware();
+
             app.UseMvc(routes =>
             {
                 routes

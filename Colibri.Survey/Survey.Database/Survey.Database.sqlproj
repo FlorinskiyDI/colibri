@@ -64,10 +64,10 @@
     <Build Include="Question_Options.sql" />
     <Build Include="Questions.sql" />
     <Build Include="Answers.sql" />
+    <Build Include="Pages.sql" />
     <Build Include="InputTypes.sql" />
     <Build Include="OptionChoises.sql" />
     <Build Include="OptionGroups.sql" />
-    <Build Include="Pages.sql" />
     <Build Include="SurveySections.sql" />
   </ItemGroup>
 </Project>

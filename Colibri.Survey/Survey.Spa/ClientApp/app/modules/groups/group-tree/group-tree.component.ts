@@ -3,10 +3,10 @@ import { TreeDragDropService } from 'primeng/components/common/api';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 
-/* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 /* service-transfer */ import { GroupManageTransferService } from '../group-manage/group-manage.transfer.service';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
-
+/* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
+/* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
 
 @Component({
     selector: 'group-tree-cmp',
@@ -32,14 +32,6 @@ export class GroupTreeComponent {
         private groupManageTransferService: GroupManageTransferService,
         private groupsApiService: GroupsApiService,
     ) {
-        // const that = this;
-        // this._stub1().then(function (data: any) {
-        //     that.treeItems = data;
-        //     that.treeloading = false;
-        //     that.selectedGroup = data[0];
-        //     that.groupManageTransferService.sendSelectedGroupId(data[0].data.id);
-        // });
-
         this._requestGetGroups();
     }
 
@@ -51,10 +43,16 @@ export class GroupTreeComponent {
             message: 'Are you sure that you want to remove this group?',
             accept: () => {
                 that.selectedGroup = null;
-                this._stub1().then(function (value: any) {
-                    that.treeItems = value;
-                    that.treeloading = false;
-                    that.selectedGroup = value[0];
+                this.groupsApiService.getAll().subscribe((response: Array<GroupApiModel>) => {
+                    this.treeItems = response.map((item: GroupApiModel) => {
+                        return {
+                            'label': item.name,
+                            'data': { 'id': item.id },
+                            'leaf': item.parentId ? true : false
+                        };
+                    });
+                    this.treeloading = false;
+                    this.selectedGroup = this.treeItems[0];
                 });
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was removed successfully' });
             }
@@ -91,22 +89,32 @@ export class GroupTreeComponent {
 
 
     _requestGetGroups() {
-        this.groupsApiService.getAll();
-        // this.groupsApiService.getAll().subscribe((data: any) => {
-
-        //     console.log(data);
-        //     this.treeItems = data;
-        //     this.treeloading = false;
-        //     this.selectedGroup = data[0];
-        //     this.groupManageTransferService.sendSelectedGroupId(data[0].data.id);
-        // });
+        this.groupsApiService.getAll().subscribe((data: Array<GroupApiModel>) => {
+            this.treeItems = data.map((item: GroupApiModel) => {
+                return {
+                    'label': item.name,
+                    'data': { 'id': item.id },
+                    'leaf': item.parentId ? true : false
+                };
+            });
+            this.treeloading = false;
+            this.selectedGroup = this.treeItems[0];
+            this.groupManageTransferService.sendSelectedGroupId(data[0].id);
+        });
     }
 
     loadNode(event: any) {
         this.treeloading = true;
         const that = this;
-        this._stub1().then(function (value: any) {
-            event.node.children = value;
+
+        this.groupsApiService.getAll().subscribe((data: Array<GroupApiModel>) => {
+            event.node.children = data.map((item: GroupApiModel) => {
+                return {
+                    'label': item.name,
+                    'data': { 'id': item.id },
+                    'leaf': item.parentId ? true : false
+                };
+            });
             that.treeloading = false;
         });
     }

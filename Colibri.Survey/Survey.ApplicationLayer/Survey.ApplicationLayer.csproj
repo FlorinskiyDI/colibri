@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
   </ItemGroup>
@@ -12,6 +13,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Survey.DomainModelLayer\Survey.DomainModelLayer.csproj" />
     <ProjectReference Include="..\Survey.InfrastructureLayer\Survey.InfrastructureLayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dtos\Entities\" />
+    <Folder Include="Mapper\" />
   </ItemGroup>
 
 </Project>
