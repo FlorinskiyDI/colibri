@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Survey.Common\Survey.Common.csproj" />
+    <ProjectReference Include="..\storagecore.EntityFrameworkCore\storagecore.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Survey.DomainModelLayer\Survey.DomainModelLayer.csproj" />
   </ItemGroup>
 

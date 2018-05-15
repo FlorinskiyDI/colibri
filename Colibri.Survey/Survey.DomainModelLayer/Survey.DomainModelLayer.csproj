@@ -12,4 +12,8 @@
     <Folder Include="Entities\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\storagecore.Abstractions\storagecore.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>
