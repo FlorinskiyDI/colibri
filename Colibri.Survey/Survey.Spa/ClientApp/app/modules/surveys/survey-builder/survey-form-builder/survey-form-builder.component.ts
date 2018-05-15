@@ -60,9 +60,10 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
             this.questions[data.object.order] = data.object;
 
             const val = this.form.controls[this.page.id] as FormGroup;
-            val.controls[data.object.id] = data.control;
+            val.setControl(data.object.id, data.control);
+            // val.controls[data.object.id] = data.control;
 
-
+            debugger
 
             this.questionTransferService.setQuestionOption(
                 {
@@ -76,12 +77,11 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
 
             this.form.controls[this.page.id].get(data.object.id).get('answer').clearValidators();
             this.form.controls[this.page.id].get(data.object.id).get('answer').updateValueAndValidity();
-            // this.form.controls[this.page.id].updateValueAndValidity();
-            // this.form.updateValueAndValidity();
+            this.form.controls[this.page.id].updateValueAndValidity();
+            this.form.updateValueAndValidity();
             // val.controls[data.object.order] = data.control;
             // this.form.controls[this.page.id].updateValueAndValidity();
-            // val.removeControl(data.id);
-            // val.controls = data.control;
+
 
 
             
