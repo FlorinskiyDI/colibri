@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, EventEmitter, Output, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ControTypes } from 'shared/constants/control-types.constant';
 
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
@@ -38,7 +38,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
     CheckedOptQuestion: string;
 
     constructor(
-        private fb: FormBuilder,
+        // private fb: FormBuilder,
         private cdr: ChangeDetectorRef,
         private questionTransferService: QuestionTransferService,
         // private qcs: QuestionControlService,
@@ -46,7 +46,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
 
     ) {
         this.questionTransferService.getDataForChangeQuestion().subscribe((data: any) => {
- 
+
             // this.form.controls[this.page.id].updateValueAndValidity();
 
             // this.page.questions.forEach(function (item: any, i: number) {
@@ -62,9 +62,6 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
             const val = this.form.controls[this.page.id] as FormGroup;
             val.setControl(data.object.id, data.control);
             // val.controls[data.object.id] = data.control;
-
-            debugger
-
             this.questionTransferService.setQuestionOption(
                 {
                     question: this.questions[data.object.order],
@@ -84,7 +81,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
 
 
 
-            
+
         });
         this.questionTransferService.getDropQuestion().subscribe((data: any) => {
             // remove question
