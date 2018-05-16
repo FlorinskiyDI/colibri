@@ -21,7 +21,7 @@ namespace storagecore.EntityFrameworkCore
 
         private static void RegisterStorageCoreDataAccess<TEntityContext>(IServiceCollection services) where TEntityContext : DbContext, IEntityContext
         {
-            services.TryAddSingleton<IUowProvider, UowProvider>();
+            services.TryAddScoped<IUowProvider, UowProvider>();
             services.TryAddTransient<IEntityContext, TEntityContext>();
             
             services.TryAddTransient(typeof(IBaseRepository<,>), typeof(GenericRepository<,>));

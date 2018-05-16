@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "helpers", "helpers", "{4BAF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "storagecore.Abstractions", "..\storagecore.Abstractions\storagecore.Abstractions.csproj", "{4EDA55AE-3C0D-4162-B3B1-90EDFB11F3B6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "storagecore.EntityFrameworkCore", "storagecore.EntityFrameworkCore\storagecore.EntityFrameworkCore.csproj", "{FB6785E5-068C-4209-A250-9436639EDC3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{4EDA55AE-3C0D-4162-B3B1-90EDFB11F3B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EDA55AE-3C0D-4162-B3B1-90EDFB11F3B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EDA55AE-3C0D-4162-B3B1-90EDFB11F3B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB6785E5-068C-4209-A250-9436639EDC3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB6785E5-068C-4209-A250-9436639EDC3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB6785E5-068C-4209-A250-9436639EDC3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB6785E5-068C-4209-A250-9436639EDC3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +90,7 @@ Global
 		{304FEE65-1A05-431F-A491-39ED89BC0E79} = {4A994818-ABF5-434E-B4B4-3CF851BE121C}
 		{6249C359-7B3E-4E60-A0F3-B167E3957CA8} = {4A994818-ABF5-434E-B4B4-3CF851BE121C}
 		{4EDA55AE-3C0D-4162-B3B1-90EDFB11F3B6} = {4BAFF472-4D4B-472F-B438-90EC7DFE2352}
+		{FB6785E5-068C-4209-A250-9436639EDC3F} = {4BAFF472-4D4B-472F-B438-90EC7DFE2352}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B7EAE38F-19DC-48B2-A9DF-4C9A4A791009}
