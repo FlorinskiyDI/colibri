@@ -30,9 +30,11 @@ namespace Survey.ApplicationLayer.Services
             return list;
         }
 
-        public Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId)
+        public async Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId)
         {
-            throw new NotImplementedException();
+            var result = await _groupRequestService.GetSubGroupList(groupId);
+            var list = Mapper.Map<IEnumerable<Groups>, IEnumerable<GroupDto>>(result);
+            return list;
         }
     }
 }

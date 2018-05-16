@@ -7,13 +7,13 @@ import { Routes, RouterModule } from '@angular/router';
 /* component */ import { LoginComponent } from './core/login/login.component';
 /* component */ import { UserManagementComponent } from './user-management/user-management.component';
 
-// /* guard */ import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
-// /* guard */ import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
+/* guard */ import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
+/* guard */ import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
 
 const appRoutes: Routes = [
     {
         path: '', component: LayoutComponent,
-        // canActivate: [HasAdminRoleAuthenticationGuard],
+        canActivate: [HasAdminRoleAuthenticationGuard],
         data: { breadcrumb: 'Layout' },
         children: [
             {
@@ -40,8 +40,8 @@ const appRoutes: Routes = [
     { path: 'uihome', component: HomeComponent },
     {
         path: 'usermanagement', component: UserManagementComponent,
-        // canActivate: [HasAdminRoleAuthenticationGuard],
-        // canLoad: [HasAdminRoleCanLoadGuard]
+        canActivate: [HasAdminRoleAuthenticationGuard],
+        canLoad: [HasAdminRoleCanLoadGuard]
     },
     { path: 'Forbidden', component: ForbiddenComponent },
     { path: 'Unauthorized', component: UnauthorizedComponent }

@@ -16,11 +16,12 @@ export class GroupsApiService {
     }
 
     getAll() {
-        const baseAccounts = this.restangular.all('api/groups');
+        const result = this.restangular.all('api/groups');
+        return result.getList();
+    }
 
-        // This will query /accounts and return a observable.
-        return baseAccounts.getList();
-        // const value = this.restangular.one(this.apiServer).getList('api/groups');
-        // return value;
+    getSubGroups(groupId: string) {
+        const result = this.restangular.all('api/groups/' + groupId + '/subgroups');
+        return result.getList();
     }
 }

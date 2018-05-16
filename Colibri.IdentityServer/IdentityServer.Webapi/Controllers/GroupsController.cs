@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer.Webapi.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -25,8 +26,9 @@ namespace IdentityServer.Webapi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetGroups()
         {
-            var user = HttpContext.User;
-            var list = await _groupRepository.GetAllAsync();
+            var claims = this.HttpContext.User.Claims;
+            var userId = claims.First(c => c.Type == "sub").Value;
+            var list = await _groupRepository.GetAllAsync(userId);
             return Ok(list);
         }
 
@@ -34,8 +36,9 @@ namespace IdentityServer.Webapi.Controllers
         [Route("{id}/subgroups")]
         public async Task<IActionResult> GetSubGroups(Guid id)
         {
-            var user = HttpContext.User;
-            var list = await _groupRepository.GetSubGroupsAsync(id);
+            var claims = this.HttpContext.User.Claims;
+            var userId = claims.First(c => c.Type == "sub").Value;
+            var list = await _groupRepository.GetSubGroupsAsync(id, userId);
             return Ok(list);
         }
 

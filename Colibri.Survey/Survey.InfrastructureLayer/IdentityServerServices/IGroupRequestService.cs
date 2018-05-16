@@ -9,5 +9,6 @@ namespace Survey.InfrastructureLayer.IdentityServices
     public interface IGroupRequestService
     {
         Task<IEnumerable<Groups>> GetGroupList();
+        Task<IEnumerable<Groups>> GetSubGroupList(Guid groupId);
     }
 }

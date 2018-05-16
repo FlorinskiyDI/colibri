@@ -11,21 +11,23 @@ namespace IdentityServer.Webapi.Repositories
     public class GroupRepository: IGroupRepository
     {
         
-        public async Task<IEnumerable<Groups>> GetAllAsync()
+        public async Task<IEnumerable<Groups>> GetAllAsync(string userId)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                return await ctx.Set<Groups>().ToListAsync();
+                return await ctx.Set<ApplicationUserGroups>()
+                    .Where(c => c.UserId == userId).Select(c => c.Group)
+                    .Where(c =>c.ParentId == null).ToListAsync();
             }
         }
 
-        public async Task<IEnumerable<Groups>> GetSubGroupsAsync(Guid id)
+        public async Task<IEnumerable<Groups>> GetSubGroupsAsync(Guid groupId, string userId)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                return await ctx.Set<Groups>()
-                    .Where(i => i.ParentId == id)
-                    .ToArrayAsync();
+                return await ctx.Set<ApplicationUserGroups>()
+                .Where(c => c.UserId == userId).Select(c => c.Group)
+                .Where(c => c.ParentId == groupId).ToListAsync();
             }
         }
 

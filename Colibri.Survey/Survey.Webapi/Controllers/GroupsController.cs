@@ -38,10 +38,18 @@ namespace Survey.Webapi.Controllers
 
         // GET: api/groups
         [HttpGet]
-        public async Task<IActionResult> GetListGroups()
+        public async Task<IActionResult> GetGroupList()
         {
-
             var result = await _groupService.GetGroupList();
+            return Ok(result);
+        }
+
+        // GET: api/groups/1/subgroups
+        [HttpGet]
+        [Route("{id}/subgroups")]
+        public async Task<IActionResult> GetSubGroupList(Guid id)
+        {
+            var result = await _groupService.GetSubGroupList(id);
             return Ok(result);
         }
     }
