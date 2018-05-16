@@ -47,6 +47,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 /* module-ngx-bootstrap */ import { TabsModule } from 'ngx-bootstrap/tabs';
 /* module-ngx-bootstrap */ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
+
+/* service-api */ import { SurveysApiService } from 'shared/services/api/surveys.api.service';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* service-api */ import { UsersApiService } from 'shared/services/api/users.api.service';
 
@@ -110,6 +112,7 @@ export class SharedModule {
             providers: [
                 TranslateStore,
                 GroupsApiService,
+                SurveysApiService,
                 UsersApiService
             ]
         };

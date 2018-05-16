@@ -8,12 +8,14 @@ import { SurveyModel } from '../../../shared/models/form-builder/survey.model';
 
 import { PageModel } from '../../../shared/models/form-builder/page.model';
 
+import { SurveysApiService } from '../../../shared/services/api/surveys.api.service';
 import { QuestionService } from '../../../shared/services/api/question.service';
 import { QuestionControlService } from '../../../shared/services/question-control.service';
 
 import { QuestionTransferService } from '../../../shared/transfers/question-transfer.service';
 import { QuestionBase } from 'shared/models/form-builder/question-base.model';
 // import { PageModel } from 'shared/models/form-builder/page.model';
+
 
 @Component({
     selector: 'survey-builder-cmp',
@@ -70,6 +72,7 @@ export class SurveyBuilderComponent {
 
 
     constructor(
+        private surveysApiService: SurveysApiService,
         private questionTransferService: QuestionTransferService,
         public questionService: QuestionService,
         public questionControlService: QuestionControlService
@@ -177,6 +180,11 @@ export class SurveyBuilderComponent {
         this.questionTransferService.setDropQuestion(question);
     }
 
+
+    getTestAnswer() {
+        const data = this.surveysApiService.getAll();
+        console.log(data);
+    }
 
     onDragEnd8(event: any, data: any) {
         console.log('88888888888888888888899999999999999999999999');

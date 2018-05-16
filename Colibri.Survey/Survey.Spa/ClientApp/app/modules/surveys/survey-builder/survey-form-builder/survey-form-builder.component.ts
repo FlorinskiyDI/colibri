@@ -242,6 +242,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
     onSubmit() {
         this.payLoad = this.form.value;
         this.temporaryAnser.emit(this.payLoad);
+
     }
 
 
