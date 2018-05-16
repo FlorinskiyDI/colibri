@@ -26,8 +26,8 @@ namespace Survey.Webapi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //services.AddIdentity<ApplicationUser, IdentityRole>()
             //    .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -38,7 +38,7 @@ namespace Survey.Webapi
             //    //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             //    //config.Filters.Add(new AuthorizeFilter(policy));
             //})
-            services.AddInfrastructureDependencies();
+            services.AddInfrastructureDependencies(Configuration.GetConnectionString("DefaultConnection"));
             services.AddApplicationDependencies();
 
             services.AddMvcCore()

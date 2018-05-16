@@ -1,6 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using storagecore.EntityFrameworkCore;
+using Survey.DomainModelLayer.Contracts.Repositories;
+using Survey.InfrastructureLayer.Context;
 using Survey.InfrastructureLayer.IdentityServices;
+using Survey.InfrastructureLayer.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,22 +14,33 @@ namespace Survey.InfrastructureLayer.Configurations
 {
     public static class ServiceProviderExtensions
     {
-        public static IServiceCollection AddInfrastructureDependencies(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructureDependencies(this IServiceCollection services, string connectionString)
         {
-            return services
-                .AddServices()
-                .AddRepositories();
+
+            AddDataAccess(services, connectionString);
+            AddServices(services);
+            AddRepositories(services);
+            return services;
         }
-        public static IServiceCollection AddServices(this IServiceCollection services)
+
+        private static void AddServices(IServiceCollection services)
         {
             services.AddScoped<IGroupRequestService, GroupRequestService>();
             services.AddScoped<IUserRequestService, UserRequestService>();
-            return services;
+
         }
-        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        private static void AddRepositories(IServiceCollection services)
         {
-            return services;
+            services.AddScoped<ISurveySectionRepository, SurveySectionRepository>();
         }
-       
+        private static void AddDataAccess(IServiceCollection services, string connectionString)
+        {
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Survey.InfrastructureLayer")));
+            services.AddStorageCoreDataAccess<ApplicationDbContext>();
+        }
     }
 }

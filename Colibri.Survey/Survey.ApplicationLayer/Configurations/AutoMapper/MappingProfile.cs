@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Survey.ApplicationLayer.Dtos.Entities;
+using Survey.DomainModelLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,6 +20,7 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
         {
             // models
             // entities
+            CreateMap<SurveySectionDto, SurveySections>();
         }
         private void DtoToEntity()
         {

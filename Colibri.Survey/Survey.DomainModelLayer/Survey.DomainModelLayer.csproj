@@ -9,11 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\storagecore.Abstractions\storagecore.Abstractions.csproj" />
+    <ProjectReference Include="..\storagecore.EntityFrameworkCore\storagecore.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>

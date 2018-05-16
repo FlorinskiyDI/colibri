@@ -20,7 +20,8 @@ namespace Survey.ApplicationLayer.Configurations
         }
 
         public static IServiceCollection AddServices(this IServiceCollection services)
-        {            
+        {
+            services.AddScoped<ISurveySectionService, SurveySectionService>();
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<IUserService, UserService>();
             return services;
