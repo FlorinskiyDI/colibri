@@ -85,7 +85,9 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         });
         this.questionTransferService.getDropQuestion().subscribe((data: any) => {
             // remove question
-            this.form.removeControl(data.id);
+            console.log('11111111111111111111222222222222222222233333333333333333333444444444444444444444');
+            const questionList = this.form.controls[this.page.id]  as FormGroup;
+            questionList.removeControl(data.id);
             this.sortQuestionByIndex();
         });
         this.questionTransferService.getDropQuestionId().subscribe((data: any) => { // check drag control if lost focus without need area

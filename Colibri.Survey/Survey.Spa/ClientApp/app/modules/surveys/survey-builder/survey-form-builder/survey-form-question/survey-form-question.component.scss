@@ -14,6 +14,49 @@
 
     .form-viewr-controls {
         padding: 20px;
+
+
+        .d-control-wrap {
+            margin: 0px 0px 10px 0px;
+
+            .d-text-control {
+                height: 23px;
+                width: 40%;
+                font-size: 12px;
+                border: 1px solid #a9a9a9;
+                padding: 5px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                color: #000;
+            }
+            .d-textarea-control {
+                // height: 23px;
+                width: 40%;
+                max-width: 100%;
+                font-size: 12px;
+                border: 1px solid #a9a9a9;
+                padding: 5px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                color: #000;
+            }
+        }
+
+        .d-additional-control {
+            .d-input-other {
+                height: 23px;
+                width: 40%;
+                font-size: 12px;
+                border: 1px solid #a9a9a9;
+                padding: 5px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                color: #000;
+            }
+        }
+
+      
+
     }
 
 

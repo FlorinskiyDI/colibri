@@ -173,6 +173,7 @@ export class SurveyBuilderComponent {
 
 
     removeDragQuestion(question: any) {
+        console.log('remove control remove control remove control remove control remove control remove control remove control');
         this.questionTransferService.setDropQuestion(question);
     }
 

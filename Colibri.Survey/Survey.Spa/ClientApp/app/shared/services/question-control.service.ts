@@ -190,8 +190,8 @@ export class QuestionControlService {
       text: 'default question text for type control "dropdown"',
       description: 'some description!',
       options: [
-        new ControlOptionModel(GUID.getNewGUIDString(), '', 'dropdown value 1', 0),
-        new ControlOptionModel(GUID.getNewGUIDString(), '', 'dropdown value 2', 1)
+        new ControlOptionModel(GUID.getNewGUIDString(), '1111', 'dropdown value 1', 0),
+        new ControlOptionModel(GUID.getNewGUIDString(), '2222', 'dropdown value 2', 1)
       ],
       order: index,
       required: false,

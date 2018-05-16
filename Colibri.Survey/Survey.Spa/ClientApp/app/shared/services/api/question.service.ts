@@ -139,26 +139,42 @@ export class QuestionService {
     const questions: QuestionBase<any>[] = [
 
 
-      new TextboxQuestion({
-        //  controlType: 'textbox', // same as in control-type.constant.ts
-        id: 'id_firstName11',
-        text: 'First name (change data)',
-        description: 'some description (change data)',
-        value: '',
-        required: false,
-        order: 0,
-        isAdditionalAnswer: true
-      }),
+      // new TextboxQuestion({
+      //   //  controlType: 'textbox', // same as in control-type.constant.ts
+      //   id: 'id_firstName11',
+      //   text: 'First name (change data)',
+      //   description: 'some description (change data)',
+      //   value: '',
+      //   required: false,
+      //   order: 0,
+      //   isAdditionalAnswer: true
+      // }),
       new TextboxQuestion({
         //  controlType: 'textbox', // same as in control-type.constant.ts
         id: 'id_firstName22',
         text: 'First name (change data22)',
         description: 'some description (change data22)',
         value: '',
-        required: true,
+        required: false,
+        order: 0,
+        isAdditionalAnswer: true
+      }),
+      new DropdownQuestion({
+        // controlType: 'dropdown', // same as in control-type.constant.ts
+        id: 'id_brave', // unique value
+        text: 'Bravery Rating (text)',
+        description: 'some description',
+        options: [
+          { id: 'id_solid', label: '11', value: 'Solid', order: 1 },
+          { id: 'id_great', label: '22', value: 'Great', order: 2 },
+          { id: 'id_good', label: '33', value: 'Good', order: 3 },
+          { id: 'id_unproven', label: '44', value: 'Unproven', order: 4 }
+        ],
         order: 1,
+        required: true,
         isAdditionalAnswer: true
       })
+
     ];
     const questions2: QuestionBase<any>[] = [
 
