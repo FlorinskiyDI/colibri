@@ -9,6 +9,6 @@ namespace Survey.ApplicationLayer.Dtos.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public ICollection<PageModel> Pages { get; set; }
+        public IEnumerable<PageModel> Pages { get; set; }
     }
 }

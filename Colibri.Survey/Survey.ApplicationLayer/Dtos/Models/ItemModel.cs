@@ -6,7 +6,7 @@ namespace Survey.ApplicationLayer.Dtos.Models
 {
     public class ItemModel
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string Label { get; set; }
         public string Value { get; set; }
         public string Order { get; set; }

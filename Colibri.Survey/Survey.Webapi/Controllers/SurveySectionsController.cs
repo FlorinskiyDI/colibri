@@ -5,8 +5,11 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Survey.ApplicationLayer.Dtos.Entities;
 using Survey.ApplicationLayer.Dtos.Models;
+using Survey.ApplicationLayer.Dtos.Models.Questions;
+using Survey.ApplicationLayer.Services;
 using Survey.ApplicationLayer.Services.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -39,8 +42,13 @@ namespace Survey.Webapi.Controllers
 
         [HttpPost]
         [Produces("application/json")]
-        public  IActionResult GetSurvet( [FromBody] SurveyModel survey)
+        public  IActionResult SaveSurvet( [FromBody] SurveyModel survey)
         {
+            QuestionService questionService = new QuestionService();
+            
+            List<BaseQuestionModel> questionList = new List<BaseQuestionModel>();
+            questionList = questionService.GetTypedQuestionList(survey);
+           
             return null;
         }
         

@@ -24,6 +24,7 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
         }
         private void DtoToEntity()
         {
+            CreateMap<SurveySections, SurveySectionDto>();
             // models
             // entities
             //CreateMap<PersonalClaimDto, PersonalClaim>();

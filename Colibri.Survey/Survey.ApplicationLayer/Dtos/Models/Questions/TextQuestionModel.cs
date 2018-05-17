@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Survey.ApplicationLayer.Dtos.Models.Questions
 {
-    public class TextQuestionModel 
+    public class TextQuestionModel : BaseQuestionModel
     {
     }
 }

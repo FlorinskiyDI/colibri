@@ -278,35 +278,46 @@ export class QuestionService {
 
     const survey: SurveyModel = {
       //  controlType: 'textbox', // same as in control-type.constant.ts
-      id: 'id_survey1',
+      id: 'fbd8800b-93ee-4707-b527-83feb23fb005',
       name: 'survey name 1',
       description: 'First name (change data)',
       pages: [
         new PageModel(
           {
-            id: 'id_page1',
+            id: 'fbd8800b-93ee-4706-b527-83feb23fb001',
             name: 'page name 1',
             description: 'page 1 description (change data)',
             order: 1,
-            questions: questions
+            questions: [
+              new TextboxQuestion({
+                // controlType: 'textbox', // same as in control-type.constant.ts
+                id: 'fbd8800b-93ee-4706-b527-83feb23fb005',
+                text: 'First name (change data22)',
+                description: 'some description (change data22)',
+                value: '',
+                required: false,
+                order: 0,
+                isAdditionalAnswer: true
+              }),
+            ]
           }
         ),
         new PageModel(
           {
-            id: 'id_page2',
+            id: 'fbd8800b-934e-4706-b527-83feb23fb005',
             name: 'page name 2111111111111111111',
             description: 'page 2 description (change data)111111111111111111',
             order: 2,
-            questions: questions2
+            questions: null
           }
         ),
         new PageModel(
           {
-            id: 'id_page3',
+            id: 'fbd8800b-93ee-4706-b527-83feb23fb005',
             name: 'page name 3',
             description: 'page 3 description',
             order: 3,
-            questions: []
+            questions: null
           }
         ),
       ]

@@ -1,8 +1,9 @@
+// The first letter To UpperCase as enum on back-end (required)
 export class ControTypes {
-    public static checkbox = 'checkbox';
-    public static textarea = 'textarea';
-    public static textbox = 'textbox';
-    public static radio = 'radio';
-    public static gridRadio = 'gridRadio';
-    public static dropdown = 'dropdown';
+    public static checkbox = 'Dheckbox';
+    public static textarea = 'Textarea';
+    public static textbox = 'Textbox';
+    public static radio = 'Radio';
+    public static gridRadio = 'GridRadio';
+    public static dropdown = 'Dropdown';
 }

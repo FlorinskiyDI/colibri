@@ -8,7 +8,7 @@ namespace Survey.Common.Enums
     {
 
         Checkbox,
-        Ttextarea,
+        Textarea,
         Textbox,
         Radio,
         GridRadio,

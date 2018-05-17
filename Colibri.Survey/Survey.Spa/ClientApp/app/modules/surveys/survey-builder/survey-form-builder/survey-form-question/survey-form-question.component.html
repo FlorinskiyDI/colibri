@@ -15,7 +15,7 @@
             </div>
 
             <div [formGroupName]="pageId" [ngSwitch]="question.controlType">
-                <div *ngSwitchCase="'textbox'" [formGroupName]="question.id">
+                <div *ngSwitchCase="'Textbox'" [formGroupName]="question.id">
                     <div class="d-control-wrap">
                         <input class="d-text-control" [formControlName]="'answer'" [id]="question.id">
                     </div>
@@ -26,7 +26,7 @@
                 </div>
 
 
-                <div *ngSwitchCase="'textarea'" [formGroupName]="question.id">
+                <div *ngSwitchCase="'Textarea'" [formGroupName]="question.id">
                     <div class="d-control-wrap">
                         <textarea class="d-textarea-control" rows="5" [formControlName]="'answer'" [disabled]="true" [id]="question.id"></textarea>
                     </div>
@@ -37,7 +37,7 @@
                 </div>
 
 
-                <div *ngSwitchCase="'dropdown'" [formGroupName]="question.id">
+                <div *ngSwitchCase="'Dropdown'" [formGroupName]="question.id">
                     <div class="d-control-wrap">
                         <p-dropdown [options]="question.options" [formControlName]="'answer'" optionLabel="value" [style]="{'width':'50%', 'font-size':'12px', 'border': '1px solid #a9a9a9'}">
                         </p-dropdown>
@@ -68,7 +68,7 @@
                 </div>
 
 
-                <div *ngSwitchCase="'radio'" [formGroupName]="question.id">
+                <div *ngSwitchCase="'Radio'" [formGroupName]="question.id">
                     <!-- {{question.options | json}} -->
                     <div style="margin-bottom: 10px" class="form-check" *ngFor="let opt of question.options">
                         <input style="margin: 0px; vertical-align: middle;" [formControlName]="'answer'" name="answer" type="radio" id="{{opt.id}}"
@@ -88,7 +88,7 @@
                 </div>
 
 
-                <div *ngSwitchCase="'checkbox'" [formGroupName]="question.id">
+                <div *ngSwitchCase="'Checkbox'" [formGroupName]="question.id">
 
                     <div style="margin-bottom: 10px" class="form-check" *ngFor="let opt of question.options">
                         <input style="margin: 0px; vertical-align: middle;" (change)="onChange(question.id, opt.id, $event.target.checked)" [checked]="opt.label"
@@ -115,7 +115,7 @@
 
 
 
-                <div *ngSwitchCase="'gridRadio'" [formGroupName]="question.id">
+                <div *ngSwitchCase="'GridRadio'" [formGroupName]="question.id">
                     <div>
                         <!-- <div [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index">
                             <input #val [formControlName]="'label'" name="label" value="itemRowLabel.value"  
