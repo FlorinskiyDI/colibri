@@ -22,4 +22,11 @@ export class SurveysApiService {
         // const value = this.restangular.one(this.apiServer).getList('api/groups');
         // return value;
     }
+
+    saveSurvey(data: any): any {
+        debugger
+        const value = this.restangular.all('api/surveySections').customPOST(data, undefined, undefined,
+            { 'Content-Type': 'application/json' });
+        return value;
+    }
 }

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Survey.ApplicationLayer.Dtos.Entities;
+using Survey.ApplicationLayer.Dtos.Models;
 using Survey.ApplicationLayer.Services.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -32,6 +35,13 @@ namespace Survey.Webapi.Controllers
         {
             var result = _surveySectionService.GetAll();
             return new string[] { "value1", "value2" };
+        }
+
+        [HttpPost]
+        [Produces("application/json")]
+        public  IActionResult GetSurvet( [FromBody] SurveyModel survey)
+        {
+            return null;
         }
         
     }

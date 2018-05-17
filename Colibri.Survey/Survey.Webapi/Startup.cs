@@ -12,16 +12,31 @@ using AutoMapper;
 using Survey.ApplicationLayer.Configurations;
 using Survey.InfrastructureLayer.Configurations;
 using Survey.Webapi.Configurations;
+using System;
 
 namespace Survey.Webapi
 {
     public class Startup
     {
-
+        private readonly IHostingEnvironment _environment;
         public IConfiguration Configuration { get; }
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            // appsettings
+            var userName = Environment.UserName.Replace(".", "-");
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+            if (!string.IsNullOrWhiteSpace(userName))
+            {
+                builder.AddJsonFile($"appsettings.{userName}.json", true);
+            }
+
+            _environment = env;
+
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public void ConfigureServices(IServiceCollection services)

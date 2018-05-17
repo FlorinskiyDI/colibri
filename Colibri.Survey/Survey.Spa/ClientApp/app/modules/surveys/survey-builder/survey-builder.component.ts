@@ -181,8 +181,8 @@ export class SurveyBuilderComponent {
     }
 
 
-    getTestAnswer() {
-        const data = this.surveysApiService.getAll();
+    getTestAnswer(answer: any) {
+        const data = this.surveysApiService.saveSurvey(this.survey);
         console.log(data);
     }
 

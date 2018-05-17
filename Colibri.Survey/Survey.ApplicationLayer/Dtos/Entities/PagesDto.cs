@@ -4,11 +4,12 @@ using System.Text;
 
 namespace Survey.ApplicationLayer.Dtos.Entities
 {
-    public class SurveySectionDto
+    public class PagesDto
     {
         public string Name { get; set; }
         public string Description { get; set; }
-
-        //public ICollection<PagesDto> Pages { get; set; }
+        public int OrderNo { get; set; }
+        public Guid SurveyId { get; set; }
+        public List<QuestionsDto> Questions { get; set; }
     }
 }
