@@ -32,7 +32,13 @@ namespace Survey.InfrastructureLayer.Configurations
         private static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<ISurveySectionRepository, SurveySectionRepository>();
+            services.AddScoped<IPageRepository, PageRepository>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IInputTypeRepository, InputTypeRepository>();
+            services.AddScoped<IOptionGroupRepository, OptionGroupRepository>();
         }
+
+
         private static void AddDataAccess(IServiceCollection services, string connectionString)
         {
             //services.AddDbContext<ApplicationDbContext>(options =>

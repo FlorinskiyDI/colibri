@@ -212,7 +212,7 @@
             {{question.name}}
         </div>
 
-        <div [ngSwitch]="question.controlType">
+        <div [ngSwitch]="'Textbox'">
             <div *ngSwitchCase="'textbox'">
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
@@ -246,7 +246,7 @@
             </div>
 
 
-            <div *ngSwitchCase="'textarea'">
+            <div *ngSwitchCase="'Textarea'">
 
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
@@ -280,7 +280,7 @@
             </div>
 
 
-            <div *ngSwitchCase="'dropdown'">
+            <div *ngSwitchCase="'Dropdown'">
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
                         <p class="d-label-text">Question text:</p>
@@ -337,7 +337,7 @@
             </div>
 
 
-            <div *ngSwitchCase="'radio'">
+            <div *ngSwitchCase="'Radio'">
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
                         <p class="d-label-text">Question text:</p>
@@ -399,7 +399,7 @@
             </div>
 
 
-            <div *ngSwitchCase="'checkbox'">
+            <div *ngSwitchCase="'Checkbox'">
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
                         <p class="d-label-text">Question text:</p>
@@ -462,7 +462,7 @@
             </div>
 
 
-            <div *ngSwitchCase="'gridRadio'">
+            <div *ngSwitchCase="'GridRadio'">
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
                         <p class="d-label-text">Question text:</p>

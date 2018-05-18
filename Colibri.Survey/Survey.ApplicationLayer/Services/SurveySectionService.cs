@@ -6,6 +6,8 @@ using Survey.DomainModelLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using Survey.ApplicationLayer.Dtos.Models;
 
 namespace Survey.ApplicationLayer.Services
 {
@@ -32,6 +34,36 @@ namespace Survey.ApplicationLayer.Services
                 items = repositorySurveySection.GetAll();
             }
             return Mapper.Map<IEnumerable<SurveySections>, IEnumerable<SurveySectionDto>>(items);
+        }
+
+        public async Task<Guid> AddAsync(SurveyModel survey)
+        {
+
+            SurveySectionDto surveyDto= new SurveySectionDto()
+            {
+                //Id = new Guid(),
+                Description = survey.Description,
+                Name = survey.Name
+            };
+
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                try
+                {
+                    SurveySections surveyEntity = Mapper.Map<SurveySectionDto, SurveySections>(surveyDto);
+                    var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
+                    await repositorySurveySection.AddAsync(surveyEntity);
+                    await uow.SaveChangesAsync();
+
+                    return surveyEntity.Id;
+                }
+                catch (Exception e)
+                {
+                    Console.Write(e);
+                    throw;
+                }
+            }
+            
         }
     }
 }

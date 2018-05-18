@@ -19,7 +19,6 @@ namespace Survey.DomainModelLayer.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public int OrderNo { get; set; }
-        [Column("Survey_Id")]
         public Guid SurveyId { get; set; }
 
         [ForeignKey("SurveyId")]

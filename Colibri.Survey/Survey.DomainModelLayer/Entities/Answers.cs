@@ -12,9 +12,7 @@ namespace Survey.DomainModelLayer.Entities
         public bool AnswerBoolean { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime? AnswerDateTime { get; set; }
-        [Column("User_Id")]
         public Guid UserId { get; set; }
-        [Column("Question_Option_Id")]
         public Guid QuestionOptionId { get; set; }
 
         [ForeignKey("QuestionOptionId")]

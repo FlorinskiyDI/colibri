@@ -6,9 +6,10 @@ using System.Text;
 
 namespace Survey.ApplicationLayer.Services.Interfaces
 {
-    interface  IQuestionService
+    public interface  IQuestionService
     {
         BaseQuestionModel GetQuestionByType(string baseQuestion);
-        List<BaseQuestionModel> GetTypedQuestionList(SurveyModel survey);
+        List<BaseQuestionModel> GetTypedQuestionList(PageModel survey);
+        void SaveQuestionByType(BaseQuestionModel baseQuestion, Guid pageId);
     }
 }

@@ -22,7 +22,11 @@ namespace Survey.ApplicationLayer.Configurations
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<ISurveySectionService, SurveySectionService>();
+            services.AddScoped<IPageService, PageService>();
+            services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IGroupService, GroupService>();
+            services.AddScoped<IInputTypeService, InputTypeService>();
+            services.AddScoped<IOptionGroupService, OptionGroupService>();
             services.AddScoped<IUserService, UserService>();
             return services;
         }

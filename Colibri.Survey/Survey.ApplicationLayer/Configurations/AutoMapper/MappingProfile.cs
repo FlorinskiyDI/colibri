@@ -21,10 +21,18 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
             // models
             // entities
             CreateMap<SurveySectionDto, SurveySections>();
+            CreateMap<PagesDto, Pages>();
+            CreateMap<QuestionsDto, Questions>();
+            CreateMap<InputTypesDto, InputTypes>();
+            CreateMap<OptionGroupsDto, OptionGroups>();
         }
         private void DtoToEntity()
         {
             CreateMap<SurveySections, SurveySectionDto>();
+            CreateMap<Pages, PagesDto>();
+            CreateMap<Questions, QuestionsDto> ();
+            CreateMap<InputTypes, InputTypesDto>();
+            CreateMap<OptionGroupsDto, OptionGroupsDto>();
             // models
             // entities
             //CreateMap<PersonalClaimDto, PersonalClaim>();

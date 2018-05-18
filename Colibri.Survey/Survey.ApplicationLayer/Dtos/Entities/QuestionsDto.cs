@@ -16,5 +16,8 @@ namespace Survey.ApplicationLayer.Dtos.Entities
         public bool AdditionalAnswer { get; set; }
         public bool AllowMultipleOptionAnswers { get; set; }
 
+        public Guid InputTypesId { get; set; }
+        public Guid PageId { get; set; }
+        public Guid OptionGroupId { get; set; }
     }
 }

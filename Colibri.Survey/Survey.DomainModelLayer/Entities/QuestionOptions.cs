@@ -15,9 +15,7 @@ namespace Survey.DomainModelLayer.Entities
         }
 
         //public Guid Id { get; set; }
-        [Column("Question_Id")]
         public Guid QuestionId { get; set; }
-        [Column("OptionChoise_Id")]
         public Guid OptionChoiseId { get; set; }
 
         [ForeignKey("OptionChoiseId")]

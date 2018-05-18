@@ -15,7 +15,6 @@ namespace Survey.DomainModelLayer.Entities
         }
 
         //public Guid Id { get; set; }
-        [Column("Parent _Id")]
         public Guid? ParentId { get; set; }
         [Required]
         [StringLength(250)]
@@ -25,11 +24,8 @@ namespace Survey.DomainModelLayer.Entities
         public int OrderNo { get; set; }
         public bool AdditionalAnswer { get; set; }
         public bool AllowMultipleOptionAnswers { get; set; }
-        [Column("InputTypes_Id")]
         public Guid InputTypesId { get; set; }
-        [Column("Page_Id")]
         public Guid PageId { get; set; }
-        [Column("OptionGroup_Id")]
         public Guid OptionGroupId { get; set; }
 
         [ForeignKey("InputTypesId")]

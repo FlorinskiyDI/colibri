@@ -17,7 +17,6 @@ namespace Survey.DomainModelLayer.Entities
         [Required]
         [StringLength(250)]
         public string Name { get; set; }
-        [Column("OptionGroup_Id")]
         public Guid OptionGroupId { get; set; }
 
         [ForeignKey("OptionGroupId")]
