@@ -9,5 +9,6 @@ namespace Survey.ApplicationLayer.Dtos.Entities
         public Guid Id { get; set; }
         public string Name { get; set; }
         public Guid OptionGroupId { get; set; }
+        public int OrderNo { get; set; }
     }
 }

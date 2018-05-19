@@ -31,7 +31,8 @@ namespace Survey.ApplicationLayer.Services
             OptionChoisesDto optionChoisesDto = new OptionChoisesDto()
             {
                  Name = item != null ? item.Value : "",
-                 OptionGroupId = optionGroupId
+                 OptionGroupId = optionGroupId,
+                 OrderNo = 1 // stub
             };
 
             using (var uow = UowProvider.CreateUnitOfWork())
@@ -42,35 +43,6 @@ namespace Survey.ApplicationLayer.Services
                     var repositoryOptionChoise = uow.GetRepository<OptionChoises, Guid>();
                     await repositoryOptionChoise.AddAsync(optionChoisesEntity);
                     await uow.SaveChangesAsync();
-                }
-                catch (Exception e)
-                {
-                    Console.Write(e);
-                    throw;
-                }
-            }
-        }
-
-
-        public async Task<Guid> AddAsync(PageModel survey, Guid surveyId)
-        {
-            PagesDto pageDto = new PagesDto()
-            {
-                Description = survey.Description,
-                Name = survey.Name,
-                OrderNo = survey.OrderNo,
-                SurveyId = Guid.Parse(surveyId.ToString())
-            };
-
-            using (var uow = UowProvider.CreateUnitOfWork())
-            {
-                try
-                {
-                    Pages pageEntity = Mapper.Map<PagesDto, Pages>(pageDto);
-                    var repositoryPage = uow.GetRepository<Pages, Guid>();
-                    await repositoryPage.AddAsync(pageEntity);
-                    await uow.SaveChangesAsync();
-                    return pageEntity.Id;
                 }
                 catch (Exception e)
                 {

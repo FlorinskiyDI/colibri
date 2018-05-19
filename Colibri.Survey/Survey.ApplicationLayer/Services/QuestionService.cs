@@ -105,7 +105,7 @@ namespace Survey.ApplicationLayer.Services
             return baseQuestionList;
         }
 
-        private async void SaveQuestion(TextQuestionModel data, bool IsAllowMultipleOptionAnswers, Guid optionGroupId, Guid typeid, Guid? ParentId)
+        private async void SaveQuestion(BaseQuestionModel data, bool IsAllowMultipleOptionAnswers, Guid optionGroupId, Guid typeid, Guid? ParentId)
         {          
             QuestionsDto questionDto = new QuestionsDto()
             {
@@ -151,9 +151,19 @@ namespace Survey.ApplicationLayer.Services
             Console.Write("1111");
         }
 
-        private void SaveRadioQuestion(RadioQuestionModel data)
+        private async void SaveRadioQuestion(RadioQuestionModel data)
         {
-            Console.Write("1111");
+            Guid optionGroupId = await _optionGroupService.AddAsync();
+            InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
+            SaveQuestion(data, false, optionGroupId, type.Id, null);
+            if (data.Options.Count() > 0)
+            {
+                foreach (var item in data.Options)
+                {
+                    _optionChoiceService.AddAsync(optionGroupId, item);
+                }
+            }
+           
         }
 
         private void SaveCheckBoxQuestion(CheckBoxQuesstionModel data)

@@ -18,7 +18,7 @@ namespace Survey.DomainModelLayer.Entities
         [StringLength(250)]
         public string Name { get; set; }
         public Guid OptionGroupId { get; set; }
-
+        public int OrderNo { get; set; }
         [ForeignKey("OptionGroupId")]
         [InverseProperty("OptionChoises")]
         public OptionGroups OptionGroup { get; set; }
