@@ -26,7 +26,7 @@ namespace Survey.DomainModelLayer.Entities
         public bool AllowMultipleOptionAnswers { get; set; }
         public Guid InputTypesId { get; set; }
         public Guid PageId { get; set; }
-        public Guid OptionGroupId { get; set; }
+        public Guid? OptionGroupId { get; set; }
 
         [ForeignKey("InputTypesId")]
         [InverseProperty("Questions")]

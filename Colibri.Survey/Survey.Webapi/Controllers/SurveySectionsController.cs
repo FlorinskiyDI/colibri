@@ -68,7 +68,7 @@ namespace Survey.Webapi.Controllers
                     }
                 }
             }
-            return null;
+            return Ok();
         }
     }
 }

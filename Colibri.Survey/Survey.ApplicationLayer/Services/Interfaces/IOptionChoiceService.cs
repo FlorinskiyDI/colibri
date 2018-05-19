@@ -9,5 +9,6 @@ namespace Survey.ApplicationLayer.Services.Interfaces
     public interface IOptionChoiceService
     {
         Task AddAsync(Guid optionGroupId, ItemModel item);
+        Task AddRangeAsync(Guid optionGroupId, List<ItemModel> items);
     }
 }

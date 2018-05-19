@@ -18,6 +18,6 @@ namespace Survey.ApplicationLayer.Dtos.Entities
 
         public Guid InputTypesId { get; set; }
         public Guid PageId { get; set; }
-        public Guid OptionGroupId { get; set; }
+        public Guid? OptionGroupId { get; set; }
     }
 }

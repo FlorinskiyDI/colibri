@@ -9,7 +9,7 @@
 	[AllowMultipleOptionAnswers] BIT NOT NULL DEFAULT 0,
 	[InputTypesId]  UNIQUEIDENTIFIER NOT NULL, 
 	[PageId]  UNIQUEIDENTIFIER NOT NULL, 
-	[OptionGroupId]  UNIQUEIDENTIFIER NOT NULL, 
+	[OptionGroupId]  UNIQUEIDENTIFIER NULL, 
 
 
 	CONSTRAINT [FK_Questions_InputTypes] FOREIGN KEY ([InputTypesId]) REFERENCES [dbo].[InputTypes]([Id]),

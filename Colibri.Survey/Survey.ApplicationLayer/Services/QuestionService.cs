@@ -105,12 +105,12 @@ namespace Survey.ApplicationLayer.Services
             return baseQuestionList;
         }
 
-        private async void SaveQuestion(BaseQuestionModel data, bool IsAllowMultipleOptionAnswers, Guid optionGroupId, Guid typeid, Guid? ParentId)
-        {          
+        private async Task<Guid> SaveQuestion(BaseQuestionModel data, bool IsAllowMultipleOptionAnswers, Guid? optionGroupId, Guid typeid, Guid? ParentId)
+        {
             QuestionsDto questionDto = new QuestionsDto()
             {
                 Name = data.Text,
-                ParentId = null,
+                ParentId = ParentId != null ? ParentId : null,
                 Description = data.Description,
                 Required = data.Required,
                 OrderNo = data.Order,
@@ -129,6 +129,8 @@ namespace Survey.ApplicationLayer.Services
                     var repositoryQuestion = uow.GetRepository<Questions, Guid>();
                     await repositoryQuestion.AddAsync(questionEntity);
                     await uow.SaveChangesAsync();
+
+                    return questionEntity.Id;
                 }
                 catch (Exception e)
                 {
@@ -142,43 +144,71 @@ namespace Survey.ApplicationLayer.Services
         {
             Guid optionGroupId = await _optionGroupService.AddAsync();
             InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
-            SaveQuestion(data, false, optionGroupId, type.Id, null);
-            //_optionChoiceService.AddAsync(optionGroupId, null);
+            await SaveQuestion(data, false, optionGroupId, type.Id, null);
+            await _optionChoiceService.AddAsync(optionGroupId, null);
         }
 
-        private void SaveTextAreaQuestion(TextAreaQuestionModel data)
+        private async void SaveTextAreaQuestion(TextAreaQuestionModel data)
         {
-            Console.Write("1111");
-        }
-
-        private async  void SaveRadioQuestion(RadioQuestionModel data)
-        {
-            Guid optionGroupId =  _optionGroupService.AddAsync().Result;
+            Guid optionGroupId = await _optionGroupService.AddAsync();
             InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
-            SaveQuestion(data, false, optionGroupId, type.Id, null);
+            await SaveQuestion(data, false, optionGroupId, type.Id, null);
+            await _optionChoiceService.AddAsync(optionGroupId, null);
+        }
+
+        private async void SaveRadioQuestion(RadioQuestionModel data)
+        {
+            Guid optionGroupId = _optionGroupService.AddAsync().Result;
+            InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
+            await SaveQuestion(data, false, optionGroupId, type.Id, null);
             if (data.Options.Count() > 0)
             {
-                foreach (var item in data.Options)
-                {
-                     await _optionChoiceService.AddAsync(optionGroupId, item);
-                }
+                await _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
             }
-           
         }
 
-        private void SaveCheckBoxQuestion(CheckBoxQuesstionModel data)
+        private async void SaveCheckBoxQuestion(CheckBoxQuesstionModel data)
         {
-            Console.Write("1111");
+            Guid optionGroupId = _optionGroupService.AddAsync().Result;
+            InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
+            await SaveQuestion(data, true, optionGroupId, type.Id, null);
+            if (data.Options.Count() > 0)
+            {
+                await _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
+            }
         }
 
-        private void SaveDropdownQuestion(DropdownQuestionModel data)
+        private async void SaveDropdownQuestion(DropdownQuestionModel data)
         {
-            Console.Write("1111");
+            Guid optionGroupId = _optionGroupService.AddAsync().Result;
+            InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
+            await SaveQuestion(data, false, optionGroupId, type.Id, null);
+            if (data.Options.Count() > 0)
+            {
+                await _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
+            }
         }
 
-        private void SaveGridRadioQuestion(GridRadioQuestionModel data)
+        private async void SaveGridRadioQuestion(GridRadioQuestionModel data)
         {
-            Console.Write("1111");
+            
+            InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
+            var parentQuestionId = await SaveQuestion(data, false, null, type.Id, null);
+            if (data.Grid.Rows.Count() > 0)
+            {
+                foreach (var item in data.Grid.Rows)
+                {
+                    Guid optionGroupId = _optionGroupService.AddAsync().Result;
+                    await SaveQuestion(data, false, optionGroupId, type.Id, parentQuestionId);
+
+                    if (data.Grid.Cols.Count() > 0)
+                    {
+                        await _optionChoiceService.AddRangeAsync(optionGroupId, data.Grid.Cols);
+                    }
+                    //await _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
+                }
+                
+            }
         }
 
 

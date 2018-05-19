@@ -51,5 +51,42 @@ namespace Survey.ApplicationLayer.Services
                 }
             }
         }
+
+
+
+        public async Task AddRangeAsync(Guid optionGroupId, List<ItemModel> items)
+        {
+            List<OptionChoisesDto> listchoiseDto = new List<OptionChoisesDto>();
+
+            foreach (var item in items)
+            {
+                OptionChoisesDto optionChoisesDto = new OptionChoisesDto()
+                {
+                    Name = item != null ? item.Value : "",
+                    OptionGroupId = optionGroupId,
+                    OrderNo = 1 // stub
+                };
+                listchoiseDto.Add(optionChoisesDto);
+            }
+          
+
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                try
+                {
+                    List<OptionChoises> optionChoisesEntity = Mapper.Map<List<OptionChoisesDto>, List<OptionChoises>>(listchoiseDto);
+                    var repositoryOptionChoise = uow.GetRepository<OptionChoises, Guid>();
+
+                    //var list = Mapper.Map<IEnumerable<Groups>, IEnumerable<GroupDto>>(result);
+                    await repositoryOptionChoise.AddRangeAsync(optionChoisesEntity.ToArray());
+                    await uow.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    Console.Write(e);
+                    throw;
+                }
+            }
+        }
     }
 }
