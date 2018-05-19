@@ -51,13 +51,27 @@ export function RestangularConfigFactory(RestangularProvider: any, oidcSecurityS
 
     RestangularProvider.setBaseUrl(serveyApiUrl);
     // by each request to the server receive a token and update headers with it
-    RestangularProvider.addFullRequestInterceptor((element: any, operation: any, path: any, url: any, headers: any, params: any) => {
-        const bearerToken = oidcSecurityService.getToken();
-        return {
-            headers: Object.assign({},
-                headers,
-                { Authorization: `Bearer ${bearerToken}` }
-            )
-        };
-    });
+    RestangularProvider
+        .addFullRequestInterceptor((element: any, operation: any, path: any, url: any, headers: any, params: any) => {
+            const bearerToken = oidcSecurityService.getToken();
+            return {
+                headers: Object.assign({},
+                    headers,
+                    { Authorization: `Bearer ${bearerToken}` }
+                )
+            };
+        })
+        .addResponseInterceptor((data: any, operation: any, what: any, url: any, response: any) => {
+            switch (operation) {
+                case 'post':
+                case 'put':
+                case 'remove':
+                    if (!data) {
+                        return {};
+                    }
+                    break;
+                default:
+                    return data;
+            }
+        });
 }

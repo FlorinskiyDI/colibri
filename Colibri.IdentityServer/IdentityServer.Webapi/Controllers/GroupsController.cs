@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServer.Webapi.Controllers
@@ -15,12 +17,15 @@ namespace IdentityServer.Webapi.Controllers
     {
         // repositories
         private readonly IGroupRepository _groupRepository;
+        private readonly IAppUserGroupRepository _appUserGroupRepository;
 
         public GroupsController(
-            IGroupRepository groupRepository
+            IGroupRepository groupRepository,
+            IAppUserGroupRepository appUserGroupRepository
         )
         {
             _groupRepository = groupRepository;
+            _appUserGroupRepository = appUserGroupRepository;
         }
 
         [HttpGet]
@@ -46,13 +51,62 @@ namespace IdentityServer.Webapi.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetGroup(Guid id)
         {
-            var entity = await _groupRepository.GetAsync(id);
+            Groups entity;
+            try
+            {
+                entity  = await _groupRepository.GetAsync(id);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
             return Ok(entity);
         }
-    }
 
-    public class MyTest
-    {
-        public string Value { get; set; }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult DeleteGroup(Guid id)
+        {
+            try
+            {
+                _appUserGroupRepository.DeleteAppUserGroupByGroupAsync(id);
+                _groupRepository.DeleteGroup(id);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            return Ok();
+        }
+
+        // POST: api/groups/
+        [HttpPost]
+        public async Task<IActionResult> CreateGroup([FromBody] Groups model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+
+            var claims = this.HttpContext.User.Claims;
+            var userId = claims.First(c => c.Type == "sub").Value;
+            Groups group;
+            try
+            {
+                group = await _groupRepository.CreateGroupAsync(model);
+                await _appUserGroupRepository.CreateAppUserGroupAsync(new ApplicationUserGroups()
+                {
+                    GroupId = group.Id,
+                    UserId = userId
+                });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            return Ok(group);
+        }
     }
 }

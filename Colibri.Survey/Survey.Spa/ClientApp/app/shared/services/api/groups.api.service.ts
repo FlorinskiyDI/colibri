@@ -15,13 +15,29 @@ export class GroupsApiService {
         this.apiServer = apiUrl;
     }
 
-    getAll() {
-        const result = this.restangular.all('api/groups');
-        return result.getList();
+    getAll(objectFields: string[] | null = null) {
+        const paramObjectFields = objectFields ? objectFields.join(',') : null;
+        const result = this.restangular.all('api/groups').customGET(undefined, { fields: paramObjectFields });
+        return result;
+    }
+
+    get(id: string) {
+        const result = this.restangular.one('api/groups', id).get();
+        return result;
     }
 
     getSubGroups(groupId: string) {
         const result = this.restangular.all('api/groups/' + groupId + '/subgroups');
         return result.getList();
+    }
+
+    create(data: any): any {
+        const value = this.restangular.all('api/groups').post(data);
+        return value;
+    }
+
+    delete(id: string) {
+        const value = this.restangular.one('api/groups', id).remove();
+        return value;
     }
 }

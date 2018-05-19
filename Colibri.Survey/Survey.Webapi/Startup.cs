@@ -55,6 +55,7 @@ namespace Survey.Webapi
             //})
             services.AddInfrastructureDependencies(Configuration.GetConnectionString("DefaultConnection"));
             services.AddApplicationDependencies();
+            services.AddWebApiDependencies();
 
             services.AddMvcCore()
                 .AddAuthorization()

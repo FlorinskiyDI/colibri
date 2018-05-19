@@ -2,15 +2,17 @@ import { Component, Output, Input, EventEmitter, ViewChild } from '@angular/core
 import { MessageService } from 'primeng/components/common/messageservice';
 
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
+/* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
 /* component-config */ import { FormGroupCreateConfig } from './form-group-create/form-group-create.component';
 /* component */ import { FormGroupCreateComponent } from './form-group-create/form-group-create.component';
-
+/* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
+/* helper */ import { Helpers } from 'shared/helpers/helpers';
 
 
 @Component({
     selector: 'dialog-group-create-cmp',
     templateUrl: './dialog-group-create.component.html',
-    providers: [ MessageService ]
+    providers: [MessageService]
 })
 
 export class DialogGroupCreateComponent {
@@ -32,7 +34,9 @@ export class DialogGroupCreateComponent {
     blockedPanel = false;
 
     constructor(
-        private messageService: MessageService
+        private messageService: MessageService,
+        //
+        private groupsApiService: GroupsApiService
     ) { }
 
     ngOnInit() { }
@@ -55,7 +59,7 @@ export class DialogGroupCreateComponent {
         this.onCancel.emit();
     }
     public dialogChange(data: any | null = null) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was created successfully'  });
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was created successfully' });
         this.dialogConfig.visible = false;
         this.onChange.emit(data);
     }
@@ -68,25 +72,12 @@ export class DialogGroupCreateComponent {
     // #endregion
 
     private _cmpInitialize(data: any = null) {
-        const that = this;
-        this._stub1().then(function (value: any) {
-            that.formGroupConfig = new FormGroupCreateConfig(value);
-            that.blockedPanel = false;
-        });
-
+        this.blockedPanel = true;
+        this.groupsApiService.getAll(['id', 'name'])
+            .subscribe((response: Array<GroupApiModel>) => {
+                this.formGroupConfig = new FormGroupCreateConfig(response);
+                this.blockedPanel = false;
+            });
     }
     private _cmpClear() { }
-
-    _stub1() {
-        this.blockedPanel = true;
-        return new Promise(function (resolve, reject) {
-            window.setTimeout(function () {
-                const data = [
-                    { name: 'Group 1', id: '111' },
-                    { name: 'Group 2', id: '222' },
-                ];
-                resolve(data);
-            }, 1500);
-        });
-    }
 }

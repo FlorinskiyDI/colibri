@@ -2,13 +2,15 @@ import { Component, Output, Input, EventEmitter, ElementRef } from '@angular/cor
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BlockableUI } from 'primeng/primeng';
 
+/* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
+
 @Component({
     selector: 'form-group-update-cmp',
     templateUrl: './form-group-update.component.html'
 })
 
 export class FormGroupUpdateComponent implements BlockableUI {
-    configData: any;
+    configData: FormGroupUpdateConfig;
     @Output() onChange = new EventEmitter<any>();
     @Input()
     get config() { return this.configData; }
@@ -35,7 +37,7 @@ export class FormGroupUpdateComponent implements BlockableUI {
         this.onChange.unsubscribe();
     }
 
-    private formBuild(data: any = {}): void {
+    private formBuild(data: GroupApiModel = new GroupApiModel()): void {
         this.formGroup = new FormGroup({
             'name': new FormControl(data.name, [Validators.required]),
             'parentId': new FormControl(data.parentId),
@@ -49,7 +51,7 @@ export class FormGroupUpdateComponent implements BlockableUI {
         this._cmpClear();
     }
     public formCancel() {
-        this._cmpClear();
+        this.formBuild(this.configData.item);
     }
 
     private _cmpInitialize(data: FormGroupUpdateConfig) {
@@ -57,6 +59,7 @@ export class FormGroupUpdateComponent implements BlockableUI {
             const groups = data.groups.map((item: any) => { return { label: item.name, value: item.id }; });
             this.drpdwnGroups = [{ label: 'None' }];
             this.drpdwnGroups = this.drpdwnGroups.concat(groups);
+            this.formBuild(data.item);
             console.log(data);
         }
     }
@@ -72,11 +75,15 @@ export class FormGroupUpdateComponent implements BlockableUI {
 
 export class FormGroupUpdateConfig {
     private _groups: any[];
+    private _item: GroupApiModel;
     get groups(): any { return this._groups; }
+    get item(): GroupApiModel { return this._item; }
 
     constructor(
-        groups: any[]
+        groups: any[],
+        item: GroupApiModel
     ) {
         this._groups = groups;
+        this._item = item;
     }
 }

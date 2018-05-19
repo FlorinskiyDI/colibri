@@ -1,47 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using IdentityModel.Client;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
-using RestSharp;
-using RestSharp.Authenticators;
+using Survey.ApplicationLayer.Dtos.Models;
 using Survey.ApplicationLayer.Services.Interfaces;
-using Survey.Webapi.Models.RestModels;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Survey.Webapi.Controllers.Base;
+using Survey.Webapi.Helpers.Shaping;
+using Survey.Webapi.Services.TypeHelper;
 
 namespace Survey.Webapi.Controllers
 {
     [Authorize()]
     [Route("api/groups")]
-    public class GroupsController : Controller
+    public class GroupsController : BaseController
     {
-        private readonly IConfiguration _configuration;
         private readonly IGroupService _groupService;
 
         public GroupsController(
             IConfiguration configuration,
+            ITypeHelperService typeHelperService,
+            //
             IGroupService groupService
-        )
+        ) : base(configuration, typeHelperService)
         {
-            _configuration = configuration;
             _groupService = groupService;
         }
 
-
         // GET: api/groups
         [HttpGet]
-        public async Task<IActionResult> GetGroupList()
+        public async Task<IActionResult> GetGroupList([FromQuery] string fields)
         {
-            var result = await _groupService.GetGroupList();
-            return Ok(result);
+            if (!_typeHelperService.TypeHasProperties<GroupDto>(fields))
+            {
+                return BadRequest();
+            }
+
+            IEnumerable<GroupDto> result;
+            try
+            {
+                result = await _groupService.GetGroupList();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return Ok(result.ShapeData(fields));
         }
 
         // GET: api/groups/1/subgroups
@@ -49,13 +56,74 @@ namespace Survey.Webapi.Controllers
         [Route("{id}/subgroups")]
         public async Task<IActionResult> GetSubGroupList(Guid id)
         {
-            var result = await _groupService.GetSubGroupList(id);
+            IEnumerable<GroupDto> result;
+            try
+            {
+                result = await _groupService.GetSubGroupList(id);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
             return Ok(result);
         }
-    }
 
-    public class Test
-    {
-        public string Value { get; set; }
+        // GET: api/groups/1
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteGroup(Guid id)
+        {
+            try
+            {
+                var result = await _groupService.DeleteGroup(id);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return Ok();
+        }
+
+        // GET: api/groups/1
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetGroup(Guid id)
+        {
+            GroupDto groupDto;
+            try
+            {
+                groupDto = await _groupService.GetGroup(id);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return Ok(groupDto);
+        }
+
+        // POST: api/groups/
+        [HttpPost]
+        public async Task<IActionResult> CreateGroup([FromBody] GroupDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            GroupDto result;
+            try
+            {
+                result = await _groupService.CreateGroup(model);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return Ok();
+        }
     }
 }

@@ -3,6 +3,7 @@ using RestSharp;
 using RestSharp.Authenticators;
 using Survey.Common.Context;
 using Survey.DomainModelLayer.Models;
+using Survey.InfrastructureLayer.IdentityServerServices;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,14 +11,28 @@ using System.Threading.Tasks;
 
 namespace Survey.InfrastructureLayer.IdentityServices
 {
-    public class GroupRequestService : IGroupRequestService
+    public class GroupRequestService: BaseApiService,  IGroupRequestService
     {
+        public async Task<Groups> CreateGrouptAsync(Groups group)
+        {            
+            var tokenResponse = await GetToken();
+
+            // call to identity server for create groups
+            var restClient = new RestClient(NTContext.Context.IdentityUrl);
+            restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
+            var request = new RestRequest("/api/groups", Method.POST) {
+                RequestFormat = DataFormat.Json
+            };
+            request.AddBody(group);
+            IRestResponse<Groups> response = await restClient.ExecuteTaskAsync<Groups>(request);
+
+            return response.IsSuccessful ? response.Data : null;
+        }
+
         public async Task<IEnumerable<Groups>> GetGroupList()
         {
             IEnumerable<Groups> list = new List<Groups>();
-            var disco = await DiscoveryClient.GetAsync(NTContext.Context.IdentityUrl);
-            var client = new TokenClient(disco.TokenEndpoint, "api1", "secret");
-            var tokenResponse = await client.RequestCustomGrantAsync("delegation", "api2", new { token = NTContext.Context.IdentityUserToken });
+            var tokenResponse = await GetToken();
 
             // call to identity server for get groups
             var restClient = new RestClient(NTContext.Context.IdentityUrl);
@@ -36,14 +51,52 @@ namespace Survey.InfrastructureLayer.IdentityServices
             }
         }
 
+        public async Task<Boolean> DeleteGroup(Guid groupId)
+        {
+            var tokenResponse = await GetToken();
+
+            // call to identity server for delete group
+            var restClient = new RestClient(NTContext.Context.IdentityUrl);
+            restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
+            var request = new RestRequest("/api/groups/"+ groupId, Method.DELETE);
+            IRestResponse response = restClient.Execute(request);
+
+            if (!response.IsSuccessful)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public async Task<Groups> GetGroup(Guid groupId)
+        {
+            var tokenResponse = await GetToken();
+
+            // call to identity server for get group
+            var restClient = new RestClient(NTContext.Context.IdentityUrl);
+            restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
+            var request = new RestRequest("/api/groups/" + groupId, Method.GET);
+            IRestResponse<Groups> response = await restClient.ExecuteTaskAsync<Groups>(request);
+
+            if (!response.IsSuccessful)
+            {
+                return null;
+            }
+            else
+            {
+                return response.Data;
+            }
+        }
+
         public async Task<IEnumerable<Groups>> GetSubGroupList(Guid groupId)
         {
             IEnumerable<Groups> list = new List<Groups>();
-            var disco = await DiscoveryClient.GetAsync(NTContext.Context.IdentityUrl);
-            var client = new TokenClient(disco.TokenEndpoint, "api1", "secret");
-            var tokenResponse = await client.RequestCustomGrantAsync("delegation", "api2", new { token = NTContext.Context.IdentityUserToken });
+            var tokenResponse = await GetToken();
 
-            // call to identity server for get groups
+            // call to identity server for get sub groups
             var restClient = new RestClient(NTContext.Context.IdentityUrl);
             restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
             var request = new RestRequest("/api/groups/" + groupId + "/subgroups", Method.GET);

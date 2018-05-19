@@ -1,7 +1,9 @@
-import { Component, Output, Input, EventEmitter, ElementRef } from '@angular/core';
+import { Component, Output, Input, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BlockableUI } from 'primeng/primeng';
 
+/* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
+/* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 
 @Component({
     selector: 'form-group-create-cmp',
@@ -9,6 +11,7 @@ import { BlockableUI } from 'primeng/primeng';
 })
 
 export class FormGroupCreateComponent implements BlockableUI {
+    @ViewChild('formGroupCreate') formGroupCreate: any;
     configData: any;
     @Output() onChange = new EventEmitter<any>();
     @Input()
@@ -26,7 +29,8 @@ export class FormGroupCreateComponent implements BlockableUI {
     drpdwnGroups: any[] = [];
 
     constructor(
-        private el: ElementRef
+        private el: ElementRef,
+        private groupsApiService: GroupsApiService
     ) {
         this.formBuild();
     }
@@ -45,9 +49,18 @@ export class FormGroupCreateComponent implements BlockableUI {
     }
 
     public formSubmit() {
-        console.log('formSubmit');
-        this.onChange.emit();
-        this._cmpClear();
+        if (!this.formGroupCreate.valid) {
+            this.formIsValid = false;
+            console.log('Form is NOT VALID!!!');
+            return;
+        }
+
+        const group = Object.assign({}, this.formGroupCreate.value);
+        this.groupsApiService.create(group)
+            .subscribe((response: Array<GroupApiModel>) => {
+                this.onChange.emit();
+                this._cmpClear();
+            });
     }
     public formReset() {
         this._cmpClear();

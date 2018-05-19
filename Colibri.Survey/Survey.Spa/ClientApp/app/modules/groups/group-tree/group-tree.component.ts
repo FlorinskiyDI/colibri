@@ -32,7 +32,7 @@ export class GroupTreeComponent {
         private groupManageTransferService: GroupManageTransferService,
         private groupsApiService: GroupsApiService,
     ) {
-        this._requestGetGroups();
+        this._requestGetGroups(true);
     }
 
     public createGroup() { this.dialogGroupCreateOpen(); }
@@ -43,18 +43,15 @@ export class GroupTreeComponent {
             message: 'Are you sure that you want to remove this group?',
             accept: () => {
                 that.selectedGroup = null;
-                this.groupsApiService.getAll().subscribe((response: Array<GroupApiModel>) => {
-                    this.treeItems = response.map((item: GroupApiModel) => {
-                        return {
-                            'label': item.name,
-                            'data': { 'id': item.id },
-                            'leaf': item.parentId ? true : false
-                        };
-                    });
-                    this.treeloading = false;
-                    this.selectedGroup = this.treeItems[0];
-                });
-                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was removed successfully' });
+                this.groupsApiService.delete(data.id).subscribe(
+                    (response: any) => {
+                        this._requestGetGroups(true);
+                        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was removed successfully' });
+                    },
+                    (error: any) => {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error' });
+                    }
+                );
             }
         });
     }
@@ -64,45 +61,25 @@ export class GroupTreeComponent {
         }
     }
     public searchGroups(data: any) {
-        const that = this;
+        // const that = this;
         if (data === '') {
-            this._stub1().then(function (value: any) {
-                that.treeItems = value;
-                that.selectedGroup = null;
-                that.treeloading = false;
-                that.selectedGroup = value[0];
-            });
+            this._requestGetGroups(true);
         } else {
-            this._stub2().then(function (value: any) {
-                that.treeItems = value;
-                that.selectedGroup = null;
-                that.treeloading = false;
-                that.selectedGroup = value[0];
-            });
+            // this._stub2().then(function (value: any) {
+            //     that.treeItems = value;
+            //     that.treeloading = false;
+            //     that.selectedGroup = value[0];
+            // });
         }
     }
 
     public dialogGroupCreateOpen() { this.dialogGroupCreateConfig = new DialogDataModel<any>(true); }
-    public dialogGroupCreateOnChange() { console.log('dialogGroupCreateOnChange'); }
+    public dialogGroupCreateOnChange() {
+        this._requestGetGroups(true);
+        console.log('dialogGroupCreateOnChange');
+    }
     public dialogGroupCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
     public dialogGroupCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
-
-
-    _requestGetGroups() {
-        this.treeloading = true;
-        this.groupsApiService.getAll().subscribe((data: Array<GroupApiModel>) => {
-            this.treeItems = data.map((item: GroupApiModel) => {
-                return {
-                    'label': item.name,
-                    'data': { 'id': item.id },
-                    'leaf': item.parentId ? true : false
-                };
-            });
-            this.treeloading = false;
-            this.selectedGroup = this.treeItems[0];
-            this.groupManageTransferService.sendSelectedGroupId(data[0].id);
-        });
-    }
 
     loadNode(event: any) {
         this.treeloading = true;
@@ -119,31 +96,25 @@ export class GroupTreeComponent {
         });
     }
 
-    _stub1() {
+    _requestGetGroups(changeSelectedGroup: boolean, subGroupId: string = null) {
         this.treeloading = true;
-        return new Promise(function (resolve, reject) {
-            window.setTimeout(function () {
-                const data = [
-                    { 'label': 'Test log name for node 1', 'data': { 'id': 1 }, 'leaf': false },
-                    { 'label': 'Test log name for node 2', 'data': { 'id': 2 }, 'leaf': false },
-                    { 'label': 'Test log name for node 3', 'data': { 'id': 3 }, 'leaf': false }
-                ];
-                resolve(data);
-            }, 1500);
+        this.groupsApiService.getSubGroups(subGroupId).subscribe((data: Array<GroupApiModel>) => {
+            this.treeItems = data.map((item: GroupApiModel) => {
+                return {
+                    'label': item.name,
+                    'data': { 'id': item.id },
+                    'leaf': item.parentId ? true : false
+                };
+            });
+            this.treeloading = false;
+
+            if (changeSelectedGroup) {
+                this.selectedGroup = this.treeItems[0];
+                if (data.length > 0) {
+                    this.groupManageTransferService.sendSelectedGroupId(data[0].id);
+                }
+            }
+
         });
     }
-
-    _stub2() {
-        this.treeloading = true;
-        return new Promise(function (resolve, reject) {
-            window.setTimeout(function () {
-                const data = [
-                    { 'label': 'Test log name for node 1', 'data': { 'id': 1 } },
-                    { 'label': 'Test log name for node 2', 'data': { 'id': 2 } },
-                ];
-                resolve(data);
-            }, 1500);
-        });
-    }
-
 }

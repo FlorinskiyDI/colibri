@@ -36,5 +36,26 @@ namespace Survey.ApplicationLayer.Services
             var list = Mapper.Map<IEnumerable<Groups>, IEnumerable<GroupDto>>(result);
             return list;
         }
+
+        public async Task<GroupDto> CreateGroup(GroupDto groupDto)
+        {
+            var group = Mapper.Map<GroupDto, Groups>(groupDto);
+            var result = await _groupRequestService.CreateGrouptAsync(group);
+            groupDto = Mapper.Map<Groups, GroupDto>(result);
+            return groupDto;
+        }
+
+        public async Task<bool> DeleteGroup(Guid groupId)
+        {
+            var result = await _groupRequestService.DeleteGroup(groupId);
+            return result;
+        }
+
+        public async Task<GroupDto> GetGroup(Guid groupId)
+        {
+            var result = await _groupRequestService.GetGroup(groupId);
+            var groupDto = Mapper.Map<Groups, GroupDto>(result);
+            return groupDto;
+        }
     }
 }

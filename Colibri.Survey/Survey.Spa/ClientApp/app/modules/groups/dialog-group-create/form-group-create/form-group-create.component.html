@@ -1,7 +1,7 @@
 <div class="cmp-form-group-creat row">
     <div class="col-md-12">
 
-        <form class="form-horizontal needs-validation" role="form" #formGroupCreate="ngForm" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <div #formGroupCreate="ngForm" [formGroup]="formGroup" class="form-horizontal needs-validation" role="form">
 
             <div class="form-group form-group-sm form--group-xs">
                 <label class="col-md-3 control-label" for="name">Name</label>
@@ -21,11 +21,11 @@
             <div class="form-group form-group-sm">
                 <label class="col-md-3 control-label" for="message">Description</label>
                 <div class="col-md-9">
-                    <textarea class="form-control" id="message" name="message" placeholder="Please enter description here..." rows="5"></textarea>
+                    <textarea class="form-control" id="message" formControlName="description" name="message" placeholder="Please enter description here..." rows="5"></textarea>
                 </div>
             </div>
 
-        </form>
+        </div>
 
     </div>
 </div>

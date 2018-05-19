@@ -10,5 +10,8 @@ namespace Survey.InfrastructureLayer.IdentityServices
     {
         Task<IEnumerable<Groups>> GetGroupList();
         Task<IEnumerable<Groups>> GetSubGroupList(Guid groupId);
+        Task<Groups> CreateGrouptAsync(Groups group);
+        Task<Boolean> DeleteGroup(Guid groupId);
+        Task<Groups> GetGroup(Guid groupId);
     }
 }
