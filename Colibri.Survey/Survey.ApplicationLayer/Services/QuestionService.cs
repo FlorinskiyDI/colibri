@@ -20,7 +20,7 @@ namespace Survey.ApplicationLayer.Services
 
     public class QuestionService : IQuestionService
     {
-
+        private readonly IOptionChoiceService _optionChoiceService;
         private readonly IOptionGroupService _optionGroupService;
         private readonly IInputTypeService _inputTypeService;
         QuestionTypes type;
@@ -39,13 +39,15 @@ namespace Survey.ApplicationLayer.Services
             IUowProvider uowProvider,
             IMapper mapper,
             IInputTypeService inputTypeService,
-            IOptionGroupService optionGroupService
+            IOptionGroupService optionGroupService,
+            IOptionChoiceService optionChoiceService
         )
         {
             this.UowProvider = uowProvider;
             this.Mapper = mapper;
             this._inputTypeService = inputTypeService;
             this._optionGroupService = optionGroupService;
+            this._optionChoiceService = optionChoiceService;
 
             inputTypeList = _inputTypeService.GetAll();
 
@@ -103,11 +105,8 @@ namespace Survey.ApplicationLayer.Services
             return baseQuestionList;
         }
 
-
-        private async void SaveTextQuestion(TextQuestionModel data)
-        {
-            Guid optionGroup = await  _optionGroupService.AddAsync();
-            InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
+        private async void SaveQuestion(TextQuestionModel data, bool IsAllowMultipleOptionAnswers, Guid optionGroupId, Guid typeid, Guid? ParentId)
+        {          
             QuestionsDto questionDto = new QuestionsDto()
             {
                 Name = data.Text,
@@ -117,18 +116,18 @@ namespace Survey.ApplicationLayer.Services
                 OrderNo = data.Order,
                 AdditionalAnswer = data.IsAdditionalAnswer,
                 AllowMultipleOptionAnswers = false,
-                InputTypesId = type.Id,
+                InputTypesId = typeid,
                 PageId = pageId,
-                OptionGroupId = optionGroup
+                OptionGroupId = optionGroupId
             };
 
             using (var uow = UowProvider.CreateUnitOfWork())
             {
                 try
                 {
-                    Questions pageEntity = Mapper.Map<QuestionsDto, Questions>(questionDto);
-                    var repositoryPage = uow.GetRepository<Questions, Guid>();
-                    await repositoryPage.AddAsync(pageEntity);
+                    Questions questionEntity = Mapper.Map<QuestionsDto, Questions>(questionDto);
+                    var repositoryQuestion = uow.GetRepository<Questions, Guid>();
+                    await repositoryQuestion.AddAsync(questionEntity);
                     await uow.SaveChangesAsync();
                 }
                 catch (Exception e)
@@ -137,8 +136,14 @@ namespace Survey.ApplicationLayer.Services
                     throw;
                 }
             }
+        }
 
-            Console.Write("1111");
+        private async void SaveTextQuestion(TextQuestionModel data)
+        {
+            Guid optionGroupId = await _optionGroupService.AddAsync();
+            InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
+            SaveQuestion(data, false, optionGroupId, type.Id, null);
+            _optionChoiceService.AddAsync(optionGroupId, null);
         }
 
         private void SaveTextAreaQuestion(TextAreaQuestionModel data)

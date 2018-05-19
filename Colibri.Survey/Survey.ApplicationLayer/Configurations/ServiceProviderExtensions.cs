@@ -28,6 +28,7 @@ namespace Survey.ApplicationLayer.Configurations
             services.AddScoped<IInputTypeService, InputTypeService>();
             services.AddScoped<IOptionGroupService, OptionGroupService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IOptionChoiceService, OptionChoiceService>();
             return services;
         }
 
