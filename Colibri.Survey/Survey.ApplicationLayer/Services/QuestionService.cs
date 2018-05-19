@@ -143,7 +143,7 @@ namespace Survey.ApplicationLayer.Services
             Guid optionGroupId = await _optionGroupService.AddAsync();
             InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
             SaveQuestion(data, false, optionGroupId, type.Id, null);
-            _optionChoiceService.AddAsync(optionGroupId, null);
+            //_optionChoiceService.AddAsync(optionGroupId, null);
         }
 
         private void SaveTextAreaQuestion(TextAreaQuestionModel data)
@@ -151,16 +151,16 @@ namespace Survey.ApplicationLayer.Services
             Console.Write("1111");
         }
 
-        private async void SaveRadioQuestion(RadioQuestionModel data)
+        private async  void SaveRadioQuestion(RadioQuestionModel data)
         {
-            Guid optionGroupId = await _optionGroupService.AddAsync();
+            Guid optionGroupId =  _optionGroupService.AddAsync().Result;
             InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
             SaveQuestion(data, false, optionGroupId, type.Id, null);
             if (data.Options.Count() > 0)
             {
                 foreach (var item in data.Options)
                 {
-                    _optionChoiceService.AddAsync(optionGroupId, item);
+                     await _optionChoiceService.AddAsync(optionGroupId, item);
                 }
             }
            

@@ -8,6 +8,6 @@ namespace Survey.ApplicationLayer.Services.Interfaces
 {
     public interface IOptionChoiceService
     {
-        void AddAsync(Guid optionGroupId, ItemModel item);
+        Task AddAsync(Guid optionGroupId, ItemModel item);
     }
 }

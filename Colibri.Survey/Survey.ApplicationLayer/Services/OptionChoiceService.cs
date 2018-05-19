@@ -26,7 +26,7 @@ namespace Survey.ApplicationLayer.Services
             this.Mapper = mapper;
         }
 
-        public async void AddAsync(Guid optionGroupId, ItemModel item = null)
+        public async Task AddAsync(Guid optionGroupId, ItemModel item = null)
         {
             OptionChoisesDto optionChoisesDto = new OptionChoisesDto()
             {
