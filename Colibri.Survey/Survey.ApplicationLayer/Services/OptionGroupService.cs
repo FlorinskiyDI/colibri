@@ -6,6 +6,7 @@ using AutoMapper;
 using storagecore.Abstractions.Uow;
 using Survey.ApplicationLayer.Dtos.Entities;
 using Survey.ApplicationLayer.Services.Interfaces;
+using Survey.Common.Enums;
 using Survey.DomainModelLayer.Entities;
 
 namespace Survey.ApplicationLayer.Services
@@ -16,7 +17,7 @@ namespace Survey.ApplicationLayer.Services
 
         protected readonly IUowProvider UowProvider;
         protected readonly IMapper Mapper;
-
+        protected readonly  OptionGroupDefinitions optionGroupDefinitions;
         public OptionGroupService(
             IUowProvider uowProvider,
             IMapper mapper
@@ -24,13 +25,14 @@ namespace Survey.ApplicationLayer.Services
         {
             this.UowProvider = uowProvider;
             this.Mapper = mapper;
+            optionGroupDefinitions = new OptionGroupDefinitions();
         }
 
         public async Task<Guid> AddAsync()
         {
             OptionGroupsDto optiongroup = new OptionGroupsDto()
             {
-                Name = "textbox group"
+                Name = optionGroupDefinitions.textBox
             };
             using (var uow = UowProvider.CreateUnitOfWork())
             {
