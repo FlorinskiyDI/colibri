@@ -24,7 +24,6 @@ export class SurveysApiService {
     }
 
     saveSurvey(data: any): any {
-        debugger
         const value = this.restangular.all('api/surveySections').customPOST(data, undefined, undefined,
             { 'Content-Type': 'application/json' });
         return value;
