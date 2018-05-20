@@ -305,7 +305,7 @@ export class QuestionService {
             name: 'page name 2111111111111111111',
             description: 'page 2 description (change data)111111111111111111',
             order: 2,
-            questions: null
+            questions: []
           }
         ),
         new PageModel(
@@ -314,7 +314,7 @@ export class QuestionService {
             name: 'page name 3',
             description: 'page 3 description',
             order: 3,
-            questions: null
+            questions: []
           }
         ),
       ]

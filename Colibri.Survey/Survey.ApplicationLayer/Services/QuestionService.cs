@@ -79,9 +79,9 @@ namespace Survey.ApplicationLayer.Services
                 //        SaveDropdownQuestion( (DropdownQuestionModel)baseQuestionModel );
                 //    }
                 //},
-                {  typeof(GridRadioQuestionModel), async () =>
+                {  typeof(GridRadioQuestionModel), () =>
                     {
-                        await SaveGridRadioQuestion( (GridRadioQuestionModel)baseQuestionModel );
+                        SaveGridRadioQuestion( (GridRadioQuestionModel)baseQuestionModel );
                     }
                 },
             };
@@ -189,27 +189,24 @@ namespace Survey.ApplicationLayer.Services
         //    }
         //}
 
-        private async Task<Guid> SaveGridRadioQuestion(GridRadioQuestionModel data)
+        private void SaveGridRadioQuestion(GridRadioQuestionModel data)
         {
             
             InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
-            var parentQuestionId = await SaveQuestion(data, false, null, type.Id, null);
+            var parentQuestionId = SaveQuestion(data, false, null, type.Id, null).Result;
             if (data.Grid.Rows.Count() > 0)
             {
+                Guid optionGroupId = _optionGroupService.AddAsync().Result;
                 foreach (var item in data.Grid.Rows)
-                {
-                    Guid optionGroupId = _optionGroupService.AddAsync().Result;
-                    await SaveQuestion(data, false, optionGroupId, type.Id, parentQuestionId);
+                {               
+                    var rowQuestionId = SaveQuestion(data, false, optionGroupId, type.Id, parentQuestionId).Result;
 
                     if (data.Grid.Cols.Count() > 0)
                     {
-                        await _optionChoiceService.AddRangeAsync(optionGroupId, data.Grid.Cols);
+                        //await _optionChoiceService.AddRangeAsync(optionGroupId, data.Grid.Cols);
                     }
-                    //await _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
-                }
-                
+                }              
             }
-            return type.Id;
         }
 
 
