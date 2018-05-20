@@ -26,6 +26,11 @@ export class GroupsApiService {
         return result;
     }
 
+    getRoot(objectFields: string[] | null = null) {
+        const result = this.restangular.all('api/groups/root').customGET(undefined, objectFields ? objectFields.join(',') : undefined);
+        return result;
+    }
+
     getSubGroups(groupId: string) {
         const result = this.restangular.all('api/groups/' + groupId + '/subgroups');
         return result.getList();
@@ -33,6 +38,12 @@ export class GroupsApiService {
 
     create(data: any): any {
         const value = this.restangular.all('api/groups').post(data);
+        return value;
+    }
+
+    update(data: any): any {
+        const value = this.restangular.all('api/groups').customPUT(data, undefined, undefined,
+            { 'Content-Type': 'application/json' });
         return value;
     }
 

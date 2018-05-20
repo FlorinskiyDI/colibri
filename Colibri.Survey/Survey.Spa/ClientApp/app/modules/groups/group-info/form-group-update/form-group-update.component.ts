@@ -1,8 +1,9 @@
-import { Component, Output, Input, EventEmitter, ElementRef } from '@angular/core';
+import { Component, Output, Input, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BlockableUI } from 'primeng/primeng';
 
 /* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
+/* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 
 @Component({
     selector: 'form-group-update-cmp',
@@ -11,6 +12,7 @@ import { BlockableUI } from 'primeng/primeng';
 
 export class FormGroupUpdateComponent implements BlockableUI {
     configData: FormGroupUpdateConfig;
+    @ViewChild('formGroupUpdate') formGroupUpdate: any;
     @Output() onChange = new EventEmitter<any>();
     @Input()
     get config() { return this.configData; }
@@ -27,6 +29,7 @@ export class FormGroupUpdateComponent implements BlockableUI {
     drpdwnGroups: any[] = [];
 
     constructor(
+        private groupsApiService: GroupsApiService,
         private el: ElementRef
     ) {
         this.formBuild();
@@ -46,9 +49,22 @@ export class FormGroupUpdateComponent implements BlockableUI {
     }
 
     public formSubmit() {
-        console.log('formSubmit');
-        this.onChange.emit();
-        this._cmpClear();
+        if (!this.formGroupUpdate.valid) {
+            this.formIsValid = false;
+            console.log('(FormGroupUpdateComponent) Form is NOT VALID!!!');
+            return;
+        }
+
+        const group = Object.assign(
+            {},
+            { id: this.configData.item.id },
+            this.formGroupUpdate.value
+        ) as GroupApiModel;
+        this.groupsApiService.update(group)
+            .subscribe((response: GroupApiModel) => {
+                this.configData.setItem(group);
+                this.onChange.emit();
+            });
     }
     public formCancel() {
         this.formBuild(this.configData.item);
@@ -84,6 +100,10 @@ export class FormGroupUpdateConfig {
         item: GroupApiModel
     ) {
         this._groups = groups;
+        this._item = item;
+    }
+
+    setItem(item: GroupApiModel) {
         this._item = item;
     }
 }

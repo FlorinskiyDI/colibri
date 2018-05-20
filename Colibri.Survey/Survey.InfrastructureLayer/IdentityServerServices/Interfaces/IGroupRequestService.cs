@@ -9,9 +9,12 @@ namespace Survey.InfrastructureLayer.IdentityServices
     public interface IGroupRequestService
     {
         Task<IEnumerable<Groups>> GetGroupList();
+        Task<IEnumerable<Groups>> GetGroupListRoot();
         Task<IEnumerable<Groups>> GetSubGroupList(Guid groupId);
         Task<Groups> CreateGrouptAsync(Groups group);
         Task<Boolean> DeleteGroup(Guid groupId);
         Task<Groups> GetGroup(Guid groupId);
+        Groups UpdateGroupt(Groups group);
+
     }
 }

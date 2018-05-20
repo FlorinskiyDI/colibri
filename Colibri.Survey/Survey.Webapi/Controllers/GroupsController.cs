@@ -51,6 +51,29 @@ namespace Survey.Webapi.Controllers
             return Ok(result.ShapeData(fields));
         }
 
+        // GET: api/groups
+        [HttpGet]
+        [Route("root")]
+        public async Task<IActionResult> GetGroupListRoot([FromQuery] string fields)
+        {
+            if (!_typeHelperService.TypeHasProperties<GroupDto>(fields))
+            {
+                return BadRequest();
+            }
+
+            IEnumerable<GroupDto> result;
+            try
+            {
+                result = await _groupService.GetGroupListRoot();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return Ok(result.ShapeData(fields));
+        }
+
         // GET: api/groups/1/subgroups
         [HttpGet]
         [Route("{id}/subgroups")]
@@ -125,5 +148,28 @@ namespace Survey.Webapi.Controllers
 
             return Ok();
         }
+
+        // POST: api/groups/
+        [HttpPut]
+        public IActionResult UpdateGroup([FromBody] GroupDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            GroupDto result;
+            try
+            {
+                result = _groupService.UpdateGroup(model);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return Ok();
+        }
+
     }
 }

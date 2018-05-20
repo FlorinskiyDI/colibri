@@ -48,7 +48,7 @@ namespace IdentityServer.Webapi.Data
                 entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
 
                 entity.HasOne(d => d.Parent)
-                    .WithMany(p => p.InverseParent)
+                    .WithMany(p => p.InverseParent)                    
                     .HasForeignKey(d => d.ParentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Groups_ToGroups");

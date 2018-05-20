@@ -11,24 +11,36 @@ namespace IdentityServer.Webapi.Repositories
     public class GroupRepository : IGroupRepository
     {
 
-        public async Task<IEnumerable<Groups>> GetAllAsync(string userId)
+        public async Task<IEnumerable<Groups>> GetRootWithInverseAsync(string userId)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 return await ctx.Set<ApplicationUserGroups>()
-                    .Where(c => c.UserId == userId).Select(c => c.Group)
-                    .Where(c => c.ParentId == null).ToListAsync();
+                    .Where(c => c.UserId == userId)
+                    .Select(c => c.Group).Include(v => v.InverseParent)
+                    .ToListAsync();
             }
         }
 
-        public async Task<IEnumerable<Groups>> GetSubGroupsAsync(Guid? groupId, string userId)
+        public async Task<IEnumerable<Groups>> GetRootAsync(string userId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                return await ctx.Set<ApplicationUserGroups>()
+                    .Where(c => c.UserId == userId)
+                    .Select(c => c.Group)
+                    .ToListAsync();
+            }
+        }
+
+        public async Task<IEnumerable<Groups>> GetSubGroupsAsync(Guid? groupId)
         {
             groupId = Guid.Empty == groupId ? null : groupId;
             using (var ctx = new ApplicationDbContext())
             {
-                return await ctx.Set<ApplicationUserGroups>()
-                .Where(c => c.UserId == userId).Select(c => c.Group)
-                .Where(c => c.ParentId == groupId).ToListAsync();
+                return await ctx.Set<Groups>()
+                    .Where(c => c.ParentId == groupId)
+                    .ToListAsync();
             }
         }
 
@@ -38,6 +50,16 @@ namespace IdentityServer.Webapi.Repositories
             {
                 await ctx.Set<Groups>().AddAsync(group);
                 await ctx.SaveChangesAsync();
+            }
+            return group;
+        }
+
+        public Groups UpdateGroup(Groups group)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                ctx.Set<Groups>().Update(group);
+                ctx.SaveChanges();
             }
             return group;
         }

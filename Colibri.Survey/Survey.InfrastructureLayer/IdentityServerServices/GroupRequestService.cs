@@ -29,26 +29,43 @@ namespace Survey.InfrastructureLayer.IdentityServices
             return response.IsSuccessful ? response.Data : null;
         }
 
+        public Groups UpdateGroupt(Groups group)
+        {
+            var tokenResponse = GetToken().Result;
+            // call to identity server for update group
+            var restClient = new RestClient(NTContext.Context.IdentityUrl);
+            restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
+            var request = new RestRequest("/api/groups", Method.PUT) { RequestFormat = DataFormat.Json };
+            request.AddBody(group);
+            IRestResponse<Groups> response = restClient.Execute<Groups>(request);
+            //
+            return response.IsSuccessful ? response.Data : null;
+        }
+
+        public async Task<IEnumerable<Groups>> GetGroupListRoot()
+        {
+            IEnumerable<Groups> list = new List<Groups>();
+            var tokenResponse = await GetToken();
+            // call to identity server for get groups
+            var restClient = new RestClient(NTContext.Context.IdentityUrl);
+            restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
+            var request = new RestRequest("/api/groups/root", Method.GET);
+            IRestResponse<List<Groups>> response = await restClient.ExecuteTaskAsync<List<Groups>>(request);
+            //
+            return response.IsSuccessful ? response.Data : null;
+        }
+
         public async Task<IEnumerable<Groups>> GetGroupList()
         {
             IEnumerable<Groups> list = new List<Groups>();
             var tokenResponse = await GetToken();
-
             // call to identity server for get groups
             var restClient = new RestClient(NTContext.Context.IdentityUrl);
             restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
             var request = new RestRequest("/api/groups", Method.GET);
             IRestResponse<List<Groups>> response = await restClient.ExecuteTaskAsync<List<Groups>>(request);
-            list = response.Data;
-
-            if (!response.IsSuccessful)
-            {
-                return null;
-            }
-            else
-            {
-                return list;
-            }
+            //
+            return response.IsSuccessful ? response.Data : null;
         }
 
         public async Task<Boolean> DeleteGroup(Guid groupId)

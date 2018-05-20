@@ -18,7 +18,8 @@ namespace Survey.ApplicationLayer.Services
         public GroupService(
             IGroupRequestService groupRequestService,
             IMapper mapper
-        ) {
+        )
+        {
             _groupRequestService = groupRequestService;
             Mapper = mapper;
         }
@@ -26,6 +27,13 @@ namespace Survey.ApplicationLayer.Services
         public async Task<IEnumerable<GroupDto>> GetGroupList()
         {
             var result = await _groupRequestService.GetGroupList();
+            var list = Mapper.Map<IEnumerable<Groups>, IEnumerable<GroupDto>>(result);
+            return list;
+        }
+
+        public async Task<IEnumerable<GroupDto>> GetGroupListRoot()
+        {
+            var result = await _groupRequestService.GetGroupListRoot();
             var list = Mapper.Map<IEnumerable<Groups>, IEnumerable<GroupDto>>(result);
             return list;
         }
@@ -41,6 +49,14 @@ namespace Survey.ApplicationLayer.Services
         {
             var group = Mapper.Map<GroupDto, Groups>(groupDto);
             var result = await _groupRequestService.CreateGrouptAsync(group);
+            groupDto = Mapper.Map<Groups, GroupDto>(result);
+            return groupDto;
+        }
+
+        public GroupDto UpdateGroup(GroupDto groupDto)
+        {
+            var group = Mapper.Map<GroupDto, Groups>(groupDto);
+            var result = _groupRequestService.UpdateGroupt(group);
             groupDto = Mapper.Map<Groups, GroupDto>(result);
             return groupDto;
         }

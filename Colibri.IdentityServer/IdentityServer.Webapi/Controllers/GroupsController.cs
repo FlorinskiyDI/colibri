@@ -33,17 +33,51 @@ namespace IdentityServer.Webapi.Controllers
         {
             var claims = this.HttpContext.User.Claims;
             var userId = claims.First(c => c.Type == "sub").Value;
-            var list = await _groupRepository.GetAllAsync(userId);
+            var list = await _groupRepository.GetRootWithInverseAsync(userId);
+
+            var resultList = list.ToList();
+            foreach (var item in list)
+            {
+                recursiveTreeSearch(item, resultList);
+            }
+
+            return Ok(resultList);
+        }
+
+        public List<Groups> recursiveTreeSearch(Groups group, List<Groups> siblings)
+        {
+            if (group.InverseParent.Count() > 0)
+            {
+                var cc = group.InverseParent;
+                siblings.AddRange(cc);
+                foreach (var item in group.InverseParent)
+                {
+                    recursiveTreeSearch(item, siblings);
+                }
+            }
+            return siblings;
+        }
+
+
+        [HttpGet]
+        [Route("root")]
+        public async Task<IActionResult> GetRootGroups()
+        {
+            var claims = this.HttpContext.User.Claims;
+            var userId = claims.First(c => c.Type == "sub").Value;
+            var list = await _groupRepository.GetRootAsync(userId);
             return Ok(list);
         }
+
+        
+
+        
 
         [HttpGet]
         [Route("{id}/subgroups")]
         public async Task<IActionResult> GetSubGroups(Guid id)
         {
-            var claims = this.HttpContext.User.Claims;
-            var userId = claims.First(c => c.Type == "sub").Value;
-            var list = await _groupRepository.GetSubGroupsAsync(id, userId);
+            var list = await _groupRepository.GetSubGroupsAsync(id);
             return Ok(list);
         }
 
@@ -89,18 +123,12 @@ namespace IdentityServer.Webapi.Controllers
                 return BadRequest();
             }
 
-
             var claims = this.HttpContext.User.Claims;
             var userId = claims.First(c => c.Type == "sub").Value;
             Groups group;
             try
             {
                 group = await _groupRepository.CreateGroupAsync(model);
-                await _appUserGroupRepository.CreateAppUserGroupAsync(new ApplicationUserGroups()
-                {
-                    GroupId = group.Id,
-                    UserId = userId
-                });
             }
             catch (Exception e)
             {
@@ -108,5 +136,29 @@ namespace IdentityServer.Webapi.Controllers
             }
             return Ok(group);
         }
+
+        // POST: api/groups/
+        [HttpPut]
+        public IActionResult UpdateGroup([FromBody] Groups model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var claims = this.HttpContext.User.Claims;
+            var userId = claims.First(c => c.Type == "sub").Value;
+            Groups group;
+            try
+            {
+                group = _groupRepository.UpdateGroup(model);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            return Ok(group);
+        }
+
     }
 }
