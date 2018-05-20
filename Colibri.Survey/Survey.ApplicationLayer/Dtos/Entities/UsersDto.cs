@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Survey.ApplicationLayer.Dtos.Entities
 {
-    class UsersDto
+    public class UsersDto
     {
         public Guid Id { get; set; }
     }

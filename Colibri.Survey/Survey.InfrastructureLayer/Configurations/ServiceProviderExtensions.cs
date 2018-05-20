@@ -37,6 +37,7 @@ namespace Survey.InfrastructureLayer.Configurations
             services.AddScoped<IInputTypeRepository, InputTypeRepository>();
             services.AddScoped<IOptionGroupRepository, OptionGroupRepository>();
             services.AddScoped<IOptionChoiceRepository, OptionChoiceRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
 

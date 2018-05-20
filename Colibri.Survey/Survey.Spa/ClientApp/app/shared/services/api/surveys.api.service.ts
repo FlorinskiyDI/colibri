@@ -23,10 +23,10 @@ export class SurveysApiService {
         // return value;
     }
 
-    get(id: string) {
-        const result = this.restangular.one('api/surveySections', id).get();
-        return result;
-    }
+    // get(id: string) {
+    //     const result = this.restangular.one('api/surveySections', id).get();
+    //     return result;
+    // }
 
     saveSurvey(data: any): any {
         const value = this.restangular.all('api/surveySections').customPOST(data, undefined, undefined,
