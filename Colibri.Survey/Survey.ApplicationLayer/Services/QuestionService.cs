@@ -54,34 +54,34 @@ namespace Survey.ApplicationLayer.Services
 
 
             switchQuestionType = new Dictionary<Type, Action> {
-                { typeof(TextQuestionModel), () =>
+                //{ typeof(TextQuestionModel), () =>
+                //    {
+                //        SaveTextQuestion( (TextQuestionModel)baseQuestionModel );
+                //    }
+                //},
+                //{ typeof(TextAreaQuestionModel), () =>
+                //    {
+                //        SaveTextAreaQuestion( (TextAreaQuestionModel)baseQuestionModel );
+                //    }
+                //},
+                //{ typeof(RadioQuestionModel), () =>
+                //    {
+                //        SaveRadioQuestion( (RadioQuestionModel)baseQuestionModel );
+                //    }
+                //},
+                //{ typeof(CheckBoxQuesstionModel), () =>
+                //    {
+                //        SaveCheckBoxQuestion( (CheckBoxQuesstionModel)baseQuestionModel );
+                //    }
+                //},
+                //{ typeof(DropdownQuestionModel), () =>
+                //    {
+                //        SaveDropdownQuestion( (DropdownQuestionModel)baseQuestionModel );
+                //    }
+                //},
+                {  typeof(GridRadioQuestionModel), async () =>
                     {
-                        SaveTextQuestion( (TextQuestionModel)baseQuestionModel );
-                    }
-                },
-                { typeof(TextAreaQuestionModel), () =>
-                    {
-                        SaveTextAreaQuestion( (TextAreaQuestionModel)baseQuestionModel );
-                    }
-                },
-                { typeof(RadioQuestionModel), () =>
-                    {
-                        SaveRadioQuestion( (RadioQuestionModel)baseQuestionModel );
-                    }
-                },
-                { typeof(CheckBoxQuesstionModel), () =>
-                    {
-                        SaveCheckBoxQuestion( (CheckBoxQuesstionModel)baseQuestionModel );
-                    }
-                },
-                { typeof(DropdownQuestionModel), () =>
-                    {
-                        SaveDropdownQuestion( (DropdownQuestionModel)baseQuestionModel );
-                    }
-                },
-                { typeof(GridRadioQuestionModel), () =>
-                    {
-                        SaveGridRadioQuestion( (GridRadioQuestionModel)baseQuestionModel );
+                        await SaveGridRadioQuestion( (GridRadioQuestionModel)baseQuestionModel );
                     }
                 },
             };
@@ -140,56 +140,56 @@ namespace Survey.ApplicationLayer.Services
             }
         }
 
-        private async void SaveTextQuestion(TextQuestionModel data)
-        {
-            Guid optionGroupId = await _optionGroupService.AddAsync();
-            InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
-            await SaveQuestion(data, false, optionGroupId, type.Id, null);
-            await _optionChoiceService.AddAsync(optionGroupId, null);
-        }
+        //private async void SaveTextQuestion(TextQuestionModel data)
+        //{
+        //    Guid optionGroupId = await _optionGroupService.AddAsync();
+        //    InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
+        //    await SaveQuestion(data, false, optionGroupId, type.Id, null);
+        //    await _optionChoiceService.AddAsync(optionGroupId, null);
+        //}
 
-        private async void SaveTextAreaQuestion(TextAreaQuestionModel data)
-        {
-            Guid optionGroupId = await _optionGroupService.AddAsync();
-            InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
-            await SaveQuestion(data, false, optionGroupId, type.Id, null);
-            await _optionChoiceService.AddAsync(optionGroupId, null);
-        }
+        //private async void SaveTextAreaQuestion(TextAreaQuestionModel data)
+        //{
+        //    Guid optionGroupId = await _optionGroupService.AddAsync();
+        //    InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
+        //    await SaveQuestion(data, false, optionGroupId, type.Id, null);
+        //    await _optionChoiceService.AddAsync(optionGroupId, null);
+        //}
 
-        private async void SaveRadioQuestion(RadioQuestionModel data)
-        {
-            Guid optionGroupId = _optionGroupService.AddAsync().Result;
-            InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
-            await SaveQuestion(data, false, optionGroupId, type.Id, null);
-            if (data.Options.Count() > 0)
-            {
-                await _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
-            }
-        }
+        //private async void SaveRadioQuestion(RadioQuestionModel data)
+        //{
+        //    Guid optionGroupId = _optionGroupService.AddAsync().Result;
+        //    InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
+        //    await SaveQuestion(data, false, optionGroupId, type.Id, null);
+        //    if (data.Options.Count() > 0)
+        //    {
+        //        await _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
+        //    }
+        //}
 
-        private async void SaveCheckBoxQuestion(CheckBoxQuesstionModel data)
-        {
-            Guid optionGroupId = _optionGroupService.AddAsync().Result;
-            InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
-            await SaveQuestion(data, true, optionGroupId, type.Id, null);
-            if (data.Options.Count() > 0)
-            {
-                await _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
-            }
-        }
+        //private async void SaveCheckBoxQuestion(CheckBoxQuesstionModel data)
+        //{
+        //    Guid optionGroupId = _optionGroupService.AddAsync().Result;
+        //    InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
+        //    await SaveQuestion(data, true, optionGroupId, type.Id, null);
+        //    if (data.Options.Count() > 0)
+        //    {
+        //        await _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
+        //    }
+        //}
 
-        private async void SaveDropdownQuestion(DropdownQuestionModel data)
-        {
-            Guid optionGroupId = _optionGroupService.AddAsync().Result;
-            InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
-            await SaveQuestion(data, false, optionGroupId, type.Id, null);
-            if (data.Options.Count() > 0)
-            {
-                await _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
-            }
-        }
+        //private async void SaveDropdownQuestion(DropdownQuestionModel data)
+        //{
+        //    Guid optionGroupId = _optionGroupService.AddAsync().Result;
+        //    InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
+        //    await SaveQuestion(data, false, optionGroupId, type.Id, null);
+        //    if (data.Options.Count() > 0)
+        //    {
+        //        await _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
+        //    }
+        //}
 
-        private async void SaveGridRadioQuestion(GridRadioQuestionModel data)
+        private async Task<Guid> SaveGridRadioQuestion(GridRadioQuestionModel data)
         {
             
             InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
@@ -209,6 +209,7 @@ namespace Survey.ApplicationLayer.Services
                 }
                 
             }
+            return type.Id;
         }
 
 
