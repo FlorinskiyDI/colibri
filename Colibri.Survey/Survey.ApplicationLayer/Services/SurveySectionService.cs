@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Survey.ApplicationLayer.Dtos.Models;
+using Survey.DomainModelLayer.Contracts.Repositories;
+using Survey.Common.Context;
 
 namespace Survey.ApplicationLayer.Services
 {
@@ -16,13 +18,17 @@ namespace Survey.ApplicationLayer.Services
         protected readonly IUowProvider UowProvider;
         protected readonly IMapper Mapper;
 
+        private readonly IUserService _userService;
+
         public SurveySectionService(
             IUowProvider uowProvider,
-            IMapper mapper
+            IMapper mapper,
+            IUserService userService
         )
         {
             this.UowProvider = uowProvider;
             this.Mapper = mapper;
+            this._userService = userService;
         }
 
         public IEnumerable<SurveySectionDto> GetAll()
@@ -36,14 +42,57 @@ namespace Survey.ApplicationLayer.Services
             return Mapper.Map<IEnumerable<SurveySections>, IEnumerable<SurveySectionDto>>(items);
         }
 
+
+
+        public async Task<SurveyModel> GetByUser(Guid userId)
+        {
+            try
+            {
+                SurveySections item;
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
+                    item = await repositorySurveySection.GetAsync(userId);
+
+                    SurveySectionDto surveyDto = Mapper.Map<SurveySections, SurveySectionDto>(item);
+                    await uow.SaveChangesAsync();
+                    SurveyModel survey = new SurveyModel()
+                    {
+                        Name = surveyDto.Name,
+                        Description = surveyDto.Description,
+                        Id = surveyDto.Id.ToString()
+                    };
+                    return survey;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        } 
+
+
+
         public async Task<Guid> AddAsync(SurveyModel survey)
         {
+            Guid userId;
+            UsersDto existUser = await _userService.GetAsync(Guid.Parse(NTContext.Context.UserId));
+            if(existUser == null)
+            {
+                userId = await _userService.AddAsync(Guid.Parse(NTContext.Context.UserId));
+            }
+            else
+            {
+                userId = existUser.Id;
+            }
 
             SurveySectionDto surveyDto= new SurveySectionDto()
             {
                 //Id = new Guid(),
                 Description = survey.Description,
-                Name = survey.Name
+                Name = survey.Name,
+                DateCreated = DateTime.UtcNow,
+                 UserId = userId
             };
 
             using (var uow = UowProvider.CreateUnitOfWork())

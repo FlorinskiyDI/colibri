@@ -8,6 +8,6 @@ namespace Survey.ApplicationLayer.Services.Interfaces
 {
     public interface IOptionGroupService
     {
-        Task<Guid> AddAsync();
+        Task<Guid> AddAsync(string groupDefinition);
     }
 }

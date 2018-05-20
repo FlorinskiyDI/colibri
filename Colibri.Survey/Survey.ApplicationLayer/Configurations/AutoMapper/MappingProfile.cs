@@ -30,6 +30,7 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
             CreateMap<InputTypesDto, InputTypes>();
             CreateMap<OptionGroupsDto, OptionGroups>();
             CreateMap<OptionChoisesDto, OptionChoises>();
+            CreateMap<UsersDto, Users>();
         }
         private void EntityToDto()
         {
@@ -43,6 +44,7 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
             CreateMap<InputTypes, InputTypesDto>();
             CreateMap<OptionGroups, OptionGroupsDto>();
             CreateMap<OptionChoises, OptionChoisesDto>();
+            CreateMap<Users, UsersDto>();
             //CreateMap<PersonalClaimDto, PersonalClaim>();
         }
     }

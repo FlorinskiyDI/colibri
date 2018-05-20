@@ -9,5 +9,6 @@ namespace Survey.ApplicationLayer.Services.Interfaces
     public interface IPageService
     {
         Task<Guid> AddAsync(PageModel survey, Guid surveyId);
+        Task<List<PageModel>> GetListBySurvey(Guid surveyId);
     }
 }

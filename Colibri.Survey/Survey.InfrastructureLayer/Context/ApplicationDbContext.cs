@@ -108,7 +108,6 @@ namespace Survey.InfrastructureLayer.Context
                 entity.HasOne(d => d.OptionGroup)
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.OptionGroupId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Questions_OptionGroups");
 
                 entity.HasOne(d => d.Page)
@@ -124,6 +123,17 @@ namespace Survey.InfrastructureLayer.Context
             });
 
             modelBuilder.Entity<SurveySections>(entity =>
+            {
+                entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.SurveySections)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SurveySections_Users");
+            });
+
+            modelBuilder.Entity<Users>(entity =>
             {
                 entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
             });

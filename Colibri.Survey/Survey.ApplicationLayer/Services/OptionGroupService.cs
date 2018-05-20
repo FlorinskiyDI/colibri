@@ -17,7 +17,7 @@ namespace Survey.ApplicationLayer.Services
 
         protected readonly IUowProvider UowProvider;
         protected readonly IMapper Mapper;
-        protected readonly  OptionGroupDefinitions optionGroupDefinitions;
+
         public OptionGroupService(
             IUowProvider uowProvider,
             IMapper mapper
@@ -25,14 +25,14 @@ namespace Survey.ApplicationLayer.Services
         {
             this.UowProvider = uowProvider;
             this.Mapper = mapper;
-            optionGroupDefinitions = new OptionGroupDefinitions();
+
         }
 
-        public async Task<Guid> AddAsync()
+        public async Task<Guid> AddAsync(string groupDefinition)
         {
             OptionGroupsDto optiongroup = new OptionGroupsDto()
             {
-                Name = optionGroupDefinitions.textBox
+                Name = groupDefinition
             };
             using (var uow = UowProvider.CreateUnitOfWork())
             {
