@@ -69,5 +69,6 @@
     <Build Include="OptionChoises.sql" />
     <Build Include="OptionGroups.sql" />
     <Build Include="SurveySections.sql" />
+    <Build Include="Users.sql" />
   </ItemGroup>
 </Project>

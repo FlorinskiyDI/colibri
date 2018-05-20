@@ -18,7 +18,13 @@ namespace Survey.DomainModelLayer.Entities
         [StringLength(500)]
         public string Name { get; set; }
         public string Description { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime DateCreated { get; set; }
+        public Guid UserId { get; set; }
 
+        [ForeignKey("UserId")]
+        [InverseProperty("SurveySections")]
+        public Users User { get; set; }
         [InverseProperty("Survey")]
         public ICollection<Pages> Pages { get; set; }
     }

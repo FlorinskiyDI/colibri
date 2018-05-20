@@ -38,13 +38,27 @@ namespace Survey.Webapi.Controllers
         }
 
 
-        // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            var result = _surveySectionService.GetAll();
-            return new string[] { "value1", "value2" };
-        }
+        // GET: api/groups/1
+        //[HttpGet]
+        //[Route("{id}")]
+        //public async Task<IActionResult> GetSurvey(Guid id)
+        //{
+        //    GroupDto groupDto;
+        //    try
+        //    {
+        //        groupDto = await _groupService.GetGroup(id);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError);
+        //    }
+
+        //    return Ok(groupDto);
+        //}
+
+
+
+
 
         [HttpPost]
         [Produces("application/json")]
