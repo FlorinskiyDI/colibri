@@ -27,6 +27,48 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
+
+
+        public async Task<List<PageModel>> GetListBySurvey(Guid surveyId)
+        {
+            try
+            {
+                List<PageModel> pages = new List<PageModel>();
+                IEnumerable<Pages> items;
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryPage = uow.GetRepository<Pages, Guid>();
+                    items = await repositoryPage.QueryAsync(item => item.SurveyId == surveyId);
+                    await uow.SaveChangesAsync();
+                    IEnumerable<PagesDto> surveyDto = Mapper.Map<IEnumerable<Pages>, IEnumerable<PagesDto>>(items);
+
+                    foreach (var item in surveyDto)
+                    {
+                        PageModel page = new PageModel()
+                        {
+                            Name = item.Name,
+                            Description = item.Description,
+                            OrderNo = item.OrderNo,
+                            SurveyId = item.SurveyId
+                        };
+                        pages.Add(page);
+                    }
+                    return pages;
+                    //SurveyModel survey = new SurveyModel()
+                    //{
+                    //    Name = surveyDto.Name,
+                    //    Description = surveyDto.Description,
+                    //    Id = surveyDto.Id.ToString()
+                    //};
+                    //return survey;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<Guid> AddAsync(PageModel survey, Guid surveyId)
         {
             string surveystring = surveyId.ToString();

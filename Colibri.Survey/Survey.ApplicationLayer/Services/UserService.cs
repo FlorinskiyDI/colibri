@@ -27,10 +27,11 @@ namespace Survey.ApplicationLayer.Services
         public async Task<Guid> AddAsync(Guid identityUserId)
         {
 
-            UsersDto userDto = new UsersDto() {
+            UsersDto userDto = new UsersDto()
+            {
                 Id = identityUserId
             };
-           
+
 
             using (var uow = UowProvider.CreateUnitOfWork())
             {
@@ -55,16 +56,21 @@ namespace Survey.ApplicationLayer.Services
 
         public async Task<UsersDto> GetAsync(Guid userId)
         {
-            Users item;
-            using (var uow = UowProvider.CreateUnitOfWork())
+            try
             {
-                var repositoryUser = uow.GetRepository<Users, Guid>();
-                item = await repositoryUser.GetAsync(userId);
+                Users item;
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryUser = uow.GetRepository<Users, Guid>();
+                    item = await repositoryUser.GetAsync(userId);
 
-                return Mapper.Map<Users, UsersDto>(item);
+                    return Mapper.Map<Users, UsersDto>(item);
+                }
             }
-
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

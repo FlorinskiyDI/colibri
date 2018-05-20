@@ -42,6 +42,37 @@ namespace Survey.ApplicationLayer.Services
             return Mapper.Map<IEnumerable<SurveySections>, IEnumerable<SurveySectionDto>>(items);
         }
 
+
+
+        public async Task<SurveyModel> GetByUser(Guid userId)
+        {
+            try
+            {
+                SurveySections item;
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
+                    item = await repositorySurveySection.GetAsync(userId);
+
+                    SurveySectionDto surveyDto = Mapper.Map<SurveySections, SurveySectionDto>(item);
+                    await uow.SaveChangesAsync();
+                    SurveyModel survey = new SurveyModel()
+                    {
+                        Name = surveyDto.Name,
+                        Description = surveyDto.Description,
+                        Id = surveyDto.Id.ToString()
+                    };
+                    return survey;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        } 
+
+
+
         public async Task<Guid> AddAsync(SurveyModel survey)
         {
             Guid userId;

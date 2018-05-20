@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ using Survey.ApplicationLayer.Dtos.Models;
 using Survey.ApplicationLayer.Dtos.Models.Questions;
 using Survey.ApplicationLayer.Services;
 using Survey.ApplicationLayer.Services.Interfaces;
+using Survey.Common.Context;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -38,23 +40,24 @@ namespace Survey.Webapi.Controllers
         }
 
 
-        // GET: api/groups/1
-        //[HttpGet]
-        //[Route("{id}")]
-        //public async Task<IActionResult> GetSurvey(Guid id)
-        //{
-        //    GroupDto groupDto;
-        //    try
-        //    {
-        //        groupDto = await _groupService.GetGroup(id);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError);
-        //    }
+        //GET: api/surveySections/1
+        [HttpGet]
+        public async Task<IActionResult> GetSurvey()
+        {
+            Guid userId = Guid.Parse(NTContext.Context.UserId);
+            SurveyModel survey;
+            try
+            {
+                survey = await _surveySectionService.GetByUser(userId);
+                List<PageModel> pages = await _pageService.GetListBySurvey(Guid.Parse(survey.Id));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
-        //    return Ok(groupDto);
-        //}
+            return Ok(survey);
+        }
 
 
 
@@ -64,7 +67,7 @@ namespace Survey.Webapi.Controllers
         [Produces("application/json")]
         public async  Task<IActionResult> SaveSurvey( [FromBody] SurveyModel survey)
         {
-
+            await GetSurvey();
             Guid surveyId = await _surveySectionService.AddAsync(survey);
             if (survey.Pages.Count() > 0 && surveyId != null)
             {
