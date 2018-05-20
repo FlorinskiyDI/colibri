@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Survey.ApplicationLayer.Dtos.Entities;
+using Survey.ApplicationLayer.Dtos.Models;
 using Survey.DomainModelLayer.Entities;
+using Survey.DomainModelLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,10 +18,12 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
         }
 
 
-        private void EntityToDto()
+        private void DtoToEntity()
         {
-            // models
-            // entities
+            // models dto
+            CreateMap<Groups, GroupDto>();
+            CreateMap<IdentityUserModel, IdentityUserDto>();
+            // entities dto
             CreateMap<SurveySectionDto, SurveySections>();
             CreateMap<PagesDto, Pages>();
             CreateMap<QuestionsDto, Questions>();
@@ -27,16 +31,18 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
             CreateMap<OptionGroupsDto, OptionGroups>();
             CreateMap<OptionChoisesDto, OptionChoises>();
         }
-        private void DtoToEntity()
+        private void EntityToDto()
         {
+            // models
+            CreateMap<GroupDto, Groups>();
+            CreateMap<IdentityUserDto, IdentityUserModel>();
+            // entities
             CreateMap<SurveySections, SurveySectionDto>();
             CreateMap<Pages, PagesDto>();
-            CreateMap<Questions, QuestionsDto> ();
+            CreateMap<Questions, QuestionsDto>();
             CreateMap<InputTypes, InputTypesDto>();
             CreateMap<OptionGroups, OptionGroupsDto>();
             CreateMap<OptionChoises, OptionChoisesDto>();
-            // models
-            // entities
             //CreateMap<PersonalClaimDto, PersonalClaim>();
         }
     }

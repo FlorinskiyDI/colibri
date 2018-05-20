@@ -18,7 +18,6 @@ namespace Survey.Webapi.Controllers
     public class GroupsController : BaseController
     {
         private readonly IGroupService _groupService;
-
         public GroupsController(
             IConfiguration configuration,
             ITypeHelperService typeHelperService,

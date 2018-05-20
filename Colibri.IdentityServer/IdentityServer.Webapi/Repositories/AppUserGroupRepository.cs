@@ -16,9 +16,9 @@ namespace IdentityServer.Webapi.Repositories
                 await ctx.Set<ApplicationUserGroups>().AddAsync(appUserGroup);
                 await ctx.SaveChangesAsync();
             }
-
             return appUserGroup;
         }
+        
 
         public void DeleteAppUserGroupByGroupAsync(Guid groupId)
         {

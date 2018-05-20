@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using storagecore.EntityFrameworkCore;
 using Survey.DomainModelLayer.Contracts.Repositories;
 using Survey.InfrastructureLayer.Context;
+using Survey.InfrastructureLayer.IdentityServerServices;
+using Survey.InfrastructureLayer.IdentityServerServices.Interfaces;
 using Survey.InfrastructureLayer.IdentityServices;
 using Survey.InfrastructureLayer.Repositories;
 using System;
@@ -26,7 +28,7 @@ namespace Survey.InfrastructureLayer.Configurations
         private static void AddServices(IServiceCollection services)
         {
             services.AddScoped<IGroupRequestService, GroupRequestService>();
-            services.AddScoped<IUserRequestService, UserRequestService>();
+            services.AddScoped<IIdentityUserRequestService, IdentityUserRequestService>();
 
         }
         private static void AddRepositories(IServiceCollection services)

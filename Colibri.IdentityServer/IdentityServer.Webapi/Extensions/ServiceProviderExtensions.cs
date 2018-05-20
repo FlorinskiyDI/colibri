@@ -17,6 +17,7 @@ namespace IdentityServer.Webapi.Extensions
         {
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IAppUserGroupRepository, AppUserGroupRepository>();
+            services.AddScoped<IAppUserRepository, AppUserRepository>();
 
             
             return services;

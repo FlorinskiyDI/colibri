@@ -129,6 +129,16 @@ namespace IdentityServer.Webapi.Controllers
             try
             {
                 group = await _groupRepository.CreateGroupAsync(model);
+                // if the parent has not been set, specify the user as an owner
+                if (model.ParentId == null)
+                {
+                    await _appUserGroupRepository.CreateAppUserGroupAsync(new ApplicationUserGroups()
+                    {
+                        GroupId = group.Id,
+                        UserId = userId
+                    });
+                }
+                
             }
             catch (Exception e)
             {

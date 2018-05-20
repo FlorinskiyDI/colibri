@@ -48,7 +48,7 @@ namespace Survey.ApplicationLayer.Services
         public async Task<GroupDto> CreateGroup(GroupDto groupDto)
         {
             var group = Mapper.Map<GroupDto, Groups>(groupDto);
-            var result = await _groupRequestService.CreateGrouptAsync(group);
+            var result = await _groupRequestService.CreateGroupAsync(group);
             groupDto = Mapper.Map<Groups, GroupDto>(result);
             return groupDto;
         }

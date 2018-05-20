@@ -13,7 +13,7 @@ namespace Survey.InfrastructureLayer.IdentityServices
 {
     public class GroupRequestService: BaseApiService,  IGroupRequestService
     {
-        public async Task<Groups> CreateGrouptAsync(Groups group)
+        public async Task<Groups> CreateGroupAsync(Groups group)
         {            
             var tokenResponse = await GetToken();
 
