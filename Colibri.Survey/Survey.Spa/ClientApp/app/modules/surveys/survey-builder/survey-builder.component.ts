@@ -5,8 +5,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { ControTypes } from '../../../shared/constants/control-types.constant';
 import { AvailableQuestions } from '../../../shared/models/form-builder/form-control/available-question.model';
 import { SurveyModel } from '../../../shared/models/form-builder/survey.model';
+import { ActivatedRoute } from '@angular/router';
 
-import { TextboxQuestion } from '../../../shared/models/form-builder/question-textbox.model';
+// import { TextboxQuestion } from '../../../shared/models/form-builder/question-textbox.model';
 
 
 import { PageModel } from '../../../shared/models/form-builder/page.model';
@@ -32,12 +33,13 @@ import { QuestionBase } from 'shared/models/form-builder/question-base.model';
 })
 export class SurveyBuilderComponent {
 
-    page: any = {};
+    activeSurveyId: string;
+    page: any;
     pageinglist: any[];
     questions: QuestionBase<any>[];
     newquestion: any;
     questionOption: any = {};
-    survey: SurveyModel;
+    survey: SurveyModel = null;
     temporaryAnser: any;
     // availableQuestions: string[] = [
     //     ControTypes.checkbox,
@@ -76,11 +78,15 @@ export class SurveyBuilderComponent {
 
 
     constructor(
+        private route: ActivatedRoute,
         private surveysApiService: SurveysApiService,
         private questionTransferService: QuestionTransferService,
         public questionService: QuestionService,
         public questionControlService: QuestionControlService
     ) {
+        this.route.params.subscribe((params: any) => {
+            this.activeSurveyId = params['id'];
+        });
         this.questionTransferService.getIdByNewPage().subscribe((id: any) => {
             const page = new PageModel({
                 id: id,
@@ -138,33 +144,13 @@ export class SurveyBuilderComponent {
         this.survey = this.questionService.getSurvey();
 
 
-        this.surveysApiService.get(this.survey.id).subscribe((data: SurveyModel) => {
-            // debugger
-            // console.log(this.survey);
-
-            // this.survey = data as SurveyModel;
-
-            // this.survey.pages[0] = this.survey.pages[0] as PageModel;
-
-            // this.survey.pages[0].questions[0] = this.survey.pages[0].questions[0] as TextboxQuestion;
-            // console.log('7777777777777777777777777777777777777777777777777777777777');
-            // console.log(this.survey);
-            // console.log('7777777777777777777777777777777777777777777777777777777777');
-
-            // this.page = this.survey.pages[0];
-            // this.questions = this.survey.pages[0].questions;
-            // this.pageinglist = this.generatePagingList(this.survey.pages);
-
-
+        this.surveysApiService.get(this.activeSurveyId).subscribe((data: SurveyModel) => {
             if (this.survey.pages) {
-                this.page = this.survey.pages[0];
+                this.page = data.pages[0];
                 // this.questions = this.survey.pages[0].questions;
-                this.pageinglist = this.generatePagingList(this.survey.pages);
+                this.pageinglist = this.generatePagingList(data.pages);
             }
         });
-
-
-
         // if (this.survey.pages) {
         //     this.page = this.survey.pages[0];
         //     // this.questions = this.survey.pages[0].questions;
