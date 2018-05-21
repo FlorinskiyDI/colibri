@@ -40,6 +40,25 @@ namespace Survey.Webapi.Controllers
         }
 
 
+        // GET: api/groups/surveys
+        [HttpGet]
+        public async Task<IActionResult> Getlist()
+        {
+            IEnumerable<SurveySectionDto> result;
+            try
+            {
+                result = await _surveySectionService.GetAll();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return Ok(result);
+        }
+
+
+
         //GET: api/surveySections/1
         [HttpGet]
         [Route("{id}")]

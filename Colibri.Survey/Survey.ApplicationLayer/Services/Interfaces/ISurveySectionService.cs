@@ -9,7 +9,7 @@ namespace Survey.ApplicationLayer.Services.Interfaces
 {
     public interface ISurveySectionService
     {
-        IEnumerable<SurveySectionDto> GetAll();
+        Task<IEnumerable<SurveySectionDto>> GetAll();
         Task<Guid> AddAsync(SurveyModel dto);
         Task<SurveyModel> GetAsync(Guid surveyId);
     }

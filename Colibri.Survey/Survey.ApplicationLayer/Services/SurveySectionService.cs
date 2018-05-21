@@ -31,13 +31,15 @@ namespace Survey.ApplicationLayer.Services
             this._userService = userService;
         }
 
-        public IEnumerable<SurveySectionDto> GetAll()
+        public async Task<IEnumerable<SurveySectionDto>> GetAll()
         {
+            Guid userId = Guid.Parse(NTContext.Context.UserId);
             IEnumerable<SurveySections> items;
             using (var uow = UowProvider.CreateUnitOfWork())
             {
                 var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
-                items = repositorySurveySection.GetAll();
+                items = await repositorySurveySection.GetAllAsync();
+                await uow.SaveChangesAsync();
             }
             return Mapper.Map<IEnumerable<SurveySections>, IEnumerable<SurveySectionDto>>(items);
         }
@@ -46,7 +48,7 @@ namespace Survey.ApplicationLayer.Services
 
         public async Task<SurveyModel> GetAsync(Guid surveyId)
         {
-            surveyId = Guid.Parse("c8a801ba-ea5c-e811-9122-107b44194709");
+            //surveyId = Guid.Parse("c8a801ba-ea5c-e811-9122-107b44194709");
             try
             {
                

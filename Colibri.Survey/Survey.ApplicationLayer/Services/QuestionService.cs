@@ -312,6 +312,18 @@ namespace Survey.ApplicationLayer.Services
                                         baseQuestions.Add(typedQuestion);
                                         break;
                                     }
+                                case QuestionTypes.Textarea:
+                                    {
+                                        var typedQuestion = GetTextareaQuestion(item, QuestionTypes.Textarea.ToString());
+                                        baseQuestions.Add(typedQuestion);
+                                        break;
+                                    }
+                                case QuestionTypes.Radio:
+                                    {
+                                        var typedQuestion = GetRadioQuestion(item, QuestionTypes.Radio.ToString());
+                                        baseQuestions.Add(typedQuestion);
+                                        break;
+                                    }
                             }
                         }
                     }
@@ -324,7 +336,7 @@ namespace Survey.ApplicationLayer.Services
             }
         }
 
-        private BaseQuestionModel GetTextQuestion(QuestionsDto questionDto, string  type)
+        private BaseQuestionModel GetTextQuestion(QuestionsDto questionDto, string type)
         {
             TextQuestionModel textQuestion = new TextQuestionModel()
             {
@@ -335,6 +347,38 @@ namespace Survey.ApplicationLayer.Services
                 Description = questionDto.Description,
                 IsAdditionalAnswer = questionDto.AdditionalAnswer,
                 Required = questionDto.Required
+            };
+            return textQuestion as BaseQuestionModel;
+        }
+
+        private BaseQuestionModel GetTextareaQuestion(QuestionsDto questionDto, string type)
+        {
+            TextAreaQuestionModel textQuestion = new TextAreaQuestionModel()
+            {
+                Id = questionDto.Id.ToString(),
+                Text = questionDto.Name,
+                Order = questionDto.OrderNo,
+                ControlType = type,
+                Description = questionDto.Description,
+                IsAdditionalAnswer = questionDto.AdditionalAnswer,
+                Required = questionDto.Required,
+            };
+            return textQuestion as BaseQuestionModel;
+        }
+
+        private BaseQuestionModel GetRadioQuestion(QuestionsDto questionDto, string type)
+        {
+            var options = _optionChoiceService.GetListByOptionGroup(questionDto.OptionGroupId).Result;
+            RadioQuestionModel textQuestion = new RadioQuestionModel()
+            {
+                Id = questionDto.Id.ToString(),
+                Text = questionDto.Name,
+                Order = questionDto.OrderNo,
+                ControlType = type,
+                Description = questionDto.Description,
+                IsAdditionalAnswer = questionDto.AdditionalAnswer,
+                Required = questionDto.Required,
+                Options = options
             };
             return textQuestion as BaseQuestionModel;
         }

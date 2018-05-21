@@ -86,6 +86,9 @@ export class SurveyBuilderComponent {
     ) {
         this.route.params.subscribe((params: any) => {
             this.activeSurveyId = params['id'];
+            console.log('5555555555555555555555555555555555555555555555555555555555555');
+            console.log(this.activeSurveyId);
+            console.log('5555555555555555555555555555555555555555555555555555555555555');
         });
         this.questionTransferService.getIdByNewPage().subscribe((id: any) => {
             const page = new PageModel({
@@ -143,14 +146,22 @@ export class SurveyBuilderComponent {
 
         this.survey = this.questionService.getSurvey();
 
-
-        this.surveysApiService.get(this.activeSurveyId).subscribe((data: SurveyModel) => {
+        if (this.activeSurveyId === 'create') {
             if (this.survey.pages) {
-                this.page = data.pages[0];
+                this.page = this.survey.pages[0];
                 // this.questions = this.survey.pages[0].questions;
-                this.pageinglist = this.generatePagingList(data.pages);
+                this.pageinglist = this.generatePagingList(this.survey.pages);
             }
-        });
+        } else {
+            this.surveysApiService.get(this.activeSurveyId).subscribe((data: SurveyModel) => {
+                if (this.survey.pages) {
+                    this.page = data.pages[0];
+                    // this.questions = this.survey.pages[0].questions;
+                    this.pageinglist = this.generatePagingList(data.pages);
+                }
+            });
+        }
+
         // if (this.survey.pages) {
         //     this.page = this.survey.pages[0];
         //     // this.questions = this.survey.pages[0].questions;

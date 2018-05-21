@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewEncapsulation} from '@angular/core';
-
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { SurveysApiService } from '../shared/services/api/surveys.api.service';
+import { SurveyModel } from '../shared/models/form-builder/survey.model';
 @Component({
     selector: 'app-home',
     templateUrl: 'home.component.html',
@@ -9,10 +10,18 @@ import { Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 export class HomeComponent implements OnInit {
 
+    surveys: SurveyModel[];
     public message: string;
     public values: any[];
 
-    constructor() {
+    constructor(
+        private surveysApiService: SurveysApiService,
+    ) {
+
+        this.surveysApiService.getAll().subscribe((data: SurveyModel[]) => {
+            this.surveys = data;
+            console.log(data);
+        });
         this.message = 'HomeComponent constructor';
     }
 
