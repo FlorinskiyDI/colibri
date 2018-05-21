@@ -6,6 +6,9 @@ import { ControTypes } from '../../../shared/constants/control-types.constant';
 import { AvailableQuestions } from '../../../shared/models/form-builder/form-control/available-question.model';
 import { SurveyModel } from '../../../shared/models/form-builder/survey.model';
 
+import { TextboxQuestion } from '../../../shared/models/form-builder/question-textbox.model';
+
+
 import { PageModel } from '../../../shared/models/form-builder/page.model';
 
 import { SurveysApiService } from '../../../shared/services/api/surveys.api.service';
@@ -14,6 +17,7 @@ import { QuestionControlService } from '../../../shared/services/question-contro
 
 import { QuestionTransferService } from '../../../shared/transfers/question-transfer.service';
 import { QuestionBase } from 'shared/models/form-builder/question-base.model';
+// import { SurveyModule } from 'modules/surveys/survey.module';
 // import { PageModel } from 'shared/models/form-builder/page.model';
 
 
@@ -133,11 +137,39 @@ export class SurveyBuilderComponent {
 
         this.survey = this.questionService.getSurvey();
 
-        if (this.survey.pages) {
-            this.page = this.survey.pages[0];
+
+        this.surveysApiService.get(this.survey.id).subscribe((data: SurveyModel) => {
+            // debugger
+            // console.log(this.survey);
+
+            // this.survey = data as SurveyModel;
+
+            // this.survey.pages[0] = this.survey.pages[0] as PageModel;
+
+            // this.survey.pages[0].questions[0] = this.survey.pages[0].questions[0] as TextboxQuestion;
+            // console.log('7777777777777777777777777777777777777777777777777777777777');
+            // console.log(this.survey);
+            // console.log('7777777777777777777777777777777777777777777777777777777777');
+
+            // this.page = this.survey.pages[0];
             // this.questions = this.survey.pages[0].questions;
-            this.pageinglist = this.generatePagingList(this.survey.pages);
-        }
+            // this.pageinglist = this.generatePagingList(this.survey.pages);
+
+
+            if (this.survey.pages) {
+                this.page = this.survey.pages[0];
+                // this.questions = this.survey.pages[0].questions;
+                this.pageinglist = this.generatePagingList(this.survey.pages);
+            }
+        });
+
+
+
+        // if (this.survey.pages) {
+        //     this.page = this.survey.pages[0];
+        //     // this.questions = this.survey.pages[0].questions;
+        //     this.pageinglist = this.generatePagingList(this.survey.pages);
+        // }
     }
 
 
@@ -173,7 +205,13 @@ export class SurveyBuilderComponent {
         return dropZoneList;
     }
 
-
+    getSurvey() {
+        this.surveysApiService.get(this.survey.id).subscribe((data: SurveyModel) => {
+            console.log(this.survey);
+            console.log(data as SurveyModel);
+            this.survey = data as SurveyModel;
+        });
+    }
 
     removeDragQuestion(question: any) {
         console.log('remove control remove control remove control remove control remove control remove control remove control');

@@ -42,14 +42,24 @@ namespace Survey.Webapi.Controllers
 
         //GET: api/surveySections/1
         [HttpGet]
-        public async Task<IActionResult> GetSurvey()
+        [Route("{id}")]
+        public async Task<IActionResult> GetSurvey(Guid id)
         {
-            Guid userId = Guid.Parse(NTContext.Context.UserId);
             SurveyModel survey;
             try
             {
-                survey = await _surveySectionService.GetByUser(userId);
+                survey = await _surveySectionService.GetAsync(id);
                 List<PageModel> pages = await _pageService.GetListBySurvey(Guid.Parse(survey.Id));
+                if (pages != null)
+                {
+                    survey.Pages = pages;
+                    foreach (var item in survey.Pages)
+                    {
+                        var questions = await _questionService.GetTypedQuestionListByPage(item.Id);
+                        item.Questions.AddRange(questions);
+                    }
+                }
+                
             }
             catch (Exception e)
             {
@@ -67,7 +77,7 @@ namespace Survey.Webapi.Controllers
         [Produces("application/json")]
         public async  Task<IActionResult> SaveSurvey( [FromBody] SurveyModel survey)
         {
-            await GetSurvey();
+            //await GetSurvey();
             Guid surveyId = await _surveySectionService.AddAsync(survey);
             if (survey.Pages.Count() > 0 && surveyId != null)
             {

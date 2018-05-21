@@ -46,6 +46,7 @@ namespace Survey.ApplicationLayer.Services
                     {
                         PageModel page = new PageModel()
                         {
+                            Id = item.Id,
                             Name = item.Name,
                             Description = item.Description,
                             OrderNo = item.OrderNo,
@@ -54,13 +55,7 @@ namespace Survey.ApplicationLayer.Services
                         pages.Add(page);
                     }
                     return pages;
-                    //SurveyModel survey = new SurveyModel()
-                    //{
-                    //    Name = surveyDto.Name,
-                    //    Description = surveyDto.Description,
-                    //    Id = surveyDto.Id.ToString()
-                    //};
-                    //return survey;
+
                 }
             }
             catch (Exception)

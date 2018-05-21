@@ -3,6 +3,7 @@ using Survey.ApplicationLayer.Dtos.Models.Questions;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Survey.ApplicationLayer.Services.Interfaces
 {
@@ -11,5 +12,6 @@ namespace Survey.ApplicationLayer.Services.Interfaces
         BaseQuestionModel GetQuestionByType(string baseQuestion);
         List<BaseQuestionModel> GetTypedQuestionList(PageModel survey);
         void SaveQuestionByType(BaseQuestionModel baseQuestion, Guid pageId);
+        Task<List<BaseQuestionModel>> GetTypedQuestionListByPage(Guid pageId);
     }
 }

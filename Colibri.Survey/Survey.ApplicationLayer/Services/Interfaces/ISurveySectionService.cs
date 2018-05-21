@@ -11,6 +11,6 @@ namespace Survey.ApplicationLayer.Services.Interfaces
     {
         IEnumerable<SurveySectionDto> GetAll();
         Task<Guid> AddAsync(SurveyModel dto);
-        Task<SurveyModel> GetByUser(Guid userId);
+        Task<SurveyModel> GetAsync(Guid surveyId);
     }
 }

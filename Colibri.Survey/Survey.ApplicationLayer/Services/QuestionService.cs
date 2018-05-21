@@ -280,9 +280,63 @@ namespace Survey.ApplicationLayer.Services
         {
             baseQuestionModel = baseQuestion;
             pageId = id;
-            //var type = baseQuestion.GetType();
             switchQuestionType[baseQuestion.GetType()]();
 
+        }
+
+        public async Task<List<BaseQuestionModel>> GetTypedQuestionListByPage(Guid pageId)
+        {
+            try
+            {
+                List<BaseQuestionModel> baseQuestions = new List<BaseQuestionModel>();
+
+
+                IEnumerable<Questions> items;
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryQuestion = uow.GetRepository<Questions, Guid>();
+                    items = await repositoryQuestion.QueryAsync(item => item.PageId == pageId);
+                    await uow.SaveChangesAsync();
+                    IEnumerable<QuestionsDto> questionDtoList = Mapper.Map<IEnumerable<Questions>, IEnumerable<QuestionsDto>>(items);
+
+                    foreach (var item in questionDtoList)
+                    {
+                        var inputType = inputTypeList.Where(i => i.Id == item.InputTypesId).FirstOrDefault();
+                        if (Enum.TryParse(inputType.Name, out type))
+                        {
+                            switch (type)
+                            {
+                                case QuestionTypes.Textbox:
+                                    {
+                                        var typedQuestion = GetTextQuestion(item, QuestionTypes.Textbox.ToString());
+                                        baseQuestions.Add(typedQuestion);
+                                        break;
+                                    }
+                            }
+                        }
+                    }
+                    return baseQuestions;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private BaseQuestionModel GetTextQuestion(QuestionsDto questionDto, string  type)
+        {
+            TextQuestionModel textQuestion = new TextQuestionModel()
+            {
+                Id = questionDto.Id.ToString(),
+                Text = questionDto.Name,
+                Order = questionDto.OrderNo,
+                ControlType = type,
+                Description = questionDto.Description,
+                IsAdditionalAnswer = questionDto.AdditionalAnswer,
+                Required = questionDto.Required
+            };
+            return textQuestion as BaseQuestionModel;
         }
     }
 }

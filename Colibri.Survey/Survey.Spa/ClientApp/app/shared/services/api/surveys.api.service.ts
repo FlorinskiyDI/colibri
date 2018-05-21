@@ -2,7 +2,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Restangular } from 'ngx-restangular';
 import 'rxjs/add/operator/map';
-
+// import { SurveyModel } from '../../models/form-builder/survey.model';
 @Injectable()
 export class SurveysApiService {
 
@@ -28,9 +28,15 @@ export class SurveysApiService {
     //     return result;
     // }
 
+    get(id: string) {
+        const result = this.restangular.one('api/surveySections', id).get();
+        return result ;
+    }
+
+
     saveSurvey(data: any): any {
         const value = this.restangular.all('api/surveySections').customPOST(data, undefined, undefined,
             { 'Content-Type': 'application/json' });
-        return value;
+        return value.value;
     }
 }

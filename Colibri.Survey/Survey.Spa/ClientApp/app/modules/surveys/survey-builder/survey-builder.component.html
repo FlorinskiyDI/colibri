@@ -86,7 +86,7 @@
             <!-- <div class="panel-heading">Form builder </div> -->
 
             <survey-from-builder [page]="page" [questionSettings]="availableQuestionsOption" (temporaryAnser)="temporaryAnser = $event; getTestAnswer($event)"></survey-from-builder>
-
+                <button (click)="getSurvey()"></button>
             <!-- </div> -->
             <!-- </div> -->
         </div>
