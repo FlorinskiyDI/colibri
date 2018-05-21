@@ -31,38 +31,43 @@ namespace Survey.ApplicationLayer.Services
             this._userService = userService;
         }
 
-        public IEnumerable<SurveySectionDto> GetAll()
+        public async Task<IEnumerable<SurveySectionDto>> GetAll()
         {
+            Guid userId = Guid.Parse(NTContext.Context.UserId);
             IEnumerable<SurveySections> items;
             using (var uow = UowProvider.CreateUnitOfWork())
             {
                 var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
-                items = repositorySurveySection.GetAll();
+                items = await repositorySurveySection.GetAllAsync();
+                await uow.SaveChangesAsync();
             }
             return Mapper.Map<IEnumerable<SurveySections>, IEnumerable<SurveySectionDto>>(items);
         }
 
 
 
-        public async Task<SurveyModel> GetByUser(Guid userId)
+        public async Task<SurveyModel> GetAsync(Guid surveyId)
         {
+            //surveyId = Guid.Parse("c8a801ba-ea5c-e811-9122-107b44194709");
             try
             {
-                SurveySections item;
+               
                 using (var uow = UowProvider.CreateUnitOfWork())
                 {
-                    var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
-                    item = await repositorySurveySection.GetAsync(userId);
+                    SurveySections survey = new SurveySections();
 
-                    SurveySectionDto surveyDto = Mapper.Map<SurveySections, SurveySectionDto>(item);
+                    var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
+                    survey = await repositorySurveySection.GetAsync(surveyId);
                     await uow.SaveChangesAsync();
-                    SurveyModel survey = new SurveyModel()
+                    SurveySectionDto surveyDto = Mapper.Map<SurveySections, SurveySectionDto>(survey);
+                    
+                    SurveyModel surveyModel = new SurveyModel()
                     {
                         Name = surveyDto.Name,
                         Description = surveyDto.Description,
                         Id = surveyDto.Id.ToString()
                     };
-                    return survey;
+                    return surveyModel;
                 }
             }
             catch (Exception)

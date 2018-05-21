@@ -2,7 +2,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Restangular } from 'ngx-restangular';
 import 'rxjs/add/operator/map';
-
+// import { SurveyModel } from '../../models/form-builder/survey.model';
 @Injectable()
 export class SurveysApiService {
 
@@ -16,11 +16,9 @@ export class SurveysApiService {
     }
 
     getAll() {
-        const baseAccounts = this.restangular.all('api/surveys');
+        const baseAccounts = this.restangular.all('api/surveySections');
         // This will query /accounts and return a observable.
         return baseAccounts.getList();
-        // const value = this.restangular.one(this.apiServer).getList('api/groups');
-        // return value;
     }
 
     // get(id: string) {
@@ -28,9 +26,15 @@ export class SurveysApiService {
     //     return result;
     // }
 
+    get(id: string) {
+        const result = this.restangular.one('api/surveySections', id).get();
+        return result ;
+    }
+
+
     saveSurvey(data: any): any {
         const value = this.restangular.all('api/surveySections').customPOST(data, undefined, undefined,
             { 'Content-Type': 'application/json' });
-        return value;
+        return value.value;
     }
 }

@@ -26,13 +26,53 @@ namespace Survey.ApplicationLayer.Services
             this.Mapper = mapper;
         }
 
+
+
+        public async Task<List<ItemModel>> GetListByOptionGroup(Guid? optionGroupId)
+        {
+            try
+            {
+                List<ItemModel> items = new List<ItemModel>();
+                IEnumerable<OptionChoises> choises;
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryOptionChoice = uow.GetRepository<OptionChoises, Guid>();
+                    choises = await repositoryOptionChoice.QueryAsync(item => item.OptionGroupId == optionGroupId);
+                    await uow.SaveChangesAsync();
+                    IEnumerable<OptionChoisesDto> optionChoisesDto = Mapper.Map<IEnumerable<OptionChoises>, IEnumerable<OptionChoisesDto>>(choises);
+
+                    foreach (var item in optionChoisesDto)
+                    {
+                        ItemModel page = new ItemModel()
+                        {
+                            Id = item.Id.ToString(),
+                            Value = item.Name,
+                            Order = 0, // strub
+                            Label = null
+
+                        };
+                        items.Add(page);
+                    }
+                    return items;
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+
+
         public async Task AddAsync(Guid optionGroupId, ItemModel item = null)
         {
             OptionChoisesDto optionChoisesDto = new OptionChoisesDto()
             {
-                 Name = item != null ? item.Value : "",
-                 OptionGroupId = optionGroupId,
-                 OrderNo = 1 // stub
+                Name = item != null ? item.Value : "",
+                OptionGroupId = optionGroupId,
+                OrderNo = 1 // stub
             };
 
             using (var uow = UowProvider.CreateUnitOfWork())
@@ -69,7 +109,7 @@ namespace Survey.ApplicationLayer.Services
                 };
                 listchoiseDto.Add(optionChoisesDto);
             }
-          
+
 
             using (var uow = UowProvider.CreateUnitOfWork())
             {

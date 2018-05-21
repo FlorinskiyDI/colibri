@@ -1,2 +1,10 @@
 <div>Welcome</div>
 <button class="btn btn-sm btn-default notification" id="notification">Notification</button>
+
+<div *ngIf="surveys">
+    <div *ngFor="let item of surveys">
+        <a [routerLink]="['/surveys/' + item.id]"   >{{item.name}} + {{item.id}}</a>
+    </div>
+</div>
+/////////////
+<a [routerLink]="['/surveys/create']"   >new survey</a>

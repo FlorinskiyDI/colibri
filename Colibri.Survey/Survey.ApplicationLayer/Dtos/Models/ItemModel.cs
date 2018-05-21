@@ -9,6 +9,6 @@ namespace Survey.ApplicationLayer.Dtos.Models
         public string Id { get; set; }
         public string Label { get; set; }
         public string Value { get; set; }
-        public string Order { get; set; }
+        public int Order { get; set; }
     }
 }

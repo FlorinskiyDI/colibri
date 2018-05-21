@@ -5,6 +5,10 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { ControTypes } from '../../../shared/constants/control-types.constant';
 import { AvailableQuestions } from '../../../shared/models/form-builder/form-control/available-question.model';
 import { SurveyModel } from '../../../shared/models/form-builder/survey.model';
+import { ActivatedRoute } from '@angular/router';
+
+// import { TextboxQuestion } from '../../../shared/models/form-builder/question-textbox.model';
+
 
 import { PageModel } from '../../../shared/models/form-builder/page.model';
 
@@ -14,6 +18,7 @@ import { QuestionControlService } from '../../../shared/services/question-contro
 
 import { QuestionTransferService } from '../../../shared/transfers/question-transfer.service';
 import { QuestionBase } from 'shared/models/form-builder/question-base.model';
+// import { SurveyModule } from 'modules/surveys/survey.module';
 // import { PageModel } from 'shared/models/form-builder/page.model';
 
 
@@ -28,12 +33,13 @@ import { QuestionBase } from 'shared/models/form-builder/question-base.model';
 })
 export class SurveyBuilderComponent {
 
-    page: any = {};
+    activeSurveyId: string;
+    page: any;
     pageinglist: any[];
     questions: QuestionBase<any>[];
     newquestion: any;
     questionOption: any = {};
-    survey: SurveyModel;
+    survey: SurveyModel = null;
     temporaryAnser: any;
     // availableQuestions: string[] = [
     //     ControTypes.checkbox,
@@ -72,11 +78,18 @@ export class SurveyBuilderComponent {
 
 
     constructor(
+        private route: ActivatedRoute,
         private surveysApiService: SurveysApiService,
         private questionTransferService: QuestionTransferService,
         public questionService: QuestionService,
         public questionControlService: QuestionControlService
     ) {
+        this.route.params.subscribe((params: any) => {
+            this.activeSurveyId = params['id'];
+            console.log('5555555555555555555555555555555555555555555555555555555555555');
+            console.log(this.activeSurveyId);
+            console.log('5555555555555555555555555555555555555555555555555555555555555');
+        });
         this.questionTransferService.getIdByNewPage().subscribe((id: any) => {
             const page = new PageModel({
                 id: id,
@@ -133,11 +146,27 @@ export class SurveyBuilderComponent {
 
         this.survey = this.questionService.getSurvey();
 
-        if (this.survey.pages) {
-            this.page = this.survey.pages[0];
-            // this.questions = this.survey.pages[0].questions;
-            this.pageinglist = this.generatePagingList(this.survey.pages);
+        if (this.activeSurveyId === 'create') {
+            if (this.survey.pages) {
+                this.page = this.survey.pages[0];
+                // this.questions = this.survey.pages[0].questions;
+                this.pageinglist = this.generatePagingList(this.survey.pages);
+            }
+        } else {
+            this.surveysApiService.get(this.activeSurveyId).subscribe((data: SurveyModel) => {
+                if (this.survey.pages) {
+                    this.page = data.pages[0];
+                    // this.questions = this.survey.pages[0].questions;
+                    this.pageinglist = this.generatePagingList(data.pages);
+                }
+            });
         }
+
+        // if (this.survey.pages) {
+        //     this.page = this.survey.pages[0];
+        //     // this.questions = this.survey.pages[0].questions;
+        //     this.pageinglist = this.generatePagingList(this.survey.pages);
+        // }
     }
 
 
@@ -173,7 +202,13 @@ export class SurveyBuilderComponent {
         return dropZoneList;
     }
 
-
+    getSurvey() {
+        this.surveysApiService.get(this.survey.id).subscribe((data: SurveyModel) => {
+            console.log(this.survey);
+            console.log(data as SurveyModel);
+            this.survey = data as SurveyModel;
+        });
+    }
 
     removeDragQuestion(question: any) {
         console.log('remove control remove control remove control remove control remove control remove control remove control');

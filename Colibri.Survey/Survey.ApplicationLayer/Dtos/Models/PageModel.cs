@@ -7,12 +7,18 @@ namespace Survey.ApplicationLayer.Dtos.Models
 {
     public class PageModel
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int OrderNo { get; set; }
         public Guid SurveyId { get; set; }
         //public ICollection<BaseQuestionModel> Qeustions { get; set;
-            public ICollection<object> Questions { get; set; }
+        public List<object> Questions { get; set; }
+
+        public  PageModel()
+        {
+            Questions = new List<object>();
+        }
 
     }
 }

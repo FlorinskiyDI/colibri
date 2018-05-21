@@ -10,5 +10,6 @@ namespace Survey.ApplicationLayer.Services.Interfaces
     {
         Task AddAsync(Guid optionGroupId, ItemModel item);
         Task AddRangeAsync(Guid optionGroupId, List<ItemModel> items);
+        Task<List<ItemModel>> GetListByOptionGroup(Guid? optionGroupId);
     }
 }

@@ -77,7 +77,7 @@
     </div>
     <div id="d-builder-body">
         <div class="d-builder-body-header">
-            <paging [(items)]='pageinglist' (pageId)="GetQuestionByPage($event)"></paging>
+            <paging *ngIf="pageinglist" [(items)]='pageinglist' (pageId)="GetQuestionByPage($event)"></paging>
         </div>
         <div class="d-builder-body-content">
 
@@ -85,8 +85,8 @@
             <!-- <div class="panel panel-info"> -->
             <!-- <div class="panel-heading">Form builder </div> -->
 
-            <survey-from-builder [page]="page" [questionSettings]="availableQuestionsOption" (temporaryAnser)="temporaryAnser = $event; getTestAnswer($event)"></survey-from-builder>
-
+            <survey-from-builder *ngIf="page && availableQuestionsOption" [page]="page" [questionSettings]="availableQuestionsOption" (temporaryAnser)="temporaryAnser = $event; getTestAnswer($event)"></survey-from-builder>
+                <button (click)="getSurvey()"></button>
             <!-- </div> -->
             <!-- </div> -->
         </div>
@@ -110,7 +110,7 @@
 
         </div>
         <div class="d-builder-option-body"></div>
-        <question-option [questionTypes]="availableQuestionsOption"></question-option>
+        <question-option *ngIf="availableQuestionsOption"  [questionTypes]="availableQuestionsOption"></question-option>
         <!-- <pre>{{survey | json}}</pre> -->
     </div>
 </div>
