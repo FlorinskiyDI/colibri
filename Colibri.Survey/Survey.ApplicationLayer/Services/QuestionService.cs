@@ -93,6 +93,28 @@ namespace Survey.ApplicationLayer.Services
 
 
 
+        public async Task<IEnumerable<QuestionsDto>> GetListByBaseQuestion(Guid baseQuestionid)
+        {
+            try
+            {
+                IEnumerable<Questions> items;
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryQuestion = uow.GetRepository<Questions, Guid>();
+                    items = await repositoryQuestion.QueryAsync(item => item.ParentId == baseQuestionid);
+                    await uow.SaveChangesAsync();
+                    IEnumerable<QuestionsDto> questionDto = Mapper.Map<IEnumerable<Questions>, IEnumerable<QuestionsDto>>(items);
+                    return questionDto;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+
         public List<BaseQuestionModel> GetTypedQuestionList(PageModel page)
         {
             List<BaseQuestionModel> baseQuestionList = new List<BaseQuestionModel>();
@@ -196,13 +218,15 @@ namespace Survey.ApplicationLayer.Services
         {
 
             InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
-            var parentQuestionId = SaveQuestion(data, false, null, type.Id, null).Result;
+            Guid optionGroupId = _optionGroupService.AddAsync(optionGroupDefinitions.gridRadio).Result;
+            var parentQuestionId = SaveQuestion(data, false, optionGroupId, type.Id, null).Result;
+            
             if (data.Grid.Rows.Count() > 0)
             {
 
                 foreach (var item in data.Grid.Rows)
                 {
-                    Guid optionGroupId = _optionGroupService.AddAsync(optionGroupDefinitions.gridRadio).Result;
+                    
                     BaseQuestionModel rowQuestion = new BaseQuestionModel()
                     {
                         Text = item.Value,
@@ -213,12 +237,11 @@ namespace Survey.ApplicationLayer.Services
                         Order = 0, // stub
                     };
                     var rowQuestionId = SaveQuestion(rowQuestion, false, optionGroupId, type.Id, parentQuestionId).Result;
-
-                    if (data.Grid.Cols.Count() > 0)
-                    {
-                        _optionChoiceService.AddRangeAsync(optionGroupId, data.Grid.Cols);
-                    }
                 }
+            }
+            if (data.Grid.Cols.Count() > 0)
+            {
+                _optionChoiceService.AddRangeAsync(optionGroupId, data.Grid.Cols);
             }
         }
 
@@ -295,7 +318,7 @@ namespace Survey.ApplicationLayer.Services
                 using (var uow = UowProvider.CreateUnitOfWork())
                 {
                     var repositoryQuestion = uow.GetRepository<Questions, Guid>();
-                    items = await repositoryQuestion.QueryAsync(item => item.PageId == pageId);
+                    items = await repositoryQuestion.QueryAsync(item => item.PageId == pageId && item.ParentId == null);
                     await uow.SaveChangesAsync();
                     IEnumerable<QuestionsDto> questionDtoList = Mapper.Map<IEnumerable<Questions>, IEnumerable<QuestionsDto>>(items);
 
@@ -321,6 +344,24 @@ namespace Survey.ApplicationLayer.Services
                                 case QuestionTypes.Radio:
                                     {
                                         var typedQuestion = GetRadioQuestion(item, QuestionTypes.Radio.ToString());
+                                        baseQuestions.Add(typedQuestion);
+                                        break;
+                                    }
+                                case QuestionTypes.Checkbox:
+                                    {
+                                        var typedQuestion = GetCheckboxQuestion(item, QuestionTypes.Checkbox.ToString());
+                                        baseQuestions.Add(typedQuestion);
+                                        break;
+                                    }
+                                case QuestionTypes.Dropdown:
+                                    {
+                                        var typedQuestion = GetDropdownQuestion(item, QuestionTypes.Dropdown.ToString());
+                                        baseQuestions.Add(typedQuestion);
+                                        break;
+                                    }
+                                case QuestionTypes.GridRadio:
+                                    {
+                                        var typedQuestion = GetGridRadioQuestion(item, QuestionTypes.GridRadio.ToString());
                                         baseQuestions.Add(typedQuestion);
                                         break;
                                     }
@@ -353,7 +394,7 @@ namespace Survey.ApplicationLayer.Services
 
         private BaseQuestionModel GetTextareaQuestion(QuestionsDto questionDto, string type)
         {
-            TextAreaQuestionModel textQuestion = new TextAreaQuestionModel()
+            TextAreaQuestionModel textareaQuestion = new TextAreaQuestionModel()
             {
                 Id = questionDto.Id.ToString(),
                 Text = questionDto.Name,
@@ -363,13 +404,13 @@ namespace Survey.ApplicationLayer.Services
                 IsAdditionalAnswer = questionDto.AdditionalAnswer,
                 Required = questionDto.Required,
             };
-            return textQuestion as BaseQuestionModel;
+            return textareaQuestion as BaseQuestionModel;
         }
 
         private BaseQuestionModel GetRadioQuestion(QuestionsDto questionDto, string type)
         {
             var options = _optionChoiceService.GetListByOptionGroup(questionDto.OptionGroupId).Result;
-            RadioQuestionModel textQuestion = new RadioQuestionModel()
+            RadioQuestionModel radioQuestion = new RadioQuestionModel()
             {
                 Id = questionDto.Id.ToString(),
                 Text = questionDto.Name,
@@ -380,7 +421,78 @@ namespace Survey.ApplicationLayer.Services
                 Required = questionDto.Required,
                 Options = options
             };
-            return textQuestion as BaseQuestionModel;
+            return radioQuestion as BaseQuestionModel;
+        }
+
+        private BaseQuestionModel GetCheckboxQuestion(QuestionsDto questionDto, string type)
+        {
+            var options = _optionChoiceService.GetListByOptionGroup(questionDto.OptionGroupId).Result;
+            CheckBoxQuesstionModel checkboxQuestion = new CheckBoxQuesstionModel()
+            {
+                Id = questionDto.Id.ToString(),
+                Text = questionDto.Name,
+                Order = questionDto.OrderNo,
+                ControlType = type,
+                Description = questionDto.Description,
+                IsAdditionalAnswer = questionDto.AdditionalAnswer,
+                Required = questionDto.Required,
+                Options = options
+            };
+            return checkboxQuestion as BaseQuestionModel;
+        }
+
+        private BaseQuestionModel GetDropdownQuestion(QuestionsDto questionDto, string type)
+        {
+            var options = _optionChoiceService.GetListByOptionGroup(questionDto.OptionGroupId).Result;
+            DropdownQuestionModel dropdownQuestion = new DropdownQuestionModel()
+            {
+                Id = questionDto.Id.ToString(),
+                Text = questionDto.Name,
+                Order = questionDto.OrderNo,
+                ControlType = type,
+                Description = questionDto.Description,
+                IsAdditionalAnswer = questionDto.AdditionalAnswer,
+                Required = questionDto.Required,
+                Options = options
+            };
+            return dropdownQuestion as BaseQuestionModel;
+        }
+
+        private BaseQuestionModel GetGridRadioQuestion(QuestionsDto questionDto, string type)
+        {
+            var rowQuestions = GetListByBaseQuestion(questionDto.Id).Result;
+
+            var colOptionChoises = _optionChoiceService.GetListByOptionGroup(questionDto.OptionGroupId).Result;
+            GridRadioQuestionModel gridQuestion = new GridRadioQuestionModel()
+            {
+                Id = questionDto.Id.ToString(),
+                Text = questionDto.Name,
+                Order = questionDto.OrderNo,
+                ControlType = type,
+                Description = questionDto.Description,
+                IsAdditionalAnswer = questionDto.AdditionalAnswer,
+                Required = questionDto.Required,
+                Grid = new GridOptionsModel()
+                {
+                    Rows = new List<ItemModel>(),
+                    Cols = colOptionChoises
+                }
+            };
+
+            foreach (var row in rowQuestions)
+            {
+                ItemModel item = new ItemModel()
+                {
+                    Id = row.Id.ToString(),
+                    Label = null,
+                    Value = row.Name,
+                    Order = 0 // stub
+                };
+                gridQuestion.Grid.Rows.Add(item);
+            }
+           
+
+            return gridQuestion as BaseQuestionModel;
         }
     }
 }
