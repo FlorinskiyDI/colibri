@@ -31,5 +31,13 @@ namespace IdentityServer.Webapi.Controllers
             return Ok(list);
             
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddMembers(Guid groupId, [FromBody] List<string> emails)
+        {
+            //var list = await _appUserRepository.GetAppUsersForGroup(groupId);
+            return Ok();
+
+        }
     }
 }

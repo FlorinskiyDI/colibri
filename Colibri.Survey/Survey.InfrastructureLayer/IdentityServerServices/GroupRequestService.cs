@@ -129,5 +129,27 @@ namespace Survey.InfrastructureLayer.IdentityServices
                 return list;
             }
         }
+
+        #region group members
+
+        public async Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emails)
+        {
+            var tokenResponse = await GetToken();
+
+            // call to identity server for create groups
+            var restClient = new RestClient(NTContext.Context.IdentityUrl);
+            restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
+            var request = new RestRequest("/api/groups/" + groupId + "/members" , Method.POST)
+            {
+                RequestFormat = DataFormat.Json
+            };
+            request.AddBody(emails);
+            IRestResponse<bool> response = await restClient.ExecuteTaskAsync<bool>(request);
+            //
+            return await Task.FromResult(response.IsSuccessful);
+        }
+
+        #endregion
+
     }
 }

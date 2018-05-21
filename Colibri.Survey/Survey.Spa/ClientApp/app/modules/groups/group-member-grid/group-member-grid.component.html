@@ -37,7 +37,7 @@
             <i class="fa fa-file-excel-o"></i>Excel</button>
     </div>
 
-    <p-table #dtGroupMembers [paginator]="true" [rows]="10" [columns]="gridCols" [value]="gridItems" [resizableColumns]="true" selectionMode="single"
+    <!-- <p-table #dtGroupMembers [paginator]="true" [rows]="10" [columns]="gridCols" [value]="gridItems" [resizableColumns]="true" selectionMode="single"
         [(selection)]="selectedMember">
         <ng-template pTemplate="header" let-columns>
             <tr>
@@ -53,20 +53,38 @@
                 </td>
             </tr>
         </ng-template>
+    </p-table> -->
+<!-- 
+    <p-table #dtGroupMembers selectionMode="single" [resizableColumns]="true" [columns]="gridCols" [value]="gridItems" [lazy]="true" (onLazyLoad)="loadGridLazy($event)" [paginator]="true" [rows]="10"
+        [totalRecords]="totalRecords" [loading]="gridLoading" [(selection)]="selectedMember">
+ -->
+
+    <p-table #dtGroupMembers [paginator]="true" [rows]="10" [columns]="gridCols" [value]="gridItems" [resizableColumns]="true" selectionMode="single"
+        [(selection)]="selectedMember" [lazy]="true" (onLazyLoad)="loadGridLazy($event)" [loading]="gridLoading">
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData">
+                <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                </td>
+            </tr>
+        </ng-template>
     </p-table>
 
 </div>
 
-<dialog-group-member-add-cmp
-    [config]="dialogGroupMemberAddConfig"
-    (onChange)="dialogGroupMemberAddOnChange($event)"
-    (onCancel)="dialogGroupMemberAddOnCancel($event)"
+<dialog-group-member-add-cmp [config]="dialogGroupMemberAddConfig" (onChange)="dialogGroupMemberAddOnChange($event)" (onCancel)="dialogGroupMemberAddOnCancel($event)"
     (onHide)="dialogGroupMemberAddOnHide($event)">
 </dialog-group-member-add-cmp>
 
-<dialog-group-member-detail-cmp
-    [config]="dialogGroupMemberDetailConfig"    
-    (onHide)="dialogGroupMemberDetailOnHide($event)">
+<dialog-group-member-detail-cmp [config]="dialogGroupMemberDetailConfig" (onHide)="dialogGroupMemberDetailOnHide($event)">
 </dialog-group-member-detail-cmp>
 
 <p-confirmDialog #cd header="Confirmation">

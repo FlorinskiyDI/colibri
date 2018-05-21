@@ -51,4 +51,11 @@ export class GroupsApiService {
         const value = this.restangular.one('api/groups', id).remove();
         return value;
     }
+
+    /* group members */
+
+    addMembers(groupId: string, data: string[]): any {
+        const value = this.restangular.all('api/groups/' + groupId + '/members').post(data);
+        return value;
+    }
 }

@@ -56,11 +56,10 @@ export class FormGroupCreateComponent implements BlockableUI {
         }
 
         const group = Object.assign({}, this.formGroupCreate.value);
-        this.groupsApiService.create(group)
-            .subscribe((response: Array<GroupApiModel>) => {
-                this.onChange.emit();
-                this._cmpClear();
-            });
+        this.groupsApiService.create(group).subscribe((response: Array<GroupApiModel>) => {
+            this.onChange.emit();
+            this._cmpClear();
+        });
     }
     public formReset() {
         this._cmpClear();

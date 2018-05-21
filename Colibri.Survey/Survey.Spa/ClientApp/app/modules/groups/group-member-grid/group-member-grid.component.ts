@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { LazyLoadEvent } from 'primeng/primeng';
+
+
 
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 /* service-transfer */ import { GroupManageTransferService } from '../group-manage/group-manage.transfer.service';
@@ -12,15 +15,17 @@ import { MessageService } from 'primeng/components/common/messageservice';
     providers: [ConfirmationService, MessageService]
 })
 export class GroupMemberGridComponent {
-
+    @ViewChild('dtGroupMembers') dtGroupMembers: any;
 
     dialogGroupMemberAddConfig: DialogDataModel<any>;
     dialogGroupMemberDetailConfig: DialogDataModel<any>;
     selectedMember: any;
 
+    itemGroupId: string;
     gridItems: any[] = [];
     gridCols: any[] = [];
     gridFilter = false;
+    gridLoading: boolean;
     drpdwnStatuses: any[] = [];
 
     constructor(
@@ -32,22 +37,15 @@ export class GroupMemberGridComponent {
 
         this.groupManageTransferService.getSelectedGroupId().subscribe((data: any) => {
             if (data) {
+                this.itemGroupId = data;
                 this._requestGetMembers(data);
+                this.dtGroupMembers.reset();
             }
         });
 
-        this.gridItems = [
-            { 'userName': 'user 1', 'email': 'user1@gmail.com', 'id': 1, 'col1': 'col1', 'col2': 'col2' },
-            { 'userName': 'user 2', 'email': 'user2@gmail.com', 'id': 2, 'col1': 'col1', 'col2': 'col2' },
-            { 'userName': 'user 3', 'email': 'user3@gmail.com', 'id': 3, 'col1': 'col1', 'col2': 'col2' },
-            { 'userName': 'user 4', 'email': 'user4@gmail.com', 'id': 4, 'col1': 'col1', 'col2': 'col2' }
-        ];
-
         this.gridCols = [
-            { field: 'userName', header: 'User name' },
-            { field: 'email', header: 'E-mail' },
-            { field: 'col1', header: 'Col 1' },
-            { field: 'col2', header: 'Col 2' }
+            { field: 'id', header: 'id' },
+            { field: 'email', header: 'email' }
         ];
 
         this.drpdwnStatuses = [
@@ -55,7 +53,24 @@ export class GroupMemberGridComponent {
             { label: 'status 1', value: 'data' },
             { label: 'status 2', value: 'data' },
         ];
+        this.gridLoading = true;
     }
+
+    public loadGridLazy(event: LazyLoadEvent) {
+        if (!this.itemGroupId) {
+            return;
+        }
+
+        this.gridLoading = true;
+        this.groupMembersApiService.getByGroup(this.itemGroupId).subscribe(
+            (response: Array<any>) => {
+                if (response) {
+                    this.gridItems = response.slice(event.first, (event.first + event.rows));
+                    this.gridLoading = false;
+                }
+            });
+    }
+
 
     public memberUnsubscribe(data: any) {
         this.confirmationService.confirm({
@@ -67,8 +82,11 @@ export class GroupMemberGridComponent {
         });
     }
 
-    public dialogGroupMemberAddOpen() { this.dialogGroupMemberAddConfig = new DialogDataModel<any>(true); }
+    public dialogGroupMemberAddOpen() {
+        this.dialogGroupMemberAddConfig = new DialogDataModel<any>(true, this.itemGroupId);
+    }
     public dialogGroupMemberAddOnChange() {
+        this.dtGroupMembers.reset();
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Member was added successfully' });
     }
     public dialogGroupMemberAddOnCancel() { console.log('dialogGroupMemberAddOnCancel'); }
@@ -78,9 +96,6 @@ export class GroupMemberGridComponent {
     public dialogGroupMemberDetailOnHide() { console.log('dialogGroupMemberDetailOnHide'); }
 
     _requestGetMembers(data: any) {
-        this.groupMembersApiService.getByGroup(data).subscribe(
-            (response: Array<any>) => {
-                console.log(response);
-            });
+
     }
 }

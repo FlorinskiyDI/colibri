@@ -2,7 +2,9 @@ import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 
-import { CHECK_EMAIL } from 'shared/helpers/check-email.helper';
+/* helper */ import { CHECK_EMAIL } from 'shared/helpers/check-email.helper';
+/* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
+
 
 @Component({
     selector: 'form-group-member-add-cmp',
@@ -27,7 +29,9 @@ export class FormGroupMemberAddComponent {
     formIsValid = true;
     formIsValidEmail = true;
 
-    constructor() {
+    constructor(
+        private groupsApiService: GroupsApiService
+    ) {
         this.formBuild();
     }
 
@@ -56,9 +60,17 @@ export class FormGroupMemberAddComponent {
         });
     }
     public formSubmit() {
-        console.log('formSubmit');
-        this.onChange.emit();
-        this._cmpClear();
+        if (!this.formGroup.valid) {
+            this.formIsValid = false;
+            console.log('(FormGroupMemberAddComponent) Form is NOT VALID!!!');
+            return;
+        }
+
+        const items: string[] = Object.assign([], this.formGroup.value.members);
+        this.groupsApiService.addMembers(this.configData.groupId, items).subscribe((response: any) => {
+            this.onChange.emit();
+            this._cmpClear();
+        });
     }
     public formReset() {
         this._cmpClear();

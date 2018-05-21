@@ -22,14 +22,17 @@ namespace Survey.Webapi.Controllers
     public class GroupsMembersController : BaseController
     {
         private readonly IIdentityUserService _identityUserService;
+        private readonly IGroupService _groupService;
         public GroupsMembersController(
             IConfiguration configuration,
             ITypeHelperService typeHelperService,
             //
-            IIdentityUserService identityUserService
+            IIdentityUserService identityUserService,
+            IGroupService groupService
         ) : base(configuration, typeHelperService)
         {
             _identityUserService = identityUserService;
+            _groupService = groupService;
         }
 
         [HttpGet]
@@ -51,6 +54,26 @@ namespace Survey.Webapi.Controllers
             }
 
             return Ok(result);
+        }
+
+        // POST: api/groups/
+        [HttpPost]
+        public async Task<IActionResult> AddMembers(Guid groupId, [FromBody] List<string> emails)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var result = await _groupService.AddMembersToGroupAsync(groupId, emails);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
     }

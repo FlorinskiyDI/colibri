@@ -73,5 +73,11 @@ namespace Survey.ApplicationLayer.Services
             var groupDto = Mapper.Map<Groups, GroupDto>(result);
             return groupDto;
         }
+
+        public async Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emails)
+        {
+            var result = await _groupRequestService.AddMembersToGroupAsync(groupId, emails);
+            return result;
+        }
     }
 }

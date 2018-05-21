@@ -79,10 +79,10 @@ export class FormGroupUpdateComponent implements BlockableUI {
             console.log(data);
         }
     }
-    private _cmpClear() {
-        this.formIsValid = true;
-        this.formBuild();
-    }
+    // private _cmpClear() {
+    //     this.formIsValid = true;
+    //     this.formBuild();
+    // }
 
     getBlockableElement(): HTMLElement {
         return this.el.nativeElement.children[0];
