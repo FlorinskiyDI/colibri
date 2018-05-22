@@ -9,6 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 
 // import { TextboxQuestion } from '../../../shared/models/form-builder/question-textbox.model';
 
+// helpers
+import { CompareObject } from '../../../shared/helpers/compare-object.helper';
+import { isEqual, reduce } from 'lodash';
 
 import { PageModel } from '../../../shared/models/form-builder/page.model';
 
@@ -33,6 +36,7 @@ import { QuestionBase } from 'shared/models/form-builder/question-base.model';
 })
 export class SurveyBuilderComponent {
 
+    oldSurvey: SurveyModel = null;
     activeSurveyId: string;
     page: any;
     pageinglist: any[];
@@ -144,9 +148,10 @@ export class SurveyBuilderComponent {
             ],
         };
 
-        this.survey = this.questionService.getSurvey();
+
 
         if (this.activeSurveyId === 'create') {
+            this.survey = this.questionService.getSurvey();
             if (this.survey.pages) {
                 this.page = this.survey.pages[0];
                 // this.questions = this.survey.pages[0].questions;
@@ -154,6 +159,10 @@ export class SurveyBuilderComponent {
             }
         } else {
             this.surveysApiService.get(this.activeSurveyId).subscribe((data: SurveyModel) => {
+
+                this.oldSurvey = data;
+
+                this.survey = data;
                 if (this.survey.pages) {
                     this.page = data.pages[0];
                     // this.questions = this.survey.pages[0].questions;
@@ -169,6 +178,96 @@ export class SurveyBuilderComponent {
         // }
     }
 
+    compareCheck() {
+        console.log('---------------------------------------------------------------------------------');
+        console.log(this.oldSurvey);
+        console.log(this.survey);
+        console.log('---------------------------------------------------------------------------------');
+        const a = {
+            same: 1,
+            different: 2,
+            missing_from_b: 3,
+            missing_nested_from_b: {
+                x: 1,
+                y: 2
+            },
+            nested: {
+                same: 1,
+                different: 2,
+                missing_from_b: 3
+            }
+        };
+
+        const b = {
+            same: 1,
+            different: 99,
+            missing_from_a: 3,
+            missing_nested_from_a: {
+                x: 1,
+                y: 2
+            },
+            nested: {
+                same: 1,
+                different: 99,
+                missing_from_a: 3
+            }
+        };
+        const val = this.compare(a, b);
+        debugger
+        console.log(val);
+    }
+
+
+    compare = function (a: any, b: any) {
+
+        const  result: any = {
+            different: [],
+            missing_from_first: [],
+            missing_from_second: []
+        };
+
+        _.reduce(a, function (result, value, key) {
+            if (b.hasOwnProperty(key)) {
+                if (_.isEqual(value, b[key])) {
+                    return result;
+                } else {
+                    if (typeof (a[key]) !== typeof ({}) || typeof (b[key]) !== typeof ({})) {
+                        // dead end.
+                        result.different.push(key);
+                        return result;
+                    } else {
+                        const deeper = this.compare(a[key], b[key]);
+                        result.different = result.different.concat(_.map(deeper.different, (sub_path) => {
+                            return key + '.' + sub_path;
+                        }));
+
+                        result.missing_from_second = result.missing_from_second.concat(_.map(deeper.missing_from_second, (sub_path) => {
+                            return key + '.' + sub_path;
+                        }));
+
+                        result.missing_from_first = result.missing_from_first.concat(_.map(deeper.missing_from_first, (sub_path) => {
+                            return key + '.' + sub_path;
+                        }));
+                        return result;
+                    }
+                }
+            } else {
+                result.missing_from_second.push(key);
+                return result;
+            }
+        }.bind(this), result);
+
+        _.reduce(b, function (result, value, key) {
+            if (a.hasOwnProperty(key)) {
+                return result;
+            } else {
+                result.missing_from_first.push(key);
+                return result;
+            }
+        }, result);
+
+        return result;
+    };
 
     GetQuestionByPage(id: any) {
         console.log('work work work work work work work  111111111111111');
@@ -217,9 +316,11 @@ export class SurveyBuilderComponent {
 
 
     getTestAnswer(answer: any) {
-        const data = this.surveysApiService.saveSurvey(this.survey);
+        // const data = this.surveysApiService.save(this.survey);
+        const data = this.surveysApiService.update(this.survey);
         console.log(data);
     }
+
 
     onDragEnd8(event: any, data: any) {
         console.log('88888888888888888888899999999999999999999999');

@@ -78,7 +78,7 @@ namespace Survey.Webapi.Controllers
                         item.Questions.AddRange(questions);
                     }
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -114,6 +114,32 @@ namespace Survey.Webapi.Controllers
                     }
                 }
             }
+            return Ok();
+        }
+
+
+        [HttpPut]
+        [Produces("application/json")]
+        public async Task<IActionResult> UpdateSurvey([FromBody] SurveyModel survey)
+        {
+            //await GetSurvey();
+            //Guid surveyId = await _surveySectionService.AddAsync(survey);
+            //if (survey.Pages.Count() > 0 && surveyId != null)
+            //{
+            //    List<BaseQuestionModel> questionList = new List<BaseQuestionModel>();
+            //    foreach (var page in survey.Pages)
+            //    {
+            //        Guid pageId = await _pageService.AddAsync(page, surveyId);
+            //        questionList = _questionService.GetTypedQuestionList(page);
+            //        if (questionList.Count() > 0)
+            //        {
+            //            foreach (var question in questionList)
+            //            {
+            //                _questionService.SaveQuestionByType(question, pageId);
+            //            }
+            //        }
+            //    }
+            //}
             return Ok();
         }
     }
