@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Survey.ApplicationLayer.Configurations.AutoMapper;
 using Survey.ApplicationLayer.Services;
 using Survey.ApplicationLayer.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Survey.ApplicationLayer.Configurations
 {
@@ -30,6 +26,8 @@ namespace Survey.ApplicationLayer.Configurations
             services.AddScoped<IOptionGroupService, OptionGroupService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOptionChoiceService, OptionChoiceService>();
+            services.AddScoped<IQRCodeService, QRCodeService>();
+
             return services;
         }
 
