@@ -24,7 +24,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
     @Input() templateOptions: any;
     @Input() page: PageModel = new PageModel();
 
-    formPage: FormGroup;
+    formPage: FormGroup = {};
 
     selectQuestion: string;
 
@@ -43,8 +43,14 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
 
 
     ngOnInit() {
-        this.formPage = new FormGroup(this.questionService.getFormPageGroup(this.page));
+        // this.formPage.addControl(this.page.id, this.questionService.getFormPageGroup(this.page));
+        // this.formPage = new FormGroup(this.questionService.getFormPageGroup(this.page));
+        const page: any = {};
+        page[this.page.id] = this.questionService.getFormPageGroup(this.page);
+        this.formPage = new FormGroup(page);
+
         console.log(this.formPage.value);
+        debugger
     }
 
 
@@ -60,6 +66,12 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         } else {
             this.questionTransferService.setQuestionOption(null);
         }
+    }
+
+    getFormQuestion(id: string): any {
+        const formQuestion = this.formPage.controls[this.page.id].get('questions').get(id);
+        debugger
+        return formQuestion;
     }
 
     sortQuestionByIndex() {
@@ -79,7 +91,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         dataPage.addControl(question.id, this.questionService.addTypeAnswer(question, group));
 
         this.page.questions.push(question);
-        this.page.questions.sort((a, b) => a.order - b.order); // useles code
+        // this.page.questions.sort((a, b) => a.order - b.order); // useles code
     }
 
 

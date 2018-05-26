@@ -13,6 +13,8 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 /* component */ import { PagingComponent } from './survey-builder/paging/paging.component';
 /* component */ import { QuestionOptionComponent } from './survey-builder/question-option/question-option.component';
 
+/* component */ import { QuestionFormBuilderComponent } from './builder/form-builder/question-form-builder/question-form-builder.component';
+
 
 import { DndModule } from 'ng2-dnd';
 @NgModule({
@@ -29,7 +31,8 @@ import { DndModule } from 'ng2-dnd';
         FormBuilderComponent,
         PagingComponent,
         SurveyFormQuestionComponent,
-        QuestionOptionComponent
+        QuestionOptionComponent,
+        QuestionFormBuilderComponent
         // GroupGridComponent
     ],
     providers: [ ],

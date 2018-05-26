@@ -35,18 +35,14 @@ export class QuestionService {
                 this.addTypeAnswer(question, this.questionGroup);
             });
         }
-        this.pageGroup[page.id] = this.fb.group({
-            'name': new FormControl('', Validators.required),
-            'description': new FormControl('', Validators.required),
-            'questions': page.questions.length > 0 ? this.fb.group(this.questionGroup) : this.fb.group({})
-        });
-        return this.pageGroup;
+        return new FormGroup(this.questionGroup);
     }
 
 
     addTypeAnswer(question: QuestionBase<any>, group: any): any {
+        debugger
         switch (question.controlType) {
-            case ControTypes.checkbox || ControTypes.radio: {
+            case ControTypes.checkbox || ControTypes.radio || ControTypes.dropdown: {
                 const options: any = {};
                 question.options.forEach((item: any) => {
                     options[item.id] = this.fb.group({
@@ -86,8 +82,8 @@ export class QuestionService {
 
             default: {
                 group[question.id] = this.fb.group({
-                    'name': new FormControl('', Validators.required),
-                    'description': new FormControl('', Validators.required)
+                    'name': new FormControl(question.text, Validators.required),
+                    'description': new FormControl(question.description, Validators.required)
                 });
                 break;
             }

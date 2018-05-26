@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 
 // helpers
 import { CompareObject } from 'shared/helpers/compare-object.helper';
-import { isEqual, reduce } from 'lodash';
+import { isEqual, reduce, cloneDeep } from 'lodash';
 
 import { PageModel } from 'shared/models/form-builder/page.model';
 
@@ -20,7 +20,7 @@ import { QuestionTransferService } from 'shared/transfers/question-transfer.serv
 import { QuestionBase } from 'shared/models/form-builder/question-base.model';
 
 import { QuestionTemplate } from 'shared/models/form-builder/form-control/question-template.model';
-import { forEach } from '@angular/router/src/utils/collection';
+// import { forEach } from '@angular/router/src/utils/collection';
 
 import { FormGroup } from '@angular/forms';
 
@@ -44,39 +44,21 @@ export class BuilderComponent {
     templateOptions: any;
     formPages: FormGroup[];
 
-    questionTemplates: Array<QuestionTemplate> = [
-
-        new QuestionTemplate(ControTypes.textbox, 'Textbox', 1, 'dropZone1', 'Textbox description', 'fa-font'),
-        new QuestionTemplate(ControTypes.textarea, 'Textarea', 2, 'dropZone2', 'Texarea description', 'fa-text-width'),
-        new QuestionTemplate(ControTypes.radio, 'Radiogroup', 3, 'dropZone3', 'Radio group description', 'fa-dot-circle-o'),
-        new QuestionTemplate(ControTypes.checkbox, 'Checkbox', 4, 'dropZons4', 'Checkbox description', 'fa-check-square-o'),
-        new QuestionTemplate(ControTypes.dropdown, 'Dropdown', 5, 'dropZone5', 'Dropdown description', 'fa-indent'),
-        new QuestionTemplate(ControTypes.gridRadio, 'Grid (single choice)', 6, 'dropZone6', 'grid description', 'fa-table'),
-
-
-    ];
+    questionTemplates: any[];
 
 
 
     constructor(
         public questionService: QuestionService,
     ) {
-
+        this.questionTemplates = this.getTemplates();
     }
 
     ngOnInit() {
         this.templateOptions = {
             dragTemplateZones: ['dropZone1', 'dropZone2', 'dropZone3', 'dropZons4', 'dropZone5', 'dropZone6'],
-            questionTemplates: [
-                { type: ControTypes.textbox, name: 'Textbox', orderNo: 1, dropZone: 'dropZone1', description: 'Textbox description', icon: 'fa-font' } as QuestionTemplate,
-                { type: ControTypes.textarea, name: 'Textarea', orderNo: 2, dropZone: 'dropZone2', description: 'Texarea description', icon: 'fa-text-width' } as QuestionTemplate,
-                { type: ControTypes.radio, name: 'Radio group', orderNo: 3, dropZone: 'dropZone3', description: 'Radio group description', icon: 'fa-dot-circle-o' } as QuestionTemplate,
-                { type: ControTypes.checkbox, name: 'Checkbox', orderNo: 4, dropZone: 'dropZons4', description: 'Checkbox description', icon: 'fa-check-square-o' } as QuestionTemplate,
-                { type: ControTypes.dropdown, name: 'Dropdown', orderNo: 5, dropZone: 'dropZone5', description: 'Dropdown description', icon: 'fa-indent' } as QuestionTemplate,
-                { type: ControTypes.gridRadio, name: 'Grid (one choice)', orderNo: 6, dropZone: 'dropZone6', description: 'grid description', icon: 'fa-table' } as QuestionTemplate
-            ],
+            questionTemplates: cloneDeep(this.getTemplates())
         };
-
         this.survey = this.questionService.getSurvey();
 
         this.page = this.survey.pages[0];
@@ -89,9 +71,22 @@ export class BuilderComponent {
         console.log('dragEndQuestionTemplate()');
     }
 
+
     deleteDragQuestion(event: any) {
         console.log('deleteDragQuestion()');
         // console.log(event);
+    }
+
+
+    getTemplates(): any[] {
+        return [
+            new QuestionTemplate(ControTypes.textbox, 'Textbox', 1, 'dropZone1', 'Textbox description', 'fa-font'),
+            new QuestionTemplate(ControTypes.textarea, 'Textarea', 2, 'dropZone2', 'Texarea description', 'fa-text-width'),
+            new QuestionTemplate(ControTypes.radio, 'Radiogroup', 3, 'dropZone3', 'Radio group description', 'fa-dot-circle-o'),
+            new QuestionTemplate(ControTypes.checkbox, 'Checkbox', 4, 'dropZons4', 'Checkbox description', 'fa-check-square-o'),
+            new QuestionTemplate(ControTypes.dropdown, 'Dropdown', 5, 'dropZone5', 'Dropdown description', 'fa-indent'),
+            new QuestionTemplate(ControTypes.gridRadio, 'Grid (single choice)', 6, 'dropZone6', 'grid description', 'fa-table'),
+        ];
     }
 }
 

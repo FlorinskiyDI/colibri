@@ -4,12 +4,14 @@
     <div class="body-question-builder">
 
         <div class="header">
+                <p *ngIf="formPage.valid" style="color: green; font-weight: bold"> {{formPage.valid | json}}</p>
+                <p *ngIf="!formPage.valid" style="color: red; font-weight: bold"> {{formPage.valid | json}}</p>
             <!-- <p *ngIf="form.valid" style="color: green; font-weight: bold"> {{form.valid | json}}</p>
             <p *ngIf="!form.valid" style="color: red; font-weight: bold"> {{form.valid | json}}</p>
             <pre>{{form.controls[page.id].valid | json}}</pre> {{page.id | json}}------------------ {{page | json}} -------------------------------------- {{this.form.value
             | json}} -->
             <!-- {{this.form.value | json}} -->
-            ---{{page | json}}----
+          <pre>{{page | json}}</pre>
         </div>
         <div class="body">
             <form (ngSubmit)="onSubmit()" [formGroup]="formPage">
@@ -31,7 +33,7 @@
                                 [dropZones]="templateOptions.dragTemplateZones">
                                 <div class="d-item-left-section">
                                     <div class="d-item-opt-controls">
-                                        <input id="etitState" [checked]="selectQuestion == item.id" #editCheckbox type="checkbox"
+                                        <input id="etitState" [checked]="selectQuestion == item.id" #editCheckbox type="checkbox" value="false"
                                             (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? selectQuestion = item.id: selectQuestion = ''">
                                         <label for="etitState"> {{'Q' + (i+1)}}</label>
 
@@ -48,6 +50,7 @@
                                     </div>
                                 </div>
                                 <div class="d-item-right-section">
+                                    <question-form-builder [pageId]="page.id" [isEditState]="editCheckbox.checked" [question]="item" [formPage]="formPage"></question-form-builder>
                                     <!-- <survey-form-question [isEditQuestion]="editCheckbox.checked" [pageId]="pageId" [question]="item" [form]="form"></survey-form-question> -->
                                 </div>
                             </div>
