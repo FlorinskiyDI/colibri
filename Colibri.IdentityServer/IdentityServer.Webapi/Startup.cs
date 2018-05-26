@@ -54,8 +54,15 @@ namespace IdentityServer.Webapi
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 6;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             var guestPolicy = new AuthorizationPolicyBuilder()
            .RequireAuthenticatedUser()
@@ -64,11 +71,7 @@ namespace IdentityServer.Webapi
 
 
 
-            services.AddTransient<IProfileService, IdentityProfileService>();
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
-            services.AddTransient<IExtensionGrantValidator, DelegationGrantValidator>();
-            services.AddDependencies(Configuration);
+            
 
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
@@ -78,7 +81,9 @@ namespace IdentityServer.Webapi
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<IdentityProfileService>();
 
-
+            services.AddTransient<IProfileService, IdentityProfileService>();
+            services.AddTransient<IExtensionGrantValidator, DelegationGrantValidator>();
+            services.AddDependencies(Configuration);
 
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
               .AddIdentityServerAuthentication(options =>
@@ -100,9 +105,9 @@ namespace IdentityServer.Webapi
                 {
                     policyAdmin.RequireClaim("role", "admin");
                 });
-                options.AddPolicy("dataEventRecordsUser", policyUser =>
+                options.AddPolicy("user", policyUser =>
                 {
-                    policyUser.RequireClaim("role", "dataEventRecords.user");
+                    policyUser.RequireClaim("role", "user");
                 });
                 options.AddPolicy("dataEventRecords", policyUser =>
                 {
@@ -135,8 +140,7 @@ namespace IdentityServer.Webapi
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-
+            
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             SqlConnectionFactory.ConnectionString = connectionString;
@@ -150,7 +154,7 @@ namespace IdentityServer.Webapi
             );
 
             app.UseIdentityServer();
-            //app.UseAuthentication();
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

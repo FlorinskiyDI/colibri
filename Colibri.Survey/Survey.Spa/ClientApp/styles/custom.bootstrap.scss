@@ -15,10 +15,10 @@
 
 /* form-group */
 .form--group-xs {
-    &.form-group-sm .form-control { height: 26px; }
+    &.form-group-sm .form-control { height: 26px; font-size: 13px; }
 }
 .form--verical {
-    label { font-weight: 500; font-size: 11px; color: #666666;}
+    label { font-weight: 500; font-size: 13px; color: #666666;}
 }
 /* !End form-group */
 

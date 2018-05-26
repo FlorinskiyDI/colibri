@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Services
 {
-    public interface IEmailSender
+    public interface IIdentityUserService
     {
-        Task SendEmailAsync(string email, string subject, string message);
+        Task<bool> AddMembersFroupAsync(Guid groupId, List<string> emails);
     }
 }

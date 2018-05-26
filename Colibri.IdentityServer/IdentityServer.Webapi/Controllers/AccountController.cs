@@ -27,8 +27,6 @@ namespace IdentityServer.Webapi.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
-        private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
@@ -38,8 +36,7 @@ namespace IdentityServer.Webapi.Controllers
             UserManager<ApplicationUser> userManager,
             IPersistedGrantService persistedGrantService,
             SignInManager<ApplicationUser> signInManager,
-            IEmailSender emailSender,
-            ISmsSender smsSender,
+
             ILoggerFactory loggerFactory,
             IIdentityServerInteractionService interaction,
             IClientStore clientStore)
@@ -47,8 +44,6 @@ namespace IdentityServer.Webapi.Controllers
             _userManager = userManager;
             _persistedGrantService = persistedGrantService;
             _signInManager = signInManager;
-            _emailSender = emailSender;
-            _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _interaction = interaction;
             _clientStore = clientStore;
@@ -458,6 +453,77 @@ namespace IdentityServer.Webapi.Controllers
             return View();
         }
 
+        // GET: /Account/Register
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult RegisterByEmail(string userId, string code)
+        {
+            //ViewData["ReturnUrl"] = returnUrl;
+            var user = _userManager.FindByIdAsync(userId).Result;
+            if (user == null)
+            {
+                return View("Error");
+            }
+
+            var resultConfirmEmail = _userManager.ConfirmEmailAsync(user, code).Result;
+
+            var model = new RegisterWithEmailViewModel()
+            {
+                UserId = user.Id,
+                Code = code,
+                Email = user.Email
+            };
+
+
+            return View(model);
+        }
+
+        //
+        // POST: /Account/SetPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterByEmail(RegisterWithEmailViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if (model.UserId== null || model.Code == null)
+            {
+                return View("Error");
+            }
+
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+            
+            var resultConfirmEmail = await _userManager.ConfirmEmailAsync(user, model.Code);
+            if (resultConfirmEmail.Succeeded)
+            {
+                // set password to user
+                var result = await _userManager.AddPasswordAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    _logger.LogInformation(3, "User created a new account with password.");
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
+                }
+            }
+
+
+            //if (result.Succeeded)
+            //{
+            //    return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
+            //}
+            //AddErrors(result);
+            //return View();
+            return View("Error");
+        }
+
+
         //
         // GET: /Account/ResetPassword
         [HttpGet]
@@ -520,88 +586,88 @@ namespace IdentityServer.Webapi.Controllers
 
         //
         // POST: /Account/SendCode
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendCode(SendCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> SendCode(SendCodeViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View();
+        //    }
 
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                return View("Error");
-            }
+        //    var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+        //    if (user == null)
+        //    {
+        //        return View("Error");
+        //    }
 
-            // Generate the token and send it
-            var code = await _userManager.GenerateTwoFactorTokenAsync(user, model.SelectedProvider);
-            if (string.IsNullOrWhiteSpace(code))
-            {
-                return View("Error");
-            }
+        //    // Generate the token and send it
+        //    var code = await _userManager.GenerateTwoFactorTokenAsync(user, model.SelectedProvider);
+        //    if (string.IsNullOrWhiteSpace(code))
+        //    {
+        //        return View("Error");
+        //    }
 
-            var message = "Your security code is: " + code;
-            if (model.SelectedProvider == "Email")
-            {
-                await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
-            }
-            else if (model.SelectedProvider == "Phone")
-            {
-                await _smsSender.SendSmsAsync(await _userManager.GetPhoneNumberAsync(user), message);
-            }
+        //    var message = "Your security code is: " + code;
+        //    if (model.SelectedProvider == "Email")
+        //    {
+        //        await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
+        //    }
+        //    else if (model.SelectedProvider == "Phone")
+        //    {
+        //        await _smsSender.SendSmsAsync(await _userManager.GetPhoneNumberAsync(user), message);
+        //    }
 
-            return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
-        }
+        //    return RedirectToAction(nameof(VerifyCode), new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+        //}
 
         //
         // GET: /Account/VerifyCode
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> VerifyCode(string provider, bool rememberMe, string returnUrl = null)
-        {
-            // Require that the user has already logged in via username/password or external login
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                return View("Error");
-            }
-            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        }
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> VerifyCode(string provider, bool rememberMe, string returnUrl = null)
+        //{
+        //    // Require that the user has already logged in via username/password or external login
+        //    var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+        //    if (user == null)
+        //    {
+        //        return View("Error");
+        //    }
+        //    return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
+        //}
 
-        //
-        // POST: /Account/VerifyCode
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> VerifyCode(VerifyCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+        ////
+        //// POST: /Account/VerifyCode
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> VerifyCode(VerifyCodeViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
 
-            // The following code protects for brute force attacks against the two factor codes.
-            // If a user enters incorrect codes for a specified amount of time then the user account
-            // will be locked out for a specified amount of time.
-            var result = await _signInManager.TwoFactorSignInAsync(model.Provider, model.Code, model.RememberMe, model.RememberBrowser);
-            if (result.Succeeded)
-            {
-                return RedirectToLocal(model.ReturnUrl);
-            }
-            if (result.IsLockedOut)
-            {
-                _logger.LogWarning(7, "User account locked out.");
-                return View("Lockout");
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Invalid code.");
-                return View(model);
-            }
-        }
+        //    // The following code protects for brute force attacks against the two factor codes.
+        //    // If a user enters incorrect codes for a specified amount of time then the user account
+        //    // will be locked out for a specified amount of time.
+        //    var result = await _signInManager.TwoFactorSignInAsync(model.Provider, model.Code, model.RememberMe, model.RememberBrowser);
+        //    if (result.Succeeded)
+        //    {
+        //        return RedirectToLocal(model.ReturnUrl);
+        //    }
+        //    if (result.IsLockedOut)
+        //    {
+        //        _logger.LogWarning(7, "User account locked out.");
+        //        return View("Lockout");
+        //    }
+        //    else
+        //    {
+        //        ModelState.AddModelError(string.Empty, "Invalid code.");
+        //        return View(model);
+        //    }
+        //}
 
         #region Helpers
 

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServer.Webapi.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer", Policy = "admin")]
+    [Authorize(AuthenticationSchemes = "Bearer", Policy = "user")]
     [Produces("application/json")]
     [Route("api/groups")]
     public class GroupsController : Controller

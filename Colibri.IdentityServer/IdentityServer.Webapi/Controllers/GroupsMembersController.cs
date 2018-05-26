@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using IdentityServer.Webapi.Repositories.Interfaces;
+using IdentityServer.Webapi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,17 +12,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServer.Webapi.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer", Policy = "admin")]
+    [Authorize(AuthenticationSchemes = "Bearer", Policy = "user")]
     [Produces("application/json")]
     [Route("api/groups/{groupId?}/members")]
     public class GroupsMembersController : Controller
     {        
         private readonly IAppUserRepository _appUserRepository;
+        private readonly IIdentityUserService _identityUserService;
         public GroupsMembersController(
-            IAppUserRepository appUserRepository
+            IAppUserRepository appUserRepository,
+            IIdentityUserService identityUserService
         )
         {
             _appUserRepository = appUserRepository;
+            _identityUserService = identityUserService;
         }
 
         [HttpGet]
@@ -35,7 +39,7 @@ namespace IdentityServer.Webapi.Controllers
         [HttpPost]
         public async Task<IActionResult> AddMembers(Guid groupId, [FromBody] List<string> emails)
         {
-            //var list = await _appUserRepository.GetAppUsersForGroup(groupId);
+            var list = await _identityUserService.AddMembersFroupAsync(groupId, emails);
             return Ok();
 
         }

@@ -1,10 +1,8 @@
 import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-
 /* helper */ import { CHECK_EMAIL } from 'shared/helpers/check-email.helper';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
-
 
 @Component({
     selector: 'form-group-member-add-cmp',
@@ -21,7 +19,6 @@ export class FormGroupMemberAddComponent {
             this.configData = data;
             this.formIsValid = true;
             this._cmpInitialize(data);
-
         }
     }
 

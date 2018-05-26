@@ -14,14 +14,24 @@ namespace Survey.InfrastructureLayer.IdentityServerServices
     {
         public async Task<IEnumerable<IdentityUserModel>> GetIdentityUsersAsync(Guid groupId)
         {
-            var tokenResponse = await GetToken();
-            //
-            var restClient = new RestClient(NTContext.Context.IdentityUrl);
-            restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
-            var request = new RestRequest("/api/groups/" + groupId + "/members", Method.GET);
-            IRestResponse<IEnumerable<IdentityUserModel>> response = await restClient.ExecuteTaskAsync<IEnumerable<IdentityUserModel>>(request);
-            //
-            return response.IsSuccessful ? response.Data : null;
+            try
+            {
+                var tokenResponse = await GetToken();
+                //
+                var restClient = new RestClient(NTContext.Context.IdentityUrl);
+                restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
+                var request = new RestRequest("/api/groups/" + groupId + "/members", Method.GET);
+                IRestResponse<IEnumerable<IdentityUserModel>> response = await restClient.ExecuteTaskAsync<IEnumerable<IdentityUserModel>>(request);
+                //
+                return response.IsSuccessful ? response.Data : null;
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            
+            
         }
     }
 }

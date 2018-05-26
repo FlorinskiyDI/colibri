@@ -48,11 +48,12 @@ namespace Survey.Webapi
             //    .AddEntityFrameworkStores<ApplicationDbContext>()
             //     .AddDefaultTokenProviders();
 
-            //services.AddMvc(config =>
-            //{
-            //    //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-            //    //config.Filters.Add(new AuthorizeFilter(policy));
-            //})
+            services.AddMvc(config =>
+            {
+                //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                //config.Filters.Add(new AuthorizeFilter(policy));
+            });
+
             services.AddInfrastructureDependencies(Configuration.GetConnectionString("DefaultConnection"));
             services.AddApplicationDependencies();
             services.AddWebApiDependencies();

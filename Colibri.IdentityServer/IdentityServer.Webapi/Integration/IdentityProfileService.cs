@@ -45,14 +45,15 @@ namespace IdentityServer.Webapi.Integration
             //new Claim(JwtClaimTypes.Role, "securedFiles.admin"),
             //new Claim(JwtClaimTypes.Role, "securedFiles")
 
-            if (user.IsAdmin)
-            {
-                claims.Add(new Claim(JwtClaimTypes.Role, "admin"));
-            }
-            else
-            {
-                claims.Add(new Claim(JwtClaimTypes.Role, "user"));
-            }
+            //if (user.IsAdmin)
+            //{
+            //    claims.Add(new Claim(JwtClaimTypes.Role, "admin"));
+            //}
+            //else
+            //{
+            //    claims.Add(new Claim(JwtClaimTypes.Role, "user"));
+            //}
+            claims.Add(new Claim(JwtClaimTypes.Role, "user"));
 
             if (user.DataEventRecordsRole == "dataEventRecords.admin")
             {
