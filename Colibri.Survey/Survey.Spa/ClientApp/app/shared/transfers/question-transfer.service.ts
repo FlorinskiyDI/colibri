@@ -15,6 +15,8 @@ export class QuestionTransferService {
     private pageidsubject = new Subject<any>();
 
     private changeQuestionsubject = new Subject<any>();
+    private chagnedQuestionSubject = new Subject<any>();
+    // private statePageSubject = new Subject<any>();
 
     // -start transer 1- Communicating Between Components device-details and devcie-id-mapping
     // sendDeviceID(id: string) {
@@ -96,5 +98,20 @@ export class QuestionTransferService {
         return this.changeQuestionsubject.asObservable();
     }
 
+
+     // for change option field background color after click to notification button on question builder
+    //  setStatePageAsChange(data: any) {
+    //     this.statePageSubject.next(data);
+    // }
+    // getPageState(): Observable<any> {
+    //     return this.statePageSubject.asObservable();
+    // }
+
+    setChangedQuestion(data: any) {
+        this.chagnedQuestionSubject.next(data);
+    }
+    getChangedQuestion(): Observable<any> {
+        return this.chagnedQuestionSubject.asObservable();
+    }
 
 }

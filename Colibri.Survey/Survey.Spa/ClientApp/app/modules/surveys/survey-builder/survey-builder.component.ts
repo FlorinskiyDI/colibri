@@ -31,10 +31,12 @@ import { QuestionBase } from 'shared/models/form-builder/question-base.model';
     styleUrls: [
         './survey-builder.component.scss'
     ],
-    encapsulation: ViewEncapsulation.None,
+    // encapsulation: ViewEncapsulation.None,
     providers: [QuestionService, QuestionControlService]
 })
 export class SurveyBuilderComponent {
+
+    updateData: SurveyModel = new SurveyModel();
 
     oldSurvey: SurveyModel = null;
     activeSurveyId: string;
@@ -94,6 +96,12 @@ export class SurveyBuilderComponent {
             console.log(this.activeSurveyId);
             console.log('5555555555555555555555555555555555555555555555555555555555555');
         });
+        this.questionTransferService.getChangedQuestion().subscribe((data: any) => {
+            this.updateData.pages[this.page.id].questions = null;
+   
+        });
+
+
         this.questionTransferService.getIdByNewPage().subscribe((id: any) => {
             const page = new PageModel({
                 id: id,
@@ -129,11 +137,12 @@ export class SurveyBuilderComponent {
 
 
         });
-
-
-
-
     }
+
+
+    
+
+
 
     ngOnInit() {
         this.availableQuestionsOption = {
@@ -178,96 +187,6 @@ export class SurveyBuilderComponent {
         // }
     }
 
-    compareCheck() {
-        console.log('---------------------------------------------------------------------------------');
-        console.log(this.oldSurvey);
-        console.log(this.survey);
-        console.log('---------------------------------------------------------------------------------');
-        const a = {
-            same: 1,
-            different: 2,
-            missing_from_b: 3,
-            missing_nested_from_b: {
-                x: 1,
-                y: 2
-            },
-            nested: {
-                same: 1,
-                different: 2,
-                missing_from_b: 3
-            }
-        };
-
-        const b = {
-            same: 1,
-            different: 99,
-            missing_from_a: 3,
-            missing_nested_from_a: {
-                x: 1,
-                y: 2
-            },
-            nested: {
-                same: 1,
-                different: 99,
-                missing_from_a: 3
-            }
-        };
-        const val = this.compare(a, b);
-        debugger
-        console.log(val);
-    }
-
-
-    compare = function (a: any, b: any) {
-
-        const  result: any = {
-            different: [],
-            missing_from_first: [],
-            missing_from_second: []
-        };
-
-        _.reduce(a, function (result, value, key) {
-            if (b.hasOwnProperty(key)) {
-                if (_.isEqual(value, b[key])) {
-                    return result;
-                } else {
-                    if (typeof (a[key]) !== typeof ({}) || typeof (b[key]) !== typeof ({})) {
-                        // dead end.
-                        result.different.push(key);
-                        return result;
-                    } else {
-                        const deeper = this.compare(a[key], b[key]);
-                        result.different = result.different.concat(_.map(deeper.different, (sub_path) => {
-                            return key + '.' + sub_path;
-                        }));
-
-                        result.missing_from_second = result.missing_from_second.concat(_.map(deeper.missing_from_second, (sub_path) => {
-                            return key + '.' + sub_path;
-                        }));
-
-                        result.missing_from_first = result.missing_from_first.concat(_.map(deeper.missing_from_first, (sub_path) => {
-                            return key + '.' + sub_path;
-                        }));
-                        return result;
-                    }
-                }
-            } else {
-                result.missing_from_second.push(key);
-                return result;
-            }
-        }.bind(this), result);
-
-        _.reduce(b, function (result, value, key) {
-            if (a.hasOwnProperty(key)) {
-                return result;
-            } else {
-                result.missing_from_first.push(key);
-                return result;
-            }
-        }, result);
-
-        return result;
-    };
 
     GetQuestionByPage(id: any) {
         console.log('work work work work work work work  111111111111111');

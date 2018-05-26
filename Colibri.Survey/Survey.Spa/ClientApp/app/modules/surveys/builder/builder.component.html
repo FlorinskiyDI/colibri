@@ -1,0 +1,57 @@
+<div id="d-builder-wrapper">
+    <div id="d-builder-widgets">
+        <div class="d-builder-widgets-header">
+            <p class="d--text-tools-header"> Toolbox</p>
+        </div>
+        <div class="d-builder-widgets-body">
+            <p-accordion [multiple]="true">
+                <p-accordionTab header="Basic Question" [selected]="true">
+
+                    <div dnd-sortable-container [sortableData]="templateOptions.questionTemplates" [dropZones]="['container-dropZone']">
+                        <div *ngFor="let question of templateOptions.questionTemplates; let i = index" dnd-sortable [sortableIndex]="i" [dragEnabled]="false">
+                            <div class="d-panel-sortable" dnd-sortable-container [sortableData]="questionTemplates" [dropZones]="[question.dropZone]">
+                                <div *ngFor="let control of templateOptions.questionTemplates; let x = index">
+                                    <div *ngIf="i == x" class="d--repeat-allow-question-wrapper" (dragend)="dragEndQuestionTemplate($event, widget)" (onDropSuccess)="deleteDragQuestion($event)"
+                                        dnd-sortable [sortableIndex]="x" [dragEnabled]="true" [dragData]="control">
+                                        <div class="d--repeat-allow-question">
+                                            <div class="repeat-block_1">
+                                                <p class="icon fa {{control.icon}}" href="#"></p>
+                                            </div>
+                                            <div class="repeat-block_2">
+                                                <div id="outer">
+                                                    <div id="inner">
+                                                        <p class="d--mainText">{{control.name}}</p>
+                                                        <p class="d--descriptionText">{{control.description}}.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </p-accordionTab>
+                <p-accordionTab header="Advanced Question" [selected]="false">
+                    <button (click)="changeData()">change form data</button>
+                </p-accordionTab>
+                <p-accordionTab header="Additional Controls" [selected]="true">
+                    <pre>{{temporaryAnser | json}}</pre>
+                </p-accordionTab>
+                <p-accordionTab header="Another Controls">
+                    Content 4
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+
+
+
+    </div>
+    <div id="d-builder-body">
+        <form-builder *ngIf="page && templateOptions" [page]="page" [templateOptions]="templateOptions"></form-builder>
+    </div>
+    <!-- <div id="d-builder-option">
+
+    </div> -->
+</div>

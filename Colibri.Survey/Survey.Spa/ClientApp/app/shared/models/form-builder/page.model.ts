@@ -9,6 +9,7 @@ export class PageModel {
     description: string;
     order: number;
     questions: QuestionBase<any>[];
+    isChanged?: boolean;
 
     constructor(options: any = {}) {
 
@@ -17,6 +18,7 @@ export class PageModel {
         this.description = options['description'] || '';
         this.order = options['order'] === undefined ? 1 : options['order'];
         this.questions = options['questions'];
+        this.isChanged = false;
 
     }
 }

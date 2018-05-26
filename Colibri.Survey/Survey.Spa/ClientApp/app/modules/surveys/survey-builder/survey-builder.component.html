@@ -87,7 +87,6 @@
 
             <survey-from-builder *ngIf="page && availableQuestionsOption" [page]="page" [questionSettings]="availableQuestionsOption" (temporaryAnser)="temporaryAnser = $event; getTestAnswer($event)"></survey-from-builder>
                 <button (click)="getSurvey()">get survey</button>
-                <button (click)="compareCheck()">check compare two objects</button>
             <!-- </div> -->
             <!-- </div> -->
         </div>

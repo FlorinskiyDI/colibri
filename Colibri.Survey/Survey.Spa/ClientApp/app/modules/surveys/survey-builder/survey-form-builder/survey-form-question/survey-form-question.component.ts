@@ -5,12 +5,13 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
-
+import { QuestionTransferService } from '../../../../../shared/transfers/question-transfer.service';
 import { QuestionBase } from '../../../../../shared/models/form-builder/question-base.model';
 import { CheckboxQuestion } from '../../../../../shared/models/form-builder/question-checkbox.model';
 import { ControlOptionModel } from '../../../../../shared/models/form-builder/form-control/control-option.model';
 import { AnswerControlService } from '../../../../../shared/Services/answer-control.service';
 import { GUID } from '../../../../../shared/helpers/guide-type.helper';
+import { ControStates } from 'shared/constants/control-states.constant';
 @Component({
     selector: 'survey-form-question',
     templateUrl: './survey-form-question.component.html',
@@ -41,7 +42,9 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     constructor(
         private answerControlService: AnswerControlService,
         private cdr: ChangeDetectorRef,
-        private fb: FormBuilder) { }
+        private fb: FormBuilder,
+        private questionTransferService: QuestionTransferService
+    ) { }
 
 
     ngOnInit() {
@@ -178,6 +181,14 @@ export class SurveyFormQuestionComponent implements AfterContentChecked, OnDestr
     }
 
 
+    markQuestionAsChanged(state: boolean) {
+        if (!this.question.state == null) {
+            this.questionTransferService.setChangedQuestion(this.question);
+            // this.question.isChanged = state;
+            this.question.state = ControStates.updated;
+        }
+
+    }
 
 
 

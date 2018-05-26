@@ -9,7 +9,7 @@ import { TextboxQuestion } from '../../models/form-builder/question-textbox.mode
 import { DropdownQuestion } from '../../models/form-builder/question-dropdown.model';
 import { TextAreaQuestion } from '../../models/form-builder/question-textarea.model';
 // import { RadioQuestion } from '../../models/form-builder/question-radio.model';
-// import { CheckboxQuestion } from '../../models/form-builder/question-checkbox.model';
+import { CheckboxQuestion } from '../../models/form-builder/question-checkbox.model';
 // import { GridRadioQuestion } from '../../models/form-builder/question-grid-radio.model';
 
 
@@ -285,17 +285,32 @@ export class QuestionService {
             name: 'page name 1',
             description: 'page 1 description (change data)',
             order: 1,
+            isChanged: false,
             questions: [
-              // new TextboxQuestion({
-              //   // controlType: 'textbox', // same as in control-type.constant.ts
-              //   id: 'fbd8800b-93ee-4706-b527-83feb23fb005',
-              //   text: 'First name (change data22)',
-              //   description: 'some description (change data22)',
-              //   value: '',
-              //   required: false,
-              //   order: 0,
-              //   isAdditionalAnswer: true
-              // }),
+              new TextboxQuestion({
+                // controlType: 'textbox', // same as in control-type.constant.ts
+                id: 'fbd8800b-93ee-4706-b527-83feb23fb005',
+                text: 'First name (change data22)',
+                description: 'some description (change data22)',
+                value: '',
+                required: false,
+                order: 0,
+                isAdditionalAnswer: true
+              }),
+              new CheckboxQuestion({
+                //  controlType: 'checkbox', // same as in control-type.constant.ts
+                id: 'fbd8877b-93ee-4707-b527-83feb23fb005',
+                text: 'Bravery checkbox',
+                description: 'some description',
+                options: [
+                  { id: 'fbd8877b-93ee-5107-b527-83feb23fb005', label: false, value: 'Variable 1', order: 1 },
+                  { id: 'fbd8877b-93ee-5207-b527-83feb23fb005', label: false, value: 'Variable 2', order: 2 },
+                  { id: 'fbd8877b-93ee-5307-b527-83feb23fb005', label: false, value: 'Variable 3', order: 3 },
+                ],
+                order: 0,
+                required: true,
+                isAdditionalAnswer: true
+              }),
             ]
           }
         ),

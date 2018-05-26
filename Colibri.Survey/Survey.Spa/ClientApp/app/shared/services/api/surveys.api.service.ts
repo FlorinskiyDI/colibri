@@ -18,7 +18,7 @@ export class SurveysApiService {
     getAll() {
         const baseAccounts = this.restangular.all('api/surveySections');
         // This will query /accounts and return a observable.
-        return baseAccounts.getList();
+        return baseAccounts.getList().map((response: any) => response.plain());
     }
 
     // get(id: string) {
@@ -28,7 +28,7 @@ export class SurveysApiService {
 
     get(id: string) {
         const result = this.restangular.one('api/surveySections', id).get();
-        return result ;
+        return result.map((response: any) => response.plain()) ;
     }
 
 
