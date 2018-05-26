@@ -12,14 +12,14 @@ namespace IdentityServer.Webapi.Services
     public class IdentityUserService : IIdentityUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ISiteEmailMessageSender _siteEmailMessageSender;
+        private readonly IEmailSenderService _emailSenderService;
         public IdentityUserService(
             UserManager<ApplicationUser> userManager,
-            ISiteEmailMessageSender siteEmailMessageSender
+            IEmailSenderService emailSenderService
         )
         {
             this._userManager = userManager;
-            this._siteEmailMessageSender = siteEmailMessageSender;
+            this._emailSenderService = emailSenderService;
         }
 
 
@@ -31,13 +31,13 @@ namespace IdentityServer.Webapi.Services
                 var confirmationToken = await GetEmailConfirmationToken(email);
                 string codeHtmlVersion = HttpUtility.UrlEncode(confirmationToken);
                 var confirmationUrl = $@"http://localhost:5050/Account/RegisterByEmail/?userId={ identityUser.Id }&code={ codeHtmlVersion }";                
-                await _siteEmailMessageSender.SendAccountConfirmationEmailAsync(null, email, "Confirm your account", confirmationUrl);
+                await _emailSenderService.SendAccountConfirmationEmailAsync(null, email, "Confirm your account", confirmationUrl);
             }
             //
             return true;
         }
 
-        public async Task<ApplicationUser> AddIdentityUser(string email)
+        private async Task<ApplicationUser> AddIdentityUser(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
@@ -53,7 +53,7 @@ namespace IdentityServer.Webapi.Services
             return user;
         }
 
-        public async Task<string> GetEmailConfirmationToken(string email)
+        private async Task<string> GetEmailConfirmationToken(string email)
         {
             try
             {

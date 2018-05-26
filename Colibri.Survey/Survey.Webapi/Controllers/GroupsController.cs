@@ -17,11 +17,18 @@ namespace Survey.Webapi.Controllers
     [Route("api/groups")]
     public class GroupsController : BaseController
     {
+        // GET: api/groups
+        // GET: api/groups/root
+        // GET: api/groups/{id}
+        // GET: api/groups/{id}/subgroups
+        // POST: api/groups
+        // PUT: api/groups
+        // DELETE: api/groups/{id}
+
         private readonly IGroupService _groupService;
         public GroupsController(
             IConfiguration configuration,
             ITypeHelperService typeHelperService,
-            //
             IGroupService groupService
         ) : base(configuration, typeHelperService)
         {
@@ -50,9 +57,8 @@ namespace Survey.Webapi.Controllers
             return Ok(result.ShapeData(fields));
         }
 
-        // GET: api/groups
-        [HttpGet]
-        [Route("root")]
+        // GET: api/groups/root
+        [HttpGet("root")]
         public async Task<IActionResult> GetGroupListRoot([FromQuery] string fields)
         {
             if (!_typeHelperService.TypeHasProperties<GroupDto>(fields))
@@ -73,7 +79,7 @@ namespace Survey.Webapi.Controllers
             return Ok(result.ShapeData(fields));
         }
 
-        // GET: api/groups/1/subgroups
+        // GET: api/groups/{id}/subgroups
         [HttpGet]
         [Route("{id}/subgroups")]
         public async Task<IActionResult> GetSubGroupList(Guid id)
@@ -91,7 +97,7 @@ namespace Survey.Webapi.Controllers
             return Ok(result);
         }
 
-        // GET: api/groups/1
+        // DELETE: api/groups/{id}
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> DeleteGroup(Guid id)
@@ -108,9 +114,8 @@ namespace Survey.Webapi.Controllers
             return Ok();
         }
 
-        // GET: api/groups/1
-        [HttpGet]
-        [Route("{id}")]
+        // GET: api/groups/{id}
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetGroup(Guid id)
         {
             GroupDto groupDto;
@@ -126,7 +131,7 @@ namespace Survey.Webapi.Controllers
             return Ok(groupDto);
         }
 
-        // POST: api/groups/
+        // POST: api/groups
         [HttpPost]
         public async Task<IActionResult> CreateGroup([FromBody] GroupDto model)
         {
@@ -148,7 +153,7 @@ namespace Survey.Webapi.Controllers
             return Ok();
         }
 
-        // POST: api/groups/
+        // PUT: api/groups
         [HttpPut]
         public IActionResult UpdateGroup([FromBody] GroupDto model)
         {
@@ -169,8 +174,6 @@ namespace Survey.Webapi.Controllers
 
             return Ok();
         }
-
         
-
     }
 }

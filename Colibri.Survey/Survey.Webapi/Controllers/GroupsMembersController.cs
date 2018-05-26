@@ -16,11 +16,13 @@ using Survey.Webapi.Services.TypeHelper;
 namespace Survey.Webapi.Controllers
 {
     [Authorize()]
-
     [Route("api/groups/members")]
     [Route("api/groups/{groupId?}/members")]
     public class GroupsMembersController : BaseController
     {
+        // GET: api/groups//{groupId?}/members
+        // POST: api/groups//{groupId?}/members
+
         private readonly IIdentityUserService _identityUserService;
         private readonly IGroupService _groupService;
         public GroupsMembersController(
@@ -35,14 +37,10 @@ namespace Survey.Webapi.Controllers
             _groupService = groupService;
         }
 
+        // GET: api/groups//{groupId?}/members
         [HttpGet]
         public async Task<IActionResult> GetMembers(Guid groupId)
         {
-            //if (!_typeHelperService.TypeHasProperties<IdentityUserDto>(fields))
-            //{
-            //    return BadRequest();
-            //}
-
             IEnumerable<IdentityUserDto> result;
             try
             {
@@ -56,7 +54,7 @@ namespace Survey.Webapi.Controllers
             return Ok(result);
         }
 
-        // POST: api/groups/
+        // POST: api/groups//{groupId?}/members
         [HttpPost]
         public async Task<IActionResult> AddMembers(Guid groupId, [FromBody] List<string> emails)
         {

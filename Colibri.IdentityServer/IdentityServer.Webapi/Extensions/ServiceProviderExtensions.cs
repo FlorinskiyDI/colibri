@@ -16,14 +16,17 @@ namespace IdentityServer.Webapi.Extensions
                 .AddRepositories()
                 .AddServices();
         }
+
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddTransient<IIdentityUserService, IdentityUserService>();
             services.AddTransient<IViewRenderService, ViewRenderService>();
-            services.AddTransient<ISiteEmailMessageSender, SiteEmailMessageSender>();
+            //
+            services.AddTransient<IGroupMemberService, GroupMemberService>();
+            services.AddTransient<IEmailSenderService, EmailSenderService>();
             //
             return services;
-        }
+        }        
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {

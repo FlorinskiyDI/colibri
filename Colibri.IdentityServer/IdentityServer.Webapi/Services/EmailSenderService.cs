@@ -1,57 +1,33 @@
 ﻿using IdentityServer.Webapi.Infrastructure.Messaging;
 using IdentityServer.Webapi.Infrastructure.Razor;
 using IdentityServer.Webapi.Services.Interfaces;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Services
 {
-    public class SiteEmailMessageSender : ISiteEmailMessageSender
+    public class EmailSenderService : IEmailSenderService
     {
+        private IConfiguration _configuration;
         private IViewRenderService _viewRenderService;
-        //private ILogger log;
 
-        public SiteEmailMessageSender(
-            IViewRenderService viewRenderService
-            //ILogger<SiteEmailMessageSender> logger
-            )
-        {
-            //log = logger;
-            _viewRenderService = viewRenderService;
-
-        }
-
-        private async Task<SmtpOptions> GetSmptOptions()
-        {
-            SmtpOptions smtpOptions = new SmtpOptions();
-            smtpOptions.Password = "FlorinskyDmitriy";
-            smtpOptions.Port = 587;
-            //smtpOptions.PreferredEncoding = siteSettings.SmtpPreferredEncoding;
-            smtpOptions.RequiresAuthentication = true;
-            smtpOptions.Server = "smtp.gmail.com";
-            smtpOptions.User = "dmytro.florynskyi@gmail.com";
-            //smtpOptions.UseSsl = siteSettings.SmtpUseSsl;
-            smtpOptions.DefaultEmailFromAddress = "dmytro.florynskyi@gmail.com";
-
-            return await Task.FromResult(smtpOptions);
-        }
-
-        public async Task SendAccountConfirmationEmailAsync(
-            //ISiteContext siteSettings,
-            object siteSettings,
-            string toAddress,
-            string subject,
-            string confirmationUrl
+        public EmailSenderService(
+            IViewRenderService viewRenderService,
+            IConfiguration configuration
         )
+        {
+            _viewRenderService = viewRenderService;
+            _configuration = configuration;
+        }
+
+
+        public async Task SendAccountConfirmationEmailAsync(object siteSettings, string toAddress, string subject, string confirmationUrl)
         {
             var smtpOptions = await GetSmptOptions().ConfigureAwait(false);
             if (smtpOptions == null)
             {
                 var logMessage = $"failed to send account confirmation email because smtp settings are not populated for site";
-                //log.LogError(logMessage);
                 return;
             }
 
@@ -76,36 +52,20 @@ namespace IdentityServer.Webapi.Services
 
         }
 
-        public async Task SendPasswordResetEmailAsync(
-            object siteSettings,
-            string toAddress,
-            string subject,
-            string resetUrl)
+        public async Task SendPasswordResetEmailAsync(object siteSettings, string toAddress, string subject, string resetUrl)
         {
             var smtpOptions = await GetSmptOptions().ConfigureAwait(false);
-
             if (smtpOptions == null)
             {
-                //var logMessage = $"failed to send password reset email because smtp settings are not populated for site {siteSettings.SiteName}";
                 var logMessage = $"failed to send password reset email because smtp settings are not populated for site";
-                //log.LogError(logMessage);
                 return;
             }
 
             var sender = new EmailSender();
-            // in account controller we are calling this method without await
-            // so it doesn't block the UI. Which means it is running on a background thread
-            // similar as the old ThreadPool.QueueWorkItem
-            // as such we need to handle any error that may happen so it doesn't
-            // brind down the thread or the process
             try
             {
-                var plainTextMessage
-                   = await _viewRenderService.RenderToStringAsync("EmailTemplates/PasswordResetTextEmail", resetUrl);
-
-                var htmlMessage
-                    = await _viewRenderService.RenderToStringAsync("EmailTemplates/PasswordResetHtmlEmail", resetUrl);
-
+                var plainTextMessage = await _viewRenderService.RenderToStringAsync("EmailTemplates/PasswordResetTextEmail", resetUrl);
+                var htmlMessage = await _viewRenderService.RenderToStringAsync("EmailTemplates/PasswordResetHtmlEmail", resetUrl);
                 await sender.SendEmailAsync(
                     smtpOptions,
                     toAddress,
@@ -118,8 +78,22 @@ namespace IdentityServer.Webapi.Services
             {
                 //log.LogError("error sending password reset email", ex);
             }
-
         }
 
+        //
+        private async Task<SmtpOptions> GetSmptOptions()
+        {
+            SmtpOptions smtpOptions = new SmtpOptions();
+            smtpOptions.Server = _configuration["SmtpOptions:Server"];
+            smtpOptions.Port = Int32.Parse(_configuration["SmtpOptions:Port"]);
+            smtpOptions.RequiresAuthentication = Boolean.Parse(_configuration["SmtpOptions:RequiresAuthentication"]);
+            smtpOptions.User = _configuration["SmtpOptions:User"];
+            smtpOptions.Password = _configuration["SmtpOptions:Password"];
+            smtpOptions.DefaultEmailFromAddress = _configuration["SmtpOptions:DefaultEmailFromAddress"];
+            //smtpOptions.PreferredEncoding = siteSettings.SmtpPreferredEncoding;
+            //smtpOptions.UseSsl = siteSettings.SmtpUseSsl;
+            //
+            return await Task.FromResult(smtpOptions);
+        }
     }
 }

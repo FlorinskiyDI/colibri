@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using IdentityServer.Webapi.Repositories.Interfaces;
 using IdentityServer.Webapi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace IdentityServer.Webapi.Controllers
 {
     [Authorize(AuthenticationSchemes = "Bearer", Policy = "user")]
     [Produces("application/json")]
+    [Route("api/groups/members")]
     [Route("api/groups/{groupId?}/members")]
     public class GroupsMembersController : Controller
-    {        
+    {
+        // GET: api/groups/{groupId}/members
+        // POST: api/groups/{groupId}/members
+
         private readonly IAppUserRepository _appUserRepository;
         private readonly IIdentityUserService _identityUserService;
         public GroupsMembersController(
@@ -28,14 +28,15 @@ namespace IdentityServer.Webapi.Controllers
             _identityUserService = identityUserService;
         }
 
+        // GET: api/groups/{groupId}/members
         [HttpGet]
         public async Task<IActionResult> GetMembers(Guid groupId)
         {
             var list = await _appUserRepository.GetAppUsersForGroup(groupId);
             return Ok(list);
-            
         }
 
+        // POST: api/groups/{groupId}/members
         [HttpPost]
         public async Task<IActionResult> AddMembers(Guid groupId, [FromBody] List<string> emails)
         {

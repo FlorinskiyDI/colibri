@@ -15,10 +15,16 @@ namespace IdentityServer.Webapi.Controllers
     [Route("api/groups")]
     public class GroupsController : Controller
     {
-        // repositories
+
+        // GET: api/groups
+        // GET: api/groups/root
+        // GET: api/groups/{id}/subgroups
+        // POST: api/groups
+        // PUT: api/groups
+        // DELETE: api/groups/{id}
+
         private readonly IGroupRepository _groupRepository;
         private readonly IAppUserGroupRepository _appUserGroupRepository;
-
         public GroupsController(
             IGroupRepository groupRepository,
             IAppUserGroupRepository appUserGroupRepository
@@ -28,6 +34,7 @@ namespace IdentityServer.Webapi.Controllers
             _appUserGroupRepository = appUserGroupRepository;
         }
 
+        // GET: api/groups/
         [HttpGet]
         public async Task<IActionResult> GetGroups()
         {
@@ -44,7 +51,7 @@ namespace IdentityServer.Webapi.Controllers
             return Ok(resultList);
         }
 
-        public List<Groups> recursiveTreeSearch(Groups group, List<Groups> siblings)
+        private List<Groups> recursiveTreeSearch(Groups group, List<Groups> siblings)
         {
             if (group.InverseParent.Count() > 0)
             {
@@ -58,9 +65,8 @@ namespace IdentityServer.Webapi.Controllers
             return siblings;
         }
 
-
-        [HttpGet]
-        [Route("root")]
+        // GET: api/groups/root
+        [HttpGet("root")]
         public async Task<IActionResult> GetRootGroups()
         {
             var claims = this.HttpContext.User.Claims;
@@ -69,20 +75,16 @@ namespace IdentityServer.Webapi.Controllers
             return Ok(list);
         }
 
-        
-
-        
-
-        [HttpGet]
-        [Route("{id}/subgroups")]
+        // GET: api/groups/{id}/subgroups
+        [HttpGet("{id}/subgroups")]
         public async Task<IActionResult> GetSubGroups(Guid id)
         {
             var list = await _groupRepository.GetSubGroupsAsync(id);
             return Ok(list);
         }
 
-        [HttpGet]
-        [Route("{id}")]
+        // GET: api/groups/{id}
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetGroup(Guid id)
         {
             Groups entity;
@@ -97,9 +99,8 @@ namespace IdentityServer.Webapi.Controllers
             return Ok(entity);
         }
 
-
-        [HttpDelete]
-        [Route("{id}")]
+        // DELETE: api/groups/{id}
+        [HttpDelete("{id}")]
         public IActionResult DeleteGroup(Guid id)
         {
             try
@@ -114,7 +115,7 @@ namespace IdentityServer.Webapi.Controllers
             return Ok();
         }
 
-        // POST: api/groups/
+        // POST: api/groups
         [HttpPost]
         public async Task<IActionResult> CreateGroup([FromBody] Groups model)
         {
@@ -147,7 +148,7 @@ namespace IdentityServer.Webapi.Controllers
             return Ok(group);
         }
 
-        // POST: api/groups/
+        // PUT: api/groups
         [HttpPut]
         public IActionResult UpdateGroup([FromBody] Groups model)
         {
