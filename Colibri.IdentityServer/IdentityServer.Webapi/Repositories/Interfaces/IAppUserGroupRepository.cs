@@ -10,5 +10,7 @@ namespace IdentityServer.Webapi.Repositories.Interfaces
     {
         Task<ApplicationUserGroups> CreateAppUserGroupAsync(ApplicationUserGroups appUserGroup);
         void DeleteAppUserGroupByGroupAsync(Guid groupId);
+        Task<ApplicationUserGroups> GetAppUserGroupAsync(string userId, Guid groupId);
+        void DeleteAppUserGroupAsync(ApplicationUserGroups userGroup);
     }
 }

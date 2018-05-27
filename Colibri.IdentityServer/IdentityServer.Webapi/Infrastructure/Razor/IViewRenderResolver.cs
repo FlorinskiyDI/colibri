@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Infrastructure.Razor
 {
-    public interface IViewRenderService
+    public interface IViewRenderResolver
     {
         Task<string> RenderToStringAsync(string viewName, object model);
     }

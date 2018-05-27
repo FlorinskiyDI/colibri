@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Infrastructure.Razor
 {
-    public class ViewRenderService: IViewRenderService
+    public class ViewRenderResolver: IViewRenderResolver
     {
         private readonly IRazorViewEngine _razorViewEngine;
         private readonly ITempDataProvider _tempDataProvider;
         private readonly IServiceProvider _serviceProvider;
 
-        public ViewRenderService(
+        public ViewRenderResolver(
             IRazorViewEngine razorViewEngine,
             ITempDataProvider tempDataProvider,
             IServiceProvider serviceProvider

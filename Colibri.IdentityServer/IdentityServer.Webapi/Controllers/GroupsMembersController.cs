@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using IdentityServer.Webapi.Repositories.Interfaces;
 using IdentityServer.Webapi.Services;
+using IdentityServer.Webapi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,23 +17,21 @@ namespace IdentityServer.Webapi.Controllers
     {
         // GET: api/groups/{groupId}/members
         // POST: api/groups/{groupId}/members
+        // DELETE: api/groups/{groupId}/members/{id}
 
-        private readonly IAppUserRepository _appUserRepository;
-        private readonly IIdentityUserService _identityUserService;
+        private readonly IGroupMemberService _groupMemberService;
         public GroupsMembersController(
-            IAppUserRepository appUserRepository,
-            IIdentityUserService identityUserService
+            IGroupMemberService groupMemberService
         )
         {
-            _appUserRepository = appUserRepository;
-            _identityUserService = identityUserService;
+            _groupMemberService = groupMemberService;
         }
 
         // GET: api/groups/{groupId}/members
         [HttpGet]
         public async Task<IActionResult> GetMembers(Guid groupId)
         {
-            var list = await _appUserRepository.GetAppUsersForGroup(groupId);
+            var list = await _groupMemberService.GetMembersForGroupAsync(groupId);
             return Ok(list);
         }
 
@@ -40,9 +39,17 @@ namespace IdentityServer.Webapi.Controllers
         [HttpPost]
         public async Task<IActionResult> AddMembers(Guid groupId, [FromBody] List<string> emails)
         {
-            var list = await _identityUserService.AddMembersFroupAsync(groupId, emails);
+            var list = await _groupMemberService.AddMembersToGroupAsync(groupId, emails);
             return Ok();
-
         }
+
+        // DELETE: api/groups/{groupId}/members/{id}
+        [HttpDelete]
+        public async Task<IActionResult> DeleteMember(Guid groupId, string id)
+        {
+            await _groupMemberService.DeleteMember(id, groupId);
+            return Ok();
+        }
+
     }
 }

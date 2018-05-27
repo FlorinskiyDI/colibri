@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Infrastructure.Messaging
 {
-    public class EmailSender
+    public class EmailSender: IEmailSender
     {
         public EmailSender()
         {

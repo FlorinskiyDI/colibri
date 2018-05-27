@@ -10,15 +10,18 @@ namespace IdentityServer.Webapi.Services
     public class EmailSenderService : IEmailSenderService
     {
         private IConfiguration _configuration;
-        private IViewRenderService _viewRenderService;
+        private IViewRenderResolver _viewRenderResolver;
+        private IEmailSender _emailSender;
 
         public EmailSenderService(
-            IViewRenderService viewRenderService,
-            IConfiguration configuration
+            IViewRenderResolver viewRenderResolver,
+            IConfiguration configuration,
+            IEmailSender emailSender
         )
         {
-            _viewRenderService = viewRenderService;
+            _viewRenderResolver = viewRenderResolver;
             _configuration = configuration;
+            _emailSender = emailSender;
         }
 
 
@@ -31,13 +34,12 @@ namespace IdentityServer.Webapi.Services
                 return;
             }
 
-            var sender = new EmailSender();
             try
             {
-                var plainTextMessage = await _viewRenderService.RenderToStringAsync("EmailTemplates/ConfirmAccountTextEmail", confirmationUrl).ConfigureAwait(false);
-                var htmlMessage = await _viewRenderService.RenderToStringAsync("EmailTemplates/ConfirmAccountHtmlEmail", confirmationUrl).ConfigureAwait(false);
+                var plainTextMessage = await _viewRenderResolver.RenderToStringAsync("EmailTemplates/ConfirmAccountTextEmail", confirmationUrl).ConfigureAwait(false);
+                var htmlMessage = await _viewRenderResolver.RenderToStringAsync("EmailTemplates/ConfirmAccountHtmlEmail", confirmationUrl).ConfigureAwait(false);
 
-                await sender.SendEmailAsync(
+                await _emailSender.SendEmailAsync(
                     smtpOptions,
                     toAddress,
                     smtpOptions.DefaultEmailFromAddress,
@@ -61,12 +63,11 @@ namespace IdentityServer.Webapi.Services
                 return;
             }
 
-            var sender = new EmailSender();
             try
             {
-                var plainTextMessage = await _viewRenderService.RenderToStringAsync("EmailTemplates/PasswordResetTextEmail", resetUrl);
-                var htmlMessage = await _viewRenderService.RenderToStringAsync("EmailTemplates/PasswordResetHtmlEmail", resetUrl);
-                await sender.SendEmailAsync(
+                var plainTextMessage = await _viewRenderResolver.RenderToStringAsync("EmailTemplates/PasswordResetTextEmail", resetUrl);
+                var htmlMessage = await _viewRenderResolver.RenderToStringAsync("EmailTemplates/PasswordResetHtmlEmail", resetUrl);
+                await _emailSender.SendEmailAsync(
                     smtpOptions,
                     toAddress,
                     smtpOptions.DefaultEmailFromAddress,
