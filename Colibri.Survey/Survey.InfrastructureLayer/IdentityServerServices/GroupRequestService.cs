@@ -149,6 +149,18 @@ namespace Survey.InfrastructureLayer.IdentityServices
             return await Task.FromResult(response.IsSuccessful);
         }
 
+        public async Task<bool> DeleteMemberFromGroupAsync(Guid groupId, string userId)
+        {
+            var tokenResponse = await GetToken();
+            // call to identity server for create groups
+            var restClient = new RestClient(NTContext.Context.IdentityUrl);
+            restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
+            var request = new RestRequest($"/api/groups/{groupId}/members/{userId}", Method.DELETE);
+            IRestResponse<bool> response = await restClient.ExecuteTaskAsync<bool>(request);
+            //
+            return await Task.FromResult(response.IsSuccessful);
+        }
+
         #endregion
 
     }

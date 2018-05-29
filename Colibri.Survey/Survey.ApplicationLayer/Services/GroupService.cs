@@ -74,10 +74,23 @@ namespace Survey.ApplicationLayer.Services
             return groupDto;
         }
 
+
+
+
+        #region group members
+
         public async Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emails)
         {
             var result = await _groupRequestService.AddMembersToGroupAsync(groupId, emails);
             return result;
         }
+
+        public async Task<bool> DeleteMemberFromGroupAsync(Guid groupId, string userId)
+        {
+            var result = await _groupRequestService.DeleteMemberFromGroupAsync(groupId, userId);
+            return result;
+        }
+
+        #endregion
     }
 }

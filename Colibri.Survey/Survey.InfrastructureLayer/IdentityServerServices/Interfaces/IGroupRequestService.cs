@@ -19,6 +19,6 @@ namespace Survey.InfrastructureLayer.IdentityServices
 
         // group members
         Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emails);
-
+        Task<bool> DeleteMemberFromGroupAsync(Guid groupId, string userId);
     }
 }

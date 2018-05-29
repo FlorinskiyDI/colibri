@@ -23,7 +23,7 @@ namespace IdentityServer.Webapi.Services
 
         public async void SubscribeToGroupAsync(string userId, Guid groupId)
         {
-            var userGroup = _appUserGroupRepository.GetAppUserGroupAsync(userId, groupId);
+            var userGroup = await _appUserGroupRepository.GetAppUserGroupAsync(userId, groupId);
             if (userGroup == null)
             {
                 await _appUserGroupRepository.CreateAppUserGroupAsync(new ApplicationUserGroups()

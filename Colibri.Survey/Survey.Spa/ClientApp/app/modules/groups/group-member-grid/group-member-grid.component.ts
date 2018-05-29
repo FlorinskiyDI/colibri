@@ -72,12 +72,16 @@ export class GroupMemberGridComponent {
     }
 
 
-    public memberUnsubscribe(data: any) {
+    public memberUnsubscribe(id: any) {
         this.confirmationService.confirm({
             message: 'Are you sure that you want to unsubscribe this member?',
             accept: () => {
-                this.selectedMember = null;
-                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Member was unsubscribed successfully' });
+                this.groupMembersApiService.deleteMemberFromGroup(this.itemGroupId, id).subscribe(
+                    (response: any) => {
+                        this.selectedMember = null;
+                        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Member was unsubscribed successfully' });
+                        this.dtGroupMembers.reset();
+                    });
             }
         });
     }

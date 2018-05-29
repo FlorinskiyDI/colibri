@@ -44,7 +44,7 @@ namespace IdentityServer.Webapi.Controllers
         }
 
         // DELETE: api/groups/{groupId}/members/{id}
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMember(Guid groupId, string id)
         {
             await _groupMemberService.DeleteMember(id, groupId);

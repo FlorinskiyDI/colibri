@@ -19,5 +19,6 @@ namespace Survey.ApplicationLayer.Services.Interfaces
 
         // group members
         Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emails);
+        Task<bool> DeleteMemberFromGroupAsync(Guid groupId, string userId);
     }
 }

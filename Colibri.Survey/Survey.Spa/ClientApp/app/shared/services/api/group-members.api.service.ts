@@ -21,4 +21,9 @@ export class GroupMembersApiService {
         return result;
     }
 
+    deleteMemberFromGroup(groupId: string, id: string) {
+        const result = this.restangular.one(`api/groups/${groupId}/members`, id).remove();
+        return result;
+    }
+
 }
