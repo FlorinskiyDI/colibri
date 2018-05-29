@@ -1,3 +1,92 @@
+$fonts: 'Source Sans Pro', 'Helvetica', 'Arial', sans-serif;
+$brand: #0273d4;
+$light-grey: #f6f6f6;
+$dark-grey: #545555;
+$white: #fff;
+//
+$headerHeight: 47px;
+
+.cmp-layout {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    aside.ng-sidebar--left { top: $headerHeight; }
+    .ng-sidebar-content { widows: 100%; height: 100%; }
+    section.demo-contents { height: 100%; padding-top: $headerHeight; }
+    .demo-contents-container { height: 100%; position: relative; }
+
+    .loading {
+        padding: 1em;
+    }
+    
+    demo {
+        height: 100%;
+        width: 100%;
+    }
+    
+    .demo-header {
+        align-items: center;
+        background: $brand;
+        box-shadow: 0 0.1em 1.5em rgba($dark-grey, 0.5);
+        color: $white;
+        display: flex;
+        padding: 1em;
+    }
+    
+        .demo-header__toggle {
+        background: transparent;
+        border: 0.15rem solid $white;
+        border-left: 0;
+        border-right: 0;
+        cursor: pointer;
+        font-size: 0;
+        height: 1.5rem;
+        margin-right: 1rem;
+        position: relative;
+        width: 2rem;
+    
+        &::after {
+            background: $white;
+            content: '';
+            height: 0.15rem;
+            left: 0;
+            margin-top: -0.075rem;
+            position: absolute;
+            top: 50%;
+            width: 100%;
+        }
+        }
+    
+    .demo-sidebar {
+        background-color: #fff;
+        padding: 2em 1em;
+    
+        &.ng-sidebar--opened.ng-sidebar--over {
+        box-shadow: 0 0 2.5em rgba(85, 85, 85, 0.5);
+        }
+    }
+    
+    .demo-control {
+        background-color: $light-grey;
+        border: 1px solid $dark-grey;
+        cursor: pointer;
+        margin-bottom: 0.5em;
+        padding: 0.5em 2em;
+        transition: background-color 0.15s;
+    
+        &:hover {
+        background-color: $dark-grey;
+        color: $white;
+        }
+    }
+
+
+
+}
+
 // ng-sidebar-container {
 //     display: block;
 //     position: absolute;
@@ -21,23 +110,23 @@
 //     left: 0px;
 //     right: 0px;
 // }
-.breadcrumb {
-    margin-bottom: 0px;
-}
+// .breadcrumb {
+//     margin-bottom: 0px;
+// }
 
 
-aside {
-    width: 200px;
-    border-right: 1px solid #cccedb;
-    background-color: #fff;
-}
+// aside {
+//     width: 200px;
+//     border-right: 1px solid #cccedb;
+//     background-color: #fff;
+// }
 
-#header {
-    position: fixed;
-    width: 100%;
-    // height: 33px;
-    border-bottom: 1px solid #cccedb;
-}
+// #header {
+//     position: fixed;
+//     width: 100%;
+//     // height: 33px;
+//     border-bottom: 1px solid #cccedb;
+// }
 // ol {
 //     height: 32px;
 // }

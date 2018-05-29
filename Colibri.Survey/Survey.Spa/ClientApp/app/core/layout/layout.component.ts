@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
     selector: 'layout-component',
     templateUrl: 'layout.component.html',
-    styleUrls: ['./layout.component.scss']
+    styleUrls: ['./layout.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 
 export class LayoutComponent implements OnInit {
@@ -19,12 +20,12 @@ export class LayoutComponent implements OnInit {
 
     }
     private _opened = false;
-    private _modeNum = 0;
+    private _modeNum = 1;
     private _positionNum = 0;
-    private _dock = false;
+    private _dock = true;
     private _closeOnClickOutside = false;
     private _closeOnClickBackdrop = false;
-    private _showBackdrop = true;
+    private _showBackdrop = false;
     private _animate = true;
     private _trapFocus = true;
     private _autoFocus = true;
