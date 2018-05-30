@@ -1,12 +1,15 @@
 <div id="d-builder-header">
     <div class="d-right-bar">
         <div class="d-buttons-operation">
-            <button *ngIf="isValidForm" class="d-save-button" title="Save Survey" type="button">
+            <button *ngIf="isValidForm && !surveyId" class="d-save-button" title="Create" type="button">
                 <i class="fa fa-save"></i>
             </button>
-            <button *ngIf="!isValidForm" class="d-envalid-form-button" title="Show Notifications" type="button">
-                    <i class="fa fa-flag"></i>
+            <button *ngIf="isValidForm && surveyId" class="d-update-button" title="Update" type="button">
+                    <i class="fa fa-pencil"></i>
                 </button>
+            <button *ngIf="!isValidForm" class="d-envalid-form-button" title="Show Notifications" type="button">
+                <i class="fa fa-flag"></i>
+            </button>
         </div>
     </div>
 </div>
@@ -53,13 +56,14 @@
                     <pre>{{templateOptions.questionTemplates | json}}</pre>
                 </p-accordionTab>
                 <p-accordionTab header="Another Controls">
-                    <pre>{{isFormValid | json}}</pre>
+                    <pre>{{survey | json}}</pre>
                 </p-accordionTab>
             </p-accordion>
         </div>
     </div>
     <div id="d-builder-body">
-        <form-builder *ngIf="page && templateOptions && pagingList" [pagingList]="pagingList" [page]="page" (formState)="checkstate($event)" [templateOptions]="templateOptions"></form-builder>
+        <form-builder *ngIf="page && templateOptions && pagingList" [pagingList]="pagingList" [page]="page" (formState)="checkstate($event)"
+            [templateOptions]="templateOptions"></form-builder>
     </div>
 
 </div>

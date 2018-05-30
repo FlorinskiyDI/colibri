@@ -2,14 +2,12 @@ import {
     Component, Input, AfterContentChecked, ChangeDetectorRef, AfterViewInit, QueryList,
     OnDestroy, ChangeDetectionStrategy, ViewChildren
 } from '@angular/core';
-
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
-// import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
 
+import { Subscription } from 'rxjs/Subscription';
 import { GUID } from '../../../../../shared/helpers/guide-type.helper';
 import { ControlOptionModel } from '../../../../../shared/models/form-builder/form-control/control-option.model';
-// import { AnswerControlService } from 'shared/Services/answer-control.service';
+
 
 
 @Component({
@@ -17,10 +15,10 @@ import { ControlOptionModel } from '../../../../../shared/models/form-builder/fo
     templateUrl: './question-form-builder.component.html',
     styleUrls: ['./question-form-builder.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    // providers: [AnswerControlService],
 })
-export class QuestionFormBuilderComponent implements AfterContentChecked, OnDestroy, AfterViewInit {
 
+
+export class QuestionFormBuilderComponent implements AfterContentChecked, OnDestroy, AfterViewInit {
 
     @ViewChildren('inputRow') rows: QueryList<any>;
     @ViewChildren('inputCol') cols: QueryList<any>;
@@ -29,7 +27,6 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
     @Input() question: any;
     @Input() formPage: FormGroup;
     @Input() pageId: any;
-
 
     isChangeRow = true;
     lengthRows = 0;

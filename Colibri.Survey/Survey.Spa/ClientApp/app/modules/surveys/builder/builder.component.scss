@@ -28,13 +28,27 @@
                 width: inherit;
                 height: inherit;
                 border: 0px;
-                background-color: #3A8F35;
+                background-color: #1E6046;
                 color: #fff;
                 font-size: 14px;
                 &:hover {
                     background-color: rgb(71, 160, 65);
                 }
             }
+            .d-update-button {
+                width: inherit;
+                height: inherit;
+                border: 0px;
+                background-color: #007ACC;
+                color: #fff;
+                font-size: 14px;
+                &:hover {
+                    background-color: #0d8bdf;
+                }
+            }
+
+            
+
 
             .d-envalid-form-button {
                 width: inherit;

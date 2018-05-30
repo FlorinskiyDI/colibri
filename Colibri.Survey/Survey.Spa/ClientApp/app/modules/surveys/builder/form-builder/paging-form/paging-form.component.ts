@@ -88,6 +88,7 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
     }
 
     addPage() {
+
         const pageId = GUID.getNewGUIDString();
         const value = { title: 'Page', id: pageId };
 
@@ -106,8 +107,14 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
 
     deletePage(id: string, index: number, event: any) {
         this.questionTransferService.setdeletePageId({ id: id, index: index });
-
+        debugger
         this.pagingList.splice(index, 1);
+        if (index > 0) {
+            this.selectItem = this.pageId === this.selectItem ? this.pagingList[index - 1].id : this.pagingList[this.pagingList.length - 1].id;
+
+        } else {
+            this.selectItem = this.pageId === this.selectItem ? this.pagingList[0].id : this.selectItem;
+        }
         this.batches[0].splice(index, 1);
     }
 

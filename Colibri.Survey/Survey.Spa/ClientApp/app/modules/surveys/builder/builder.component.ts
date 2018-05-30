@@ -54,7 +54,6 @@ export class BuilderComponent {
         public questionService: QuestionService,
     ) {
 
-
         this.route.params.subscribe((params: any) => {
             this.surveyId = params['id'];
         });
@@ -71,7 +70,7 @@ export class BuilderComponent {
                 id: id,
                 name: 'page name',
                 description: 'page description',
-                order: 10,
+                order: this.survey.pages.length,
                 questions: []
             });
             this.survey.pages.push(page);
@@ -79,10 +78,14 @@ export class BuilderComponent {
             this.page = page;
             this.questionTransferService.setFormPage(page);
         });
-        this.questionTransferService.getdeletePageId().subscribe((data: any) => {
 
+        this.questionTransferService.getdeletePageId().subscribe((data: any) => {
+            debugger
             this.survey.pages.splice(data.index, 1);
-            this.page = this.survey.pages[data.index - 1];
+            this.page = data.index > 1 ? this.survey.pages[data.index - 1] : this.survey.pages[0];
+            this.questionTransferService.setFormPage(this.page);
+            this.sortPagesByIndex();
+
         });
     }
 
@@ -114,11 +117,14 @@ export class BuilderComponent {
                 }
             });
         }
+    }
 
 
-
-
-
+    sortPagesByIndex() {
+        this.survey.pages.forEach(x => {
+            const indexOf = this.survey.pages.indexOf(x);
+            x.order = indexOf;
+        });
     }
 
     checkstate(formState: boolean) {

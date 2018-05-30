@@ -150,7 +150,6 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
 
 
     ngAfterContentChecked() {
-        // this.form.updateValueAndValidity();
         this.cdr.detectChanges();
     }
 }

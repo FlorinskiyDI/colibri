@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { SurveyModel } from 'shared/models/form-builder/survey.model';
 import { PageModel } from 'shared/models/form-builder/page.model';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ControTypes } from 'shared/constants/control-types.constant';
@@ -12,18 +11,14 @@ import { TextboxQuestion } from 'shared/models/form-builder/question-textbox.mod
 import { DropdownQuestion } from 'shared/models/form-builder/question-dropdown.model';
 import { TextAreaQuestion } from 'shared/models/form-builder/question-textarea.model';
 import { GridRadioQuestion } from 'shared/models/form-builder/question-grid-radio.model';
-// import { FormArray } from '@angular/forms/src/model';
 import { RadioQuestion } from 'shared/models/form-builder/question-radio.model';
 import { CheckboxQuestion } from 'shared/models/form-builder/question-checkbox.model';
-// import { GridRadioQuestion } from 'shared/models/form-builder/question-grid-radio.model';
-
 
 @Injectable()
 export class QuestionService {
 
     pageGroup: any = {};
     questionGroup: any = [];
-
 
     constructor(private fb: FormBuilder) { }
 
@@ -43,7 +38,6 @@ export class QuestionService {
 
         switch (question.controlType) {
             case ControTypes.checkbox || ControTypes.radio || ControTypes.dropdown: {
-
                 const options: any = {};
                 question.options.forEach((item: any) => {
                     options[item.id] = this.fb.group({
