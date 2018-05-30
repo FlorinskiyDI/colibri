@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SurveyModel } from 'shared/models/form-builder/survey.model';
 import { PageModel } from 'shared/models/form-builder/page.model';
-import { FormControl, FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ControTypes } from 'shared/constants/control-types.constant';
 
 import { GUID } from 'shared/helpers/guide-type.helper';
@@ -40,18 +40,49 @@ export class QuestionService {
 
 
     addTypeAnswer(question: QuestionBase<any>, group: any): any {
-        debugger
+
         switch (question.controlType) {
             case ControTypes.checkbox || ControTypes.radio || ControTypes.dropdown: {
+
                 const options: any = {};
                 question.options.forEach((item: any) => {
                     options[item.id] = this.fb.group({
-                        'name': new FormControl('')
+                        'name': new FormControl(item.value, Validators.required)
                     });
                 });
                 group[question.id] = this.fb.group({
-                    'name': new FormControl('', Validators.required),
-                    'description': new FormControl('', Validators.required),
+                    'name': new FormControl(question.text, Validators.required),
+                    'description': new FormControl(question.description, Validators.required),
+                    'options': this.fb.group(options)
+                });
+                break;
+            }
+
+            case ControTypes.radio: {
+                const options: any = {};
+                question.options.forEach((item: any) => {
+                    options[item.id] = this.fb.group({
+                        'name': new FormControl(item.value, Validators.required)
+                    });
+                });
+                group[question.id] = this.fb.group({
+                    'name': new FormControl(question.text, Validators.required),
+                    'description': new FormControl(question.description, Validators.required),
+                    'options': this.fb.group(options)
+                });
+                break;
+            }
+
+            case ControTypes.dropdown: {
+                const options: any = {};
+                question.options.forEach((item: any) => {
+                    options[item.id] = this.fb.group({
+                        'name': new FormControl(item.value, Validators.required)
+                    });
+                });
+                group[question.id] = this.fb.group({
+                    'name': new FormControl(question.text, Validators.required),
+                    'description': new FormControl(question.description, Validators.required),
                     'options': this.fb.group(options)
                 });
                 break;
@@ -63,17 +94,17 @@ export class QuestionService {
                 const gridQuestion = question as GridRadioQuestion;
                 gridQuestion.grid.rows.forEach((item: any) => {
                     rows[item.id] = this.fb.group({
-                        'name': new FormControl('')
+                        'name': new FormControl(item.value, Validators.required)
                     });
                 });
                 gridQuestion.grid.cols.forEach((item: any) => {
                     cols[item.id] = this.fb.group({
-                        'name': new FormControl('')
+                        'name': new FormControl(item.value, Validators.required)
                     });
                 });
                 group[question.id] = this.fb.group({
-                    'name': new FormControl('', Validators.required),
-                    'description': new FormControl('', Validators.required),
+                    'name': new FormControl(question.text, Validators.required),
+                    'description': new FormControl(question.description, Validators.required),
                     'rows': this.fb.group(rows),
                     'cols': this.fb.group(cols),
                 });

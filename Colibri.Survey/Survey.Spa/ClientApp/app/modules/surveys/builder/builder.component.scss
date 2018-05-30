@@ -8,7 +8,53 @@
     outline: none !important;
 }
 
+#d-builder-header {
+    height: 32px;
+    background-color: #D6DBE9;
 
+    .d-right-bar {
+        position: absolute;
+        right: 0px;
+        width: 18%;
+        height: 32px;
+        // background-color: green;
+
+        .d-buttons-operation {
+            width: 34px;
+            height: 26px;
+            // background-color: #3A8F35;
+
+            .d-save-button {
+                width: inherit;
+                height: inherit;
+                border: 0px;
+                background-color: #3A8F35;
+                color: #fff;
+                font-size: 14px;
+                &:hover {
+                    background-color: rgb(71, 160, 65);
+                }
+            }
+
+            .d-envalid-form-button {
+                width: inherit;
+                height: inherit;
+                border: 0px;
+                background-color: #E7BA0A;
+                color: #000;
+                font-size: 14px;
+
+                &:hover {
+                    background-color: rgb(241, 201, 54);
+                }
+            }
+
+           
+        }
+    }
+
+
+}
 
 
 #d-builder-widgets{

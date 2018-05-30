@@ -1,21 +1,14 @@
 <div class="d-builder-body-header">
+    <paging-form *ngIf="pagingList" [pagingList]="pagingList" [pageId]="page.id" [formPage]="formPage"></paging-form>
 </div>
 <div class="d-builder-body-content">
     <div class="body-question-builder">
-
         <div class="header">
-                <p *ngIf="formPage.valid" style="color: green; font-weight: bold"> {{formPage.valid | json}}</p>
-                <p *ngIf="!formPage.valid" style="color: red; font-weight: bold"> {{formPage.valid | json}}</p>
-            <!-- <p *ngIf="form.valid" style="color: green; font-weight: bold"> {{form.valid | json}}</p>
-            <p *ngIf="!form.valid" style="color: red; font-weight: bold"> {{form.valid | json}}</p>
-            <pre>{{form.controls[page.id].valid | json}}</pre> {{page.id | json}}------------------ {{page | json}} -------------------------------------- {{this.form.value
-            | json}} -->
-            <!-- {{this.form.value | json}} -->
-          <pre>{{page | json}}</pre>
+                <!-- <p *ngIf="formPage.valid" style="color: green; font-weight: bold"> {{formPage.valid | json}}</p>
+                <p *ngIf="!formPage.valid" style="color: red; font-weight: bold"> {{formPage.valid | json}}</p> -->
         </div>
         <div class="body">
             <form (ngSubmit)="onSubmit()" [formGroup]="formPage">
-                <!-- {{questionSettings.allowquestion | json}} -->
                 <div class="question-list" dnd-sortable-container [dropZones]="templateOptions.dragTemplateZones" [sortableData]="page.questions">
                     <ul class="d-list-group">
                         <div *ngIf="page.questions.length == 0">
@@ -28,16 +21,13 @@
                         <li *ngFor="let item of page.questions; let i = index" class="d-repeat-question" [ngClass]='{"d-edit-repeat-question": selectQuestion == item.id}'
                             [dragData]="item" dnd-sortable [dragEnabled]="!editCheckbox.checked" [sortableIndex]="i">
 
-
                             <div class="d-question-wrapp" dnd-droppable (onDropSuccess)="!!$event.dragData.name ? addQuestion($event, i) : sortQuestionByIndex()"
                                 [dropZones]="templateOptions.dragTemplateZones">
                                 <div class="d-item-left-section">
                                     <div class="d-item-opt-controls">
                                         <input id="etitState" [checked]="selectQuestion == item.id" #editCheckbox type="checkbox" value="false"
                                             (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? selectQuestion = item.id: selectQuestion = ''">
-                                        <label for="etitState"> {{'Q' + (i+1)}}</label>
-
-                                        
+                                        <label for="etitState"> {{'Q' + (i+1)}}</label>      
                                         <!-- <button (click)="flickerNotificationField(1)" type="button" *ngIf="item.required && editCheckbox.checked" class="d-btn-option"
                                             title="Require question">
                                             <i class="fa fa-asterisk"></i>
@@ -51,7 +41,6 @@
                                 </div>
                                 <div class="d-item-right-section">
                                     <question-form-builder [pageId]="page.id" [isEditState]="editCheckbox.checked" [question]="item" [formPage]="formPage"></question-form-builder>
-                                    <!-- <survey-form-question [isEditQuestion]="editCheckbox.checked" [pageId]="pageId" [question]="item" [form]="form"></survey-form-question> -->
                                 </div>
                             </div>
                         </li>
@@ -82,7 +71,6 @@
         </button>
 
     </div>
-    <div class="d-builder-option-body"></div>
-    <!-- <question-option *ngIf="availableQuestionsOption" [questionTypes]="availableQuestionsOption"></question-option> -->
-    <!-- <pre>{{survey | json}}</pre> -->
+    <div class=""></div>
+    <question-options *ngIf="templateOptions" [questionTypes]="templateOptions"></question-options>
 </div>

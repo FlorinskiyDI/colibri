@@ -1,56 +1,81 @@
 import { Component, Input, OnInit, EventEmitter, Output, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ControTypes } from 'shared/constants/control-types.constant';
 
+// models
+import { ControTypes } from 'shared/constants/control-types.constant';
+import { QuestionBase } from 'shared/models/form-builder/question-base.model';
+import { PageModel } from 'shared/models/form-builder/page.model';
+
+// services
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
 import { QuestionService } from '../services/builder.service';
-// import { AvailableQuestions } from 'shared/models/form-builder/form-control/available-question.model';
-// import { DropdownQuestion } from 'shared/models/form-builder/question-dropdown.model';
-import { QuestionBase } from 'shared/models/form-builder/question-base.model';
-// import { TextboxQuestion } from 'shared/models/form-builder/question-textbox.model';
-// import { CheckboxQuestion } from 'shared/models/form-builder/question-checkbox.model';
-
-import { PageModel } from 'shared/models/form-builder/page.model';
 
 @Component({
     selector: 'form-builder',
     templateUrl: './form-builder.component.html',
     styleUrls: ['./form-builder.component.scss'],
-
     providers: [QuestionService],
-    // changeDetection: ChangeDetectionStrategy.Default,
 })
 export class FormBuilderComponent implements OnInit, AfterContentChecked {
+
     @Input() templateOptions: any;
     @Input() page: PageModel = new PageModel();
+    @Input() pagingList: any[];
+    @Output() formState = new EventEmitter<any>();
 
-    formPage: FormGroup = {};
-
+    formPage: FormGroup;
     selectQuestion: string;
 
-    // @Output() temporaryAnser: EventEmitter<any> = new EventEmitter<any>();
-
     constructor(
-        // private fb: FormBuilder,
         private cdr: ChangeDetectorRef,
         private questionTransferService: QuestionTransferService,
-        // private qcs: QuestionControlService,
         public questionService: QuestionService,
 
     ) {
+        this.questionTransferService.getFormPage().subscribe((page: any) => { // updata formbuild after select page
+            if (page) {
+                this.formPage.addControl(page.id, this.questionService.getFormPageGroup(page));
+            }
+        });
 
+
+        this.questionTransferService.getQuestionForDelete().subscribe((data: any) => { // check drag control if lost focus without need area
+            this.page.questions.forEach((item: any, index: number) => {
+                const value = item as QuestionBase<any>;
+                if (!value.id) {
+                    this.page.questions.splice(0, 1);
+                }
+            });
+        });
+
+
+        this.questionTransferService.getdeletePageId().subscribe((data: any) => {
+            this.formPage.removeControl(data.id);
+        });
+
+
+        this.questionTransferService.getDataForChangeQuestion().subscribe((data: any) => {
+            this.page.questions[data.object.order] = data.object;
+            const val = this.formPage.controls[this.page.id] as FormGroup;
+            val.setControl(data.object.id, data.control);
+
+            this.questionTransferService.setQuestionOption(
+                {
+                    question: this.page.questions[data.object.order],
+                    control: this.formPage.get(this.page.id).get(data.object.id)
+                }
+            );
+        });
     }
 
 
     ngOnInit() {
-        // this.formPage.addControl(this.page.id, this.questionService.getFormPageGroup(this.page));
-        // this.formPage = new FormGroup(this.questionService.getFormPageGroup(this.page));
         const page: any = {};
         page[this.page.id] = this.questionService.getFormPageGroup(this.page);
         this.formPage = new FormGroup(page);
-
-        console.log(this.formPage.value);
-        debugger
+        this.formPage.valueChanges.subscribe(form => {
+            this.formState.emit(this.formPage.valid);
+        });
     }
 
 
@@ -70,7 +95,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
 
     getFormQuestion(id: string): any {
         const formQuestion = this.formPage.controls[this.page.id].get('questions').get(id);
-        debugger
+
         return formQuestion;
     }
 
@@ -87,11 +112,11 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         const question = this.getQuestionByType($event.dragData.type, index);
         const group: any = {};
 
-        const dataPage = this.formPage.controls[this.page.id].get('questions') as FormGroup;
+        const dataPage = this.formPage.controls[this.page.id] as FormGroup;
         dataPage.addControl(question.id, this.questionService.addTypeAnswer(question, group));
 
         this.page.questions.push(question);
-        // this.page.questions.sort((a, b) => a.order - b.order); // useles code
+        this.page.questions.sort((a, b) => a.order - b.order);
     }
 
 
@@ -115,7 +140,6 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
             case ControTypes.gridRadio: {
                 return this.questionService.getGridRadioControl(index);
             }
-
             default: {
                 console.log('Invalid choice');
                 return null;

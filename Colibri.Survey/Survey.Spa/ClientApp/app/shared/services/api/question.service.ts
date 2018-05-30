@@ -10,7 +10,7 @@ import { DropdownQuestion } from '../../models/form-builder/question-dropdown.mo
 import { TextAreaQuestion } from '../../models/form-builder/question-textarea.model';
 // import { RadioQuestion } from '../../models/form-builder/question-radio.model';
 import { CheckboxQuestion } from '../../models/form-builder/question-checkbox.model';
-// import { GridRadioQuestion } from '../../models/form-builder/question-grid-radio.model';
+import { GridRadioQuestion } from '../../models/form-builder/question-grid-radio.model';
 
 
 @Injectable()
@@ -287,6 +287,42 @@ export class QuestionService {
             order: 1,
             isChanged: false,
             questions: [
+              new GridRadioQuestion({
+                //  controlType: 'gridRadio', // same as in control-type.constant.ts
+                id: 'id_grid radio',
+                text: 'Grid question, some text for long input, some text for long input, some text for long input, some text for long input',
+                description: 'Some description ...',
+                grid: {
+                  cellInputType: 'radio',  // radio, checkbox
+                  rows: [
+                    { id: 'id_question1', label: null, value: 'Variable question 1', order: 1 },
+                    { id: 'id_question2', label: null, value: 'Variable question 2', order: 2 },
+                    { id: 'id_question3', label: null, value: 'Variable question 3', order: 3 },
+                    { id: 'id_question4', label: null, value: 'Variable question 4', order: 4 }
+                    // {
+                    //   id: 'f35a6e5d1ce9407b5ece224198032cb6',
+                    //   orderNo: 2,
+                    //   label: 'row 2'
+                    // },
+                  ],
+                  cols: [
+                    { id: 'id_answer1', label: null, value: 'answer 1', order: 1 },
+                    { id: 'id_answer2', label: null, value: 'answer 2', order: 2 },
+                    { id: 'id_answer3', label: null, value: 'answer 3', order: 3 },
+                    { id: 'id_answer4', label: null, value: 'answer 4', order: 4 },
+                    { id: 'id_answer5', label: null, value: 'answer 5', order: 5 }
+                    // {
+                    //   id: '24062ae1fc97dead41d337ede7f2e54e',
+                    //   orderNo: 5,
+                    //   label: 'col5'
+                    // },
+                  ]
+                },
+                pageFlowModifier: false,
+                order: 0,
+                required: true,
+                isAdditionalAnswer: true
+              })
               // new TextboxQuestion({
               //   // controlType: 'textbox', // same as in control-type.constant.ts
               //   id: 'fbd8800b-93ee-4706-b527-83feb23fb005',
@@ -311,21 +347,21 @@ export class QuestionService {
               //   required: true,
               //   isAdditionalAnswer: true
               // }),
-              new DropdownQuestion({
-                controlType: 'Dropdown', // same as in control-type.constant.ts
-                id: 'id_brave', // unique value
-                text: 'Bravery Rating (text)',
-                description: 'some description',
-                options: [
-                  { id: 'id_solid', label: '', value: 'Solid', order: 1 },
-                  { id: 'id_great', label: '', value: 'Great', order: 2 },
-                  { id: 'id_good', label: '', value: 'Good', order: 3 },
-                  { id: 'id_unproven', label: '', value: 'Unproven', order: 4 }
-                ],
-                order: 0,
-                required: true,
-                isAdditionalAnswer: true
-              }),
+              // new DropdownQuestion({
+              //   controlType: 'Dropdown', // same as in control-type.constant.ts
+              //   id: 'id_brave', // unique value
+              //   text: 'Bravery Rating (text)',
+              //   description: 'some description',
+              //   options: [
+              //     { id: 'id_solid', label: '', value: 'Solid', order: 1 },
+              //     { id: 'id_great', label: '', value: 'Great', order: 2 },
+              //     { id: 'id_good', label: '', value: 'Good', order: 3 },
+              //     { id: 'id_unproven', label: '', value: 'Unproven', order: 4 }
+              //   ],
+              //   order: 0,
+              //   required: true,
+              //   isAdditionalAnswer: true
+              // }),
             ]
           }
         ),

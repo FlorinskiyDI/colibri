@@ -3,8 +3,17 @@
 
 <div *ngIf="surveys">
     <div *ngFor="let item of surveys">
-        <a [routerLink]="['/surveys/' + item.id]"   >{{item.name}} + {{item.id}}</a>
+        <a [routerLink]="['/surveys/' + item.id]">{{item.name}} + {{item.id}}</a>
     </div>
 </div>
 /////////////
-<a [routerLink]="['/surveys/create']"   >new survey</a>
+<a [routerLink]="['/surveys/create']">new survey</a>
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+<div *ngIf="surveys">
+    <div *ngFor="let item of surveys">
+        <a [routerLink]="['/surveys/builder/' + item.id]">{{item.name}} + {{item.id}}</a>
+    </div>
+</div>
+//////////
+<a [routerLink]="['/surveys/builder/create']">new survey</a>

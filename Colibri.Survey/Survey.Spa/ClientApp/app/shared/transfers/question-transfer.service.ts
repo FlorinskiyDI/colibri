@@ -16,6 +16,14 @@ export class QuestionTransferService {
 
     private changeQuestionsubject = new Subject<any>();
     private chagnedQuestionSubject = new Subject<any>();
+
+
+
+    //
+    private selectedPageSubject = new Subject<any>();
+    private PageSubject = new Subject<any>();
+    private ExternalQuestionSubect = new Subject<any>();
+    private pageIdSubect = new Subject<any>();
     // private statePageSubject = new Subject<any>();
 
     // -start transer 1- Communicating Between Components device-details and devcie-id-mapping
@@ -99,7 +107,7 @@ export class QuestionTransferService {
     }
 
 
-     // for change option field background color after click to notification button on question builder
+    // for change option field background color after click to notification button on question builder
     //  setStatePageAsChange(data: any) {
     //     this.statePageSubject.next(data);
     // }
@@ -113,5 +121,41 @@ export class QuestionTransferService {
     getChangedQuestion(): Observable<any> {
         return this.chagnedQuestionSubject.asObservable();
     }
+
+
+
+    setSelectedPage(data: any) {
+        this.selectedPageSubject.next(data);
+    }
+    getSelectedPage(): Observable<any> {
+        return this.selectedPageSubject.asObservable();
+    }
+
+
+    setFormPage(data: any) {
+        this.PageSubject.next(data);
+    }
+    getFormPage(): Observable<any> {
+        return this.PageSubject.asObservable();
+    }
+
+
+    setQuestionForDelete(data: any) {
+        this.ExternalQuestionSubect.next(data);
+    }
+    getQuestionForDelete(): Observable<any> {
+        return this.ExternalQuestionSubect.asObservable();
+    }
+
+
+
+
+    setPageById(data: any) {
+        this.pageIdSubect.next(data);
+    }
+    getPageById(): Observable<any> {
+        return this.pageIdSubect.asObservable();
+    }
+
 
 }

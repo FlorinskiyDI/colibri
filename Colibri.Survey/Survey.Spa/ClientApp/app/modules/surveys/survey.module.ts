@@ -11,10 +11,12 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 /* component */ import { SurveyFormBuilderComponent } from './survey-builder/survey-form-builder/survey-form-builder.component';
 /* component */ import { SurveyFormQuestionComponent } from './survey-builder/survey-form-builder/survey-form-question/survey-form-question.component';
 /* component */ import { PagingComponent } from './survey-builder/paging/paging.component';
+/* component */ import { PagingFormComponent } from './builder/form-builder/paging-form/paging-form.component';
+
 /* component */ import { QuestionOptionComponent } from './survey-builder/question-option/question-option.component';
 
 /* component */ import { QuestionFormBuilderComponent } from './builder/form-builder/question-form-builder/question-form-builder.component';
-
+/* component */ import { QuestionOptionsComponent } from './builder/form-builder/question-options/question-options.component';
 
 import { DndModule } from 'ng2-dnd';
 @NgModule({
@@ -24,18 +26,21 @@ import { DndModule } from 'ng2-dnd';
         DndModule.forRoot(),
     ],
     declarations: [
+        FormBuilderComponent,
         SurveyComponent,
         SurveyBuilderComponent,
         BuilderComponent,
         SurveyFormBuilderComponent,
-        FormBuilderComponent,
+        QuestionOptionsComponent,
         PagingComponent,
         SurveyFormQuestionComponent,
         QuestionOptionComponent,
-        QuestionFormBuilderComponent
+        QuestionFormBuilderComponent,
+        PagingFormComponent
         // GroupGridComponent
     ],
-    providers: [ ],
+
+    providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SurveyModule { }

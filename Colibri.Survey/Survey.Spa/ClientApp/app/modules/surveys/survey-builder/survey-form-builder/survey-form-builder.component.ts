@@ -139,7 +139,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         // this.form = item;
         // this.form.addControl(this.pageId, this.qcs.toFormGroup(this.questions));
         // this.form = this.fb.group(this.pageId, this.qcs.toFormGroup(this.questions));
-        debugger
+        
         this.form = new FormGroup(page);
 
         // this.form = this.qcs.toFormGroup(this.questions);
