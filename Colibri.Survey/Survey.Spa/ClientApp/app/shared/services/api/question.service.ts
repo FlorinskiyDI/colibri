@@ -285,7 +285,6 @@ export class QuestionService {
             name: 'page name 1',
             description: 'page 1 description (change data)',
             order: 0,
-            isChanged: false,
             questions: [
               new GridRadioQuestion({
                 //  controlType: 'gridRadio', // same as in control-type.constant.ts
@@ -321,7 +320,7 @@ export class QuestionService {
                 pageFlowModifier: false,
                 order: 0,
                 required: true,
-                isAdditionalAnswer: true
+                isAdditionalAnswer: false
               })
               // new TextboxQuestion({
               //   // controlType: 'textbox', // same as in control-type.constant.ts

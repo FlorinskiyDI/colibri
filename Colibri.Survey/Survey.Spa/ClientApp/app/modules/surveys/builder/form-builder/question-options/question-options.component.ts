@@ -4,7 +4,9 @@ import { FormGroup } from '@angular/forms';
 
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
 import { QuestionService } from '../../services/builder.service';
+
 import { ControTypes } from 'shared/constants/control-types.constant';
+import { ControStates } from 'shared/constants/control-states.constant';
 
 @Component({
     selector: 'question-options',
@@ -69,7 +71,17 @@ export class QuestionOptionsComponent {
         const group: any = {};
         this.getQuestionByType(event.value, this.question.order);
         this.newquestion.id = this.question.id;
-        const contrl = this.questionService.addTypeAnswer(this.newquestion, group);
+        this.newquestion.state = ControStates.created;
+        const contrl = this.questionService.addTypeAnswer(this.newquestion, group) as FormGroup;
+
+        // contrl.valueChanges.subscribe((form: any) => { // Intercept changes and mark the question for update
+        //     if (!contrl.pristine) {
+        //         debugger
+        //         this.newquestion.state = this.newquestion.state !== ControStates.created.toString() ? ControStates.updated : ControStates.created;
+        //     }
+        // });
+
+
         this.questionTransferService.setDataForChangeQuestion({
             control: contrl,
             object: this.newquestion

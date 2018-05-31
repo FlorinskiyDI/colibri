@@ -9,6 +9,7 @@ import { PageModel } from 'shared/models/form-builder/page.model';
 // services
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
 import { QuestionService } from '../services/builder.service';
+import { ControStates } from 'shared/constants/control-states.constant';
 
 @Component({
     selector: 'form-builder',
@@ -110,12 +111,22 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         this.sortQuestionByIndex();
         this.page.questions.splice(index, 1); // remove AvailableQuestions object
         const question = this.getQuestionByType($event.dragData.type, index);
+        question.state = ControStates.created;
         const group: any = {};
 
         const dataPage = this.formPage.controls[this.page.id] as FormGroup;
         dataPage.addControl(question.id, this.questionService.addTypeAnswer(question, group));
 
         this.page.questions.push(question);
+
+        // dataPage.get(question.id).valueChanges.subscribe(form => {
+
+        //     this.page.questions[this.page.questions.length - 1].isAdditionalAnswer = dataPage.get(question.id).valid;
+        // });
+
+        // dataPage.get(question.id).valueChanges.subscribe
+        // this.page.questions[this.page.questions.length - 1].isAdditionalAnswer = dataPage.get(question.id).valid;
+
         this.page.questions.sort((a, b) => a.order - b.order);
     }
 

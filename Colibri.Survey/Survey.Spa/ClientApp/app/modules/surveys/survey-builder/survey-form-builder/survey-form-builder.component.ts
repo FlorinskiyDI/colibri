@@ -150,8 +150,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
             const indexOf = this.questions.indexOf(x);
             x.order = indexOf;
         });
-        // this.page.questions.slice();
-        // this.page.isChanged = true;
+
         console.log('sorted questions');
     }
 

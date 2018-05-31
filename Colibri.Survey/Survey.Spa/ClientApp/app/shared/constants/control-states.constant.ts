@@ -3,4 +3,5 @@ export class ControStates {
     public static created = 'Created';
     public static updated = 'Updated';
     public static deleted = 'Deleted';
+    public static unchanged = 'Unchanged';
 }

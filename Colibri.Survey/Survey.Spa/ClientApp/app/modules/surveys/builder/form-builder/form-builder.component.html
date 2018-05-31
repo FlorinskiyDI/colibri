@@ -5,7 +5,7 @@
     <div class="body-question-builder">
         <div class="header">
             {{page | json}} ++++++++++++++++++++++
-            {{formPage.value | json}}
+            <!-- {{formPage.value | json}} -->
                 <!-- <p *ngIf="formPage.valid" style="color: green; font-weight: bold"> {{formPage.valid | json}}</p>
                 <p *ngIf="!formPage.valid" style="color: red; font-weight: bold"> {{formPage.valid | json}}</p> -->
         </div>
@@ -22,7 +22,8 @@
                         </div>
                         <li *ngFor="let item of page.questions; let i = index" class="d-repeat-question" [ngClass]='{"d-edit-repeat-question": selectQuestion == item.id}'
                             [dragData]="item" dnd-sortable [dragEnabled]="!editCheckbox.checked" [sortableIndex]="i">
-
+                            <!-- {{formPage.get(page.id).get(item.id).valid | json}} ++++++++++++++
+                            {{item | json}} -->
                             <div class="d-question-wrapp" dnd-droppable (onDropSuccess)="!!$event.dragData.name ? addQuestion($event, i) : sortQuestionByIndex()"
                                 [dropZones]="templateOptions.dragTemplateZones">
                                 <div class="d-item-left-section">

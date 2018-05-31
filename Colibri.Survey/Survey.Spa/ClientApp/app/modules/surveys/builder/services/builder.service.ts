@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { PageModel } from 'shared/models/form-builder/page.model';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+
+import { ControStates } from 'shared/constants/control-states.constant';
 import { ControTypes } from 'shared/constants/control-types.constant';
 
 import { GUID } from 'shared/helpers/guide-type.helper';
@@ -13,6 +15,8 @@ import { TextAreaQuestion } from 'shared/models/form-builder/question-textarea.m
 import { GridRadioQuestion } from 'shared/models/form-builder/question-grid-radio.model';
 import { RadioQuestion } from 'shared/models/form-builder/question-radio.model';
 import { CheckboxQuestion } from 'shared/models/form-builder/question-checkbox.model';
+
+
 
 @Injectable()
 export class QuestionService {
@@ -37,7 +41,7 @@ export class QuestionService {
     addTypeAnswer(question: QuestionBase<any>, group: any): any {
 
         switch (question.controlType) {
-            case ControTypes.checkbox || ControTypes.radio || ControTypes.dropdown: {
+            case ControTypes.checkbox: {
                 const options: any = {};
                 question.options.forEach((item: any) => {
                     options[item.id] = this.fb.group({
@@ -48,7 +52,9 @@ export class QuestionService {
                     'name': new FormControl(question.text, Validators.required),
                     'description': new FormControl(question.description, Validators.required),
                     'options': this.fb.group(options)
-                });
+                }) as FormGroup;
+
+                this.markChangedQuestion(group[question.id], question);
                 break;
             }
 
@@ -63,7 +69,9 @@ export class QuestionService {
                     'name': new FormControl(question.text, Validators.required),
                     'description': new FormControl(question.description, Validators.required),
                     'options': this.fb.group(options)
-                });
+                }) as FormGroup;
+
+                this.markChangedQuestion(group[question.id], question);
                 break;
             }
 
@@ -78,7 +86,9 @@ export class QuestionService {
                     'name': new FormControl(question.text, Validators.required),
                     'description': new FormControl(question.description, Validators.required),
                     'options': this.fb.group(options)
-                });
+                }) as FormGroup;
+
+                this.markChangedQuestion(group[question.id], question);
                 break;
             }
 
@@ -101,7 +111,9 @@ export class QuestionService {
                     'description': new FormControl(question.description, Validators.required),
                     'rows': this.fb.group(rows),
                     'cols': this.fb.group(cols),
-                });
+                }) as FormGroup;
+
+                this.markChangedQuestion(group[question.id], question);
                 break;
             }
 
@@ -109,11 +121,30 @@ export class QuestionService {
                 group[question.id] = this.fb.group({
                     'name': new FormControl(question.text, Validators.required),
                     'description': new FormControl(question.description, Validators.required)
-                });
+                }) as FormGroup;
+
+                this.markChangedQuestion(group[question.id], question);
+                // group[question.id].valueChanges.subscribe((form: any) => { // Intercept changes and mark the question for update
+                //     if (!group[question.id].pristine) {
+                //         debugger
+                //         question.state = question.state !== ControStates.created ? ControStates.updated : ControStates.created;
+                //         // question.state = ControStates.updated;
+                //     }
+                // });
                 break;
             }
         }
         return group[question.id];
+    }
+
+    markChangedQuestion(formControl: FormGroup, question: any) {
+        formControl.valueChanges.subscribe((form: any) => { // Intercept changes and mark the question for update
+            if (!formControl.pristine) {
+                
+                question.state = question.state !== ControStates.created ? ControStates.updated : ControStates.created;
+
+            }
+        });
     }
 
 

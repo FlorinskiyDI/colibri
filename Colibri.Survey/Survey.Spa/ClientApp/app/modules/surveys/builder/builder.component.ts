@@ -55,7 +55,8 @@ export class BuilderComponent {
     ) {
 
         this.route.params.subscribe((params: any) => {
-            this.surveyId = params['id'];
+            debugger
+            this.surveyId = params['id'] ? params['id'] : null;
         });
 
         this.questionTransferService.getSelectedPage().subscribe((pageId: string) => {
@@ -80,7 +81,7 @@ export class BuilderComponent {
         });
 
         this.questionTransferService.getdeletePageId().subscribe((data: any) => {
-            debugger
+
             this.survey.pages.splice(data.index, 1);
             this.page = data.index > 1 ? this.survey.pages[data.index - 1] : this.survey.pages[0];
             this.questionTransferService.setFormPage(this.page);
@@ -90,6 +91,7 @@ export class BuilderComponent {
     }
 
     ngOnInit() {
+        debugger
         this.templateOptions = {
             dragTemplateZones: ['dropZone1', 'dropZone2', 'dropZone3', 'dropZons4', 'dropZone5', 'dropZone6'],
             questionTemplates: cloneDeep(this.getTemplates())
@@ -97,7 +99,7 @@ export class BuilderComponent {
 
 
 
-        if (this.surveyId === 'create') {
+        if (this.surveyId === null) {
 
             this.survey = this.questionService.getSurvey();
             this.pagingList = this.getPagingList();
@@ -106,6 +108,7 @@ export class BuilderComponent {
             this.questionTemplates = this.getTemplates();
 
         } else {
+            debugger
             this.surveysApiService.get(this.surveyId).subscribe((data: SurveyModel) => {
 
                 this.survey = data;
