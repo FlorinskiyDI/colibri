@@ -49,16 +49,16 @@
                     </div>
                 </p-accordionTab>
                 <p-accordionTab header="Advanced Question" [selected]="false">
-                    <button (click)="changeData()">change form data</button>
+                    <!-- <button (click)="changeData()">change form data</button> -->
                     <div *ngIf="isFormValid">
-                        {{isFormValid | json}}
+                        <!-- {{isFormValid | json}} -->
                     </div>
                 </p-accordionTab>
                 <p-accordionTab header="Additional Controls" [selected]="true">
-                    <pre>{{templateOptions.questionTemplates | json}}</pre>
+                    <!-- <pre>{{templateOptions.questionTemplates | json}}</pre> -->
                 </p-accordionTab>
                 <p-accordionTab header="Another Controls">
-                    <pre>{{survey | json}}</pre>
+                    <!-- <pre>{{survey | json}}</pre> -->
                 </p-accordionTab>
             </p-accordion>
         </div>

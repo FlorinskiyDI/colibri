@@ -120,11 +120,11 @@ namespace Survey.ApplicationLayer.Services
                         UpdateDropdownQuestion( (DropdownQuestionModel)baseQuestionUpdateModel );
                     }
                 },
-                //{  typeof(GridRadioQuestionModel), () =>
-                //    {
-                //        SaveGridRadioQuestion( (GridRadioQuestionModel)baseQuestionUpdateModel );
-                //    }
-                //},
+                {  typeof(GridRadioQuestionModel), () =>
+                    {
+                        UpdateGridRadioQuestion( (GridRadioQuestionModel)baseQuestionUpdateModel );
+                    }
+                },
             };
         }
 
@@ -138,6 +138,27 @@ namespace Survey.ApplicationLayer.Services
                 {
                     var repositoryQuestion = uow.GetRepository<Questions, Guid>();
                     var questions = repositoryQuestion.Query(item => item.PageId == pageId);
+                    uow.SaveChanges();
+                    return questions;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        private IEnumerable<Questions> GetListByParentId(Guid parentId)
+        {
+            try
+            {
+
+
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryQuestion = uow.GetRepository<Questions, Guid>();
+                    var questions = repositoryQuestion.Query(item => item.ParentId == parentId);
                     uow.SaveChanges();
                     return questions;
                 }
@@ -457,6 +478,78 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
+
+
+
+        private void UpdateGridRadioQuestion(GridRadioQuestionModel data)
+        {
+            var question = GetQuestionById(Guid.Parse(data.Id));
+
+            question.Name = data.Text;
+            question.Description = data.Description;
+            question.Required = data.Required;
+            question.OrderNo = data.Order;
+            question.AdditionalAnswer = data.IsAdditionalAnswer;
+            UpdateQuestion(question);
+
+            // update grid cols (variants of answers)
+            var optionChoiseList = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result;
+            foreach (var item in optionChoiseList)
+            {
+                var result = data.Grid.Cols.Find(x => x.Id == item.Id.ToString());
+                if (result != null)
+                {
+                    item.Name = result.Value;
+                    _optionChoiceService.UpdateOptionChoise(item);
+                    data.Grid.Cols.Remove(result); // Delete an item from updated option list to getting the only new options
+                }
+                else
+                {
+                    // delete this item from db
+                    _optionChoiceService.DeleteOptionChoise(item);
+                }
+            }
+            _optionChoiceService.AddRange(question.OptionGroupId.Value, data.Grid.Cols);
+
+            // update grid rows (nested questions)
+            var rowQuestionList = GetListByParentId(question.Id);
+            foreach (var item in rowQuestionList)
+            {
+                var result = data.Grid.Rows.Find(x => x.Id == item.Id.ToString());
+                if (result != null)
+                {
+                    item.Name = result.Value;
+                    item.OrderNo = 0; // stub
+
+                    UpdateQuestion(item);
+                    data.Grid.Rows.Remove(result); // Delete an item from updated option list to getting the only new options
+                }
+                else
+                {
+                    // delete this item from db
+                    DeleteQuestionById(item.Id);
+                    //_optionChoiceService.DeleteOptionChoise(item);
+                }
+            }
+            if (data.Grid.Rows.Count() > 0)
+            {
+                foreach (var item in data.Grid.Rows)
+                {
+
+                    BaseQuestionModel rowQuestion = new BaseQuestionModel()
+                    {
+                        Text = item.Value,
+                        Description = "",
+                        ControlType = data.ControlType, // took from base question
+                        IsAdditionalAnswer = false,
+                        Required = data.Required,
+                        Order = 0, // stub
+                    };
+                    var rowQuestionId = SaveQuestion(rowQuestion, false, question.OptionGroupId, question.InputTypesId, question.Id).Result;
+                }
+            }
+
+        }
 
         private void UpdateCheckboxQuestion(CheckBoxQuesstionModel data)
         {

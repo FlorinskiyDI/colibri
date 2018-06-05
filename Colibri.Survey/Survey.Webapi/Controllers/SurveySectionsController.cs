@@ -146,11 +146,10 @@ namespace Survey.Webapi.Controllers
                     else
                     {
                         questionList = _questionService.GetTypedQuestionList(page);
-                    }
-
-                    if (questionList.Count() > 0)
-                    {
-                        _questionService.Update(questionList, page.Id);
+                        if (questionList.Count() > 0)
+                        {
+                            _questionService.Update(questionList, page.Id);
+                        }
                     }
                 }
 
@@ -181,7 +180,7 @@ namespace Survey.Webapi.Controllers
 
 
             }
-            return Ok();
+            return Ok(true);
         }
     }
 }

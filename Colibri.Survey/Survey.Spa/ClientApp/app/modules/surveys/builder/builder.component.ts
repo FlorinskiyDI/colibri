@@ -4,7 +4,7 @@ import { ControTypes } from 'shared/constants/control-types.constant';
 import { ControStates } from 'shared/constants/control-states.constant';
 
 import { SurveyModel } from 'shared/models/form-builder/survey.model';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 // helpers
 import { cloneDeep } from 'lodash';
@@ -51,6 +51,7 @@ export class BuilderComponent {
     deletePageList: string[] = [];
 
     constructor(
+        private router: Router,
         private surveysApiService: SurveysApiService,
         private route: ActivatedRoute,
         private questionTransferService: QuestionTransferService,
@@ -69,7 +70,7 @@ export class BuilderComponent {
         });
 
         this.questionTransferService.getPageById().subscribe((id: any) => {
-            debugger
+
             const page = new PageModel({
                 id: id,
                 name: 'page name',
@@ -183,8 +184,11 @@ export class BuilderComponent {
                 deleteQuestions: FormBuilderComponent.deleteQuestionList,
                 deletePages: this.deletePageList
             };
-            debugger
+
             const data = this.surveysApiService.update(updateData);
+
+            debugger
+            this.router.navigateByUrl('/surveys');
         }
 
 
