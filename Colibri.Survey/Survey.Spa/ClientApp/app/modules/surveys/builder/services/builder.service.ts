@@ -124,13 +124,6 @@ export class QuestionService {
                 }) as FormGroup;
 
                 this.markChangedQuestion(group[question.id], question);
-                // group[question.id].valueChanges.subscribe((form: any) => { // Intercept changes and mark the question for update
-                //     if (!group[question.id].pristine) {
-                //         debugger
-                //         question.state = question.state !== ControStates.created ? ControStates.updated : ControStates.created;
-                //         // question.state = ControStates.updated;
-                //     }
-                // });
                 break;
             }
         }
@@ -138,11 +131,15 @@ export class QuestionService {
     }
 
     markChangedQuestion(formControl: FormGroup, question: any) {
+        // formControl.con.subscribe((form: any) => { // Intercept changes and mark the question for update
+
+        //     if (!formControl.pristine) {
+        //         question.state = question.state !== ControStates.created ? ControStates.updated : ControStates.created;
+        //     }
+        // });
         formControl.valueChanges.subscribe((form: any) => { // Intercept changes and mark the question for update
             if (!formControl.pristine) {
-                
                 question.state = question.state !== ControStates.created ? ControStates.updated : ControStates.created;
-
             }
         });
     }

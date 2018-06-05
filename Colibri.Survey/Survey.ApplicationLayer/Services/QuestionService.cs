@@ -24,6 +24,7 @@ namespace Survey.ApplicationLayer.Services
         private readonly IOptionGroupService _optionGroupService;
         private readonly IInputTypeService _inputTypeService;
         QuestionTypes type;
+        ControlStates state;
 
         protected readonly IUowProvider UowProvider;
         protected readonly IMapper Mapper;
@@ -33,8 +34,11 @@ namespace Survey.ApplicationLayer.Services
 
         private Guid pageId;
         private BaseQuestionModel baseQuestionModel;
+        private BaseQuestionModel baseQuestionUpdateModel;
 
         private Dictionary<Type, Action> switchQuestionType;
+        private Dictionary<Type, Action> switchUpdateQuestionType;
+
         private IEnumerable<InputTypesDto> inputTypeList;
 
         public QuestionService(
@@ -88,10 +92,94 @@ namespace Survey.ApplicationLayer.Services
                     }
                 },
             };
+
+
+            switchUpdateQuestionType = new Dictionary<Type, Action> {
+                { typeof(TextQuestionModel), () =>
+                    {
+                        UpdateTextQuestion( (TextQuestionModel)baseQuestionUpdateModel );
+                    }
+                },
+                { typeof(TextAreaQuestionModel), () =>
+                    {
+                        UpdateTextAreaQuestion( (TextAreaQuestionModel)baseQuestionUpdateModel );
+                    }
+                },
+                { typeof(RadioQuestionModel), () =>
+                    {
+                        UpdateRadioQuestion( (RadioQuestionModel)baseQuestionUpdateModel );
+                    }
+                },
+                { typeof(CheckBoxQuesstionModel), () =>
+                    {
+                        UpdateCheckboxQuestion( (CheckBoxQuesstionModel)baseQuestionUpdateModel );
+                    }
+                },
+                { typeof(DropdownQuestionModel), () =>
+                    {
+                        UpdateDropdownQuestion( (DropdownQuestionModel)baseQuestionUpdateModel );
+                    }
+                },
+                //{  typeof(GridRadioQuestionModel), () =>
+                //    {
+                //        SaveGridRadioQuestion( (GridRadioQuestionModel)baseQuestionUpdateModel );
+                //    }
+                //},
+            };
         }
 
+        private Questions GetQuestionById(Guid id)
+        {
+            try
+            {
+                Questions item;
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryQuestion = uow.GetRepository<Questions, Guid>();
+                    item = repositoryQuestion.Get(id);
+                    //await uow.SaveChangesAsync();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
+        public void DeleteQuestionById(Guid questionId)
+        {
+            try
+            {
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryQuestion = uow.GetRepository<Questions, Guid>();
+                    repositoryQuestion.Remove(questionId);
+                    uow.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
+        private void UpdateQuestion(Questions question)
+        {
+            try
+            {
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryQuestion = uow.GetRepository<Questions, Guid>();
+                    repositoryQuestion.Update(question);
+                    uow.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
         public async Task<IEnumerable<QuestionsDto>> GetListByBaseQuestion(Guid baseQuestionid)
         {
@@ -164,7 +252,7 @@ namespace Survey.ApplicationLayer.Services
                 }
             }
         }
-
+        // save section
         private void SaveTextQuestion(TextQuestionModel data)
         {
             Guid optionGroupId = _optionGroupService.AddAsync(optionGroupDefinitions.textBox).Result;
@@ -188,7 +276,7 @@ namespace Survey.ApplicationLayer.Services
             var questionId = SaveQuestion(data, false, optionGroupId, type.Id, null).Result;
             if (data.Options.Count() > 0)
             {
-                _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
+                _optionChoiceService.AddRange(optionGroupId, data.Options);
             }
         }
 
@@ -199,7 +287,7 @@ namespace Survey.ApplicationLayer.Services
             var questionId = SaveQuestion(data, true, optionGroupId, type.Id, null).Result;
             if (data.Options.Count() > 0)
             {
-                _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
+                _optionChoiceService.AddRange(optionGroupId, data.Options);
             }
         }
 
@@ -210,7 +298,7 @@ namespace Survey.ApplicationLayer.Services
             var questionId = SaveQuestion(data, false, optionGroupId, type.Id, null).Result;
             if (data.Options.Count() > 0)
             {
-                _optionChoiceService.AddRangeAsync(optionGroupId, data.Options);
+                _optionChoiceService.AddRange(optionGroupId, data.Options);
             }
         }
 
@@ -220,13 +308,13 @@ namespace Survey.ApplicationLayer.Services
             InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
             Guid optionGroupId = _optionGroupService.AddAsync(optionGroupDefinitions.gridRadio).Result;
             var parentQuestionId = SaveQuestion(data, false, optionGroupId, type.Id, null).Result;
-            
+
             if (data.Grid.Rows.Count() > 0)
             {
 
                 foreach (var item in data.Grid.Rows)
                 {
-                    
+
                     BaseQuestionModel rowQuestion = new BaseQuestionModel()
                     {
                         Text = item.Value,
@@ -241,12 +329,143 @@ namespace Survey.ApplicationLayer.Services
             }
             if (data.Grid.Cols.Count() > 0)
             {
-                _optionChoiceService.AddRangeAsync(optionGroupId, data.Grid.Cols);
+                _optionChoiceService.AddRange(optionGroupId, data.Grid.Cols);
             }
         }
 
 
 
+
+
+
+        // update section
+        private async void UpdateTextQuestion(TextQuestionModel data)
+        {
+            var question = GetQuestionById(Guid.Parse(data.Id));
+
+            //IEnumerable<QuestionsDto> questionDto = Mapper.Map<IEnumerable<Questions>, IEnumerable<QuestionsDto>>(items);
+
+
+            question.Name = data.Text;
+            question.Description = data.Description;
+            question.Required = data.Required;
+            question.OrderNo = data.Order;
+            question.AdditionalAnswer = data.IsAdditionalAnswer;
+
+            UpdateQuestion(question);
+        }
+
+
+
+        private async void UpdateTextAreaQuestion(TextAreaQuestionModel data)
+        {
+            var question = GetQuestionById(Guid.Parse(data.Id));
+
+            question.Name = data.Text;
+            question.Description = data.Description;
+            question.Required = data.Required;
+            question.OrderNo = data.Order;
+            question.AdditionalAnswer = data.IsAdditionalAnswer;
+
+            UpdateQuestion(question);
+        }
+
+
+        private void UpdateRadioQuestion(RadioQuestionModel data)
+        {
+            var question = GetQuestionById(Guid.Parse(data.Id));
+
+            question.Name = data.Text;
+            question.Description = data.Description;
+            question.Required = data.Required;
+            question.OrderNo = data.Order;
+            question.AdditionalAnswer = data.IsAdditionalAnswer;
+            UpdateQuestion(question);
+
+            var optionChoiseList = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result;
+
+            foreach (var item in optionChoiseList)
+            {
+                var result = data.Options.Find(x => x.Id == item.Id.ToString());
+                if (result != null)
+                {
+                    item.Name = result.Value;
+                    _optionChoiceService.UpdateOptionChoise(item);
+                    data.Options.Remove(result); // Delete an item from updated option list to getting the only new options
+                }
+                else
+                {
+                    // delete this item form db
+                    _optionChoiceService.DeleteOptionChoise(item);
+                }
+            }
+            _optionChoiceService.AddRange(question.OptionGroupId.Value, data.Options);
+        }
+
+
+        private void UpdateDropdownQuestion(DropdownQuestionModel data)
+        {
+            var question = GetQuestionById(Guid.Parse(data.Id));
+
+            question.Name = data.Text;
+            question.Description = data.Description;
+            question.Required = data.Required;
+            question.OrderNo = data.Order;
+            question.AdditionalAnswer = data.IsAdditionalAnswer;
+            UpdateQuestion(question);
+
+            var optionChoiseList = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result;
+
+            foreach (var item in optionChoiseList)
+            {
+                var result = data.Options.Find(x => x.Id == item.Id.ToString());
+                if (result != null)
+                {
+                    item.Name = result.Value;
+                    _optionChoiceService.UpdateOptionChoise(item);
+                    data.Options.Remove(result); // Delete an item from updated option list to getting the only new options
+                }
+                else
+                {
+                    // delete this item form db
+                    _optionChoiceService.DeleteOptionChoise(item);
+                }
+            }
+            _optionChoiceService.AddRange(question.OptionGroupId.Value, data.Options);
+        }
+
+
+
+        private void UpdateCheckboxQuestion(CheckBoxQuesstionModel data)
+        {
+            var question = GetQuestionById(Guid.Parse(data.Id));
+
+            question.Name = data.Text;
+            question.Description = data.Description;
+            question.Required = data.Required;
+            question.OrderNo = data.Order;
+            question.AdditionalAnswer = data.IsAdditionalAnswer;
+            UpdateQuestion(question);
+
+            var optionChoiseList = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result;
+
+            foreach (var item in optionChoiseList)
+            {
+                var result = data.Options.Find(x => x.Id == item.Id.ToString());
+                if (result != null)
+                {
+                    item.Name = result.Value;
+                    _optionChoiceService.UpdateOptionChoise(item);
+                    data.Options.Remove(result); // Delete an item from updated option list to getting the only new options
+                }
+                else
+                {
+                    // delete this item form db
+                    _optionChoiceService.DeleteOptionChoise(item);
+                }
+            }
+            _optionChoiceService.AddRange(question.OptionGroupId.Value, data.Options);
+        }
 
 
 
@@ -304,8 +523,8 @@ namespace Survey.ApplicationLayer.Services
             baseQuestionModel = baseQuestion;
             pageId = id;
             switchQuestionType[baseQuestion.GetType()]();
-
         }
+
 
         public async Task<List<BaseQuestionModel>> GetTypedQuestionListByPage(Guid pageId)
         {
@@ -484,15 +703,56 @@ namespace Survey.ApplicationLayer.Services
                 ItemModel item = new ItemModel()
                 {
                     Id = row.Id.ToString(),
-                    Label = null,
+                    Label = "",
                     Value = row.Name,
                     Order = 0 // stub
                 };
                 gridQuestion.Grid.Rows.Add(item);
             }
-           
+
 
             return gridQuestion as BaseQuestionModel;
+        }
+
+        public void UpdateQuestionByType(BaseQuestionModel baseQuestion, Guid id)
+        {
+            baseQuestionUpdateModel = baseQuestion;
+            pageId = id;
+            switchUpdateQuestionType[baseQuestion.GetType()]();
+        }
+
+
+
+
+
+        public void Update(List<BaseQuestionModel> questionList, Guid pageId)
+        {
+
+
+            foreach (var question in questionList)
+            {
+
+                if (Enum.TryParse(question.State.ToString(), out state))
+                {
+                    switch (state)
+                    {
+                        case ControlStates.Created:
+                            {
+                                SaveQuestionByType(question, pageId);
+                                //var typedQuestion = GetTextQuestion(item, QuestionTypes.Textbox.ToString());
+                                //baseQuestions.Add(typedQuestion);
+                                break;
+                            }
+                        case ControlStates.Updated:
+                            {
+                                UpdateQuestionByType(question, pageId);
+                                //var typedQuestion = GetTextareaQuestion(item, QuestionTypes.Textarea.ToString());
+                                //baseQuestions.Add(typedQuestion);
+                                break;
+                            }
+                    }
+                }
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Survey.ApplicationLayer.Dtos.Models;
+using Survey.DomainModelLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,10 @@ namespace Survey.ApplicationLayer.Services.Interfaces
     public interface IOptionChoiceService
     {
         Task AddAsync(Guid optionGroupId, ItemModel item);
-        Task AddRangeAsync(Guid optionGroupId, List<ItemModel> items);
+        void AddRange(Guid optionGroupId, List<ItemModel> items);
         Task<List<ItemModel>> GetListByOptionGroup(Guid? optionGroupId);
+        Task<IEnumerable<OptionChoises>> GetListByOptionGroupId(Guid? optionGroupId);
+        void UpdateOptionChoise(OptionChoises choise);
+        void DeleteOptionChoise(OptionChoises choise);
     }
 }

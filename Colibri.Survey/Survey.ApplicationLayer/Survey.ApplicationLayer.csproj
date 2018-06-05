@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Survey.InfrastructureLayer\Survey.InfrastructureLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\NewFolder\" />
+  </ItemGroup>
+
 </Project>

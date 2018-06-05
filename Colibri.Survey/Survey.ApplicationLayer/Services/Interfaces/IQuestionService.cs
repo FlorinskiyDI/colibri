@@ -13,5 +13,7 @@ namespace Survey.ApplicationLayer.Services.Interfaces
         List<BaseQuestionModel> GetTypedQuestionList(PageModel survey);
         void SaveQuestionByType(BaseQuestionModel baseQuestion, Guid pageId);
         Task<List<BaseQuestionModel>> GetTypedQuestionListByPage(Guid pageId);
+        void Update(List<BaseQuestionModel> questionList, Guid pageId);
+        void DeleteQuestionById(Guid questionId);
     }
 }

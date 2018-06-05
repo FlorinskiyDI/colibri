@@ -26,6 +26,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
 
     formPage: FormGroup;
     selectQuestion: string;
+    static deleteQuestionList: string[] = [];
 
     constructor(
         private cdr: ChangeDetectorRef,
@@ -39,8 +40,8 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
             }
         });
 
-
         this.questionTransferService.getQuestionForDelete().subscribe((data: any) => { // check drag control if lost focus without need area
+
             this.page.questions.forEach((item: any, index: number) => {
                 const value = item as QuestionBase<any>;
                 if (!value.id) {
@@ -49,10 +50,31 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
             });
         });
 
-
         this.questionTransferService.getdeletePageId().subscribe((data: any) => {
             this.formPage.removeControl(data.id);
         });
+
+
+        this.questionTransferService.getDeleteDragQuestion().subscribe((data: any) => {
+
+            FormBuilderComponent.deleteQuestionList.push(data.id);
+
+            this.page.questions.splice(data.order, 1);
+
+            const formQuestions = this.formPage.controls[this.page.id] as FormGroup;
+            formQuestions.removeControl(data.id);
+
+
+
+            this.page.questions.sort((a, b) => a.order - b.order);
+            this.sortQuestionByIndex();
+
+            const updateQuestioRange = this.page.questions.slice(data.order , this.page.questions.length); // get question range (max, min) for make resortable
+            updateQuestioRange.forEach((item: any) => {
+                item.state = item.state !== ControStates.created ? ControStates.updated : item.state;
+            });
+        });
+
 
 
         this.questionTransferService.getDataForChangeQuestion().subscribe((data: any) => {
@@ -100,6 +122,21 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         return formQuestion;
     }
 
+
+    sortQuestion(event: any, index: number) {
+
+        const minIndex = event.dragData.order > index ? index : event.dragData.order;
+        const maxIndex = event.dragData.order > index ? event.dragData.order : index;
+
+        const updateQuestioRange = this.page.questions.slice(minIndex, maxIndex + 1); // get question range (max, min) for make resortable
+        updateQuestioRange.forEach((item: any) => {
+            item.state = item.state !== ControStates.created ? ControStates.updated : item.state;
+        });
+
+        this.sortQuestionByIndex();
+    }
+
+
     sortQuestionByIndex() {
         this.page.questions.forEach(x => {
             const indexOf = this.page.questions.indexOf(x);
@@ -108,26 +145,25 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
     }
 
     addQuestion($event: any, index: number) {
-        this.sortQuestionByIndex();
         this.page.questions.splice(index, 1); // remove AvailableQuestions object
         const question = this.getQuestionByType($event.dragData.type, index);
+
         question.state = ControStates.created;
         const group: any = {};
 
         const dataPage = this.formPage.controls[this.page.id] as FormGroup;
         dataPage.addControl(question.id, this.questionService.addTypeAnswer(question, group));
 
-        this.page.questions.push(question);
+        this.page.questions.splice(index, 0, question);
 
-        // dataPage.get(question.id).valueChanges.subscribe(form => {
-
-        //     this.page.questions[this.page.questions.length - 1].isAdditionalAnswer = dataPage.get(question.id).valid;
-        // });
-
-        // dataPage.get(question.id).valueChanges.subscribe
-        // this.page.questions[this.page.questions.length - 1].isAdditionalAnswer = dataPage.get(question.id).valid;
+        debugger
+        const updateQuestioRange = this.page.questions.slice(index, this.page.questions.length); // get question range (max, min) for make resortable
+        updateQuestioRange.forEach((item: any) => {
+            item.state = item.state !== ControStates.created ? ControStates.updated : item.state;
+        });
 
         this.page.questions.sort((a, b) => a.order - b.order);
+        this.sortQuestionByIndex();
     }
 
 

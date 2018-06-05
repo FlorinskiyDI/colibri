@@ -39,7 +39,9 @@ import { DndModule } from 'ng2-dnd';
         PagingFormComponent
         // GroupGridComponent
     ],
-
+    entryComponents: [
+        FormBuilderComponent,
+      ],
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

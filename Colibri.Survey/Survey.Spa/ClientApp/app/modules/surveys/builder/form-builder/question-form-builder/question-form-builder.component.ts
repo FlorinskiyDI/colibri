@@ -1,14 +1,14 @@
 import {
     Component, Input, AfterContentChecked, ChangeDetectorRef, AfterViewInit, QueryList,
-    OnDestroy, ChangeDetectionStrategy, ViewChildren
+    OnDestroy, ChangeDetectionStrategy, ViewChildren, Output, EventEmitter
 } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 import { Subscription } from 'rxjs/Subscription';
 import { GUID } from '../../../../../shared/helpers/guide-type.helper';
 import { ControlOptionModel } from '../../../../../shared/models/form-builder/form-control/control-option.model';
-
-
+import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
+import { ControStates } from 'shared/constants/control-states.constant';
 
 @Component({
     selector: 'question-form-builder',
@@ -28,6 +28,8 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
     @Input() formPage: FormGroup;
     @Input() pageId: any;
 
+    // @Output() removeQuestionId = new EventEmitter<string>();
+
     isChangeRow = true;
     lengthRows = 0;
     lengthItems = 0;
@@ -37,10 +39,11 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
     constructor(
         private fb: FormBuilder,
         private cdr: ChangeDetectorRef,
-    ) {}
+        private questionTransferService: QuestionTransferService,
+    ) { }
 
 
-    ngOnInit() {}
+    ngOnInit() { }
 
 
     ngOnDestroy() {
@@ -68,6 +71,7 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
 
 
     addItem(mass: any[], questionId: string) {
+        
         const optionId = GUID.getNewGUIDString();
         const page = this.formPage.controls[this.pageId].get(questionId).get('options') as FormGroup;
         page.addControl(optionId, this.fb.group({
@@ -77,6 +81,8 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
         this.lengthItems = mass.length;
         mass.push(item);
         this.isChangeRow = false;
+
+        this.question.state = this.question.state !== ControStates.created ? ControStates.updated : ControStates.created;
     }
 
 
@@ -87,6 +93,8 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
             mass.splice(index, 1);
             this.lengthItems = mass.length;
             this.isChangeRow = false;
+
+            this.question.state = this.question.state !== ControStates.created ? ControStates.updated : ControStates.created;
         }
     }
 
@@ -101,6 +109,8 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
         this.lengthItems = mass.length;
         mass.push(item);
         this.isChangeRow = false;
+
+        this.question.state = this.question.state !== ControStates.created ? ControStates.updated : ControStates.created;
     }
 
 
@@ -111,6 +121,9 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
             question.grid.cols.splice(index, 1);
             this.lengthItems = question.grid.cols.length;
             this.isChangeRow = false;
+
+            this.question.state = this.question.state !== ControStates.created ? ControStates.updated : ControStates.created;
+
         }
     }
 
@@ -126,6 +139,9 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
         this.lengthRows = mass.length;
         mass.push(item);
         this.isChangeRow = true;
+
+        this.question.state = this.question.state !== ControStates.created ? ControStates.updated : ControStates.created;
+
     }
 
 
@@ -136,6 +152,15 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
             question.grid.rows.splice(index, 1);
             this.lengthRows = question.grid.rows.length;
             this.isChangeRow = true;
+
+            this.question.state = this.question.state !== ControStates.created ? ControStates.updated : ControStates.created;
+
         }
+    }
+
+
+    removeQuestion(question: any) {
+        this.questionTransferService.setDeleteDragQuestion(question);
+        // console.log(id);
     }
 }

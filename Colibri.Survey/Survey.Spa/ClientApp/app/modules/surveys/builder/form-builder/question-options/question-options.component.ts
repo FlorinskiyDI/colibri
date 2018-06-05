@@ -74,14 +74,6 @@ export class QuestionOptionsComponent {
         this.newquestion.state = ControStates.created;
         const contrl = this.questionService.addTypeAnswer(this.newquestion, group) as FormGroup;
 
-        // contrl.valueChanges.subscribe((form: any) => { // Intercept changes and mark the question for update
-        //     if (!contrl.pristine) {
-        //         debugger
-        //         this.newquestion.state = this.newquestion.state !== ControStates.created.toString() ? ControStates.updated : ControStates.created;
-        //     }
-        // });
-
-
         this.questionTransferService.setDataForChangeQuestion({
             control: contrl,
             object: this.newquestion

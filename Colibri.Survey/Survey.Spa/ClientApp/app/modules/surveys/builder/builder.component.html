@@ -3,10 +3,10 @@
         <div class="d-buttons-operation">
             <!-- {{surveyId}}
             {{!surveyId}} -->
-            <button *ngIf="isValidForm && !surveyId " class="d-save-button" title="Create" type="button">
+            <button *ngIf="isValidForm && !surveyId " class="d-save-button" (click)="saveSurvey()" title="Create" type="button">
                 <i class="fa fa-save"></i>
             </button>
-            <button *ngIf="isValidForm && surveyId" class="d-update-button" title="Update" type="button">
+            <button *ngIf="isValidForm && surveyId" class="d-update-button" (click)="saveSurvey()" title="Update" type="button">
                     <i class="fa fa-pencil"></i>
                 </button>
             <button *ngIf="!isValidForm" class="d-envalid-form-button" title="Show Notifications" type="button">

@@ -24,6 +24,7 @@ export class QuestionTransferService {
     private PageSubject = new Subject<any>();
     private ExternalQuestionSubect = new Subject<any>();
     private pageIdSubect = new Subject<any>();
+    private deleteQuestion = new Subject<any>();
     // private statePageSubject = new Subject<any>();
 
     // -start transer 1- Communicating Between Components device-details and devcie-id-mapping
@@ -157,5 +158,10 @@ export class QuestionTransferService {
         return this.pageIdSubect.asObservable();
     }
 
-
+    setDeleteDragQuestion(id: any) {
+        this.deleteQuestion.next(id);
+    }
+    getDeleteDragQuestion(): Observable<any> {
+        return this.deleteQuestion.asObservable();
+    }
 }

@@ -2,6 +2,7 @@
     <div class="d-cover"></div>
     <div class="form-viewr-controls">
         <div>
+            <!-- {{question.order | json}} -->
             <label [attr.for]="question.id">{{question.text}}
                 <label *ngIf="question.required" style="color:red">*</label>
             </label>
@@ -115,11 +116,25 @@
 
 <div [formGroup]="formPage" *ngIf="isEditState" class="d-question-wrapper ">
     <div class="form-builder-controls">
+
+        <div class="d-action-panel">
+
+            <button class="d-action-del" type="button" title="Remove Question" (click)="removeQuestion(question)">
+                    <i class="fa fa-times"></i>
+            </button>
+
+            <!-- <button class="d-action-del" type="button" title="Remove Question" (click)="removeQuestion(question.id)">
+                    <i class="fa fa-times"></i>
+            </button> -->
+        </div>
+
+
         <div *ngIf="!!question.name">
             {{question.name}}
         </div>
         <div [formGroupName]="pageId" [ngSwitch]="question.controlType">
             <div *ngSwitchCase="'Textbox'" [formGroupName]="question.id">
+
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
                         <p class="d-label-text">Question text:</p>
@@ -133,7 +148,7 @@
                         <p class="d-label-text">Description:</p>
                     </div>
                     <div class="d-item-content">
-                        <textarea rows="3" class="d-input-textarea" [formControlName]="'description'" (keyup)="question.text = $event.target.value"></textarea>
+                        <textarea rows="3" class="d-input-textarea" [formControlName]="'description'" (keyup)="question.description = $event.target.value"></textarea>
                     </div>
                 </div>
                 <br>
@@ -162,7 +177,7 @@
                         <p class="d-label-text">Description:</p>
                     </div>
                     <div class="d-item-content">
-                        <textarea rows="3" class="d-input-textarea" [formControlName]="'description'" (keyup)="question.text = $event.target.value"></textarea>
+                        <textarea rows="3" class="d-input-textarea" [formControlName]="'description'" (keyup)="question.description = $event.target.value"></textarea>
                     </div>
                 </div>
                 <br>

@@ -13,6 +13,7 @@ using Survey.ApplicationLayer.Dtos.Models.Questions;
 using Survey.ApplicationLayer.Services;
 using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.Common.Context;
+using Survey.Webapi.Views.Survey;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -75,6 +76,7 @@ namespace Survey.Webapi.Controllers
                     foreach (var item in survey.Pages)
                     {
                         var questions = await _questionService.GetTypedQuestionListByPage(item.Id);
+                        questions = questions.OrderBy(o => o.Order).ToList();
                         item.Questions.AddRange(questions);
                     }
                 }
@@ -94,7 +96,7 @@ namespace Survey.Webapi.Controllers
 
         [HttpPost]
         [Produces("application/json")]
-        public async  Task<IActionResult> SaveSurvey( [FromBody] SurveyModel survey)
+        public async Task<IActionResult> SaveSurvey([FromBody] SurveyModel survey)
         {
             //await GetSurvey();
             Guid surveyId = await _surveySectionService.AddAsync(survey);
@@ -120,26 +122,30 @@ namespace Survey.Webapi.Controllers
 
         [HttpPut]
         [Produces("application/json")]
-        public async Task<IActionResult> UpdateSurvey([FromBody] SurveyModel survey)
+        public async Task<IActionResult> UpdateSurvey([FromBody] SurveyViewModel data)
         {
-            //await GetSurvey();
-            //Guid surveyId = await _surveySectionService.AddAsync(survey);
-            //if (survey.Pages.Count() > 0 && surveyId != null)
-            //{
-            //    List<BaseQuestionModel> questionList = new List<BaseQuestionModel>();
-            //    foreach (var page in survey.Pages)
-            //    {
-            //        Guid pageId = await _pageService.AddAsync(page, surveyId);
-            //        questionList = _questionService.GetTypedQuestionList(page);
-            //        if (questionList.Count() > 0)
-            //        {
-            //            foreach (var question in questionList)
-            //            {
-            //                _questionService.SaveQuestionByType(question, pageId);
-            //            }
-            //        }
-            //    }
-            //}
+            if (data.survey.Pages.Count() > 0)
+            {
+                List<BaseQuestionModel> questionList = new List<BaseQuestionModel>();
+                foreach (var page in data.survey.Pages)
+                {
+                    questionList = _questionService.GetTypedQuestionList(page);
+                    if (questionList.Count() > 0)
+                    {
+                        _questionService.Update(questionList, page.Id);
+                    }
+                }
+
+
+                if (data.deleteQuestions.Count > 0)
+                {
+                    foreach (var item in data.deleteQuestions)
+                    {
+                        _questionService.DeleteQuestionById(item);
+                    }
+                }
+
+            }
             return Ok();
         }
     }

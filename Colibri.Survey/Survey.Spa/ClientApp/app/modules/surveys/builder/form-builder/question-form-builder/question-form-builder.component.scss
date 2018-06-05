@@ -11,6 +11,32 @@
         // margin-left: 10px;
                     // margin-right: 10px;
 
+
+
+    .d-action-panel {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        padding: 6px;
+
+
+
+    .d-action-del {
+        font-size: 10px;
+        height: 21px;
+        width: 21px;
+        border: 1px solid #cfd6e5;
+        background-color: #bb4242;
+        color: #fff;
+
+        &:hover {
+            background-color: #a83a3a;
+            border: 1px solid #f1f1f1;
+        }
+    }
+
+    }
+
     .d-cover {
         z-index: 1000;
         width: calc(92%);

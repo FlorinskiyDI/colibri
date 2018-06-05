@@ -90,7 +90,7 @@ namespace storagecore.Abstractions.Repositories
 
         //add range
         Task AddRangeAsync(TEntity[] entitys);
-
+        void AddRange(TEntity[] entitys);
         // update
         TEntity Update(TEntity entity);
 

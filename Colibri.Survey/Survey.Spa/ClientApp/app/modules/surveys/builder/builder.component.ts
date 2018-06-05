@@ -16,6 +16,8 @@ import { SurveysApiService } from 'shared/services/api/surveys.api.service';
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
 import { QuestionBase } from 'shared/models/form-builder/question-base.model';
 
+import { FormBuilderComponent } from './form-builder/form-builder.component';
+
 import { QuestionTemplate } from 'shared/models/form-builder/form-control/question-template.model';
 // import { forEach } from '@angular/router/src/utils/collection';
 
@@ -45,7 +47,7 @@ export class BuilderComponent {
     pagingList: any[] = [];
     questionTemplates: any[];
     isValidForm = true;
-
+    // deleteQuestionList: string[] = [];
 
     constructor(
         private surveysApiService: SurveysApiService,
@@ -55,7 +57,7 @@ export class BuilderComponent {
     ) {
 
         this.route.params.subscribe((params: any) => {
-            debugger
+
             this.surveyId = params['id'] ? params['id'] : null;
         });
 
@@ -91,7 +93,6 @@ export class BuilderComponent {
     }
 
     ngOnInit() {
-        debugger
         this.templateOptions = {
             dragTemplateZones: ['dropZone1', 'dropZone2', 'dropZone3', 'dropZons4', 'dropZone5', 'dropZone6'],
             questionTemplates: cloneDeep(this.getTemplates())
@@ -108,7 +109,6 @@ export class BuilderComponent {
             this.questionTemplates = this.getTemplates();
 
         } else {
-            debugger
             this.surveysApiService.get(this.surveyId).subscribe((data: SurveyModel) => {
 
                 this.survey = data;
@@ -135,13 +135,16 @@ export class BuilderComponent {
     }
 
     dragEndQuestionTemplate(event: any, widget: any) { // add back to template list drag question
+        console.log('11111111111111111111111111');
         this.questionTemplates.push(widget);
         this.questionTemplates.sort((a: any, b: any) => a.order - b.order);
         this.questionTransferService.setQuestionForDelete(widget);
     }
 
 
-    deleteDragQuestion(event: any) {
+    deleteDragQuestion(question: any) {
+        // this.deleteQuestionList.push(question.id);
+        this.questionTransferService.setDeleteDragQuestion(question);
     }
 
 
@@ -163,6 +166,24 @@ export class BuilderComponent {
             result.push({ title: 'Page', id: item.id });
         });
         return result;
+    }
+
+
+    saveSurvey() {
+        if (this.surveyId === null) {
+            const data = this.surveysApiService.save(this.survey);
+
+        } else {
+            const updateData: any = {
+                survey: this.survey,
+                // deleteQuestions: this.deleteQuestionList
+                deleteQuestions: FormBuilderComponent.deleteQuestionList
+            };
+
+            const data = this.surveysApiService.update(updateData);
+        }
+
+
     }
 }
 
