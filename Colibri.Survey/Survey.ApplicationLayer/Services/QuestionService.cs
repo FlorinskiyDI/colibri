@@ -128,6 +128,27 @@ namespace Survey.ApplicationLayer.Services
             };
         }
 
+        public IEnumerable<Questions> GetListByPageId(Guid? pageId)
+        {
+            try
+            {
+
+
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryQuestion = uow.GetRepository<Questions, Guid>();
+                    var questions = repositoryQuestion.Query(item => item.PageId == pageId);
+                    uow.SaveChanges();
+                    return questions;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
         private Questions GetQuestionById(Guid id)
         {
             try
@@ -215,6 +236,7 @@ namespace Survey.ApplicationLayer.Services
                     baseQuestionList.Add(question);
                 }
             }
+
             return baseQuestionList;
         }
 

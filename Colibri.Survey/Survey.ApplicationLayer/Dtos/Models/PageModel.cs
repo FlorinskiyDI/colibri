@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Survey.ApplicationLayer.Dtos.Models.Questions;
+using Survey.Common.Enums;
 
 namespace Survey.ApplicationLayer.Dtos.Models
 {
@@ -14,10 +15,11 @@ namespace Survey.ApplicationLayer.Dtos.Models
         public Guid SurveyId { get; set; }
         //public ICollection<BaseQuestionModel> Qeustions { get; set;
         public List<object> Questions { get; set; }
-
+        public string State { get; set; }
         public  PageModel()
         {
             Questions = new List<object>();
+            this.State = ControlStates.Unchanged.ToString();
         }
 
     }

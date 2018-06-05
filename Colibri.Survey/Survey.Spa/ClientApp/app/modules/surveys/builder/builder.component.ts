@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 import { ControTypes } from 'shared/constants/control-types.constant';
+import { ControStates } from 'shared/constants/control-states.constant';
 
 import { SurveyModel } from 'shared/models/form-builder/survey.model';
 import { ActivatedRoute } from '@angular/router';
@@ -47,7 +48,7 @@ export class BuilderComponent {
     pagingList: any[] = [];
     questionTemplates: any[];
     isValidForm = true;
-    // deleteQuestionList: string[] = [];
+    deletePageList: string[] = [];
 
     constructor(
         private surveysApiService: SurveysApiService,
@@ -68,13 +69,14 @@ export class BuilderComponent {
         });
 
         this.questionTransferService.getPageById().subscribe((id: any) => {
-
+            debugger
             const page = new PageModel({
                 id: id,
                 name: 'page name',
                 description: 'page description',
                 order: this.survey.pages.length,
-                questions: []
+                questions: [],
+                state: ControStates.created
             });
             this.survey.pages.push(page);
 
@@ -83,11 +85,12 @@ export class BuilderComponent {
         });
 
         this.questionTransferService.getdeletePageId().subscribe((data: any) => {
-
+            this.deletePageList.push(data.id);
             this.survey.pages.splice(data.index, 1);
             this.page = data.index > 1 ? this.survey.pages[data.index - 1] : this.survey.pages[0];
             this.questionTransferService.setFormPage(this.page);
             this.sortPagesByIndex();
+
 
         });
     }
@@ -177,9 +180,10 @@ export class BuilderComponent {
             const updateData: any = {
                 survey: this.survey,
                 // deleteQuestions: this.deleteQuestionList
-                deleteQuestions: FormBuilderComponent.deleteQuestionList
+                deleteQuestions: FormBuilderComponent.deleteQuestionList,
+                deletePages: this.deletePageList
             };
-
+            debugger
             const data = this.surveysApiService.update(updateData);
         }
 

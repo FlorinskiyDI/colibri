@@ -1,5 +1,6 @@
 
 import { QuestionBase } from './question-base.model';
+import { ControStates } from '../../constants/control-states.constant';
 
 export class PageModel {
 
@@ -10,7 +11,7 @@ export class PageModel {
     order: number;
     questions: QuestionBase<any>[];
     isChanged?: boolean;
-
+    state: any;
     constructor(options: any = {}) {
 
         this.id = options['id'];
@@ -19,6 +20,7 @@ export class PageModel {
         this.order = options['order'] === undefined ? 1 : options['order'];
         this.questions = options['questions'];
         this.isChanged = false;
+        this.state = options['state'] === undefined ? ControStates.unchanged : ControStates.created;
 
     }
 }

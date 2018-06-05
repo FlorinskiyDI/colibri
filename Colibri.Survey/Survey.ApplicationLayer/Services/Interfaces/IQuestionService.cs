@@ -1,5 +1,6 @@
 ﻿using Survey.ApplicationLayer.Dtos.Models;
 using Survey.ApplicationLayer.Dtos.Models.Questions;
+using Survey.DomainModelLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,5 +16,6 @@ namespace Survey.ApplicationLayer.Services.Interfaces
         Task<List<BaseQuestionModel>> GetTypedQuestionListByPage(Guid pageId);
         void Update(List<BaseQuestionModel> questionList, Guid pageId);
         void DeleteQuestionById(Guid questionId);
+        IEnumerable<Questions> GetListByPageId(Guid? pageId);
     }
 }

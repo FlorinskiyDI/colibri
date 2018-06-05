@@ -10,5 +10,6 @@ namespace Survey.Webapi.Views.Survey
     {
         public SurveyModel survey { get; set; }
         public List<Guid> deleteQuestions { get; set; }
+        public List<Guid> deletePages { get; set; }
     }
 }

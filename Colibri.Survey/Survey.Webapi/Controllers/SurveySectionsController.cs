@@ -13,6 +13,7 @@ using Survey.ApplicationLayer.Dtos.Models.Questions;
 using Survey.ApplicationLayer.Services;
 using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.Common.Context;
+using Survey.Common.Enums;
 using Survey.Webapi.Views.Survey;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -26,6 +27,7 @@ namespace Survey.Webapi.Controllers
         private readonly ISurveySectionService _surveySectionService;
         private readonly IPageService _pageService;
         private readonly IQuestionService _questionService;
+        ControlStates state;
 
         public SurveySectionsController(
             IConfiguration configuration,
@@ -129,7 +131,23 @@ namespace Survey.Webapi.Controllers
                 List<BaseQuestionModel> questionList = new List<BaseQuestionModel>();
                 foreach (var page in data.survey.Pages)
                 {
-                    questionList = _questionService.GetTypedQuestionList(page);
+                    if (page.State == ControlStates.Created.ToString())
+                    {
+                        Guid pageId = await _pageService.AddAsync(page, Guid.Parse(data.survey.Id));
+                        questionList = _questionService.GetTypedQuestionList(page);
+                        if (questionList.Count() > 0)
+                        {
+                            foreach (var question in questionList)
+                            {
+                                _questionService.SaveQuestionByType(question, pageId);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        questionList = _questionService.GetTypedQuestionList(page);
+                    }
+
                     if (questionList.Count() > 0)
                     {
                         _questionService.Update(questionList, page.Id);
@@ -144,6 +162,23 @@ namespace Survey.Webapi.Controllers
                         _questionService.DeleteQuestionById(item);
                     }
                 }
+                if (data.deletePages.Count > 0)
+                {
+                    foreach (var item in data.deletePages)
+                    {
+                        var page = _pageService.GetPageById(item);
+                        var questions = _questionService.GetListByPageId(page.Id);
+                        if (questions.Count() > 0)
+                        {
+                            foreach (var question in questions)
+                            {
+                                _questionService.DeleteQuestionById(question.Id);
+                            }
+                        }
+                        _pageService.DeletePageById(item);
+                    }
+                }
+
 
             }
             return Ok();

@@ -107,7 +107,7 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
 
     deletePage(id: string, index: number, event: any) {
         this.questionTransferService.setdeletePageId({ id: id, index: index });
-        
+
         this.pagingList.splice(index, 1);
         if (index > 0) {
             this.selectItem = this.pageId === this.selectItem ? this.pagingList[index - 1].id : this.pagingList[this.pagingList.length - 1].id;
