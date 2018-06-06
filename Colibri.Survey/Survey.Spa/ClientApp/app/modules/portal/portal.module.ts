@@ -7,11 +7,13 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 /* component */ import { MainPortalComponent } from './main-portal/main-portal.component';
 /* component */ import { SurveyViewerComponent } from './survey-viewer/survey-viewer.component';
+import { ParticlesModule } from 'angular-particle';
 
 @NgModule({
     imports: [
         PortalRoutingModule,
         SharedModule,
+        ParticlesModule
     ],
     declarations: [
         PortalComponent,

@@ -1,0 +1,21 @@
+.particles-container {
+    // position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    // background-color: blue !important;
+}
+
+#d-wrapper-particles {
+    // background-color: #F2784B;
+    // height: 100%;
+
+    background: #1e5799;
+    background: -moz-linear-gradient(left, #1e5799 0%, #2989d8 30%, #207cca 63%, #7db9e8 100%);
+    // background: -webkit-linear-gradient(left, #1e5799 0%,#2989d8 30%,#207cca 63%,#7db9e8 100%); */
+    // background: linear-gradient(to right, #1e5799 0%,#2989d8 30%,#207cca 63%,#7db9e8 100%); */
+}

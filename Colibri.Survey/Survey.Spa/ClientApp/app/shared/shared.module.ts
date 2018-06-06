@@ -52,7 +52,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 /* service-api */ import { GroupMembersApiService } from 'shared/services/api/group-members.api.service';
 /* service-api */ import { UsersApiService } from 'shared/services/api/users.api.service';
 
-import { FormBuilderComponent } from '../modules/surveys/builder/form-builder/form-builder.component';
+// import { FormBuilderComponent } from '../modules/surveys/builder/form-builder/form-builder.component';
 
 @NgModule({
     imports: [

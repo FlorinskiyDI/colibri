@@ -18,7 +18,7 @@ const routes: Routes = [
                 component: MainPortalComponent,
             },
             {
-                path: '/:id',
+                path: ':id',
                 component: SurveyViewerComponent,
             },
         ]
