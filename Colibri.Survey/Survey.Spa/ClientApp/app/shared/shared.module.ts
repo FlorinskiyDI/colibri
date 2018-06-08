@@ -42,10 +42,17 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 /* module-primeng */ import { DragDropModule } from 'primeng/dragdrop';
 /* module-primeng */ import { ChipsModule } from 'primeng/chips';
 /* module-angular-split */ import { AngularSplitModule } from 'angular-split';
-/* module-material */ import { MatTooltipModule } from '@angular/material/tooltip';
-/* module-material */import { MatIconModule } from '@angular/material/icon';
+
+
 /* module-ngx-bootstrap */ import { TabsModule } from 'ngx-bootstrap/tabs';
 /* module-ngx-bootstrap */ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
+
+// material
+// /* module-material */import { MatIconModule } from '@angular/material/icon';
+// /* module-material */ import { MatTooltipModule } from '@angular/material/tooltip';
+
+
 
 /* service-api */ import { SurveysApiService } from 'shared/services/api/surveys.api.service';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
@@ -80,7 +87,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         // ngx-bootstrap
         TabsModule.forRoot(), BsDropdownModule.forRoot(),
         // material
-        MatTooltipModule, MatIconModule,
+        // MatTooltipModule,
+        //  MatIconModule,
         // else
         AngularSplitModule
     ],
@@ -105,11 +113,11 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         // ngx-bootstrap
         TabsModule, BsDropdownModule,
         // material
-        MatTooltipModule, MatIconModule,
+        // MatTooltipModule,
+        // MatIconModule,
         // else
         AngularSplitModule
     ],
-
 })
 
 export class SharedModule {

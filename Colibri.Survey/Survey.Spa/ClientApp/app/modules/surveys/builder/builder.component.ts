@@ -176,7 +176,7 @@ export class BuilderComponent {
     saveSurvey() {
         if (this.surveyId === null) {
             const data = this.surveysApiService.save(this.survey);
-
+            console.log(data);
         } else {
             const updateData: any = {
                 survey: this.survey,
@@ -186,8 +186,7 @@ export class BuilderComponent {
             };
 
             const data = this.surveysApiService.update(updateData);
-
-            debugger
+            console.log(data);
             this.router.navigateByUrl('/surveys');
         }
 

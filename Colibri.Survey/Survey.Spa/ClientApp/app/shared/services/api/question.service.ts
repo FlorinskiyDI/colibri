@@ -9,7 +9,7 @@ import { TextboxQuestion } from '../../models/form-builder/question-textbox.mode
 import { DropdownQuestion } from '../../models/form-builder/question-dropdown.model';
 import { TextAreaQuestion } from '../../models/form-builder/question-textarea.model';
 // import { RadioQuestion } from '../../models/form-builder/question-radio.model';
-import { CheckboxQuestion } from '../../models/form-builder/question-checkbox.model';
+// import { CheckboxQuestion } from '../../models/form-builder/question-checkbox.model';
 import { GridRadioQuestion } from '../../models/form-builder/question-grid-radio.model';
 
 

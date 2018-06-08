@@ -1,6 +1,6 @@
 import {
     Component, Input, AfterContentChecked, ChangeDetectorRef, AfterViewInit, QueryList,
-    OnDestroy, ChangeDetectionStrategy, ViewChildren, Output, EventEmitter
+    OnDestroy, ChangeDetectionStrategy, ViewChildren
 } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
@@ -71,7 +71,7 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
 
 
     addItem(mass: any[], questionId: string) {
-        
+
         const optionId = GUID.getNewGUIDString();
         const page = this.formPage.controls[this.pageId].get(questionId).get('options') as FormGroup;
         page.addControl(optionId, this.fb.group({

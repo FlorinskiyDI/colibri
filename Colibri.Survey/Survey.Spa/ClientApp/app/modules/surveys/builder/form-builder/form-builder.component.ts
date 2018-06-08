@@ -69,7 +69,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
             this.page.questions.sort((a, b) => a.order - b.order);
             this.sortQuestionByIndex();
 
-            const updateQuestioRange = this.page.questions.slice(data.order , this.page.questions.length); // get question range (max, min) for make resortable
+            const updateQuestioRange = this.page.questions.slice(data.order, this.page.questions.length); // get question range (max, min) for make resortable
             updateQuestioRange.forEach((item: any) => {
                 item.state = item.state !== ControStates.created ? ControStates.updated : item.state;
             });
@@ -156,7 +156,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
 
         this.page.questions.splice(index, 0, question);
 
-        debugger
+
         const updateQuestioRange = this.page.questions.slice(index, this.page.questions.length); // get question range (max, min) for make resortable
         updateQuestioRange.forEach((item: any) => {
             item.state = item.state !== ControStates.created ? ControStates.updated : item.state;

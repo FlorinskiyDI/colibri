@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 
 // import { QuestionBase } from '../../../shared/models/form-builder/question-base.model';
 
@@ -10,8 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 // import { TextboxQuestion } from '../../../shared/models/form-builder/question-textbox.model';
 
 // helpers
-import { CompareObject } from '../../../shared/helpers/compare-object.helper';
-import { isEqual, reduce } from 'lodash';
+// import { CompareObject } from '../../../shared/helpers/compare-object.helper';
+// import { isEqual, reduce } from 'lodash';
 
 import { PageModel } from '../../../shared/models/form-builder/page.model';
 
@@ -98,7 +98,7 @@ export class SurveyBuilderComponent {
         });
         this.questionTransferService.getChangedQuestion().subscribe((data: any) => {
             this.updateData.pages[this.page.id].questions = null;
-   
+
         });
 
 
@@ -140,7 +140,7 @@ export class SurveyBuilderComponent {
     }
 
 
-    
+
 
 
 

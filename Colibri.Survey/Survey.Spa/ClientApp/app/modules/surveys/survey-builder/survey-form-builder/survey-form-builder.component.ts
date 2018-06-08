@@ -190,6 +190,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         this.questions.sort((a, b) => a.order - b.order); // useles code
 
         const updateQuestions = this.page.questions.slice(index, this.page.questions.length);
+        console.log(updateQuestions);
     }
 
 
