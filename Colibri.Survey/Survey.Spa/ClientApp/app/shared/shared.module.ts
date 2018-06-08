@@ -52,7 +52,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 // /* module-material */import { MatIconModule } from '@angular/material/icon';
 // /* module-material */ import { MatTooltipModule } from '@angular/material/tooltip';
 
-
+// import { MdlModule } from '@angular-mdl/core';
+// import { MdlModule } from '@angular-mdl/compo';
 
 /* service-api */ import { SurveysApiService } from 'shared/services/api/surveys.api.service';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
@@ -71,6 +72,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         JsonpModule,
         HttpModule,
         HttpClientModule,
+        // MdlModule,
         // Translate
         TranslateModule.forChild({
             loader: {
@@ -105,6 +107,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         ReactiveFormsModule,
         RouterModule,
         TranslateModule,
+        // MdlModule,
         // primeng
         TabViewModule, TabMenuModule, ConfirmDialogModule, AccordionModule, InputTextareaModule, InputSwitchModule, CheckboxModule, CalendarModule,
         FileUploadModule, DataTableModule, DialogModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, OverlayPanelModule, ButtonModule,

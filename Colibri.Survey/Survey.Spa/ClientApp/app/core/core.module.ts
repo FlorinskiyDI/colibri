@@ -9,6 +9,11 @@ import { DndModule } from 'ng2-dnd';
 /* component */ import { ForbiddenComponent } from 'core/forbidden/forbidden.component';
 /* component */ import { UnauthorizedComponent } from 'core/unauthorized/unauthorized.component';
 /* component */ import { LoginComponent } from 'core/login/login.component';
+import { ParticlesModule } from 'angular-particle';
+
+import { MdlMenuModule } from '@angular-mdl/core/components/menu';
+import { MdlModule } from '@angular-mdl/core';
+
 declare let window: any;
 
 @NgModule({
@@ -19,17 +24,26 @@ declare let window: any;
         ForbiddenComponent,
         ForbiddenComponent,
         UnauthorizedComponent,
-        LoginComponent
+        LoginComponent,
+        // MdlMenuComponent,
+
+
     ],
     exports: [
         DndModule,
         NavbarComponent,
+        MdlModule,
+        MdlMenuModule
 
     ],
     imports: [
         DndModule.forRoot(),
         SidebarModule.forRoot(),
-        SharedModule
+        SharedModule,
+        MdlModule,
+        MdlMenuModule,
+        ParticlesModule
+
     ],
     providers: [
         { provide: 'API_URL', useValue: getApiUrl() }

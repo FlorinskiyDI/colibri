@@ -18,7 +18,7 @@ import 'jquery';
         // '../../node_modules/material-icons/iconfont/material-icons.css',
         // '../../node_modules/@angular/material/_theming.scss',
         // '../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
-
+        '../../node_modules/@angular-mdl/core/scss/material-design-lite.scss',
         '../../node_modules/primeng/resources/primeng.css',
         '../../node_modules/primeng/resources/themes/omega/theme.css',
 
