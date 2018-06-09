@@ -9,7 +9,6 @@ import { SharedModule } from './shared/shared.module';
 /* route */ import { routing } from './app.routes';
 /* guard */ import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
 /* guard */ import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
-/* service */ import { UserManagementService } from './user-management/UserManagementService';
 import { QuestionTransferService } from './shared/transfers/question-transfer.service';
 import { DndModule } from 'ng2-dnd';
 
@@ -23,7 +22,6 @@ import { DndModule } from 'ng2-dnd';
     ],
     declarations: [],
     providers: [
-        UserManagementService,
         HasAdminRoleAuthenticationGuard,
         HasAdminRoleCanLoadGuard,
         QuestionTransferService

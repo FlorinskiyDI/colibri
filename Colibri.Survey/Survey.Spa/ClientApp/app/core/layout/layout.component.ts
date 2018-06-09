@@ -19,7 +19,7 @@ export class LayoutComponent implements OnInit {
 
 
     }
-    private _opened = false;
+    private _opened = true;
     private _modeNum = 1;
     private _positionNum = 0;
     private _dock = true;

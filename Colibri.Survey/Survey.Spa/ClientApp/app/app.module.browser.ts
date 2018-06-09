@@ -9,7 +9,6 @@ import { RestangularModule } from 'ngx-restangular';
 /* module */ import { AppModuleShared } from './app.module.shared';
 /* component */ import { AppComponent } from './app.component';
 /* component */ import { HomeComponent } from './home/home.component';
-/* component */ import { UserManagementComponent } from './user-management/user-management.component';
 /* service */ import { OidcSecurityService } from 'core/auth/services/oidc.security.service';
 /* helpers */ import { Helpers } from 'shared/helpers/helpers';
 declare let window: any;
@@ -18,8 +17,7 @@ declare let window: any;
     bootstrap: [AppComponent],
     declarations: [
         AppComponent,
-        HomeComponent,
-        UserManagementComponent
+        HomeComponent
     ],
     imports: [
         // Importing RestangularModule and making default configs for restanglar

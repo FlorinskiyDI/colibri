@@ -5,10 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 /* component */ import { LayoutComponent } from 'core/layout/layout.component';
 /* component */ import { UnauthorizedComponent } from './core/unauthorized/unauthorized.component';
 /* component */ import { LoginComponent } from './core/login/login.component';
-/* component */ import { UserManagementComponent } from './user-management/user-management.component';
 
 /* guard */ import { HasAdminRoleAuthenticationGuard } from './guards/hasAdminRoleAuthenticationGuard';
-/* guard */ import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
+// /* guard */ import { HasAdminRoleCanLoadGuard } from './guards/hasAdminRoleCanLoadGuard';
 
 const appRoutes: Routes = [
     {
@@ -23,11 +22,11 @@ const appRoutes: Routes = [
             },
             {
                 path: '',
-                loadChildren: 'modules/groups/group.module#GroupModule',
+                loadChildren: 'modules/management/management.module#ManagementModule',
             },
             {
                 path: '',
-                loadChildren: 'modules/users/user.module#UserModule',
+                loadChildren: 'modules/dashboard/dashboard.module#DashboardModule',
             },
             {
                 path: '',
@@ -38,11 +37,6 @@ const appRoutes: Routes = [
 
     { path: 'login', component: LoginComponent },
     { path: 'uihome', component: HomeComponent },
-    {
-        path: 'usermanagement', component: UserManagementComponent,
-        canActivate: [HasAdminRoleAuthenticationGuard],
-        canLoad: [HasAdminRoleCanLoadGuard]
-    },
     { path: 'Forbidden', component: ForbiddenComponent },
     { path: 'Unauthorized', component: UnauthorizedComponent }
 ];
