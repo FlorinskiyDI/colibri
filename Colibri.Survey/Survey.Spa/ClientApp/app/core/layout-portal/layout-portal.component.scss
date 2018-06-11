@@ -9,28 +9,28 @@ $color-accent-contrast: $color-dark-contrast;
 @import '~@angular-mdl/core/scss/material-design-lite';
 
 
-.particles-container {
-  // position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  // background-color: blue !important;
-}
+// .particles-container {
+//   // position: fixed;
+//   width: 100%;
+//   height: 100%;
+//   z-index: 100;
+//   top: 0px;
+//   left: 0px;
+//   right: 0px;
+//   bottom: 0px;
+//   // background-color: blue !important;
+// }
 
-#d-wrapper-particles {
-  // background-color: #F2784B;
-  // height: 100%;
-  position: relative;
-  background: #6819e8;
-  // background: linear-gradient(to right, #6819e8 0%,#7437d0 35%,#615fde 68%,#6980f2 100%);
-  // background: -moz-linear-gradient(left, #1e5799 0%, #2989d8 30%, #207cca 63%, #7db9e8 100%);
-  // background: -webkit-linear-gradient(left, #1e5799 0%,#2989d8 30%,#207cca 63%,#7db9e8 100%); */
-  // background: linear-gradient(to right, #1e5799 0%,#2989d8 30%,#207cca 63%,#7db9e8 100%); */
-}
+// #d-wrapper-particles {
+//   // background-color: #F2784B;
+//   // height: 100%;
+//   position: relative;
+//   background: #6819e8;
+//   // background: linear-gradient(to right, #6819e8 0%,#7437d0 35%,#615fde 68%,#6980f2 100%);
+//   // background: -moz-linear-gradient(left, #1e5799 0%, #2989d8 30%, #207cca 63%, #7db9e8 100%);
+//   // background: -webkit-linear-gradient(left, #1e5799 0%,#2989d8 30%,#207cca 63%,#7db9e8 100%); */
+//   // background: linear-gradient(to right, #1e5799 0%,#2989d8 30%,#207cca 63%,#7db9e8 100%); */
+// }
 #container canvas, #overlay {
   position: absolute;
   top: 0px;
@@ -38,7 +38,6 @@ $color-accent-contrast: $color-dark-contrast;
   bottom: 0px;
   left: 0px;
 }
-
 
 
 
