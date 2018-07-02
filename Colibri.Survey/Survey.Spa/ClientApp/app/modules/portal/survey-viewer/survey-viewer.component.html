@@ -5,26 +5,51 @@
         <div class="mdl-card__title">
             <h2 class="mdl-card__title-text">{{survey.name}}</h2>
         </div>
+        <a routerLink="/portal/48e9bbde-ca68-e811-9122-107b44194709" fragment="top">A View #top</a> &mdash;
         <div class="mdl-cell mdl-cell--12-col mdl-card__supporting-text no-padding ">
-                <h3 class="mdl-cell mdl-cell--12-col mdl-typography--headline">Irure mollit est sit labore</h3>
-                <p class="d-description-text">
-                    Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim eiusmod labore sit amet. Voluptate
-                    voluptate irure occaecat deserunt incididunt esse in. Sunt velit aliquip sunt elit ex nulla reprehenderit
-                    qui ut eiusmod ipsum do. Duis veniam reprehenderit laborum occaecat id proident nulla veniam. Duis enim
-                    deserunt voluptate aute veniam sint pariatur exercitation. Irure mollit est sit labore est deserunt pariatur
-                    duis aute laboris cupidatat. Consectetur consequat esse est sit veniam adipisicing ipsum enim irure.
-                </p>
-            </div>
+            <h3 class="mdl-cell mdl-cell--12-col mdl-typography--headline">Irure mollit est sit labore</h3>
+            <p class="d-description-text">
+                Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim eiusmod labore sit amet. Voluptate
+                voluptate irure occaecat deserunt incididunt esse in. Sunt velit aliquip sunt elit ex nulla reprehenderit
+                qui ut eiusmod ipsum do. Duis veniam reprehenderit laborum occaecat id proident nulla veniam. Duis enim deserunt
+                voluptate aute veniam sint pariatur exercitation. Irure mollit est sit labore est deserunt pariatur duis
+                aute laboris cupidatat. Consectetur consequat esse est sit veniam adipisicing ipsum enim irure.
+            </p>
+        </div>
 
 
-        <survey-viewer-form *ngIf="page && pageinglist" [page]="page" [paging]="pageinglist"></survey-viewer-form>
+        <survey-viewer-form *ngIf="page && survey" [page]="page" (filledAnswers)="sendAnswers($event)" [paging]="pageinglist"></survey-viewer-form>
 
 
-      
+        <hr id="top" />1111111111111111111111111111111111111111111111111111
     </div>
     <div class="mdl-cell mdl-cell--3-col mdl-card mdl-shadow--4dp d-cell-col">
         <sticky [sticky-offset-top]="20">
             <div class="sticly-wraper">
+                <div *ngIf="errorList != null">
+                    <div *ngFor="let item of survey.pages">
+                        <!-- {{item | json}}
+                        {{errorList.controls[item.id].valid | json}} -->
+                        Page №{{item.orderNo + 1}}
+                        <div *ngIf="!errorList.controls[item.id].valid">
+                            <div *ngFor="let question of item.questions">
+                                <div *ngIf="!errorList.controls[item.id].controls[question.id].valid">
+                                    --- question №{{question.order + 1}}
+                                </div>
+                                <!-- {{errorList.controls[item.id].controls[question.id].valid | json}} -->
+                            </div>
+                        </div>
+                        --------------------------
+                    </div>
+                </div>
+                <!-- <div *ngIf="errorList != null">
+                    <div  *ngFor="let item of page.questions; let i = index">
+                        {{item | json}}
+                        {{errorList.value}}
+                        {{errorList.controls[item.id]}}
+                    </div>
+                </div> -->
+                <!-- <pre> {{errorList | json }}</pre> -->
                 <p>111111111111111111</p>
                 <p>111111111111111111</p>
                 <p>111111111111111111</p>
@@ -38,6 +63,6 @@
         </sticky>
     </div>
 
-
+    
 
 </div>

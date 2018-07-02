@@ -47,7 +47,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 /* module-ngx-bootstrap */ import { TabsModule } from 'ngx-bootstrap/tabs';
 /* module-ngx-bootstrap */ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
-
+import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
 // material
 // /* module-material */import { MatIconModule } from '@angular/material/icon';
 // /* module-material */ import { MatTooltipModule } from '@angular/material/tooltip';
@@ -81,6 +81,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
                 deps: [HttpClient]
             }
         }),
+        FragmentPolyfillModule.forRoot({
+            smooth: true
+        }),
         // primeng
         TabViewModule, TabMenuModule, ConfirmDialogModule, AccordionModule, InputTextareaModule, InputSwitchModule, CheckboxModule, CalendarModule,
         FileUploadModule, DataTableModule, DialogModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, OverlayPanelModule, ButtonModule,
@@ -106,6 +109,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
+        FragmentPolyfillModule,
         TranslateModule,
         // MdlModule,
         // primeng

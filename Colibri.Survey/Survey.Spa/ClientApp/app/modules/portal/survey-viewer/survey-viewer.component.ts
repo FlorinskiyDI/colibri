@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SurveysApiService } from 'shared/services/api/surveys.api.service';
 import { SurveyModel } from 'shared/models/form-builder/survey.model';
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
     selector: 'survey-viewer',
@@ -17,6 +18,7 @@ import { QuestionTransferService } from 'shared/transfers/question-transfer.serv
 })
 export class SurveyViewerComponent implements OnInit {
 
+    errorList: FormGroup = null;
     survey: SurveyModel = null;
     page: any;
     activeSurveyId: any;
@@ -64,4 +66,37 @@ export class SurveyViewerComponent implements OnInit {
         return result;
     }
 
+
+    sendAnswers(data: FormGroup) {
+        this.errorList = data;
+
+        Object.keys(data.controls)
+            .forEach(controlName => {
+                debugger
+                if (data.controls[controlName].valid) {
+                    console.log(data.controls[controlName].valid);
+                }
+                // data.controls[controlName].markAsTouched();
+            });
+
+        /** Прерываем выполнение метода*/
+        return;
+    }
+    // if (data.valid) {
+    //     console.log(data);
+    // } else {
+
+    //     for (FormControl item1 in data.controls) {
+
+    //     }
+
+    //     data.forEach((element: any) => {
+    //         // if (!element.valid) {
+    //         //     this.errorList.push(element);
+    //         // }
+    //     });
+
+    //     console.log(this.errorList);
+    // }
+}
 }

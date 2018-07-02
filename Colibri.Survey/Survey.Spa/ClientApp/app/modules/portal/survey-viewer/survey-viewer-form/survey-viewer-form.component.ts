@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 // import { ActivatedRoute } from '@angular/router';
 import { QuestionControlService } from 'shared/services/question-control.service';
 import { FormGroup } from '@angular/forms';
@@ -22,6 +22,8 @@ export class SurveyViewerFormComponent implements OnInit {
 
     @Input() paging: any;
     @Input() page: PageModel = new PageModel();
+    @Output() filledAnswers = new EventEmitter<any>();
+
     form: FormGroup;
     pageIndex: number;
     constructor(
@@ -61,6 +63,11 @@ export class SurveyViewerFormComponent implements OnInit {
 
         const idNextPage = this.paging[this.pageIndex - 1].id;
         this.questionTransferService.setViewerPage(idNextPage);
+    }
+
+
+    sendAnswer() {
+        this.filledAnswers.emit(this.form);
     }
 
 }
