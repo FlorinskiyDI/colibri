@@ -17,7 +17,8 @@ export class QuestionTransferService {
     private changeQuestionsubject = new Subject<any>();
     private chagnedQuestionSubject = new Subject<any>();
 
-
+    private viewerPageSubject = new Subject<any>();
+    private viewerFormPageSubject = new Subject<any>();
 
     //
     private selectedPageSubject = new Subject<any>();
@@ -163,5 +164,22 @@ export class QuestionTransferService {
     }
     getDeleteDragQuestion(): Observable<any> {
         return this.deleteQuestion.asObservable();
+    }
+
+
+    setViewerPage(data: any) {
+        this.viewerPageSubject.next(data);
+    }
+    getViewerPage(): Observable<any> {
+        return this.viewerPageSubject.asObservable();
+    }
+
+
+
+    setFormViewrPage(data: any) {
+        this.viewerFormPageSubject.next(data);
+    }
+    getFormViewrPage(): Observable<any> {
+        return this.viewerFormPageSubject.asObservable();
     }
 }

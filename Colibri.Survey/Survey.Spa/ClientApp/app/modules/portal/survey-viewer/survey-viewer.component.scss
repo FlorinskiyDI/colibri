@@ -2,15 +2,35 @@
 //     position: relative;
 //     background-image: url(images/header-bg.jpg);
 //   }
+.d-dynamic-form {
   
+    padding: 20px;
+  }
 
 
 
 .layaut-d-image {
   position: absolute;
-  min-height: 50px;
+  min-height: 300px;
   width: 100%;
   background: silver;
+}
+
+.portfolio-max-width {
+  padding: 40px 0px 40px 0px;
+}
+
+.d-cell-col {
+  background-color: transparent;
+  box-shadow:unset;
+  margin: 0px;
+}
+
+.sticly-wraper {
+  background-color: #fff;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  margin: 8px;
+  padding: 10px;
 }
 
 
@@ -120,7 +140,7 @@
   }
   
   .portfolio-copy {
-    max-width: 700px;
+    max-width: 900px;
   }
   
   .no-padding {
@@ -169,4 +189,6 @@
 //     background-size: cover;
 //   }
   
-  
+  .d-description-text {
+    padding: 10px;
+  }

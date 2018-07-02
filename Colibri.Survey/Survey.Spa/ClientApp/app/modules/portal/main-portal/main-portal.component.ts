@@ -1,5 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
+import { SurveysApiService } from 'shared/services/api/surveys.api.service';
+import { SurveyModel } from 'shared/models/form-builder/survey.model';
 
 @Component({
     selector: 'main-portal',
@@ -10,11 +12,24 @@ import { Component, OnInit } from '@angular/core';
     // template: `<router-outlet></router-outlet>`
 })
 export class MainPortalComponent implements OnInit {
-    constructor() { }
+
     myStyle: object = {};
     myParams: object = {};
     width = 100;
     height = 100;
+    surveys: any[] = [];
+
+    constructor(
+        private surveysApiService: SurveysApiService,
+    ) {
+
+        this.surveysApiService.getAll().subscribe((data: SurveyModel[]) => {
+            this.surveys = data;
+
+        });
+
+    }
+
 
     ngOnInit() {
         this.myStyle = {

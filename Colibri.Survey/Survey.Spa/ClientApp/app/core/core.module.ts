@@ -12,7 +12,7 @@ import { DndModule } from 'ng2-dnd';
 import { ParticlesModule } from 'angular-particle';
 
 import { MdlMenuModule } from '@angular-mdl/core/components/menu';
-import { MdlModule } from '@angular-mdl/core';
+import { MdlModule, MdlCheckboxModule } from '@angular-mdl/core';
 
 declare let window: any;
 
@@ -33,6 +33,7 @@ declare let window: any;
         DndModule,
         NavbarComponent,
         MdlModule,
+        MdlCheckboxModule,
         MdlMenuModule
 
     ],
@@ -41,6 +42,7 @@ declare let window: any;
         SidebarModule.forRoot(),
         SharedModule,
         MdlModule,
+        MdlCheckboxModule,
         MdlMenuModule,
         ParticlesModule
 
