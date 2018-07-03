@@ -1,7 +1,7 @@
-<pre> {{form.value | json}}</pre>
+<!-- <pre> {{form.value | json}}</pre> -->
 <!-- <pre> {{page.questions | json}}</pre> -->
 
-<div *ngFor="let item of page.questions; let i = index" class="mdl-grid portfolio-copy">
+<div id="{{item.id}}" *ngFor="let item of page.questions; let i = index" class="mdl-grid portfolio-copy">
     <div class="left-block-d">
         <h4 class="mdl-cell mdl-cell--12-col mdl-typography--headline d-question-text">
             {{item.order + 1}}.
@@ -10,7 +10,7 @@
     <div class="right-block-d">
         <h4 class="mdl-cell mdl-cell--12-col mdl-typography--headline d-question-text">
             {{item.text}} (
-            <b *ngIf="item.required"  [ngClass]='{"d-dirtyPage": item.required}'>*</b>
+            <b *ngIf="item.required" [ngClass]='{"d-dirtyPage": item.required}'>*</b>
             )
             <!-- <b *ngIf="item.required">*</b> -->
         </h4>
@@ -40,7 +40,12 @@
         </button>
         Preview Page
     </a>
-    <div class="section-spacer"></div>
+    <div class="section-spacer">
+        <section class="date-container">
+            <div class="date">{{page.orderNo + 1}}</div>
+        </section>
+    </div>
+
     <!-- {{pageIndex}} {{paging.length}} -->
     <a *ngIf="(pageIndex + 1) !=  paging.length" class="demo-nav__button d-button-paging">
         Next page

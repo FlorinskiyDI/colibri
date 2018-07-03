@@ -5,7 +5,7 @@
         <div class="mdl-card__title">
             <h2 class="mdl-card__title-text">{{survey.name}}</h2>
         </div>
-        <a routerLink="/portal/48e9bbde-ca68-e811-9122-107b44194709" fragment="top">A View #top</a> &mdash;
+        <!-- <a routerLink="/portal/48e9bbde-ca68-e811-9122-107b44194709" fragment="top">A View #top</a> &mdash; -->
         <div class="mdl-cell mdl-cell--12-col mdl-card__supporting-text no-padding ">
             <h3 class="mdl-cell mdl-cell--12-col mdl-typography--headline">Irure mollit est sit labore</h3>
             <p class="d-description-text">
@@ -21,7 +21,7 @@
         <survey-viewer-form *ngIf="page && survey" [page]="page" (filledAnswers)="sendAnswers($event)" [paging]="pageinglist"></survey-viewer-form>
 
 
-        <hr id="top" />1111111111111111111111111111111111111111111111111111
+        <!-- <hr id="top" />1111111111111111111111111111111111111111111111111111 -->
     </div>
     <div class="mdl-cell mdl-cell--3-col mdl-card mdl-shadow--4dp d-cell-col">
         <sticky [sticky-offset-top]="20">
@@ -31,10 +31,12 @@
                         <!-- {{item | json}}
                         {{errorList.controls[item.id].valid | json}} -->
                         Page №{{item.orderNo + 1}}
+                        page Id: {{item.id}}
                         <div *ngIf="!errorList.controls[item.id].valid">
                             <div *ngFor="let question of item.questions">
                                 <div *ngIf="!errorList.controls[item.id].controls[question.id].valid">
                                     --- question №{{question.order + 1}}
+                                    <a [routerLink]="['/portal/48e9bbde-ca68-e811-9122-107b44194709']" (click)="initPage(item.id)"  fragment="{{question.id}}">A View {{question.order}}</a> &mdash;
                                 </div>
                                 <!-- {{errorList.controls[item.id].controls[question.id].valid | json}} -->
                             </div>

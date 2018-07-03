@@ -38,10 +38,19 @@ export class SurveyViewerComponent implements OnInit {
         this.questionTransferService.getViewerPage().subscribe((pageId: string) => {
             // Init data
             window.scroll(0, 0);
-            this.page = this.survey.pages.find(item => item.id === pageId);
-            this.questionTransferService.setFormViewrPage(this.page);
+
+            this.initPage(pageId);
+            // this.page = this.survey.pages.find(item => item.id === pageId);
+            // this.questionTransferService.setFormViewrPage(this.page);
             // this.form.addControl(page.id, this.questionService.getFormPageGroup(page));
         });
+    }
+
+
+
+    initPage(pageId: string) {
+        this.page = this.survey.pages.find(item => item.id === pageId);
+        this.questionTransferService.setFormViewrPage(this.page);
     }
 
 
@@ -69,34 +78,16 @@ export class SurveyViewerComponent implements OnInit {
 
     sendAnswers(data: FormGroup) {
         this.errorList = data;
+        if (data.valid) {
+            console.log(data);
+        } else {
+            Object.keys(data.controls)
+                .forEach(controlName => {
 
-        Object.keys(data.controls)
-            .forEach(controlName => {
-                debugger
-                if (data.controls[controlName].valid) {
-                    console.log(data.controls[controlName].valid);
-                }
-                // data.controls[controlName].markAsTouched();
-            });
-
-        /** Прерываем выполнение метода*/
-        return;
+                    if (data.controls[controlName].valid) {
+                        console.log(data.controls[controlName].valid);
+                    }
+                });
+        }
     }
-    // if (data.valid) {
-    //     console.log(data);
-    // } else {
-
-    //     for (FormControl item1 in data.controls) {
-
-    //     }
-
-    //     data.forEach((element: any) => {
-    //         // if (!element.valid) {
-    //         //     this.errorList.push(element);
-    //         // }
-    //     });
-
-    //     console.log(this.errorList);
-    // }
-}
 }
