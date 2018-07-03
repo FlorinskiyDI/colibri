@@ -3,10 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 
-import { SurveysApiService } from 'shared/services/api/surveys.api.service';
+import { PortalApiService } from 'shared/services/api/portal.api.service';
 import { SurveyModel } from 'shared/models/form-builder/survey.model';
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'survey-viewer',
@@ -27,7 +27,7 @@ export class SurveyViewerComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private surveysApiService: SurveysApiService,
+        private portalApiService: PortalApiService,
         private questionTransferService: QuestionTransferService,
     ) {
         this.route.params.subscribe((params: any) => {
@@ -55,7 +55,7 @@ export class SurveyViewerComponent implements OnInit {
 
 
     ngOnInit() {
-        this.surveysApiService.get(this.activeSurveyId).subscribe((data: SurveyModel) => {
+        this.portalApiService.getSurvey(this.activeSurveyId).subscribe((data: SurveyModel) => {
             this.survey = data;
             if (this.survey.pages) {
                 this.page = data.pages[0];
@@ -79,7 +79,7 @@ export class SurveyViewerComponent implements OnInit {
     sendAnswers(data: FormGroup) {
         this.errorList = data;
         if (data.valid) {
-            console.log(data);
+            this.portalApiService.saveAnswers(data.value);
         } else {
             Object.keys(data.controls)
                 .forEach(controlName => {

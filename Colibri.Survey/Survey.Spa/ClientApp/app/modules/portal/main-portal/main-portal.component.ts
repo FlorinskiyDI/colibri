@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { SurveysApiService } from 'shared/services/api/surveys.api.service';
+import { PortalApiService } from 'shared/services/api/portal.api.service';
 import { SurveyModel } from 'shared/models/form-builder/survey.model';
 
 @Component({
@@ -20,10 +20,10 @@ export class MainPortalComponent implements OnInit {
     surveys: any[] = [];
 
     constructor(
-        private surveysApiService: SurveysApiService,
+        private portalApiService: PortalApiService,
     ) {
 
-        this.surveysApiService.getAll().subscribe((data: SurveyModel[]) => {
+        this.portalApiService.getAll().subscribe((data: SurveyModel[]) => {
             this.surveys = data;
 
         });
