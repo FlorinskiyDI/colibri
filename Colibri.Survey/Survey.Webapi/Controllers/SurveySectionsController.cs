@@ -14,7 +14,7 @@ using Survey.ApplicationLayer.Services;
 using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.Common.Context;
 using Survey.Common.Enums;
-using Survey.Webapi.Views.Survey;
+using Survey.Webapi.Models.Survey;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Survey.Webapi.Views.Survey
+namespace Survey.Webapi.Models.Survey
 {
     public class SurveyViewModel
     {

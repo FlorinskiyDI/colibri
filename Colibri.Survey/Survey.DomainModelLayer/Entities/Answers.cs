@@ -18,5 +18,8 @@ namespace Survey.DomainModelLayer.Entities
         [ForeignKey("QuestionOptionId")]
         [InverseProperty("Answers")]
         public QuestionOptions QuestionOption { get; set; }
+        [ForeignKey("UserId")]
+        [InverseProperty("Answers")]
+        public Users User { get; set; }
     }
 }

@@ -170,7 +170,7 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
-        private Questions GetQuestionById(Guid id)
+        public Questions GetQuestionById(Guid id)
         {
             try
             {

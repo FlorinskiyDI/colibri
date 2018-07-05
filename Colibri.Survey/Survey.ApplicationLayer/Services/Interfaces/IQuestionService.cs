@@ -17,5 +17,6 @@ namespace Survey.ApplicationLayer.Services.Interfaces
         void Update(List<BaseQuestionModel> questionList, Guid pageId);
         void DeleteQuestionById(Guid questionId);
         IEnumerable<Questions> GetListByPageId(Guid? pageId);
+        Questions GetQuestionById(Guid id);
     }
 }

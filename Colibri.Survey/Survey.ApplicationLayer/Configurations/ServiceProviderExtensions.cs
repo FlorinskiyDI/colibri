@@ -23,7 +23,9 @@ namespace Survey.ApplicationLayer.Configurations
         {
             services.AddScoped<ISurveySectionService, SurveySectionService>();
             services.AddScoped<IPageService, PageService>();
+            services.AddScoped<IQuestionOptionService, QuestionOptionService>();
             services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IAnswerService, AnswerService>();
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<IIdentityUserService, IdentityUserService>();
             services.AddScoped<IInputTypeService, InputTypeService>();

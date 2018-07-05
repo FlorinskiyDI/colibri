@@ -4,9 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Survey.ApplicationLayer.Dtos.Entities;
 using Survey.ApplicationLayer.Dtos.Models;
+using Survey.ApplicationLayer.Dtos.Models.Answers;
 using Survey.ApplicationLayer.Services.Interfaces;
+using Survey.Webapi.Models.Portal;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,18 +22,23 @@ namespace Survey.Webapi.Controllers
         private readonly ISurveySectionService _surveySectionService;
         private readonly IPageService _pageService;
         private readonly IQuestionService _questionService;
-
+        private readonly IAnswerService _answerService;
+        private readonly IQuestionOptionService _questionOptionService;
         public PortalController(
             //IConfiguration configuration,
             ISurveySectionService surveySectionService,
             IPageService pageService,
-            IQuestionService questionService
+            IQuestionService questionService,
+            IAnswerService answerService,
+            IQuestionOptionService questionOptionService
         )
         {
             //_configuration = configuration;
             _surveySectionService = surveySectionService;
             _pageService = pageService;
             _questionService = questionService;
+            _answerService = answerService;
+            _questionOptionService = questionOptionService;
         }
 
 
@@ -86,9 +94,21 @@ namespace Survey.Webapi.Controllers
 
 
         [HttpPost]
-        [Produces("application/json")]
-        public async Task<IActionResult> SaveAnswers([FromBody] SurveyModel survey)
+        //[Produces("application/json")]
+        public async Task<IActionResult> SaveAnswers([FromBody] List<object> answer)
         {
+            List<BaseAnswerModel> typedAnswerList = new List<BaseAnswerModel>();
+            typedAnswerList = _answerService.GetTypedAnswerList(answer);
+            if (typedAnswerList.Any())
+            {
+                foreach (var item in typedAnswerList)
+                {
+                    _answerService.SaveAnswerByType(item);
+                    //_answerService.SaveAnserByType(item);
+                }
+            }
+            TextAnswerModel val2 = JsonConvert.DeserializeObject<TextAnswerModel>(answer[1].ToString());
+
             return null;
             //await GetSurvey();
             //Guid surveyId = await _surveySectionService.AddAsync(survey);

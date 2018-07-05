@@ -8,4 +8,5 @@
 	[QuestionOptionId]  UNIQUEIDENTIFIER NOT NULL, 
 
 	CONSTRAINT [FK_Answers_Question_Options] FOREIGN KEY ([QuestionOptionId]) REFERENCES [dbo].[Question_Options]([Id]),
+	CONSTRAINT [FK_Answers_Users] FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users]([Id]),
 );

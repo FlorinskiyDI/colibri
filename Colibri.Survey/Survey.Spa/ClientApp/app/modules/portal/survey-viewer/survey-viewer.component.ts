@@ -7,6 +7,8 @@ import { PortalApiService } from 'shared/services/api/portal.api.service';
 import { SurveyModel } from 'shared/models/form-builder/survey.model';
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
 import { FormGroup } from '@angular/forms';
+import { AnswerModel } from 'shared/models/portal//answer.model';
+
 
 @Component({
     selector: 'survey-viewer',
@@ -79,7 +81,27 @@ export class SurveyViewerComponent implements OnInit {
     sendAnswers(data: FormGroup) {
         this.errorList = data;
         if (data.valid) {
-            this.portalApiService.saveAnswers(data.value);
+            // const question = data.controls[controlPageName] as FormGroup;
+            const answers: any[] = [];
+            Object.keys(data.controls)
+                .forEach(controlName => {
+                    const question = data.controls[controlName] as FormGroup;
+                    Object.keys(question.controls)
+                        .forEach(controlQuestionName => {
+
+                            const val = {
+                                id: controlQuestionName,
+                                type: question.controls[controlQuestionName].get('type').value,
+                                answer: question.controls[controlQuestionName].get('answer').value,
+                                additionalAnswer: question.controls[controlQuestionName].get('additionalAnswer').value
+                            } as AnswerModel;
+                            answers.push(val);
+
+                        });
+
+                });
+            debugger
+            this.portalApiService.saveAnswers(JSON.stringify(answers));
         } else {
             Object.keys(data.controls)
                 .forEach(controlName => {
