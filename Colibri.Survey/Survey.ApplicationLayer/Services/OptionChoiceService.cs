@@ -123,7 +123,7 @@ namespace Survey.ApplicationLayer.Services
 
 
 
-        public async Task AddAsync(Guid optionGroupId, ItemModel item = null)
+        public async Task<Guid> AddAsync(Guid optionGroupId, ItemModel item = null)
         {
             OptionChoisesDto optionChoisesDto = new OptionChoisesDto()
             {
@@ -140,6 +140,7 @@ namespace Survey.ApplicationLayer.Services
                     var repositoryOptionChoise = uow.GetRepository<OptionChoises, Guid>();
                     await repositoryOptionChoise.AddAsync(optionChoisesEntity);
                     await uow.SaveChangesAsync();
+                    return optionChoisesDto.Id;
 
                 }
                 catch (Exception e)

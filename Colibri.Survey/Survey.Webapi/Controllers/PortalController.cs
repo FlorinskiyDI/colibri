@@ -24,13 +24,18 @@ namespace Survey.Webapi.Controllers
         private readonly IQuestionService _questionService;
         private readonly IAnswerService _answerService;
         private readonly IQuestionOptionService _questionOptionService;
+        private readonly IUserService _userService;
+
+
+
         public PortalController(
             //IConfiguration configuration,
             ISurveySectionService surveySectionService,
             IPageService pageService,
             IQuestionService questionService,
             IAnswerService answerService,
-            IQuestionOptionService questionOptionService
+            IQuestionOptionService questionOptionService,
+            IUserService userService
         )
         {
             //_configuration = configuration;
@@ -39,6 +44,7 @@ namespace Survey.Webapi.Controllers
             _questionService = questionService;
             _answerService = answerService;
             _questionOptionService = questionOptionService;
+            _userService = userService;
         }
 
 
@@ -97,13 +103,15 @@ namespace Survey.Webapi.Controllers
         //[Produces("application/json")]
         public async Task<IActionResult> SaveAnswers([FromBody] List<object> answer)
         {
+            Guid respondentId = await _userService.AddAsync(new Guid());
             List<BaseAnswerModel> typedAnswerList = new List<BaseAnswerModel>();
             typedAnswerList = _answerService.GetTypedAnswerList(answer);
             if (typedAnswerList.Any())
             {
                 foreach (var item in typedAnswerList)
                 {
-                    _answerService.SaveAnswerByType(item);
+
+                    _answerService.SaveAnswerByType(item, respondentId);
                     //_answerService.SaveAnserByType(item);
                 }
             }

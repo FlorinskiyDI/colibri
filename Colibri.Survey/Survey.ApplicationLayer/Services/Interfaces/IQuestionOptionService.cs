@@ -8,7 +8,7 @@ namespace Survey.ApplicationLayer.Services.Interfaces
 
     public interface IQuestionOptionService
     {
-        Guid Add(BaseAnswerModel item, Guid optionChoiceId);
+        Guid Add(Guid questoinId, Guid optionChoiceId);
         //List<BaseAnswerModel> GetTypedAnswerList(List<object> survey);
     }
 }

@@ -30,11 +30,11 @@ namespace Survey.ApplicationLayer.Services
 
 
 
-        public Guid Add(BaseAnswerModel item, Guid optionChoiceId)
+        public Guid Add(Guid questoinId, Guid optionChoiceId)
         {
             QuestionOptions questionOption = new QuestionOptions()
             {
-                QuestionId = item.Id,
+                QuestionId = questoinId,
                 OptionChoiseId = optionChoiceId
             };
 

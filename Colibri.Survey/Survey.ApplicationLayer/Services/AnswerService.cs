@@ -1,11 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using storagecore.Abstractions.Uow;
 using Survey.ApplicationLayer.Dtos.Models.Answers;
 using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.Common.Enums;
+using Survey.DomainModelLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Survey.ApplicationLayer.Services
 {
@@ -16,7 +20,10 @@ namespace Survey.ApplicationLayer.Services
         private readonly IQuestionService _questionService;
         private readonly IOptionChoiceService _optionChoiceService;
 
+        protected readonly IUowProvider UowProvider;
+        protected readonly IMapper Mapper;
 
+        private Guid respondentId;
         private BaseAnswerModel baseAnswerModel;
         private Dictionary<Type, Action> switchAnswerType;
 
@@ -25,12 +32,16 @@ namespace Survey.ApplicationLayer.Services
         public AnswerService(
             IQuestionOptionService questionOptionService,
             IQuestionService questionService,
-            IOptionChoiceService optionChoiceService
+            IOptionChoiceService optionChoiceService,
+            IUowProvider uowProvider,
+            IMapper mapper
             )
         {
             _questionOptionService = questionOptionService;
             _questionService = questionService;
             _optionChoiceService = optionChoiceService;
+            this.UowProvider = uowProvider;
+            this.Mapper = mapper;
 
             switchAnswerType = new Dictionary<Type, Action> {
                 { typeof(TextAnswerModel), () =>
@@ -38,32 +49,58 @@ namespace Survey.ApplicationLayer.Services
                         SaveTextAnswer((TextAnswerModel) baseAnswerModel);
                     }
                 },
-                //{ typeof(TextAreaQuestionModel), () =>
-                //    {
-                //        SaveTextAreaQuestion((TextAreaQuestionModel) baseQuestionModel);
-                //    }
-                //},
-                //{ typeof(RadioQuestionModel), () =>
-                //    {
-                //        SaveRadioQuestion((RadioQuestionModel) baseQuestionModel);
-                //    }
-                //},
-                //{ typeof(CheckBoxQuesstionModel), () =>
-                //    {
-                //        SaveCheckBoxQuestion((CheckBoxQuesstionModel) baseQuestionModel);
-                //    }
-                //},
-                //{ typeof(DropdownQuestionModel), () =>
-                //    {
-                //        SaveDropdownQuestion((DropdownQuestionModel) baseQuestionModel);
-                //    }
-                //},
+                { typeof(TextAreaAnswerModel), () =>
+                    {
+                        SaveTextAreaAnswer((TextAreaAnswerModel) baseAnswerModel);
+                    }
+                },
+                { typeof(RadioAnswerModel), () =>
+                    {
+                        SaveRadioAnswer((RadioAnswerModel) baseAnswerModel);
+                    }
+                },
+                { typeof(CheckBoxAnswerModel), () =>
+                    {
+                        SaveCheckBoxAnswer((CheckBoxAnswerModel) baseAnswerModel);
+                    }
+                },
+                { typeof(DropdownAnswerModel), () =>
+                    {
+                        SaveDropdownAnswer((DropdownAnswerModel) baseAnswerModel);
+                    }
+                },
                 {  typeof(GridAnswerModel), () =>
                     {
                         SaveGridRadioAnswer((GridAnswerModel) baseAnswerModel);
                     }
                 },
             };
+        }
+
+
+
+
+        public async Task<Guid> AddAsync(Answers answer)
+        {
+
+
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                try
+                {
+                    //Answers optionChoisesEntity = Mapper.Map<OptionChoisesDto, Answers>(answer);
+                    var repositoryAnswer = uow.GetRepository<Answers, Guid>();
+                    await repositoryAnswer.AddAsync(answer);
+                    await uow.SaveChangesAsync();
+                    return answer.Id;
+
+                }
+                catch (Exception e)
+                {
+                    Console.Write(e);
+                    throw;
+                }
+            }
         }
 
 
@@ -89,10 +126,10 @@ namespace Survey.ApplicationLayer.Services
 
 
 
-        public void SaveAnswerByType(BaseAnswerModel baseAnswer)
+        public void SaveAnswerByType(BaseAnswerModel baseAnswer, Guid id)
         {
             baseAnswerModel = baseAnswer;
-
+            respondentId = id;
             switchAnswerType[baseAnswer.GetType()]();
         }
 
@@ -152,21 +189,128 @@ namespace Survey.ApplicationLayer.Services
         {
             var question = _questionService.GetQuestionById(data.Id);
             var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
-            var questionOptionId = _questionOptionService.Add(data, optionChoice.Id);
+            var questionOptionId = _questionOptionService.Add(data.Id, optionChoice.Id);
 
-            //Guid optionGroupId = _optionGroupService.AddAsync(optionGroupDefinitions.textBox).Result;
-            //InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
-            //var questionId = SaveQuestion(data, false, optionGroupId, type.Id, null).Result;
-            //_optionChoiceService.AddAsync(optionGroupId, null);
+            Answers answer = new Answers()
+            {
+                AnswerBoolean = false,
+                AnswerDateTime = null,
+                AnswerNumeric = null,
+                AnswerText = data.Answer,
+                UserId = respondentId,
+                QuestionOptionId = questionOptionId
+            };
+
+            var answerId = AddAsync(answer).Result;
         }
+
+        private void SaveTextAreaAnswer(TextAreaAnswerModel data)
+        {
+            var question = _questionService.GetQuestionById(data.Id);
+            var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
+            var questionOptionId = _questionOptionService.Add(data.Id, optionChoice.Id);
+
+            Answers answer = new Answers()
+            {
+                AnswerBoolean = false,
+                AnswerDateTime = null,
+                AnswerNumeric = null,
+                AnswerText = data.Answer,
+                UserId = respondentId,
+                QuestionOptionId = questionOptionId
+            };
+
+            var answerId = AddAsync(answer).Result;
+        }
+
+
+
+        private void SaveRadioAnswer(RadioAnswerModel data)
+        {
+
+            //var question = _questionService.GetQuestionById(data.Id);
+            //var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
+            var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(data.Answer));
+
+            Answers answer = new Answers()
+            {
+                AnswerBoolean = true,
+                AnswerDateTime = null,
+                AnswerNumeric = null,
+                AnswerText = null,
+                UserId = respondentId,
+                QuestionOptionId = questionOptionId
+            };
+
+            var answerId = AddAsync(answer).Result;
+        }
+
+
+
+        private void SaveCheckBoxAnswer(CheckBoxAnswerModel data)
+        {
+
+            foreach (var item in data.Answer)
+            {
+                var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(item));
+
+                Answers answer = new Answers()
+                {
+                    AnswerBoolean = true,
+                    AnswerDateTime = null,
+                    AnswerNumeric = null,
+                    AnswerText = null,
+                    UserId = respondentId,
+                    QuestionOptionId = questionOptionId
+                };
+
+                var answerId = AddAsync(answer).Result;
+            }
+        }
+
+
+        private void SaveDropdownAnswer(DropdownAnswerModel data)
+        {
+
+            var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(data.Answer.Id));
+            Answers answer = new Answers()
+            {
+                AnswerBoolean = false,
+                AnswerDateTime = null,
+                AnswerNumeric = null,
+                AnswerText = null,
+                UserId = respondentId,
+                QuestionOptionId = questionOptionId
+            };
+
+            var answerId = AddAsync(answer).Result;
+        }
+
 
 
         private void SaveGridRadioAnswer(GridAnswerModel data)
         {
-            
+            foreach (var item in data.Answer)
+            {
+                //var question = _questionService.GetQuestionById(Guid.Parse(item.Row.Id));
+                //var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
+                var questionOptionId = _questionOptionService.Add(Guid.Parse(item.Row.Id), Guid.Parse(item.Col.Id));
+
+                Answers answer = new Answers()
+                {
+                    AnswerBoolean = true,
+                    AnswerDateTime = null,
+                    AnswerNumeric = null,
+                    AnswerText = null,
+                    UserId = respondentId,
+                    QuestionOptionId = questionOptionId
+                };
+
+                var answerId = AddAsync(answer).Result;
+
+            }
+
         }
-
-
 
 
     }
