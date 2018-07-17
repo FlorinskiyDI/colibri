@@ -1,12 +1,13 @@
-﻿using storagecore.EntityFrameworkCore.Entities;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Survey.DomainModelLayer.Entities
+namespace Survey.Webapi.Data3
 {
-    public partial class Answers : BaseEntity<Guid>
+    public partial class Answers
     {
-        //public Guid Id { get; set; }
+        public Guid Id { get; set; }
         public double? AnswerNumeric { get; set; }
         public string AnswerText { get; set; }
         public bool AnswerBoolean { get; set; }

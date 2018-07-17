@@ -24,6 +24,10 @@ const routes: Routes = [
                 path: 'builder/:id',
                 component: BuilderComponent,
             },
+            {
+                path: 'report',
+                loadChildren: 'modules/surveys/report/report.module#ReportModule',
+            },
 
         ]
     }

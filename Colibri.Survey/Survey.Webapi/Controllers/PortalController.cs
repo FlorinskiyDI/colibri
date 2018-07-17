@@ -19,13 +19,14 @@ namespace Survey.Webapi.Controllers
     public class PortalController : Controller
     {
 
+        private readonly IServeySectionRespondentServie _serveySectionRespondentServie;
         private readonly ISurveySectionService _surveySectionService;
         private readonly IPageService _pageService;
         private readonly IQuestionService _questionService;
         private readonly IAnswerService _answerService;
         private readonly IQuestionOptionService _questionOptionService;
         private readonly IUserService _userService;
-
+        private readonly IRespondentService _respondentService;
 
 
         public PortalController(
@@ -35,7 +36,10 @@ namespace Survey.Webapi.Controllers
             IQuestionService questionService,
             IAnswerService answerService,
             IQuestionOptionService questionOptionService,
-            IUserService userService
+            IUserService userService,
+            IRespondentService respondentService,
+            IServeySectionRespondentServie serveySectionRespondentServie
+
         )
         {
             //_configuration = configuration;
@@ -45,6 +49,10 @@ namespace Survey.Webapi.Controllers
             _answerService = answerService;
             _questionOptionService = questionOptionService;
             _userService = userService;
+            _respondentService = respondentService;
+            _serveySectionRespondentServie = serveySectionRespondentServie;
+
+           
         }
 
 
@@ -101,11 +109,12 @@ namespace Survey.Webapi.Controllers
 
         [HttpPost]
         //[Produces("application/json")]
-        public async Task<IActionResult> SaveAnswers([FromBody] List<object> answer)
+        public async Task<IActionResult> SaveAnswers([FromBody] AnswersViewModel respondentData)
         {
-            Guid respondentId = await _userService.AddAsync(new Guid());
+            Guid respondentId = await _respondentService.AddAsync();
+            await _serveySectionRespondentServie.AddAsync(respondentData.SurveyId, respondentId);
             List<BaseAnswerModel> typedAnswerList = new List<BaseAnswerModel>();
-            typedAnswerList = _answerService.GetTypedAnswerList(answer);
+            typedAnswerList = _answerService.GetTypedAnswerList(respondentData.AnswerList);
             if (typedAnswerList.Any())
             {
                 foreach (var item in typedAnswerList)
@@ -115,29 +124,27 @@ namespace Survey.Webapi.Controllers
                     //_answerService.SaveAnserByType(item);
                 }
             }
-            TextAnswerModel val2 = JsonConvert.DeserializeObject<TextAnswerModel>(answer[1].ToString());
+            //TextAnswerModel val2 = JsonConvert.DeserializeObject<TextAnswerModel>(respondentData.Answers[1].ToString());
 
-            return null;
-            //await GetSurvey();
-            //Guid surveyId = await _surveySectionService.AddAsync(survey);
-            //if (survey.Pages.Count() > 0 && surveyId != null)
-            //{
-            //    List<BaseQuestionModel> questionList = new List<BaseQuestionModel>();
-            //    foreach (var page in survey.Pages)
-            //    {
-            //        Guid pageId = await _pageService.AddAsync(page, surveyId);
-            //        questionList = _questionService.GetTypedQuestionList(page);
-            //        if (questionList.Count() > 0)
-            //        {
-            //            foreach (var question in questionList)
-            //            {
-            //                _questionService.SaveQuestionByType(question, pageId);
-            //            }
-            //        }
-            //    }
-            //}
-            //return Ok();
+            return Ok(new {message = "message success"});
+
         }
+
+
+
+        //[HttpGet]
+        //[Route("{id}")]
+        //public IActionResult GetReport([FromBody] Guid id)
+        //{ 
+        //    var questionList = _reportService.GetQuesionListBySurveyId(id ); 
+
+        //    var surveyReport = _reportService.GetReport(questionList);
+        //    return Ok(surveyReport);
+        //}
+
+
+
+     
 
     }
 }

@@ -187,131 +187,144 @@ namespace Survey.ApplicationLayer.Services
 
         private void SaveTextAnswer(TextAnswerModel data)
         {
-            var question = _questionService.GetQuestionById(data.Id);
-            var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
-            var questionOptionId = _questionOptionService.Add(data.Id, optionChoice.Id);
-
-            Answers answer = new Answers()
+            if (data.Answer.Length > 0)
             {
-                AnswerBoolean = false,
-                AnswerDateTime = null,
-                AnswerNumeric = null,
-                AnswerText = data.Answer,
-                UserId = respondentId,
-                QuestionOptionId = questionOptionId
-            };
+                var question = _questionService.GetQuestionById(data.Id);
+                var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
+                var questionOptionId = _questionOptionService.Add(data.Id, optionChoice.Id);
 
-            var answerId = AddAsync(answer).Result;
+                Answers answer = new Answers()
+                {
+                    AnswerBoolean = false,
+                    AnswerDateTime = null,
+                    AnswerNumeric = null,
+                    AnswerText = data.Answer,
+                    RespondentId = respondentId,
+                    QuestionOptionId = questionOptionId
+                };
+
+                var answerId = AddAsync(answer).Result;
+            }
+
         }
 
         private void SaveTextAreaAnswer(TextAreaAnswerModel data)
         {
-            var question = _questionService.GetQuestionById(data.Id);
-            var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
-            var questionOptionId = _questionOptionService.Add(data.Id, optionChoice.Id);
-
-            Answers answer = new Answers()
+            if (data.Answer.Length > 0)
             {
-                AnswerBoolean = false,
-                AnswerDateTime = null,
-                AnswerNumeric = null,
-                AnswerText = data.Answer,
-                UserId = respondentId,
-                QuestionOptionId = questionOptionId
-            };
+                var question = _questionService.GetQuestionById(data.Id);
+                var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result
+                    .FirstOrDefault();
+                var questionOptionId = _questionOptionService.Add(data.Id, optionChoice.Id);
 
-            var answerId = AddAsync(answer).Result;
+                Answers answer = new Answers()
+                {
+                    AnswerBoolean = false,
+                    AnswerDateTime = null,
+                    AnswerNumeric = null,
+                    AnswerText = data.Answer,
+                    RespondentId = respondentId,
+                    QuestionOptionId = questionOptionId
+                };
+
+                var answerId = AddAsync(answer).Result;
+            }
         }
 
 
 
         private void SaveRadioAnswer(RadioAnswerModel data)
         {
-
-            //var question = _questionService.GetQuestionById(data.Id);
-            //var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
-            var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(data.Answer));
-
-            Answers answer = new Answers()
+            if (data.Answer.Length > 0)
             {
-                AnswerBoolean = true,
-                AnswerDateTime = null,
-                AnswerNumeric = null,
-                AnswerText = null,
-                UserId = respondentId,
-                QuestionOptionId = questionOptionId
-            };
+                //var question = _questionService.GetQuestionById(data.Id);
+                //var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
+                var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(data.Answer));
 
-            var answerId = AddAsync(answer).Result;
+                Answers answer = new Answers()
+                {
+                    AnswerBoolean = true,
+                    AnswerDateTime = null,
+                    AnswerNumeric = null,
+                    AnswerText = null,
+                    RespondentId = respondentId,
+                    QuestionOptionId = questionOptionId
+                };
+
+                var answerId = AddAsync(answer).Result;
+            }
         }
 
 
 
         private void SaveCheckBoxAnswer(CheckBoxAnswerModel data)
         {
-
-            foreach (var item in data.Answer)
+            if (data.Answer.Count > 0)
             {
-                var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(item));
-
-                Answers answer = new Answers()
+                foreach (var item in data.Answer)
                 {
-                    AnswerBoolean = true,
-                    AnswerDateTime = null,
-                    AnswerNumeric = null,
-                    AnswerText = null,
-                    UserId = respondentId,
-                    QuestionOptionId = questionOptionId
-                };
+                    var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(item));
 
-                var answerId = AddAsync(answer).Result;
+                    Answers answer = new Answers()
+                    {
+                        AnswerBoolean = true,
+                        AnswerDateTime = null,
+                        AnswerNumeric = null,
+                        AnswerText = null,
+                        RespondentId = respondentId,
+                        QuestionOptionId = questionOptionId
+                    };
+
+                    var answerId = AddAsync(answer).Result;
+                }
             }
         }
 
 
         private void SaveDropdownAnswer(DropdownAnswerModel data)
         {
-
-            var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(data.Answer.Id));
-            Answers answer = new Answers()
+            if (data.Answer != null)
             {
-                AnswerBoolean = false,
-                AnswerDateTime = null,
-                AnswerNumeric = null,
-                AnswerText = null,
-                UserId = respondentId,
-                QuestionOptionId = questionOptionId
-            };
+                var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(data.Answer.Id));
+                Answers answer = new Answers()
+                {
+                    AnswerBoolean = false,
+                    AnswerDateTime = null,
+                    AnswerNumeric = null,
+                    AnswerText = null,
+                    RespondentId = respondentId,
+                    QuestionOptionId = questionOptionId
+                };
 
-            var answerId = AddAsync(answer).Result;
+                var answerId = AddAsync(answer).Result;
+            }
+
         }
 
 
 
         private void SaveGridRadioAnswer(GridAnswerModel data)
         {
-            foreach (var item in data.Answer)
+            if (data.Answer.Count > 0)
             {
-                //var question = _questionService.GetQuestionById(Guid.Parse(item.Row.Id));
-                //var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
-                var questionOptionId = _questionOptionService.Add(Guid.Parse(item.Row.Id), Guid.Parse(item.Col.Id));
-
-                Answers answer = new Answers()
+                foreach (var item in data.Answer)
                 {
-                    AnswerBoolean = true,
-                    AnswerDateTime = null,
-                    AnswerNumeric = null,
-                    AnswerText = null,
-                    UserId = respondentId,
-                    QuestionOptionId = questionOptionId
-                };
 
-                var answerId = AddAsync(answer).Result;
+                    var questionOptionId = _questionOptionService.Add(Guid.Parse(item.Row.Id), Guid.Parse(item.Col.Id));
 
+                    Answers answer = new Answers()
+                    {
+                        AnswerBoolean = true,
+                        AnswerDateTime = null,
+                        AnswerNumeric = null,
+                        AnswerText = null,
+                        RespondentId = respondentId,
+                        QuestionOptionId = questionOptionId
+                    };
+
+                    var answerId = AddAsync(answer).Result;
+                }
             }
-
         }
-
-
     }
 }

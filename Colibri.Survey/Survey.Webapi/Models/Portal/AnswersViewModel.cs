@@ -8,8 +8,8 @@ namespace Survey.Webapi.Models.Portal
 {
     public class AnswersViewModel
     {
-
-        public List<object> Answers { get; set; }
+        public Guid SurveyId { get; set; }
+        public List<object> AnswerList { get; set; }
 
     }
 }

@@ -16,7 +16,7 @@
     <div [ngClass]='{"changeColor": divRequied == true}'>
         <div [ngClass]='{"flickDiv": divRequied == true}'>
             ({{questionOption.required}}) is required question:
-            <input type="checkbox" [(ngModel)]="questionOption.required" #validationCheckbox (click)="changeQuestionValidation(validationCheckbox.checked)">
+            <input type="checkbox" [(ngModel)]="questionOption.required" #validationCheckbox (click)="changeQuestionValidation(questionOption, validationCheckbox.checked)">
         </div>
     </div>
     <div [ngClass]='{"changeColor": divAdditional == true}'>

@@ -98,10 +98,15 @@ export class SurveyViewerComponent implements OnInit {
                             answers.push(val);
 
                         });
-
                 });
-            debugger
-            this.portalApiService.saveAnswers(JSON.stringify(answers));
+                const respondentData = {
+                    SurveyId: this.survey.id,
+                    AnswerList: answers
+                };
+            this.portalApiService.saveAnswers(JSON.stringify(respondentData)).subscribe((response: any) => {
+                debugger
+                console.log('111111111111111111111111111111111111111');
+            });
         } else {
             Object.keys(data.controls)
                 .forEach(controlName => {

@@ -19,12 +19,16 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 /* component */ import { QuestionFormBuilderComponent } from './builder/form-builder/question-form-builder/question-form-builder.component';
 /* component */ import { QuestionOptionsComponent } from './builder/form-builder/question-options/question-options.component';
 
+// /* component */ import { ReportModule} from './report/report.module';
+
+
 import { DndModule } from 'ng2-dnd';
 @NgModule({
     imports: [
         SurveyRoutingModule,
         SharedModule,
         DndModule.forRoot(),
+        // ReportModule
     ],
     declarations: [
         FormBuilderComponent,

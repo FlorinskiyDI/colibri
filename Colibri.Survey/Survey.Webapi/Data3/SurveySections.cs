@@ -1,19 +1,19 @@
-﻿using storagecore.EntityFrameworkCore.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Survey.DomainModelLayer.Entities
+namespace Survey.Webapi.Data3
 {
-    public partial class SurveySections : BaseEntity<Guid>
+    public partial class SurveySections
     {
         public SurveySections()
         {
             Pages = new HashSet<Pages>();
+            SurveySectoinRespondents = new HashSet<SurveySectoinRespondents>();
         }
 
-        //public Guid Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         [StringLength(500)]
         public string Name { get; set; }

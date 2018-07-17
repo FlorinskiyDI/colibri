@@ -87,7 +87,8 @@ export class QuestionOptionsComponent {
     }
 
 
-    changeQuestionValidation(state: boolean) {
+    changeQuestionValidation(question: any, state: boolean) {
+        question.state = question.state !== ControStates.created ? ControStates.updated : question.state;
     }
 
 

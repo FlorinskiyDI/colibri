@@ -1,0 +1,109 @@
+<p-table *ngIf="answerList" [columns]="columOptions" [value]="answerList">
+    <ng-template let-sale pTemplate="header">
+        <tr>
+            <!-- <th>{{sale}} 11111</th> -->
+
+            <ng-container *ngFor="let item of columOptions">
+                <ng-container *ngIf="item.type == 'GridRadio'">
+                        <th [attr.colspan]="item.children.length">{{item.name | json}}</th>
+                </ng-container>
+                <th *ngIf="item.type != 'GridRadio'" rowspan="2">{{item.name | json}}</th>
+            </ng-container>
+
+            <!-- <th rowspan="2">1. Brand</th>
+            <th colspan="3">2. Sale Rate some question for extended grid question</th>
+            <th rowspan="2">3. Brand2</th>
+            <th colspan="3">2. Sale Rate some question for extended grid question</th> -->
+        </tr>
+        <tr>
+
+                <ng-container *ngFor="let item of columOptions">
+                        <ng-container *ngIf="item.type == 'GridRadio'">
+                                <!-- <th colspan="item.children.length">{{item.name | json}}</th> -->
+                                <th *ngFor="let nestedQuestion of item.children" colspan="1">{{nestedQuestion}}</th>
+                        </ng-container>
+                        <!-- <th *ngIf="item.type != 'GridRadio'" rowspan="2">{{item.name | json}}</th> -->
+                    </ng-container>
+
+
+            <!-- <th colspan="1">2.1 Sales</th>
+            <th colspan="1">2.2 Sales</th>
+            <th colspan="1">2.3 Profits</th>
+            <th colspan="1">2.1 Sales</th>
+            <th colspan="1">2.2 Sales</th>
+            <th colspan="1">2.3 Profits</th> -->
+        </tr>
+
+
+        <!-- <tr>
+            <th>Last Year</th>
+            <th>This Year</th>
+            <th>Last Year</th>
+            <th>This Year</th>
+        </tr> -->
+    </ng-template>
+    <ng-template pTemplate="body" let-sale let-rowIndex="rowIndex">
+        <!-- <tr *ngIf="sale.inputTypeName == 'GridRadio'" *ngFor="let item of sale.answer"> -->
+        <!-- <td> <pre>{{sale | json}}</pre></td> -->
+
+        <tr>
+
+            <!-- <td>{{sale[0] | json}}</td> -->
+            <!-- <td>{{sale[rowIndex].answer | json}}</td> -->
+
+
+            <!-- <td>{{rowIndex}}</td>
+            <td> {{sale[0] | json}}</td> -->
+            <!-- <td *ngIf="item.inputTypeName == 'GridRadio'"   *ngFor="let item of sale[].answer">111{{item.inputTypeName | json}} 1111{{item.answer | json}}</td> -->
+            <!-- <td *ngFor="let item of sale[1].answer">{{item | json}}</td>
+            <td *ngFor="let item of sale[2].answer">{{item | json}}</td> -->
+            <!-- <ng-container *ngIf="show">
+                    <div *ngFor="let thing of stuff">
+                      {{log(thing)}}
+                      <span>{{thing.name}}</span>
+                    </div>
+                  </ng-container> -->
+            <!-- <ng-container *ngFor="let item of sale">
+                        <ng-container *ngIf="item.inputTypeName == 'GridRadio'">
+                                <app-cellGrid ></app-cellGrid>
+                                
+                        </ng-container>
+                      </ng-container> -->
+            <!-- {{sale| json}} -->
+            <!-- <app-cellGrid [rowData]="sale" ></app-cellGrid> -->
+
+
+
+            <ng-container *ngFor="let item of sale">
+                <ng-container *ngIf="item.inputTypeName == 'GridRadio'">
+                    <td *ngFor="let sell of item.answer">{{sell.answer}}</td>
+                </ng-container>
+                <td *ngIf="item.inputTypeName != 'GridRadio'">222222</td>
+
+            </ng-container>
+
+            <!-- <td   *ngFor="let item of sale">111{{item.inputTypeName | json}} 1111{{item.answer | json}}</td> -->
+
+            <!-- <td  *ngFor="let item of sale; let i=index">{{item | json}}</td> -->
+
+            <!-- <td  *ngFor="let item of sale[0].answer; let i=index"> </td> -->
+
+
+
+            <!-- <td>{{sale.lastYearSale}}</td>
+            <td>{{sale.thisYearSale}}</td>
+            <td>{{sale.lastYearProfit}}</td>
+            <td>{{sale.thisYearProfit}}</td> -->
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <tr>
+            <td colspan="3">Totals</td>
+            <td>$506,202</td>
+            <td>$531,020</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+
+<pre>{{answerList | json}}</pre>

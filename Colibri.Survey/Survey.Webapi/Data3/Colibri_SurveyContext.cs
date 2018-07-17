@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using storagecore.Abstractions.Context;
-using Survey.DomainModelLayer.Entities;
 
-namespace Survey.InfrastructureLayer.Context
+namespace Survey.Webapi.Data3
 {
-    public class ApplicationDbContext : DbContext, IEntityContext
+    public partial class Colibri_SurveyContext : DbContext
     {
         public virtual DbSet<Answers> Answers { get; set; }
         public virtual DbSet<InputTypes> InputTypes { get; set; }
@@ -19,19 +13,18 @@ namespace Survey.InfrastructureLayer.Context
         public virtual DbSet<Pages> Pages { get; set; }
         public virtual DbSet<QuestionOptions> QuestionOptions { get; set; }
         public virtual DbSet<Questions> Questions { get; set; }
+        public virtual DbSet<Respondents> Respondents { get; set; }
         public virtual DbSet<SurveySections> SurveySections { get; set; }
         public virtual DbSet<SurveySectoinRespondents> SurveySectoinRespondents { get; set; }
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-             : base(options)
-        {
-        }
-
-        public ApplicationDbContext() { }
+        public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(SqlConnectionFactory.ConnectionString);
+            if (!optionsBuilder.IsConfigured)
+            {
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer(@"Data Source=SB-204\SQLEXPRESS ;Initial Catalog=Colibri.Survey; Integrated Security=True; MultipleActiveResultSets=True;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -129,6 +122,16 @@ namespace Survey.InfrastructureLayer.Context
                     .HasConstraintName("FK_Questions_Questions");
             });
 
+            modelBuilder.Entity<Respondents>(entity =>
+            {
+                entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Respondents)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_Respondents_Users");
+            });
+
             modelBuilder.Entity<SurveySections>(entity =>
             {
                 entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
@@ -138,21 +141,6 @@ namespace Survey.InfrastructureLayer.Context
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SurveySections_Users");
-            });
-
-            modelBuilder.Entity<Users>(entity =>
-            {
-                entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
-            });
-
-            modelBuilder.Entity<Respondents>(entity =>
-            {
-                entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Respondents)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_Respondents_Users");
             });
 
             modelBuilder.Entity<SurveySectoinRespondents>(entity =>
@@ -171,8 +159,11 @@ namespace Survey.InfrastructureLayer.Context
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SurveySectoin_Respondents_SurveySection");
             });
+
+            modelBuilder.Entity<Users>(entity =>
+            {
+                entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
+            });
         }
     }
-
-
 }
