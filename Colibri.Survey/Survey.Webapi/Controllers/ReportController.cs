@@ -33,17 +33,26 @@ namespace Survey.Webapi.Controllers
 
             var options = _reportService.GetQuestions(Guid.Parse(surveyId));
 
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+
+
 
             var questionList = _reportService.GetQuesionListBySurveyId(Guid.Parse(surveyId));
 
-            var surveyReport = _reportService.GetReport(questionList);
-            var sortAnswers = surveyReport.GroupBy(u => u.RespondentId)
+            //var surveyReport = _reportService.GetReport(questionList);
+            var sortAnswers = questionList.GroupBy(u => u.RespondentId)
                 .Select(grp => grp.ToList())
                 .ToList();
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            var elapsedSec = elapsedMs / 1000;
             var result = new
             {
                 headerOption = options,
-                answers = sortAnswers
+                answers = sortAnswers,
+                spentTimeMs = "milesec - " + elapsedMs,
+                spentTimeSec = "sec - " + elapsedSec
             };
             return Ok(result);
         }

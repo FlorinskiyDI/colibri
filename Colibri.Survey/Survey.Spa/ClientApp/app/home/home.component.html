@@ -17,3 +17,11 @@
 </div>
 //////////
 <a [routerLink]="['/surveys/builder']">new survey</a>
+
+<p>SURVEY REPORT LINKS</p>
+
+<div *ngIf="surveys">
+        <div *ngFor="let item of surveys">
+            <a [routerLink]="['/surveys/report/' + item.id]">{{item.name}} + {{item.id}}</a>
+        </div>
+    </div>

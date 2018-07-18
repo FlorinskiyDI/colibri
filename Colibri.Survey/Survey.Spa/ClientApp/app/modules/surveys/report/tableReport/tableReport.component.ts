@@ -3,7 +3,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 // import { SurveyModel } from '../shared/models/form-builder/survey.model';
 
 import { PortalApiService } from 'shared/services/api/portal.api.service';
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-tableReport',
@@ -15,25 +15,34 @@ import { PortalApiService } from 'shared/services/api/portal.api.service';
 export class TableReportComponent implements OnInit {
 
     // surveys: SurveyModel[];
+    surveyId: string;
     public message = '111111111111111111111';
     public answerList: any[];
     columOptions: any[];
     sales: any[];
     constructor(
-        private portalService: PortalApiService
-
+        private portalService: PortalApiService,
+        private route: ActivatedRoute,
     ) {
+        this.route.params.subscribe((params: any) => {
 
+            this.surveyId = params['id'] ? params['id'] : null;
+        });
     }
 
 
 
     ngOnInit() {
-        this.portalService.getAnswers('75ddba4f-1089-e811-8388-107b44194709').subscribe((data: any) => {
-            console.log("answerList");
-            console.log("answerList");
-            console.log(data);
-            debugger
+        this.portalService.getAnswers(this.surveyId).subscribe((data: any) => {
+            console.log('1111111111111111111111111111111111111111111111111');
+            console.log('1111111111111111111111111111111111111111111111111');
+            console.log('1111111111111111111111111111111111111111111111111');
+            console.log(data.spentTimeMs);
+            console.log(data.spentTimeSec);
+            console.log('1111111111111111111111111111111111111111111111111');
+            console.log('1111111111111111111111111111111111111111111111111');
+            console.log('1111111111111111111111111111111111111111111111111');
+
             this.answerList = data.answers;
             this.columOptions = data.headerOption;
         });

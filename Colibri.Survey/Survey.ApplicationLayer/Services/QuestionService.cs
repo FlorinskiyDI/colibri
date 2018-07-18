@@ -354,7 +354,8 @@ namespace Survey.ApplicationLayer.Services
 
             if (data.Grid.Rows.Count() > 0)
             {
-
+                var rowTypeName = QuestionTypes.Radio.ToString();
+                InputTypesDto rowsType = inputTypeList.Where(item => item.Name == rowTypeName).FirstOrDefault();
                 foreach (var item in data.Grid.Rows)
                 {
 
@@ -362,12 +363,12 @@ namespace Survey.ApplicationLayer.Services
                     {
                         Text = item.Value,
                         Description = "",
-                        ControlType = data.ControlType, // took from base question
+                        ControlType = rowTypeName,
                         IsAdditionalAnswer = false,
                         Required = data.Required,
                         Order = 0, // stub
                     };
-                    var rowQuestionId = SaveQuestion(rowQuestion, false, optionGroupId, type.Id, parentQuestionId).Result;
+                    var rowQuestionId = SaveQuestion(rowQuestion, false, optionGroupId, rowsType.Id, parentQuestionId).Result;
                 }
             }
             if (data.Grid.Cols.Count() > 0)
