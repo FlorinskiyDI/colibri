@@ -46,12 +46,12 @@ namespace Survey.ApplicationLayer.Services
                     .Join(repositoryPage.GetAll(),
                         survey => survey.Id,
                         pages => pages.SurveyId,
-                        (survey, page) => new {survey, page})
+                        (survey, page) => new { survey, page })
 
                     .Join(repositoryQuestion.GetAll(),
                         surveyPageEntry => surveyPageEntry.page.Id,
                         questions => questions.PageId,
-                        (surveyPageEntry, question) => new {surveyPageEntry, question})
+                        (surveyPageEntry, question) => new { surveyPageEntry, question })
 
                     .Join(repositoryInputType.GetAll(),
                         typeNeatCombeEntry => typeNeatCombeEntry.question.InputTypesId,
@@ -62,9 +62,10 @@ namespace Survey.ApplicationLayer.Services
                             Name = nestedComboEntity.question.Name,
                             Type = inputType.Name,
                             OrderNo = nestedComboEntity.question.OrderNo,
-                            ParentId = nestedComboEntity.question.ParentId
+                            ParentId = nestedComboEntity.question.ParentId,
+                            PageOrderNo = nestedComboEntity.surveyPageEntry.page.OrderNo
                         })
-                    .OrderBy(p => p.OrderNo).ToList();
+                    .OrderBy(p => p.PageOrderNo).ThenBy(p => p.OrderNo).ToList();
 
 
 
@@ -76,7 +77,7 @@ namespace Survey.ApplicationLayer.Services
                 var result = questionList
                     .GroupBy(u => u.ParentId == null).ToList();
 
-                var group = result.Single(g => g.Key == true ).ToList();
+                var group = result.Single(g => g.Key == true).ToList();
                 //var res = result.FindAll().Key(true);
                 foreach (var question in group)
                 {
@@ -137,18 +138,19 @@ namespace Survey.ApplicationLayer.Services
                             ParentQuestionId = typeNeatCombeEntry.question.ParentId,
                             QuestionName = typeNeatCombeEntry.question.Name,
                             RespondentId = typeNeatCombeEntry.neatCombeEntry.combeEntry.survResp.RespondentId,
-                            OrderNo = typeNeatCombeEntry.question.OrderNo
+                            OrderNo = typeNeatCombeEntry.question.OrderNo,
+                            PageOrderNo = typeNeatCombeEntry.neatCombeEntry.page.OrderNo
                         })
-                        .OrderBy(p => p.OrderNo).ToList();
+                    .OrderBy(p => p.PageOrderNo).ThenBy(p => p.OrderNo).ToList();
 
 
-              
+
 
 
                 if (questionList.Count > 0)
                 {
                     var groupes = questionList.GroupBy(u => u.ParentQuestionId == null).ToArray();
-                        //.GroupBy(u => u.ParentQuestionId == null)
+                    //.GroupBy(u => u.ParentQuestionId == null)
                     var GroupAnswer = groupes.Single(g => g.Key == true).ToList();
 
 
@@ -168,7 +170,7 @@ namespace Survey.ApplicationLayer.Services
                 {
                     return questionList;
                 }
-                
+
             }
         }
 

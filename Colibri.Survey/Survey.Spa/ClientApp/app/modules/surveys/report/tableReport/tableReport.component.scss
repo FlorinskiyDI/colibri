@@ -1,0 +1,19 @@
+.ui-table .ui-sortable-column.ui-state-highlight {
+background-color: #dcdcdc;
+color: #000;
+}
+
+.ui-table .ui-table-thead > tr > th, .ui-table .ui-table-tfoot > tr > td {
+    background-image: none;
+    // width: 160px;
+}
+
+.ui-table .ui-table-tbody > tr > td {
+    border: 1px solid #D5D5D5;
+    background: inherit;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    // width: 160px;
+    height: 1.2em;
+    white-space: nowrap;
+}

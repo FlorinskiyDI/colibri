@@ -29,6 +29,8 @@ namespace Survey.Webapi.Controllers
         private readonly IRespondentService _respondentService;
 
 
+        public static string respondentId = null;
+
         public PortalController(
             //IConfiguration configuration,
             ISurveySectionService surveySectionService,
@@ -51,8 +53,6 @@ namespace Survey.Webapi.Controllers
             _userService = userService;
             _respondentService = respondentService;
             _serveySectionRespondentServie = serveySectionRespondentServie;
-
-           
         }
 
 
@@ -111,22 +111,34 @@ namespace Survey.Webapi.Controllers
         //[Produces("application/json")]
         public async Task<IActionResult> SaveAnswers([FromBody] AnswersViewModel respondentData)
         {
-            Guid respondentId = await _respondentService.AddAsync();
-            await _serveySectionRespondentServie.AddAsync(respondentData.SurveyId, respondentId);
-            List<BaseAnswerModel> typedAnswerList = new List<BaseAnswerModel>();
-            typedAnswerList = _answerService.GetTypedAnswerList(respondentData.AnswerList);
-            if (typedAnswerList.Any())
-            {
-                foreach (var item in typedAnswerList)
+            //if (PortalController.respondentId == null) // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                if (5 == 5) // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 {
+                Guid respondentId = await _respondentService.AddAsync();
 
-                    _answerService.SaveAnswerByType(item, respondentId);
-                    //_answerService.SaveAnserByType(item);
+
+                await _serveySectionRespondentServie.AddAsync(respondentData.SurveyId, respondentId);
+                List<BaseAnswerModel> typedAnswerList = new List<BaseAnswerModel>();
+                typedAnswerList = _answerService.GetTypedAnswerList(respondentData.AnswerList);
+                if (typedAnswerList.Any())
+                {
+                    foreach (var item in typedAnswerList)
+                    {
+
+                        _answerService.SaveAnswerByType(item, respondentId);
+                        //_answerService.SaveAnserByType(item);
+                    }
                 }
+                //TextAnswerModel val2 = JsonConvert.DeserializeObject<TextAnswerModel>(respondentData.Answers[1].ToString());
+                PortalController.respondentId = respondentId.ToString();
+                return Ok(new { message = "message success" });
             }
-            //TextAnswerModel val2 = JsonConvert.DeserializeObject<TextAnswerModel>(respondentData.Answers[1].ToString());
-
-            return Ok(new {message = "message success"});
+            else
+            {
+                return BadRequest(new { message = "The answers of this user have been saved" });
+            }
+            
+            
 
         }
 
@@ -144,7 +156,7 @@ namespace Survey.Webapi.Controllers
 
 
 
-     
+
 
     }
 }

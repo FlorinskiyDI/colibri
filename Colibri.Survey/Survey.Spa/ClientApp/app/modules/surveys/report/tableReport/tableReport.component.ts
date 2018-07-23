@@ -15,11 +15,17 @@ import { ActivatedRoute } from '@angular/router';
 export class TableReportComponent implements OnInit {
 
     // surveys: SurveyModel[];
+    cols: any[];
+    result: any = null;
+    public cars3: any[] = [];
     surveyId: string;
     public message = '111111111111111111111';
     public answerList: any[];
     columOptions: any[];
     sales: any[];
+
+
+    gridLoading: boolean;
     constructor(
         private portalService: PortalApiService,
         private route: ActivatedRoute,
@@ -28,6 +34,8 @@ export class TableReportComponent implements OnInit {
 
             this.surveyId = params['id'] ? params['id'] : null;
         });
+
+        this.gridLoading = true;
     }
 
 
@@ -45,6 +53,7 @@ export class TableReportComponent implements OnInit {
 
             this.answerList = data.answers;
             this.columOptions = data.headerOption;
+            this.gridLoading = false;
         });
         this.sales = [
             { brand: 'Apple', lastYearSale: '51%', thisYearSale: '40%', lastYearProfit: '$54,406.00', thisYearProfit: '$43,342', extend: { first: 1, two: 11 } },
@@ -57,5 +66,106 @@ export class TableReportComponent implements OnInit {
             { brand: 'Panasonic', lastYearSale: '44%', thisYearSale: '45%', lastYearProfit: '$66,442', thisYearProfit: '$53,322', extend: { first: 8, two: 88 } },
             { brand: 'HTC', lastYearSale: '90%', thisYearSale: '56%', lastYearProfit: '$765,442', thisYearProfit: '$296,232', extend: { first: 9, two: 99 } }
         ];
+
+        this.cars3 = [
+            {
+                vin: 'dsad231ff',
+                year: 2012,
+                brand: 'VW',
+                color: 'Orange'
+            },
+            {
+                vin: 'gwregre345',
+                year: 2011,
+                brand: 'Audi',
+                color: 'Black'
+            },
+            {
+                vin: 'h354htr',
+                year: 2005,
+                brand: 'Renault',
+                color: 'Gray'
+            },
+            {
+                vin: 'j6w54qgh',
+                year: 2003,
+                brand: 'BMW',
+                color: 'Blue'
+            },
+            {
+                vin: 'hrtwy34',
+                year: 1995,
+                brand: 'Mercedes',
+                color: 'Orange'
+            },
+        ];
+
+
+        this.cols = [
+            { field: 'vin', header: 'Vin' },
+            { field: 'year', header: 'Year' },
+            { field: 'brand', header: 'Brand' },
+            { field: 'color', header: 'Color' }
+        ];
+    }
+
+
+
+
+
+    customSort1(event: any) {
+        console.log('work work');
+        event.data.sort((data1: any, data2: any) => {
+            // debugger
+            const value1 = data1.find((x: any) => x.questionName === event.field).answer;
+            const value2 = data2.find((x: any) => x.questionName === event.field).answer;
+            // const result = null;
+
+            if (value1 == null && value2 != null) {
+                this.result = -1;
+            } else
+                if (value1 != null && value2 == null) {
+                    this.result = 1;
+                } else
+                    if (value1 == null && value2 == null) {
+                        this.result = 0;
+                    } else
+                        if (typeof value1 === 'string' && typeof value2 === 'string') {
+                            this.result = value1.localeCompare(value2);
+                        } else {
+                            this.result = (value1 < value2) ? -1 : (value1 > value2) ? 1 : 0;
+                        }
+
+            const result = event.order * this.result;
+            return (result);
+        });
+    }
+
+    customSort2(event: any) {
+        console.log('work work');
+        event.data.sort((data1: any, data2: any) => {
+            // debugger
+            const value1 = data1[event.field];
+            const value2 = data2[event.field];
+            // const result = null;
+
+            if (value1 == null && value2 != null) {
+                this.result = -1;
+            } else
+                if (value1 != null && value2 == null) {
+                    this.result = 1;
+                } else
+                    if (value1 == null && value2 == null) {
+                        this.result = 0;
+                    } else
+                        if (typeof value1 === 'string' && typeof value2 === 'string') {
+                            this.result = value1.localeCompare(value2);
+                        } else {
+                            this.result = (value1 < value2) ? -1 : (value1 > value2) ? 1 : 0;
+                        }
+
+            const result = event.order * this.result;
+            return (result);
+        });
     }
 }

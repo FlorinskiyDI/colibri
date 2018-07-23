@@ -1,64 +1,39 @@
-<p-table *ngIf="answerList" [columns]="columOptions" [value]="answerList">
+<p-table [scrollable]="true"  [resizableColumns]="true" [loading]="gridLoading" *ngIf="answerList" [columns]="columOptions" [value]="answerList" (sortFunction)="customSort1($event)"
+    [customSort]="true">
     <ng-template let-sale pTemplate="header">
         <tr>
-            <!-- <th>{{sale}} 11111</th> -->
 
             <ng-container *ngFor="let item of columOptions">
                 <ng-container *ngIf="item.type == 'GridRadio'">
-                    <th [attr.colspan]="item.children.length">{{item.orderNo + 1}}. {{item.name}}</th>
-                </ng-container>
-                <th *ngIf="item.type != 'GridRadio'" rowspan="2">{{item.orderNo + 1}}. {{item.name}}</th>
-                
-            </ng-container>
-            <!-- <th rowspan="2">1111111111</th> -->
-            <!-- <th rowspan="2">1. Brand</th>
-            <th colspan="3">2. Sale Rate some question for extended grid question</th>
-            <th rowspan="2">3. Brand2</th>
-            <th colspan="3">2. Sale Rate some question for extended grid question</th> -->
-        </tr>
-        <tr>
-
-            <ng-container *ngFor="let item of columOptions">
-                <ng-container *ngIf="item.type == 'GridRadio'">
-                    <!-- <th colspan="item.children.length">{{item.name | json}}</th> -->
-                    <th *ngFor="let nestedQuestion of item.children; let i=index" colspan="1">{{item.orderNo + 1}}.{{i + 1}}. {{nestedQuestion}}
+                    <th [attr.colspan]="item.children.length" [ngStyle]="{width:(200 * item.children.length) +'px'}"  pResizableColumn>(P №{{item.pageOrderNo + 1}} / Q №{{item.orderNo + 1}}) {{item.name}}
                     </th>
                 </ng-container>
-                <!-- <th *ngIf="item.type != 'GridRadio'" rowspan="2">{{item.name | json}}</th> -->
+                <th *ngIf="item.type != 'GridRadio'" rowspan="2" [ngStyle]="{width:'200px'}"  pResizableColumn [pSortableColumn]="item.name">(P №{{item.pageOrderNo + 1}} / Q №{{item.orderNo + 1}}) {{item.name}}
+                    <p-sortIcon [field]="item.name"></p-sortIcon>
+                </th>
+
             </ng-container>
-
-
-            <!-- <th colspan="1">2.1 Sales</th>
-            <th colspan="1">2.2 Sales</th>
-            <th colspan="1">2.3 Profits</th>
-            <th colspan="1">2.1 Sales</th>
-            <th colspan="1">2.2 Sales</th>
-            <th colspan="1">2.3 Profits</th> -->
         </tr>
-
-
-        <!-- <tr>
-            <th>Last Year</th>
-            <th>This Year</th>
-            <th>Last Year</th>
-            <th>This Year</th>
-        </tr> -->
+        <tr>
+            <ng-container *ngFor="let item of columOptions">
+                <ng-container *ngIf="item.type == 'GridRadio'">
+                    <th *ngFor="let nestedQuestion of item.children; let i=index" [ngStyle]="{width:'200px'}"  colspan="1">№{{item.orderNo + 1}}.{{i + 1}}. {{nestedQuestion}}
+                    </th>
+                </ng-container>
+            </ng-container>
+        </tr>
     </ng-template>
     <ng-template *ngIf="answerList.length > 0" pTemplate="body" let-sale let-rowIndex="rowIndex">
-        <!-- <tr *ngIf="sale.inputTypeName == 'GridRadio'" *ngFor="let item of sale.answer"> -->
-        <!-- <td> <pre>{{sale | json}}</pre></td> -->
-
         <tr>
             <ng-container *ngFor="let item of sale">
                 <ng-container *ngIf="item.inputTypeName == 'GridRadio'">
-                    <td *ngFor="let sell of item.answer">{{sell.answer}}</td>
+                    <td *ngFor="let sell of item.answer" [ngStyle]="{width:'200px'}" [attr.title]="sell.answer" class="ui-resizable-column">{{sell.answer}}</td>
                 </ng-container>
-                <td  *ngIf="item.inputTypeName != 'GridRadio'">{{item.answer}}</td>
-
+                <td *ngIf="item.inputTypeName != 'GridRadio'" [ngStyle]="{width:'200px'}" [attr.title]="item.answer" class="ui-resizable-column">{{item.answer}}</td>
             </ng-container>
         </tr>
-
     </ng-template>
+
     <!-- 
     <ng-template *ngIf="answerList.length == 0" pTemplate="body" >
             <tr >
@@ -79,9 +54,16 @@
     </ng-template> -->
 
     <ng-template pTemplate="summary">
-            There are {{answerList?.length}} answers
-        </ng-template>
+        There are {{answerList?.length}} answers
+    </ng-template>
 </p-table>
+
+
+
+
+
+
+
 
 
 <!-- <pre>{{answer List | json}}</pre> -->

@@ -13,6 +13,8 @@ namespace Survey.ApplicationLayer.Dtos.Models.Report
         public int OrderNo { get; set; }
         public List<string> Children { get; set; }
         public Guid? ParentId { get; set; }
+        public int PageOrderNo { get; set; }
+
         public ColumModel()
         {
             this.Children = new List<string>();

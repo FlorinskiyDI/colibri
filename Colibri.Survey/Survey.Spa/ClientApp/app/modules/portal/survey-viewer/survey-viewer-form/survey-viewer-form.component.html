@@ -1,39 +1,40 @@
 <!-- <pre> {{form.value | json}}</pre>
 <pre> {{page.questions | json}}</pre> -->
+<!-- 11{{unfilledQestionId}}11 -->
 
-<div id="{{item.id}}" *ngFor="let item of page.questions; let i = index" class="mdl-grid portfolio-copy">
-    <div class="left-block-d">
-        <h4 class="mdl-cell mdl-cell--12-col mdl-typography--headline d-question-text">
-            {{item.order + 1}}.
-        </h4>
-    </div>
-    <div class="right-block-d">
-        <h4 class="mdl-cell mdl-cell--12-col mdl-typography--headline d-question-text">
-            {{item.text}} (
-            <b *ngIf="item.required" [ngClass]='{"d-dirtyPage": item.required}'>*</b>
-            )
-            <!-- <b *ngIf="item.required">*</b> -->
-        </h4>
-        <h4 class="mdl-cell mdl-cell--12-col mdl-typography--headline d-question-description d-control-wrap">
-            {{item.description}}
-        </h4>
 
-        <!-- <div class="mdl-cell mdl-cell--8-col mdl-card__supporting-text no-padding ">
+<div [ngClass]='{"changeColor": item.id == unfilledQestionId}' id="{{item.id}}" *ngFor="let item of page.questions; let i = index" >
+    <div class="d-anchor-label"></div>
+    <div [ngClass]='{"flickDiv": item.id == unfilledQestionId}' class="mdl-grid portfolio-copy">
+        <div class="left-block-d">
+            <h4 class="mdl-cell mdl-cell--12-col mdl-typography--headline d-question-text">
+                {{item.order + 1}}.
+            </h4>
+        </div>
+        <div class="right-block-d">
+            <h4 class="mdl-cell mdl-cell--12-col mdl-typography--headline d-question-text">
+                {{item.text}} (
+                <b *ngIf="item.required" [ngClass]='{"d-dirtyPage": item.required}'>*</b>
+                )
+                <!-- <b *ngIf="item.required">*</b> -->
+            </h4>
+            <h4 class="mdl-cell mdl-cell--12-col mdl-typography--headline d-question-description d-control-wrap">
+                {{item.description}}
+            </h4>
+
+            <!-- <div class="mdl-cell mdl-cell--8-col mdl-card__supporting-text no-padding ">
                 <p>
                     {{item.description}}
                 </p>
             </div> -->
-        <survey-viewer-question [pageId]="page.id" [question]="item" [form]="form"></survey-viewer-question>
+            <survey-viewer-question [pageId]="page.id" [question]="item" [form]="form"></survey-viewer-question>
+        </div>
     </div>
-
-
-
-
 </div>
 
 
 <nav class="demo-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col d-paging-context">
-    <a *ngIf="pageIndex > 0" class="demo-nav__button">
+    <a *ngIf="pageIndex > 0" class="demo-nav__button d-button-paging-left" >
         <button id="d-arrow-left-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900 "
             (click)="goToPreviewPage()" role="presentation">
             <i class="material-icons">arrow_back</i>
@@ -42,12 +43,12 @@
     </a>
     <div class="section-spacer">
         <section class="date-container">
-            <div class="date">{{page.orderNo + 1}}</div>
+            <div class="date">{{page.orderNo + 1}}/{{paging.length}}</div>
         </section>
     </div>
 
     <!-- {{pageIndex}} {{paging.length}} -->
-    <a *ngIf="(pageIndex + 1) !=  paging.length" class="demo-nav__button d-button-paging">
+    <a *ngIf="(pageIndex + 1) !=  paging.length" class="demo-nav__button d-button-paging" >
         Next page
         <button id="d-arrow-right-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900 "
             (click)="goToNextPage()" role="presentation">
@@ -55,7 +56,7 @@
         </button>
     </a>
 
-    <a *ngIf="(pageIndex + 1) ==  paging.length" class="demo-nav__button d-button-paging">
+    <a *ngIf="(pageIndex + 1) ==  paging.length" class="demo-nav__button d-button-paging" >
         Complete
         <button id="d-arrow-right-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900 "
             (click)="sendAnswer()" role="presentation">

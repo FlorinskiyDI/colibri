@@ -8,7 +8,7 @@
 
                 <div *ngSwitchCase="'Textbox'" [formGroupName]="question.id">
                     <div class="d-control-wrap">
-                        <input  class="d-text-control d-viewer-input" [formControlName]="'answer'" [id]="question.id">
+                        <input class="d-text-control d-viewer-input" [formControlName]="'answer'">
                     </div>
                     <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
                         Other:
@@ -21,7 +21,7 @@
 
                 <div *ngSwitchCase="'Textarea'" [formGroupName]="question.id">
                     <div class="d-control-wrap">
-                        <textarea class="d-textarea-control d-viewer-input" rows="5" [formControlName]="'answer'" [disabled]="true" [id]="question.id"></textarea>
+                        <textarea class="d-textarea-control d-viewer-input" rows="5" [formControlName]="'answer'" [disabled]="true"></textarea>
                     </div>
                     <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
                         Other:
@@ -103,11 +103,12 @@
                                     <tr [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index">
                                         <td class="d-align-right-cell">{{iItemRowLabel + 1}}. {{itemRowLabel.value}}</td>
                                         <td *ngFor="let itemCol of question.grid.cols let iItemCol=index">
-                                                <mdl-radio name="label" [value]="itemCol.id" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value)" [formControlName]="'label'" mdl-ripple></mdl-radio>
-                                            
-                                            
-                                            
-                                                <!-- <input [formControlName]="'label'" value="{{itemCol.id}}" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value, $event.target.checked)"
+                                            <mdl-radio name="label" [value]="itemCol.id" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value)"
+                                                [formControlName]="'label'" mdl-ripple></mdl-radio>
+
+
+
+                                            <!-- <input [formControlName]="'label'" value="{{itemCol.id}}" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value, $event.target.checked)"
                                                 type='radio'> -->
                                         </td>
                                     </tr>

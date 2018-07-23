@@ -15,6 +15,8 @@ namespace Survey.ApplicationLayer.Dtos.Models.Report
         public string InputTypeName { get; set; }
         public Guid? ParentQuestionId { get; set; }
         public int OrderNo { get; set; }
+        public int PageOrderNo { get; set; }
+
         public TableReportViewModel()
         {
             this.Answer = null;

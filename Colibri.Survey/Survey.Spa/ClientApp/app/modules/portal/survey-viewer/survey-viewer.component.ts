@@ -25,7 +25,7 @@ export class SurveyViewerComponent implements OnInit {
     page: any;
     activeSurveyId: any;
     pageinglist: any[];
-
+    unfilledQestionId: string = '22222';
 
     constructor(
         private route: ActivatedRoute,
@@ -41,7 +41,7 @@ export class SurveyViewerComponent implements OnInit {
             // Init data
             window.scroll(0, 0);
 
-            this.initPage(pageId);
+            this.initPage(pageId, null);
             // this.page = this.survey.pages.find(item => item.id === pageId);
             // this.questionTransferService.setFormViewrPage(this.page);
             // this.form.addControl(page.id, this.questionService.getFormPageGroup(page));
@@ -50,9 +50,17 @@ export class SurveyViewerComponent implements OnInit {
 
 
 
-    initPage(pageId: string) {
+    initPage(pageId: string, questionId: string) {
         this.page = this.survey.pages.find(item => item.id === pageId);
         this.questionTransferService.setFormViewrPage(this.page);
+        debugger
+
+        setTimeout(() => { //  waiting while focus achieve anchor place
+            this.unfilledQestionId = questionId;
+        }, 500);
+
+
+
     }
 
 
@@ -99,10 +107,10 @@ export class SurveyViewerComponent implements OnInit {
 
                         });
                 });
-                const respondentData = {
-                    SurveyId: this.survey.id,
-                    AnswerList: answers
-                };
+            const respondentData = {
+                SurveyId: this.survey.id,
+                AnswerList: answers
+            };
             this.portalApiService.saveAnswers(JSON.stringify(respondentData)).subscribe((response: any) => {
                 debugger
                 console.log('111111111111111111111111111111111111111');

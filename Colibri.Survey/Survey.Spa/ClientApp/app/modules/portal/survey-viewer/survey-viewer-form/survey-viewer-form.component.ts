@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, EventEmitter, Output, SimpleChange } from '@angular/core';
 // import { ActivatedRoute } from '@angular/router';
 import { QuestionControlService } from 'shared/services/question-control.service';
 import { FormGroup } from '@angular/forms';
@@ -18,8 +18,9 @@ import { QuestionTransferService } from 'shared/transfers/question-transfer.serv
     providers: [QuestionControlService],
     // template: `<router-outlet></router-outlet>`
 })
-export class SurveyViewerFormComponent implements OnInit {
+export class SurveyViewerFormComponent implements OnInit, OnChanges {
 
+    @Input() unfilledQestionId: string;
     @Input() paging: any;
     @Input() page: PageModel = new PageModel();
     @Output() filledAnswers = new EventEmitter<any>();
@@ -39,6 +40,7 @@ export class SurveyViewerFormComponent implements OnInit {
                 this.pageIndex = this.paging.find((item: any) => item.id === page.id).index;
             }
         });
+
     }
 
 
@@ -68,6 +70,17 @@ export class SurveyViewerFormComponent implements OnInit {
 
     sendAnswer() {
         this.filledAnswers.emit(this.form);
+    }
+
+
+
+    ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
+
+
+        setTimeout(() => {
+            this.unfilledQestionId = null;
+        }, 1000); // time as transition property in css
+
     }
 
 }

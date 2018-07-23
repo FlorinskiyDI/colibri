@@ -192,3 +192,41 @@
   .d-description-text {
     padding: 10px;
   }
+
+  .d-error-note {
+    margin: 1px 0px 0px 0px;
+    // background-color: silver;
+    padding: 3px;
+  }
+
+  .d-page-title {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 3px;
+  }
+
+  .d-error-list-wrapper {
+    max-height: 700px;
+    border: 1px solid silver;
+    padding: 10px;
+    margin-bottom: 20px;
+
+    // overflow-y: scroll;
+  }
+
+  .d-flex-errpr {
+    display: flex;
+    padding: 0px;
+  }
+
+  .d-style-align {
+    height: 20px;
+    font-size: 13px;
+    line-height: 32px;
+    padding: 0px 0px 0px 6px;
+  }
+
+  .d-title-note {
+    font-size: 13px;
+    color: #000;
+  }

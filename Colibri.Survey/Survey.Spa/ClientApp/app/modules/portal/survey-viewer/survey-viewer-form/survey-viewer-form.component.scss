@@ -91,7 +91,31 @@
   }
   
   .d-button-paging {
-  
+    cursor: pointer;
     position: absolute;
     right: 0px;
   }
+
+  .d-button-paging-left{
+    cursor: pointer;
+  }
+
+  .d-unfilled-question{
+    background-color: #fbaaaa;
+    -webkit-transition: background-color 500ms linear;
+  }
+
+
+  .changeColor {
+    background-color: indianred;
+}
+
+.flickDiv {
+    background-color: #fff;
+    -webkit-transition: background-color 1000ms linear; 
+}
+
+.d-anchor-label {
+  height: 10px;
+  background-color: #fff;
+}

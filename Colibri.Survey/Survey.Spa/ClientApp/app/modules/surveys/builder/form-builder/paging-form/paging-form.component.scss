@@ -4,16 +4,20 @@
           float: right;
     
           .deletepage {
-            border: transparent;
+            border: 1px solid;
+            border-color: transparent;
             background-color: transparent;
             font-size: 10px;
             height: 16px;
             width: 16px;
             margin: 3px 3px 0px 0px;
             padding: 0px;
+            line-height: 16px;
              &:hover {
                  background-color: #FFFCF4;
-                 border: 1px solid #E5C365;
+                //  border: 1px solid #E5C365;
+                 border: 1px solid;
+                 border-color: #E5C365;
                  color: black;
              }
           }
@@ -29,6 +33,7 @@
              &:hover {
                  background-color: #FFFCF4;
                  color: black;
+
              }
           }
          
