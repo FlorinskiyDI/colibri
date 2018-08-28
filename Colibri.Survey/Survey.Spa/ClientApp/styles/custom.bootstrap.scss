@@ -2,7 +2,10 @@
 .btn {  
     background-image: -o-linear-gradient(top,#F9F9F9 0,#e7e7e7 100%);
     background-image: -webkit-gradient(linear,left top,left bottom,from(#F9F9F9),to(#e7e7e7));
-    background-image: linear-gradient(to bottom,#F9F9F9 0,#e7e7e7 100%);            
+    background-image: linear-gradient(to bottom,#F9F9F9 0,#e7e7e7 100%);
+    background-image: none;
+    background-color: #F5F5F5;
+
     border-color: #c5c5c5;
     font-weight: 500;
 

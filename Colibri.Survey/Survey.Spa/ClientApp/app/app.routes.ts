@@ -13,7 +13,6 @@ const appRoutes: Routes = [
     {
         path: '', component: LayoutComponent,
         canActivate: [HasAdminRoleAuthenticationGuard],
-        data: { breadcrumb: 'Layout' },
         children: [
             {
                 path: 'home',

@@ -34,10 +34,10 @@ namespace IdentityServer.Webapi.Services
                     throw new ArgumentException("The app user was not created");
                 }
                 // send invite to user
-                var confirmationToken = await GetEmailConfirmationToken(email);
-                string codeHtmlVersion = HttpUtility.UrlEncode(confirmationToken);
-                var confirmationUrl = $@"http://localhost:5050/Account/RegisterByEmail/?userId={ user.Id }&code={ codeHtmlVersion }";
-                await _emailSenderService.SendAccountConfirmationEmailAsync(null, email, "Confirm your account", confirmationUrl);
+                //var confirmationToken = await GetEmailConfirmationToken(email);
+                //string codeHtmlVersion = HttpUtility.UrlEncode(confirmationToken);
+                //var confirmationUrl = $@"http://localhost:5050/Account/RegisterByEmail/?userId={ user.Id }&code={ codeHtmlVersion }";
+                //await _emailSenderService.SendAccountConfirmationEmailAsync(null, email, "Confirm your account", confirmationUrl);
             }
             //
             return user;

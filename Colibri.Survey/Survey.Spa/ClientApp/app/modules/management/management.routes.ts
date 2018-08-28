@@ -18,7 +18,7 @@ const routes: Routes = [
             },
             {
                 path: '',
-                loadChildren: 'modules/management/groups/group.module#GroupModule',
+                loadChildren: 'modules/management/group-manage/group-manage.module#GroupManageModule',
             },
             {
                 path: '',
