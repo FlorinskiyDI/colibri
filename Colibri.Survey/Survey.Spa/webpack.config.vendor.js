@@ -62,6 +62,7 @@ module.exports = (env) => {
     const sharedConfig = {
         stats: { modules: false },
         resolve: { extensions: ['.js'] },
+        mode: isDevBuild ? 'development' : 'production',
         module: {
             rules: [
                 { test: /\.(png|gif|woff|woff2|eot|ttf|svg)(\?|$)/, use: 'url-loader?limit=100000' },
