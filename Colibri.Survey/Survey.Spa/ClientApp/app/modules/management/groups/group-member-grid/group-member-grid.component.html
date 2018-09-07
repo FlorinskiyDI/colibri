@@ -55,12 +55,12 @@
         </ng-template>
     </p-table> -->
 <!-- 
-    <p-table #dtGroupMembers selectionMode="single" [resizableColumns]="true" [columns]="gridCols" [value]="gridItems" [lazy]="true" (onLazyLoad)="loadGridLazy($event)" [paginator]="true" [rows]="10"
+    <p-table #dtGroupMembers selectionMode="single" [resizableColumns]="true" [columns]="gridCols" [value]="gridItems" (onLazyLoad)="loadGridLazy($event)" [paginator]="true" [rows]="10"
         [totalRecords]="totalRecords" [loading]="gridLoading" [(selection)]="selectedMember">
  -->
 
     <p-table #dtGroupMembers [paginator]="true" [rows]="10" [columns]="gridCols" [value]="gridItems" [resizableColumns]="true" selectionMode="single"
-        [(selection)]="selectedMember" [lazy]="true" (onLazyLoad)="loadGridLazy($event)" [loading]="gridLoading">
+        [(selection)]="selectedMember" (onLazyLoad)="loadGridLazy($event)" [loading]="gridLoading">
 
         <ng-template pTemplate="header" let-columns>
             <tr>

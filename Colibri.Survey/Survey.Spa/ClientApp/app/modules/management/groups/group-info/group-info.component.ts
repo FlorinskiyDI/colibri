@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/components/common/messageservice';
 
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { forkJoin } from 'rxjs';
 
 /* service */ import { GroupManageTransferService } from '../group-manage/group-manage.transfer.service';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';

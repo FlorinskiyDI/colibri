@@ -2,13 +2,6 @@ import './polyfills';
 import 'bootstrap';
 import 'jquery';
 
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/skip';
-import 'rxjs/add/operator/mergeMap';
-
 declare const module: any;
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';

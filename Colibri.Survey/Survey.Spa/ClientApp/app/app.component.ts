@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { OidcSecurityService } from './core/auth/services/oidc.security.service';
 // import 'bootstrap';

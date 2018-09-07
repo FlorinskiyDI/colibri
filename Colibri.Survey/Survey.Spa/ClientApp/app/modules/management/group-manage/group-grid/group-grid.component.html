@@ -41,7 +41,7 @@
                     </div>
 
                     
-                    <p-treeTable [value]="tbItems" [columns]="tbCols" [paginator]="true" [rows]="10" [lazy]="true" 
+                    <p-treeTable [value]="tbItems" [columns]="tbCols" [paginator]="true" [rows]="10"
                         (onLazyLoad)="loadNodes($event)" [totalRecords]="1000" [loading]="tbLoading" (onNodeExpand)="onNodeExpand($event)">
                         
                         <ng-template pTemplate="header" let-columns>

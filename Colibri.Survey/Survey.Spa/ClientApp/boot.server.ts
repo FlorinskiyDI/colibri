@@ -4,6 +4,7 @@ import { enableProdMode, ApplicationRef, NgZone } from '@angular/core';
 import { platformDynamicServer, PlatformState, INITIAL_CONFIG } from '@angular/platform-server';
 import { createServerRenderer, RenderResult } from 'aspnet-prerendering';
 import { AppModule } from './app/app.module.server';
+import { first } from 'rxjs/operators';
 
 enableProdMode();
 
@@ -19,7 +20,7 @@ export default createServerRenderer(params => {
 
         return new Promise<RenderResult>((resolve, reject) => {
             zone.onError.subscribe((errorInfo: any) => reject(errorInfo));
-            appRef.isStable.first(isStable => isStable).subscribe(() => {
+            appRef.isStable.pipe(first((isStable: any) => isStable)).subscribe(() => {
                 // Because 'onStable' fires before 'onError', we have to delay slightly before
                 // completing the request in case there's an error to report
                 setImmediate(() => {

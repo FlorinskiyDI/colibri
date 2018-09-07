@@ -5,11 +5,8 @@ import { RouterModule } from '@angular/router';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
-/* translate */ import { TranslateModule } from '@ngx-translate/core';
-/* translate */ import { TranslateStore } from '@ngx-translate/core/src/translate.store';
-/* translate */ import { TranslateLoader } from '@ngx-translate/core';
+/* translate */ import { TranslateModule, TranslateStore, TranslateLoader } from '@ngx-translate/core';
 /* translate */ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
 /* module-primeng */ import { RadioButtonModule } from 'primeng/components/radiobutton/radiobutton';
 /* module-primeng */ import { ListboxModule } from 'primeng/components/listbox/listbox';
 /* module-primeng */ import { ChartModule } from 'primeng/components/chart/chart';

@@ -27,7 +27,8 @@ module.exports = (env) => {
         module: {
             rules: [
                 {
-                    test: /\.ts$/, include: /ClientApp/, exclude: /node_modules/,
+                    test: /\.ts$/, include: /ClientApp/,
+                    exclude: /node_modules/,
                     use: [
                         'cache-loader',
                         'angular2-template-loader',
@@ -51,9 +52,7 @@ module.exports = (env) => {
         plugins: [
             new forkTsCheckerWebpackPlugin({
                 checkSyntacticErrors: true,
-                workers: 2,
-                async: true,
-                tslint: true
+                workers: 2
             })            
         ]
     };

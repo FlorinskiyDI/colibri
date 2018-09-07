@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import 'rxjs/add/operator/distinctUntilChanged';
+import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'layout-component',
@@ -120,8 +121,8 @@ export class LayoutComponent implements OnInit {
         console.log('Transition ended');
     }
     ngOnInit() {
-        this.breadcrumbs$ = this.router.events
-            .filter(event => event instanceof NavigationEnd)
+        this.breadcrumbs$ = this.router.events.pipe(
+            filter((event: any) => event instanceof NavigationEnd))
             .distinctUntilChanged()
             .map((event: any) => this.buildBreadCrumb(this.activatedRoute.root));
 

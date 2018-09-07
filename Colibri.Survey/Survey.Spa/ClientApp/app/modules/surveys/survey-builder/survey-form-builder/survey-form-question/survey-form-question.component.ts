@@ -4,7 +4,7 @@ import {
     ChangeDetectionStrategy
 } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { QuestionBase } from '../../../../../shared/models/form-builder/question-base.model';
 import { CheckboxQuestion } from '../../../../../shared/models/form-builder/question-checkbox.model';
