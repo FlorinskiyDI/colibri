@@ -21,6 +21,7 @@ import 'jquery';
         '../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
 
         '../../node_modules/primeng/resources/primeng.css',
+        '../../node_modules/primeicons/primeicons.css',
         '../../node_modules/primeng/resources/themes/omega/theme.css',
 
         './app.component.scss',

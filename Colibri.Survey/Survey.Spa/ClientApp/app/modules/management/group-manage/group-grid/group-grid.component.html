@@ -18,49 +18,85 @@
 
 
                         <div class="clbr--filter">
-                            <p-fieldset legend="Filter" [toggleable]="true">
+                            <p-fieldset legend="Filter"
+                                [toggleable]="true">
                                 <div class="form-group form-group-sm form--group-xs">
                                     <div class="row">
                                         <div class="col-sm-2">
-                                            <input class="form-control" type="text" placeholder="global search">
+                                            <input class="form-control"
+                                                type="text"
+                                                placeholder="global search">
                                         </div>
-                                    </div>                                
+                                    </div>
                                 </div>
                             </p-fieldset>
                         </div>
 
                         <div class="clbr--btn-inline">
-                            <button class="btn btn-sm btn-default notification" id="notification">
+                            <button class="btn btn-sm btn-default notification"
+                                id="notification">
                                 <i class="fa fa-file-o"></i>Add</button>
-                            <button class="btn btn-sm btn-default notification" id="notification">
+                            <button class="btn btn-sm btn-default notification"
+                                id="notification">
                                 <i class="fa fa-pencil"></i>Edit</button>
-                            <button class="btn btn-sm btn-default notification" id="notification">
+                            <button class="btn btn-sm btn-default notification"
+                                id="notification">
                                 <i class="fa fa-remove"></i>Remove</button>
-                            <button class="btn btn-sm btn-default notification" id="notification">Export</button>
+                            <button class="btn btn-sm btn-default notification"
+                                id="notification">Export</button>
                         </div>
                     </div>
 
-                    
-                    <p-treeTable [value]="tbItems" [columns]="tbCols" [paginator]="true" [rows]="10"
-                        (onLazyLoad)="loadNodes($event)" [totalRecords]="1000" [loading]="tbLoading" (onNodeExpand)="onNodeExpand($event)">
+
+                    <p-treeTable [value]="tbItems"
                         
-                        <ng-template pTemplate="header" let-columns>
+                        [paginator]="true"
+                        [rows]="10"
+                        [totalRecords]="1000"
+                        [loading]="tbLoading"
+                        (onNodeExpand)="loadNodes($event)">
+
+                        <ng-template pTemplate="header">
                             <tr>
-                                <th *ngFor="let col of columns">
-                                    {{col.header}}
-                                </th>
+                                <th>Id</th>
+                                <th>Name</th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+                        <ng-template pTemplate="body"
+                            let-rowNode
+                            let-rowData="rowData">
                             <tr>
-                                <td *ngFor="let col of columns; let i = index">
-                                    <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
-                                    {{rowData[col.field]}}
+                                <td>
+                                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                                    {{rowData.id}}
                                 </td>
+                                <td>{{rowData.name}}</td>
                             </tr>
                         </ng-template>
                     </p-treeTable>
 
+
+                    <!-- <p-treeTable [value]="files">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Name</th>
+                                <th>Size</th>
+                                <th>Type</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body"
+                            let-rowNode
+                            let-rowData="rowData">
+                            <tr>
+                                <td>
+                                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                                    {{rowData.name}}
+                                </td>
+                                <td>{{rowData.size}}</td>
+                                <td>{{rowData.type}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-treeTable> -->
                 </div>
             </div>
         </div>
