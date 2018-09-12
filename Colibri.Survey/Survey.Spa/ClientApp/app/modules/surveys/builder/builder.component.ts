@@ -70,7 +70,7 @@ export class BuilderComponent {
         });
 
         this.questionTransferService.getPageById().subscribe((id: any) => {
-
+            debugger
             const page = new PageModel({
                 id: id,
                 name: 'page name',

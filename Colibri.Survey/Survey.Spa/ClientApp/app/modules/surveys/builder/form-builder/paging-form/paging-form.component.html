@@ -1,6 +1,24 @@
 <div [formGroup]="formPage" class='wrapper'>
+    <div class="d-dropdown-conteiner">
+        <!-- {{batches | json}} -->
+        <p-dropdown (onChange)="changeQuestion($event)" [options]="pagingList" class="d-dropdown" [style]="{'width':'100%', 'font-size':'12px'}">
+            <ng-template let-item pTemplate="selectedItem">
+                <p class="icon fa {{item.icon}}" href="#"></p>
+                <span style="vertical-align:middle">{{item.title}}</span>
+            </ng-template>
+            <ng-template let-type pTemplate="item">
+                <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                    <!-- <p class="icon fa {{type.icon}}" href="#"></p> -->
+                    <div style="">{{type.title}}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+    </div>
     <div class='carousel-wrapper'>
         <div class='carousel' fxLayout='row' fxLayoutAlign='center stretch'>
+            <ul class='ulCollection' *ngFor='let items of batches' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
+
+            </ul>
             <ul class='ulCollection' *ngFor='let items of batches' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
                 <li [ngClass]='{"active": selectItem == item.id}' *ngFor='let item of items; let i = index' fxLayout='column' fxLayoutAlign='center center'>
 
@@ -14,7 +32,9 @@
 
                     </div>
                     <div (click)="selectPage(item)" class='textBlock' style="height: 100%">
-                        {{item.title + " " + (i + 1) }} <b *ngIf="formPage.controls[item.id] ? !formPage.controls[item.id].valid : false" [ngClass]='{"d-dirtyPage": selectItem == item.id}'>*</b>
+                        {{item.title + " " + (i + 1) }}
+                        <b *ngIf="formPage.controls[item.id] ? !formPage.controls[item.id].valid : false"
+                            [ngClass]='{"d-dirtyPage": selectItem == item.id}'>*</b>
                     </div>
                 </li>
             </ul>

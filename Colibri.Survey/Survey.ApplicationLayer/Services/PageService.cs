@@ -69,7 +69,7 @@ namespace Survey.ApplicationLayer.Services
                             Id = item.Id,
                             Name = item.Name,
                             Description = item.Description,
-                            OrderNo = item.OrderNo,
+                            Order = item.OrderNo,
                             SurveyId = item.SurveyId
                         };
                         pages.Add(page);
@@ -110,7 +110,7 @@ namespace Survey.ApplicationLayer.Services
             {
                 Description = survey.Description,
                 Name = survey.Name,
-                OrderNo = survey.OrderNo,
+                OrderNo = survey.Order,
                 SurveyId = Guid.Parse(surveyId.ToString()) 
             };
 

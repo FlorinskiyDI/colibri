@@ -46,6 +46,14 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
         this.selectItem = this.pageId;
         this.carousel = this.elementRef.nativeElement.querySelector('.carousel');
         this.carouselWrapper = this.elementRef.nativeElement.querySelector('.carousel-wrapper');
+        console.log('1111111111111111111');
+        console.log('1111111111111111111');
+
+        console.log(this.pagingList);
+
+        console.log('1111111111111111111');
+        console.log('1111111111111111111');
+
     }
 
     selectPage(item: any) {
@@ -88,7 +96,7 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
     }
 
     addPage() {
-
+        debugger
         const pageId = GUID.getNewGUIDString();
         const value = { title: 'Page', id: pageId };
 

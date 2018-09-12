@@ -10,6 +10,8 @@
                 <p *ngIf="!formPage.valid" style="color: red; font-weight: bold"> {{formPage.valid | json}}</p> -->
         </div>
         <div class="body">
+
+            <!-- <pre>{{page | json}}</pre> -->
             <form (ngSubmit)="onSubmit()" [formGroup]="formPage">
                 <div class="question-list" dnd-sortable-container [dropZones]="templateOptions.dragTemplateZones" [sortableData]="page.questions">
                     <ul class="d-list-group">

@@ -66,8 +66,21 @@
             width: 100%;
             position: absolute;
             // position: absolute;
+            display: flex;
+            flex-direction: row;
             width: 100%;
             // background-color: silver;
+            .d-builder-body-header ul {}
+
+            
+            .d-dropdown-conteiner {
+              // background-color: green;
+              width: 100px;
+              .ui-dropdown-panel .ui-dropdown-item {
+                flex-direction: column;
+                text-indent: 1px;
+              }
+            }
 
             .d-dirtyPage {
                 color: red;
