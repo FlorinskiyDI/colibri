@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 /* module */ import { GroupManageRoutingModule } from './group-manage.routes';
 /* component */ import { GroupManageComponent } from './group-manage.component';
 /* component */ import { GroupGridComponent } from './group-grid/group-grid.component';
-
+/* component */ import { GroupDialogCreateComponent } from './group-dialog-create/group-dialog-create.component';
+/* component */ import { FormGroupCreateComponent } from './group-dialog-create/form-group-create/form-group-create.component';
 
 
 @NgModule({
@@ -14,7 +15,9 @@ import { NgModule } from '@angular/core';
     ],
     declarations: [
         GroupManageComponent,
-        GroupGridComponent
+        GroupGridComponent,
+        GroupDialogCreateComponent,
+        FormGroupCreateComponent
     ],
     providers: [
     ]

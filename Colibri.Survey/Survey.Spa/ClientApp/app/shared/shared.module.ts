@@ -49,6 +49,10 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 /* service-api */ import { GroupMembersApiService } from 'shared/services/api/group-members.api.service';
 /* service-api */ import { UsersApiService } from 'shared/services/api/users.api.service';
 
+/* clbr-modal */ import { ModalComponent } from 'shared/directives/modal/modal.component';
+/* clbr-modal */ import { ModalService } from 'shared/directives/modal/modal.service';
+
+
 @NgModule({
     imports: [
         // modules
@@ -79,7 +83,13 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         // else
         AngularSplitModule
     ],
-    declarations: [],
+    declarations: [
+        // diractives
+        ModalComponent
+    ],
+    providers: [
+        ModalService
+    ],
     entryComponents: [],
     exports: [
         // modules
@@ -98,7 +108,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         // material
         MatTooltipModule, MatIconModule,
         // else
-        AngularSplitModule
+        AngularSplitModule,
+        // directives
+        ModalComponent
     ]
 })
 
@@ -108,10 +120,13 @@ export class SharedModule {
             ngModule: SharedModule,
             providers: [
                 TranslateStore,
+                // api service
                 GroupsApiService,
                 GroupMembersApiService,
                 SurveysApiService,
-                UsersApiService
+                UsersApiService,
+                // diractives
+                // ModalService
             ]
         };
     }

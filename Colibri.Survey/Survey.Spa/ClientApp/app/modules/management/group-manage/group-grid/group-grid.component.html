@@ -1,105 +1,112 @@
-<div class="clbr--page">
+<div class="clbr--page container-fluid">
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12 clbr--padding-reset">
-                <div class="clbr--page-title">
-                    Group management
-                </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--page-title">
+                <span>Group management</span>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--page-description">
+                <span>Description: List groups</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--page-content">
 
-    <div class="clbr--page-content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12 clbr--padding-reset">
-                    <div class="clbr--block-panel">
-
-
-                        <div class="clbr--filter">
-                            <p-fieldset legend="Filter"
-                                [toggleable]="true">
-                                <div class="form-group form-group-sm form--group-xs">
-                                    <div class="row">
-                                        <div class="col-sm-2">
-                                            <input class="form-control"
-                                                type="text"
-                                                placeholder="global search">
-                                        </div>
-                                    </div>
-                                </div>
-                            </p-fieldset>
-                        </div>
-
-                        <div class="clbr--btn-inline">
-                            <button class="btn btn-sm btn-default notification"
-                                id="notification">
-                                <i class="fa fa-file-o"></i>Add</button>
-                            <button class="btn btn-sm btn-default notification"
-                                id="notification">
-                                <i class="fa fa-pencil"></i>Edit</button>
-                            <button class="btn btn-sm btn-default notification"
-                                id="notification">
-                                <i class="fa fa-remove"></i>Remove</button>
-                            <button class="btn btn-sm btn-default notification"
-                                id="notification">Export</button>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="clbr--block-btns">
+                            <button class="clbr--btn-default btn btn-sm btn-default"
+                                (click)="createGroup()">
+                                <i class="fa fa-file-o"></i>
+                                Create
+                            </button>
+                            <button class="clbr--btn-default btn btn-sm btn-default"
+                                [attr.disabled]="!selectedNode ? '' : null"
+                                (click)="modalOpen()">
+                                <i class="fa fa-pencil"></i>
+                                Edit
+                            </button>
+                            <button class="clbr--btn-default btn btn-sm btn-default"
+                                [attr.disabled]="!selectedNode ? '' : null"
+                                (click)="removeGroup(selectedNode.data)">
+                                <i class="fa fa-remove"></i>
+                                Remove
+                            </button>
                         </div>
                     </div>
-
-
-                    <p-treeTable [value]="tbItems"
-                        
-                        [paginator]="true"
-                        [rows]="10"
-                        [totalRecords]="1000"
-                        [loading]="tbLoading"
-                        (onNodeExpand)="loadNodes($event)">
-
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body"
-                            let-rowNode
-                            let-rowData="rowData">
-                            <tr>
-                                <td>
-                                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                                    {{rowData.id}}
-                                </td>
-                                <td>{{rowData.name}}</td>
-                            </tr>
-                        </ng-template>
-                    </p-treeTable>
-
-
-                    <!-- <p-treeTable [value]="files">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th>Name</th>
-                                <th>Size</th>
-                                <th>Type</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body"
-                            let-rowNode
-                            let-rowData="rowData">
-                            <tr>
-                                <td>
-                                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                                    {{rowData.name}}
-                                </td>
-                                <td>{{rowData.size}}</td>
-                                <td>{{rowData.type}}</td>
-                            </tr>
-                        </ng-template>
-                    </p-treeTable> -->
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="clbr--table clbr--table-tree">
+                            <p-treeTable [value]="tbItems"
+                                selectionMode="single"
+                                dataKey="id"
+                                [(selection)]="selectedNode"
+                                [paginator]="true"
+                                [rows]="10"
+                                [totalRecords]="1000"
+                                [loading]="tbLoading"
+                                (onNodeExpand)="onNodeExpand($event)"
+                                (onNodeSelect)="onNodeSelect($event)"
+                                (onNodeUnselect)="onNodeUnselect($event)"
+                                [(selection)]="selectedNode">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th class="splitter"></th>
+                                        <th class="border-right-none"
+                                            style="width: 400px;">Group name</th>
+                                        <th class="border-right-none border-left-none"
+                                            style="width: 200px;">Num of subscribers</th>
+                                        <th class="border-left-none">Description</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body"
+                                    let-rowNode
+                                    let-rowData="rowData">
+                                    <tr [ttSelectableRow]="rowNode">
+                                        <td></td>
+                                        <td class="border-right-none">
+                                            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                                            {{rowData.name}}
+                                        </td>
+                                        <td class="border-left-none border-right-none">0</td>
+                                        <td class="border-left-none">some description</td>
+
+                                    </tr>
+                                </ng-template>
+                            </p-treeTable>
+                        </div>
+                    </div>
+                </div>                
             </div>
         </div>
-
     </div>
+
 </div>
+
+<group-dialog-create-cmp [config]="dialogGroupCreateConfig"
+    (onChange)="dialogGroupCreateOnChange($event)"
+    (onCancel)="dialogGroupCreateOnCancel($event)"
+    (onHide)="dialogGroupCreateOnHide($event)">
+</group-dialog-create-cmp>
+
+<p-confirmDialog #cd
+    icon="pi pi-exclamation-triangle"
+    class="clbr--dialog-confirm-v1"
+    header="Attention">
+    <p-footer>
+        <button class="clbr--btn-default btn btn-sm btn-default notification"
+            (click)="cd.accept()">
+            <i class="fa fa-check"></i>Confirm</button>
+        <button class="clbr--btn-default btn btn-sm btn-default notification"
+            (click)="cd.reject()">
+            <i class="fa fa-remove"></i>Cancel</button>
+    </p-footer>
+</p-confirmDialog>

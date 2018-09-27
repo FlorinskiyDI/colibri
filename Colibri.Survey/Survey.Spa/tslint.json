@@ -101,6 +101,12 @@
     ],
     "directive-selector": false,
     "component-selector": false,
+    // "component-selector": [
+    //   true,
+    //   "element",
+    //   "app",
+    //   "kebab-case"
+    // ],
     "use-host-property-decorator": false,
     "use-life-cycle-interface": false,
     "no-access-missing-member": false,
