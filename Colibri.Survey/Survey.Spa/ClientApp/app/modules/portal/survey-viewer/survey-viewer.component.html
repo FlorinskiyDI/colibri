@@ -28,10 +28,11 @@
             <div class="sticly-wraper">
                 <div *ngIf="errorList != null" class="d-error-list-wrapper">
                      <span class="d-title-note">Some of the questions are required, please fill all of them !!!</span>
+                     
                     <div *ngFor="let item of survey.pages" class="d-error-note">
-                        <!-- {{item | json}}
-                        {{errorList.controls[item.id].valid | json}} -->
-                        <p class="d-page-title">Page №{{item.orderNo + 1}}</p>
+                        <!-- {{item | json}} -->
+                        <!-- {{errorList.controls[item.id].valid | json}} -->
+                        <p class="d-page-title">Page №{{item.order + 1}}</p>
 
 
                         <!-- page Id: {{item.id}} -->
@@ -44,9 +45,10 @@
                                     </button>
                                     <div class="minilogo"></div>
                                     <div>
-                                        <a [routerLink]="['/portal/' + question.id]" (click)="initPage(item.id, question.id)" fragment="{{question.id}}" class="d-style-align">
+                                        <a [routerLink]="['/portal/' + question.id]" (click)="initPage(item.id, question.id, ressetAnchor)" fragment="{{question.id}}" class="d-style-align">
                                             Required question №{{question.order + 1}}
                                         </a>
+                                        <a #ressetAnchor style="display: none" [routerLink]="['/portal/' + question.id]"  fragment="nonexistentFragment" class="d-style-align" ></a>
                                         <!-- <strong class="d-style-align">Required question №{{question.order + 1}}</strong> -->
                                         <!-- <a [routerLink]="['/portal/48e9bbde-ca68-e811-9122-107b44194709']" (click)="initPage(item.id, question.id)" fragment="{{question.id}}">Go to {{question.order}}</a> &mdash; -->
                                         <!-- <span>2 days ago</span> -->

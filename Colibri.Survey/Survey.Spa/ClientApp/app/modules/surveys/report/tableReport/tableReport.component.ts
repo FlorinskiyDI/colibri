@@ -116,7 +116,6 @@ export class TableReportComponent implements OnInit {
     customSort1(event: any) {
         console.log('work work');
         event.data.sort((data1: any, data2: any) => {
-            // debugger
             const value1 = data1.find((x: any) => x.questionName === event.field).answer;
             const value2 = data2.find((x: any) => x.questionName === event.field).answer;
             // const result = null;
@@ -144,7 +143,6 @@ export class TableReportComponent implements OnInit {
     customSort2(event: any) {
         console.log('work work');
         event.data.sort((data1: any, data2: any) => {
-            // debugger
             const value1 = data1[event.field];
             const value2 = data2[event.field];
             // const result = null;

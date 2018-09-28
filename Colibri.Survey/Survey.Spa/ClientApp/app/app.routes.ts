@@ -42,7 +42,7 @@ const appRoutes: Routes = [
     {
         path: '',
         component: LayoutPortalComponent,
-        // canActivate: [HasAdminRoleAuthenticationGuard],
+        //  canActivate: [HasAdminRoleAuthenticationGuard],
         // data: { breadcrumb: 'Layout' },
         children: [
             {

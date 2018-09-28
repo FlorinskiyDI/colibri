@@ -11,7 +11,6 @@ export class CompareObject {
 
     // private static checkeFirstObject(result: any, value: any, key: any, a: any, b: any) {
 
-    //     debugger
     //     if (b.hasOwnProperty(key)) {
     //         if (isEqual(value, b[key])) {
     //             return result;

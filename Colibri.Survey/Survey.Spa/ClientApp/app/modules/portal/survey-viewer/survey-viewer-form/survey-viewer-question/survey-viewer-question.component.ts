@@ -40,7 +40,6 @@ export class SurveyViewerQuestionComponent implements OnInit {
 
 
     onChange(questonId: string, optionId: string, isChecked: boolean, index: any) {
-        // debugger
         console.log('work work work work work work work work work work work');
 
         const checkboxquestion = this.question as CheckboxQuestion;

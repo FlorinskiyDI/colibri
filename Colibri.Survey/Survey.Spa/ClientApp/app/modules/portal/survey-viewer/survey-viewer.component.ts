@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 
@@ -25,8 +25,8 @@ export class SurveyViewerComponent implements OnInit {
     page: any;
     activeSurveyId: any;
     pageinglist: any[];
-    unfilledQestionId: string = '22222';
-
+    unfilledQestionId = '22222';
+    @ViewChildren('ressetAnchor') ressetAnchor: any;
     constructor(
         private route: ActivatedRoute,
         private portalApiService: PortalApiService,
@@ -36,12 +36,14 @@ export class SurveyViewerComponent implements OnInit {
             this.activeSurveyId = params['id'];
         });
         window.scroll(0, 0);
-
+        // this.ressetAnchor.changes.subscribe((event: any) => {
+        //     console.log('some heppend');
+        // });
         this.questionTransferService.getViewerPage().subscribe((pageId: string) => {
             // Init data
             window.scroll(0, 0);
 
-            this.initPage(pageId, null);
+            this.initPage(pageId, null, null);
             // this.page = this.survey.pages.find(item => item.id === pageId);
             // this.questionTransferService.setFormViewrPage(this.page);
             // this.form.addControl(page.id, this.questionService.getFormPageGroup(page));
@@ -50,15 +52,13 @@ export class SurveyViewerComponent implements OnInit {
 
 
 
-    initPage(pageId: string, questionId: string) {
+    initPage(pageId: string, questionId: string, ressetAnchor1: any) {
         this.page = this.survey.pages.find(item => item.id === pageId);
         this.questionTransferService.setFormViewrPage(this.page);
-        debugger
-
         setTimeout(() => { //  waiting while focus achieve anchor place
             this.unfilledQestionId = questionId;
+            ressetAnchor1.click();
         }, 500);
-
 
 
     }
@@ -112,7 +112,6 @@ export class SurveyViewerComponent implements OnInit {
                 AnswerList: answers
             };
             this.portalApiService.saveAnswers(JSON.stringify(respondentData)).subscribe((response: any) => {
-                debugger
                 console.log('111111111111111111111111111111111111111');
             });
         } else {

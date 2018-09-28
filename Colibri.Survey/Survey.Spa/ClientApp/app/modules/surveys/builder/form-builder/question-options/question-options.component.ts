@@ -93,7 +93,6 @@ export class QuestionOptionsComponent {
 
 
     AddAdditionalQuestion(question: any, state: boolean) {
-        debugger
         question.state = question.state !== ControStates.created ? ControStates.updated : question.state;
         // if (!state) {
         //     this.questionControl.controls['additionalAnswer'].setValue('');

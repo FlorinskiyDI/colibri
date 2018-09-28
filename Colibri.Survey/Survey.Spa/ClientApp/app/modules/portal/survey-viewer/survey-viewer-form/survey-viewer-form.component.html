@@ -1,6 +1,6 @@
-<!-- <pre> {{form.value | json}}</pre>
-<pre> {{page.questions | json}}</pre> -->
-<!-- 11{{unfilledQestionId}}11 -->
+<!-- <pre> {{form.value | json}}</pre> -->
+<!-- <pre> {{page | json}}</pre>  -->
+11{{unfilledQestionId}}11
 
 
 <div [ngClass]='{"changeColor": item.id == unfilledQestionId}' id="{{item.id}}" *ngFor="let item of page.questions; let i = index" >
@@ -31,7 +31,7 @@
         </div>
     </div>
 </div>
-
+11{{unfilledQestionId}}11
 
 <nav class="demo-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col d-paging-context">
     <a *ngIf="pageIndex > 0" class="demo-nav__button d-button-paging-left" >
@@ -43,7 +43,7 @@
     </a>
     <div class="section-spacer">
         <section class="date-container">
-            <div class="date">{{page.orderNo + 1}}/{{paging.length}}</div>
+            <div class="date">{{page.order + 1}}/{{paging.length}}</div>
         </section>
     </div>
 
@@ -56,7 +56,7 @@
         </button>
     </a>
 
-    <a *ngIf="(pageIndex + 1) ==  paging.length" class="demo-nav__button d-button-paging" >
+    <a *ngIf="(pageIndex + 1) ==  paging.length" (click)="sendAnswer()" class="demo-nav__button d-button-paging" >
         Complete
         <button id="d-arrow-right-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900 "
             (click)="sendAnswer()" role="presentation">

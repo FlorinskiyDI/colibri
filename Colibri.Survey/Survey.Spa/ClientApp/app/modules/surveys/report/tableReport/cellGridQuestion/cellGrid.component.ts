@@ -25,7 +25,6 @@ export class CellGridComponent implements OnInit {
 
 
     ngOnInit() {
-        debugger
         // this.rowData.forEach((item: any) => {
         //     if (item.inputTypeName === 'GridRadio') {
         //         item.answer.forEach((element: any) => {

@@ -96,7 +96,6 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
     }
 
     addPage() {
-        debugger
         const pageId = GUID.getNewGUIDString();
         const value = { title: 'Page', id: pageId };
 
