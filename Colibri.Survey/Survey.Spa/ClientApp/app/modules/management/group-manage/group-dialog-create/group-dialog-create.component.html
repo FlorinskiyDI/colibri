@@ -1,4 +1,4 @@
-<p-dialog header="Group create"
+<p-dialog header="Group creation"
     class="clbr--dialog-v1"
     minWidth="500"
     width="500"
@@ -10,10 +10,10 @@
     (onHide)="dialogHide($event)"
     [(visible)]="dialogConfig.visible">
 
-    <form-group-create-cmp #ctrlFormGroupCreate
+    <cmp-group-form-create #ctrlFormGroupCreate
         [config]="formGroupConfig"
         (onChange)="formGroupOnChange($event)">
-    </form-group-create-cmp>
+    </cmp-group-form-create>
 
     <p-footer>
         <button [attr.disabled]="blockedPanel ? '' : null"

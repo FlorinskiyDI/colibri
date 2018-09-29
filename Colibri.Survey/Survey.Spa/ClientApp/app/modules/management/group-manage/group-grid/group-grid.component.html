@@ -9,18 +9,18 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="clbr--page-description">
+            <div class="clbr--block-description-v1">
                 <span>Description: List groups</span>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="clbr--page-content">
+            <div class="clbr--block-content">
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="clbr--block-btns">
+                        <div class="clbr--block-btns-v1">
                             <button class="clbr--btn-default btn btn-sm btn-default"
                                 (click)="createGroup()">
                                 <i class="fa fa-file-o"></i>
@@ -28,7 +28,7 @@
                             </button>
                             <button class="clbr--btn-default btn btn-sm btn-default"
                                 [attr.disabled]="!selectedNode ? '' : null"
-                                (click)="modalOpen()">
+                                (click)="goToGroupView(selectedNode.data.id)">
                                 <i class="fa fa-pencil"></i>
                                 Edit
                             </button>

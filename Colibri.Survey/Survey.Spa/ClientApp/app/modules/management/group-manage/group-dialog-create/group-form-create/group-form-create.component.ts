@@ -6,11 +6,11 @@ import { BlockableUI } from 'primeng/primeng';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 
 @Component({
-    selector: 'form-group-create-cmp',
-    templateUrl: './form-group-create.component.html'
+    selector: 'cmp-group-form-create',
+    templateUrl: './group-form-create.component.html'
 })
 
-export class FormGroupCreateComponent implements BlockableUI {
+export class GroupFormCreateComponent implements BlockableUI {
     @ViewChild('formGroupCreate') formGroupCreate: any;
     configData: any;
     @Output() onChange = new EventEmitter<any>();
@@ -65,7 +65,7 @@ export class FormGroupCreateComponent implements BlockableUI {
         this._cmpClear();
     }
 
-    private _cmpInitialize(data: FormGroupCreateConfig) {
+    private _cmpInitialize(data: GroupFormCreateConfig) {
         if (data) {
             const groups = data.groups.map((item: any) => { return { label: item.name, value: item.id }; });
             this.drpdwnGroups = [{ label: 'none' }];
@@ -83,7 +83,7 @@ export class FormGroupCreateComponent implements BlockableUI {
     }
 }
 
-export class FormGroupCreateConfig {
+export class GroupFormCreateConfig {
     private _groups: any[];
     get groups(): any { return this._groups; }
 

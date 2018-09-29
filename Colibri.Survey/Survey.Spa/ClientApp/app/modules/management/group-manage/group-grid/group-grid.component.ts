@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { TreeDragDropService } from 'primeng/components/common/api';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { Router } from '@angular/router';
 
 // /* service-transfer */ import { GroupManageTransferService } from '../group-manage/group-manage.transfer.service';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
@@ -34,10 +35,9 @@ export class GroupGridComponent {
     tbLoading = false;
     isNodeSelected = false;
     constructor(
-        private modalService: ModalService,
+        private router: Router,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
-        // private groupManageTransferService: GroupManageTransferService,
         private groupsApiService: GroupsApiService,
     ) {
         this._requestGetRootGroups();
@@ -120,6 +120,10 @@ export class GroupGridComponent {
             that.tbLoading = false;
             this.tbItems = [...this.tbItems];
         });
+    }
+
+    goToGroupView(groupId: string) {
+        this.router.navigate(['/manage/groups/' + groupId]);
     }
 
     _requestGetRootGroups() {

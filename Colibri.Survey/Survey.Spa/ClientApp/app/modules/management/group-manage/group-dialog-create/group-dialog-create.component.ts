@@ -3,8 +3,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 /* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
-/* component-config */ import { FormGroupCreateConfig } from './form-group-create/form-group-create.component';
-/* component */ import { FormGroupCreateComponent } from './form-group-create/form-group-create.component';
+/* component */ import { GroupFormCreateComponent, GroupFormCreateConfig } from './group-form-create/group-form-create.component';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 // /* helper */ import { Helpers } from 'shared/helpers/helpers';
 
@@ -29,8 +28,8 @@ export class GroupDialogCreateComponent {
         }
     }
 
-    @ViewChild('ctrlFormGroupCreate') ctrlFormGroupCreate: FormGroupCreateComponent;
-    formGroupConfig: FormGroupCreateConfig;
+    @ViewChild('ctrlFormGroupCreate') ctrlFormGroupCreate: GroupFormCreateComponent;
+    formGroupConfig: GroupFormCreateConfig;
     blockedPanel = false;
 
     constructor(
@@ -75,7 +74,7 @@ export class GroupDialogCreateComponent {
         this.blockedPanel = true;
         this.groupsApiService.getAll(['id', 'name'])
             .subscribe((response: Array<GroupApiModel>) => {
-                this.formGroupConfig = new FormGroupCreateConfig(response);
+                this.formGroupConfig = new GroupFormCreateConfig(response);
                 this.blockedPanel = false;
             });
     }
