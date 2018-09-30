@@ -37,9 +37,19 @@ body {
   padding-bottom: 7px;
 }
 
-.clbr--block-tabs_v1 {
-  
+.clbr--block-tab-menu_v1 {
+  border-bottom: 1px solid #DEDEDE;
+  //
+  .ui-tabmenu .ui-tabmenu-nav { padding: 0; }
+  .ui-tabmenu-nav { border: none !important; }
+  .ui-tabmenu .ui-tabmenu-nav > li.ui-state-default { background: transparent; border: none; }
+  .ui-tabmenu .ui-tabmenu-nav > li.ui-state-active a { border-bottom: 2px solid #1E7DDF; color: #1E7DDF; }
+  .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem a { padding: 7px 5px 3px 5px;  border-bottom: 2px solid transparent; border-radius: 0; }
 }
+
+
+
+.clbr--block-tabs_v1 { }
 .clbr--block-tabs_v2 { }
 .clbr--block-filter { }
 .clbr--block-btns-v1 { padding-bottom: 10px; }

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 /* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
 /* constant */ import { ModalTypes } from 'shared/constants/modal-types.constant';
-/* directive */ import { ModalService } from 'shared/directives/modal/modal.service';
+// /* directive */ import { ModalService } from 'shared/directives/modal/modal.service';
 
 @Component({
     selector: 'cmp-group-grid',
