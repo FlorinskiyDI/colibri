@@ -58,7 +58,7 @@ export class GroupDetailComponent implements BlockableUI {
         this.formBuild(this.configData.item);
     }
 
-    private _cmpInitialize(data: FormGroupUpdateConfig) {
+    public _cmpInitialize(data: FormGroupUpdateConfig) {
         if (data) {
             const groups = data.groups.map((item: any) => { return { label: item.name, value: item.id }; });
             this.drpdwnGroups = [{ label: 'None' }];

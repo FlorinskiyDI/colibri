@@ -16,9 +16,11 @@ export class SurveysApiService {
     }
 
     getAll() {
-        const baseAccounts = this.restangular.all('api/surveySections');
-        // This will query /accounts and return a observable.
-        return baseAccounts.getList().map((response: any) => response.plain());
+        // const baseAccounts = this.restangular.all('api/surveySections');
+        // // This will query /accounts and return a observable.
+        // return baseAccounts.getList().map((response: any) => response.plain());
+        const result = this.restangular.all('api/surveySections').customGET(undefined, null);
+        return result;
     }
 
     // get(id: string) {
