@@ -5,7 +5,7 @@ import { ControlOptionModel } from '../models/form-builder/form-control/control-
 import { QuestionBase } from '../models/form-builder/question-base.model';
 import { ControTypes } from '../constants/control-types.constant';
 
-// helper
+// helpers
 import { GUID } from '../helpers/guide-type.helper';
 
 import { TextboxQuestion } from '../models/form-builder/question-textbox.model';

@@ -28,6 +28,64 @@ namespace Survey.ApplicationLayer.Services
 
 
 
+        public async Task<IEnumerable<OptionChoises>> GetListByOptionGroupId(Guid? optionGroupId)
+        {
+            try
+            {
+
+
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryOptionChoice = uow.GetRepository<OptionChoises, Guid>();
+                    var choises = await repositoryOptionChoice.QueryAsync(item => item.OptionGroupId == optionGroupId);
+                    await uow.SaveChangesAsync();
+                    return choises;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public void UpdateOptionChoise(OptionChoises choise)
+        {
+            try
+            {
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryChoice = uow.GetRepository<OptionChoises, Guid>();
+                    repositoryChoice.Update(choise);
+                    uow.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+        public void DeleteOptionChoise(OptionChoises choise)
+        {
+            try
+            {
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryChoice = uow.GetRepository<OptionChoises, Guid>();
+                    repositoryChoice.Remove(choise);
+                    uow.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+
         public async Task<List<ItemModel>> GetListByOptionGroup(Guid? optionGroupId)
         {
             try
@@ -48,7 +106,7 @@ namespace Survey.ApplicationLayer.Services
                             Id = item.Id.ToString(),
                             Value = item.Name,
                             Order = 0, // strub
-                            Label = null
+                            Label = ""
 
                         };
                         items.Add(page);
@@ -65,8 +123,7 @@ namespace Survey.ApplicationLayer.Services
 
 
 
-
-        public async Task AddAsync(Guid optionGroupId, ItemModel item = null)
+        public async Task<Guid> AddAsync(Guid optionGroupId, ItemModel item = null)
         {
             OptionChoisesDto optionChoisesDto = new OptionChoisesDto()
             {
@@ -83,6 +140,7 @@ namespace Survey.ApplicationLayer.Services
                     var repositoryOptionChoise = uow.GetRepository<OptionChoises, Guid>();
                     await repositoryOptionChoise.AddAsync(optionChoisesEntity);
                     await uow.SaveChangesAsync();
+                    return optionChoisesDto.Id;
 
                 }
                 catch (Exception e)
@@ -95,7 +153,7 @@ namespace Survey.ApplicationLayer.Services
 
 
 
-        public async Task AddRangeAsync(Guid optionGroupId, List<ItemModel> items)
+        public void AddRange(Guid optionGroupId, List<ItemModel> items)
         {
             List<OptionChoisesDto> listchoiseDto = new List<OptionChoisesDto>();
 
@@ -119,8 +177,9 @@ namespace Survey.ApplicationLayer.Services
                     var repositoryOptionChoise = uow.GetRepository<OptionChoises, Guid>();
 
                     //var list = Mapper.Map<IEnumerable<Groups>, IEnumerable<GroupDto>>(result);
-                    await repositoryOptionChoise.AddRangeAsync(optionChoisesEntity.ToArray());
-                    await uow.SaveChangesAsync();
+                    repositoryOptionChoise.AddRange(optionChoisesEntity.ToArray());
+                    uow.SaveChanges();
+
                 }
                 catch (Exception e)
                 {

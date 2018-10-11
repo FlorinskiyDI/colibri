@@ -14,6 +14,18 @@ export class QuestionTransferService {
     private pageidsubject = new Subject<any>();
 
     private changeQuestionsubject = new Subject<any>();
+    private chagnedQuestionSubject = new Subject<any>();
+
+    private viewerPageSubject = new Subject<any>();
+    private viewerFormPageSubject = new Subject<any>();
+
+    //
+    private selectedPageSubject = new Subject<any>();
+    private PageSubject = new Subject<any>();
+    private ExternalQuestionSubect = new Subject<any>();
+    private pageIdSubect = new Subject<any>();
+    private deleteQuestion = new Subject<any>();
+    // private statePageSubject = new Subject<any>();
 
     // -start transer 1- Communicating Between Components device-details and devcie-id-mapping
     // sendDeviceID(id: string) {
@@ -96,4 +108,77 @@ export class QuestionTransferService {
     }
 
 
+    // for change option field background color after click to notification button on question builder
+    //  setStatePageAsChange(data: any) {
+    //     this.statePageSubject.next(data);
+    // }
+    // getPageState(): Observable<any> {
+    //     return this.statePageSubject.asObservable();
+    // }
+
+    setChangedQuestion(data: any) {
+        this.chagnedQuestionSubject.next(data);
+    }
+    getChangedQuestion(): Observable<any> {
+        return this.chagnedQuestionSubject.asObservable();
+    }
+
+
+
+    setSelectedPage(data: any) {
+        this.selectedPageSubject.next(data);
+    }
+    getSelectedPage(): Observable<any> {
+        return this.selectedPageSubject.asObservable();
+    }
+
+
+    setFormPage(data: any) {
+        this.PageSubject.next(data);
+    }
+    getFormPage(): Observable<any> {
+        return this.PageSubject.asObservable();
+    }
+
+
+    setQuestionForDelete(data: any) {
+        this.ExternalQuestionSubect.next(data);
+    }
+    getQuestionForDelete(): Observable<any> {
+        return this.ExternalQuestionSubect.asObservable();
+    }
+
+
+
+
+    setPageById(data: any) {
+        this.pageIdSubect.next(data);
+    }
+    getPageById(): Observable<any> {
+        return this.pageIdSubect.asObservable();
+    }
+
+    setDeleteDragQuestion(id: any) {
+        this.deleteQuestion.next(id);
+    }
+    getDeleteDragQuestion(): Observable<any> {
+        return this.deleteQuestion.asObservable();
+    }
+
+
+    setViewerPage(data: any) {
+        this.viewerPageSubject.next(data);
+    }
+    getViewerPage(): Observable<any> {
+        return this.viewerPageSubject.asObservable();
+    }
+
+
+
+    setFormViewrPage(data: any) {
+        this.viewerFormPageSubject.next(data);
+    }
+    getFormViewrPage(): Observable<any> {
+        return this.viewerFormPageSubject.asObservable();
+    }
 }

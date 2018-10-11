@@ -1,0 +1,130 @@
+<div class="d-question-wrapper">
+    <div class="form-viewr-controls">
+        <div [formGroup]="form">
+
+            <div [formGroupName]="pageId" [ngSwitch]="question.controlType">
+
+
+
+                <div *ngSwitchCase="'Textbox'" [formGroupName]="question.id">
+                    <div class="d-control-wrap">
+                        <input class="d-text-control d-viewer-input" [formControlName]="'answer'">
+                    </div>
+                    <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
+                        Other:
+                        <input class="d-input-other" [formControlName]="'additionalAnswer'" type="text">
+                    </div>
+                </div>
+
+
+
+
+                <div *ngSwitchCase="'Textarea'" [formGroupName]="question.id">
+                    <div class="d-control-wrap">
+                        <textarea class="d-textarea-control d-viewer-input" rows="5" [formControlName]="'answer'" [disabled]="true"></textarea>
+                    </div>
+                    <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
+                        Other:
+                        <input class="d-input-other" [formControlName]="'additionalAnswer'" type="text">
+                    </div>
+                </div>
+
+
+
+
+                <div *ngSwitchCase="'Dropdown'" [formGroupName]="question.id">
+                    <div class="d-control-wrap">
+                        <p-dropdown [options]="question.options" [formControlName]="'answer'" optionLabel="value" [style]="{'width':'50%', 'font-size':'12px', 'border': '2px solid #757575'}">
+                        </p-dropdown>
+                    </div>
+                    <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
+                        Other:
+                        <input class="d-input-other" [formControlName]="'additionalAnswer'" type="text">
+                    </div>
+                </div>
+
+
+
+                <div *ngSwitchCase="'Radio'" [formGroupName]="question.id">
+                    <!-- <div style="margin-bottom: 10px" class="form-check" *ngFor="let opt of question.options">
+                        <input style="margin: 0px; vertical-align: middle;" [formControlName]="'answer'" name="answer" type="radio" id="{{opt.id}}"
+                            [value]="opt.id">
+                        <label style="margin: 0px; vertical-align: middle;" for="{{opt.id}}" class="form-check-label">
+                            {{opt.value}}
+                        </label>
+                    </div> -->
+                    <div style="margin-bottom: 10px" class="form-check" *ngFor="let opt of question.options">
+                        <mdl-radio name="answer" [value]="opt.id" [formControlName]="'answer'" mdl-ripple>{{opt.value}}</mdl-radio>
+                    </div>
+                    <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
+                        Other:
+                        <input class="d-input-other" [formControlName]="'additionalAnswer'" type="text">
+                    </div>
+                </div>
+
+
+
+                <div *ngSwitchCase="'Checkbox'" [formGroupName]="question.id">
+                    <!-- <mdl-checkbox [mdl-ripple]="true" [formControlName]="'answer'" (change)="onChange(question.id, opt.id, $event.target.checked)">
+                        Checkbox
+                    </mdl-checkbox>
+                    <mdl-checkbox [mdl-ripple]="true">
+                        Checkbox
+                    </mdl-checkbox> -->
+                    <div style="margin-bottom: 10px" class="form-check" *ngFor="let opt of question.options">
+                        <mdl-checkbox [mdl-ripple]="true" (change)="checkState.checked = !checkState.checked; onChange(question.id, opt.id, checkState.checked)">
+                            {{opt.value}}
+                        </mdl-checkbox>
+                        <div>
+                            <input #checkState style="display: none" [checked]="false" type="checkbox" id="{{opt.id}}">
+                        </div>
+                    </div>
+                    <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
+                        Other:
+                        <input class="d-input-other" [formControlName]="'additionalAnswer'" type="text">
+                    </div>
+                </div>
+
+
+
+                <div *ngSwitchCase="'GridRadio'" [formGroupName]="question.id">
+                    <div>
+                        <!-- {{question.isAdditionalAnswer| json}} -->
+                        <div class="hscroll">
+                            <table cellspacing="0" cellpadding="6">
+                                <tbody [formGroupName]="'rows'">
+                                    <tr>
+                                        <td style="width: 25%">
+                                        </td>
+                                        <td class="d-align-right-cell" align="right" *ngFor="let itemColLabel of question.grid.cols let iItemColLabel=index">
+                                            {{itemColLabel.value}}
+                                        </td>
+                                    </tr>
+                                    <tr [formGroupName]="itemRowLabel.id" *ngFor="let itemRowLabel of question.grid.rows let iItemRowLabel=index">
+                                        <td class="d-align-right-cell">{{iItemRowLabel + 1}}. {{itemRowLabel.value}}</td>
+                                        <td *ngFor="let itemCol of question.grid.cols let iItemCol=index">
+                                            <mdl-radio name="label" [value]="itemCol.id" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value)"
+                                                [formControlName]="'label'" mdl-ripple></mdl-radio>
+
+
+
+                                            <!-- <input [formControlName]="'label'" value="{{itemCol.id}}" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value, $event.target.checked)"
+                                                type='radio'> -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tr *ngIf="question.isAdditionalAnswer">
+                                    <td class="d-align-right-cell">Additional answer:</td>
+                                    <td [attr.colspan]="question.grid.cols.length">
+                                        <textarea rows="3" placeholder="your text..." class="d-cell-input" [formControlName]="'additionalAnswer'" type="text"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -39,15 +39,26 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 /* module-primeng */ import { DragDropModule } from 'primeng/dragdrop';
 /* module-primeng */ import { ChipsModule } from 'primeng/chips';
 /* module-angular-split */ import { AngularSplitModule } from 'angular-split';
-/* module-material */ import { MatTooltipModule } from '@angular/material/tooltip';
-/* module-material */import { MatIconModule } from '@angular/material/icon';
+
+
 /* module-ngx-bootstrap */ import { TabsModule } from 'ngx-bootstrap/tabs';
 /* module-ngx-bootstrap */ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
+import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
+// material
+// /* module-material */import { MatIconModule } from '@angular/material/icon';
+// /* module-material */ import { MatTooltipModule } from '@angular/material/tooltip';
+
+// import { MdlModule } from '@angular-mdl/core';
+// import { MdlModule } from '@angular-mdl/compo';
+
 /* service-api */ import { SurveysApiService } from 'shared/services/api/surveys.api.service';
+/* service-api */ import { PortalApiService } from 'shared/services/api/portal.api.service';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* service-api */ import { GroupMembersApiService } from 'shared/services/api/group-members.api.service';
 /* service-api */ import { UsersApiService } from 'shared/services/api/users.api.service';
+
+// import { FormBuilderComponent } from '../modules/surveys/builder/form-builder/form-builder.component';
 
 /* clbr-modal */ import { ModalComponent } from 'shared/directives/modal/modal.component';
 /* clbr-modal */ import { ModalService } from 'shared/directives/modal/modal.service';
@@ -63,6 +74,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         JsonpModule,
         HttpModule,
         HttpClientModule,
+        // MdlModule,
         // Translate
         TranslateModule.forChild({
             loader: {
@@ -70,6 +82,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
                 useFactory: (http: HttpClient) => new TranslateHttpLoader(http),
                 deps: [HttpClient]
             }
+        }),
+        FragmentPolyfillModule.forRoot({
+            smooth: true
         }),
         // primeng
         TabViewModule, TabMenuModule, ConfirmDialogModule, AccordionModule, InputTextareaModule, InputSwitchModule, CheckboxModule, CalendarModule,
@@ -79,7 +94,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         // ngx-bootstrap
         TabsModule.forRoot(), BsDropdownModule.forRoot(),
         // material
-        MatTooltipModule, MatIconModule,
+        // MatTooltipModule,
+        //  MatIconModule,
         // else
         AngularSplitModule
     ],
@@ -90,14 +106,15 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
     providers: [
         ModalService
     ],
-    entryComponents: [],
     exports: [
         // modules
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
+        FragmentPolyfillModule,
         TranslateModule,
+        // MdlModule,
         // primeng
         TabViewModule, TabMenuModule, ConfirmDialogModule, AccordionModule, InputTextareaModule, InputSwitchModule, CheckboxModule, CalendarModule,
         FileUploadModule, DataTableModule, DialogModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, OverlayPanelModule, ButtonModule,
@@ -106,7 +123,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         // ngx-bootstrap
         TabsModule, BsDropdownModule,
         // material
-        MatTooltipModule, MatIconModule,
+        // MatTooltipModule,
+        // MatIconModule,
         // else
         AngularSplitModule,
         // directives
@@ -125,6 +143,7 @@ export class SharedModule {
                 GroupMembersApiService,
                 SurveysApiService,
                 UsersApiService,
+                PortalApiService,
                 // diractives
                 // ModalService
             ]

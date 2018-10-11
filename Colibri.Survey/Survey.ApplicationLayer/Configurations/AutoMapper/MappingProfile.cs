@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Survey.ApplicationLayer.Dtos.Entities;
 using Survey.ApplicationLayer.Dtos.Models;
+using Survey.ApplicationLayer.Dtos.Models.Questions;
 using Survey.DomainModelLayer.Entities;
 using Survey.DomainModelLayer.Models;
 using System;
@@ -15,6 +16,7 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
         {
             EntityToDto();
             DtoToEntity();
+            ViewModelToEntity();
         }
 
 
@@ -46,6 +48,14 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
             CreateMap<OptionChoises, OptionChoisesDto>();
             CreateMap<Users, UsersDto>();
             //CreateMap<PersonalClaimDto, PersonalClaim>();
+        }
+
+        private void ViewModelToEntity()
+        {
+            // models
+            CreateMap<BaseQuestionModel, Questions>()
+                .ForMember(dest => dest.OrderNo, opt => opt.MapFrom(src => src.Order));
+
         }
     }
 }

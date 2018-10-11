@@ -1,0 +1,69 @@
+<p-table [scrollable]="true"  [resizableColumns]="true" [loading]="gridLoading" *ngIf="answerList" [columns]="columOptions" [value]="answerList" (sortFunction)="customSort1($event)"
+    [customSort]="true">
+    <ng-template let-sale pTemplate="header">
+        <tr>
+
+            <ng-container *ngFor="let item of columOptions">
+                <ng-container *ngIf="item.type == 'GridRadio'">
+                    <th [attr.colspan]="item.children.length" [ngStyle]="{width:(200 * item.children.length) +'px'}"  pResizableColumn>(P №{{item.pageOrderNo + 1}} / Q №{{item.orderNo + 1}}) {{item.name}}
+                    </th>
+                </ng-container>
+                <th *ngIf="item.type != 'GridRadio'" rowspan="2" [ngStyle]="{width:'200px'}"  pResizableColumn [pSortableColumn]="item.name">(P №{{item.pageOrderNo + 1}} / Q №{{item.orderNo + 1}}) {{item.name}}
+                    <p-sortIcon [field]="item.name"></p-sortIcon>
+                </th>
+
+            </ng-container>
+        </tr>
+        <tr>
+            <ng-container *ngFor="let item of columOptions">
+                <ng-container *ngIf="item.type == 'GridRadio'">
+                    <th *ngFor="let nestedQuestion of item.children; let i=index" [ngStyle]="{width:'200px'}"  colspan="1">№{{item.orderNo + 1}}.{{i + 1}}. {{nestedQuestion}}
+                    </th>
+                </ng-container>
+            </ng-container>
+        </tr>
+    </ng-template>
+    <ng-template *ngIf="answerList.length > 0" pTemplate="body" let-sale let-rowIndex="rowIndex">
+        <tr>
+            <ng-container *ngFor="let item of sale">
+                <ng-container *ngIf="item.inputTypeName == 'GridRadio'">
+                    <td *ngFor="let sell of item.answer" [ngStyle]="{width:'200px'}" [attr.title]="sell.answer" class="ui-resizable-column">{{sell.answer}}</td>
+                </ng-container>
+                <td *ngIf="item.inputTypeName != 'GridRadio'" [ngStyle]="{width:'200px'}" [attr.title]="item.answer" class="ui-resizable-column">{{item.answer}}</td>
+            </ng-container>
+        </tr>
+    </ng-template>
+
+    <!-- 
+    <ng-template *ngIf="answerList.length == 0" pTemplate="body" >
+            <tr >
+                    <td > not exist answers</td>
+                </tr>
+    </ng-template> -->
+
+
+
+    <!-- <ng-template pTemplate="footer">
+        <tr *ngIf="answerList.length == 0">
+            <td [attr.colspan]="max"> not exist answers</td>
+        </tr>
+        <tr>
+            <td>Totals</td>
+   
+        </tr>
+    </ng-template> -->
+
+    <ng-template pTemplate="summary">
+        There are {{answerList?.length}} answers
+    </ng-template>
+</p-table>
+
+
+
+
+
+
+
+
+
+<!-- <pre>{{answer List | json}}</pre> -->

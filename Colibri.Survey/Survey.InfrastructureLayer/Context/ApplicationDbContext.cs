@@ -20,6 +20,7 @@ namespace Survey.InfrastructureLayer.Context
         public virtual DbSet<QuestionOptions> QuestionOptions { get; set; }
         public virtual DbSet<Questions> Questions { get; set; }
         public virtual DbSet<SurveySections> SurveySections { get; set; }
+        public virtual DbSet<SurveySectoinRespondents> SurveySectoinRespondents { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
              : base(options)
@@ -44,6 +45,12 @@ namespace Survey.InfrastructureLayer.Context
                     .HasForeignKey(d => d.QuestionOptionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Answers_Question_Options");
+
+                entity.HasOne(d => d.Respondent)
+                    .WithMany(p => p.Answers)
+                    .HasForeignKey(d => d.RespondentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Answers_Respondents");
             });
 
             modelBuilder.Entity<InputTypes>(entity =>
@@ -136,6 +143,33 @@ namespace Survey.InfrastructureLayer.Context
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
+            });
+
+            modelBuilder.Entity<Respondents>(entity =>
+            {
+                entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Respondents)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_Respondents_Users");
+            });
+
+            modelBuilder.Entity<SurveySectoinRespondents>(entity =>
+            {
+                entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
+
+                entity.HasOne(d => d.Respondent)
+                    .WithMany(p => p.SurveySectoinRespondents)
+                    .HasForeignKey(d => d.RespondentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SurveySectoin_Respondents_Respondents");
+
+                entity.HasOne(d => d.SurveySection)
+                    .WithMany(p => p.SurveySectoinRespondents)
+                    .HasForeignKey(d => d.SurveySectionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SurveySectoin_Respondents_SurveySection");
             });
         }
     }

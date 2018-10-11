@@ -1,0 +1,101 @@
+<div class="layaut-d-image"></div>
+<div class="mdl-grid portfolio-max-width">
+
+    <div class="mdl-cell mdl-cell--9-col mdl-card mdl-shadow--4dp d-dynamic-form">
+        <div *ngIf="survey" class="mdl-card__title">
+            <h2 class="mdl-card__title-text">{{survey.name}}</h2>
+        </div>
+        <!-- <a routerLink="/portal/48e9bbde-ca68-e811-9122-107b44194709" fragment="top">A View #top</a> &mdash; -->
+        <div *ngIf="survey" class="mdl-cell mdl-cell--12-col mdl-card__supporting-text no-padding ">
+            <h3 class="mdl-cell mdl-cell--12-col mdl-typography--headline">Irure mollit est sit labore</h3>
+            <p class="d-description-text">
+                Excepteur reprehenderit sint exercitation ipsum consequat qui sit id velit elit. Velit anim eiusmod labore sit amet. Voluptate
+                voluptate irure occaecat deserunt incididunt esse in. Sunt velit aliquip sunt elit ex nulla reprehenderit
+                qui ut eiusmod ipsum do. Duis veniam reprehenderit laborum occaecat id proident nulla veniam. Duis enim deserunt
+                voluptate aute veniam sint pariatur exercitation. Irure mollit est sit labore est deserunt pariatur duis
+                aute laboris cupidatat. Consectetur consequat esse est sit veniam adipisicing ipsum enim irure.
+            </p>
+        </div>
+
+        <survey-viewer-form [(unfilledQestionId)]="unfilledQestionId" *ngIf="page && survey" [page]="page" (filledAnswers)="sendAnswers($event)"
+            [paging]="pageinglist"></survey-viewer-form>
+
+
+        <!-- <hr id="top" />1111111111111111111111111111111111111111111111111111 -->
+    </div>
+    <div class="mdl-cell mdl-cell--3-col mdl-card mdl-shadow--4dp d-cell-col">
+        <sticky [sticky-offset-top]="20">
+            <div class="sticly-wraper">
+                <div *ngIf="errorList != null" class="d-error-list-wrapper">
+                     <span class="d-title-note">Some of the questions are required, please fill all of them !!!</span>
+                     
+                    <div *ngFor="let item of survey.pages" class="d-error-note">
+                        <!-- {{item | json}} -->
+                        <!-- {{errorList.controls[item.id].valid | json}} -->
+                        <p class="d-page-title">Page №{{item.order + 1}}</p>
+
+
+                        <!-- page Id: {{item.id}} -->
+
+                        <div *ngIf="!errorList.controls[item.id].valid">
+                            <div *ngFor="let question of item.questions">
+                                <div *ngIf="!errorList.controls[item.id].controls[question.id].valid" class="mdl-card__supporting-text meta mdl-color-text--grey-600 d-flex-errpr">
+                                    <button class="mdl-button mdl-js-button mdl-button--icon ">
+                                        <i class="material-icons">link</i>
+                                    </button>
+                                    <div class="minilogo"></div>
+                                    <div>
+                                        <a [routerLink]="['/portal/' + question.id]" (click)="initPage(item.id, question.id, ressetAnchor)" fragment="{{question.id}}" class="d-style-align">
+                                            Required question №{{question.order + 1}}
+                                        </a>
+                                        <a #ressetAnchor style="display: none" [routerLink]="['/portal/' + question.id]"  fragment="nonexistentFragment" class="d-style-align" ></a>
+                                        <!-- <strong class="d-style-align">Required question №{{question.order + 1}}</strong> -->
+                                        <!-- <a [routerLink]="['/portal/48e9bbde-ca68-e811-9122-107b44194709']" (click)="initPage(item.id, question.id)" fragment="{{question.id}}">Go to {{question.order}}</a> &mdash; -->
+                                        <!-- <span>2 days ago</span> -->
+                                    </div>
+                                </div>
+                                <!-- <div *ngIf="!errorList.controls[item.id].controls[question.id].valid">
+                                    --- question №{{question.order + 1}}
+                                    <a [routerLink]="['/portal/48e9bbde-ca68-e811-9122-107b44194709']" (click)="initPage(item.id, question.id)" fragment="{{question.id}}">A View {{question.order}}</a> &mdash;
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdl-card__supporting-text meta mdl-color-text--grey-600 d-flex-errpr">
+                    <button class="mdl-button mdl-js-button mdl-button--icon ">
+                        <i class="material-icons">visibility_off</i>
+                    </button>
+                    <div class="minilogo"></div>
+                    <div>
+                        <strong class="d-style-align">This survey is anonymous</strong>
+                    </div>
+                </div>
+                <div class="mdl-card__supporting-text meta mdl-color-text--grey-600 d-flex-errpr">
+                    <button class="mdl-button mdl-js-button mdl-button--icon ">
+                        <i class="material-icons">error_outline</i>
+                    </button>
+                    <div class="minilogo"></div>
+                    <div>
+                        <strong class="d-style-align">Questions marked as "*" are required</strong>
+                    </div>
+                </div>
+                <!-- <div *ngIf="errorList != null">
+                    <div  *ngFor="let item of page.questions; let i = index">
+                        {{item | json}}
+                        {{errorList.value}}
+                        {{errorList.controls[item.id]}}
+                    </div>
+                </div> -->
+                <!-- <pre> {{errorList | json }}</pre> -->
+                <!-- <p>111111111111111111</p>
+                <p>111111111111111111</p>
+                <p>111111111111111111</p> -->
+
+            </div>
+        </sticky>
+    </div>
+
+
+
+</div>

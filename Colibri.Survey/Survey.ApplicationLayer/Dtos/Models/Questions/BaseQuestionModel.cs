@@ -15,7 +15,12 @@ namespace Survey.ApplicationLayer.Dtos.Models.Questions
         public int Order { get; set; }
         public string ControlType { get; set; }
         public bool IsAdditionalAnswer { get; set; }
+        public string State { get; set; }
         //public bool IsAdditionalAnswer { get; set; }
-        
+
+        public BaseQuestionModel()
+        {
+            this.State = ControlStates.Unchanged.ToString();
+        }
     }
 }

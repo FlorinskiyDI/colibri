@@ -6,7 +6,6 @@ namespace Survey.Common.Enums
 {  
     public enum QuestionTypes
     {
-
         Checkbox,
         Textarea,
         Textbox,

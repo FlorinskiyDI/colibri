@@ -10,6 +10,7 @@ import { QuestionBase } from 'shared/models/form-builder/question-base.model';
 // import { TextboxQuestion } from 'shared/models/form-builder/question-textbox.model';
 // import { CheckboxQuestion } from 'shared/models/form-builder/question-checkbox.model';
 
+import { PageModel } from 'shared/models/form-builder/page.model';
 
 @Component({
     selector: 'survey-from-builder',
@@ -20,7 +21,7 @@ import { QuestionBase } from 'shared/models/form-builder/question-base.model';
 })
 export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
     @Input() questionSettings: any;
-    @Input() page: any = {};
+    @Input() page: PageModel = new PageModel();
 
     @Input() question: QuestionBase<any>;
     form: FormGroup;
@@ -86,7 +87,7 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         this.questionTransferService.getDropQuestion().subscribe((data: any) => {
             // remove question
             console.log('11111111111111111111222222222222222222233333333333333333333444444444444444444444');
-            const questionList = this.form.controls[this.page.id]  as FormGroup;
+            const questionList = this.form.controls[this.page.id] as FormGroup;
             questionList.removeControl(data.id);
             this.sortQuestionByIndex();
         });
@@ -138,15 +139,10 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         // this.form = item;
         // this.form.addControl(this.pageId, this.qcs.toFormGroup(this.questions));
         // this.form = this.fb.group(this.pageId, this.qcs.toFormGroup(this.questions));
+
         this.form = new FormGroup(page);
 
-
-
-
-
         // this.form = this.qcs.toFormGroup(this.questions);
-
-
     }
 
     sortQuestionByIndex() {
@@ -154,6 +150,8 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
             const indexOf = this.questions.indexOf(x);
             x.order = indexOf;
         });
+
+        console.log('sorted questions');
     }
 
     setQuestionOption(question: any, checked: boolean) {
@@ -171,24 +169,15 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
 
     }
 
-    changeQuestionOrders(item: any, index: number) {
-        this.questions.forEach(x => {
-            const indexOf = this.questions.indexOf(x);
-            x.order = indexOf;
-        });
-    }
-
 
     flickerNotificationField(id: number) {
         this.questionTransferService.setFlickerOption(id);
     }
 
     addNewQuestion($event: any, index: number) {
-        // organisere question orden
-        this.questions.forEach(x => {
-            const indexOf = this.questions.indexOf(x);
-            x.order = indexOf;
-        });
+
+        this.sortQuestionByIndex();
+
 
         this.questions.splice(index, 1); // remove AvailableQuestions object
         this.getQuestionByType($event.dragData.type, index);
@@ -198,7 +187,10 @@ export class SurveyFormBuilderComponent implements OnInit, AfterContentChecked {
         );
 
         this.questions.push(this.newquestion);
-        this.questions.sort((a, b) => a.order - b.order);
+        this.questions.sort((a, b) => a.order - b.order); // useles code
+
+        const updateQuestions = this.page.questions.slice(index, this.page.questions.length);
+        console.log(updateQuestions);
     }
 
 

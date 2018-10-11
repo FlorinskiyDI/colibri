@@ -27,5 +27,7 @@ namespace Survey.DomainModelLayer.Entities
         public Users User { get; set; }
         [InverseProperty("Survey")]
         public ICollection<Pages> Pages { get; set; }
+        [InverseProperty("SurveySection")]
+        public ICollection<SurveySectoinRespondents> SurveySectoinRespondents { get; set; }
     }
 }

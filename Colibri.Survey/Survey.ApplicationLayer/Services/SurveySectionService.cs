@@ -51,7 +51,7 @@ namespace Survey.ApplicationLayer.Services
             //surveyId = Guid.Parse("c8a801ba-ea5c-e811-9122-107b44194709");
             try
             {
-               
+
                 using (var uow = UowProvider.CreateUnitOfWork())
                 {
                     SurveySections survey = new SurveySections();
@@ -60,7 +60,7 @@ namespace Survey.ApplicationLayer.Services
                     survey = await repositorySurveySection.GetAsync(surveyId);
                     await uow.SaveChangesAsync();
                     SurveySectionDto surveyDto = Mapper.Map<SurveySections, SurveySectionDto>(survey);
-                    
+
                     SurveyModel surveyModel = new SurveyModel()
                     {
                         Name = surveyDto.Name,
@@ -74,7 +74,7 @@ namespace Survey.ApplicationLayer.Services
             {
                 throw;
             }
-        } 
+        }
 
 
 
@@ -82,7 +82,7 @@ namespace Survey.ApplicationLayer.Services
         {
             Guid userId;
             UsersDto existUser = await _userService.GetAsync(Guid.Parse(NTContext.Context.UserId));
-            if(existUser == null)
+            if (existUser == null)
             {
                 userId = await _userService.AddAsync(Guid.Parse(NTContext.Context.UserId));
             }
@@ -91,13 +91,13 @@ namespace Survey.ApplicationLayer.Services
                 userId = existUser.Id;
             }
 
-            SurveySectionDto surveyDto= new SurveySectionDto()
+            SurveySectionDto surveyDto = new SurveySectionDto()
             {
                 //Id = new Guid(),
                 Description = survey.Description,
                 Name = survey.Name,
                 DateCreated = DateTime.UtcNow,
-                 UserId = userId
+                UserId = userId
             };
 
             using (var uow = UowProvider.CreateUnitOfWork())
@@ -117,7 +117,8 @@ namespace Survey.ApplicationLayer.Services
                     throw;
                 }
             }
-            
+
         }
+
     }
 }

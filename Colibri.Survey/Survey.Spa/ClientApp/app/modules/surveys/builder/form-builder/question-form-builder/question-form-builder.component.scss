@@ -1,0 +1,210 @@
+.d-question-wrapper{
+    // margin: 15px;
+    // padding: 20px;
+    // padding-left: 0px;
+    // border-bottom: 1px solid #CCCEDB;
+    border-top: 0px;
+    border-radius: 5px;
+    // background-color: #fff;
+    border-radius: 0px;
+    min-height: 160px;
+        // margin-left: 10px;
+                    // margin-right: 10px;
+
+
+
+    .d-action-panel {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        padding: 6px;
+
+
+
+    .d-action-del {
+        font-size: 10px;
+        height: 21px;
+        width: 21px;
+        border: 1px solid #cfd6e5;
+        background-color: #bb4242;
+        color: #fff;
+
+        &:hover {
+            background-color: #a83a3a;
+            border: 1px solid #f1f1f1;
+        }
+    }
+
+    }
+
+    .d-cover {
+        z-index: 1000;
+        width: calc(92%);
+        height: auto;
+        top: 0px;
+        bottom: 0px;
+        position: absolute;
+    }
+
+    .form-viewr-controls {
+        padding: 20px;
+
+
+        .d-control-wrap {
+            margin: 0px 0px 10px 0px;
+
+            .d-text-control {
+                height: 23px;
+                width: 40%;
+                font-size: 12px;
+                border: 1px solid #a9a9a9;
+                padding: 5px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                color: #000;
+            }
+            .d-textarea-control {
+                // height: 23px;
+                width: 40%;
+                max-width: 100%;
+                font-size: 12px;
+                border: 1px solid #a9a9a9;
+                padding: 5px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                color: #000;
+            }
+        }
+
+        .d-additional-control {
+            .d-input-other {
+                height: 23px;
+                width: 40%;
+                font-size: 12px;
+                border: 1px solid #a9a9a9;
+                padding: 5px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                color: #000;
+            }
+        }
+
+      
+
+    }
+
+
+
+
+    .form-builder-controls {
+        padding: 10px;
+        margin-top: 30px;
+        
+        .d-label-text{
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 1px;
+            margin: 5px 0px 0px 0px;
+        }
+
+        .d-input-textbox{ 
+            height: 23px;
+            width: 60%;
+            font-size: 12px;
+            border: 1px solid #7A7A7A;
+            // background-color: #fafafa;
+            padding: 5px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            color: #000;
+        }
+
+        .d-input-textarea{ 
+            
+            width: 60%;
+            border: 1px solid #7A7A7A;
+            // background-color: #fafafa;
+            padding: 5px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            color: #000;
+            resize: vertical;
+        }
+
+        .d-item-wrapper {
+            
+            width: 100%;
+            // background-color: red;
+            display: flex;
+            margin-bottom: 4px;
+
+            .d-item-label {
+                height: 100%;
+                width: 15%;
+                // background: green;
+            }
+
+            .d-item-content {
+                height: 100%;
+                width: 85%;
+                // background: silver;
+                .d-button-radio {
+                    background-color: transparent;
+                    border: 0px;
+         
+                }
+
+                .d-button-checkbox {
+                    background-color: transparent;
+                    border: 0px;
+                    font-size: 14px;
+                }
+            }
+        }
+        
+    }
+    
+}
+
+.hscroll {
+    overflow-x: auto; /* Horizontal */
+
+
+    // border: solid 1px #DDEEEE;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+
+
+    table {
+        width: 100%;
+    }
+    td {
+        height: 30px;
+        padding: 5px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .d-align-right-cell{
+        text-align: left;
+    }
+
+    .d-cell-input {
+        width: 100%;
+        max-width: 100%;
+        border: 1px solid #7A7A7A;
+        resize: none;
+    }
+
+    tbody td {
+        border: solid 1px #4d6082;
+        color: #333;
+        padding: 10px;
+        font-size: 12px;
+        // text-shadow: 1px 1px 1px #fff;
+    }
+  }
+
+
+  

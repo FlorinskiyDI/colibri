@@ -13,6 +13,8 @@ using Survey.ApplicationLayer.Dtos.Models.Questions;
 using Survey.ApplicationLayer.Services;
 using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.Common.Context;
+using Survey.Common.Enums;
+using Survey.Webapi.Models.Survey;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,6 +27,7 @@ namespace Survey.Webapi.Controllers
         private readonly ISurveySectionService _surveySectionService;
         private readonly IPageService _pageService;
         private readonly IQuestionService _questionService;
+        ControlStates state;
 
         public SurveySectionsController(
             IConfiguration configuration,
@@ -75,10 +78,11 @@ namespace Survey.Webapi.Controllers
                     foreach (var item in survey.Pages)
                     {
                         var questions = await _questionService.GetTypedQuestionListByPage(item.Id);
+                        questions = questions.OrderBy(o => o.Order).ToList();
                         item.Questions.AddRange(questions);
                     }
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -94,7 +98,7 @@ namespace Survey.Webapi.Controllers
 
         [HttpPost]
         [Produces("application/json")]
-        public async  Task<IActionResult> SaveSurvey( [FromBody] SurveyModel survey)
+        public async Task<IActionResult> SaveSurvey([FromBody] SurveyModel survey)
         {
             //await GetSurvey();
             Guid surveyId = await _surveySectionService.AddAsync(survey);
@@ -115,6 +119,68 @@ namespace Survey.Webapi.Controllers
                 }
             }
             return Ok();
+        }
+
+
+        [HttpPut]
+        [Produces("application/json")]
+        public async Task<IActionResult> UpdateSurvey([FromBody] SurveyViewModel data)
+        {
+            if (data.survey.Pages.Count() > 0)
+            {
+                List<BaseQuestionModel> questionList = new List<BaseQuestionModel>();
+                foreach (var page in data.survey.Pages)
+                {
+                    if (page.State == ControlStates.Created.ToString())
+                    {
+                        Guid pageId = await _pageService.AddAsync(page, Guid.Parse(data.survey.Id));
+                        questionList = _questionService.GetTypedQuestionList(page);
+                        if (questionList.Count() > 0)
+                        {
+                            foreach (var question in questionList)
+                            {
+                                _questionService.SaveQuestionByType(question, pageId);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        questionList = _questionService.GetTypedQuestionList(page);
+                        if (questionList.Count() > 0)
+                        {
+                            _questionService.Update(questionList, page.Id);
+                        }
+                    }
+                }
+
+
+                if (data.deleteQuestions.Count > 0)
+                {
+                    foreach (var item in data.deleteQuestions)
+                    {
+                        _questionService.DeleteQuestionById(item);
+                    }
+                }
+                if (data.deletePages.Count > 0)
+                {
+                    foreach (var item in data.deletePages)
+                    {
+                        var page = _pageService.GetPageById(item);
+                        var questions = _questionService.GetListByPageId(page.Id);
+                        if (questions.Count() > 0)
+                        {
+                            foreach (var question in questions)
+                            {
+                                _questionService.DeleteQuestionById(question.Id);
+                            }
+                        }
+                        _pageService.DeletePageById(item);
+                    }
+                }
+
+
+            }
+            return Ok(true);
         }
     }
 }

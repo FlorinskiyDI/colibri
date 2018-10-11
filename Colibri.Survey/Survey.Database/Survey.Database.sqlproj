@@ -70,5 +70,7 @@
     <Build Include="OptionGroups.sql" />
     <Build Include="SurveySections.sql" />
     <Build Include="Users.sql" />
+    <Build Include="Respondents.sql" />
+    <Build Include="SurveySection_Respondents.sql" />
   </ItemGroup>
 </Project>

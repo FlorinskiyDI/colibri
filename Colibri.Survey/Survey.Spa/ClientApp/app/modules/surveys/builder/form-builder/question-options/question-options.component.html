@@ -1,0 +1,28 @@
+<div *ngIf="questionOption">
+    <p class="d-text-description">Change Question Type</p>
+    <p-dropdown (onChange)="changeQuestion($event)" [options]="types" class="d-dropdown" [(ngModel)]="selectedType" [style]="{'width':'100%', 'font-size':'12px'}"
+        filter="true">
+        <ng-template let-item pTemplate="selectedItem">
+            <p class="icon fa {{item.icon}}" href="#"></p>
+            <span style="vertical-align:middle">{{item.label}}</span>
+        </ng-template>
+        <ng-template let-type pTemplate="item">
+            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                <p class="icon fa {{type.icon}}" href="#"></p>
+                <div style="font-size:14px;float:right;margin-top:4px">{{type.label}}</div>
+            </div>
+        </ng-template>
+    </p-dropdown>
+    <div [ngClass]='{"changeColor": divRequied == true}'>
+        <div [ngClass]='{"flickDiv": divRequied == true}'>
+            ({{questionOption.required}}) is required question:
+            <input type="checkbox" [(ngModel)]="questionOption.required" #validationCheckbox (click)="changeQuestionValidation(questionOption, validationCheckbox.checked)">
+        </div>
+    </div>
+    <div [ngClass]='{"changeColor": divAdditional == true}'>
+        <div [ngClass]='{"flickDiv": divAdditional == true}'>
+            11Add aditional input:
+            <input type="checkbox" [(ngModel)]="questionOption.isAdditionalAnswer" #AdditionalCheckbox (click)="AddAdditionalQuestion(questionOption, AdditionalCheckbox.checked)">
+        </div>
+    </div>
+</div>

@@ -1,7 +1,9 @@
 import { Routes, RouterModule } from '@angular/router';
 
 /* component */ import { SurveyComponent } from './survey.component';
-/* component */ import { SurveyBuilderComponent } from './survey-builder/survey-builder.component';
+// /* component */ import { SurveyBuilderComponent } from './survey-builder/survey-builder.component';
+/* component */ import { SurveyGridComponent } from './survey-grid/survey-grid.component';
+/* component */ import { BuilderComponent } from './builder/builder.component';
 
 const routes: Routes = [
     {
@@ -10,10 +12,23 @@ const routes: Routes = [
         data: { breadcrumb: 'Surveys managment' },
         children: [
             {
-                path: ':id',
-                component: SurveyBuilderComponent,
+                path: '',
+                component: SurveyGridComponent,
                 data: { breadcrumb: 'builder' },
             },
+            {
+                path: 'builder',
+                component: BuilderComponent,
+            },
+            {
+                path: 'builder/:id',
+                component: BuilderComponent,
+            },
+            {
+                path: 'report',
+                loadChildren: 'modules/surveys/report/report.module#ReportModule',
+            },
+
         ]
     }
 ];

@@ -1,0 +1,193 @@
+.d-builder-body-header{
+    
+        .deletePageblock {
+          float: right;
+    
+          .deletepage {
+            border: 1px solid;
+            border-color: transparent;
+            background-color: transparent;
+            font-size: 10px;
+            height: 16px;
+            width: 16px;
+            margin: 3px 3px 0px 0px;
+            padding: 0px;
+            line-height: 16px;
+             &:hover {
+                 background-color: #FFFCF4;
+                //  border: 1px solid #E5C365;
+                 border: 1px solid;
+                 border-color: #E5C365;
+                 color: black;
+             }
+          }
+          .changepage {
+            border: transparent;
+            background-color: transparent;
+            font-size: 10px;
+            height: 16px;
+            width: 16px;
+            margin: 3px 3px 0px 0px;
+            padding: 0px;
+            cursor: default;
+             &:hover {
+                 background-color: #FFFCF4;
+                 color: black;
+
+             }
+          }
+         
+        }
+    
+        .textBlock {
+          padding: 4px 5px 0px 5px;
+        }
+        .active {
+     
+            background-color: #FFF29D;
+            color: #000;
+            &:hover {
+              background-color: #FFF29D;
+            }
+            
+        }
+        .d-paging-buttons{
+            position: absolute;
+            width:12%;
+            right: 0px;
+            background-color: #324464;
+            // background-color: red;
+            height: 21px;
+            // margin:0px 10px 0px 10px;
+        }
+    
+        .wrapper{
+            height: 21px;   
+            width: 100%;
+            position: absolute;
+            // position: absolute;
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            // background-color: silver;
+            .d-builder-body-header ul {}
+
+            
+            .d-dropdown-conteiner {
+              // background-color: green;
+              width: 100px;
+              .ui-dropdown-panel .ui-dropdown-item {
+                flex-direction: column;
+                text-indent: 1px;
+              }
+            }
+
+            .d-dirtyPage {
+                color: red;
+            }
+          }
+          
+          .carousel-wrapper{
+            box-sizing: border-box;
+            // padding: 0 40px;
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+          }
+          
+          .carousel{
+            position: relative;
+            overflow: hidden;
+            transition-duration: 300ms;
+          }
+          
+          ul{
+            background-color: #324464;
+            list-style: none;
+            position: relative;
+            float: left;
+            width: 100%;
+            padding-left: 0px;
+            display: flex;
+            padding: 0px;
+            margin: 0px;
+          }
+          
+          li{
+            height: 21px;
+            color: #fff;
+            font-size: 11px;
+          width: 130px;
+          background-color: #5B7199;
+          border-right: 1px solid #324464;
+          
+    
+          &:hover {
+            background-color: #5B7199;
+          }
+          }
+    
+          .add-page, .arrow-right, .arrow-left {
+              &:hover {
+                  color: rgb(185, 212, 202);
+                  cursor: pointer;
+              }
+          }
+    
+          .arrow-right {
+            font-size: 11px;
+            position: absolute;
+            color: #fff;
+            top: 50%;
+            bottom: 50%;
+            left: 50%;
+            // width: 40px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            transition-duration: 300ms;
+            transform: translate(-50%, -50%);
+            // background: white;
+            z-index: 2;
+          }
+          
+          .arrow-left {
+            left: 10px;
+            font-size: 11px;
+            position: absolute;
+            color: #fff;
+            top: 50%;
+            bottom: 50%;
+            // bottom: 50%;
+            // left: 10px;
+            // width: 40px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            transition-duration: 300ms;
+            // background: white;
+            z-index: 2;
+          
+          }
+          
+          .add-page {
+              right: 10px;
+            font-size: 11px;
+            position: absolute;
+            color: #fff;
+            top: 2px;
+            bottom: 5px;
+            // width: 40px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            transition-duration: 300ms;
+            // background: white;
+            z-index: 2;
+          
+          }
+          
+    }

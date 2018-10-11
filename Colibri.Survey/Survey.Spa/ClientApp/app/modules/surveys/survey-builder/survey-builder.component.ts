@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 
 // import { QuestionBase } from '../../../shared/models/form-builder/question-base.model';
 
@@ -9,6 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 
 // import { TextboxQuestion } from '../../../shared/models/form-builder/question-textbox.model';
 
+// helpers
+// import { CompareObject } from '../../../shared/helpers/compare-object.helper';
+// import { isEqual, reduce } from 'lodash';
 
 import { PageModel } from '../../../shared/models/form-builder/page.model';
 
@@ -28,11 +31,14 @@ import { QuestionBase } from 'shared/models/form-builder/question-base.model';
     styleUrls: [
         './survey-builder.component.scss'
     ],
-    encapsulation: ViewEncapsulation.None,
+    // encapsulation: ViewEncapsulation.None,
     providers: [QuestionService, QuestionControlService]
 })
 export class SurveyBuilderComponent {
 
+    updateData: SurveyModel = new SurveyModel();
+
+    oldSurvey: SurveyModel = null;
     activeSurveyId: string;
     page: any;
     pageinglist: any[];
@@ -90,6 +96,12 @@ export class SurveyBuilderComponent {
             console.log(this.activeSurveyId);
             console.log('5555555555555555555555555555555555555555555555555555555555555');
         });
+        this.questionTransferService.getChangedQuestion().subscribe((data: any) => {
+            this.updateData.pages[this.page.id].questions = null;
+
+        });
+
+
         this.questionTransferService.getIdByNewPage().subscribe((id: any) => {
             const page = new PageModel({
                 id: id,
@@ -125,11 +137,12 @@ export class SurveyBuilderComponent {
 
 
         });
-
-
-
-
     }
+
+
+
+
+
 
     ngOnInit() {
         this.availableQuestionsOption = {
@@ -144,9 +157,10 @@ export class SurveyBuilderComponent {
             ],
         };
 
-        this.survey = this.questionService.getSurvey();
+
 
         if (this.activeSurveyId === 'create') {
+            this.survey = this.questionService.getSurvey();
             if (this.survey.pages) {
                 this.page = this.survey.pages[0];
                 // this.questions = this.survey.pages[0].questions;
@@ -154,6 +168,10 @@ export class SurveyBuilderComponent {
             }
         } else {
             this.surveysApiService.get(this.activeSurveyId).subscribe((data: SurveyModel) => {
+
+                this.oldSurvey = data;
+
+                this.survey = data;
                 if (this.survey.pages) {
                     this.page = data.pages[0];
                     // this.questions = this.survey.pages[0].questions;
@@ -217,9 +235,11 @@ export class SurveyBuilderComponent {
 
 
     getTestAnswer(answer: any) {
-        const data = this.surveysApiService.saveSurvey(this.survey);
+        // const data = this.surveysApiService.save(this.survey);
+        const data = this.surveysApiService.update(this.survey);
         console.log(data);
     }
+
 
     onDragEnd8(event: any, data: any) {
         console.log('88888888888888888888899999999999999999999999');

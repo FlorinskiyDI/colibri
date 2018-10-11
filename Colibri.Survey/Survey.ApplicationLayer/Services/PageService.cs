@@ -28,6 +28,26 @@ namespace Survey.ApplicationLayer.Services
 
 
 
+        public Pages GetPageById(Guid id)
+        {
+            try
+            {
+                Pages item;
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryPage = uow.GetRepository<Pages, Guid>();
+                    item = repositoryPage.Get(id);
+                    //await uow.SaveChangesAsync();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
 
         public async Task<List<PageModel>> GetListBySurvey(Guid surveyId)
         {
@@ -49,7 +69,7 @@ namespace Survey.ApplicationLayer.Services
                             Id = item.Id,
                             Name = item.Name,
                             Description = item.Description,
-                            OrderNo = item.OrderNo,
+                            Order = item.OrderNo,
                             SurveyId = item.SurveyId
                         };
                         pages.Add(page);
@@ -64,6 +84,25 @@ namespace Survey.ApplicationLayer.Services
             }
         }
 
+        public void DeletePageById(Guid pageId)
+        {
+            try
+            {
+                using (var uow = UowProvider.CreateUnitOfWork())
+                {
+                    var repositoryPage = uow.GetRepository<Pages, Guid>();
+                    repositoryPage.Remove(pageId);
+                    uow.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+
         public async Task<Guid> AddAsync(PageModel survey, Guid surveyId)
         {
             string surveystring = surveyId.ToString();
@@ -71,7 +110,7 @@ namespace Survey.ApplicationLayer.Services
             {
                 Description = survey.Description,
                 Name = survey.Name,
-                OrderNo = survey.OrderNo,
+                OrderNo = survey.Order,
                 SurveyId = Guid.Parse(surveyId.ToString()) 
             };
 
@@ -91,8 +130,7 @@ namespace Survey.ApplicationLayer.Services
                     Console.Write(e);
                     throw;
                 }
-            }
-            
+            }       
         }
     }
 }

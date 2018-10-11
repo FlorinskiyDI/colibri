@@ -5,8 +5,8 @@
   <div class="header">
     <p *ngIf="form.valid" style="color: green; font-weight: bold"> {{form.valid | json}}</p>
     <p *ngIf="!form.valid" style="color: red; font-weight: bold"> {{form.valid | json}}</p>
-    <!-- <pre>{{form.controls[page.id].valid | json}}</pre>
-    {{page.id | json}}------------------ {{page | json}} -------------------------------------- {{this.form.value | json}} -->
+    <pre>{{form.controls[page.id].valid | json}}</pre>
+    {{page.id | json}}------------------ {{page | json}} -------------------------------------- {{this.form.value | json}}
     <!-- {{this.form.value | json}} -->
   </div>
   <div class="body">
@@ -22,7 +22,7 @@
               dnd-sortable [dragEnabled]="false" [sortableIndex]="i">
 
 
-              <div class="d-question-wrapp" style="height: 100px" dnd-droppable (onDropSuccess)="!!$event.dragData.name ? addNewQuestion($event, i) : changeQuestionOrders(item, i)"
+              <div class="d-question-wrapp" style="height: 100px" dnd-droppable (onDropSuccess)="!!$event.dragData.name ? addNewQuestion($event, i) : sortQuestionByIndex()"
                 [dropZones]="questionSettings.allowquestion"></div>
             </li>
           </div>
@@ -34,7 +34,7 @@
             [dragData]="item" dnd-sortable [dragEnabled]="!editCheckbox.checked" [sortableIndex]="i">
 
 
-            <div class="d-question-wrapp" dnd-droppable (onDropSuccess)="!!$event.dragData.name ? addNewQuestion($event, i) : changeQuestionOrders(item, i)"
+            <div class="d-question-wrapp" dnd-droppable (onDropSuccess)="!!$event.dragData.name ? addNewQuestion($event, i) : sortQuestionByIndex()"
               [dropZones]="questionSettings.allowquestion">
               <div class="d-item-left-section">
                 <div class="d-item-opt-controls">
