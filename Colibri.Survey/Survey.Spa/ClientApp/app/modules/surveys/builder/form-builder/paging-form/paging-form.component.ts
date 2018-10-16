@@ -2,7 +2,7 @@ import { Component, Input, ElementRef, ViewEncapsulation, OnInit, ChangeDetector
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
 import { GUID } from 'shared/helpers/guide-type.helper';
 import { FormGroup } from '@angular/forms';
-
+import { applyDrag, generateItems } from './utils';
 
 
 
@@ -61,7 +61,11 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
         this.selectItem = item.id;
     }
 
+    items = generateItems(15, (i: any) => ({ data: 'Draggable ' + i }));
 
+    onDrop(dropResult: any) {
+        this.items = applyDrag(this.items, dropResult);
+    }
     renderBatches = () => {
         const itemWidth = 130;
 

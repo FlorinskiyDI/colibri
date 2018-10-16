@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {NgxSmoothDnDModule} from 'ngx-smooth-dnd';
 
 /* translate */ import { TranslateModule, TranslateStore, TranslateLoader } from '@ngx-translate/core';
 /* translate */ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -74,6 +75,7 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         JsonpModule,
         HttpModule,
         HttpClientModule,
+        NgxSmoothDnDModule,
         // MdlModule,
         // Translate
         TranslateModule.forChild({
