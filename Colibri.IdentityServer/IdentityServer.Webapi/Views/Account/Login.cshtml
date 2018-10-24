@@ -1,6 +1,8 @@
 ﻿@using System.Globalization
+@using IdentityServer.Webapi.Data
+
 @model IdentityServer.Webapi.Models.AccountViewModels.LoginViewModel
-@inject SignInManager<IdentityServer.Webapi.Data.ApplicationUser> SignInManager
+@inject SignInManager<ApplicationUser> SignInManager
 
 @{
     ViewData["Title"] = "login";
