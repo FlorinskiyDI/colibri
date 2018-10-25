@@ -64,10 +64,19 @@ namespace IdentityServer.Webapi
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
+
+            policy.Headers.Add("*");
+            policy.Methods.Add("*");
+            policy.Origins.Add("*");
+            policy.SupportsCredentials = true;
+
+            services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
+
             var guestPolicy = new AuthorizationPolicyBuilder()
-           .RequireAuthenticatedUser()
-           .RequireClaim("scope", "dataEventRecords")
-           .Build();
+               .RequireAuthenticatedUser()
+               .RequireClaim("scope", "dataEventRecords")
+               .Build();
 
 
 
@@ -145,13 +154,14 @@ namespace IdentityServer.Webapi
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             SqlConnectionFactory.ConnectionString = connectionString;
 
-            app.UseCors(options => options
-               //.WithOrigins("http://localhost:5151")
-               .AllowAnyOrigin()
-               .AllowAnyHeader()
-               .AllowAnyMethod()
-               .AllowCredentials()
-            );
+            //app.UseCors(options => options
+            //   //.WithOrigins("http://localhost:5151")
+            //   .AllowAnyOrigin()
+            //   .AllowAnyHeader()
+            //   .AllowAnyMethod()
+            //   .AllowCredentials()
+            //);
+            app.UseCors("corsGlobalPolicy");
 
             app.UseIdentityServer();
             app.UseAuthentication();
