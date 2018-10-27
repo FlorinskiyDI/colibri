@@ -3,22 +3,23 @@
     <div class="row">
         <div class="col-md-12">
             <div class="clbr--page-title">
-                <span>Group management</span>
+                <div class="text">Group management</div>
+                <div class="description">List of groups in the system</div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-md-12">
             <div class="clbr--block-description-v1">
                 <span>Description: List groups</span>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="row">
         <div class="col-md-12">
             <div class="clbr--block-content">
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-12">
                         <div class="clbr--block-btns-v1">
                             <button class="clbr--btn-default btn btn-sm btn-default"
@@ -40,7 +41,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="row">
                     <div class="col-md-12">
@@ -59,7 +60,7 @@
                                 [(selection)]="selectedNode">
                                 <ng-template pTemplate="header">
                                     <tr>
-                                        <th class="splitter"></th>
+                                        <!-- <th class="splitter"></th> -->
                                         <th class="border-right-none"
                                             style="width: 400px;">Group name</th>
                                         <th class="border-right-none border-left-none"
@@ -71,7 +72,7 @@
                                     let-rowNode
                                     let-rowData="rowData">
                                     <tr [ttSelectableRow]="rowNode">
-                                        <td></td>
+                                        <!-- <td></td> -->
                                         <td class="border-right-none">
                                             <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                                             {{rowData.name}}

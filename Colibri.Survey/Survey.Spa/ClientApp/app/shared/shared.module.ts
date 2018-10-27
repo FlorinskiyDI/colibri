@@ -46,9 +46,10 @@ import {NgxSmoothDnDModule} from 'ngx-smooth-dnd';
 /* module-ngx-bootstrap */ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
+
 // material
-// /* module-material */import { MatIconModule } from '@angular/material/icon';
-// /* module-material */ import { MatTooltipModule } from '@angular/material/tooltip';
+/* module-material */ import { MatIconModule } from '@angular/material/icon';
+/* module-material */ import { MatTooltipModule } from '@angular/material/tooltip';
 
 // import { MdlModule } from '@angular-mdl/core';
 // import { MdlModule } from '@angular-mdl/compo';
@@ -96,8 +97,8 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         // ngx-bootstrap
         TabsModule.forRoot(), BsDropdownModule.forRoot(),
         // material
-        // MatTooltipModule,
-        //  MatIconModule,
+        MatTooltipModule,
+         MatIconModule,
         // else
         AngularSplitModule
     ],
@@ -125,8 +126,8 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         // ngx-bootstrap
         TabsModule, BsDropdownModule,
         // material
-        // MatTooltipModule,
-        // MatIconModule,
+        MatTooltipModule,
+        MatIconModule,
         // else
         AngularSplitModule,
         // directives

@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 import { OidcSecurityService } from './core/auth/services/oidc.security.service';
 // import 'bootstrap';
@@ -15,8 +15,8 @@ import 'jquery';
         '../../node_modules/roboto-fontface/css/roboto/roboto-fontface.css',
         '../../node_modules/font-awesome/css/font-awesome.css',
 
-        // '../../node_modules/material-icons/iconfont/material-icons.css',
-        // '../../node_modules/@angular/material/_theming.scss',
+        '../../node_modules/material-icons/iconfont/material-icons.css',
+        '../../node_modules/@angular/material/_theming.scss',
         // '../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
         '../../node_modules/@angular-mdl/core/scss/material-design-lite.scss',
         '../../node_modules/primeng/resources/primeng.css',

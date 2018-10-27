@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
     selector: 'app-tableReport',
     templateUrl: 'tableReport.component.html',
     styleUrls: ['./tableReport.component.scss'],
-    encapsulation: ViewEncapsulation.None,
+    // encapsulation: ViewEncapsulation.None,
 })
 
 export class TableReportComponent implements OnInit {

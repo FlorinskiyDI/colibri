@@ -12,11 +12,17 @@
         <div class="" id="sidebar">
           <div class="list-group">
             <a routerLink="/dashboard" routerLinkActive="clbr-routerLink-active" class="list-group-item" href="#menu1" class="list-group-item">
-              <span class="hidden-sm-down">Dashboard</span>
+              <span class="hidden-sm-down">
+                <mat-icon class="mat-icon-dashboard">view_quilt</mat-icon>
+                <span>Dashboard</span> 
+              </span>
             </a>
 
             <a href="#menuProjects" class="list-group-item" data-toggle="collapse" data-parent="#sidebar">
-              <span class="clbt--list-group-item-title hidden-sm-down">Projects</span>
+              <span class="clbt--list-group-item-title hidden-sm-down">
+                <mat-icon>storage</mat-icon>
+                <span>Projects</span> 
+              </span>
             </a>
             <div class="collapse list-group-inner" id="menuProjects">
               <a routerLink="/home" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuProjects">Surveys</a>
@@ -25,19 +31,34 @@
 
             <a routerLinkActive="clbr-routerLink-active" href="#menuSettings" class="list-group-item" data-toggle="collapse" data-parent="#sidebar">
               <input routerLink="/manage" class="list-group-item" type="hidden">
-              <span class="clbt--list-group-item-title hidden-sm-down">Settings</span>
+              <span class="clbt--list-group-item-title hidden-sm-down">
+                <mat-icon>settings</mat-icon>
+                <span>Settings</span>  
+              </span>
             </a>
             <div class="collapse list-group-inner" id="menuSettings">
-              <a routerLink="/manage/groups" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuSettings">Group management</a>
-              <a routerLink="/manage/users" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuSettings">User management</a>
-              <a routerLink="/manage/options" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuSettings">Application options</a>
+              <a routerLink="/manage/groups" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuSettings">
+                <mat-icon>fiber_manual_record</mat-icon>
+                <span>Group management</span>
+              </a>
+              <a routerLink="/manage/users" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuSettings">
+                <mat-icon>fiber_manual_record</mat-icon>
+                <span>User management</span>
+              </a>
+              <a routerLink="/manage/options" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuSettings">
+                <mat-icon>fiber_manual_record</mat-icon>
+                <span>Application options</span>
+                </a>
               <div class="list-group-item" data-parent="#menuSettings"></div>
               <a routerLink="/manage/profile" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuSettings">My profile</a>
 
             </div>
 
             <a href="#menuAbout" class="list-group-item" data-toggle="collapse" data-parent="#sidebar">
-              <span class="clbt--list-group-item-title hidden-sm-down">About</span>
+              <span class="clbt--list-group-item-title hidden-sm-down">
+                <mat-icon>info</mat-icon>
+                <span>About</span> 
+              </span>
             </a>
             <div class="collapse list-group-inner" id="menuAbout">
               <div class="well clbr--blcok-about">
@@ -84,130 +105,3 @@
   </app-navigation>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <div class="layout-navbar">
-  <app-navigation (toggle)="togglemenu($event)">
-  </app-navigation>
-</div>
-
-<div class="layout-content">  
-  
-        <router-outlet>
-        </router-outlet>
-      
-</div>
-
-<div class="layout-sidebar">
-</div> -->
-
-<!-- <ng-sidebar-container>
-  <ng-sidebar [(opened)]="_opened" [mode]="_MODES[_modeNum]" [keyClose]="_keyClose" [position]="_POSITIONS[_positionNum]" [dock]="_dock"
-    [dockedSize]="'40px'" [autoCollapseHeight]="_autoCollapseHeight" [autoCollapseWidth]="_autoCollapseWidth" [closeOnClickOutside]="_closeOnClickOutside"
-    [closeOnClickBackdrop]="_closeOnClickBackdrop" [showBackdrop]="_showBackdrop" [animate]="_animate" [trapFocus]="_trapFocus"
-    [autoFocus]="_autoFocus" [sidebarClass]="'demo-sidebar'" [ariaLabel]="'My sidebar'" (onOpenStart)="_onOpenStart()" (onOpened)="_onOpened()"
-    (onCloseStart)="_onCloseStart()" (onClosed)="_onClosed()" (onTransitionEnd)="_onTransitionEnd()">
-
-    <p>Sidebar contents</p>
-    <button class="demo-control" (click)="_toggleOpened()">Close sidebar</button>
-
-  </ng-sidebar>
-  <div ng-sidebar-content>
-    <header>
-      <ol class="breadcrumb">
-        <li *ngFor="let breadcrumb of breadcrumbs$ | async; let i = index; let count = count" class="breadcrumb-item">
-          <span *ngIf="i+1 != count">
-            <a [routerLink]="[breadcrumb.url]">{{ breadcrumb.label }}</a>
-          </span>
-          <span *ngIf="i+1 == count">{{ breadcrumb.label }}</span>
-        </li>
-      </ol>
-    </header>
-
-    <section class="demo-contents">
-      <div class="row">
-        <div class="col-md-12">
-          <router-outlet>
-          </router-outlet>
-        </div>
-      </div>
-    </section>
-  </div>
-
-</ng-sidebar-container> -->
-
-<!-- 
-<ng-sidebar-container id="ng-sidebar-container">
-  <ng-sidebar [(opened)]="_opened" [mode]="_MODES[_modeNum]" [keyClose]="_keyClose" [position]="_POSITIONS[_positionNum]" [dock]="_dock"
-    [dockedSize]="'40px'" [autoCollapseHeight]="_autoCollapseHeight" [autoCollapseWidth]="_autoCollapseWidth" [closeOnClickOutside]="_closeOnClickOutside"
-    [closeOnClickBackdrop]="_closeOnClickBackdrop" [showBackdrop]="_showBackdrop" [animate]="_animate" [trapFocus]="_trapFocus"
-    [autoFocus]="_autoFocus" [sidebarClass]="'demo-sidebar'" [ariaLabel]="'My sidebar'" (onOpenStart)="_onOpenStart()" (onOpened)="_onOpened()"
-    (onCloseStart)="_onCloseStart()" (onClosed)="_onClosed()" (onTransitionEnd)="_onTransitionEnd()">
-
-    <p>Sidebar contents</p>
-    <button class="demo-control" (click)="_toggleOpened()">Close sidebar</button>
-
-  </ng-sidebar>
-  <div ng-sidebar-content>
-    <header id="header" class="demo-header">
-      <div class="d--top-navigation">
-        <ol class="breadcrumb">
-          <li *ngFor="let breadcrumb of breadcrumbs$ | async; let i = index; let count = count" class="breadcrumb-item">
-            <span *ngIf="i+1 != count">
-              <a [routerLink]="[breadcrumb.url]">{{ breadcrumb.label }}</a>
-            </span>
-            <span *ngIf="i+1 == count">{{ breadcrumb.label }}</span>
-          </li>
-        </ol>
-      </div>
-    </header>
-
-    <section class="demo-contents">
-      <router-outlet>
-      </router-outlet>
-    </section>
-  </div>
-</ng-sidebar-container>
-
-<app-navigation (toggle)="togglemenu($event)">
-</app-navigation> -->
