@@ -50,6 +50,7 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
 // material
 /* module-material */ import { MatIconModule } from '@angular/material/icon';
 /* module-material */ import { MatTooltipModule } from '@angular/material/tooltip';
+/* module-material */ import { MatButtonModule } from '@angular/material/button';
 
 // import { MdlModule } from '@angular-mdl/core';
 // import { MdlModule } from '@angular-mdl/compo';
@@ -98,7 +99,8 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         TabsModule.forRoot(), BsDropdownModule.forRoot(),
         // material
         MatTooltipModule,
-         MatIconModule,
+        MatButtonModule,
+        MatIconModule,
         // else
         AngularSplitModule
     ],
@@ -127,6 +129,7 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         TabsModule, BsDropdownModule,
         // material
         MatTooltipModule,
+        MatButtonModule,
         MatIconModule,
         // else
         AngularSplitModule,
