@@ -24,6 +24,13 @@ export class GroupFormCreateComponent implements BlockableUI {
         }
     }
 
+
+    foods: Food[] = [
+        {value: 'steak-0', viewValue: 'Steak'},
+        {value: 'pizza-1', viewValue: 'Pizza'},
+        {value: 'tacos-2', viewValue: 'Tacos'}
+      ];
+
     formGroup: FormGroup;
     formIsValid = true;
     drpdwnGroups: any[] = [];
@@ -93,3 +100,9 @@ export class GroupFormCreateConfig {
         this._groups = groups;
     }
 }
+
+
+export interface Food {
+    value: string;
+    viewValue: string;
+  }

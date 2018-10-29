@@ -10,11 +10,24 @@
                 <label class="col-md-3 control-label"
                     for="name">Name</label>
                 <div class="col-md-9">
-                    <input formControlName="name"
+                    <!-- <input formControlName="name"
                         id="name"
                         name="name"
                         type="text"
-                        class="form-control">
+                        class="form-control"> -->
+                    <!-- <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Name" formControlName="name">
+                    </mat-form-field> -->
+
+                    <mat-form-field>
+                            <mat-select placeholder="Favorite food">
+                              <mat-option *ngFor="let food of foods" [value]="food.value">
+                                {{food.viewValue}}
+                              </mat-option>
+                            </mat-select>
+                            <i matSuffix style="font-size: 13px;" class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+                            
+                          </mat-form-field>
                     <span class="valid-feedback"
                         *ngIf="formGroup.get('name').hasError('required') && formGroup.get('name').touched || formGroup.get('name').hasError('required') && !formIsValid">
                         Value is required
@@ -30,7 +43,7 @@
                         [options]="drpdwnGroups"
                         autoWidth="false"
                         [style]="{'width':'100%'}"></p-dropdown>
-                        <!-- <div class="input-group">                                
+                    <!-- <div class="input-group">                                
                                         <p-dropdown formControlName="parentId"                                        
                                         appendTo="body"
                                         autoWidth="false"
@@ -48,7 +61,7 @@
             <div class="form-group form-group-sm">
                 <label class="col-md-3 control-label"
                     for="message">Description</label>
-                <div class="col-md-9">                       
+                <div class="col-md-9">
                     <textarea class="form-control"
                         id="message"
                         formControlName="description"

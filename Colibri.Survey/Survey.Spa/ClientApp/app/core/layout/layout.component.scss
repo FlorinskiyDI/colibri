@@ -13,7 +13,7 @@ $footerHeight: 25px;
     bottom: 0;
     left: 0;
     right: 0;
-
+    aside.ng-sidebar { background-color: #fafafa; }
     aside.ng-sidebar--left { z-index: 1000; top: $headerHeight; bottom: $footerHeight; width: 230px; padding: 0px; border: 1px solid #E6E6E6; }
     .ng-sidebar-content { widows: 100%; height: 100%; }
     section.demo-contents { height: 100%; padding-top: $headerHeight; bottom: $footerHeight; }
