@@ -17,19 +17,13 @@ export class GroupFormCreateComponent implements BlockableUI {
     @Input()
     get config() { return this.configData; }
     set config(data: any) {
+        debugger
         if (data) {
             this.configData = data;
             this.formIsValid = true;
             this._cmpInitialize(data);
         }
     }
-
-
-    foods: Food[] = [
-        {value: 'steak-0', viewValue: 'Steak'},
-        {value: 'pizza-1', viewValue: 'Pizza'},
-        {value: 'tacos-2', viewValue: 'Tacos'}
-      ];
 
     formGroup: FormGroup;
     formIsValid = true;
@@ -44,6 +38,7 @@ export class GroupFormCreateComponent implements BlockableUI {
 
     ngOnInit() { }
     ngOnDestroy() {
+        debugger
         this.onChange.unsubscribe();
     }
 
@@ -100,9 +95,3 @@ export class GroupFormCreateConfig {
         this._groups = groups;
     }
 }
-
-
-export interface Food {
-    value: string;
-    viewValue: string;
-  }

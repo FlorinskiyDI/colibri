@@ -24,7 +24,7 @@ import 'jquery';
         '../../node_modules/primeng/resources/themes/omega/theme.css',
 
         './app.component.scss',
-        '../styles/custom.material-icons.scss',
+        '../styles/custom.material.scss',
         '../styles/custom.primeng.scss',
         '../styles/custom.bootstrap.scss',
         '../styles/custom.shared.scss'

@@ -1,7 +1,7 @@
 <p-dialog header="Group creation"
     class="clbr--dialog-v1"
-    minWidth="500"
-    width="500"
+    minWidth="400"
+    width="400"
     showEffect="fade"
     [responsive]="true"
     [modal]="true"
@@ -10,32 +10,61 @@
     (onHide)="dialogHide($event)"
     [(visible)]="dialogConfig.visible">
 
-    <cmp-group-form-create #ctrlFormGroupCreate
-        [config]="formGroupConfig"
-        (onChange)="formGroupOnChange($event)">
-    </cmp-group-form-create>
+    <div class="cmp-form-group-creat row">
+        <div class="col-md-12">
+
+            <div #ngFormGroup="ngForm"
+                [formGroup]="formGroup"
+                class="clbr--form-horizontal form needs-validation"
+                role="form">
+                <div class="form-group form-group-sm">
+                    <mat-form-field class="mat-clbr--form-field-full-width">
+                        <input #ctrlName matInput maxlength="50"
+                            placeholder="Name"
+                            formControlName="name">
+                        <mat-error *ngIf="formGroup.get('name').hasError('required') && formGroup.get('name').touched">
+                            Value is required
+                        </mat-error>
+                        <mat-hint align="end">{{ctrlName.value.length}} / 50</mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="clbr--form-group form-group form-group-sm">
+                    <mat-form-field class="mat-clbr--form-field-full-width">
+                        <mat-select placeholder="Parent group"
+                            formControlName="parentId">
+                            <mat-option *ngFor="let item of drpdwnGroups"
+                                [value]="item.value">
+                                {{item.label}}
+                            </mat-option>
+                        </mat-select>
+                        <i *ngIf="!drpdwnGroups.length>0" matSuffix style="font-size: 13px;" class="fa fa-refresh fa-spin"></i>
+                    </mat-form-field>
+                </div>
+                <div class="form-group form-group-sm">
+                    <mat-form-field class="mat-clbr--form-field-full-width">
+                        <textarea  matInput
+                            placeholder="Description"
+                            formControlName="description">
+                        </textarea>
+                        <mat-error *ngIf="formGroup.get('name').hasError('required') && formGroup.get('name').touched">
+                            Value is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <p-footer>
-        <button [attr.disabled]="blockedPanel ? '' : null"
-            class="clbr--btn-default btn btn-sm btn-default notification"
-            (click)="formSave()">
+        <button class="clbr--btn-default btn btn-sm btn-default notification"
+            (click)="formSubmit()">
             <i class="fa fa-check"></i>Save</button>
-        <button [attr.disabled]="blockedPanel ? '' : null"
-            class="clbr--btn-default btn btn-sm btn-default notification"
-            (click)="dialogCancel()">
+        <button class="clbr--btn-default btn btn-sm btn-default notification"
+            (click)="formCancel()">
             <i class="fa fa-remove"></i>Cancel</button>
     </p-footer>
 </p-dialog>
 
-
-
-<!-- 
-<p-blockUI [target]="ctrlFormGroupCreate"
-    [blocked]="blockedPanel">
-    <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"
-        style="position:absolute;top:25%;left:50%"></i>
-</p-blockUI>
-
 <p-growl styleClass="clbr--growl-icon-none"
     [life]="5000">
-</p-growl> -->
+</p-growl>
