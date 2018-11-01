@@ -50,6 +50,7 @@ export class GroupDialogCreateComponent {
     private formInitBuild(data: any = {}): void {
         this.formGroup = new FormGroup({
             'name': new FormControl(data.name, [Validators.required]),
+            'groupID': new FormControl(null, [Validators.required]),
             'parentId': new FormControl(data.parentId),
             'description': new FormControl(data.description),
         });

@@ -1,5 +1,5 @@
 <p-dialog header="Group creation"
-    class="clbr--dialog-v1"
+    class="clbr--p-dialog-v1"
     minWidth="400"
     width="400"
     showEffect="fade"
@@ -20,12 +20,23 @@
                 <div class="form-group form-group-sm">
                     <mat-form-field class="mat-clbr--form-field-full-width">
                         <input #ctrlName matInput maxlength="50"
-                            placeholder="Name"
+                            placeholder="Group ID *"
+                            formControlName="groupID">
+                        <mat-error *ngIf="formGroup.get('groupID').hasError('required') && formGroup.get('groupID').touched">
+                            Value is required
+                        </mat-error>
+                        <mat-hint align="end">unique value</mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="form-group form-group-sm">
+                    <mat-form-field class="mat-clbr--form-field-full-width">
+                        <input #ctrlName matInput maxlength="50"
+                            placeholder="Group name *"
                             formControlName="name">
                         <mat-error *ngIf="formGroup.get('name').hasError('required') && formGroup.get('name').touched">
                             Value is required
                         </mat-error>
-                        <mat-hint align="end">{{ctrlName.value.length}} / 50</mat-hint>
+                        <mat-hint align="end">maximum length - {{ctrlName.value.length}} / 50</mat-hint>
                     </mat-form-field>
                 </div>
                 <div class="clbr--form-group form-group form-group-sm">
@@ -56,13 +67,10 @@
     </div>
 
     <p-footer>
-        <button class="clbr--btn-default btn btn-sm btn-default notification"
-            (click)="formSubmit()">
-            <i class="fa fa-check"></i>Save</button>
-        <button class="clbr--btn-default btn btn-sm btn-default notification"
-            (click)="formCancel()">
-            <i class="fa fa-remove"></i>Cancel</button>
+        <button class="clbr--btn-default btn btn-sm btn-default notification" (click)="formSubmit()">SAVE CHANGES</button>
+        <button class="clbr--btn-default clbr--background-image-without btn btn-sm btn-default notification" (click)="formCancel()">CANCEL</button>
     </p-footer>
+
 </p-dialog>
 
 <p-growl styleClass="clbr--growl-icon-none"
