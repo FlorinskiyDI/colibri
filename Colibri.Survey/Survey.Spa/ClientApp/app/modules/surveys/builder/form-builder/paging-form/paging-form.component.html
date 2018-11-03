@@ -14,31 +14,46 @@
             </ng-template>
         </p-dropdown>
     </div>
+
+    <!-- <smooth-dnd-container [orientation]="'horizontal'" (drop)="onDrop($event)" style="background-color:red">
+        <smooth-dnd-draggable *ngFor="let item of items">
+            <div class="draggable-item-horizontal">
+                {{item.data}}
+            </div>
+        </smooth-dnd-draggable>
+    </smooth-dnd-container> -->
+
     <div class='carousel-wrapper'>
         <div class='carousel' fxLayout='row' fxLayoutAlign='center stretch'>
-            <ul class='ulCollection' *ngFor='let items of batches' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
+            <!-- <ul class='ulCollection' *ngFor='let items of batches' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
+            </ul> -->
+            <smooth-dnd-container [orientation]="'horizontal'" (drop)="onDrop($event)" style="background-color:red">
+                <smooth-dnd-draggable *ngFor='let item of batches[0]; let i = index'>
+                    <ul class='ulCollection' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
 
-            </ul>
-            <ul class='ulCollection' *ngFor='let items of batches' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
-                <li [ngClass]='{"active": selectItem == item.id}' *ngFor='let item of items; let i = index' fxLayout='column' fxLayoutAlign='center center'>
+                        <li [ngClass]='{"active": selectItem == item.id}' fxLayout='column' fxLayoutAlign='center center'>
 
-                    <div class="deletePageblock">
-                        <button *ngIf="formPage.controls[item.id] ? formPage.controls[item.id].dirty : false" class="changepage" type="button" title="The page was changed">
-                            <i class="fa fa-pencil"></i>
-                        </button>
-                        <button class="deletepage" *ngIf="items.length > 1" (click)="deletePage(item.id, i,  $event); " type="button" title="Delete page">
-                            <i class="fa fa-times"></i>
-                        </button>
+                            <div class="deletePageblock">
+                                <button *ngIf="formPage.controls[item.id] ? formPage.controls[item.id].dirty : false" class="changepage" type="button" title="The page was changed">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="deletepage" *ngIf="batches[0].length > 1" (click)="deletePage(item.id, i,  $event); " type="button" title="Delete page">
+                                    <i class="fa fa-times"></i>
+                                </button>
 
-                    </div>
-                    <div (click)="selectPage(item)" class='textBlock' style="height: 100%">
-                        {{item.title + " " + (i + 1) }}
-                        <b *ngIf="formPage.controls[item.id] ? !formPage.controls[item.id].valid : false"
-                            [ngClass]='{"d-dirtyPage": selectItem == item.id}'>*</b>
-                    </div>
-                </li>
-            </ul>
+                            </div>
+                            <div (click)="selectPage(item)" class='textBlock' style="height: 100%">
+                                {{item.title + " " + (i + 1) }}
+                                <b *ngIf="formPage.controls[item.id] ? !formPage.controls[item.id].valid : false" [ngClass]='{"d-dirtyPage": selectItem == item.id}'>*</b>
+                            </div>
+
+                        </li>
+
+                    </ul>
+                </smooth-dnd-draggable>
+            </smooth-dnd-container>
         </div>
+
     </div>
 
 

@@ -4,9 +4,20 @@
 <div class="d-builder-body-content">
     <div class="body-question-builder">
         <div class="header">
+            <div>
+                <div [ngStyle]="{'margin': '50px','overflowX': 'auto'}">
+                    <smooth-dnd-container [orientation]="'horizontal'" (drop)="onDrop($event)">
+                        <smooth-dnd-draggable *ngFor="let item of items">
+                            <div class="draggable-item-horizontal">
+                                {{item.data}}
+                            </div>
+                        </smooth-dnd-draggable>
+                    </smooth-dnd-container>
+                </div>
+            </div>
             <!-- {{page | json}} ++++++++++++++++++++++ -->
             <!-- {{formPage.value | json}} -->
-                <!-- <p *ngIf="formPage.valid" style="color: green; font-weight: bold"> {{formPage.valid | json}}</p>
+            <!-- <p *ngIf="formPage.valid" style="color: green; font-weight: bold"> {{formPage.valid | json}}</p>
                 <p *ngIf="!formPage.valid" style="color: red; font-weight: bold"> {{formPage.valid | json}}</p> -->
         </div>
         <div class="body">
@@ -30,9 +41,8 @@
                                 [dropZones]="templateOptions.dragTemplateZones">
                                 <div class="d-item-left-section">
                                     <div class="d-item-opt-controls">
-                                        <input id="etitState" [checked]="selectQuestion == item.id" #editCheckbox type="checkbox" value="false"
-                                            (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? selectQuestion = item.id: selectQuestion = ''">
-                                        <label for="etitState"> {{'Q' + (i+1)}}</label>      
+                                        <input id="etitState" [checked]="selectQuestion == item.id" #editCheckbox type="checkbox" value="false" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? selectQuestion = item.id: selectQuestion = ''">
+                                        <label for="etitState"> {{'Q' + (i+1)}}</label>
                                         <!-- <button (click)="flickerNotificationField(1)" type="button" *ngIf="item.required && editCheckbox.checked" class="d-btn-option"
                                             title="Require question">
                                             <i class="fa fa-asterisk"></i>

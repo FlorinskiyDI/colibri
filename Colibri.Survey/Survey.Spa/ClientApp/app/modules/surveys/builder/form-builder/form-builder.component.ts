@@ -11,6 +11,10 @@ import { QuestionTransferService } from 'shared/transfers/question-transfer.serv
 import { QuestionService } from '../services/builder.service';
 import { ControStates } from 'shared/constants/control-states.constant';
 
+// import { ContainerComponent, DraggableComponent, IDropResult } from 'ngx-smooth-dnd';
+
+
+
 @Component({
     selector: 'form-builder',
     templateUrl: './form-builder.component.html',
@@ -27,6 +31,43 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
     formPage: FormGroup;
     selectQuestion: string;
     static deleteQuestionList: string[] = [];
+
+
+
+
+
+    // items = this.generateItems(50, (i: any) => ({ data: 'Draggable ' + i }));
+    // onDrop(dropResult: IDropResult) {
+    //     // update item list according to the @dropResult
+    //     this.items = this.applyDrag(this.items, dropResult);
+    // }
+    // generateItems(count: any, creator: any) {
+    //     const result = [];
+    //     for (let i = 0; i < count; i++) {
+    //         result.push(creator(i));
+    //     }
+    //     return result;
+    // }
+    // applyDrag(arr: any, dragResult: any){
+    //     const { removedIndex, addedIndex, payload } = dragResult;
+    //     if (removedIndex === null && addedIndex === null) {return arr;
+    //     }
+
+    //     const result = [...arr];
+    //     let itemToAdd = payload;
+
+    //     if (removedIndex !== null) {
+    //         itemToAdd = result.splice(removedIndex, 1)[0];
+    //     }
+
+    //     if (addedIndex !== null) {
+    //         result.splice(addedIndex, 0, itemToAdd);
+    //     }
+
+    //     return result;
+    // }
+
+
 
     constructor(
         private cdr: ChangeDetectorRef,
