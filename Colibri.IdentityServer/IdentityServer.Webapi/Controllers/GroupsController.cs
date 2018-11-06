@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using dataaccesscore.EFCore.Paging;
 using dataaccesscore.EFCore.Query;
+using ExpressionBuilder.Operations;
 using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -95,19 +96,28 @@ namespace IdentityServer.Webapi.Controllers
             var constant = Expression.Constant("mytest1");
             var body = Expression.Equal(member, constant); //x.Name = "mytest1"
             var finalExpression = Expression.Lambda<Func<Groups, bool>>(body, parameter); //x => x.Name >= "mytest1"
+            try
+            {
+                var filtertest = new ExpressionBuilder.Generics.Filter<Groups>();
+                filtertest.By("Name", Operation.EqualTo, "mytest1");
+
+                var filter = new Filter<Groups>(null);
+                filter.AddExpression(filtertest);
 
 
+                var results = await _pager.QueryAsync(
+                    pageNumber,
+                    pageLength,
+                    filter
+                    );
+            }
+            catch (Exception ex)
+            {
 
-
-            var filter = new Filter<Groups>(null);
-            filter.AddExpression(finalExpression);
+                throw;
+            }
             
             
-            var results = await _pager.QueryAsync(
-                pageNumber,
-                pageLength,
-                filter
-                );
 
             var list = await _groupRepository.GetSubGroupsAsync(id);
             return Ok(list);

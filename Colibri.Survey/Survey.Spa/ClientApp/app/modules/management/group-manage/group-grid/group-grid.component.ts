@@ -1,8 +1,13 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ElementRef} from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { FormControl } from '@angular/forms';
 import { TreeDragDropService } from 'primeng/components/common/api';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { map, startWith } from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
 
 // /* service-transfer */ import { GroupManageTransferService } from '../group-manage/group-manage.transfer.service';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
@@ -15,7 +20,6 @@ import { Router } from '@angular/router';
     selector: 'cmp-group-grid',
     templateUrl: './group-grid.component.html',
     styleUrls: ['./group-grid.component.scss'],
-    encapsulation: ViewEncapsulation.None,
     providers: [
         TreeDragDropService,
         ConfirmationService,
@@ -23,6 +27,23 @@ import { Router } from '@angular/router';
     ]
 })
 export class GroupGridComponent {
+
+    visible = true;
+    selectable = true;
+    removable = true;
+    addOnBlur = true;
+    separatorKeysCodes: number[] = [ENTER, COMMA];
+    fruitCtrl = new FormControl();
+    filteredFruits: Observable<string[]>;
+    fruits: string[] = ['Lemon'];
+    allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+    @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+    @ViewChild('auto') matAutocomplete: MatAutocomplete;
+
+
+
+
     // modal
     MODAL_GROUP_CREATE = ModalTypes.GROUP_CREATE;
 
@@ -41,7 +62,63 @@ export class GroupGridComponent {
         private groupsApiService: GroupsApiService,
     ) {
         this._requestGetRootGroups();
+
+        this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+            startWith(null),
+            map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
     }
+
+
+
+    add(event: MatChipInputEvent): void {
+        // Add fruit only when MatAutocomplete is not open
+        // To make sure this does not conflict with OptionSelected Event
+        if (!this.matAutocomplete.isOpen) {
+            const input = event.input;
+            const value = event.value;
+
+            // Add our fruit
+            if ((value || '').trim()) {
+                this.fruits.push(value.trim());
+            }
+
+            // Reset the input value
+            if (input) {
+                input.value = '';
+            }
+
+            this.fruitCtrl.setValue(null);
+        }
+    }
+
+    remove(fruit: string): void {
+        const index = this.fruits.indexOf(fruit);
+
+        if (index >= 0) {
+            this.fruits.splice(index, 1);
+        }
+    }
+
+    selected(event: MatAutocompleteSelectedEvent): void {
+        this.fruits.push(event.option.viewValue);
+        this.fruitInput.nativeElement.value = '';
+        this.fruitCtrl.setValue(null);
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+    }
+
+
+
+
+
+
+
+
+
 
     ngOninit() {
         this.tbCols = [
