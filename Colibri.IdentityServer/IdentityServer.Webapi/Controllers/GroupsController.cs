@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using dataaccesscore.EFCore.Paging;
+using dataaccesscore.EFCore.Query;
 using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -23,15 +26,18 @@ namespace IdentityServer.Webapi.Controllers
         // PUT: api/groups
         // DELETE: api/groups/{id}
 
+        protected readonly IDataPager<Groups, Guid> _pager;
         private readonly IGroupRepository _groupRepository;
         private readonly IAppUserGroupRepository _appUserGroupRepository;
         public GroupsController(
             IGroupRepository groupRepository,
-            IAppUserGroupRepository appUserGroupRepository
+            IAppUserGroupRepository appUserGroupRepository,
+            IDataPager<Groups, Guid> pager
         )
         {
             _groupRepository = groupRepository;
             _appUserGroupRepository = appUserGroupRepository;
+            _pager = pager;
         }
 
         // GET: api/groups/
@@ -79,6 +85,30 @@ namespace IdentityServer.Webapi.Controllers
         [HttpGet("{id}/subgroups")]
         public async Task<IActionResult> GetSubGroups(Guid id)
         {
+
+            var columnNames = new List<string>(new string[] { "Id", "Name" });
+            var pageNumber = 1;
+            var pageLength = 1;
+
+            var parameter = Expression.Parameter(typeof(Groups), "x");
+            var member = Expression.Property(parameter, "Name"); //x.Name
+            var constant = Expression.Constant("mytest1");
+            var body = Expression.Equal(member, constant); //x.Name = "mytest1"
+            var finalExpression = Expression.Lambda<Func<Groups, bool>>(body, parameter); //x => x.Name >= "mytest1"
+
+
+
+
+            var filter = new Filter<Groups>(null);
+            filter.AddExpression(finalExpression);
+            
+            
+            var results = await _pager.QueryAsync(
+                pageNumber,
+                pageLength,
+                filter
+                );
+
             var list = await _groupRepository.GetSubGroupsAsync(id);
             return Ok(list);
         }

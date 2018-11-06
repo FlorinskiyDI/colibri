@@ -1,11 +1,12 @@
-﻿using System;
+﻿using dataaccesscore.EFCore.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IdentityServer.Webapi.Data
 {
-    public partial class Groups
+    public partial class Groups: BaseEntity<Guid>
     {
         public Groups()
         {
@@ -13,7 +14,6 @@ namespace IdentityServer.Webapi.Data
             InverseParent = new HashSet<Groups>();
         }
 
-        public Guid Id { get; set; }
         public Guid? ParentId { get; set; }
         [Required]
         [StringLength(100)]

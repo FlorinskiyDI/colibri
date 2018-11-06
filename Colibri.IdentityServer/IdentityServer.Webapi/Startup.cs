@@ -92,7 +92,10 @@ namespace IdentityServer.Webapi
 
             services.AddTransient<IProfileService, IdentityProfileService>();
             services.AddTransient<IExtensionGrantValidator, DelegationGrantValidator>();
-            services.AddDependencies(Configuration);
+
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDependencies(Configuration, connectionString);
+            SqlConnectionFactory.ConnectionString = connectionString;
 
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
               .AddIdentityServerAuthentication(options =>
@@ -151,8 +154,8 @@ namespace IdentityServer.Webapi
             }
             
 
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            SqlConnectionFactory.ConnectionString = connectionString;
+            //var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //SqlConnectionFactory.ConnectionString = connectionString;
 
             //app.UseCors(options => options
             //   //.WithOrigins("http://localhost:5151")
