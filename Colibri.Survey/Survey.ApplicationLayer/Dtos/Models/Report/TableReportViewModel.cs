@@ -1,7 +1,4 @@
-﻿using storagecore.EntityFrameworkCore.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace Survey.ApplicationLayer.Dtos.Models.Report
 {

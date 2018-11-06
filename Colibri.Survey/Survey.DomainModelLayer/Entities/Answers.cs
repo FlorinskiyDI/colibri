@@ -1,4 +1,4 @@
-﻿using storagecore.EntityFrameworkCore.Entities;
+﻿using dataaccesscore.EFCore.Entities;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 

@@ -1,15 +1,13 @@
 ﻿using AutoMapper;
-using storagecore.Abstractions.Uow;
 using Survey.ApplicationLayer.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.EntityFrameworkCore.Internal;
 using Survey.ApplicationLayer.Dtos.Models.Report;
 using Survey.DomainModelLayer.Entities;
-using Newtonsoft.Json;
 using Survey.Common.Enums;
+using dataaccesscore.Abstractions.Uow;
 
 namespace Survey.ApplicationLayer.Services
 {
@@ -100,7 +98,6 @@ namespace Survey.ApplicationLayer.Services
         {
             using (var uow = UowProvider.CreateUnitOfWork())
             {
-                var id = new Guid();
                 var repositoryRespondent = uow.GetRepository<SurveySectoinRespondents, Guid>();
                 var repositorySurvey = uow.GetRepository<SurveySections, Guid>();
                 var repositoryPage = uow.GetRepository<Pages, Guid>();

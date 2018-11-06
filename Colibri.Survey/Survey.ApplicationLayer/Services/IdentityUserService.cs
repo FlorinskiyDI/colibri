@@ -2,6 +2,7 @@
 using Survey.ApplicationLayer.Dtos.Models;
 using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.DomainModelLayer.Models;
+using Survey.DomainModelLayer.Models.IdentityServer;
 using Survey.InfrastructureLayer.IdentityServerServices.Interfaces;
 using System;
 using System.Collections.Generic;

@@ -5,12 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="dataaccesscore.Abstractions" Version="1.0.0" />
+    <PackageReference Include="dataaccesscore.EFCore" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="2.1.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\storagecore.Abstractions\storagecore.Abstractions.csproj" />
-    <ProjectReference Include="..\storagecore.EntityFrameworkCore\storagecore.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>

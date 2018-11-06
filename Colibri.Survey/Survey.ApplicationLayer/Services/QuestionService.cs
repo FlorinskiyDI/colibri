@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using dataaccesscore.Abstractions.Uow;
 using Newtonsoft.Json;
-using storagecore.Abstractions.Uow;
 using Survey.ApplicationLayer.Dtos.Entities;
 using Survey.ApplicationLayer.Dtos.Models;
 using Survey.ApplicationLayer.Dtos.Models.Questions;
@@ -383,7 +382,7 @@ namespace Survey.ApplicationLayer.Services
 
 
         // update section
-        private async void UpdateTextQuestion(TextQuestionModel data)
+        private void UpdateTextQuestion(TextQuestionModel data)
         {
             var question = GetQuestionById(Guid.Parse(data.Id));
 
@@ -401,7 +400,7 @@ namespace Survey.ApplicationLayer.Services
 
 
 
-        private async void UpdateTextAreaQuestion(TextAreaQuestionModel data)
+        private void UpdateTextAreaQuestion(TextAreaQuestionModel data)
         {
             var question = GetQuestionById(Guid.Parse(data.Id));
 

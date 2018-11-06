@@ -1,12 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
-using storagecore.EntityFrameworkCore.Models;
-using storagecore.EntityFrameworkCore.Repositories;
+﻿using dataaccesscore.EFCore.Models;
+using dataaccesscore.EFCore.Repositories;
+using Microsoft.Extensions.Logging;
 using Survey.DomainModelLayer.Contracts.Repositories;
 using Survey.DomainModelLayer.Entities;
 using Survey.InfrastructureLayer.Context;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Survey.InfrastructureLayer.Repositories
 {
