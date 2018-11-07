@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using dataaccesscore.EFCore.Paging;
 using dataaccesscore.EFCore.Query;
@@ -11,6 +13,7 @@ using IdentityServer.Webapi.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace IdentityServer.Webapi.Controllers
 {
@@ -81,43 +84,53 @@ namespace IdentityServer.Webapi.Controllers
             var list = await _groupRepository.GetRootAsync(userId);
             return Ok(list);
         }
+        public static T GetTfromString<T>(string mystring)
+        {
+            //return (T)Convert.ChangeType(mystring, typeof(T));
+            var foo = TypeDescriptor.GetConverter(typeof(T));
+            return (T)(foo.ConvertFromInvariantString(mystring));
+        }
 
         // GET: api/groups/{id}/subgroups
         [HttpGet("{id}/subgroups")]
         public async Task<IActionResult> GetSubGroups(Guid id)
         {
 
-            var columnNames = new List<string>(new string[] { "Id", "Name" });
-            var pageNumber = 1;
-            var pageLength = 1;
-
-            var parameter = Expression.Parameter(typeof(Groups), "x");
-            var member = Expression.Property(parameter, "Name"); //x.Name
-            var constant = Expression.Constant("mytest1");
-            var body = Expression.Equal(member, constant); //x.Name = "mytest1"
-            var finalExpression = Expression.Lambda<Func<Groups, bool>>(body, parameter); //x => x.Name >= "mytest1"
-            try
-            {
-                var filtertest = new ExpressionBuilder.Generics.Filter<Groups>();
-                filtertest.By("Name", Operation.EqualTo, "mytest1");
-
-                var filter = new Filter<Groups>(null);
-                filter.AddExpression(filtertest);
 
 
-                var results = await _pager.QueryAsync(
-                    pageNumber,
-                    pageLength,
-                    filter
-                    );
-            }
-            catch (Exception ex)
-            {
+            #region test filter
+            //var columnNames = new List<string>(new string[] { "Id", "Name" });
+            //var pageNumber = 1;
+            //var pageLength = 10;
 
-                throw;
-            }
-            
-            
+            //var parameter = Expression.Parameter(typeof(Groups), "x");
+            //var member = Expression.Property(parameter, "Name"); //x.Name
+            //var constant = Expression.Constant("mytest1");
+            //var body = Expression.Equal(member, constant); //x.Name = "mytest1"
+            //var finalExpression = Expression.Lambda<Func<Groups, bool>>(body, parameter); //x => x.Name >= "mytest1"
+            //try
+            //{
+            //    Type myType = typeof(Groups).GetProperty("Name").PropertyType;
+            //    MethodInfo method = typeof(GroupsController).GetMethod("GetTfromString");
+            //    MethodInfo generic = method.MakeGenericMethod(myType);
+            //    var ccc = generic.Invoke(this, new[] { "03.03.1993" });
+
+            //    var filtertest = new ExpressionBuilder.Generics.Filter<Groups>();
+            //    filtertest.By("id", Operation.NotEqualTo, new Guid("5d35f7d0-4e5c-e811-9c5c-d017c2aa438d"));
+
+            //    var filter = new Filter<Groups>(null);
+            //    filter.AddExpression(filtertest);
+
+
+            //    var results = await _pager.QueryAsync(pageNumber, pageLength, filter);
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw;
+            //}
+            #endregion
+
+
 
             var list = await _groupRepository.GetSubGroupsAsync(id);
             return Ok(list);
@@ -212,4 +225,11 @@ namespace IdentityServer.Webapi.Controllers
         }
 
     }
+
+    //public class Test
+    //{
+    //    public int MyInt{ get; set; }
+    //    public string MyString { get; set; }
+    //    public DateTime MyDate { get; set; }
+    //}
 }

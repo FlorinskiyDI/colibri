@@ -53,7 +53,7 @@ export class GroupGridComponent {
     selectedGroup: any;
     tbItems: any[] = [];
     tbCols: any[] = [];
-    tbLoading = false;
+    tbLoading = true;
     isNodeSelected = false;
     constructor(
         private router: Router,
@@ -61,7 +61,7 @@ export class GroupGridComponent {
         private confirmationService: ConfirmationService,
         private groupsApiService: GroupsApiService,
     ) {
-        this._requestGetRootGroups();
+        // this._requestGetRootGroups();
 
         this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
             startWith(null),
@@ -124,6 +124,8 @@ export class GroupGridComponent {
         this.tbCols = [
             { field: 'id', header: 'id' }
         ];
+
+        this.tbLoading = true;
     }
 
     public createGroup() {
@@ -167,6 +169,7 @@ export class GroupGridComponent {
     }
 
 
+
     // #region - GROUP DIALOG actions
     public dialogGroupCreateOpen() { this.dialogGroupCreateConfig = new DialogDataModel<any>(true); }
     public dialogGroupCreateOnChange() {
@@ -176,6 +179,13 @@ export class GroupGridComponent {
     public dialogGroupCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
     public dialogGroupCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
     // #endregion
+
+
+
+    loadNodes(event: any) {
+        this.tbLoading = true;
+        this._requestGetRootGroups();
+    }
 
     onNodeSelect(event: any) {
         console.log(event.node.data.name);

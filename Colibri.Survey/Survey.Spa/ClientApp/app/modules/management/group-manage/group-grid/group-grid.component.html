@@ -52,7 +52,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="clbr--block-btns-v1">
-                            <button class="clbr--btn-default btn btn-sm btn-default" (click)="createGroup()">
+                            <button class="clbr--btn-default btn btn-sm btn-default"
+                                (click)="createGroup()">
                                 Create new grpoup
                             </button>
                             <!-- <button class="clbr--btn-default btn btn-sm btn-default"
@@ -76,18 +77,27 @@
                         <div class="clbr--block-filter">
                             <mat-form-field class="example-chip-list">
                                 <mat-chip-list #chipList>
-                                    <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
+                                    <mat-chip *ngFor="let fruit of fruits"
+                                        [selectable]="selectable"
+                                        [removable]="removable"
                                         (removed)="remove(fruit)">
                                         {{fruit}}
-                                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                        <mat-icon matChipRemove
+                                            *ngIf="removable">cancel</mat-icon>
                                     </mat-chip>
-                                    <input placeholder="New fruit..." #fruitInput [formControl]="fruitCtrl"
-                                        [matAutocomplete]="auto" [matChipInputFor]="chipList"
-                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                                    <input placeholder="New fruit..."
+                                        #fruitInput
+                                        [formControl]="fruitCtrl"
+                                        [matAutocomplete]="auto"
+                                        [matChipInputFor]="chipList"
+                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                        [matChipInputAddOnBlur]="addOnBlur"
                                         (matChipInputTokenEnd)="add($event)">
                                 </mat-chip-list>
-                                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                                    <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                                <mat-autocomplete #auto="matAutocomplete"
+                                    (optionSelected)="selected($event)">
+                                    <mat-option *ngFor="let fruit of filteredFruits | async"
+                                        [value]="fruit">
                                         {{fruit}}
                                     </mat-option>
                                 </mat-autocomplete>
@@ -100,10 +110,13 @@
                     <div class="col-md-12">
                         <div class="clbr--block-search">
                             <div class="input-group">
-                                <span class="input-group-addon clbr-search-icon" id="basic-addon1">
+                                <span class="input-group-addon clbr-search-icon"
+                                    id="basic-addon1">
                                     <mat-icon>find_in_page</mat-icon>
                                 </span>
-                                <input type="text" class="form-control clbr-search-input" placeholder="enter search query"
+                                <input type="text"
+                                    class="form-control clbr-search-input"
+                                    placeholder="enter search query"
                                     aria-describedby="basic-addon1">
                                 <!-- <span class="input-group-addon" id="basic-addon2">@example.com</span>
                                 <span class="input-group-addon" id="basic-addon2">@example.com</span> -->
@@ -115,20 +128,34 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="clbr--table clbr--table-tree">
-                            <p-treeTable [value]="tbItems" selectionMode="single" dataKey="id" [(selection)]="selectedNode"
-                                [paginator]="true" [rows]="10" [totalRecords]="1000" [loading]="tbLoading"
-                                (onNodeExpand)="onNodeExpand($event)" (onNodeSelect)="onNodeSelect($event)"
-                                (onNodeUnselect)="onNodeUnselect($event)" [(selection)]="selectedNode">
+                            <p-treeTable [value]="tbItems"
+                                selectionMode="single"
+                                dataKey="id"
+                                [(selection)]="selectedNode"
+                                [paginator]="true"
+                                [rows]="2"
+                                [totalRecords]="1000"
+                                [loading]="tbLoading"
+                                [lazy]="true" 
+                                (onNodeExpand)="onNodeExpand($event)"
+                                (onNodeSelect)="onNodeSelect($event)"
+                                (onLazyLoad)="loadNodes($event)"
+                                (onNodeUnselect)="onNodeUnselect($event)"
+                                [(selection)]="selectedNode">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <!-- <th class="splitter"></th> -->
-                                        <th class="border-right-none" style="width: 400px;">Group name</th>
-                                        <th class="border-right-none border-left-none" style="width: 200px;">Num of
-                                            subscribers</th>
+                                        <th class="border-right-none"
+                                            style="width: 400px;">Group name</th>
+                                        <th class="border-right-none border-left-none"
+                                            style="width: 200px;">Num of subscribers
+                                        </th>
                                         <th class="border-left-none">Description</th>
                                     </tr>
                                 </ng-template>
-                                <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                                <ng-template pTemplate="body"
+                                    let-rowNode
+                                    let-rowData="rowData">
                                     <tr [ttSelectableRow]="rowNode">
                                         <!-- <td></td> -->
                                         <td class="border-right-none">
@@ -150,15 +177,22 @@
 
 </div>
 
-<group-dialog-create-cmp [config]="dialogGroupCreateConfig" (onChange)="dialogGroupCreateOnChange($event)" (onCancel)="dialogGroupCreateOnCancel($event)"
+<group-dialog-create-cmp [config]="dialogGroupCreateConfig"
+    (onChange)="dialogGroupCreateOnChange($event)"
+    (onCancel)="dialogGroupCreateOnCancel($event)"
     (onHide)="dialogGroupCreateOnHide($event)">
 </group-dialog-create-cmp>
 
-<p-confirmDialog #cd icon="pi pi-exclamation-triangle" class="clbr--dialog-confirm-v1" header="Attention">
+<p-confirmDialog #cd
+    icon="pi pi-exclamation-triangle"
+    class="clbr--dialog-confirm-v1"
+    header="Attention">
     <p-footer>
-        <button class="clbr--btn-default btn btn-sm btn-default notification" (click)="cd.accept()">
+        <button class="clbr--btn-default btn btn-sm btn-default notification"
+            (click)="cd.accept()">
             <i class="fa fa-check"></i>Confirm</button>
-        <button class="clbr--btn-default btn btn-sm btn-default notification" (click)="cd.reject()">
+        <button class="clbr--btn-default btn btn-sm btn-default notification"
+            (click)="cd.reject()">
             <i class="fa fa-remove"></i>Cancel</button>
     </p-footer>
 </p-confirmDialog>
