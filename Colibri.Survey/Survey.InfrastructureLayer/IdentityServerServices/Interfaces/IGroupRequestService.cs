@@ -1,5 +1,6 @@
 ﻿using Survey.DomainModelLayer.Models;
 using Survey.DomainModelLayer.Models.IdentityServer;
+using Survey.DomainModelLayer.Models.IdentityServer.Pager;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Survey.InfrastructureLayer.IdentityServices
     {
         // group
         Task<IEnumerable<Groups>> GetGroupList();
-        Task<IEnumerable<Groups>> GetGroupListRoot();
+        Task<PageDataModel<Groups>> GetGroupListRoot(PageSearchEntryModel pageSearchEntry);
         Task<IEnumerable<Groups>> GetSubGroupList(Guid groupId);
         Task<Groups> CreateGroupAsync(Groups group);
         Task<Boolean> DeleteGroup(Guid groupId);

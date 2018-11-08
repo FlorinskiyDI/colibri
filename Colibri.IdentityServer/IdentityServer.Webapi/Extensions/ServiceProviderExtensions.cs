@@ -46,9 +46,9 @@ namespace IdentityServer.Webapi.Extensions
 
         public static IServiceCollection AddDataAccess(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                 options.UseSqlServer(connectionString));
-            services.AddStorageCoreDataAccess<ApplicationDbContext>();
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //     options.UseSqlServer(connectionString));
+            //services.AddStorageCoreDataAccess<ApplicationDbContext>();
             //
             return services;
         }

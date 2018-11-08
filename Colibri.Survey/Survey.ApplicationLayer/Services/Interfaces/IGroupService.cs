@@ -1,4 +1,5 @@
 ﻿using Survey.ApplicationLayer.Dtos.Models;
+using Survey.ApplicationLayer.Dtos.Models.IdentityServer.Pager;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Survey.ApplicationLayer.Services.Interfaces
     {
         // group
         Task<IEnumerable<GroupDto>> GetGroupList();
-        Task<IEnumerable<GroupDto>> GetGroupListRoot();
+        Task<PageDataDto<GroupDto>> GetGroupListRoot(PageSearchEntryDto searchEntryDto);
         Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId);
         Task<GroupDto> CreateGroup(GroupDto groupDto);
         Task<bool> DeleteGroup(Guid groupId);

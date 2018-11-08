@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Survey.ApplicationLayer.Dtos.Models;
+using Survey.ApplicationLayer.Dtos.Models.IdentityServer.Pager;
 using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.DomainModelLayer.Models;
 using Survey.DomainModelLayer.Models.IdentityServer;
+using Survey.DomainModelLayer.Models.IdentityServer.Pager;
 using Survey.InfrastructureLayer.IdentityServices;
 using System;
 using System.Collections.Generic;
@@ -32,10 +34,11 @@ namespace Survey.ApplicationLayer.Services
             return list;
         }
 
-        public async Task<IEnumerable<GroupDto>> GetGroupListRoot()
+        public async Task<PageDataDto<GroupDto>> GetGroupListRoot(PageSearchEntryDto searchEntryDto)
         {
-            var result = await _groupRequestService.GetGroupListRoot();
-            var list = Mapper.Map<IEnumerable<Groups>, IEnumerable<GroupDto>>(result);
+            var searchEntry = Mapper.Map<PageSearchEntryDto, PageSearchEntryModel>(searchEntryDto);
+            var result = await _groupRequestService.GetGroupListRoot(searchEntry);
+            var list = Mapper.Map<PageDataModel<Groups>, PageDataDto<GroupDto>>(result);
             return list;
         }
 

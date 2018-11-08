@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef} from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
 import { TreeDragDropService } from 'primeng/components/common/api';
@@ -13,6 +13,7 @@ import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 /* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
+/* model-api */ import { PageSearchEntryApiModel } from 'shared/models/entities/api/page-search-entry.api.model';
 /* constant */ import { ModalTypes } from 'shared/constants/modal-types.constant';
 // /* directive */ import { ModalService } from 'shared/directives/modal/modal.service';
 
@@ -54,6 +55,7 @@ export class GroupGridComponent {
     tbItems: any[] = [];
     tbCols: any[] = [];
     tbLoading = true;
+    tbTotalItemCount: number;
     isNodeSelected = false;
     constructor(
         private router: Router,
@@ -184,7 +186,11 @@ export class GroupGridComponent {
 
     loadNodes(event: any) {
         this.tbLoading = true;
-        this._requestGetRootGroups();
+        const searchEntry = {
+            pageNumber: event.first > 0 ? event.first : 1,
+            pageLength: event.rows
+        } as PageSearchEntryApiModel;
+        this._requestGetRootGroups(searchEntry);
     }
 
     onNodeSelect(event: any) {
@@ -202,7 +208,7 @@ export class GroupGridComponent {
         const that = this;
         //
         this.tbLoading = true;
-        this.groupsApiService.getSubGroups(event.node.data.id).subscribe((data: Array<GroupApiModel>) => {
+        this.groupsApiService.getSubGroups(event.node.data.id).subscribe((data: any) => {
             node.children = data.map((item: GroupApiModel) => { return { 'data': { 'id': item.id, 'name': item.name }, 'leaf': false }; });
             that.tbLoading = false;
             this.tbItems = [...this.tbItems];
@@ -213,21 +219,22 @@ export class GroupGridComponent {
         this.router.navigate(['/manage/groups/' + groupId]);
     }
 
-    _requestGetRootGroups() {
+    _requestGetRootGroups(searchEntry: PageSearchEntryApiModel) {
         this.tbLoading = true;
-        this.groupsApiService.getRoot().subscribe((data: Array<GroupApiModel>) => {
-            this.tbItems = data.map((item: GroupApiModel) => {
+        this.groupsApiService.getRoot(searchEntry).subscribe((response: any) => {
+            this.tbLoading = false;
+            this.tbItems = response.items.map((item: GroupApiModel) => {
                 return {
                     'label': item.name,
                     'data': { 'id': item.id, 'name': item.name },
                     'leaf': false
                 };
             });
-            this.tbLoading = false;
+            this.tbTotalItemCount = response.totalItemCount;
             this.selectedGroup = this.tbItems[0];
-            if (data.length > 0) {
-                // this.groupManageTransferService.sendSelectedGroupId(data[0].id);
-            }
+            // if (data.length > 0) {
+            //     // this.groupManageTransferService.sendSelectedGroupId(data[0].id);
+            // }
         });
     }
 

@@ -19,6 +19,7 @@ using IdentityServer.Webapi.Extensions;
 using IdentityServer4.Validation;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+using dataaccesscore.EFCore;
 
 namespace IdentityServer.Webapi
 {
@@ -53,6 +54,7 @@ namespace IdentityServer.Webapi
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddStorageCoreDataAccess<ApplicationDbContext>();
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {

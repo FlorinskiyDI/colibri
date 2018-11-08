@@ -9,7 +9,9 @@ using dataaccesscore.EFCore.Paging;
 using dataaccesscore.EFCore.Query;
 using ExpressionBuilder.Operations;
 using IdentityServer.Webapi.Data;
+using IdentityServer.Webapi.Dtos.Pager;
 using IdentityServer.Webapi.Repositories.Interfaces;
+using IdentityServer.Webapi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,24 +26,26 @@ namespace IdentityServer.Webapi.Controllers
     {
 
         // GET: api/groups
-        // GET: api/groups/root
+        // POST: api/groups/root
         // GET: api/groups/{id}/subgroups
         // POST: api/groups
         // PUT: api/groups
         // DELETE: api/groups/{id}
 
-        protected readonly IDataPager<Groups, Guid> _pager;
+        protected readonly IGroupServices _groupServices;
         private readonly IGroupRepository _groupRepository;
         private readonly IAppUserGroupRepository _appUserGroupRepository;
+
         public GroupsController(
+            IGroupServices groupServices,
             IGroupRepository groupRepository,
-            IAppUserGroupRepository appUserGroupRepository,
-            IDataPager<Groups, Guid> pager
+            IAppUserGroupRepository appUserGroupRepository
         )
         {
             _groupRepository = groupRepository;
+            _groupRepository = groupRepository;
             _appUserGroupRepository = appUserGroupRepository;
-            _pager = pager;
+            _groupServices = groupServices;
         }
 
         // GET: api/groups/
@@ -75,28 +79,27 @@ namespace IdentityServer.Webapi.Controllers
             return siblings;
         }
 
-        // GET: api/groups/root
-        [HttpGet("root")]
-        public async Task<IActionResult> GetRootGroups()
+        // POST: api/groups/root
+        [HttpPost("root")]
+        public async Task<IActionResult> GetRootGroups([FromBody] PageSearchEntry searchEntry)
         {
             var claims = this.HttpContext.User.Claims;
             var userId = claims.First(c => c.Type == "sub").Value;
-            var list = await _groupRepository.GetRootAsync(userId);
-            return Ok(list);
+            //
+            var result = await _groupServices.GetRootAsync(searchEntry, userId);
+            return Ok(result);
         }
-        public static T GetTfromString<T>(string mystring)
-        {
-            //return (T)Convert.ChangeType(mystring, typeof(T));
-            var foo = TypeDescriptor.GetConverter(typeof(T));
-            return (T)(foo.ConvertFromInvariantString(mystring));
-        }
+
+        //public static T GetTfromString<T>(string mystring)
+        //{
+        //    var foo = TypeDescriptor.GetConverter(typeof(T));
+        //    return (T)(foo.ConvertFromInvariantString(mystring));
+        //}
 
         // GET: api/groups/{id}/subgroups
         [HttpGet("{id}/subgroups")]
         public async Task<IActionResult> GetSubGroups(Guid id)
         {
-
-
 
             #region test filter
             //var columnNames = new List<string>(new string[] { "Id", "Name" });
@@ -143,7 +146,7 @@ namespace IdentityServer.Webapi.Controllers
             Groups entity;
             try
             {
-                entity  = await _groupRepository.GetAsync(id);
+                entity = await _groupRepository.GetAsync(id);
             }
             catch (Exception e)
             {
@@ -192,7 +195,7 @@ namespace IdentityServer.Webapi.Controllers
                         UserId = userId
                     });
                 }
-                
+
             }
             catch (Exception e)
             {

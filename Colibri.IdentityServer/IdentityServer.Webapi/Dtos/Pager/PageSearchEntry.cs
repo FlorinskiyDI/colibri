@@ -9,5 +9,10 @@ namespace IdentityServer.Webapi.Dtos.Pager
         public List<PageFilterStatement> FilterStatements { get; set; }
         public string GlobalSearch { get; set; }
 
+        public PageSearchEntry()
+        {
+            this.FilterStatements = new List<PageFilterStatement>();
+        }
+
     }
 }

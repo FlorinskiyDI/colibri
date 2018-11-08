@@ -1,6 +1,10 @@
-﻿using IdentityServer.Webapi.Data;
+﻿using dataaccesscore.EFCore.Paging;
+using dataaccesscore.EFCore.Query;
+using IdentityServer.Webapi.Data;
+using IdentityServer.Webapi.Dtos.Pager;
 using IdentityServer.Webapi.Repositories.Interfaces;
 using IdentityServer.Webapi.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +14,42 @@ namespace IdentityServer.Webapi.Services
 {
     public class GroupServices : IGroupServices
     {
+        private readonly IDataPager<Groups, Guid> _pager;
         private readonly IGroupRepository _groupRepository;
         private readonly IAppUserGroupRepository _appUserGroupRepository;
         public GroupServices(
             IAppUserGroupRepository appUserGroupRepository,
-            IGroupRepository groupRepository
+            IGroupRepository groupRepository,
+            IDataPager<Groups, Guid> pager
         )
         {
             _groupRepository = groupRepository;
             _appUserGroupRepository = appUserGroupRepository;
+            _pager = pager;
+        }
+
+        public async Task<DataPage<Groups, Guid>> GetRootAsync(PageSearchEntry searchEntry, string userId)
+        {
+            var pageData = new PageData<Groups>();
+
+            // init filter
+            var filters = new Filter<Groups>(null);
+            filters.AddExpression(c => c.ApplicationUserGroups.Any(d =>d.UserId == userId));
+            if (searchEntry.FilterStatements.Count() > 0)
+            { }
+            try
+            {
+                var results = await _pager.QueryAsync(
+                    searchEntry.PageNumber, // PageNumber should be more than 0!!!
+                    searchEntry.PageLength,
+                    filters
+                    ); 
+                return results;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async void SubscribeToGroupAsync(string userId, Guid groupId)
