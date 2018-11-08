@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, EventEmitter, Output, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
+// import { applyDrag } from '../utils/utilse.service';
 // models
 import { ControTypes } from 'shared/constants/control-types.constant';
 import { QuestionBase } from 'shared/models/form-builder/question-base.model';
@@ -32,40 +33,39 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
     selectQuestion: string;
     static deleteQuestionList: string[] = [];
 
+    onDrop(dropResult: any) {
+
+        // update item list according to the @dropResult
+        this.applyDrag(this.page.questions, dropResult);
+    }
+
+    applyDrag = (arr: any, dragResult: any) => {
+        const { removedIndex, addedIndex, payload } = dragResult;
+
+        if (removedIndex === null && addedIndex === null) {
+            return arr;
+        }
+
+        const result = [...arr];
+        let itemToAdd = payload;
+
+        if (removedIndex !== null) {
+            itemToAdd = this.page.questions.splice(removedIndex, 1)[0];
+        }
+
+        if (addedIndex !== null) {
+
+            this.addQuestion(itemToAdd, addedIndex);
+            // if (isAddItem === 'undefined') {
+            //     this.addQuestion(itemToAdd, addedIndex);
+            // } else {
+            //     this.addQuestion(itemToAdd, addedIndex);
+            // }
+
+        }
 
 
-
-
-    // items = this.generateItems(50, (i: any) => ({ data: 'Draggable ' + i }));
-    // onDrop(dropResult: IDropResult) {
-    //     // update item list according to the @dropResult
-    //     this.items = this.applyDrag(this.items, dropResult);
-    // }
-    // generateItems(count: any, creator: any) {
-    //     const result = [];
-    //     for (let i = 0; i < count; i++) {
-    //         result.push(creator(i));
-    //     }
-    //     return result;
-    // }
-    // applyDrag(arr: any, dragResult: any){
-    //     const { removedIndex, addedIndex, payload } = dragResult;
-    //     if (removedIndex === null && addedIndex === null) {return arr;
-    //     }
-
-    //     const result = [...arr];
-    //     let itemToAdd = payload;
-
-    //     if (removedIndex !== null) {
-    //         itemToAdd = result.splice(removedIndex, 1)[0];
-    //     }
-
-    //     if (addedIndex !== null) {
-    //         result.splice(addedIndex, 0, itemToAdd);
-    //     }
-
-    //     return result;
-    // }
+    }
 
 
 
@@ -73,7 +73,6 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         private cdr: ChangeDetectorRef,
         private questionTransferService: QuestionTransferService,
         public questionService: QuestionService,
-
     ) {
         this.questionTransferService.getFormPage().subscribe((page: any) => { // updata formbuild after select page
             if (page) {
@@ -104,10 +103,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
 
             const formQuestions = this.formPage.controls[this.page.id] as FormGroup;
             formQuestions.removeControl(data.id);
-
-
-
-            this.page.questions.sort((a, b) => a.order - b.order);
+            // this.page.questions.sort((a, b) => a.order - b.order);
             this.sortQuestionByIndex();
 
             const updateQuestioRange = this.page.questions.slice(data.order, this.page.questions.length); // get question range (max, min) for make resortable
@@ -130,6 +126,8 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
                 }
             );
         });
+
+        this.getQuestionPayload = this.getQuestionPayload.bind(this);
     }
 
 
@@ -140,6 +138,11 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         this.formPage.valueChanges.subscribe(form => {
             this.formState.emit(this.formPage.valid);
         });
+    }
+
+
+    getQuestionPayload(index: any) {
+        return this.page.questions[index];
     }
 
 
@@ -166,28 +169,40 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
 
     sortQuestion(event: any, index: number) {
 
-        const minIndex = event.dragData.order > index ? index : event.dragData.order;
-        const maxIndex = event.dragData.order > index ? event.dragData.order : index;
+        const minIndex = event.order > index ? index : event.order;
+        const maxIndex = event.order > index ? event.order : index;
 
         const updateQuestioRange = this.page.questions.slice(minIndex, maxIndex + 1); // get question range (max, min) for make resortable
         updateQuestioRange.forEach((item: any) => {
             item.state = item.state !== ControStates.created ? ControStates.updated : item.state;
         });
-
+        // this.page.questions.sort((a, b) => a.order - b.order);
         this.sortQuestionByIndex();
     }
 
 
     sortQuestionByIndex() {
         this.page.questions.forEach(x => {
+
             const indexOf = this.page.questions.indexOf(x);
             x.order = indexOf;
         });
     }
 
-    addQuestion($event: any, index: number) {
-        this.page.questions.splice(index, 1); // remove AvailableQuestions object
-        const question = this.getQuestionByType($event.dragData.type, index);
+    addQuestion(object: any, index: number) {
+
+        // this.page.questions.splice(index, 1); // remove AvailableQuestions object
+        let question: any;
+        const isAddItem = object.name;
+        debugger
+        if (isAddItem === undefined) {
+            question = object;
+            question.order = index;
+
+        } else {
+            question = this.getQuestionByType(object.type, index);
+
+        }
 
         question.state = ControStates.created;
         const group: any = {};
@@ -196,7 +211,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         dataPage.addControl(question.id, this.questionService.addTypeAnswer(question, group));
 
         this.page.questions.splice(index, 0, question);
-
+        console.log(this.page.questions);
 
         const updateQuestioRange = this.page.questions.slice(index, this.page.questions.length); // get question range (max, min) for make resortable
         updateQuestioRange.forEach((item: any) => {

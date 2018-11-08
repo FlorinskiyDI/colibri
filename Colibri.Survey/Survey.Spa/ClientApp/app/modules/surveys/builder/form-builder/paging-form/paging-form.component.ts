@@ -2,7 +2,7 @@ import { Component, Input, ElementRef, ViewEncapsulation, OnInit, ChangeDetector
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
 import { GUID } from 'shared/helpers/guide-type.helper';
 import { FormGroup } from '@angular/forms';
-import { ContainerComponent, DraggableComponent, IDropResult } from 'ngx-smooth-dnd';
+import { IDropResult } from 'ngx-smooth-dnd';
 
 
 

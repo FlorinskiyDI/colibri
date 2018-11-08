@@ -1,3 +1,5 @@
+
+
 .d-builder-body-header{
     
         .deletePageblock {
@@ -40,7 +42,7 @@
         }
     
         .textBlock {
-          padding: 4px 5px 0px 5px;
+          padding: 3px 5px 0px 5px;
         }
         .active {
      
@@ -121,6 +123,8 @@
           background-color: #5B7199;
           border-right: 1px solid #324464;
           
+
+          
     
           &:hover {
             background-color: #5B7199;
@@ -190,4 +194,19 @@
           
           }
           
+    }
+
+    .drag-page-pagination{
+       li{
+        border-top: 1px solid #E5C365;
+        border-left: 1px solid #E5C365;
+        border-right: 1px solid #E5C365;
+
+        .textBlock {
+          padding-top: 2px;
+        }
+        .deletepage {
+          margin-top: 2px;
+        }
+      }
     }

@@ -1,18 +1,29 @@
 <div [formGroup]="formPage" class='wrapper'>
-    <div class="d-dropdown-conteiner">
+    <div class="">
         <!-- {{batches | json}} -->
-        <p-dropdown (onChange)="changeQuestion($event)" [options]="pagingList" class="d-dropdown" [style]="{'width':'100%', 'font-size':'12px'}">
+        <!-- <p-dropdown (onChange)="changeQuestion($event)" [options]="pagingList" class="d-dropdown" [style]="{'width':'100%', 'font-size':'12px'}">
             <ng-template let-item pTemplate="selectedItem">
                 <p class="icon fa {{item.icon}}" href="#"></p>
                 <span style="vertical-align:middle">{{item.title}}</span>
             </ng-template>
             <ng-template let-type pTemplate="item">
                 <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-                    <!-- <p class="icon fa {{type.icon}}" href="#"></p> -->
+                   
                     <div style="">{{type.title}}</div>
                 </div>
             </ng-template>
-        </p-dropdown>
+        </p-dropdown> -->
+        <!-- <p-dropdown (onChange)="changeQuestion($event)" [options]="pagingList" class="d-dropdown" [style]="{'width':'100%', 'font-size':'12px'}"
+            filter="true">
+            <ng-template let-item pTemplate="selectedItem">
+                <p class="icon fa {{item.icon}}" href="#"></p>
+                <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+            <ng-template let-type pTemplate="item">
+                <div class="ui-helper-clearfix" style="position: relative;height: 25px;">11111111111111
+                </div>
+            </ng-template>
+        </p-dropdown> -->
     </div>
 
     <!-- <smooth-dnd-container [orientation]="'horizontal'" (drop)="onDrop($event)" style="background-color:red">
@@ -27,7 +38,7 @@
         <div class='carousel' fxLayout='row' fxLayoutAlign='center stretch'>
             <!-- <ul class='ulCollection' *ngFor='let items of batches' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
             </ul> -->
-            <smooth-dnd-container [orientation]="'horizontal'" (drop)="onDrop($event)" style="background-color:red">
+            <smooth-dnd-container [dragClass]="'drag-page-pagination'" [dropClass]="'drag-page-pagination'" [lockAxis]="'x'" [orientation]="'horizontal'" (drop)="onDrop($event)" style="background-color:red">
                 <smooth-dnd-draggable *ngFor='let item of batches[0]; let i = index'>
                     <ul class='ulCollection' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
 
@@ -40,15 +51,12 @@
                                 <button class="deletepage" *ngIf="batches[0].length > 1" (click)="deletePage(item.id, i,  $event); " type="button" title="Delete page">
                                     <i class="fa fa-times"></i>
                                 </button>
-
                             </div>
                             <div (click)="selectPage(item)" class='textBlock' style="height: 100%">
-                                {{item.title + " " + (i + 1) }}
+                                {{item.title + " № " + (i + 1) }}
                                 <b *ngIf="formPage.controls[item.id] ? !formPage.controls[item.id].valid : false" [ngClass]='{"d-dirtyPage": selectItem == item.id}'>*</b>
                             </div>
-
                         </li>
-
                     </ul>
                 </smooth-dnd-draggable>
             </smooth-dnd-container>

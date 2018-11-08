@@ -23,7 +23,7 @@ import { QuestionTemplate } from 'shared/models/form-builder/form-control/questi
 // import { forEach } from '@angular/router/src/utils/collection';
 
 import { FormGroup } from '@angular/forms';
-
+import { applyDrag } from './utils/utilse.service';
 @Component({
     selector: 'survey-builder',
     templateUrl: './builder.component.html',
@@ -123,6 +123,18 @@ export class BuilderComponent {
                 }
             });
         }
+
+        this.getChildPayload = this.getChildPayload.bind(this);
+    }
+
+
+    onDrop(dropResult: any) {
+        this.templateOptions.questionTemplates = applyDrag(this.templateOptions.questionTemplates, dropResult);
+    }
+
+
+    getChildPayload(index: any) {
+        return this.templateOptions.questionTemplates[index];
     }
 
 
