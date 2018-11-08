@@ -137,7 +137,7 @@
                                 [rowsPerPageOptions]="[2,10,20]"
                                 [totalRecords]="tbTotalItemCount"
                                 [loading]="tbLoading"
-                                [lazy]="true" 
+                                [lazy]="true"
                                 (onNodeExpand)="onNodeExpand($event)"
                                 (onNodeSelect)="onNodeSelect($event)"
                                 (onLazyLoad)="loadNodes($event)"
@@ -147,11 +147,15 @@
                                     <tr>
                                         <!-- <th class="splitter"></th> -->
                                         <th class="border-right-none"
-                                            style="width: 400px;">Group name</th>
-                                        <th class="border-right-none border-left-none"
+                                            ttSortableColumn="Name"
+                                            style="width: 400px;">
+                                            Group name
+                                            <p-treeTableSortIcon [field]="Name"></p-treeTableSortIcon>
+                                        </th>
+                                        <th class="border-right-none border-left-none"                                            
                                             style="width: 200px;">Num of subscribers
                                         </th>
-                                        <th class="border-left-none">Description</th>
+                                        <th class="border-left-none" >Description</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body"

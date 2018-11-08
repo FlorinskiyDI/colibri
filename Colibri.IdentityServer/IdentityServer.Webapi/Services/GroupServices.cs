@@ -31,10 +31,14 @@ namespace IdentityServer.Webapi.Services
         public async Task<DataPage<Groups, Guid>> GetRootAsync(PageSearchEntry searchEntry, string userId)
         {
             var pageData = new PageData<Groups>();
-
+            // sort
+            var sort = new OrderBy<Groups>(c => c.OrderBy(d => d.Name)); // default order
+            if (searchEntry.OrderStatement != null)
+            {
+                sort = new OrderBy<Groups>(searchEntry.OrderStatement.ColumName, searchEntry.OrderStatement.Reverse);
+            }
             // init filter
-            var filters = new Filter<Groups>(null);
-            filters.AddExpression(c => c.ApplicationUserGroups.Any(d =>d.UserId == userId));
+            var filters = new Filter<Groups>(c => c.ApplicationUserGroups.Any(d =>d.UserId == userId));
             if (searchEntry.FilterStatements.Count() > 0)
             { }
             try
@@ -42,7 +46,8 @@ namespace IdentityServer.Webapi.Services
                 var results = await _pager.QueryAsync(
                     searchEntry.PageNumber, // PageNumber should be more than 0!!!
                     searchEntry.PageLength,
-                    filters
+                    filters,
+                    sort
                     ); 
                 return results;
             }

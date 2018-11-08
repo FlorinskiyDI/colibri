@@ -185,10 +185,13 @@ export class GroupGridComponent {
 
 
     loadNodes(event: any) {
+        debugger
         this.tbLoading = true;
         const searchEntry = {
             pageNumber: event.first > 0 ? event.first : 1,
-            pageLength: event.rows
+            pageLength: event.rows,
+            orderStatement: (event.sortField && event.sortOrder) ? { columName: event.sortField, reverse: event.sortOrder > 0 } : null
+
         } as PageSearchEntryApiModel;
         this._requestGetRootGroups(searchEntry);
     }

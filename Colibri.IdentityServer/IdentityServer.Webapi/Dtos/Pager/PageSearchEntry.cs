@@ -7,6 +7,7 @@ namespace IdentityServer.Webapi.Dtos.Pager
         public int PageLength { get; set; }
 
         public List<PageFilterStatement> FilterStatements { get; set; }
+        public OrderStatement OrderStatement { get; set; }        
         public string GlobalSearch { get; set; }
 
         public PageSearchEntry()
