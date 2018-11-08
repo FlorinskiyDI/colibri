@@ -1,4 +1,5 @@
 ﻿using Survey.DomainModelLayer.Models;
+using Survey.DomainModelLayer.Models.IdentityServer;
 using System;
 using System.Collections.Generic;
 using System.Text;

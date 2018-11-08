@@ -1,16 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using dataaccesscore.EFCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using storagecore.EntityFrameworkCore;
 using Survey.DomainModelLayer.Contracts.Repositories;
 using Survey.InfrastructureLayer.Context;
 using Survey.InfrastructureLayer.IdentityServerServices;
 using Survey.InfrastructureLayer.IdentityServerServices.Interfaces;
 using Survey.InfrastructureLayer.IdentityServices;
 using Survey.InfrastructureLayer.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Survey.InfrastructureLayer.Configurations
 {

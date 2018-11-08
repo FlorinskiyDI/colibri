@@ -17,6 +17,7 @@ export class GroupFormCreateComponent implements BlockableUI {
     @Input()
     get config() { return this.configData; }
     set config(data: any) {
+        debugger
         if (data) {
             this.configData = data;
             this.formIsValid = true;
@@ -37,6 +38,7 @@ export class GroupFormCreateComponent implements BlockableUI {
 
     ngOnInit() { }
     ngOnDestroy() {
+        debugger
         this.onChange.unsubscribe();
     }
 

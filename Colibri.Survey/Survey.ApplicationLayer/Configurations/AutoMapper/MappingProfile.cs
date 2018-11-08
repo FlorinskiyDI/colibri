@@ -4,6 +4,7 @@ using Survey.ApplicationLayer.Dtos.Models;
 using Survey.ApplicationLayer.Dtos.Models.Questions;
 using Survey.DomainModelLayer.Entities;
 using Survey.DomainModelLayer.Models;
+using Survey.DomainModelLayer.Models.IdentityServer;
 using System;
 using System.Collections.Generic;
 using System.Text;

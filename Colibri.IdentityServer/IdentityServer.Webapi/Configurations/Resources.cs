@@ -35,7 +35,7 @@ namespace IdentityServer.Webapi.Configurations
                     {
                         new Scope
                         {
-                            Name = "dataeventrecordsscope",
+                            Name = "dataeventrecords",
                             DisplayName = "Scope for the dataEventRecords ApiResource"
                         }
                     },
@@ -51,7 +51,7 @@ namespace IdentityServer.Webapi.Configurations
                     {
                         new Scope
                         {
-                            Name = "testtest",
+                            Name = "testtest2",
                             DisplayName = "Scope for the testtest ApiResource"
                         }
                     },

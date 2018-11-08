@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using storagecore.Abstractions.Uow;
+using dataaccesscore.Abstractions.Uow;
 using Survey.ApplicationLayer.Dtos.Entities;
 using Survey.ApplicationLayer.Services.Interfaces;
-using Survey.Common.Enums;
 using Survey.DomainModelLayer.Entities;
 
 namespace Survey.ApplicationLayer.Services

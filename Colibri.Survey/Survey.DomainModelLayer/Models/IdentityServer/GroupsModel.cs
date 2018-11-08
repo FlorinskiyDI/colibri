@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Survey.DomainModelLayer.Models
+namespace Survey.DomainModelLayer.Models.IdentityServer
 {
     public class Groups
     {

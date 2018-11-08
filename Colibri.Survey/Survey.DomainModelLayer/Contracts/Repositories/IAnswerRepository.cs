@@ -1,8 +1,6 @@
-﻿using storagecore.Abstractions.Repositories;
+﻿using dataaccesscore.Abstractions.Repositories;
 using Survey.DomainModelLayer.Entities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Survey.DomainModelLayer.Contracts.Repositories
 {

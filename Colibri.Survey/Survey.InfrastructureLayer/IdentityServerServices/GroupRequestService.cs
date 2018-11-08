@@ -3,6 +3,7 @@ using RestSharp;
 using RestSharp.Authenticators;
 using Survey.Common.Context;
 using Survey.DomainModelLayer.Models;
+using Survey.DomainModelLayer.Models.IdentityServer;
 using Survey.InfrastructureLayer.IdentityServerServices;
 using System;
 using System.Collections.Generic;

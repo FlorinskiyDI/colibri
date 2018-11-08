@@ -53,7 +53,7 @@
                                 </button>
                             </div>
                             <div (click)="selectPage(item)" class='textBlock' style="height: 100%">
-                                {{item.title + " № " + (i + 1) }}
+                        {{item.title + " " + (i + 1) }}1
                                 <b *ngIf="formPage.controls[item.id] ? !formPage.controls[item.id].valid : false" [ngClass]='{"d-dirtyPage": selectItem == item.id}'>*</b>
                             </div>
                         </li>

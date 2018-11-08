@@ -1,7 +1,5 @@
-﻿using storagecore.EntityFrameworkCore.Entities;
+﻿using dataaccesscore.EFCore.Entities;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Survey.DomainModelLayer.Entities

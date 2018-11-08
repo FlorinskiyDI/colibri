@@ -1,11 +1,10 @@
 ﻿using RestSharp;
 using RestSharp.Authenticators;
 using Survey.Common.Context;
-using Survey.DomainModelLayer.Models;
+using Survey.DomainModelLayer.Models.IdentityServer;
 using Survey.InfrastructureLayer.IdentityServerServices.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Survey.InfrastructureLayer.IdentityServerServices
@@ -25,10 +24,9 @@ namespace Survey.InfrastructureLayer.IdentityServerServices
                 //
                 return response.IsSuccessful ? response.Data : null;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception(ex.Message);
             }
             
             

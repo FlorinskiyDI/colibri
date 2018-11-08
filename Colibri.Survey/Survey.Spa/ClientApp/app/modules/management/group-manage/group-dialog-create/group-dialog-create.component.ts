@@ -1,12 +1,11 @@
 import { Component, Output, Input, EventEmitter, ViewChild } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/components/common/messageservice';
 
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 /* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
-/* component */ import { GroupFormCreateComponent, GroupFormCreateConfig } from './group-form-create/group-form-create.component';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
-// /* helper */ import { Helpers } from 'shared/helpers/helpers';
-
+/* helper */ import { FormGroupHelper } from 'shared/helpers/form-group.helper';
 
 @Component({
     selector: 'group-dialog-create-cmp',
@@ -15,6 +14,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 })
 
 export class GroupDialogCreateComponent {
+    // dialog variable
     dialogConfig: DialogDataModel<any> = new DialogDataModel();
     @Output() onChange = new EventEmitter<any>();
     @Output() onCancel = new EventEmitter<any>();
@@ -24,59 +24,78 @@ export class GroupDialogCreateComponent {
     set config(data: DialogDataModel<any>) {
         if (data) {
             this.dialogConfig = data;
-            this._cmpInitialize();
+            this.componentInit();
         }
     }
+    // form variable
+    @ViewChild('ngFormGroup') ngFormGroup: any;
+    formGroup: FormGroup;
+    drpdwnGroups: any[] = [];
 
-    @ViewChild('ctrlFormGroupCreate') ctrlFormGroupCreate: GroupFormCreateComponent;
-    formGroupConfig: GroupFormCreateConfig;
-    blockedPanel = false;
 
     constructor(
         private messageService: MessageService,
-        //
         private groupsApiService: GroupsApiService
     ) { }
 
-    ngOnInit() { }
-    ngOnDestroy() {
-        this.onCancel.unsubscribe();
-        this.onChange.unsubscribe();
-        this.onHide.unsubscribe();
+    ngOnInit() { this.formInitBuild(); }
+    ngOnDestroy() { this.componentClear(); }
+    private componentInit() { this.formInitControlData(); }
+    private componentClear() {
+        this.formInitBuild();
+        this.drpdwnGroups = [];
     }
 
-    public formGroupOnChange(data: any) {
-        this.dialogChange(data);
+    // Form
+    private formInitBuild(data: any = {}): void {
+        this.formGroup = new FormGroup({
+            'name': new FormControl(data.name, [Validators.required]),
+            'groupID': new FormControl(null, [Validators.required]),
+            'parentId': new FormControl(data.parentId),
+            'description': new FormControl(data.description),
+        });
     }
-    public formSave() {
-        this.ctrlFormGroupCreate.formSubmit();
-    }
+    private formInitControlData() {
+        this.groupsApiService.getAll(['id', 'name']).subscribe(
+            (response: Array<GroupApiModel>) => {
+                const groups = response && response.map((item: any) => { return { label: item.name, value: item.id }; });
+                this.drpdwnGroups = this.drpdwnGroups.concat([{ label: 'none' }]).concat(groups);
 
-    // #region Dialog action handling
+            });
+    }
+    public formSubmit() {
+        if (!this.ngFormGroup.valid) {
+            FormGroupHelper.setFormControlsAsTouched(this.formGroup);
+            return;
+        }
+
+        // const group = Object.assign({}, this.ngFormGroup.value);
+        this.groupsApiService
+            .create(Object.assign({}, this.ngFormGroup.value))
+            .subscribe(
+                (response: any) => {
+                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was created successfully' });
+                },
+                (error: any) => { }
+            );
+    }
+    public formCancel() { this.dialogCancel(); }
+    // end form
+
+
+    // Dialog
     public dialogCancel() {
         this.dialogConfig.visible = false;
         this.onCancel.emit();
     }
     public dialogChange(data: any | null = null) {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was created successfully' });
         this.dialogConfig.visible = false;
         this.onChange.emit(data);
     }
     public dialogHide() {
-        this.blockedPanel = false;
-        this.ctrlFormGroupCreate.formReset();
         this.onHide.emit();
-        this._cmpClear();
+        this.componentClear();
     }
-    // #endregion
+    // end dialog
 
-    private _cmpInitialize(data: any = null) {
-        this.blockedPanel = true;
-        this.groupsApiService.getAll(['id', 'name'])
-            .subscribe((response: Array<GroupApiModel>) => {
-                this.formGroupConfig = new GroupFormCreateConfig(response);
-                this.blockedPanel = false;
-            });
-    }
-    private _cmpClear() { }
 }

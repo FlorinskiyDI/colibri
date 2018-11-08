@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 
 import { OidcSecurityService } from './core/auth/services/oidc.security.service';
 // import 'bootstrap';
@@ -15,16 +15,16 @@ import 'jquery';
         '../../node_modules/roboto-fontface/css/roboto/roboto-fontface.css',
         '../../node_modules/font-awesome/css/font-awesome.css',
 
-        // '../../node_modules/material-icons/iconfont/material-icons.css',
-        // '../../node_modules/@angular/material/_theming.scss',
-        // '../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
+        '../../node_modules/material-icons/iconfont/material-icons.css',
+        '../../node_modules/@angular/material/_theming.scss',
+        '../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
         '../../node_modules/@angular-mdl/core/scss/material-design-lite.scss',
         '../../node_modules/primeng/resources/primeng.css',
         '../../node_modules/primeicons/primeicons.css',
         '../../node_modules/primeng/resources/themes/omega/theme.css',
 
         './app.component.scss',
-        '../styles/custom.material-icons.scss',
+        '../styles/custom.material.scss',
         '../styles/custom.primeng.scss',
         '../styles/custom.bootstrap.scss',
         '../styles/custom.shared.scss'

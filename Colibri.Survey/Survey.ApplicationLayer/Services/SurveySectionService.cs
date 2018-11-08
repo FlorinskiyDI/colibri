@@ -1,15 +1,13 @@
 ﻿using AutoMapper;
-using storagecore.Abstractions.Uow;
 using Survey.ApplicationLayer.Dtos.Entities;
 using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.DomainModelLayer.Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Survey.ApplicationLayer.Dtos.Models;
-using Survey.DomainModelLayer.Contracts.Repositories;
 using Survey.Common.Context;
+using dataaccesscore.Abstractions.Uow;
 
 namespace Survey.ApplicationLayer.Services
 {

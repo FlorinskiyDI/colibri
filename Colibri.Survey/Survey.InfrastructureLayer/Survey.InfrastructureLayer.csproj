@@ -1,16 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="dataaccesscore.Abstractions" Version="1.0.0" />
+    <PackageReference Include="dataaccesscore.EFCore" Version="1.0.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
-    <PackageReference Include="RestSharp" Version="106.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
+    <PackageReference Include="RestSharp" Version="106.5.4" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {NgxSmoothDnDModule} from 'ngx-smooth-dnd';
 
 /* translate */ import { TranslateModule, TranslateStore, TranslateLoader } from '@ngx-translate/core';
 /* translate */ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -45,9 +46,13 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 /* module-ngx-bootstrap */ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
+
 // material
-// /* module-material */import { MatIconModule } from '@angular/material/icon';
-// /* module-material */ import { MatTooltipModule } from '@angular/material/tooltip';
+/* module-material */ import { MatIconModule } from '@angular/material/icon';
+/* module-material */ import { MatTooltipModule } from '@angular/material/tooltip';
+/* module-material */ import { MatButtonModule } from '@angular/material/button';
+/* module-material */ import { MatInputModule } from '@angular/material/input';
+/* module-material */ import { MatSelectModule } from '@angular/material/select';
 
 // import { MdlModule } from '@angular-mdl/core';
 // import { MdlModule } from '@angular-mdl/compo';
@@ -74,6 +79,7 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         JsonpModule,
         HttpModule,
         HttpClientModule,
+        NgxSmoothDnDModule,
         // MdlModule,
         // Translate
         TranslateModule.forChild({
@@ -94,8 +100,11 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         // ngx-bootstrap
         TabsModule.forRoot(), BsDropdownModule.forRoot(),
         // material
-        // MatTooltipModule,
-        //  MatIconModule,
+        MatTooltipModule,
+        MatButtonModule,
+        MatInputModule,
+        MatSelectModule,
+        MatIconModule,
         // else
         AngularSplitModule
     ],
@@ -123,8 +132,11 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         // ngx-bootstrap
         TabsModule, BsDropdownModule,
         // material
-        // MatTooltipModule,
-        // MatIconModule,
+        MatTooltipModule,
+        MatButtonModule,
+        MatInputModule,
+        MatSelectModule,
+        MatIconModule,
         // else
         AngularSplitModule,
         // directives

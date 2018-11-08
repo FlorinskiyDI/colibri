@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using storagecore.Abstractions.Uow;
+using dataaccesscore.Abstractions.Uow;
 using Survey.ApplicationLayer.Dtos.Entities;
 using Survey.ApplicationLayer.Dtos.Models;
 using Survey.ApplicationLayer.Services.Interfaces;
