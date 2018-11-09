@@ -13,8 +13,8 @@ export class PageOrderStatement {
 }
 
 export class PageFilterStatement {
-    public propertyName: string;
-    public value: string;
+    public propertyName: string = null;
+    public value: string = null;
     // public operation: Operation; // temporary
 }
 

@@ -5,15 +5,15 @@ import { TreeDragDropService } from 'primeng/components/common/api';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { map, startWith } from 'rxjs/operators';
+// import { Observable } from 'rxjs/Observable';
+// import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
 
 // /* service-transfer */ import { GroupManageTransferService } from '../group-manage/group-manage.transfer.service';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 /* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
-/* model-api */ import { PageSearchEntryApiModel } from 'shared/models/entities/api/page-search-entry.api.model';
+/* model-api */ import { PageSearchEntryApiModel, PageFilterStatement } from 'shared/models/entities/api/page-search-entry.api.model';
 /* constant */ import { ModalTypes } from 'shared/constants/modal-types.constant';
 // /* directive */ import { ModalService } from 'shared/directives/modal/modal.service';
 
@@ -28,20 +28,23 @@ import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from
     ]
 })
 export class GroupGridComponent {
-
-    visible = true;
-    selectable = true;
-    removable = true;
-    addOnBlur = true;
-    separatorKeysCodes: number[] = [ENTER, COMMA];
-    fruitCtrl = new FormControl();
-    filteredFruits: Observable<string[]>;
-    fruits: string[] = ['Lemon'];
-    allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+    // ///////////
+    // ///////////
+    // visible = true;
+    chipSelectable = true;
+    chipRemovable = true;
+    chipAddOnBlur = true;
+    chipSeparatorKeysCodes: number[] = [ENTER, COMMA];
+    chipFruitCtrl = new FormControl();
+    filteredItems: any[];
+    chipItems: FilterItem[] = [];
+    // fruits: string[] = [];
+    pageColumnNames: string[] = ['Name', 'Description'];
 
     @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
     @ViewChild('auto') matAutocomplete: MatAutocomplete;
-
+    // ///////////
+    // ///////////
 
 
 
@@ -65,52 +68,109 @@ export class GroupGridComponent {
     ) {
         // this._requestGetRootGroups();
 
-        this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-            startWith(null),
-            map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
-    }
+        // this.filteredItems = this.chipFruitCtrl.valueChanges.pipe(
+        //     startWith(null),
+        //     map((fruit: string | null) => {
+        //         return fruit ? this._filter(fruit) : this.allFruits.slice();
+        //     }));
 
+        this.chipFruitCtrl.valueChanges.subscribe((data: any) => {
+            if (data === '') {
+                this.filterItem = new FilterItem();
+            }
+            if (this.filterItem.filterStatement.propertyName) {
+                data = data.split(':').pop();
+            }
+            this.filteredItems = data ? this._filter(data) : this.pageColumnNames.slice();
+            // if (this.chipItems.length > 0) {
+            //     this.filteredItems.unshift('OR');
+            // }
+        });
+    }
 
 
     add(event: MatChipInputEvent): void {
-        // Add fruit only when MatAutocomplete is not open
+
+       console.log(event);
+        // debugger
+        // Add item only when MatAutocomplete is not open
         // To make sure this does not conflict with OptionSelected Event
         if (!this.matAutocomplete.isOpen) {
+            console.log(this.matAutocomplete.isOpen);
             const input = event.input;
-            const value = event.value;
+            let value = event.value;
 
-            // Add our fruit
             if ((value || '').trim()) {
-                this.fruits.push(value.trim());
-            }
+                if (this.filterItem.filterStatement && this.filterItem.filterStatement.propertyName == null) {
+                    this.filterItem.filterStatement.propertyName = value;
+                    const lastChar = value.substr(value.length - 1);
+                    if (lastChar && lastChar !== ':') {
+                        this.fruitInput.nativeElement.value = value + ':';
+                    }
 
-            // Reset the input value
-            if (input) {
-                input.value = '';
-            }
+                } else {
+                    value = value.split(':').pop();
+                    if (value && value !== '') {
+                        this.fruitInput.nativeElement.value = null;
+                        this.filterItem.filterStatement.value = value.split(':').pop();
+                        this.chipItems.push({
+                            label: this.filterItem.filterStatement.propertyName + ':' + this.filterItem.filterStatement.value,
+                            filterStatement: Object.assign({}, this.filterItem.filterStatement)
+                        });
+                        this.filterItem = new FilterItem();
+                    }
 
-            this.fruitCtrl.setValue(null);
+
+                }
+            }
+            this.chipFruitCtrl.setValue(null);
+            // Add our fruit
+            // if ((value || '').trim()) {
+            //     this.chipItems.push({ label: value.trim() });
+            // }
+
+            // // Reset the input value
+            // if (input) {
+            //     input.value = '';
+            // }
+
+
         }
     }
 
-    remove(fruit: string): void {
-        const index = this.fruits.indexOf(fruit);
+    remove(item: any): void {
 
+        const index = this.chipItems.indexOf(item);
+        this.filterItem = new FilterItem();
+        this.chipFruitCtrl.setValue(null);
         if (index >= 0) {
-            this.fruits.splice(index, 1);
+            this.chipItems.splice(index, 1);
         }
     }
 
+    filterItem = new FilterItem();
     selected(event: MatAutocompleteSelectedEvent): void {
-        this.fruits.push(event.option.viewValue);
-        this.fruitInput.nativeElement.value = '';
-        this.fruitCtrl.setValue(null);
+
+        if (this.filterItem.filterStatement && this.filterItem.filterStatement.propertyName == null) {
+            this.filterItem.filterStatement.propertyName = event.option.viewValue;
+            this.fruitInput.nativeElement.value = event.option.viewValue + ':';
+        } else {
+            this.fruitInput.nativeElement.value = null;
+            this.filterItem.filterStatement.value = event.option.viewValue;
+            this.chipItems.push({
+                label: this.filterItem.filterStatement.propertyName + ':' + this.filterItem.filterStatement.value,
+                filterStatement: Object.assign({}, this.filterItem.filterStatement)
+            });
+            this.filterItem = new FilterItem();
+            this.chipFruitCtrl.setValue(null);
+        }
+
     }
 
     private _filter(value: string): string[] {
         const filterValue = value.toLowerCase();
 
-        return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+        return this.pageColumnNames.filter(data => data.toLowerCase().indexOf(filterValue) === 0);
     }
 
 
@@ -185,7 +245,6 @@ export class GroupGridComponent {
 
 
     loadNodes(event: any) {
-        debugger
         this.tbLoading = true;
         const searchEntry = {
             pageNumber: event.first > 0 ? event.first : 1,
@@ -263,3 +322,10 @@ export class GroupGridComponent {
         });
     }
 }
+
+
+export class FilterItem {
+    public label: string;
+    public filterStatement?: PageFilterStatement = new PageFilterStatement();
+}
+

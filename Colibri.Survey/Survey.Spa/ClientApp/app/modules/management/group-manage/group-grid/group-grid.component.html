@@ -71,34 +71,39 @@
                         </div>
                     </div>
                 </div>
-
+                <input type="checkbox" [(ngModel)]="checkbox" >
+                <pre *ngIf="checkbox">{{chipItems | json}}</pre>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="clbr--block-filter">
                             <mat-form-field class="example-chip-list">
+                                <span matPrefix>
+                                    <mat-icon class="filter-icon">filter_list</mat-icon>
+                                </span>
                                 <mat-chip-list #chipList>
-                                    <mat-chip *ngFor="let fruit of fruits"
-                                        [selectable]="selectable"
-                                        [removable]="removable"
-                                        (removed)="remove(fruit)">
-                                        {{fruit}}
-                                        <mat-icon matChipRemove
-                                            *ngIf="removable">cancel</mat-icon>
+                                    <mat-chip *ngFor="let item of chipItems"
+                                        [selectable]="chipSelectable"
+                                        [removable]="chipRemovable"
+                                        (removed)="remove(item)">
+                                        {{item.label}}
+                                        <mat-icon matChipRemove *ngIf="chipRemovable">cancel</mat-icon>
                                     </mat-chip>
-                                    <input placeholder="New fruit..."
-                                        #fruitInput
-                                        [formControl]="fruitCtrl"
+                                    <input #fruitInput placeholder="filter query"
+                                        [formControl]="chipFruitCtrl"
                                         [matAutocomplete]="auto"
                                         [matChipInputFor]="chipList"
-                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                        [matChipInputAddOnBlur]="addOnBlur"
+                                        [matChipInputSeparatorKeyCodes]="chipSeparatorKeysCodes"
+                                        [matChipInputAddOnBlur]="chipAddOnBlur"
                                         (matChipInputTokenEnd)="add($event)">
                                 </mat-chip-list>
                                 <mat-autocomplete #auto="matAutocomplete"
                                     (optionSelected)="selected($event)">
-                                    <mat-option *ngFor="let fruit of filteredFruits | async"
-                                        [value]="fruit">
-                                        {{fruit}}
+                                    <!-- <mat-option [value]="OR">
+                                        OR
+                                    </mat-option> -->
+                                    <mat-option *ngFor="let item of filteredItems"
+                                        [value]="item">
+                                        {{item}}
                                     </mat-option>
                                 </mat-autocomplete>
                             </mat-form-field>
@@ -116,7 +121,7 @@
                                 </span>
                                 <input type="text"
                                     class="form-control clbr-search-input"
-                                    placeholder="enter search query"
+                                    placeholder="search query"
                                     aria-describedby="basic-addon1">
                                 <!-- <span class="input-group-addon" id="basic-addon2">@example.com</span>
                                 <span class="input-group-addon" id="basic-addon2">@example.com</span> -->
@@ -152,10 +157,10 @@
                                             Group name
                                             <p-treeTableSortIcon [field]="Name"></p-treeTableSortIcon>
                                         </th>
-                                        <th class="border-right-none border-left-none"                                            
+                                        <th class="border-right-none border-left-none"
                                             style="width: 200px;">Num of subscribers
                                         </th>
-                                        <th class="border-left-none" >Description</th>
+                                        <th class="border-left-none">Description</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body"
