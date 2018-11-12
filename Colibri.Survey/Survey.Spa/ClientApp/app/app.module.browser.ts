@@ -62,7 +62,9 @@ export function RestangularConfigFactory(RestangularProvider: any, oidcSecurityS
         .addResponseInterceptor((data: any, operation: any, what: any, url: any, response: any) => {
             switch (operation) {
                 case 'post':
+                    return data;
                 case 'put':
+                    return data;
                 case 'remove':
                     if (!data) {
                         return {};

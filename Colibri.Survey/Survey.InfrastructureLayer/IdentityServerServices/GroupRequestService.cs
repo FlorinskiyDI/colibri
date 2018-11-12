@@ -4,6 +4,7 @@ using RestSharp.Authenticators;
 using Survey.Common.Context;
 using Survey.DomainModelLayer.Models;
 using Survey.DomainModelLayer.Models.IdentityServer;
+using Survey.DomainModelLayer.Models.IdentityServer.Pager;
 using Survey.InfrastructureLayer.IdentityServerServices;
 using System;
 using System.Collections.Generic;
@@ -21,9 +22,8 @@ namespace Survey.InfrastructureLayer.IdentityServices
             // call to identity server for create groups
             var restClient = new RestClient(NTContext.Context.IdentityUrl);
             restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
-            var request = new RestRequest("/api/groups", Method.POST) {
-                RequestFormat = DataFormat.Json
-            };
+
+            var request = new RestRequest("/api/groups", Method.POST) { RequestFormat = DataFormat.Json };
             request.AddBody(group);
             IRestResponse<Groups> response = await restClient.ExecuteTaskAsync<Groups>(request);
 
@@ -43,15 +43,17 @@ namespace Survey.InfrastructureLayer.IdentityServices
             return response.IsSuccessful ? response.Data : null;
         }
 
-        public async Task<IEnumerable<Groups>> GetGroupListRoot()
+        public async Task<PageDataModel<Groups>> GetGroupListRoot(PageSearchEntryModel pageSearchEntry)
         {
             IEnumerable<Groups> list = new List<Groups>();
             var tokenResponse = await GetToken();
             // call to identity server for get groups
             var restClient = new RestClient(NTContext.Context.IdentityUrl);
             restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
-            var request = new RestRequest("/api/groups/root", Method.GET);
-            IRestResponse<List<Groups>> response = await restClient.ExecuteTaskAsync<List<Groups>>(request);
+
+            var request = new RestRequest("/api/groups/root", Method.POST) { RequestFormat = DataFormat.Json };
+            request.AddBody(pageSearchEntry);
+            IRestResponse<PageDataModel<Groups>> response = await restClient.ExecuteTaskAsync<PageDataModel<Groups>>(request);
             //
             return response.IsSuccessful ? response.Data : null;
         }

@@ -6,8 +6,11 @@
 
   <ItemGroup>
     <Compile Remove="Mapper\**" />
+    <Compile Remove="Services\NewFolder\**" />
     <EmbeddedResource Remove="Mapper\**" />
+    <EmbeddedResource Remove="Services\NewFolder\**" />
     <None Remove="Mapper\**" />
+    <None Remove="Services\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,10 +23,6 @@
     <ProjectReference Include="..\..\Survey.Common\Survey.Common.csproj" />
     <ProjectReference Include="..\Survey.DomainModelLayer\Survey.DomainModelLayer.csproj" />
     <ProjectReference Include="..\Survey.InfrastructureLayer\Survey.InfrastructureLayer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\NewFolder\" />
   </ItemGroup>
 
 </Project>

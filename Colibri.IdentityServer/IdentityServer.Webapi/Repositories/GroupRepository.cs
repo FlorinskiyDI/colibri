@@ -1,6 +1,9 @@
-﻿using IdentityServer.Webapi.Data;
+﻿using dataaccesscore.EFCore.Models;
+using dataaccesscore.EFCore.Repositories;
+using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +11,12 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Repositories
 {
-    public class GroupRepository : IGroupRepository
+    public class GroupRepository : BaseRepository<ApplicationDbContext, Groups, Guid>, IGroupRepository
     {
-
+        public GroupRepository(ILogger<LoggerDataAccess> logger)
+        : base(logger, null)
+        {
+        }
         public async Task<IEnumerable<Groups>> GetRootWithInverseAsync(string userId)
         {
             using (var ctx = new ApplicationDbContext())

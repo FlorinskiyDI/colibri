@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Survey.ApplicationLayer.Dtos.Models;
+using Survey.ApplicationLayer.Dtos.Models.IdentityServer.Pager;
 using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.Webapi.Controllers.Base;
 using Survey.Webapi.Helpers.Shaping;
@@ -58,25 +59,25 @@ namespace Survey.Webapi.Controllers
         }
 
         // GET: api/groups/root
-        [HttpGet("root")]
-        public async Task<IActionResult> GetGroupListRoot([FromQuery] string fields)
+        [HttpPost("root")]
+        public async Task<IActionResult> GetGroupListRoot([FromBody] PageSearchEntryDto searchEntry, [FromQuery] string fields)
         {
             if (!_typeHelperService.TypeHasProperties<GroupDto>(fields))
             {
                 return BadRequest();
             }
 
-            IEnumerable<GroupDto> result;
+            PageDataDto<GroupDto> result;
             try
             {
-                result = await _groupService.GetGroupListRoot();
+                result = await _groupService.GetGroupListRoot(searchEntry);
             }
             catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-
-            return Ok(result.ShapeData(fields));
+            //var test = result.ShapeData(fields);
+            return Ok(result);
         }
 
         // GET: api/groups/{id}/subgroups

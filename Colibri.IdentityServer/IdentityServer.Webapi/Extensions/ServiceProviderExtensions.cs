@@ -1,9 +1,12 @@
-﻿using IdentityServer.Webapi.Infrastructure.Messaging;
+﻿using dataaccesscore.EFCore;
+using IdentityServer.Webapi.Data;
+using IdentityServer.Webapi.Infrastructure.Messaging;
 using IdentityServer.Webapi.Infrastructure.Razor;
 using IdentityServer.Webapi.Repositories;
 using IdentityServer.Webapi.Repositories.Interfaces;
 using IdentityServer.Webapi.Services;
 using IdentityServer.Webapi.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,11 +14,12 @@ namespace IdentityServer.Webapi.Extensions
 {
     public static class ServiceProviderExtensions
     {
-        public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration, string connectionString)
         {
             return services
                 .AddRepositories()
-                .AddServices();
+                .AddServices()
+                .AddDataAccess(connectionString);
         }
 
         public static IServiceCollection AddServices(this IServiceCollection services)
@@ -39,6 +43,23 @@ namespace IdentityServer.Webapi.Extensions
             //
             return services;
         }
+
+        public static IServiceCollection AddDataAccess(this IServiceCollection services, string connectionString)
+        {
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //     options.UseSqlServer(connectionString));
+            //services.AddStorageCoreDataAccess<ApplicationDbContext>();
+            //
+            return services;
+        }
+
+        //public static IServiceCollection AddDataAccess(this IServiceCollection services, string connectionString)
+        //{
+        //    services.AddDbContext<ApplicationDbContext>(options =>
+        //        options.UseSqlServer(connectionString));
+        //    services.AddStorageCoreDataAccess<ApplicationDbContext>();
+        //    return services;
+        //}
 
     }
 }

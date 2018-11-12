@@ -1,13 +1,19 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { FormControl } from '@angular/forms';
 import { TreeDragDropService } from 'primeng/components/common/api';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { map, startWith } from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from '@angular/material';
 
 // /* service-transfer */ import { GroupManageTransferService } from '../group-manage/group-manage.transfer.service';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 /* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
+/* model-api */ import { PageSearchEntryApiModel } from 'shared/models/entities/api/page-search-entry.api.model';
 /* constant */ import { ModalTypes } from 'shared/constants/modal-types.constant';
 // /* directive */ import { ModalService } from 'shared/directives/modal/modal.service';
 
@@ -15,7 +21,6 @@ import { Router } from '@angular/router';
     selector: 'cmp-group-grid',
     templateUrl: './group-grid.component.html',
     styleUrls: ['./group-grid.component.scss'],
-    encapsulation: ViewEncapsulation.None,
     providers: [
         TreeDragDropService,
         ConfirmationService,
@@ -23,6 +28,23 @@ import { Router } from '@angular/router';
     ]
 })
 export class GroupGridComponent {
+
+    visible = true;
+    selectable = true;
+    removable = true;
+    addOnBlur = true;
+    separatorKeysCodes: number[] = [ENTER, COMMA];
+    fruitCtrl = new FormControl();
+    filteredFruits: Observable<string[]>;
+    fruits: string[] = ['Lemon'];
+    allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+    @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+    @ViewChild('auto') matAutocomplete: MatAutocomplete;
+
+
+
+
     // modal
     MODAL_GROUP_CREATE = ModalTypes.GROUP_CREATE;
 
@@ -32,7 +54,8 @@ export class GroupGridComponent {
     selectedGroup: any;
     tbItems: any[] = [];
     tbCols: any[] = [];
-    tbLoading = false;
+    tbLoading = true;
+    tbTotalItemCount: number;
     isNodeSelected = false;
     constructor(
         private router: Router,
@@ -40,13 +63,71 @@ export class GroupGridComponent {
         private confirmationService: ConfirmationService,
         private groupsApiService: GroupsApiService,
     ) {
-        this._requestGetRootGroups();
+        // this._requestGetRootGroups();
+
+        this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+            startWith(null),
+            map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
     }
+
+
+
+    add(event: MatChipInputEvent): void {
+        // Add fruit only when MatAutocomplete is not open
+        // To make sure this does not conflict with OptionSelected Event
+        if (!this.matAutocomplete.isOpen) {
+            const input = event.input;
+            const value = event.value;
+
+            // Add our fruit
+            if ((value || '').trim()) {
+                this.fruits.push(value.trim());
+            }
+
+            // Reset the input value
+            if (input) {
+                input.value = '';
+            }
+
+            this.fruitCtrl.setValue(null);
+        }
+    }
+
+    remove(fruit: string): void {
+        const index = this.fruits.indexOf(fruit);
+
+        if (index >= 0) {
+            this.fruits.splice(index, 1);
+        }
+    }
+
+    selected(event: MatAutocompleteSelectedEvent): void {
+        this.fruits.push(event.option.viewValue);
+        this.fruitInput.nativeElement.value = '';
+        this.fruitCtrl.setValue(null);
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+
+        return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+    }
+
+
+
+
+
+
+
+
+
 
     ngOninit() {
         this.tbCols = [
             { field: 'id', header: 'id' }
         ];
+
+        this.tbLoading = true;
     }
 
     public createGroup() {
@@ -90,6 +171,7 @@ export class GroupGridComponent {
     }
 
 
+
     // #region - GROUP DIALOG actions
     public dialogGroupCreateOpen() { this.dialogGroupCreateConfig = new DialogDataModel<any>(true); }
     public dialogGroupCreateOnChange() {
@@ -99,6 +181,17 @@ export class GroupGridComponent {
     public dialogGroupCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
     public dialogGroupCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
     // #endregion
+
+
+
+    loadNodes(event: any) {
+        this.tbLoading = true;
+        const searchEntry = {
+            pageNumber: event.first > 0 ? event.first : 1,
+            pageLength: event.rows
+        } as PageSearchEntryApiModel;
+        this._requestGetRootGroups(searchEntry);
+    }
 
     onNodeSelect(event: any) {
         console.log(event.node.data.name);
@@ -115,7 +208,7 @@ export class GroupGridComponent {
         const that = this;
         //
         this.tbLoading = true;
-        this.groupsApiService.getSubGroups(event.node.data.id).subscribe((data: Array<GroupApiModel>) => {
+        this.groupsApiService.getSubGroups(event.node.data.id).subscribe((data: any) => {
             node.children = data.map((item: GroupApiModel) => { return { 'data': { 'id': item.id, 'name': item.name }, 'leaf': false }; });
             that.tbLoading = false;
             this.tbItems = [...this.tbItems];
@@ -126,21 +219,22 @@ export class GroupGridComponent {
         this.router.navigate(['/manage/groups/' + groupId]);
     }
 
-    _requestGetRootGroups() {
+    _requestGetRootGroups(searchEntry: PageSearchEntryApiModel) {
         this.tbLoading = true;
-        this.groupsApiService.getRoot().subscribe((data: Array<GroupApiModel>) => {
-            this.tbItems = data.map((item: GroupApiModel) => {
+        this.groupsApiService.getRoot(searchEntry).subscribe((response: any) => {
+            this.tbLoading = false;
+            this.tbItems = response.items.map((item: GroupApiModel) => {
                 return {
                     'label': item.name,
                     'data': { 'id': item.id, 'name': item.name },
                     'leaf': false
                 };
             });
-            this.tbLoading = false;
+            this.tbTotalItemCount = response.totalItemCount;
             this.selectedGroup = this.tbItems[0];
-            if (data.length > 0) {
-                // this.groupManageTransferService.sendSelectedGroupId(data[0].id);
-            }
+            // if (data.length > 0) {
+            //     // this.groupManageTransferService.sendSelectedGroupId(data[0].id);
+            // }
         });
     }
 

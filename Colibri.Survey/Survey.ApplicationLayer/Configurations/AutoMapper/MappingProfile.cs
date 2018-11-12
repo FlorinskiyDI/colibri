@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Survey.ApplicationLayer.Dtos.Entities;
 using Survey.ApplicationLayer.Dtos.Models;
+using Survey.ApplicationLayer.Dtos.Models.IdentityServer.Pager;
 using Survey.ApplicationLayer.Dtos.Models.Questions;
 using Survey.DomainModelLayer.Entities;
 using Survey.DomainModelLayer.Models;
 using Survey.DomainModelLayer.Models.IdentityServer;
+using Survey.DomainModelLayer.Models.IdentityServer.Pager;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -38,8 +40,11 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
         private void EntityToDto()
         {
             // models
-            CreateMap<GroupDto, Groups>();
+            CreateMap<PageSearchEntryDto, PageSearchEntryModel>();
+            CreateMap(typeof(PageDataDto<>), typeof(PageDataModel<>));
             CreateMap<IdentityUserDto, IdentityUserModel>();
+            CreateMap<IdentityUserDto, IdentityUserModel>();
+
             // entities
             CreateMap<SurveySections, SurveySectionDto>();
             CreateMap<Pages, PagesDto>();

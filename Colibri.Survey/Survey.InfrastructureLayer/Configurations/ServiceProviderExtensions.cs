@@ -44,9 +44,6 @@ namespace Survey.InfrastructureLayer.Configurations
 
         private static void AddDataAccess(IServiceCollection services, string connectionString)
         {
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString, b => b.MigrationsAssembly("Survey.InfrastructureLayer")));
             services.AddStorageCoreDataAccess<ApplicationDbContext>();
