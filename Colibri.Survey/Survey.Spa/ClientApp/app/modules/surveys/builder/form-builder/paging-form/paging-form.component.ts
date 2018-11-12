@@ -45,8 +45,6 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
 
 
 
-    items = this.generateItems(50, (i: any) => ({ data: 'Draggable ' + i }));
-
     onDrop(dropResult: IDropResult) {
         // update item list according to the @dropResult
         // this.items = this.applyDrag(this.items, dropResult);
@@ -55,6 +53,7 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
 
     }
 
+
     updateDpdList(list: any) {
         // update paging-dnd after drop list
         this.dpdPages = [];
@@ -62,6 +61,8 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
             this.dpdPages.push({ label: item.title + ' №' + (index + 1), value: item.id });
         });
     }
+
+
     generateItems(count: any, creator: any) {
         const result = [];
         for (let i = 0; i < count; i++) {
@@ -69,6 +70,8 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
         }
         return result;
     }
+
+
     applyDrag(arr: any, dragResult: any) {
         const { removedIndex, addedIndex, payload } = dragResult;
         if (removedIndex === null && addedIndex === null) {
@@ -86,12 +89,10 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
             result.splice(addedIndex, 0, itemToAdd);
         }
 
+        this.questionTransferService.setPagingListForSort(result);
+
         return result;
     }
-
-
-
-
 
 
     ngOnInit() {
@@ -103,24 +104,24 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
         });
     }
 
+
     selectPage(item: any) {
-        debugger
         this.questionTransferService.setSelectedPage(item.id);
         this.selectItem = item.id;
         this.selectedPage = item.id;
     }
 
+
     selectDpdPage(event: any) {
-        debugger
         this.questionTransferService.setSelectedPage(event.value);
         this.selectItem = event.value;
     }
 
     // items = generateItems(15, (i: any) => ({ data: 'Draggable ' + i }));
-
     // onDrop(dropResult: any) {
     //     this.items = applyDrag(this.items, dropResult);
     // }
+
     renderBatches = () => {
         const itemWidth = 130;
 
@@ -137,7 +138,6 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
     setBatchSize = () => {
 
         const ulElements = this.elementRef.nativeElement.querySelectorAll('ul');
-
         // Each ul element needs to be 100 / nb batches wide.
         for (let i = 0; i < ulElements.length; i++) {
             ulElements[i].style.width = 100 / this.batches.length + '%';

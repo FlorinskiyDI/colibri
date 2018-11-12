@@ -54,10 +54,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         if (addedIndex !== null) {
 
             this.addQuestion(itemToAdd, addedIndex);
-
         }
-
-
     }
 
 
@@ -187,17 +184,19 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         // this.page.questions.splice(index, 1); // remove AvailableQuestions object
         let question: any;
         const isAddItem = object.name;
-        
+
+
         if (isAddItem === undefined) {
             question = object;
             question.order = index;
 
         } else {
+            // this.page.questions.splice(index, 1); // remove AvailableQuestions object
             question = this.getQuestionByType(object.type, index);
-
+            question.state = ControStates.created;
         }
 
-        question.state = ControStates.created;
+
         const group: any = {};
 
         const dataPage = this.formPage.controls[this.page.id] as FormGroup;

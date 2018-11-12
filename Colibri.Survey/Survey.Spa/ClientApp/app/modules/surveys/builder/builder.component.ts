@@ -65,6 +65,16 @@ export class BuilderComponent {
             this.surveyId = params['id'] ? params['id'] : null;
         });
 
+        this.questionTransferService.getPagingListForSort().subscribe((pagingList: any[]) => {
+            pagingList.forEach((x: any, index: any) => {
+
+                const page = this.survey.pages.find(item => item.id === x.id);
+                page.order = index;
+            });
+
+        });
+
+
         this.questionTransferService.getSelectedPage().subscribe((pageId: string) => {
             // Init data
 
@@ -90,7 +100,7 @@ export class BuilderComponent {
                 state: ControStates.created
             });
             this.survey.pages.push(page);
-            debugger
+
             this.page = page;
             this.questionTransferService.setFormPage(page);
         });
@@ -101,8 +111,6 @@ export class BuilderComponent {
             this.page = data.index > 1 ? this.survey.pages[data.index - 1] : this.survey.pages[0];
             this.questionTransferService.setFormPage(this.page);
             this.sortPagesByIndex();
-
-
         });
     }
 
@@ -129,6 +137,8 @@ export class BuilderComponent {
                 this.survey = data;
 
                 if (this.survey.pages) {
+
+                    this.survey.pages.sort((a: any, b: any) => a.order - b.order);
                     this.page = data.pages[0];
                     this.pagingList = this.getPagingList();
                     this.questionTemplates = this.getTemplates();
