@@ -1,5 +1,5 @@
 <div [formGroup]="formPage" class='wrapper'>
-    <div class="">
+    <div class="page-dropdown-wrapper">
         <!-- {{batches | json}} -->
         <!-- <p-dropdown (onChange)="changeQuestion($event)" [options]="pagingList" class="d-dropdown" [style]="{'width':'100%', 'font-size':'12px'}">
             <ng-template let-item pTemplate="selectedItem">
@@ -24,6 +24,36 @@
                 </div>
             </ng-template>
         </p-dropdown> -->
+
+        <!-- <p-dropdown (onChange)="changeQuestion($event)" [options]="pagingList" class="d-dropdown" [(ngModel)]="selectedPage" [ngModelOptions]="{standalone: true}" [style]="{'width':'100%', 'font-size':'12px'}">
+            <ng-template let-item pTemplate="selectedItem">
+                <p class="icon fa {{item.icon}}" href="#"></p>
+                <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+            <ng-template let-type pTemplate="item">
+                <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                    <p class="icon fa {{type.icon}}" href="#"></p>
+                    <div style="font-size:14px;float:right;margin-top:4px">{{item.label}}</div>
+                </div>
+            </ng-template>
+        </p-dropdown> -->
+        <!-- <p-dropdown [options]="dpdPages" [(ngModel)]="selectedPage" [ngModelOptions]="{standalone: true}" placeholder="Select a City"
+            optionLabel="name" [showClear]="true"></p-dropdown> -->
+<!-- {{selectedPage | json}} -->
+        <p-dropdown (onChange)="selectDpdPage($event)" [options]="dpdPages" class="d-dropdown-paging" placeholder="Survey  Settings" [(ngModel)]="selectedPage" [ngModelOptions]="{standalone: true}"
+         [style]="{'width':'calc(100% - 2px)', 'font-size':'11px', 'border-radius':'0px', 'border': '0px solid #1e6046','position':'absolute', 'border-radius':'0px'}">
+            <ng-template let-item pTemplate="selectedItem">
+                <p class="icon fa fa-cog" href="#"></p>
+                <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+            <ng-template let-type pTemplate="item">
+                <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                    <div style="font-size:11px;float:left;margin-top:4px">{{type.label}}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+
+
     </div>
 
     <!-- <smooth-dnd-container [orientation]="'horizontal'" (drop)="onDrop($event)" style="background-color:red">
@@ -35,10 +65,12 @@
     </smooth-dnd-container> -->
 
     <div class='carousel-wrapper'>
+
         <div class='carousel' fxLayout='row' fxLayoutAlign='center stretch'>
             <!-- <ul class='ulCollection' *ngFor='let items of batches' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
             </ul> -->
-            <smooth-dnd-container [dragClass]="'drag-page-pagination'" [dropClass]="'drag-page-pagination'" [lockAxis]="'x'" [orientation]="'horizontal'" (drop)="onDrop($event)" style="background-color:red">
+            <smooth-dnd-container [dragClass]="'drag-page-pagination'" [dropClass]="'drag-page-pagination'" [lockAxis]="'x'" [orientation]="'horizontal'"
+                (drop)="onDrop($event)" style="background-color:red">
                 <smooth-dnd-draggable *ngFor='let item of batches[0]; let i = index'>
                     <ul class='ulCollection' fxLayout='row' fxLayoutAlign='space-evenly stretch'>
 
@@ -53,7 +85,7 @@
                                 </button>
                             </div>
                             <div (click)="selectPage(item)" class='textBlock' style="height: 100%">
-                        {{item.title + " " + (i + 1) }}1
+                                {{item.title + " №" + (i + 1) }}
                                 <b *ngIf="formPage.controls[item.id] ? !formPage.controls[item.id].valid : false" [ngClass]='{"d-dirtyPage": selectItem == item.id}'>*</b>
                             </div>
                         </li>

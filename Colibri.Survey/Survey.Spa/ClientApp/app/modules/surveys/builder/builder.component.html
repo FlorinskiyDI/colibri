@@ -91,7 +91,7 @@
     </div>
     <div id="d-builder-body">
         <form-builder *ngIf="page && templateOptions && pagingList" [pagingList]="pagingList" [page]="page" (formState)="checkstate($event)"
-            [templateOptions]="templateOptions"></form-builder>
+            [templateOptions]="templateOptions" [(numericPageFrom)]="startNumericPageFrom"></form-builder>
     </div>
 
 </div>

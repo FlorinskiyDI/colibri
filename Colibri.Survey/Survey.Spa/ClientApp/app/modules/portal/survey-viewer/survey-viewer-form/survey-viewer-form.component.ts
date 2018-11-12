@@ -78,7 +78,6 @@ export class SurveyViewerFormComponent implements OnInit, OnChanges {
 
 
         setTimeout(() => {
-            debugger
             this.unfilledQestionId = null;
         }, 1000); // time as transition property in css
 

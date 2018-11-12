@@ -27,6 +27,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
     @Input() templateOptions: any;
     @Input() page: PageModel = new PageModel();
     @Input() pagingList: any[];
+    @Input() numericPageFrom: number;
     @Output() formState = new EventEmitter<any>();
 
     formPage: FormGroup;
@@ -46,21 +47,13 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
             return arr;
         }
 
-        const result = [...arr];
         let itemToAdd = payload;
-
         if (removedIndex !== null) {
             itemToAdd = this.page.questions.splice(removedIndex, 1)[0];
         }
-
         if (addedIndex !== null) {
 
             this.addQuestion(itemToAdd, addedIndex);
-            // if (isAddItem === 'undefined') {
-            //     this.addQuestion(itemToAdd, addedIndex);
-            // } else {
-            //     this.addQuestion(itemToAdd, addedIndex);
-            // }
 
         }
 
@@ -194,7 +187,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         // this.page.questions.splice(index, 1); // remove AvailableQuestions object
         let question: any;
         const isAddItem = object.name;
-        debugger
+        
         if (isAddItem === undefined) {
             question = object;
             question.order = index;

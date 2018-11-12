@@ -234,7 +234,7 @@ namespace Survey.ApplicationLayer.Services
 
         protected object getAnswerByType(TableReportViewModel answerModel, List<AnswerModel> answerList)
         {
-            string answerONQuestion = "NOT ANSWER";
+            string answerONQuestion = "NO ANSWER";
             if (Enum.TryParse(answerModel.InputTypeName, out type))
             {
                 switch (type)

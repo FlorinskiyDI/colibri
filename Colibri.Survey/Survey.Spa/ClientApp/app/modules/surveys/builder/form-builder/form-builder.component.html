@@ -26,27 +26,43 @@
                                     [dropZones]="templateOptions.dragTemplateZones"></div>
                             </li>
                         </div> -->
-                        <div style="margin: 6px; background-color:#fdf4bf">
+                        <div *ngIf="page.questions.length == 0">
+                            <smooth-dnd-container class="d-drag-conteiner" [groupName]="'1'" [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)">
+                                <!-- <smooth-dnd-draggable class="d-question-wrapp" *ngFor="let item of [1];">
+                                                <div style="height: 100px;  background-color:green"></div>
+                                        </smooth-dnd-draggable> -->
+                                <!-- <div style="display: block; background-color: green; height: 100px;"> </div> -->
+                                <!-- <div class="smooth-dnd-container vertical" style="height: 100px;">
+                                            <p class="dnd-notefication">11111111111</p>
+                                        </div> -->
+                                <div class="flex-container">
+                                    <div class="row">
+                                        <span class="flex-item">DRAG QUESTION TYPE HERE</span>
+                                    </div>
+                                </div>
+                            </smooth-dnd-container>
+                        </div>
+                        <div *ngIf="page.questions.length > 0" style="margin: 6px; background-color:#fdf4bf">
                             <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)">
-                
-                                    <smooth-dnd-draggable class="d-question-wrapp" *ngFor="let item of page.questions; let i = index">
-                                            <div style="height: 3px;  background-color:#fff"></div>
-                                        <div class="d-repeat-question" [ngClass]='{"d-edit-repeat-question": selectQuestion == item.id}'>
-                                            <div class="d-question-wrapp">
-                                                <div class="d-item-left-section">
-                                                    <div class="d-item-opt-controls">
-                                                        <input id="etitState" [checked]="selectQuestion == item.id" #editCheckbox type="checkbox" value="false" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? selectQuestion = item.id: selectQuestion = ''">
-                                                        <label for="etitState"> {{'Q' + (i+1)}}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="d-item-right-section">
-                                                    <question-form-builder [pageId]="page.id" [isEditState]="editCheckbox.checked" [question]="item" [formPage]="formPage"></question-form-builder>
+
+                                <smooth-dnd-draggable class="d-question-wrapp" *ngFor="let item of page.questions; let i = index">
+                                    <div style="height: 3px;  background-color:#fff"></div>
+                                    <div class="d-repeat-question" [ngClass]='{"d-edit-repeat-question": selectQuestion == item.id}'>
+                                        <div class="d-question-wrapp">
+                                            <div class="d-item-left-section">
+                                                <div class="d-item-opt-controls">
+                                                    <input id="etitState" [checked]="selectQuestion == item.id" #editCheckbox type="checkbox" value="false" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? selectQuestion = item.id: selectQuestion = ''">
+                                                    <label for="etitState"> {{'Q' + (numericPageFrom + (i + 1))}}</label>
                                                 </div>
                                             </div>
+                                            <div class="d-item-right-section">
+                                                <question-form-builder [pageId]="page.id" [isEditState]="editCheckbox.checked" [question]="item" [formPage]="formPage"></question-form-builder>
+                                            </div>
                                         </div>
-                                        <div style="height: 3px;  background-color:#fff"></div>
-                                    </smooth-dnd-draggable>
-                                
+                                    </div>
+                                    <div style="height: 3px;  background-color:#fff"></div>
+                                </smooth-dnd-draggable>
+
                             </smooth-dnd-container>
 
                         </div>

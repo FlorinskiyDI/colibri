@@ -49,6 +49,8 @@ export class BuilderComponent {
     questionTemplates: any[];
     isValidForm = true;
     deletePageList: string[] = [];
+    startNumericPageFrom = 0;
+
 
     constructor(
         private router: Router,
@@ -65,8 +67,17 @@ export class BuilderComponent {
 
         this.questionTransferService.getSelectedPage().subscribe((pageId: string) => {
             // Init data
+
             this.page = this.survey.pages.find(item => item.id === pageId);
             this.questionTransferService.setFormPage(this.page);
+
+
+            const indexSelectedPage = this.survey.pages.indexOf(this.page);
+            const rangePageBefore = this.survey.pages.slice(0, indexSelectedPage); // get question range (max, min) for make resortable
+            this.startNumericPageFrom = 0;
+            for (const item of rangePageBefore) {
+                this.startNumericPageFrom += item.questions.length;
+            }
         });
 
         this.questionTransferService.getPageById().subscribe((id: any) => {
@@ -79,7 +90,7 @@ export class BuilderComponent {
                 state: ControStates.created
             });
             this.survey.pages.push(page);
-
+            debugger
             this.page = page;
             this.questionTransferService.setFormPage(page);
         });
@@ -96,6 +107,7 @@ export class BuilderComponent {
     }
 
     ngOnInit() {
+        // this.startNumericPageFrom = 12;
         this.templateOptions = {
             dragTemplateZones: ['dropZone1', 'dropZone2', 'dropZone3', 'dropZons4', 'dropZone5', 'dropZone6'],
             questionTemplates: cloneDeep(this.getTemplates())
