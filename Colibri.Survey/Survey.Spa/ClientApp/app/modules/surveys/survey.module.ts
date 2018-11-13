@@ -43,7 +43,6 @@ import { DndModule } from 'ng2-dnd';
         QuestionFormBuilderComponent,
         PagingFormComponent,
         SurveyGridComponent
-        // GroupGridComponent
     ],
     entryComponents: [
         FormBuilderComponent,

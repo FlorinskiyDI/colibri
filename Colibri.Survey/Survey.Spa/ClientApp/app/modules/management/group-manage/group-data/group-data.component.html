@@ -8,108 +8,30 @@
             </div>
         </div>
     </div>
-    <!-- <div class="row">
-        <div class="col-md-12">
-            <div class="clbr--block-description-v1">
-                <span>Description: List groups</span>
-            </div>
-        </div>
-    </div> -->
     <div class="row">
         <div class="col-md-12">
             <div class="clbr--block-content">
 
-                <!-- <div class="row">
-                    <div class="col-md-12">
-                        <div class="clbr--block-btns-v1">
-                            <button class="clbr--btn-default btn btn-sm btn-default"
-                                (click)="createGroup()">
-                                <i class="fa fa-file-o"></i>
-                                Create
-                            </button>
-                            <button class="clbr--btn-default btn btn-sm btn-default"
-                                [attr.disabled]="!selectedNode ? '' : null"
-                                (click)="goToGroupView(selectedNode.data.id)">
-                                <i class="fa fa-pencil"></i>
-                                Edit
-                            </button>
-                            <button class="clbr--btn-default btn btn-sm btn-default"
-                                [attr.disabled]="!selectedNode ? '' : null"
-                                (click)="removeGroup(selectedNode.data)">
-                                <i class="fa fa-remove"></i>
-                                Remove
-                            </button>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- <div class="row">
-                    <div class="col-md-12">
-                        <div class=".clbr--block-btns-v1">
-                                <button mat-raised-button>Basic</button>
-                        </div>
-                    </div>
-                </div> -->
                 <div class="row">
                     <div class="col-md-12">
                         <div class="clbr--block-btns-v1">
-                            <button class="clbr--btn-default btn btn-sm btn-default"
-                                (click)="createGroup()">
-                                Create new grpoup
-                            </button>
-                            <!-- <button class="clbr--btn-default btn btn-sm btn-default"
-                                    [attr.disabled]="!selectedNode ? '' : null"
-                                    (click)="goToGroupView(selectedNode.data.id)">
-                                    <i class="fa fa-pencil"></i>
-                                    Edit
-                                </button>
+                            <div>
                                 <button class="clbr--btn-default btn btn-sm btn-default"
-                                    [attr.disabled]="!selectedNode ? '' : null"
-                                    (click)="removeGroup(selectedNode.data)">
-                                    <i class="fa fa-remove"></i>
-                                    Remove
-                                </button> -->
+                                    (click)="createGroup()">
+                                    Create new grpoup
+                                </button>
+                            </div>
+                            <div class="pull-right">
+                                <p-dropdown [options]="view_OptionList"
+                                    [(ngModel)]="view_Option">
+                                </p-dropdown>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <input type="checkbox" [(ngModel)]="checkbox" >
-                <pre *ngIf="checkbox">{{chipItems | json}}</pre>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="clbr--block-filter">
-                            <mat-form-field class="example-chip-list">
-                                <span matPrefix>
-                                    <mat-icon class="filter-icon">filter_list</mat-icon>
-                                </span>
-                                <mat-chip-list #chipList>
-                                    <mat-chip *ngFor="let item of chipItems"
-                                        [selectable]="chipSelectable"
-                                        [removable]="chipRemovable"
-                                        (removed)="remove(item)">
-                                        {{item.label}}
-                                        <mat-icon matChipRemove *ngIf="chipRemovable">cancel</mat-icon>
-                                    </mat-chip>
-                                    <input #fruitInput placeholder="filter query"
-                                        [formControl]="chipFruitCtrl"
-                                        [matAutocomplete]="auto"
-                                        [matChipInputFor]="chipList"
-                                        [matChipInputSeparatorKeyCodes]="chipSeparatorKeysCodes"
-                                        [matChipInputAddOnBlur]="chipAddOnBlur"
-                                        (matChipInputTokenEnd)="add($event)">
-                                </mat-chip-list>
-                                <mat-autocomplete #auto="matAutocomplete"
-                                    (optionSelected)="selected($event)">
-                                    <!-- <mat-option [value]="OR">
-                                        OR
-                                    </mat-option> -->
-                                    <mat-option *ngFor="let item of filteredItems"
-                                        [value]="item">
-                                        {{item}}
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
+
+                <cmp-group-data-filter>
+                </cmp-group-data-filter>
 
                 <div class="row">
                     <div class="col-md-12">
@@ -124,9 +46,19 @@
                                     placeholder="search query"
                                     aria-describedby="basic-addon1">
                                 <!-- <span class="input-group-addon" id="basic-addon2">@example.com</span>
-                                <span class="input-group-addon" id="basic-addon2">@example.com</span> -->
+                                    <span class="input-group-addon" id="basic-addon2">@example.com</span> -->
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div [ngSwitch]="view_Option">
+                    <div *ngSwitchWhen="'list'">
+                        List
+                    </div>
+                    <div *ngSwitchWhen="'tree'">
+                        <cmp-group-data-tree>
+                        </cmp-group-data-tree>>
                     </div>
                 </div>
 

@@ -18,30 +18,30 @@ import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from
 // /* directive */ import { ModalService } from 'shared/directives/modal/modal.service';
 
 @Component({
-    selector: 'cmp-group-grid',
-    templateUrl: './group-grid.component.html',
-    styleUrls: ['./group-grid.component.scss'],
+    selector: 'cmp-group-data-tree',
+    templateUrl: './group-data-tree.component.html',
+    styleUrls: ['./group-data-tree.component.scss'],
     providers: [
         TreeDragDropService,
         ConfirmationService,
         MessageService
     ]
 })
-export class GroupGridComponent {
+export class GroupDataTreeComponent {
     // ///////////
     // ///////////
     // visible = true;
     chipSelectable = true;
     chipRemovable = true;
     chipAddOnBlur = true;
-    chipSeparatorKeysCodes: number[] = [ENTER, COMMA];
+    chipSeparatorKeysCodes: number[] = [COMMA];
     chipFruitCtrl = new FormControl();
     filteredItems: any[];
     chipItems: FilterItem[] = [];
     // fruits: string[] = [];
     pageColumnNames: string[] = ['Name', 'Description'];
 
-    @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+    @ViewChild('chipInput') chipInput: ElementRef<HTMLInputElement>;
     @ViewChild('auto') matAutocomplete: MatAutocomplete;
     // ///////////
     // ///////////
@@ -88,54 +88,54 @@ export class GroupGridComponent {
         });
     }
 
+    chipOnEnter(data: any) {
+    }
 
     add(event: MatChipInputEvent): void {
-
-       console.log(event);
         // debugger
-        // Add item only when MatAutocomplete is not open
-        // To make sure this does not conflict with OptionSelected Event
-        if (!this.matAutocomplete.isOpen) {
-            console.log(this.matAutocomplete.isOpen);
-            const input = event.input;
-            let value = event.value;
+        // console.log(event);
+        // // debugger
+        // // Add item only when MatAutocomplete is not open
+        // // To make sure this does not conflict with OptionSelected Event
+        // if (!this.matAutocomplete.isOpen) {
+        //     console.log(this.matAutocomplete.isOpen);
+        //     const input = event.input;
+        //     let value = event.value;
 
-            if ((value || '').trim()) {
-                if (this.filterItem.filterStatement && this.filterItem.filterStatement.propertyName == null) {
-                    this.filterItem.filterStatement.propertyName = value;
-                    const lastChar = value.substr(value.length - 1);
-                    if (lastChar && lastChar !== ':') {
-                        this.fruitInput.nativeElement.value = value + ':';
-                    }
+        //     if ((value || '').trim()) {
+        //         if (this.filterItem.filterStatement && this.filterItem.filterStatement.propertyName == null) {
+        //             this.filterItem.filterStatement.propertyName = value;
+        //             const lastChar = value.substr(value.length - 1);
+        //             if (lastChar && lastChar !== ':') {
+        //                 this.chipInput.nativeElement.value = value + ':';
+        //             }
 
-                } else {
-                    value = value.split(':').pop();
-                    if (value && value !== '') {
-                        this.fruitInput.nativeElement.value = null;
-                        this.filterItem.filterStatement.value = value.split(':').pop();
-                        this.chipItems.push({
-                            label: this.filterItem.filterStatement.propertyName + ':' + this.filterItem.filterStatement.value,
-                            filterStatement: Object.assign({}, this.filterItem.filterStatement)
-                        });
-                        this.filterItem = new FilterItem();
-                    }
-
-
-                }
-            }
-            this.chipFruitCtrl.setValue(null);
-            // Add our fruit
-            // if ((value || '').trim()) {
-            //     this.chipItems.push({ label: value.trim() });
-            // }
-
-            // // Reset the input value
-            // if (input) {
-            //     input.value = '';
-            // }
+        //         } else {
+        //             value = value.split(':').pop();
+        //             if (value && value !== '') {
+        //                 this.chipInput.nativeElement.value = null;
+        //                 this.filterItem.filterStatement.value = value.split(':').pop();
+        //                 this.chipItems.push({
+        //                     label: this.filterItem.filterStatement.propertyName + ':' + this.filterItem.filterStatement.value,
+        //                     filterStatement: Object.assign({}, this.filterItem.filterStatement)
+        //                 });
+        //                 this.filterItem = new FilterItem();
+        //             }
 
 
-        }
+        //         }
+        //     }
+        //     this.chipFruitCtrl.setValue(null);
+        //     // Add our fruit
+        //     // if ((value || '').trim()) {
+        //     //     this.chipItems.push({ label: value.trim() });
+        //     // }
+
+        //     // // Reset the input value
+        //     // if (input) {
+        //     //     input.value = '';
+        //     // }
+        // }
     }
 
     remove(item: any): void {
@@ -153,9 +153,9 @@ export class GroupGridComponent {
 
         if (this.filterItem.filterStatement && this.filterItem.filterStatement.propertyName == null) {
             this.filterItem.filterStatement.propertyName = event.option.viewValue;
-            this.fruitInput.nativeElement.value = event.option.viewValue + ':';
+            this.chipInput.nativeElement.value = event.option.viewValue + ':';
         } else {
-            this.fruitInput.nativeElement.value = null;
+            this.chipInput.nativeElement.value = null;
             this.filterItem.filterStatement.value = event.option.viewValue;
             this.chipItems.push({
                 label: this.filterItem.filterStatement.propertyName + ':' + this.filterItem.filterStatement.value,
