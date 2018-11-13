@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Inject, Component, ViewEncapsulation, InjectionToken } from '@angular/core';
 
 import { ControTypes } from 'shared/constants/control-types.constant';
 import { ControStates } from 'shared/constants/control-states.constant';
@@ -22,6 +22,7 @@ import { FormBuilderComponent } from './form-builder/form-builder.component';
 import { QuestionTemplate } from 'shared/models/form-builder/form-control/question-template.model';
 // import { forEach } from '@angular/router/src/utils/collection';
 
+/* provider */ import { WINDOW } from 'shared/providers//window.provider';
 import { FormGroup } from '@angular/forms';
 import { applyDrag } from './utils/utilse.service';
 @Component({
@@ -50,9 +51,10 @@ export class BuilderComponent {
     isValidForm = true;
     deletePageList: string[] = [];
     startNumericPageFrom = 0;
-
+    WINDOW = new InjectionToken<Window>('window');
 
     constructor(
+        @Inject(WINDOW) private window: Window,
         private router: Router,
         private surveysApiService: SurveysApiService,
         private route: ActivatedRoute,
@@ -171,8 +173,19 @@ export class BuilderComponent {
         this.isValidForm = formState;
     }
 
+
+    GoToSurvey() {
+        // this.router.navigateByUrl('/surveys/portal/' + this.surveyId);
+        this.window.open('/portal/' + this.surveyId, '_blank');
+    }
+
+
+    GoToReport() {
+        this.router.navigateByUrl('/surveys/report/' + this.surveyId);
+    }
+
+
     dragEndQuestionTemplate(event: any, widget: any) { // add back to template list drag question
-        console.log('11111111111111111111111111');
         this.questionTemplates.push(widget);
         this.questionTemplates.sort((a: any, b: any) => a.order - b.order);
         this.questionTransferService.setQuestionForDelete(widget);

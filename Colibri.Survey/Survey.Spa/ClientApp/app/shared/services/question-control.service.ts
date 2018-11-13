@@ -117,7 +117,7 @@ export class QuestionControlService {
     const question = new TextboxQuestion({
       value: '',
       id: id,
-      text: 'default question text for type control "textbox"',
+      text: 'Simple text ...',
       description: 'some description!',
       order: index,
       required: false,
@@ -132,7 +132,7 @@ export class QuestionControlService {
     const question = new TextAreaQuestion({
       value: '',
       id: id,
-      text: 'default question text for type control "textarea"',
+      text: 'Extended text ...',
       description: 'some description!',
       order: index,
       required: false,
@@ -145,7 +145,7 @@ export class QuestionControlService {
     const id = GUID.getNewGUIDString(); // new guid
     const question = new RadioQuestion({
       id: id,
-      text: 'new "radiobutton"',
+      text: 'Single choice ...',
       description: 'some description!',
       options: [
         new ControlOptionModel(GUID.getNewGUIDString(), '', 'radio 1', 0),
@@ -167,7 +167,7 @@ export class QuestionControlService {
 
     const question = new CheckboxQuestion({
       id: id,
-      text: 'Bravery checkbox',
+      text: 'Multiple choice ...',
       description: 'some description!',
       options: [
         new ControlOptionModel(GUID.getNewGUIDString(), false, 'variable 1', 0),
@@ -187,7 +187,7 @@ export class QuestionControlService {
 
     const question = new DropdownQuestion({
       id: id,
-      text: 'default question text for type control "dropdown"',
+      text: 'Select variable ...',
       description: 'some description!',
       options: [
         new ControlOptionModel(GUID.getNewGUIDString(), '1111', 'dropdown value 1', 0),
@@ -207,7 +207,7 @@ export class QuestionControlService {
 
     const question = new GridRadioQuestion({
       id: id,
-      text: 'Grid question, some text for long input, some text for long input, some text for long input, some text for long input',
+      text: 'Table with single row`s choice ...',
       description: 'Some description ...',
       grid: {
         cellInputType: 'radio',  // radio, checkbox

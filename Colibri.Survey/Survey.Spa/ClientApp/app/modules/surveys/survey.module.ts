@@ -18,6 +18,9 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 /* component */ import { QuestionFormBuilderComponent } from './builder/form-builder/question-form-builder/question-form-builder.component';
 /* component */ import { QuestionOptionsComponent } from './builder/form-builder/question-options/question-options.component';
+
+/* provider */ import { WINDOW_PROVIDERS } from 'shared/providers//window.provider';
+
 import { NgxSmoothDnDModule } from 'ngx-smooth-dnd';
 // /* component */ import { ReportModule} from './report/report.module';
 
@@ -49,7 +52,10 @@ import { DndModule } from 'ng2-dnd';
     entryComponents: [
         FormBuilderComponent,
       ],
-    providers: [],
+    providers: [
+        WINDOW_PROVIDERS
+    ]
+    ,
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SurveyModule { }

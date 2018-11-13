@@ -13,6 +13,67 @@
     height: 32px;
     background-color: #D6DBE9;
 
+    .d-left-bar {
+        position: absolute;
+        left: 0px;
+        width: 82%;
+        height: 32px;
+        background-color: #d6dbe9;
+
+        .d-buttons-operation {
+            display: flex;
+
+            .d-open-survey-button{
+                outline: none;
+                cursor: pointer;
+                margin: 5px;
+                height: 22px;
+                display: flex;
+                width: inherit;
+                height: inherit;
+                border: 0px;
+                border: 1px solid #bdc5d8;
+                background-color: #cfd6e5;
+                color: #fff;
+                font-size: 14px;
+                &:hover {
+                    background-color: #fff29d;
+                    border: 1px solid #e5c365;
+                }
+                p {
+                    margin: 0px;
+                    font-size: 12px;
+                    color: #324464;
+                    margin: 0px 3px 0px 3px;
+                    &:hover {
+
+                    }
+                }
+                i {
+                    margin: 3px;
+                    color: #00498a;
+                    font-size: 12px;
+                }
+            }
+            .d-disabled-button {
+                cursor: not-allowed;
+                // background-color: red;
+                &:hover {
+                    border: 1px solid #bdc5d8;
+                    background-color: #cfd6e5;
+                }
+                i {
+                    color: #80838c;
+                }
+                p {
+                    color: #80838c;
+                    
+                }
+
+            }
+        }
+    }
+
     .d-right-bar {
         position: absolute;
         right: 0px;
