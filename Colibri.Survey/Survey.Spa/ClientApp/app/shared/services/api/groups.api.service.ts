@@ -26,7 +26,7 @@ export class GroupsApiService {
         return result;
     }
 
-    getRoot(searchEntry: any, objectFields: string[] | null = null) {
+    getRoot(searchEntry: any = null, objectFields: string[] | null = null) {
         // const result = this.restangular.all('api/groups/root').post(searchEntry);
         const result = this.restangular.all('api/groups/root').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
         // const result = this.restangular.one('api/groups/root').customPost(undefined, objectFields ? objectFields.join(',') : undefined);

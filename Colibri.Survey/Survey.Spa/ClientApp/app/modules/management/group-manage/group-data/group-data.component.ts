@@ -8,8 +8,8 @@ import { Component } from '@angular/core';
 export class GroupDataComponent {
 
     // view option for displaing group data
-    view_OptionList: Array<string> = ['list', 'tree'];
-    view_Option = 'list';
+    view_OptionList: Array<any> = [{ label: 'list', value: 'list' }, { label: 'tree', value: 'tree' }];
+    view_Option = 'tree';
 
     constructor() { }
 }

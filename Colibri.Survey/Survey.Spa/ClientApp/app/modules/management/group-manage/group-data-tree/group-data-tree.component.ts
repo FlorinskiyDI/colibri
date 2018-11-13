@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { COMMA } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
 import { TreeDragDropService } from 'primeng/components/common/api';
 import { ConfirmationService } from 'primeng/api';

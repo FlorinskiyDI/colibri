@@ -8,7 +8,8 @@ import { NgModule } from '@angular/core';
 /* component */ import { GroupDetailComponent } from './group-detail/group-detail.component';
 /* component */ import { GroupDialogCreateComponent } from './group-dialog-create/group-dialog-create.component';
 /* component */ import { GroupFormCreateComponent } from './group-dialog-create/group-form-create/group-form-create.component';
-
+/* component */ import { GroupDataComponent } from './group-data/group-data.component';
+/* component */ import { GroupDataFilterComponent } from './group-data-filter/group-data-filter.component';
 
 @NgModule({
     imports: [
@@ -16,8 +17,10 @@ import { NgModule } from '@angular/core';
         SharedModule
     ],
     declarations: [
+        GroupDataComponent,
         GroupManageComponent,
         GroupDataTreeComponent,
+        GroupDataFilterComponent,
         GroupDialogCreateComponent,
         GroupFormCreateComponent,
         GroupViewComponent,

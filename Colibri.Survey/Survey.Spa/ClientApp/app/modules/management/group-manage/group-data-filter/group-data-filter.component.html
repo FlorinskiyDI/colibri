@@ -1,40 +1,30 @@
 <div class="row-group-data-filter">
     <div class="row">
-        <!-- <div class="col-md-12">
-        <div class="clbr--block-filter">
-            <mat-form-field class="example-chip-list">
-                <span matPrefix>
-                    <mat-icon class="filter-icon">filter_list</mat-icon>
-                </span>
-                <mat-chip-list #chipList>
-                    <mat-chip *ngFor="let item of chipItems"
-                        [selectable]="chipSelectable"
-                        [removable]="chipRemovable"
-                        (removed)="remove(item)">
-                        {{item.label}}
-                        <mat-icon matChipRemove
-                            *ngIf="chipRemovable">cancel</mat-icon>
-                    </mat-chip>
-                    <input #chipInput
-                        placeholder="filter query"
-                        [formControl]="chipFruitCtrl"
-                        [matAutocomplete]="auto"
-                        [matChipInputFor]="chipList"
-                        [matChipInputSeparatorKeyCodes]="chipSeparatorKeysCodes"
-                        [matChipInputAddOnBlur]="chipAddOnBlur"
-                        (keyup.enter)="chipOnEnter(chipInput.value)"
-                        (matChipInputTokenEnd)="add($event)">
-                </mat-chip-list>
-                <mat-autocomplete autoActiveFirstOption
-                    #auto="matAutocomplete"
-                    (optionSelected)="selected($event)">                    
-                    <mat-option *ngFor="let item of filteredItems"
-                        [value]="item">
-                        {{item}}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
+        <div class="col-md-12">
+            <div class="clbr--block-filter">
+                
+                <mat-form-field class="example-chip-list">
+                    <span matPrefix>
+                        <mat-icon class="filter-icon">filter_list</mat-icon>
+                    </span>
+                    <mat-chip-list #chipList>
+                        <mat-chip *ngFor="let item of chipItems" [selectable]="chipSelectable" [removable]="chipRemovable"
+                            (removed)="remove(item)">
+                            {{item.label}}
+                            <mat-icon matChipRemove *ngIf="chipRemovable">cancel</mat-icon>
+                        </mat-chip>
+                        <input #chipInput placeholder="filter query" [formControl]="chipFruitCtrl" [matAutocomplete]="auto"
+                            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="chipSeparatorKeysCodes"
+                            [matChipInputAddOnBlur]="chipAddOnBlur" (keyup.enter)="chipOnEnter(chipInput.value)"
+                            (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="selected($event)">
+                        <mat-option *ngFor="let item of filteredItems" [value]="item">
+                            {{item}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
         </div>
-    </div> -->
     </div>
 </div>
