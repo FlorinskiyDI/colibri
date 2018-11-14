@@ -6,7 +6,19 @@
     height: 100%;
     width: 100%;
     outline: none !important;
-    margin-bottom: 24px;
+    // margin-bottom: 24px;
+}
+
+.d-notification-wrapper {
+    background-color: #324464;
+    padding: 0px 5px 0px 5px;
+}
+
+.d-notification {
+    width: 100%;
+    height: 32px;
+    background-color: #ca5100;
+   
 }
 
 #d-builder-header {
@@ -18,7 +30,7 @@
         left: 0px;
         width: 82%;
         height: 32px;
-        background-color: #d6dbe9;
+        // background-color: #d6dbe9;
 
         .d-buttons-operation {
             display: flex;
@@ -94,7 +106,7 @@
                 color: #fff;
                 font-size: 14px;
                 &:hover {
-                    background-color: rgb(71, 160, 65);
+                    background-color: rgb(42, 112, 84);
                 }
             }
             .d-update-button {

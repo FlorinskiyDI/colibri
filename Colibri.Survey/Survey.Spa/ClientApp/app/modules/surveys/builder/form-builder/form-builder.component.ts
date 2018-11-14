@@ -28,6 +28,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
     @Input() page: PageModel = new PageModel();
     @Input() pagingList: any[];
     @Input() numericPageFrom: number;
+    @Input() isPageBuilder: boolean;
     @Output() formState = new EventEmitter<any>();
 
     formPage: FormGroup;

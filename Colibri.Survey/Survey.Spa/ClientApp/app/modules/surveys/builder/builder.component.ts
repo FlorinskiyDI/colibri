@@ -45,7 +45,7 @@ export class BuilderComponent {
     templateOptions: any;
     formPages: FormGroup[];
     surveyId: any;
-
+    isPageBuilder = false;
     pagingList: any[] = [];
     questionTemplates: any[];
     isValidForm = true;
@@ -79,16 +79,21 @@ export class BuilderComponent {
 
         this.questionTransferService.getSelectedPage().subscribe((pageId: string) => {
             // Init data
-
-            this.page = this.survey.pages.find(item => item.id === pageId);
-            this.questionTransferService.setFormPage(this.page);
+            const fakepage = this.survey.pages.find(item => item.id === pageId);
 
 
-            const indexSelectedPage = this.survey.pages.indexOf(this.page);
-            const rangePageBefore = this.survey.pages.slice(0, indexSelectedPage); // get question range (max, min) for make resortable
-            this.startNumericPageFrom = 0;
-            for (const item of rangePageBefore) {
-                this.startNumericPageFrom += item.questions.length;
+            if (fakepage === undefined) {
+                this.isPageBuilder = false;
+            } else {
+                this.page = fakepage;
+                this.isPageBuilder = true;
+                this.questionTransferService.setFormPage(this.page);
+                const indexSelectedPage = this.survey.pages.indexOf(this.page);
+                const rangePageBefore = this.survey.pages.slice(0, indexSelectedPage); // get question range (max, min) for make resortable
+                this.startNumericPageFrom = 0;
+                for (const item of rangePageBefore) {
+                    this.startNumericPageFrom += item.questions.length;
+                }
             }
         });
 
@@ -137,7 +142,7 @@ export class BuilderComponent {
             this.surveysApiService.get(this.surveyId).subscribe((data: SurveyModel) => {
 
                 this.survey = data;
-
+                console.log(this.survey);
                 if (this.survey.pages) {
 
                     this.survey.pages.sort((a: any, b: any) => a.order - b.order);
@@ -213,8 +218,9 @@ export class BuilderComponent {
     getPagingList(): any[] {
         const result: any[] = [];
         this.survey.pages.forEach((item: any, index: number) => {
-            result.push({ title: 'Page', id: item.id });
+            result.push({ title: 'Page', id: item.id, type: 'page' });
         });
+        // result.unshift({ title: 'Page', id: '1', type: 'descrip' });
         return result;
     }
 

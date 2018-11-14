@@ -34,6 +34,8 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
     count = 0;
     selectItem: string;
     selectedPage: any;
+    surveyKey = '-surveyKey-';
+
     dpdPages: any[] = [];
     constructor(
         private questionTransferService: QuestionTransferService,
@@ -59,6 +61,7 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
         this.dpdPages = [];
         list.forEach((item: any, index: any) => {
             this.dpdPages.push({ label: item.title + ' №' + (index + 1), value: item.id });
+            this.dpdPages.unshift({ label: 'SURVEY OPTIONS', value: '-surveyId-' });
         });
     }
 
@@ -96,12 +99,14 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
 
 
     ngOnInit() {
-        this.selectItem = this.pageId;
+        // this.selectItem = this.pageId;
         this.carousel = this.elementRef.nativeElement.querySelector('.carousel');
         this.carouselWrapper = this.elementRef.nativeElement.querySelector('.carousel-wrapper');
         this.pagingList.forEach((item: any, index: any) => {
             this.dpdPages.push({ label: item.title + ' №' + (index + 1), value: item.id });
         });
+        this.dpdPages.unshift({ label: 'SURVEY_OPTIONS', value: this.surveyKey });
+        this.selectedPage = this.dpdPages[0].value;
     }
 
 
@@ -113,8 +118,15 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
 
 
     selectDpdPage(event: any) {
-        this.questionTransferService.setSelectedPage(event.value);
-        this.selectItem = event.value;
+
+        if (event.value === this.surveyKey) {
+            this.questionTransferService.setSelectedPage(event.value);
+            this.selectItem = event.value;
+            console.log('go to home page');
+        } else {
+            this.questionTransferService.setSelectedPage(event.value);
+            this.selectItem = event.value;
+        }
     }
 
     // items = generateItems(15, (i: any) => ({ data: 'Draggable ' + i }));

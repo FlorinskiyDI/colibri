@@ -112,9 +112,12 @@
         </div>
     </div>
     <div id="d-builder-body">
-        <form-builder *ngIf="page && templateOptions && pagingList" [pagingList]="pagingList" [page]="page" (formState)="checkstate($event)"
+        <form-builder *ngIf="page && templateOptions && pagingList" [isPageBuilder]="isPageBuilder" [pagingList]="pagingList" [page]="page" (formState)="checkstate($event)"
             [templateOptions]="templateOptions" [(numericPageFrom)]="startNumericPageFrom"></form-builder>
     </div>
-   
-
+  
 </div>
+
+<!-- <div class="d-notification-wrapper">
+    <div class="d-notification"></div>
+</div> -->

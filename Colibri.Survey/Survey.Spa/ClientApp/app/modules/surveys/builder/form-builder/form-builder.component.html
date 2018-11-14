@@ -2,7 +2,7 @@
     <paging-form *ngIf="pagingList" [pagingList]="pagingList" [pageId]="page.id" [formPage]="formPage"></paging-form>
 </div>
 <div class="d-builder-body-content">
-    <div class="body-question-builder">
+    <div *ngIf="isPageBuilder" class="body-question-builder">
         <div class="header">
             <!-- <pre>{{formPage.value | json}}</pre> -->
 
@@ -103,7 +103,7 @@
 
 <div id="d-builder-option">
     <div class="d-builder-option-header">
-        <p class="d--text-tools-header"> Survey Explorer (chenged)</p>
+        <p class="d--text-tools-header"> Page Explorer (chenged)</p>
     </div>
     <div class="d-action-buttons">
         <button type="button" class="d-option-button">

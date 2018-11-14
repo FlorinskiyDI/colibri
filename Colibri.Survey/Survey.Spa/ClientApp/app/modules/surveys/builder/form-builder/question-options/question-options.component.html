@@ -1,5 +1,5 @@
 <div *ngIf="questionOption">
-    <p class="d-text-description">Change Question Type</p>
+    <p class="d-text-description">Change Question Settings</p>
     <p-dropdown (onChange)="changeQuestion($event)" [options]="types" class="d-dropdown" [(ngModel)]="selectedType" [style]="{'width':'100%', 'font-size':'12px'}"
         filter="true">
         <ng-template let-item pTemplate="selectedItem">
