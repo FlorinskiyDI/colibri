@@ -2,11 +2,15 @@
     <paging-form *ngIf="pagingList" [pagingList]="pagingList" [pageId]="page.id" [formPage]="formPage"></paging-form>
 </div>
 <div class="d-builder-body-content">
-    <div class="body-question-builder">
+    <div *ngIf="isPageBuilder" class="body-question-builder">
         <div class="header">
+            <!-- <pre>{{formPage.value | json}}</pre> -->
+
+
+
             <!-- {{page | json}} ++++++++++++++++++++++ -->
             <!-- {{formPage.value | json}} -->
-                <!-- <p *ngIf="formPage.valid" style="color: green; font-weight: bold"> {{formPage.valid | json}}</p>
+            <!-- <p *ngIf="formPage.valid" style="color: green; font-weight: bold"> {{formPage.valid | json}}</p>
                 <p *ngIf="!formPage.valid" style="color: red; font-weight: bold"> {{formPage.valid | json}}</p> -->
         </div>
         <div class="body">
@@ -15,25 +19,63 @@
             <form (ngSubmit)="onSubmit()" [formGroup]="formPage">
                 <div class="question-list" dnd-sortable-container [dropZones]="templateOptions.dragTemplateZones" [sortableData]="page.questions">
                     <ul class="d-list-group">
-                        <div *ngIf="page.questions.length == 0">
+                        <!-- <div *ngIf="page.questions.length == 0">
                             <li *ngFor="let item of [1]; let i = index" class="d-repeat-question" [dragData]="item" style="height: 100px; border: 1px dashed #324464;"
                                 dnd-sortable [dragEnabled]="false" [sortableIndex]="i">
                                 <div class="d-question-wrapp" style="height: 100px" dnd-droppable (onDropSuccess)="!!$event.dragData.name ? addQuestion($event, i) : sortQuestion($event, i)"
                                     [dropZones]="templateOptions.dragTemplateZones"></div>
                             </li>
+                        </div> -->
+                        <div *ngIf="page.questions.length == 0">
+                            <smooth-dnd-container class="d-drag-conteiner" [groupName]="'1'" [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)">
+                                <!-- <smooth-dnd-draggable class="d-question-wrapp" *ngFor="let item of [1];">
+                                                <div style="height: 100px;  background-color:green"></div>
+                                        </smooth-dnd-draggable> -->
+                                <!-- <div style="display: block; background-color: green; height: 100px;"> </div> -->
+                                <!-- <div class="smooth-dnd-container vertical" style="height: 100px;">
+                                        </div> -->
+                                <div class="flex-container">
+                                    <div class="row">
+                                        <span class="flex-item">DRAG QUESTION TYPE HERE</span>
+                                    </div>
+                                </div>
+                            </smooth-dnd-container>
                         </div>
-                        <li *ngFor="let item of page.questions; let i = index" class="d-repeat-question" [ngClass]='{"d-edit-repeat-question": selectQuestion == item.id}'
+                        <div *ngIf="page.questions.length > 0" style="margin: 6px; background-color:#fdf4bf">
+                            <smooth-dnd-container [groupName]="'1'" [getChildPayload]="getQuestionPayload" (drop)="onDrop($event)">
+
+                                <smooth-dnd-draggable class="d-question-wrapp" *ngFor="let item of page.questions; let i = index">
+                                    <div style="height: 3px;  background-color:#fff"></div>
+                                    <div class="d-repeat-question" [ngClass]='{"d-edit-repeat-question": selectQuestion == item.id}'>
+                                        <div class="d-question-wrapp">
+                                            <div class="d-item-left-section">
+                                                <div class="d-item-opt-controls">
+                                                    <input id="etitState" [checked]="selectQuestion == item.id" #editCheckbox type="checkbox" value="false" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? selectQuestion = item.id: selectQuestion = ''">
+                                                    <label for="etitState"> {{'Q' + (numericPageFrom + (i + 1))}}</label>
+                                                </div>
+                                            </div>
+                                            <div class="d-item-right-section">
+                                                <question-form-builder [pageId]="page.id" [isEditState]="editCheckbox.checked" [question]="item" [formPage]="formPage"></question-form-builder>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="height: 3px;  background-color:#fff"></div>
+                                </smooth-dnd-draggable>
+
+                            </smooth-dnd-container>
+
+                        </div>
+
+
+                        <!-- <li *ngFor="let item of page.questions; let i = index" class="d-repeat-question" [ngClass]='{"d-edit-repeat-question": selectQuestion == item.id}'
                             [dragData]="item" dnd-sortable [dragEnabled]="!editCheckbox.checked" [sortableIndex]="i">
-                            <!-- {{formPage.get(page.id).get(item.id).valid | json}} ++++++++++++++
-                            {{item | json}} -->
                             <div class="d-question-wrapp" dnd-droppable (onDropSuccess)="!!$event.dragData.name ? addQuestion($event, i) : sortQuestion($event, i)"
                                 [dropZones]="templateOptions.dragTemplateZones">
                                 <div class="d-item-left-section">
                                     <div class="d-item-opt-controls">
-                                        <input id="etitState" [checked]="selectQuestion == item.id" #editCheckbox type="checkbox" value="false"
-                                            (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? selectQuestion = item.id: selectQuestion = ''">
-                                        <label for="etitState"> {{'Q' + (i+1)}}</label>      
-                                        <!-- <button (click)="flickerNotificationField(1)" type="button" *ngIf="item.required && editCheckbox.checked" class="d-btn-option"
+                                        <input id="etitState" [checked]="selectQuestion == item.id" #editCheckbox type="checkbox" value="false" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? selectQuestion = item.id: selectQuestion = ''">
+                                        <label for="etitState"> {{'Q' + (i+1)}}</label>
+                                        <button (click)="flickerNotificationField(1)" type="button" *ngIf="item.required && editCheckbox.checked" class="d-btn-option"
                                             title="Require question">
                                             <i class="fa fa-asterisk"></i>
                                         </button>
@@ -41,14 +83,14 @@
                                         <button (click)="flickerNotificationField(2)" type="button" *ngIf="item.isAdditionalAnswer && editCheckbox.checked" class="d-btn-option"
                                             title="Additional answer">
                                             <i class="fa fa-share "></i>
-                                        </button> -->
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="d-item-right-section">
                                     <question-form-builder [pageId]="page.id" [isEditState]="editCheckbox.checked" [question]="item" [formPage]="formPage"></question-form-builder>
                                 </div>
                             </div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <div class="form-row">
@@ -61,14 +103,14 @@
 
 <div id="d-builder-option">
     <div class="d-builder-option-header">
-        <p class="d--text-tools-header"> Survey Explorer (chenged)</p>
+        <p class="d--text-tools-header"> Page Explorer (chenged)</p>
     </div>
     <div class="d-action-buttons">
         <button type="button" class="d-option-button">
             <i class="fa fa-save"></i>
         </button>
         <button type="button" class="d-option-button">
-            <i class="fa fa-clone "></i>
+            <i class="fa fa-clone"></i>
         </button>
 
         <button type="button" class="d-option-button">

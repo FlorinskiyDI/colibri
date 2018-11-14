@@ -10,10 +10,10 @@
                     <div class="d-control-wrap">
                         <input class="d-text-control d-viewer-input" [formControlName]="'answer'">
                     </div>
-                    <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
+                    <!-- <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
                         Other:
                         <input class="d-input-other" [formControlName]="'additionalAnswer'" type="text">
-                    </div>
+                    </div> -->
                 </div>
 
 
@@ -23,10 +23,10 @@
                     <div class="d-control-wrap">
                         <textarea class="d-textarea-control d-viewer-input" rows="5" [formControlName]="'answer'" [disabled]="true"></textarea>
                     </div>
-                    <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
+                    <!-- <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
                         Other:
                         <input class="d-input-other" [formControlName]="'additionalAnswer'" type="text">
-                    </div>
+                    </div> -->
                 </div>
 
 

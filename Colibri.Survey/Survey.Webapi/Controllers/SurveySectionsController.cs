@@ -126,61 +126,72 @@ namespace Survey.Webapi.Controllers
         [Produces("application/json")]
         public async Task<IActionResult> UpdateSurvey([FromBody] SurveyViewModel data)
         {
-            if (data.survey.Pages.Count() > 0)
+            try
             {
-                List<BaseQuestionModel> questionList = new List<BaseQuestionModel>();
-                foreach (var page in data.survey.Pages)
+
+
+                if (data.survey.Pages.Count() > 0)
                 {
-                    if (page.State == ControlStates.Created.ToString())
+                    List<BaseQuestionModel> questionList = new List<BaseQuestionModel>();
+                    foreach (var page in data.survey.Pages)
                     {
-                        Guid pageId = await _pageService.AddAsync(page, Guid.Parse(data.survey.Id));
-                        questionList = _questionService.GetTypedQuestionList(page);
-                        if (questionList.Count() > 0)
+                        if (page.State == ControlStates.Created.ToString())
                         {
-                            foreach (var question in questionList)
+                            Guid pageId = await _pageService.AddAsync(page, Guid.Parse(data.survey.Id));
+                            questionList = _questionService.GetTypedQuestionList(page);
+                            if (questionList.Count() > 0)
                             {
-                                _questionService.SaveQuestionByType(question, pageId);
+                                foreach (var question in questionList)
+                                {
+                                    _questionService.SaveQuestionByType(question, pageId);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Guid pageId = await _pageService.UpdateAsync(page, Guid.Parse(data.survey.Id));
+                            questionList = _questionService.GetTypedQuestionList(page);
+                            if (questionList.Count() > 0)
+                            {
+                                _questionService.Update(questionList, page.Id);
                             }
                         }
                     }
-                    else
+
+
+                    if (data.deleteQuestions.Count > 0)
                     {
-                        questionList = _questionService.GetTypedQuestionList(page);
-                        if (questionList.Count() > 0)
+                        foreach (var item in data.deleteQuestions)
                         {
-                            _questionService.Update(questionList, page.Id);
+                            _questionService.DeleteQuestionById(item);
                         }
                     }
-                }
-
-
-                if (data.deleteQuestions.Count > 0)
-                {
-                    foreach (var item in data.deleteQuestions)
+                    if (data.deletePages.Count > 0)
                     {
-                        _questionService.DeleteQuestionById(item);
-                    }
-                }
-                if (data.deletePages.Count > 0)
-                {
-                    foreach (var item in data.deletePages)
-                    {
-                        var page = _pageService.GetPageById(item);
-                        var questions = _questionService.GetListByPageId(page.Id);
-                        if (questions.Count() > 0)
+                        foreach (var item in data.deletePages)
                         {
-                            foreach (var question in questions)
+                            var page = _pageService.GetPageById(item);
+                            var questions = _questionService.GetListByPageId(page.Id);
+                            if (questions.Count() > 0)
                             {
-                                _questionService.DeleteQuestionById(question.Id);
+                                foreach (var question in questions)
+                                {
+                                    _questionService.DeleteQuestionById(question.Id);
+                                }
                             }
+                            _pageService.DeletePageById(item);
                         }
-                        _pageService.DeletePageById(item);
                     }
+
+
                 }
-
-
+                return Ok(true);
             }
-            return Ok(true);
+            catch (Exception ex)
+            {
+                var check = ex;
+                throw;
+            }
         }
     }
 }

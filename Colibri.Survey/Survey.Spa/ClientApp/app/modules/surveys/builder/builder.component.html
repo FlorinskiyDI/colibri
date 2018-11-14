@@ -1,14 +1,33 @@
 <div id="d-builder-header">
+    <div class="d-left-bar">
+        <div class="d-buttons-operation">
+            <button class="d-open-survey-button" [ngClass]='{"d-disabled-button": !surveyId}' [attr.title]="!surveyId ? 'Disabled (Before create survey)' : 'Go to online survey'"
+                type="button" [disabled]="!surveyId" (click)="GoToSurvey()">
+                <i class="fa fa-file"></i>
+                <p>Look & Test</p>
+            </button>
+            <button class="d-open-survey-button" [ngClass]='{"d-disabled-button": !surveyId}' [attr.title]="!surveyId ? 'Disabled (Before create survey)' : 'Look at responses'"
+                type="button" [disabled]="!surveyId" (click)="GoToReport()">
+                <i class="fa fa-database"></i>
+                <p>View responses</p>
+            </button>
+        </div>
+
+
+
+
+
+
+
+    </div>
     <div class="d-right-bar">
         <div class="d-buttons-operation">
-            <!-- {{surveyId}}
-            {{!surveyId}} -->
-            <button *ngIf="isValidForm && !surveyId " class="d-save-button" (click)="saveSurvey()" title="Create" type="button">
+            <button *ngIf="isValidForm && !surveyId" class="d-save-button" (click)="saveSurvey()" title="Create" type="button">
                 <i class="fa fa-save"></i>
             </button>
             <button *ngIf="isValidForm && surveyId" class="d-update-button" (click)="saveSurvey()" title="Update" type="button">
-                    <i class="fa fa-pencil"></i>
-                </button>
+                <i class="fa fa-pencil"></i>
+            </button>
             <button *ngIf="!isValidForm" class="d-envalid-form-button" title="Show Notifications" type="button">
                 <i class="fa fa-flag"></i>
             </button>
@@ -23,7 +42,36 @@
         <div class="d-builder-widgets-body">
             <p-accordion [multiple]="true">
                 <p-accordionTab header="Basic Question" [selected]="true">
-                    <div dnd-sortable-container [sortableData]="templateOptions.questionTemplates" [dropZones]="['container-dropZone']">
+                    <div class="d-panel-sortable">
+                        <smooth-dnd-container class="d--repeat-allow-question-wrapper" [dragClass]="'dragQuestoinType'" [dropClass]="'dragQuestoinType'"
+                            [behaviour]="'copy'" [groupName]="'1'" [getChildPayload]="getChildPayload">
+                            <smooth-dnd-draggable *ngFor="let control of questionTemplates; let index = index">
+                                <div class="d--repeat-allow-question">
+                                    <div class="repeat-block_1">
+                                        <p class="icon fa {{control.icon}}" href="#"></p>
+                                    </div>
+                                    <div class="repeat-block_2">
+                                        <div id="outer">
+                                            <div id="inner">
+                                                <p class="d--mainText">{{control.name}}</p>
+                                                <p class="d--descriptionText">{{control.description}}.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </smooth-dnd-draggable>
+                        </smooth-dnd-container>
+                    </div>
+                    <!-- <div [ngStyle]="{'marginLeft': '50px', 'flex': '1'}">
+                        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="questionTemplates" (drop)="onDrop('items2', $event)">
+                            <smooth-dnd-draggable *ngFor="let question of templateOptions.questionTemplates;">
+                                <div class="draggable-item">
+                                    {{question.name}}
+                                </div>
+                            </smooth-dnd-draggable>
+                        </smooth-dnd-container>
+                    </div> -->
+                    <!-- <div dnd-sortable-container [sortableData]="templateOptions.questionTemplates" [dropZones]="['container-dropZone']">
                         <div *ngFor="let question of templateOptions.questionTemplates; let i = index" dnd-sortable [sortableIndex]="i" [dragEnabled]="false">
                             <div class="d-panel-sortable" dnd-sortable-container [sortableData]="questionTemplates" [dropZones]="[question.dropZone]">
                                 <div *ngFor="let control of templateOptions.questionTemplates; let x = index">
@@ -46,7 +94,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </p-accordionTab>
                 <p-accordionTab header="Advanced Question" [selected]="false">
                     <!-- <button (click)="changeData()">change form data</button> -->
@@ -64,8 +112,12 @@
         </div>
     </div>
     <div id="d-builder-body">
-        <form-builder *ngIf="page && templateOptions && pagingList" [pagingList]="pagingList" [page]="page" (formState)="checkstate($event)"
-            [templateOptions]="templateOptions"></form-builder>
+        <form-builder *ngIf="page && templateOptions && pagingList" [isPageBuilder]="isPageBuilder" [pagingList]="pagingList" [page]="page" (formState)="checkstate($event)"
+            [templateOptions]="templateOptions" [(numericPageFrom)]="startNumericPageFrom"></form-builder>
     </div>
-
+  
 </div>
+
+<!-- <div class="d-notification-wrapper">
+    <div class="d-notification"></div>
+</div> -->

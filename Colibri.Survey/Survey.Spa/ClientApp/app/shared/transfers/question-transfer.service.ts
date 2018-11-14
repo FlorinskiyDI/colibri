@@ -18,7 +18,7 @@ export class QuestionTransferService {
 
     private viewerPageSubject = new Subject<any>();
     private viewerFormPageSubject = new Subject<any>();
-
+    private pagingSubject = new Subject<any>();
     //
     private selectedPageSubject = new Subject<any>();
     private PageSubject = new Subject<any>();
@@ -180,5 +180,13 @@ export class QuestionTransferService {
     }
     getFormViewrPage(): Observable<any> {
         return this.viewerFormPageSubject.asObservable();
+    }
+
+
+    setPagingListForSort(data: any) {
+        this.pagingSubject.next(data);
+    }
+    getPagingListForSort(): Observable<any> {
+        return this.pagingSubject.asObservable();
     }
 }

@@ -2,7 +2,7 @@ import { Component, Input, ElementRef, ViewEncapsulation, OnInit, ChangeDetector
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
 import { GUID } from 'shared/helpers/guide-type.helper';
 import { FormGroup } from '@angular/forms';
-import { applyDrag, generateItems } from './utils';
+import { IDropResult } from 'ngx-smooth-dnd';
 
 
 
@@ -33,7 +33,10 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
     carouselWrapperWidth: number;
     count = 0;
     selectItem: string;
+    selectedPage: any;
+    surveyKey = '-surveyKey-';
 
+    dpdPages: any[] = [];
     constructor(
         private questionTransferService: QuestionTransferService,
         private elementRef: ElementRef,
@@ -42,30 +45,95 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
 
     }
 
-    ngOnInit() {
-        this.selectItem = this.pageId;
-        this.carousel = this.elementRef.nativeElement.querySelector('.carousel');
-        this.carouselWrapper = this.elementRef.nativeElement.querySelector('.carousel-wrapper');
-        console.log('1111111111111111111');
-        console.log('1111111111111111111');
 
-        console.log(this.pagingList);
 
-        console.log('1111111111111111111');
-        console.log('1111111111111111111');
+    onDrop(dropResult: IDropResult) {
+        // update item list according to the @dropResult
+        // this.items = this.applyDrag(this.items, dropResult);
+        this.batches[0] = this.applyDrag(this.batches[0], dropResult);
+        this.updateDpdList(this.batches[0]);
 
     }
+
+
+    updateDpdList(list: any) {
+        // update paging-dnd after drop list
+        this.dpdPages = [];
+        list.forEach((item: any, index: any) => {
+            this.dpdPages.push({ label: item.title + ' №' + (index + 1), value: item.id });
+            this.dpdPages.unshift({ label: 'SURVEY OPTIONS', value: '-surveyId-' });
+        });
+    }
+
+
+    generateItems(count: any, creator: any) {
+        const result = [];
+        for (let i = 0; i < count; i++) {
+            result.push(creator(i));
+        }
+        return result;
+    }
+
+
+    applyDrag(arr: any, dragResult: any) {
+        const { removedIndex, addedIndex, payload } = dragResult;
+        if (removedIndex === null && addedIndex === null) {
+            return arr;
+        }
+
+        const result = [...arr];
+        let itemToAdd = payload;
+
+        if (removedIndex !== null) {
+            itemToAdd = result.splice(removedIndex, 1)[0];
+        }
+
+        if (addedIndex !== null) {
+            result.splice(addedIndex, 0, itemToAdd);
+        }
+
+        this.questionTransferService.setPagingListForSort(result);
+
+        return result;
+    }
+
+
+    ngOnInit() {
+        // this.selectItem = this.pageId;
+        this.carousel = this.elementRef.nativeElement.querySelector('.carousel');
+        this.carouselWrapper = this.elementRef.nativeElement.querySelector('.carousel-wrapper');
+        this.pagingList.forEach((item: any, index: any) => {
+            this.dpdPages.push({ label: item.title + ' №' + (index + 1), value: item.id });
+        });
+        this.dpdPages.unshift({ label: 'SURVEY_OPTIONS', value: this.surveyKey });
+        this.selectedPage = this.dpdPages[0].value;
+    }
+
 
     selectPage(item: any) {
         this.questionTransferService.setSelectedPage(item.id);
         this.selectItem = item.id;
+        this.selectedPage = item.id;
     }
 
-    items = generateItems(15, (i: any) => ({ data: 'Draggable ' + i }));
 
-    onDrop(dropResult: any) {
-        this.items = applyDrag(this.items, dropResult);
+    selectDpdPage(event: any) {
+
+        if (event.value === this.surveyKey) {
+            this.questionTransferService.setSelectedPage(event.value);
+            this.selectItem = event.value;
+            console.log('go to home page');
+        } else {
+            this.questionTransferService.setSelectedPage(event.value);
+            this.selectItem = event.value;
+        }
     }
+
+    // items = generateItems(15, (i: any) => ({ data: 'Draggable ' + i }));
+    // onDrop(dropResult: any) {
+    //     this.items = applyDrag(this.items, dropResult);
+    // }
+
     renderBatches = () => {
         const itemWidth = 130;
 
@@ -82,7 +150,6 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
     setBatchSize = () => {
 
         const ulElements = this.elementRef.nativeElement.querySelectorAll('ul');
-
         // Each ul element needs to be 100 / nb batches wide.
         for (let i = 0; i < ulElements.length; i++) {
             ulElements[i].style.width = 100 / this.batches.length + '%';
@@ -104,6 +171,7 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
         const value = { title: 'Page', id: pageId };
 
         this.pagingList.push(value);
+        this.dpdPages.push({ label: value.title + ' №' + (this.dpdPages.length + 1), value: value.id });
         this.renderBatches();
         this.setBatchSize();
         if (this.pagingList.length > 6) {
@@ -127,6 +195,7 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
             this.selectItem = this.pageId === this.selectItem ? this.pagingList[0].id : this.selectItem;
         }
         this.batches[0].splice(index, 1);
+        this.updateDpdList(this.pagingList);
     }
 
 

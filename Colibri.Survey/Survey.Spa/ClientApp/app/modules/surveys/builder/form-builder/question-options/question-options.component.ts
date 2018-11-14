@@ -68,6 +68,7 @@ export class QuestionOptionsComponent {
 
 
     changeQuestion(event: any) {
+
         const group: any = {};
         this.getQuestionByType(event.value, this.question.order);
         this.newquestion.id = this.question.id;

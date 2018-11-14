@@ -110,7 +110,7 @@ namespace Survey.ApplicationLayer.Services
                 Description = survey.Description,
                 Name = survey.Name,
                 OrderNo = survey.Order,
-                SurveyId = Guid.Parse(surveyId.ToString()) 
+                SurveyId = Guid.Parse(surveyId.ToString())
             };
 
             using (var uow = UowProvider.CreateUnitOfWork())
@@ -129,7 +129,29 @@ namespace Survey.ApplicationLayer.Services
                     Console.Write(e);
                     throw;
                 }
-            }       
+            }
+        }
+
+
+        public async Task<Guid> UpdateAsync(PageModel page, Guid surveyId)
+        {
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                try
+                {
+                    var repositoryPage = uow.GetRepository<Pages, Guid>();
+                    var existPage = repositoryPage.Get(page.Id);
+                    existPage.OrderNo = page.Order;
+                    repositoryPage.Update(existPage);
+                    await uow.SaveChangesAsync();
+                    return existPage.Id;
+                }
+                catch (Exception e)
+                {
+                    Console.Write(e);
+                    throw;
+                }
+            }
         }
     }
 }

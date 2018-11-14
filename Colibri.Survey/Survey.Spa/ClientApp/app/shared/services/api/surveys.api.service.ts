@@ -30,7 +30,7 @@ export class SurveysApiService {
 
     get(id: string) {
         const result = this.restangular.one('api/surveySections', id).get();
-        return result.map((response: any) => response.plain()) ;
+        return result;
     }
 
 

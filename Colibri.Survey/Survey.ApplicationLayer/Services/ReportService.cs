@@ -214,7 +214,7 @@ namespace Survey.ApplicationLayer.Services
                                     }
                                 )
                                 .ToList();
-                            item.Answer = getAnswerByType(item, answer);
+                            item.Answer = GetAnswerByType(item, answer);
                         }
                     }
                 }
@@ -232,9 +232,9 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
-        protected object getAnswerByType(TableReportViewModel answerModel, List<AnswerModel> answerList)
+        protected object GetAnswerByType(TableReportViewModel answerModel, List<AnswerModel> answerList)
         {
-            string answerONQuestion = "NOT ANSWER";
+            string answerONQuestion = "NO ANSWER";
             if (Enum.TryParse(answerModel.InputTypeName, out type))
             {
                 switch (type)

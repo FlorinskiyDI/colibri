@@ -300,7 +300,7 @@ namespace Survey.ApplicationLayer.Services
             Guid optionGroupId = _optionGroupService.AddAsync(optionGroupDefinitions.textBox).Result;
             InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
             var questionId = SaveQuestion(data, false, optionGroupId, type.Id, null).Result;
-            _optionChoiceService.AddAsync(optionGroupId, null);
+            Guid id =  _optionChoiceService.AddAsync(optionGroupId, null).Result;
         }
 
         private void SaveTextAreaQuestion(TextAreaQuestionModel data)
@@ -308,7 +308,7 @@ namespace Survey.ApplicationLayer.Services
             Guid optionGroupId = _optionGroupService.AddAsync(optionGroupDefinitions.textArea).Result;
             InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
             var questionId = SaveQuestion(data, false, optionGroupId, type.Id, null).Result;
-            _optionChoiceService.AddAsync(optionGroupId, null);
+            Guid id = _optionChoiceService.AddAsync(optionGroupId, null).Result;
         }
 
         private void SaveRadioQuestion(RadioQuestionModel data)
