@@ -54,7 +54,34 @@ a { font-weight: 400; }
 
 .clbr--block-tabs_v1 { }
 .clbr--block-tabs_v2 { }
-.clbr--block-filter { }
+.clbr--block-filter {
+  border-top: 1px solid #CECECE;
+  padding-top: 6px;
+  padding-bottom: 4px;
+  .mat-input-element { padding-left: 4px !important; }
+  .mat-standard-chip { border-radius: 10px; }
+  .mat-standard-chip.mat-chip-with-trailing-icon { padding-top: 2px; padding-bottom: 2px; }
+  .mat-form-field-appearance-legacy .mat-form-field-infix { padding: 0 !important; }
+  .mat-form-field-flex { border: none; }
+  .mat-form-field-appearance-legacy .mat-form-field-prefix .mat-icon,
+  .mat-form-field-appearance-legacy .mat-form-field-suffix .mat-icon {
+    width: 28px;
+    padding: 0 7px;
+    color: #666;
+  }
+  .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    padding-bottom: 2px;
+  }
+  .mat-form-field { width: 100%; }
+  .filter-icon { font-size: 14px; height: 17px; }
+  .mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label,
+  .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    display: none;
+  }
+  .mat-form-field-appearance-legacy .mat-form-field-label { top: 10px;  }
+  .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
+  .mat-form-field-empty.mat-form-field-label { margin-left: 0px; }
+ }
 
 .clbr--block-search {
   border: none;

@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using dataaccesscore.EFCore.Paging;
 using dataaccesscore.EFCore.Query;
+using ExpressionBuilder.Common;
 using ExpressionBuilder.Operations;
 using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Dtos.Pager;
@@ -32,6 +33,7 @@ namespace IdentityServer.Webapi.Controllers
         // PUT: api/groups
         // DELETE: api/groups/{id}
 
+        private readonly IDataPager<Groups, Guid> _pager;
         protected readonly IGroupServices _groupServices;
         private readonly IGroupRepository _groupRepository;
         private readonly IAppUserGroupRepository _appUserGroupRepository;
@@ -39,13 +41,15 @@ namespace IdentityServer.Webapi.Controllers
         public GroupsController(
             IGroupServices groupServices,
             IGroupRepository groupRepository,
-            IAppUserGroupRepository appUserGroupRepository
+            IAppUserGroupRepository appUserGroupRepository,
+            IDataPager<Groups, Guid> pager
         )
         {
             _groupRepository = groupRepository;
             _groupRepository = groupRepository;
             _appUserGroupRepository = appUserGroupRepository;
             _groupServices = groupServices;
+            _pager = pager;
         }
 
         // GET: api/groups/
@@ -102,35 +106,32 @@ namespace IdentityServer.Webapi.Controllers
         {
 
             #region test filter
-            //var columnNames = new List<string>(new string[] { "Id", "Name" });
-            //var pageNumber = 1;
-            //var pageLength = 10;
+            var columnNames = new List<string>(new string[] { "Id", "Name" });
+            var pageNumber = 1;
+            var pageLength = 10;
 
-            //var parameter = Expression.Parameter(typeof(Groups), "x");
-            //var member = Expression.Property(parameter, "Name"); //x.Name
-            //var constant = Expression.Constant("mytest1");
-            //var body = Expression.Equal(member, constant); //x.Name = "mytest1"
-            //var finalExpression = Expression.Lambda<Func<Groups, bool>>(body, parameter); //x => x.Name >= "mytest1"
-            //try
-            //{
-            //    Type myType = typeof(Groups).GetProperty("Name").PropertyType;
-            //    MethodInfo method = typeof(GroupsController).GetMethod("GetTfromString");
-            //    MethodInfo generic = method.MakeGenericMethod(myType);
-            //    var ccc = generic.Invoke(this, new[] { "03.03.1993" });
+            var parameter = Expression.Parameter(typeof(Groups), "x");
+            var member = Expression.Property(parameter, "Name"); //x.Name
+            var constant = Expression.Constant("mytest1");
+            var body = Expression.Equal(member, constant); //x.Name = "mytest1"
+            var finalExpression = Expression.Lambda<Func<Groups, bool>>(body, parameter); //x => x.Name >= "mytest1"
+            try
+            {
+                //Type myType = typeof(Groups).GetProperty("Name").PropertyType;
+                //MethodInfo method = typeof(GroupsController).GetMethod("GetTfromString");
+                //MethodInfo generic = method.MakeGenericMethod(myType);
+                //var ccc = generic.Invoke(this, new[] { "03.03.1993" });
 
-            //    var filtertest = new ExpressionBuilder.Generics.Filter<Groups>();
-            //    filtertest.By("id", Operation.NotEqualTo, new Guid("5d35f7d0-4e5c-e811-9c5c-d017c2aa438d"));
-
-            //    var filter = new Filter<Groups>(null);
-            //    filter.AddExpression(filtertest);
-
-
-            //    var results = await _pager.QueryAsync(pageNumber, pageLength, filter);
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw;
-            //}
+                var filtertest = new ExpressionBuilder.Generics.Filter<Groups>();
+                filtertest.By("id", Operation.EqualTo, new Guid("5d35f7d0-4e5c-e811-9c5c-d017c2aa438d"), Connector.Or);
+                filtertest.By("id", Operation.EqualTo, new Guid("c8b7e8b8-d4c0-e811-9c7c-d017c2aa438d"));
+                var filter = new Filter<Groups>(filtertest);
+                var results = await _pager.QueryAsync(pageNumber, pageLength, filter);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
             #endregion
 
 
