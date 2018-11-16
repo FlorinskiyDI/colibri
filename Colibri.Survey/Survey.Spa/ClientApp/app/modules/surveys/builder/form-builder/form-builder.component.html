@@ -36,7 +36,7 @@
                                         </div> -->
                                 <div class="flex-container">
                                     <div class="row">
-                                        <span class="flex-item">DRAG QUESTION TYPE HERE</span>
+                                        <span class="flex-item">Please drop a question here from the Toolbox on the left.</span>
                                     </div>
                                 </div>
                             </smooth-dnd-container>
@@ -97,6 +97,29 @@
                     <!-- <button type="submit" [disabled]="!formPage.valid">Save</button> -->
                 </div>
             </form>
+        </div>
+    </div>
+    <div *ngIf="!isPageBuilder" class="setting-wrapper">
+        <div class="setting-body">
+            <div class="d-setting-item">
+                <div class="d-setting-item-label">
+                    <p>Title:</p>
+                </div>
+                <div class="d-setting-item-value">
+                    <input type="text" [(ngModel)]="survey.name">
+                </div>
+
+            </div>
+
+            <div class="d-setting-item">
+                    <div class="d-setting-item-label">
+                        <p>Description:</p>
+                    </div>
+                    <div class="d-setting-item-value">
+                        <input type="text" [(ngModel)]="survey.description">
+                    </div>
+    
+                </div>
         </div>
     </div>
 </div>

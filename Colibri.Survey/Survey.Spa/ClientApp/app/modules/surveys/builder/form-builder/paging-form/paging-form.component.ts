@@ -61,8 +61,8 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
         this.dpdPages = [];
         list.forEach((item: any, index: any) => {
             this.dpdPages.push({ label: item.title + ' №' + (index + 1), value: item.id });
-            this.dpdPages.unshift({ label: 'SURVEY OPTIONS', value: '-surveyId-' });
         });
+        this.dpdPages.unshift({ label: 'SURVEY_OPTIONS', value: '-surveyId-' });
     }
 
 

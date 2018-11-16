@@ -75,6 +75,30 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
+        public async Task<Guid> Update(SurveyModel survey)
+        {
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+
+                var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
+                var surveyModel = await repositorySurveySection.GetAsync(Guid.Parse(survey.Id));
+
+                surveyModel.Name = survey.Name;
+                surveyModel.Description = survey.Description;
+
+                await uow.SaveChangesAsync();
+                //SurveySectionDto surveyDto = Mapper.Map<SurveySections, SurveySectionDto>(survey);
+                return surveyModel.Id;
+                //SurveyModel surveyModel = new SurveyModel()
+                //{
+                //    Name = surveyDto.Name,
+                //    Description = surveyDto.Description,
+                //    Id = surveyDto.Id.ToString()
+                //};
+                //return surveyModel;
+            }
+        }
+
 
         public async Task<Guid> AddAsync(SurveyModel survey)
         {
