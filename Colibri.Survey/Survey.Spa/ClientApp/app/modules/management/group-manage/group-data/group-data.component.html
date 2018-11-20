@@ -19,6 +19,9 @@
                                 <button class="clbr--btn-default btn btn-sm btn-default" (click)="createGroup()">
                                     Create new grpoup
                                 </button>
+                                <button class="clbr--btn-default btn btn-sm btn-default" (click)="createGroup()">
+                                    Remove
+                                </button>
                             </span>
                             <span class="pull-right">
                                 <p-dropdown [options]="view_OptionList" [(ngModel)]="view_Option" [style]="{'width':'150px'}">
@@ -30,25 +33,6 @@
                         </div>
                     </div>
                 </div>
-
-                <cmp-group-data-filter>
-                </cmp-group-data-filter>
-
-                <!-- <div class="row">
-                    <div class="col-md-12">
-                        <div class="clbr--block-search">
-                            <div class="input-group">
-                                <span class="input-group-addon clbr-search-icon" id="basic-addon1">
-                                    <mat-icon>find_in_page</mat-icon>
-                                </span>
-                                <input type="text" class="form-control clbr-search-input" placeholder="search query"
-                                    aria-describedby="basic-addon1">
-                                <span class="input-group-addon" id="basic-addon2">@example.com</span>
-                                    <span class="input-group-addon" id="basic-addon2">@example.com</span>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
 
                 <div [ngSwitch]="view_Option">
                     <div *ngSwitchCase="'list'">

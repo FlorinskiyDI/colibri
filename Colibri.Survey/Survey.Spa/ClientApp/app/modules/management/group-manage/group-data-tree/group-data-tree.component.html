@@ -1,6 +1,18 @@
 <div class="cmp-group-data-tree">
     <div class="row">
         <div class="col-md-12">
+            <div class="clbr--block-search">
+                <div class="input-group">
+                    <cmp-group-data-filter>
+                    </cmp-group-data-filter>
+                    <!-- <span class="input-group-addon" id="basic-addon2">@example.com</span>
+                    <span class="input-group-addon" id="basic-addon2">@example.com</span> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="clbr--treetable-v1">
                 <p-treeTable [value]="tbItems" selectionMode="single" dataKey="id" [(selection)]="selectedNode" [paginator]="true"
                     [rows]="2" [rowsPerPageOptions]="[2,10,20]" [totalRecords]="tbTotalItemCount" [loading]="tbLoading"

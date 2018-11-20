@@ -1,9 +1,23 @@
 <div class="cmp-group-data-grid">
     <div class="row">
         <div class="col-md-12">
+            <div class="clbr--block-search">
+                <div class="input-group">
+                    <cmp-group-data-filter>
+                    </cmp-group-data-filter>
+                    <span class="input-group-addon"></span>
+                    <!-- <span class="input-group-addon" id="basic-addon2">@example.com</span> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="clbr--table-v1">
                 
-                <p-table  [value]="tbItems"
+                <p-table
+                    selectionMode="single"
+                    [value]="tbItems"
                     [paginator]="true"
                     [rows]="2"
                     [rowsPerPageOptions]="[2,10,20]"
@@ -24,7 +38,7 @@
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData>
-                        <tr>
+                        <tr [pSelectableRow]="rowData">
                             <td class="border-right-none">                                
                                 {{rowData.label}}
                             </td>

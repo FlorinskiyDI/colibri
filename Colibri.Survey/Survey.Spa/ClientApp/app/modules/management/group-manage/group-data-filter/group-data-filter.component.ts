@@ -58,7 +58,6 @@ export class GroupDataFilterComponent {
         // To make sure this does not conflict with OptionSelected Event
         if (!this.matAutocomplete.isOpen) {
             console.log(this.matAutocomplete.isOpen);
-            const input = event.input;
             let value = event.value;
 
             if ((value || '').trim()) {
