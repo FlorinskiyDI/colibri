@@ -52,7 +52,8 @@
 
                 <div [ngSwitch]="view_Option">
                     <div *ngSwitchCase="'list'">
-                        List
+                        <cmp-group-data-grid>
+                        </cmp-group-data-grid>
                     </div>
                     <div *ngSwitchCase="'tree'">                        
                         <cmp-group-data-tree>

@@ -9,7 +9,7 @@ export class GroupDataComponent {
 
     // view option for displaing group data
     view_OptionList: Array<any> = [{ label: 'list', value: 'list' }, { label: 'tree', value: 'tree' }];
-    view_Option = 'tree';
+    view_Option = 'list';
 
     constructor() { }
 }

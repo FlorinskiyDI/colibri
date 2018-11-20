@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 /* module */ import { GroupManageRoutingModule } from './group-manage.routes';
 /* component */ import { GroupManageComponent } from './group-manage.component';
 /* component */ import { GroupDataTreeComponent } from './group-data-tree/group-data-tree.component';
+/* component */ import { GroupDataGridComponent } from './group-data-grid/group-data-grid.component';
 /* component */ import { GroupViewComponent } from './group-view/group-view.component';
 /* component */ import { GroupDetailComponent } from './group-detail/group-detail.component';
 /* component */ import { GroupDialogCreateComponent } from './group-dialog-create/group-dialog-create.component';
@@ -20,6 +21,7 @@ import { NgModule } from '@angular/core';
         GroupDataComponent,
         GroupManageComponent,
         GroupDataTreeComponent,
+        GroupDataGridComponent,
         GroupDataFilterComponent,
         GroupDialogCreateComponent,
         GroupFormCreateComponent,

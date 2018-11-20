@@ -1,0 +1,40 @@
+<div class="cmp-group-data-grid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--table-v1">
+                
+                <p-table  [value]="tbItems"
+                    [paginator]="true"
+                    [rows]="2"
+                    [rowsPerPageOptions]="[2,10,20]"
+                    [totalRecords]="tbTotalItemCount"
+                    [loading]="tbLoading"
+                    [lazy]="true"
+                    (onLazyLoad)="loadNodes($event)">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <!-- <th class="splitter"></th> -->
+                            <th class="border-right-none" style="width: 400px;">
+                                Group name                                
+                            </th>
+                            <th class="border-right-none border-left-none" style="width: 200px;">Num of
+                                subscribers
+                            </th>
+                            <th class="border-left-none">Description</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData>
+                        <tr>
+                            <td class="border-right-none">                                
+                                {{rowData.label}}
+                            </td>
+                            <td class="border-left-none border-right-none">0</td>
+                            <td class="border-left-none">some description</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+            </div>
+        </div>
+    </div>
+</div>

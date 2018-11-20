@@ -18,16 +18,16 @@ import { MatAutocompleteSelectedEvent, MatChipInputEvent, MatAutocomplete } from
 // /* directive */ import { ModalService } from 'shared/directives/modal/modal.service';
 
 @Component({
-    selector: 'cmp-group-data-tree',
-    templateUrl: './group-data-tree.component.html',
-    styleUrls: ['./group-data-tree.component.scss'],
+    selector: 'cmp-group-data-grid',
+    templateUrl: './group-data-grid.component.html',
+    styleUrls: ['./group-data-grid.component.scss'],
     providers: [
         TreeDragDropService,
         ConfirmationService,
         MessageService
     ]
 })
-export class GroupDataTreeComponent {
+export class GroupDataGridComponent {
     // ///////////
     // ///////////
     // visible = true;

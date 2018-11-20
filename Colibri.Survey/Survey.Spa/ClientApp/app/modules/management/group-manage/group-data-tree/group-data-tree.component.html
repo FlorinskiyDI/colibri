@@ -1,36 +1,38 @@
-<div class="row">
-    <div class="col-md-12">
-        <div class="clbr--table clbr--table-tree">
-            <p-treeTable [value]="tbItems" selectionMode="single" dataKey="id" [(selection)]="selectedNode" [paginator]="true"
-                [rows]="2" [rowsPerPageOptions]="[2,10,20]" [totalRecords]="tbTotalItemCount" [loading]="tbLoading"
-                [lazy]="true" (onNodeExpand)="onNodeExpand($event)" (onNodeSelect)="onNodeSelect($event)" (onLazyLoad)="loadNodes($event)"
-                (onNodeUnselect)="onNodeUnselect($event)" [(selection)]="selectedNode">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <!-- <th class="splitter"></th> -->
-                        <th class="border-right-none" ttSortableColumn="Name" style="width: 400px;">
-                            Group name
-                            <p-treeTableSortIcon [field]="Name"></p-treeTableSortIcon>
-                        </th>
-                        <th class="border-right-none border-left-none" style="width: 200px;">Num of
-                            subscribers
-                        </th>
-                        <th class="border-left-none">Description</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-                    <tr [ttSelectableRow]="rowNode">
-                        <!-- <td></td> -->
-                        <td class="border-right-none">
-                            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                            {{rowData.name}}
-                        </td>
-                        <td class="border-left-none border-right-none">0</td>
-                        <td class="border-left-none">some description</td>
+<div class="cmp-group-data-tree">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--treetable-v1">
+                <p-treeTable [value]="tbItems" selectionMode="single" dataKey="id" [(selection)]="selectedNode" [paginator]="true"
+                    [rows]="2" [rowsPerPageOptions]="[2,10,20]" [totalRecords]="tbTotalItemCount" [loading]="tbLoading"
+                    [lazy]="true" (onNodeExpand)="onNodeExpand($event)" (onNodeSelect)="onNodeSelect($event)" (onLazyLoad)="loadNodes($event)"
+                    (onNodeUnselect)="onNodeUnselect($event)" [(selection)]="selectedNode">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <!-- <th class="splitter"></th> -->
+                            <th class="border-right-none" ttSortableColumn="Name" style="width: 400px;">
+                                Group name
+                                <p-treeTableSortIcon [field]="Name"></p-treeTableSortIcon>
+                            </th>
+                            <th class="border-right-none border-left-none" style="width: 200px;">Num of
+                                subscribers
+                            </th>
+                            <th class="border-left-none">Description</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                        <tr [ttSelectableRow]="rowNode">
+                            <!-- <td></td> -->
+                            <td class="border-right-none">
+                                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                                {{rowData.name}}
+                            </td>
+                            <td class="border-left-none border-right-none">0</td>
+                            <td class="border-left-none">some description</td>
 
-                    </tr>
-                </ng-template>
-            </p-treeTable>
+                        </tr>
+                    </ng-template>
+                </p-treeTable>
+            </div>
         </div>
     </div>
 </div>
