@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Survey.InfrastructureLayer.IdentityServerServices
 {
-    public class IdentityUserRequestService : BaseApiService,  IIdentityUserRequestService
+    public class IdentityUserRequestService : BaseIdentityServerService,  IIdentityUserRequestService
     {
         public async Task<IEnumerable<IdentityUserModel>> GetIdentityUsersAsync(Guid groupId)
         {

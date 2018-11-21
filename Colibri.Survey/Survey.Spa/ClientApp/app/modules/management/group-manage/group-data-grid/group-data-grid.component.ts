@@ -59,13 +59,20 @@ export class GroupDataGridComponent {
     tbCols: any[] = [];
     tbLoading = true;
     tbTotalItemCount: number;
+    tbColumns: any[];
+    tbSelectedColumns: any[];
     isNodeSelected = false;
+
+    selectF = false;
+
     constructor(
         private router: Router,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
         private groupsApiService: GroupsApiService,
     ) {
+        this.tbColumns = [{ field: 'name', header: 'Group name' }];
+        this.tbSelectedColumns = this.tbColumns;
         // this._requestGetRootGroups();
 
         // this.filteredItems = this.chipFruitCtrl.valueChanges.pipe(
@@ -283,15 +290,9 @@ export class GroupDataGridComponent {
 
     _requestGetRootGroups(searchEntry: PageSearchEntryApiModel) {
         this.tbLoading = true;
-        this.groupsApiService.getRoot(searchEntry).subscribe((response: any) => {
+        this.groupsApiService.getAll(searchEntry).subscribe((response: any) => {
             this.tbLoading = false;
-            this.tbItems = response.items.map((item: GroupApiModel) => {
-                return {
-                    'label': item.name,
-                    'data': { 'id': item.id, 'name': item.name },
-                    'leaf': false
-                };
-            });
+            this.tbItems = response.items;
             this.tbTotalItemCount = response.totalItemCount;
             this.selectedGroup = this.tbItems[0];
             // if (data.length > 0) {

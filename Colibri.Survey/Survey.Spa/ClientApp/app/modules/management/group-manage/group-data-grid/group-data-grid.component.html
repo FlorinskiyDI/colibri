@@ -1,11 +1,22 @@
 <div class="cmp-group-data-grid">
     <div class="row">
         <div class="col-md-12">
-            <div class="clbr--block-search">
+            <div class="clbr--block-options">
                 <div class="input-group">
                     <cmp-group-data-filter>
                     </cmp-group-data-filter>
-                    <span class="input-group-addon"></span>
+                    
+                    <span class="input-group-addon">
+                        <button class="btn btn-sm btn-default notification" (click)="cd.reject()">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                        <button class="btn btn-sm btn-default notification" (click)="dtGroups.exportCSV()">
+                            <i class="fa fa-download"></i>
+                        </button>
+                            <p-multiSelect [options]="tbColumns" [filter]="selectF" [(ngModel)]="tbSelectedColumns" optionLabel="header"
+                                selectedItemsLabel="{0} columns selected" defaultLabel="Choose Columns">
+                            </p-multiSelect>
+                    </span>
                     <!-- <span class="input-group-addon" id="basic-addon2">@example.com</span> -->
                 </div>
             </div>
@@ -13,10 +24,11 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="clbr--table-v1">
+            <div class="clbr--ui-table clbr--ui-table-v1">
                 
-                <p-table
+                <p-table #dtGroups
                     selectionMode="single"
+                    [columns]="tbSelectedColumns"
                     [value]="tbItems"
                     [paginator]="true"
                     [rows]="2"
@@ -25,22 +37,31 @@
                     [loading]="tbLoading"
                     [lazy]="true"
                     (onLazyLoad)="loadNodes($event)">
-                    <ng-template pTemplate="header">
+                    <ng-template pTemplate="header" let-columns>
                         <tr>
-                            <!-- <th class="splitter"></th> -->
-                            <th class="border-right-none" style="width: 400px;">
-                                Group name                                
+                            <th *ngFor="let col of columns" style="width: 400px;" class="border-right-none">
+                                {{col.header}}
                             </th>
+
+                            <!-- <th class="splitter"></th> -->
+                            <!-- <th pSortableColumn="Name" class="border-right-none" style="width: 400px;">
+                                Group name
+                               <p-sortIcon field="Name" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                            </th> -->
                             <th class="border-right-none border-left-none" style="width: 200px;">Num of
                                 subscribers
                             </th>
                             <th class="border-left-none">Description</th>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-rowData>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
                         <tr [pSelectableRow]="rowData">
-                            <td class="border-right-none">                                
-                                {{rowData.label}}
+                            <!-- <td class="border-right-none">                                
+                                {{rowData.name}}
+                            </td> -->
+
+                            <td *ngFor="let col of columns" class="border-right-none">
+                                {{rowData[col.field]}}
                             </td>
                             <td class="border-left-none border-right-none">0</td>
                             <td class="border-left-none">some description</td>

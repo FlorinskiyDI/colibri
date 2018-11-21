@@ -49,6 +49,9 @@ export class GroupDataFilterComponent {
 
     chipOnEnter(data: any) {
     }
+    chipClean() {
+        this.chipItems = [];
+    }
 
     add(event: MatChipInputEvent): void {
         // debugger

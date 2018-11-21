@@ -65,7 +65,7 @@ namespace Survey.Webapi.Controllers
 
             try
             {
-                var result = await _groupService.AddMembersToGroupAsync(groupId, emails);
+                //var result = await _groupService.AddMembersToGroupAsync(groupId, emails);
                 return Ok();
             }
             catch (Exception e)
@@ -78,7 +78,7 @@ namespace Survey.Webapi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMember(Guid groupId, string id)
         {
-            await _groupService.DeleteMemberFromGroupAsync(groupId, id);
+            //await _groupService.DeleteMemberFromGroupAsync(groupId, id);
             return Ok();
         }
 
