@@ -47,7 +47,8 @@ export class GroupDataTreeComponent {
     // ///////////
 
 
-
+    tbColumns: any[];
+    tbSelectedColumns: any[];
     // modal
     MODAL_GROUP_CREATE = ModalTypes.GROUP_CREATE;
 
@@ -66,6 +67,8 @@ export class GroupDataTreeComponent {
         private confirmationService: ConfirmationService,
         private groupsApiService: GroupsApiService,
     ) {
+        this.tbColumns = [{ field: 'name', header: 'Group name' }];
+        this.tbSelectedColumns = this.tbColumns;
         // this._requestGetRootGroups();
 
         // this.filteredItems = this.chipFruitCtrl.valueChanges.pipe(

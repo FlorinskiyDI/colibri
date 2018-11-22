@@ -17,7 +17,6 @@
                                 selectedItemsLabel="{0} columns selected" defaultLabel="Choose Columns">
                             </p-multiSelect>
                     </span>
-                    <!-- <span class="input-group-addon" id="basic-addon2">@example.com</span> -->
                 </div>
             </div>
         </div>
@@ -31,7 +30,7 @@
                     [columns]="tbSelectedColumns"
                     [value]="tbItems"
                     [paginator]="true"
-                    [rows]="2"
+                    [rows]="10"
                     [rowsPerPageOptions]="[2,10,20]"
                     [totalRecords]="tbTotalItemCount"
                     [loading]="tbLoading"
@@ -39,8 +38,9 @@
                     (onLazyLoad)="loadNodes($event)">
                     <ng-template pTemplate="header" let-columns>
                         <tr>
-                            <th *ngFor="let col of columns" style="width: 400px;" class="border-right-none">
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" style="width: 400px;" class="border-right-none">
                                 {{col.header}}
+                                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                             </th>
 
                             <!-- <th class="splitter"></th> -->

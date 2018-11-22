@@ -1,4 +1,5 @@
-﻿using dataaccesscore.EFCore.Paging;
+﻿using dataaccesscore.Abstractions.Uow;
+using dataaccesscore.EFCore.Paging;
 using dataaccesscore.EFCore.Query;
 using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Dtos.Pager;
@@ -14,17 +15,15 @@ namespace IdentityServer.Webapi.Services
 {
     public class GroupService : IGroupService
     {
+
         private readonly IDataPager<Groups, Guid> _pager;
-        private readonly IGroupRepository _groupRepository;
-        private readonly IAppUserGroupRepository _appUserGroupRepository;
+        protected readonly IUowProvider _uowProvider;
+
         public GroupService(
-            IAppUserGroupRepository appUserGroupRepository,
-            IGroupRepository groupRepository,
+            IUowProvider uowProvider,
             IDataPager<Groups, Guid> pager
-        )
-        {
-            _groupRepository = groupRepository;
-            _appUserGroupRepository = appUserGroupRepository;
+        ) {
+            _uowProvider = uowProvider;
             _pager = pager;
         }
 
@@ -40,12 +39,28 @@ namespace IdentityServer.Webapi.Services
 
             try
             {
-                var results = await _pager.QueryAsync(
-                    searchEntry.PageNumber, // value should be more then 0
-                    searchEntry.PageLength,
-                    filters,
-                    sort);
-                return results;
+                // if items are root, than get parentids and add new filter
+                if (isRoot)
+                {
+                    using (var uow = _uowProvider.CreateUnitOfWork())
+                    {
+                        var repository = uow.GetRepository<Groups, Guid>();
+                        //var itemParentIds = repository.Query(c => c.ApplicationUserGroups.Any(d => d.UserId == userId) && c.ParentId != null).Select(c => c.ParentId.Value).ToList();
+
+                        var items = repository.Query(c => c.ApplicationUserGroups.Any(d => d.UserId == userId)).Select(c => new { Id = c.Id, ParentId = c.ParentId }).ToList();
+                        var itemParentIds = items.Where(c => c.ParentId != null).Select(c => c.ParentId).ToList();
+                        var itemIds = items.Select(c => c.Id).ToList();
+
+                        var itemsUnion = itemParentIds.Where( c => !itemIds.Contains(c.Value));
+
+                        //filters.AddExpression(c => !itemsParentIds.Contains(c.Id) && itemsParentIds.Any(d => d != c.Id));  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
+                        filters.AddExpression(c => itemsUnion.Contains(c.ParentId.Value) || c.ParentId==null);  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
+                    }
+
+                }
+
+                var result = await _pager.QueryAsync(searchEntry.PageNumber, searchEntry.PageLength, filters, sort, d => d.Include(v => v.InverseParent).Include(v => v.Parent));                
+                return result;
             }
             catch (Exception ex)
             {
