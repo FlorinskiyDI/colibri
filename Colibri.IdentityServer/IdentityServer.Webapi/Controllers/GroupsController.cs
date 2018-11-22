@@ -9,6 +9,7 @@ using dataaccesscore.EFCore.Paging;
 using dataaccesscore.EFCore.Query;
 using ExpressionBuilder.Common;
 using ExpressionBuilder.Operations;
+using IdentityServer.Webapi.Controllers.Base;
 using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Dtos.Pager;
 using IdentityServer.Webapi.Repositories.Interfaces;
@@ -26,7 +27,7 @@ namespace IdentityServer.Webapi.Controllers
     public class GroupsController : Controller
     {
 
-        // GET: api/groups
+        // POST: api/groups/search
         // POST: api/groups/root
         // GET: api/groups/{id}/subgroups
         // POST: api/groups
@@ -34,12 +35,12 @@ namespace IdentityServer.Webapi.Controllers
         // DELETE: api/groups/{id}
 
         private readonly IDataPager<Groups, Guid> _pager;
-        protected readonly IGroupServices _groupServices;
+        protected readonly IGroupService _groupServices;
         private readonly IGroupRepository _groupRepository;
         private readonly IAppUserGroupRepository _appUserGroupRepository;
 
         public GroupsController(
-            IGroupServices groupServices,
+            IGroupService groupServices,
             IGroupRepository groupRepository,
             IAppUserGroupRepository appUserGroupRepository,
             IDataPager<Groups, Guid> pager
@@ -52,47 +53,39 @@ namespace IdentityServer.Webapi.Controllers
             _pager = pager;
         }
 
-        // GET: api/groups/
-        [HttpGet]
-        public async Task<IActionResult> GetGroups()
+        // GET: api/groups/search
+        [HttpPost("search")]
+        public async Task<IActionResult> GetGroups([FromBody] PageSearchEntry searchEntry)
         {
-            var claims = this.HttpContext.User.Claims;
-            var userId = claims.First(c => c.Type == "sub").Value;
-            var list = await _groupRepository.GetRootWithInverseAsync(userId);
-
-            var resultList = list.ToList();
-            foreach (var item in list)
-            {
-                recursiveTreeSearch(item, resultList);
-            }
-
-            return Ok(resultList);
+            var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
+            var result = await _groupServices.GetPageDataAsync(_userId, searchEntry);
+            return Ok(result);
         }
 
-        private List<Groups> recursiveTreeSearch(Groups group, List<Groups> siblings)
-        {
-            if (group.InverseParent.Count() > 0)
-            {
-                var cc = group.InverseParent;
-                siblings.AddRange(cc);
-                foreach (var item in group.InverseParent)
-                {
-                    recursiveTreeSearch(item, siblings);
-                }
-            }
-            return siblings;
-        }
 
         // POST: api/groups/root
         [HttpPost("root")]
         public async Task<IActionResult> GetRootGroups([FromBody] PageSearchEntry searchEntry)
         {
-            var claims = this.HttpContext.User.Claims;
-            var userId = claims.First(c => c.Type == "sub").Value;
-            //
-            var result = await _groupServices.GetRootAsync(searchEntry, userId);
+            var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
+            var result = await _groupServices.GetPageDataAsync(_userId, searchEntry, true);
             return Ok(result);
         }
+
+        //private List<Groups> recursiveTreeSearch(Groups group, List<Groups> siblings)
+        //{
+        //    if (group.InverseParent.Count() > 0)
+        //    {
+        //        var cc = group.InverseParent;
+        //        siblings.AddRange(cc);
+        //        foreach (var item in group.InverseParent)
+        //        {
+        //            recursiveTreeSearch(item, siblings);
+        //        }
+        //    }
+        //    return siblings;
+        //}
+
 
         //public static T GetTfromString<T>(string mystring)
         //{

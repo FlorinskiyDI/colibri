@@ -1,209 +1,51 @@
-<div class="clbr--page container-fluid">
-
+<div class="cmp-group-data-tree">
     <div class="row">
         <div class="col-md-12">
-            <div class="clbr--page-title">
-                <div class="text">Group management</div>
-                <div class="description">List of groups in the system, list of groups in the system</div>
-            </div>
-        </div>
-    </div>
-    <!-- <div class="row">
-        <div class="col-md-12">
-            <div class="clbr--block-description-v1">
-                <span>Description: List groups</span>
-            </div>
-        </div>
-    </div> -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="clbr--block-content">
-
-                <!-- <div class="row">
-                    <div class="col-md-12">
-                        <div class="clbr--block-btns-v1">
-                            <button class="clbr--btn-default btn btn-sm btn-default"
-                                (click)="createGroup()">
-                                <i class="fa fa-file-o"></i>
-                                Create
-                            </button>
-                            <button class="clbr--btn-default btn btn-sm btn-default"
-                                [attr.disabled]="!selectedNode ? '' : null"
-                                (click)="goToGroupView(selectedNode.data.id)">
-                                <i class="fa fa-pencil"></i>
-                                Edit
-                            </button>
-                            <button class="clbr--btn-default btn btn-sm btn-default"
-                                [attr.disabled]="!selectedNode ? '' : null"
-                                (click)="removeGroup(selectedNode.data)">
-                                <i class="fa fa-remove"></i>
-                                Remove
-                            </button>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- <div class="row">
-                    <div class="col-md-12">
-                        <div class=".clbr--block-btns-v1">
-                                <button mat-raised-button>Basic</button>
-                        </div>
-                    </div>
-                </div> -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="clbr--block-btns-v1">
-                            <button class="clbr--btn-default btn btn-sm btn-default"
-                                (click)="createGroup()">
-                                Create new grpoup
-                            </button>
-                            <!-- <button class="clbr--btn-default btn btn-sm btn-default"
-                                    [attr.disabled]="!selectedNode ? '' : null"
-                                    (click)="goToGroupView(selectedNode.data.id)">
-                                    <i class="fa fa-pencil"></i>
-                                    Edit
-                                </button>
-                                <button class="clbr--btn-default btn btn-sm btn-default"
-                                    [attr.disabled]="!selectedNode ? '' : null"
-                                    (click)="removeGroup(selectedNode.data)">
-                                    <i class="fa fa-remove"></i>
-                                    Remove
-                                </button> -->
-                        </div>
-                    </div>
-                </div>
-                <input type="checkbox" [(ngModel)]="checkbox" >
-                <pre *ngIf="checkbox">{{chipItems | json}}</pre>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="clbr--block-filter">
-                            <mat-form-field class="example-chip-list">
-                                <span matPrefix>
-                                    <mat-icon class="filter-icon">filter_list</mat-icon>
-                                </span>
-                                <mat-chip-list #chipList>
-                                    <mat-chip *ngFor="let item of chipItems"
-                                        [selectable]="chipSelectable"
-                                        [removable]="chipRemovable"
-                                        (removed)="remove(item)">
-                                        {{item.label}}
-                                        <mat-icon matChipRemove *ngIf="chipRemovable">cancel</mat-icon>
-                                    </mat-chip>
-                                    <input #chipInput placeholder="filter query"
-                                        [formControl]="chipFruitCtrl"
-                                        [matAutocomplete]="auto"
-                                        [matChipInputFor]="chipList"
-                                        [matChipInputSeparatorKeyCodes]="chipSeparatorKeysCodes"
-                                        [matChipInputAddOnBlur]="chipAddOnBlur"
-                                        (keyup.enter)="chipOnEnter(chipInput.value)"
-                                        (matChipInputTokenEnd)="add($event)">
-                                </mat-chip-list>
-                                <mat-autocomplete autoActiveFirstOption  #auto="matAutocomplete"                                
-                                    (optionSelected)="selected($event)">
-                                    <!-- <mat-option [value]="OR">
-                                        OR
-                                    </mat-option> -->
-                                    <mat-option *ngFor="let item of filteredItems"
-                                        [value]="item">
-                                        {{item}}
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="clbr--block-search">
-                            <div class="input-group">
-                                <span class="input-group-addon clbr-search-icon"
-                                    id="basic-addon1">
-                                    <mat-icon>find_in_page</mat-icon>
-                                </span>
-                                <input type="text"
-                                    class="form-control clbr-search-input"
-                                    placeholder="search query"
-                                    aria-describedby="basic-addon1">
-                                <!-- <span class="input-group-addon" id="basic-addon2">@example.com</span>
-                                <span class="input-group-addon" id="basic-addon2">@example.com</span> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="clbr--table clbr--table-tree">
-                            <p-treeTable [value]="tbItems"
-                                selectionMode="single"
-                                dataKey="id"
-                                [(selection)]="selectedNode"
-                                [paginator]="true"
-                                [rows]="2"
-                                [rowsPerPageOptions]="[2,10,20]"
-                                [totalRecords]="tbTotalItemCount"
-                                [loading]="tbLoading"
-                                [lazy]="true"
-                                (onNodeExpand)="onNodeExpand($event)"
-                                (onNodeSelect)="onNodeSelect($event)"
-                                (onLazyLoad)="loadNodes($event)"
-                                (onNodeUnselect)="onNodeUnselect($event)"
-                                [(selection)]="selectedNode">
-                                <ng-template pTemplate="header">
-                                    <tr>
-                                        <!-- <th class="splitter"></th> -->
-                                        <th class="border-right-none"
-                                            ttSortableColumn="Name"
-                                            style="width: 400px;">
-                                            Group name
-                                            <p-treeTableSortIcon [field]="Name"></p-treeTableSortIcon>
-                                        </th>
-                                        <th class="border-right-none border-left-none"
-                                            style="width: 200px;">Num of subscribers
-                                        </th>
-                                        <th class="border-left-none">Description</th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body"
-                                    let-rowNode
-                                    let-rowData="rowData">
-                                    <tr [ttSelectableRow]="rowNode">
-                                        <!-- <td></td> -->
-                                        <td class="border-right-none">
-                                            <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                                            {{rowData.name}}
-                                        </td>
-                                        <td class="border-left-none border-right-none">0</td>
-                                        <td class="border-left-none">some description</td>
-
-                                    </tr>
-                                </ng-template>
-                            </p-treeTable>
-                        </div>
-                    </div>
+            <div class="clbr--block-search">
+                <div class="input-group">
+                    <cmp-group-data-filter>
+                    </cmp-group-data-filter>
+                    <span class="input-group-addon"></span>
+                    <!-- <span class="input-group-addon" id="basic-addon2">@example.com</span>
+                    <span class="input-group-addon" id="basic-addon2">@example.com</span> -->
                 </div>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--ui-treetable clbr--ui-treetable-v1">
+                <p-treeTable [value]="tbItems" selectionMode="single" dataKey="id" [(selection)]="selectedNode" [paginator]="true"
+                    [rows]="2" [rowsPerPageOptions]="[2,10,20]" [totalRecords]="tbTotalItemCount" [loading]="tbLoading"
+                    [lazy]="true" (onNodeExpand)="onNodeExpand($event)" (onNodeSelect)="onNodeSelect($event)" (onLazyLoad)="loadNodes($event)"
+                    (onNodeUnselect)="onNodeUnselect($event)" [(selection)]="selectedNode">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <!-- <th class="splitter"></th> -->
+                            <th class="border-right-none" ttSortableColumn="Name" style="width: 400px;">
+                                Group name
+                                <p-treeTableSortIcon [field]="Name"></p-treeTableSortIcon>
+                            </th>
+                            <th class="border-right-none border-left-none" style="width: 200px;">Num of
+                                subscribers
+                            </th>
+                            <th class="border-left-none">Description</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                        <tr [ttSelectableRow]="rowNode">
+                            <!-- <td></td> -->
+                            <td class="border-right-none">
+                                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                                {{rowData.name}}
+                            </td>
+                            <td class="border-left-none border-right-none">0</td>
+                            <td class="border-left-none">some description</td>
 
+                        </tr>
+                    </ng-template>
+                </p-treeTable>
+            </div>
+        </div>
+    </div>
 </div>
-
-<group-dialog-create-cmp [config]="dialogGroupCreateConfig"
-    (onChange)="dialogGroupCreateOnChange($event)"
-    (onCancel)="dialogGroupCreateOnCancel($event)"
-    (onHide)="dialogGroupCreateOnHide($event)">
-</group-dialog-create-cmp>
-
-<p-confirmDialog #cd
-    icon="pi pi-exclamation-triangle"
-    class="clbr--dialog-confirm-v1"
-    header="Attention">
-    <p-footer>
-        <button class="clbr--btn-default btn btn-sm btn-default notification"
-            (click)="cd.accept()">
-            <i class="fa fa-check"></i>Confirm</button>
-        <button class="clbr--btn-default btn btn-sm btn-default notification"
-            (click)="cd.reject()">
-            <i class="fa fa-remove"></i>Cancel</button>
-    </p-footer>
-</p-confirmDialog>

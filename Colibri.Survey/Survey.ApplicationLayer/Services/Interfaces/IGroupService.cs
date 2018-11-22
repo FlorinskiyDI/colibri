@@ -9,17 +9,19 @@ namespace Survey.ApplicationLayer.Services.Interfaces
 {
     public interface IGroupService
     {
-        // group
-        Task<IEnumerable<GroupDto>> GetGroupList();
-        Task<PageDataDto<GroupDto>> GetGroupListRoot(PageSearchEntryDto searchEntryDto);
-        Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId);
-        Task<GroupDto> CreateGroup(GroupDto groupDto);
-        Task<bool> DeleteGroup(Guid groupId);
-        Task<GroupDto> GetGroup(Guid groupId);
-        GroupDto UpdateGroup(GroupDto groupDto);
+        Task<PageDataDto<GroupDto>> GetGroups(PageSearchEntryDto searchEntryDto);
+        Task<PageDataDto<GroupDto>> GetRootGroups(PageSearchEntryDto searchEntryDto);
 
-        // group members
-        Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emails);
-        Task<bool> DeleteMemberFromGroupAsync(Guid groupId, string userId);
+
+
+        //Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId);
+        //Task<GroupDto> CreateGroup(GroupDto groupDto);
+        //Task<bool> DeleteGroup(Guid groupId);
+        //Task<GroupDto> GetGroup(Guid groupId);
+        //GroupDto UpdateGroup(GroupDto groupDto);
+
+        //// group members
+        //Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emails);
+        //Task<bool> DeleteMemberFromGroupAsync(Guid groupId, string userId);
     }
 }

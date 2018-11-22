@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Survey.DomainModelLayer.Models.IdentityServer
 {
-    public class Groups
+    public class GroupModel
     {
         public Guid Id { get; set; }
         public Guid? ParentId { get; set; }

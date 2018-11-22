@@ -27,74 +27,75 @@ namespace Survey.ApplicationLayer.Services
             Mapper = mapper;
         }
 
-        public async Task<IEnumerable<GroupDto>> GetGroupList()
-        {
-            var result = await _groupRequestService.GetGroupList();
-            var list = Mapper.Map<IEnumerable<Groups>, IEnumerable<GroupDto>>(result);
-            return list;
-        }
-
-        public async Task<PageDataDto<GroupDto>> GetGroupListRoot(PageSearchEntryDto searchEntryDto)
+        public async Task<PageDataDto<GroupDto>> GetGroups(PageSearchEntryDto searchEntryDto)
         {
             var searchEntry = Mapper.Map<PageSearchEntryDto, PageSearchEntryModel>(searchEntryDto);
-            var result = await _groupRequestService.GetGroupListRoot(searchEntry);
-            var list = Mapper.Map<PageDataModel<Groups>, PageDataDto<GroupDto>>(result);
+            var result = await _groupRequestService.GetGroups(searchEntry);
+            var list = Mapper.Map<PageDataModel<GroupModel>, PageDataDto<GroupDto>>(result);
             return list;
         }
 
-        public async Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId)
+        public async Task<PageDataDto<GroupDto>> GetRootGroups(PageSearchEntryDto searchEntryDto)
         {
-            var result = await _groupRequestService.GetSubGroupList(groupId);
-            var list = Mapper.Map<IEnumerable<Groups>, IEnumerable<GroupDto>>(result);
+            var searchEntry = Mapper.Map<PageSearchEntryDto, PageSearchEntryModel>(searchEntryDto);
+            var result = await _groupRequestService.GetRootGroups(searchEntry);
+            var list = Mapper.Map<PageDataModel<GroupModel>, PageDataDto<GroupDto>>(result);
             return list;
         }
 
-        public async Task<GroupDto> CreateGroup(GroupDto groupDto)
-        {
-            var group = Mapper.Map<GroupDto, Groups>(groupDto);
-            var result = await _groupRequestService.CreateGroupAsync(group);
-            groupDto = Mapper.Map<Groups, GroupDto>(result);
-            return groupDto;
-        }
+        //public async Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId)
+        //{
+        //    var result = await _groupRequestService.GetSubGroupList(groupId);
+        //    var list = Mapper.Map<IEnumerable<Groups>, IEnumerable<GroupDto>>(result);
+        //    return list;
+        //}
 
-        public GroupDto UpdateGroup(GroupDto groupDto)
-        {
-            var group = Mapper.Map<GroupDto, Groups>(groupDto);
-            var result = _groupRequestService.UpdateGroupt(group);
-            groupDto = Mapper.Map<Groups, GroupDto>(result);
-            return groupDto;
-        }
+        //public async Task<GroupDto> CreateGroup(GroupDto groupDto)
+        //{
+        //    var group = Mapper.Map<GroupDto, Groups>(groupDto);
+        //    var result = await _groupRequestService.CreateGroupAsync(group);
+        //    groupDto = Mapper.Map<Groups, GroupDto>(result);
+        //    return groupDto;
+        //}
 
-        public async Task<bool> DeleteGroup(Guid groupId)
-        {
-            var result = await _groupRequestService.DeleteGroup(groupId);
-            return result;
-        }
+        //public GroupDto UpdateGroup(GroupDto groupDto)
+        //{
+        //    var group = Mapper.Map<GroupDto, Groups>(groupDto);
+        //    var result = _groupRequestService.UpdateGroupt(group);
+        //    groupDto = Mapper.Map<Groups, GroupDto>(result);
+        //    return groupDto;
+        //}
 
-        public async Task<GroupDto> GetGroup(Guid groupId)
-        {
-            var result = await _groupRequestService.GetGroup(groupId);
-            var groupDto = Mapper.Map<Groups, GroupDto>(result);
-            return groupDto;
-        }
+        //public async Task<bool> DeleteGroup(Guid groupId)
+        //{
+        //    var result = await _groupRequestService.DeleteGroup(groupId);
+        //    return result;
+        //}
+
+        //public async Task<GroupDto> GetGroup(Guid groupId)
+        //{
+        //    var result = await _groupRequestService.GetGroup(groupId);
+        //    var groupDto = Mapper.Map<Groups, GroupDto>(result);
+        //    return groupDto;
+        //}
 
 
 
 
-        #region group members
+        //#region group members
 
-        public async Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emails)
-        {
-            var result = await _groupRequestService.AddMembersToGroupAsync(groupId, emails);
-            return result;
-        }
+        //public async Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emails)
+        //{
+        //    var result = await _groupRequestService.AddMembersToGroupAsync(groupId, emails);
+        //    return result;
+        //}
 
-        public async Task<bool> DeleteMemberFromGroupAsync(Guid groupId, string userId)
-        {
-            var result = await _groupRequestService.DeleteMemberFromGroupAsync(groupId, userId);
-            return result;
-        }
+        //public async Task<bool> DeleteMemberFromGroupAsync(Guid groupId, string userId)
+        //{
+        //    var result = await _groupRequestService.DeleteMemberFromGroupAsync(groupId, userId);
+        //    return result;
+        //}
 
-        #endregion
+        //#endregion
     }
 }

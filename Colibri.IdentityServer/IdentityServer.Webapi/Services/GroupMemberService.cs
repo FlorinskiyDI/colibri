@@ -13,11 +13,11 @@ namespace IdentityServer.Webapi.Services
     {
         private readonly IAppUserRepository _appUserRepository;
         private readonly IAppUserService _appUserService;
-        private readonly IGroupServices _groupServices;
+        private readonly IGroupService _groupServices;
         public GroupMemberService(
             IAppUserService appUserService,
             IAppUserRepository appUserRepository,
-            IGroupServices groupServices
+            IGroupService groupServices
         )
         {
             _appUserService = appUserService;
@@ -30,7 +30,7 @@ namespace IdentityServer.Webapi.Services
             foreach (var email in emailList)
             {
                 var user = await _appUserService.AddUserByEmailWithoutPassword(email);
-                _groupServices.SubscribeToGroupAsync(user.Id, groupId);
+                //_groupServices.SubscribeToGroupAsync(user.Id, groupId);
             }
             //
             return true;
@@ -45,7 +45,7 @@ namespace IdentityServer.Webapi.Services
 
         public async Task DeleteMember(string userId, Guid groupId)
         {
-            await _groupServices.UnsubscribeToGroup(userId, groupId);
+            //await _groupServices.UnsubscribeToGroup(userId, groupId);
             return;
         }
     }

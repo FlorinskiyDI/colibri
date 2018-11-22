@@ -15,18 +15,35 @@ export class GroupsApiService {
         this.apiServer = apiUrl;
     }
 
-    getAll(objectFields: string[] | null = null) {
-        const paramObjectFields = objectFields ? objectFields.join(',') : null;
-        const result = this.restangular.all('api/groups').customGET(undefined, { fields: paramObjectFields });
+    getAll(searchEntry: any = null, objectFields: string[] | null = null) {
+        const result = this.restangular.all('api/groups').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
         return result;
     }
+
+    getAllRoot(searchEntry: any = null, objectFields: string[] | null = null) {
+        const result = this.restangular.all('api/groups/root').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
+        return result;
+    }
+
+    getItem(id: string) {
+        const result = this.restangular.one('api/groups', id).get();
+        return result;
+    }
+
+
+
+    // getAll(objectFields: string[] | null = null) {
+    //     const paramObjectFields = objectFields ? objectFields.join(',') : null;
+    //     const result = this.restangular.all('api/groups').customGET(undefined, { fields: paramObjectFields });
+    //     return result;
+    // }
 
     get(id: string) {
         const result = this.restangular.one('api/groups', id).get();
         return result;
     }
 
-    getRoot(searchEntry: any, objectFields: string[] | null = null) {
+    getRoot(searchEntry: any = null, objectFields: string[] | null = null) {
         // const result = this.restangular.all('api/groups/root').post(searchEntry);
         const result = this.restangular.all('api/groups/root').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
         // const result = this.restangular.one('api/groups/root').customPost(undefined, objectFields ? objectFields.join(',') : undefined);

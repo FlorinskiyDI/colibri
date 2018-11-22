@@ -18,8 +18,10 @@ namespace Survey.Webapi.Controllers
     [Route("api/groups")]
     public class GroupsController : BaseController
     {
-        // GET: api/groups
-        // GET: api/groups/root
+        // POST: api/groups
+        // POST: api/groups/root
+
+
         // GET: api/groups/{id}
         // GET: api/groups/{id}/subgroups
         // POST: api/groups
@@ -36,145 +38,161 @@ namespace Survey.Webapi.Controllers
             _groupService = groupService;
         }
 
-        // GET: api/groups
-        [HttpGet]
-        public async Task<IActionResult> GetGroupList([FromQuery] string fields)
-        {
-            if (!_typeHelperService.TypeHasProperties<GroupDto>(fields))
-            {
-                return BadRequest();
-            }
-
-            IEnumerable<GroupDto> result;
-            try
-            {
-                result = await _groupService.GetGroupList();
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-
-            return Ok(result.ShapeData(fields));
-        }
-
-        // GET: api/groups/root
-        [HttpPost("root")]
-        public async Task<IActionResult> GetGroupListRoot([FromBody] PageSearchEntryDto searchEntry, [FromQuery] string fields)
-        {
-            if (!_typeHelperService.TypeHasProperties<GroupDto>(fields))
-            {
-                return BadRequest();
-            }
-
-            PageDataDto<GroupDto> result;
-            try
-            {
-                result = await _groupService.GetGroupListRoot(searchEntry);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-            //var test = result.ShapeData(fields);
-            return Ok(result);
-        }
-
-        // GET: api/groups/{id}/subgroups
-        [HttpGet]
-        [Route("{id}/subgroups")]
-        public async Task<IActionResult> GetSubGroupList(Guid id)
-        {
-            IEnumerable<GroupDto> result;
-            try
-            {
-                result = await _groupService.GetSubGroupList(id);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-
-            return Ok(result);
-        }
-
-        // DELETE: api/groups/{id}
-        [HttpDelete]
-        [Route("{id}")]
-        public async Task<IActionResult> DeleteGroup(Guid id)
-        {
-            try
-            {
-                var result = await _groupService.DeleteGroup(id);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-
-            return Ok();
-        }
-
-        // GET: api/groups/{id}
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetGroup(Guid id)
-        {
-            GroupDto groupDto;
-            try
-            {
-                groupDto = await _groupService.GetGroup(id);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-
-            return Ok(groupDto);
-        }
-
         // POST: api/groups
         [HttpPost]
-        public async Task<IActionResult> CreateGroup([FromBody] GroupDto model)
+        public async Task<IActionResult> GetGroups([FromBody] PageSearchEntryDto searchEntry)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            GroupDto result;
-            try
-            {
-                result = await _groupService.CreateGroup(model);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-
-            return Ok();
+            var result = await _groupService.GetGroups(searchEntry);
+            return Ok(result);
         }
 
-        // PUT: api/groups
-        [HttpPut]
-        public IActionResult UpdateGroup([FromBody] GroupDto model)
+        // POST: api/groups/root
+        [HttpPost("root")]
+        public async Task<IActionResult> GetRootGroups([FromBody] PageSearchEntryDto searchEntry)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            GroupDto result;
-            try
-            {
-                result = _groupService.UpdateGroup(model);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-
-            return Ok();
+            var result = await _groupService.GetRootGroups(searchEntry);
+            return Ok(result);
         }
+
+        //// POST: api/groups
+        //[HttpPost]
+        //public async Task<IActionResult> GetGroups([FromQuery] string fields)
+        //{
+        //    if (!_typeHelperService.TypeHasProperties<GroupDto>(fields))
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    IEnumerable<GroupDto> result;
+        //    try
+        //    {
+        //        result = await _groupService.GetGroupList();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError);
+        //    }
+
+        //    return Ok(result.ShapeData(fields));
+        //}
+
+        //// POST: api/groups/root
+        //[HttpPost("root")]
+        //public async Task<IActionResult> GetGroupListRoot([FromBody] PageSearchEntryDto searchEntry, [FromQuery] string fields)
+        //{
+        //    if (!_typeHelperService.TypeHasProperties<GroupDto>(fields))
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    PageDataDto<GroupDto> result;
+        //    try
+        //    {
+        //        result = await _groupService.GetGroupListRoot(searchEntry);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError);
+        //    }
+        //    //var test = result.ShapeData(fields);
+        //    return Ok(result);
+        //}
+
+        //// GET: api/groups/{id}/subgroups
+        //[HttpGet]
+        //[Route("{id}/subgroups")]
+        //public async Task<IActionResult> GetSubGroupList(Guid id)
+        //{
+        //    IEnumerable<GroupDto> result;
+        //    try
+        //    {
+        //        result = await _groupService.GetSubGroupList(id);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError);
+        //    }
+
+        //    return Ok(result);
+        //}
+
+        //// DELETE: api/groups/{id}
+        //[HttpDelete]
+        //[Route("{id}")]
+        //public async Task<IActionResult> DeleteGroup(Guid id)
+        //{
+        //    try
+        //    {
+        //        var result = await _groupService.DeleteGroup(id);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError);
+        //    }
+
+        //    return Ok();
+        //}
+
+        //// GET: api/groups/{id}
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetGroup(Guid id)
+        //{
+        //    GroupDto groupDto;
+        //    try
+        //    {
+        //        groupDto = await _groupService.GetGroup(id);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError);
+        //    }
+
+        //    return Ok(groupDto);
+        //}
+
+        //// POST: api/groups
+        //[HttpPost]
+        //public async Task<IActionResult> CreateGroup([FromBody] GroupDto model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    GroupDto result;
+        //    try
+        //    {
+        //        result = await _groupService.CreateGroup(model);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError);
+        //    }
+
+        //    return Ok();
+        //}
+
+        //// PUT: api/groups
+        //[HttpPut]
+        //public IActionResult UpdateGroup([FromBody] GroupDto model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    GroupDto result;
+        //    try
+        //    {
+        //        result = _groupService.UpdateGroup(model);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError);
+        //    }
+
+        //    return Ok();
+        //}
         
     }
 }
