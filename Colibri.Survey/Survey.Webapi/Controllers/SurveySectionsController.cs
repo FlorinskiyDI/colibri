@@ -128,7 +128,7 @@ namespace Survey.Webapi.Controllers
         {
             try
             {
-
+                var surveyId = _surveySectionService.Update(data.survey).Result;
 
                 if (data.survey.Pages.Count() > 0)
                 {

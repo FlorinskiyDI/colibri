@@ -110,6 +110,7 @@ export class BuilderComponent {
 
             this.page = page;
             this.questionTransferService.setFormPage(page);
+            // this.isPageBuilder = true;
         });
 
         this.questionTransferService.getdeletePageId().subscribe((data: any) => {

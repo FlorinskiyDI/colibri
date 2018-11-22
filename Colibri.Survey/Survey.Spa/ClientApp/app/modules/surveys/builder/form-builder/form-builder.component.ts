@@ -29,6 +29,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
     @Input() pagingList: any[];
     @Input() numericPageFrom: number;
     @Input() isPageBuilder: boolean;
+    @Input() survey: any;
     @Output() formState = new EventEmitter<any>();
 
     formPage: FormGroup;
@@ -163,7 +164,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         const minIndex = event.order > index ? index : event.order;
         const maxIndex = event.order > index ? event.order : index;
 
-        const updateQuestioRange = this.page.questions.slice(minIndex, maxIndex + 1); // get question range (max, min) for make resortable
+        const updateQuestioRange = this.page.questions.slice(minIndex, maxIndex + 1); // get question range (max, min)
         updateQuestioRange.forEach((item: any) => {
             item.state = item.state !== ControStates.created ? ControStates.updated : item.state;
         });

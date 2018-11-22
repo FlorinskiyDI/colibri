@@ -22,7 +22,7 @@
     margin: 10px;
     line-height: 150px;
     color: silver;
-    font-weight: bold;
+    // font-weight: bold;
     font-size: 22px;
     text-align: center;
   }
@@ -264,5 +264,53 @@
         border: 2px dotted green;
         margin: 1px;
         background-color: #CCCEDB;
+    }
+}
+
+.setting-wrapper{
+    position: relative;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 100%;
+    background: linear-gradient(to top, #505d74 5%, #768294 100%);
+    .setting-body{
+        position: relative;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        height: 100%;
+        background-color: #fff;
+        margin: 0 13%; 
+        padding: 30px;  
+        
+        .d-setting-item {
+            display: flex;
+            font-size: 12px;
+            .d-setting-item-label{
+                width: 100px;
+                p {
+                    margin-top: 5px;
+                    font-size: 12px;
+                    font-weight: bold;
+                }         
+               
+            }
+            .d-setting-item-value{
+                width: 100%;
+                input{   
+                    height: 23px;
+                    width: 40%;
+                    font-size: 12px;
+                    border: 1px solid #7A7A7A;
+                    padding: 5px;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    color: #000;    
+                }
+            }
+        }
     }
 }

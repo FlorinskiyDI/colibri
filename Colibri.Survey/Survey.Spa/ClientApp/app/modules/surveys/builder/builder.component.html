@@ -35,7 +35,7 @@
     </div>
 </div>
 <div id="d-builder-wrapper">
-    <div id="d-builder-widgets">
+    <div *ngIf="isPageBuilder" id="d-builder-widgets">
         <div class="d-builder-widgets-header">
             <p class="d--text-tools-header"> Toolbox</p>
         </div>
@@ -111,11 +111,19 @@
             </p-accordion>
         </div>
     </div>
-    <div id="d-builder-body">
-        <form-builder *ngIf="page && templateOptions && pagingList" [isPageBuilder]="isPageBuilder" [pagingList]="pagingList" [page]="page" (formState)="checkstate($event)"
-            [templateOptions]="templateOptions" [(numericPageFrom)]="startNumericPageFrom"></form-builder>
+
+    <div *ngIf="!isPageBuilder" id="d-builder-widgets-rolled">
+        <div class="rolled-wrapper">
+            <p>Toolbox</p>
+        </div>
     </div>
-  
+
+
+    <div class="d-builder-body" [ngClass]='{"d-builder-body-changed": !isPageBuilder}'>
+        <form-builder [(survey)]="survey" *ngIf="page && templateOptions && pagingList" [isPageBuilder]="isPageBuilder" [pagingList]="pagingList" [page]="page"
+            (formState)="checkstate($event)" [templateOptions]="templateOptions" [(numericPageFrom)]="startNumericPageFrom"></form-builder>
+    </div>
+
 </div>
 
 <!-- <div class="d-notification-wrapper">
