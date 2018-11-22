@@ -22,6 +22,8 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 /* provider */ import { WINDOW_PROVIDERS } from 'shared/providers//window.provider';
 
 import { NgxSmoothDnDModule } from 'ngx-smooth-dnd';
+import {AutosizeModule} from 'ngx-autosize';
+// import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 // /* component */ import { ReportModule} from './report/report.module';
 
 
@@ -31,7 +33,9 @@ import { DndModule } from 'ng2-dnd';
         SurveyRoutingModule,
         SharedModule,
         DndModule.forRoot(),
-        NgxSmoothDnDModule
+        NgxSmoothDnDModule,
+        AutosizeModule
+        // TextareaAutosizeModule
         // ReportModule
     ],
     declarations: [

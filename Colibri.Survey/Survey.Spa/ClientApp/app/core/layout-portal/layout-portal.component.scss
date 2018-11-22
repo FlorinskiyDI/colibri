@@ -564,3 +564,14 @@ $color-accent-contrast: $color-dark-contrast;
       display: none;
     }
   }
+
+
+  .mdl-layout__content {
+    background-color: #E7EEF7;
+    // background-image: url(/assets/download.jpg);
+    // background-image: url(/assets/damienbod.jpg);
+
+    background-image: url(/assets/grey-stripe-bg.png);
+    background-repeat: repeat;
+    background-position: left top;
+  }

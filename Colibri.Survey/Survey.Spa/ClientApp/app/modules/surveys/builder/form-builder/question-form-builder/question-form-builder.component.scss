@@ -206,5 +206,49 @@
     }
   }
 
+.d-repeat-item{
+    position: relative;
+    .d-delete-item-btn{
+        cursor: pointer;
+        height: 22px;
+        width: 22px;
+        border: 1px solid #a2acbf;
+        background-color: #e3e3e3;
+        color: #4d6082;
+        margin: 0px 3px 0px 5px;
+        line-height: 0px;
+        
+        position: absolute;
+
+        &:hover {
+            background-color: #a2acbf;
+            border: 1px solid #f1f1f1;
+        }
+    }
+
+    .d-grid-delete-item-btn{
+        left: 60%;
+    }
+
+    .d-check-delete-item-btn{
+        left: 63%;
+        margin: 0px 7px !important;
+    }
+
+    .d-radio-delete-item-btn{
+        left: 63%;
+        margin: 0px 9px !important;
+    }
+
+    // .d-check-delete-item-input{
+    //     position: absolute;
+    //     left: 4%;
+    // }
+
+    .d-delete-text{
+        font-size: 13px;
+        color: #324464;
+    }
+}
 
   

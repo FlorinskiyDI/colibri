@@ -17,10 +17,14 @@ namespace Survey.DomainModelLayer.Entities
         [Required]
         [StringLength(500)]
         public string Name { get; set; }
+        public bool IsShowDescription { get; set; }
         public string Description { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime DateCreated { get; set; }
         public Guid UserId { get; set; }
+        public bool IsShowProcessCompletedText { get; set; }
+        public string ProcessCompletedText { get; set; }
+        public bool IsOpenAccess { get; set; }
 
         [ForeignKey("UserId")]
         [InverseProperty("SurveySections")]

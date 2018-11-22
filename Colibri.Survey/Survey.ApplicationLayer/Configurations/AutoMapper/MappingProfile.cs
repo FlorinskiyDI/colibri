@@ -46,7 +46,7 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
             CreateMap(typeof(PageDataDto<>), typeof(PageDataModel<>));
             CreateMap<IdentityUserDto, IdentityUserModel>();
             CreateMap<IdentityUserDto, IdentityUserModel>();
-
+            CreateMap<SurveySections, SurveyModel>();
             // entities
             CreateMap<SurveySections, SurveySectionDto>();
             CreateMap<Pages, PagesDto>();

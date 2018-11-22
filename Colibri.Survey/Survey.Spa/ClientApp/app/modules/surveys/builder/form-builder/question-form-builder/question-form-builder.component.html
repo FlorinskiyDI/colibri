@@ -262,7 +262,11 @@
                                 <i class="fa fa-circle-o"></i>
                             </button>
                             <input autofocus #inputCol class="d-input-textbox" [type]="text" [formControlName]="'name'" (keyup)="item.value = $event.target.value">
-                            <button *ngIf="question.options.length > 1" (click)="deleteItem(i, question.options, item.id, question.id)" type="button">x</button>
+                            <!-- <button *ngIf="question.options.length > 1" (click)="deleteItem(i, question.options, item.id, question.id)" type="button">x</button> -->
+                            <button *ngIf="question.options.length > 1" class="d-delete-item-btn d-radio-delete-item-btn" (click)="deleteItem(i, question.options, item.id, question.id)" type="button">
+                                    <!-- <i _ngcontent-c11="" class="fa fa-times"></i> -->
+                                    <span class="d-delete-text">x</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -308,8 +312,12 @@
                             <button type="button" class="d-button-checkbox">
                                 <i class="fa fa-square-o"></i>
                             </button>
-                            <input autofocus #inputCol class="d-input-textbox" [type]="text" [formControlName]="'name'" (keyup)="item.value = $event.target.value">
-                            <button *ngIf="question.options.length > 1" (click)="deleteItem(i, question.options, item.id, question.id)" type="button">x</button>
+                            <input autofocus #inputCol class="d-input-textbox"  [type]="text" [formControlName]="'name'" (keyup)="item.value = $event.target.value">
+                            <!-- <button *ngIf="question.options.length > 1" (click)="deleteItem(i, question.options, item.id, question.id)" type="button">x</button> -->
+                            <button *ngIf="question.options.length > 1" class="d-delete-item-btn d-check-delete-item-btn" (click)="deleteItem(i, question.options, item.id, question.id)" type="button">
+                                    <!-- <i _ngcontent-c11="" class="fa fa-times"></i> -->
+                                    <span class="d-delete-text">x</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -355,8 +363,11 @@
                         </div>
                         <div [formGroupName]="row.id" class="d-item-content">
                             <div class="d-repeat-item">
-                                <input autofocus #inputRow class="d-input-textbox" [formControlName]="'name'" [type]="text" (keyup)="row.value = $event.target.value">
-                                <button *ngIf="question.grid.rows.length > 1" (click)="deleteRow(i, question, row.id); markQuestionAsChanged(true)" type="button">x</button>
+                                <input autofocus calass="d-check-input" #inputRow class="d-input-textbox" [formControlName]="'name'" [type]="text" (keyup)="row.value = $event.target.value">
+                                <button *ngIf="question.grid.rows.length > 1" class="d-delete-item-btn d-grid-delete-item-btn" (click)="deleteRow(i, question, row.id)" type="button">
+                                        <!-- <i _ngcontent-c11="" class="fa fa-times"></i> -->
+                                        <span class="d-delete-text">x</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -381,7 +392,11 @@
                         <div [formGroupName]="col.id" class="d-item-content">
                             <div class="d-repeat-item">
                                 <input autofocus #inputCol class="d-input-textbox" [type]="text" [formControlName]="'name'" (keyup)="col.value = $event.target.value">
-                                <button *ngIf="question.grid.cols.length > 1" (click)="deleteCol(i, question, col.id)" type="button">x</button>
+                                <!-- <button *ngIf="question.grid.cols.length > 1" (click)="deleteCol(i, question, col.id)" type="button">x</button> -->
+                                <button *ngIf="question.grid.cols.length > 1" class="d-delete-item-btn d-grid-delete-item-btn" (click)="deleteCol(i, question, col.id)" type="button">
+                                        <!-- <i _ngcontent-c11="" class="fa fa-times"></i> -->
+                                        <span class="d-delete-text">x</span>
+                                </button>
                             </div>
                         </div>
                     </div>

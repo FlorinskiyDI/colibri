@@ -282,7 +282,7 @@
         left: 0px;
         right: 0px;
         height: 100%;
-        background-color: #fff;
+        background-color: #f5f5f5;
         margin: 0 13%; 
         padding: 30px;  
         
@@ -300,17 +300,98 @@
             }
             .d-setting-item-value{
                 width: 100%;
-                input{   
-                    height: 23px;
-                    width: 40%;
-                    font-size: 12px;
-                    border: 1px solid #7A7A7A;
+                // input{   
+                //     height: 23px;
+                //     width: 40%;
+                //     font-size: 12px;
+                //     border: 1px solid #7A7A7A;
+                //     padding: 5px;
+                //     text-overflow: ellipsis;
+                //     overflow: hidden;
+                //     color: #000;    
+                // }
+                #IdisShowDescription, #IdisShowProcessCompleted, .d-radio-input {
+                    margin: 3px 8px 3px 5px;
+                }
+                .d-checkbox-input{
+                    vertical-align: top;
+                    // margin-top: 6px;
+                }
+
+                .d-radio-input{
+                    vertical-align: top;
+                    // margin-top: 6px;
+                }
+
+                label {
+                    font-weight: 400;
+                }
+
+                .d-textarea-item{
+                    outline: none !important;
+                    border: 1px solid #f5f5f5;
+                    background-color: #eeeeee;
+                    width: 100%;
+                    // max-width: 100%;
+                    font-size: 13px;
+                    // border: 0px solid #7A7A7A;
                     padding: 5px;
                     text-overflow: ellipsis;
                     overflow: hidden;
-                    color: #000;    
+                    color: #454545; 
+                    &:hover{
+                        background-color: #eeeeee;
+                    }
+
+                    &:focus
+                    {
+                        background-color: #fff;
+                        border: 1px solid #7A7A7A;
+                    }
+
+                    &:disabled {
+                        color: #acacac;
+                        background-color: #f5f5f5;
+                    }
+                }
+            }
+
+            .d-setting-item-value-title{
+                width: 100%;
+
+            
+                .d-mane-input{   
+                    border: 1px solid #f5f5f5;
+                    background-color: #f5f5f5;
+                    padding: 3px;
+                    margin-bottom: 10px;
+                    // height: 23px;
+                    width: inherit;
+                    font-size: 22px;
+                    // border: 0px solid #7A7A7A;
+                    padding: 5px;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    color: #454545; 
+                    
+                    &:hover{
+                        background-color: #eeeeee;
+                    }
+
+                    &:focus
+                    {
+                        background-color: #fff;
+                        border: 1px solid #7A7A7A;
+                    }
                 }
             }
         }
     }
 }
+
+
+
+// background-color: #E7EEF7;
+// background-image: url(../wwwroot/assets/images/grey-stripe-bg.png);
+// background-repeat: repeat;
+// background-position: left top;

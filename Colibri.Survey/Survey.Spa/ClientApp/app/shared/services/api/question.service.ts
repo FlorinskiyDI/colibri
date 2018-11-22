@@ -276,8 +276,12 @@ export class QuestionService {
     const survey: SurveyModel = {
       //  controlType: 'textbox', // same as in control-type.constant.ts
       id: 'fbd8800b-93ee-4707-b527-83feb23fb005',
-      name: 'survey name 1',
-      description: 'First name (change data)',
+      name: 'New Project...',
+      description: 'The short introduction...',
+      processCompletedText: 'We thank you for your time spent taking this survey. Your response has been recorded...',
+      isShowProcessCompletedText: true,
+      isShowDescription: true,
+      isOpenAccess: true,
       pages: [
         new PageModel(
           {
@@ -527,6 +531,11 @@ export class QuestionService {
       id: 'id_firstName11',
       name: 'survey name 1',
       description: 'First name (change data)',
+      processCompletedText: 'We thank you for your time spent taking this survey. Your response has been recorded...',
+      isShowProcessCompletedText: true,
+      isShowDescription: true,
+      isOpenAccess: true,
+
       pages: [
         new PageModel(
           {

@@ -1,1 +1,78 @@
-1111111111111111111111111111
+<div class="clbr--page">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="clbr--page-title">
+                    Surveys management
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clbr--page-content">
+        <div class="container-fluid">
+
+
+            <div class="clbr--block-btns-v1">
+                <button class="clbr--btn-default btn btn-sm btn-default" (click)="GoTo('/surveys/builder/')">
+                    <i class="fa fa-plus"></i>
+                    Create
+                </button>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    <!-- <pre>{{surveys | json}}</pre> -->
+
+                    <p-table [value]="surveys" [lazy]="true" [paginator]="true" [rows]="5" [loading]="loading" [resizableColumns]="true" [rowsPerPageOptions]="[5,10,20]">
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width:20%">Name</th>
+                                <th style="width:10%">Is open access</th>
+                                <th style="width:20%">Date created</th>
+                                <th style="width:10%">Shown description</th>
+                                <th style="width:15%">Shown completed note</th>
+                                <th style="width:25%">Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr>
+                                <td>{{item.name}}</td>
+                                <td>{{item.isOpenAccess}}</td>
+                                <td>{{item.dateCreated | date:'medium'}}</td>
+                                <td>{{item.isShowDescription}}</td>
+                                <td>{{item.isShowProcessCompletedText}}</td>
+
+                                <td>
+                                    <div class="clbr--btn-inline">
+                                        <!-- <button class="btn btn-sm btn-default notification" id="notification">
+                                            <i class="fa fa-file-o"></i>Add</button> -->
+                                        <button class="btn btn-sm btn-default d-action-button" (click)="GoTo('/surveys/builder/' + item.id)">
+                                            <i class="fa fa-pencil"></i>
+                                            <span class="d-action-text">Edit</span>
+                                        </button>
+                                        <button class="btn btn-sm btn-default d-action-button" (click)="GoTo('/surveys/report/' + item.id)">
+                                            <i class="fa fa-eye"></i>
+                                            <span class="d-action-text">Show responses</span>
+                                        </button>
+                                        <button class="btn btn-sm btn-default d-action-button">
+                                            <i class="fa fa-download"></i>
+                                            <span class="d-action-text">Export</span>
+
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>

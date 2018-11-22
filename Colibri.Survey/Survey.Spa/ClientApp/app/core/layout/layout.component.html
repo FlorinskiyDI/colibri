@@ -14,26 +14,36 @@
             <a routerLink="/dashboard" routerLinkActive="clbr-routerLink-active" class="list-group-item" href="#menu1" class="list-group-item">
               <span class="hidden-sm-down">
                 <mat-icon class="mat-icon-dashboard">view_quilt</mat-icon>
-                <span>Dashboard</span> 
+                <span>Dashboard</span>
               </span>
             </a>
 
             <a href="#menuProjects" class="list-group-item" data-toggle="collapse" data-parent="#sidebar">
               <span class="clbt--list-group-item-title hidden-sm-down">
                 <mat-icon>storage</mat-icon>
-                <span>Projects</span> 
+                <span>Projects</span>
               </span>
             </a>
             <div class="collapse list-group-inner" id="menuProjects">
-              <a routerLink="/home" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuProjects">Surveys</a>
-              <a routerLink="/test2" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuProjects">Archive</a>
+              <a routerLink="/home" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuProjects">
+                <mat-icon>fiber_manual_record</mat-icon>
+                <span>Home</span>
+              </a>
+              <a routerLink="/surveys" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuProjects">
+                <mat-icon>fiber_manual_record</mat-icon>
+                <span>Surveys</span>
+              </a>
+              <a routerLink="/test2" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuProjects">
+                <mat-icon>fiber_manual_record</mat-icon>
+                <span>Archive</span>
+              </a>
             </div>
 
             <a routerLinkActive="clbr-routerLink-active" href="#menuSettings" class="list-group-item" data-toggle="collapse" data-parent="#sidebar">
               <input routerLink="/manage" class="list-group-item" type="hidden">
               <span class="clbt--list-group-item-title hidden-sm-down">
                 <mat-icon>settings</mat-icon>
-                <span>Settings</span>  
+                <span>Settings</span>
               </span>
             </a>
             <div class="collapse list-group-inner" id="menuSettings">
@@ -48,7 +58,7 @@
               <a routerLink="/manage/options" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuSettings">
                 <mat-icon>fiber_manual_record</mat-icon>
                 <span>Application options</span>
-                </a>
+              </a>
               <div class="list-group-item" data-parent="#menuSettings"></div>
               <a routerLink="/manage/profile" class="list-group-item" routerLinkActive="clbr-routerLink-active" data-parent="#menuSettings">My profile</a>
 
@@ -57,7 +67,7 @@
             <a href="#menuAbout" class="list-group-item" data-toggle="collapse" data-parent="#sidebar">
               <span class="clbt--list-group-item-title hidden-sm-down">
                 <mat-icon>info</mat-icon>
-                <span>About</span> 
+                <span>About</span>
               </span>
             </a>
             <div class="collapse list-group-inner" id="menuAbout">
@@ -65,7 +75,9 @@
                 <div class="version">Version 1.0.0</div>
                 <div class="description">Survey services</div>
                 <span></span>
-                <div class="link">Fork on <a>GitHub</a></div>
+                <div class="link">Fork on
+                  <a>GitHub</a>
+                </div>
               </div>
             </div>
           </div>

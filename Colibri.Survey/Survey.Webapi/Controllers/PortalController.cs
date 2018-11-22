@@ -95,13 +95,11 @@ namespace Survey.Webapi.Controllers
                         item.Questions.AddRange(questions);
                     }
                 }
-
             }
             catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-
             return Ok(survey);
         }
 
@@ -135,38 +133,12 @@ namespace Survey.Webapi.Controllers
                     PortalController.respondentId = respondentId.ToString();
                     return Ok(new { message = "message success" });
                 }
-                else
-                {
-                    return BadRequest(new { message = "The answers of this user have been saved" });
-                }
-
-
             }
-
-
-
             catch (Exception ex)
             {
                 var chekc = ex;
                 throw;
             }
         }
-
-
-
-        //[HttpGet]
-        //[Route("{id}")]
-        //public IActionResult GetReport([FromBody] Guid id)
-        //{ 
-        //    var questionList = _reportService.GetQuesionListBySurveyId(id ); 
-
-        //    var surveyReport = _reportService.GetReport(questionList);
-        //    return Ok(surveyReport);
-        //}
-
-
-
-
-
     }
 }

@@ -98,20 +98,20 @@ export class GroupTreeComponent {
 
     _requestGetRootGroups() {
         this.treeloading = true;
-        this.groupsApiService.getRoot().subscribe((data: Array<GroupApiModel>) => {
-            this.treeItems = data.map((item: GroupApiModel) => {
-                return {
-                    'label': item.name,
-                    'data': { 'id': item.id },
-                    'leaf': false
-                };
-            });
-            this.treeloading = false;
-            this.selectedGroup = this.treeItems[0];
-            if (data.length > 0) {
-                this.groupManageTransferService.sendSelectedGroupId(data[0].id);
-            }
-        });
+        // this.groupsApiService.getRoot().subscribe((data: Array<GroupApiModel>) => {
+        //     this.treeItems = data.map((item: GroupApiModel) => {
+        //         return {
+        //             'label': item.name,
+        //             'data': { 'id': item.id },
+        //             'leaf': false
+        //         };
+        //     });
+        //     this.treeloading = false;
+        //     this.selectedGroup = this.treeItems[0];
+        //     if (data.length > 0) {
+        //         this.groupManageTransferService.sendSelectedGroupId(data[0].id);
+        //     }
+        // });
     }
 
     _requestGetSubGroups(changeSelectedGroup: boolean, subGroupId: string = null) {

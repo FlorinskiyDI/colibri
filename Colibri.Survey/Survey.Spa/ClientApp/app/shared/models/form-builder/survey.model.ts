@@ -7,10 +7,18 @@ export class SurveyModel {
     name: string;
     description: string;
     pages: PageModel[];
+    isShowDescription: boolean;
+    isOpenAccess: boolean;
+    isShowProcessCompletedText: boolean;
+    processCompletedText: string;
     constructor(options: any = {}) {
         this.id = options['id'];
         this.name = options['name'] || '';
         this.description = options['description'] || '';
         this.pages = options['pages'];
+        this.isShowDescription = options['isShowDescription'] || true;
+        this.isShowProcessCompletedText = options['isShowProcessCompletedText'] || true;
+        this.processCompletedText = options['processCompletedText'] || '';
+        this.isOpenAccess = options['isOpenAccess'] || true;
     }
 }

@@ -11,6 +11,11 @@
                 <i class="fa fa-database"></i>
                 <p>View responses</p>
             </button>
+            <button class="d-open-survey-button" [ngClass]='{"d-disabled-button": !surveyId}' [attr.title]="!surveyId ? 'Disabled (Before create survey)' : 'Adding the protec to link'"
+            type="button" [disabled]="true" (click)="Distribution()">
+            <i class="fa fa-handshake-o"></i>
+            <p>Distributions</p>
+        </button>
         </div>
 
 

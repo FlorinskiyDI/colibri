@@ -57,14 +57,14 @@ namespace Survey.ApplicationLayer.Services
                     var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
                     survey = await repositorySurveySection.GetAsync(surveyId);
                     await uow.SaveChangesAsync();
-                    SurveySectionDto surveyDto = Mapper.Map<SurveySections, SurveySectionDto>(survey);
+                    SurveyModel surveyModel = Mapper.Map<SurveySections, SurveyModel>(survey);
 
-                    SurveyModel surveyModel = new SurveyModel()
-                    {
-                        Name = surveyDto.Name,
-                        Description = surveyDto.Description,
-                        Id = surveyDto.Id.ToString()
-                    };
+                    //SurveyModel surveyModel = new SurveyModel()
+                    //{
+                    //    Name = surveyDto.Name,
+                    //    Description = surveyDto.Description,
+                    //    Id = surveyDto.Id.ToString()
+                    //};
                     return surveyModel;
                 }
             }
@@ -85,6 +85,12 @@ namespace Survey.ApplicationLayer.Services
 
                 surveyModel.Name = survey.Name;
                 surveyModel.Description = survey.Description;
+                surveyModel.IsOpenAccess = survey.IsOpenAccess;
+                surveyModel.IsShowDescription = survey.IsShowDescription;
+                surveyModel.IsShowProcessCompletedText = survey.IsShowProcessCompletedText;
+                surveyModel.ProcessCompletedText = survey.ProcessCompletedText;
+
+                repositorySurveySection.Update(surveyModel);
 
                 await uow.SaveChangesAsync();
                 //SurveySectionDto surveyDto = Mapper.Map<SurveySections, SurveySectionDto>(survey);
@@ -115,11 +121,16 @@ namespace Survey.ApplicationLayer.Services
 
             SurveySectionDto surveyDto = new SurveySectionDto()
             {
+
                 //Id = new Guid(),
                 Description = survey.Description,
                 Name = survey.Name,
-                DateCreated = DateTime.UtcNow,
-                UserId = userId
+                DateCreated = System.DateTime.Now,
+                IsShowDescription = survey.IsShowDescription,
+                IsShowProcessCompletedText = survey.IsShowProcessCompletedText,
+                ProcessCompletedText = survey.ProcessCompletedText,
+                UserId = userId,
+                IsOpenAccess = survey.IsOpenAccess
             };
 
             using (var uow = UowProvider.CreateUnitOfWork())

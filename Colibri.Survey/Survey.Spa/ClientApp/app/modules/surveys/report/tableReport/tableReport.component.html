@@ -2,7 +2,6 @@
     [customSort]="true">
     <ng-template let-sale pTemplate="header">
         <tr>
-
             <ng-container *ngFor="let item of columOptions">
                 <ng-container *ngIf="item.type == 'GridRadio'">
                     <th [attr.colspan]="item.children.length" [ngStyle]="{width:(200 * item.children.length) +'px'}"  pResizableColumn>(P №{{item.pageOrderNo + 1}} / Q №{{item.orderNo + 1}}) {{item.name}}

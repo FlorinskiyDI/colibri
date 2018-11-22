@@ -102,24 +102,79 @@
     <div *ngIf="!isPageBuilder" class="setting-wrapper">
         <div class="setting-body">
             <div class="d-setting-item">
-                <div class="d-setting-item-label">
+                <!-- <div class="d-setting-item-label">
                     <p>Title:</p>
+                </div> -->
+                <div class="d-setting-item-value-title">
+                    <input class="d-mane-input" type="text" [(ngModel)]="survey.name">
                 </div>
-                <div class="d-setting-item-value">
-                    <input type="text" [(ngModel)]="survey.name">
-                </div>
-
             </div>
 
             <div class="d-setting-item">
-                    <div class="d-setting-item-label">
-                        <p>Description:</p>
-                    </div>
-                    <div class="d-setting-item-value">
-                        <input type="text" [(ngModel)]="survey.description">
-                    </div>
-    
+                <!-- <div class="d-setting-item-label">
+                    <p>Display Description:</p>
+                </div> -->
+                <div class="d-setting-item-value">
+                    <input type="checkbox" id="IdisShowDescription" class="d-checkbox-input" [(ngModel)]="survey.isShowDescription">
+                    <label for="IdisShowDescription">
+                        <strong>Show description text.</strong>
+                        <dfn> This text will appear in the browser as the window or tab title.</dfn>
+                    </label>
                 </div>
+            </div>
+
+            <div class="d-setting-item">
+                <!-- <div class="d-setting-item-label">
+                    <p>Description:</p>
+                </div> -->
+                <div class="d-setting-item-value">
+                    <textarea [disabled]="!survey.isShowDescription"  title="`\_(^^)_/`" class="d-textarea-item" autosize  [(ngModel)]="survey.description"></textarea>
+                </div>
+            </div>
+
+
+            <div class="d-setting-item">
+                <!-- <div class="d-setting-item-label">
+                    <p>Display Description:</p>
+                </div> -->
+                <div class="d-setting-item-value">
+                    <input type="checkbox" id="IdisShowProcessCompleted" class="d-checkbox-input" [(ngModel)]="survey.isShowProcessCompletedText">
+                    <label for="IdisShowProcessCompleted">
+                        <strong>Show end text.</strong>
+                        <dfn> This text will appear after successfully filling out the questionnaire.</dfn>
+                    </label>
+                </div>
+            </div>
+
+            <div class="d-setting-item">
+                <!-- <div class="d-setting-item-label">
+                    <p>Description:</p>
+                </div> -->
+                <div class="d-setting-item-value">
+                    <textarea [disabled]="!survey.isShowProcessCompletedText" title="`\_('')_/`" autosize [minRows]="3" class="d-textarea-item" [(ngModel)]="survey.processCompletedText"></textarea>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="d-setting-item">
+                <div class="d-setting-item-value">
+                    <input type="radio" name="allow-access-group" id="IdEnableAccess" [value]="true" class="d-radio-input" [(ngModel)]="survey.isOpenAccess">
+                    <label for="IdEnableAccess">
+                        <strong>Open Access.</strong>
+                        <dfn> Allow anyone to take this survey.</dfn>
+                    </label>
+                </div>
+            </div>
+            <div class="d-setting-item">
+                <div class="d-setting-item-value">
+                    <input type="radio" name="allow-access-group" id="IdDisableAccess" [value]="false" class="d-radio-input" [(ngModel)]="survey.isOpenAccess">
+                    <label for="IdDisableAccess">
+                        <strong>By Invitation Only.</strong>
+                        <dfn> Prevent people from taking the survey using an anonymous survey link.</dfn>
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
 </div>
