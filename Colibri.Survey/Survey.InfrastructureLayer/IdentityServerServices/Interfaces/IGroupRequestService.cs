@@ -12,7 +12,7 @@ namespace Survey.InfrastructureLayer.IdentityServices
     {
         Task<PageDataModel<GroupModel>> GetGroups(PageSearchEntryModel pageSearchEntry);
         Task<PageDataModel<GroupModel>> GetRootGroups(PageSearchEntryModel pageSearchEntry);
-
+        Task<IEnumerable<GroupModel>> GetSubgroups(SearchEntryModel searchEntry, string parentId);
 
 
         //// group

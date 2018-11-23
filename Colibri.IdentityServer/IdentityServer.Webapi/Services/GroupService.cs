@@ -2,8 +2,8 @@
 using dataaccesscore.EFCore.Paging;
 using dataaccesscore.EFCore.Query;
 using IdentityServer.Webapi.Data;
+using IdentityServer.Webapi.Dtos;
 using IdentityServer.Webapi.Dtos.Pager;
-using IdentityServer.Webapi.Repositories.Interfaces;
 using IdentityServer.Webapi.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,56 +22,102 @@ namespace IdentityServer.Webapi.Services
         public GroupService(
             IUowProvider uowProvider,
             IDataPager<Groups, Guid> pager
-        ) {
+        )
+        {
             _uowProvider = uowProvider;
             _pager = pager;
         }
 
-        public async Task<DataPage<Groups, Guid>> GetPageDataAsync(string userId, PageSearchEntry searchEntry, bool isRoot = false)
+        public async Task<DataPage<GroupDto>> GetPageDataAsync(string userId, PageSearchEntry searchEntry, bool isRoot = false)
         {
             // generate sort expression
             var sort = searchEntry.OrderStatement == null
                 ? new OrderBy<Groups>(c => c.OrderBy(d => d.Name))
-                : new OrderBy<Groups>(searchEntry.OrderStatement.ColumName, searchEntry.OrderStatement.Reverse );
-
+                : new OrderBy<Groups>(searchEntry.OrderStatement.ColumName, searchEntry.OrderStatement.Reverse);
             // generate filter expression
             var filters = new Filter<Groups>(c => c.ApplicationUserGroups.Any(d => d.UserId == userId));
+            // generate includes expression
+            var includes = new Includes<Groups>(c => c.Include(v => v.InverseParent).Include(v => v.Parent));
 
+            var page = new DataPage<GroupDto>();
             try
             {
-                // if items are root, than get parentids and add new filter
-                if (isRoot)
+                using (var uow = _uowProvider.CreateUnitOfWork())
                 {
-                    using (var uow = _uowProvider.CreateUnitOfWork())
+                    var repository = uow.GetRepository<Groups, Guid>();
+                    // if items are root, than get parentids and add new filter
+                    if (isRoot)
                     {
-                        var repository = uow.GetRepository<Groups, Guid>();
-                        //var itemParentIds = repository.Query(c => c.ApplicationUserGroups.Any(d => d.UserId == userId) && c.ParentId != null).Select(c => c.ParentId.Value).ToList();
-
                         var items = repository.Query(c => c.ApplicationUserGroups.Any(d => d.UserId == userId)).Select(c => new { Id = c.Id, ParentId = c.ParentId }).ToList();
                         var itemParentIds = items.Where(c => c.ParentId != null).Select(c => c.ParentId).ToList();
                         var itemIds = items.Select(c => c.Id).ToList();
-
-                        var itemsUnion = itemParentIds.Where( c => !itemIds.Contains(c.Value));
-
-                        //filters.AddExpression(c => !itemsParentIds.Contains(c.Id) && itemsParentIds.Any(d => d != c.Id));  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
-                        filters.AddExpression(c => itemsUnion.Contains(c.ParentId.Value) || c.ParentId==null);  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
+                        var itemsUnion = itemParentIds.Where(c => !itemIds.Contains(c.Value)).ToList();
+                        filters.AddExpression(c => itemsUnion.Contains(c.ParentId.Value) || c.ParentId == null);  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
                     }
 
-                }
+                    // get page data
+                    var startRow = searchEntry.PageNumber;
+                    var data = await repository.QueryPageAsync(startRow, searchEntry.PageLength, filters.Expression, sort.Expression, includes.Expression);
+                    var totalCount = await repository.CountAsync(filters.Expression);
 
-                var result = await _pager.QueryAsync(searchEntry.PageNumber, searchEntry.PageLength, filters, sort, d => d.Include(v => v.InverseParent).Include(v => v.Parent));                
-                return result;
+                    page = new DataPage<GroupDto>()
+                    {
+                        Items = data.Select(c => new GroupDto
+                        {
+                            Id = c.Id,
+                            ParentId = c.ParentId,
+                            Name = c.Name,
+                            CountChildren = c.InverseParent.Count
+                        }),
+                        TotalItemCount = totalCount,
+                        PageLength = searchEntry.PageLength,
+                        PageNumber = totalCount / searchEntry.PageLength
+                    };
+                }
+            }
+            catch (Exception ex) { throw ex; }
+
+            return page;
+        }
+
+        public async Task<IEnumerable<GroupDto>> GetByParentIdAsync(string userId, SearchEntry searchEntry, string parentId)
+        {
+            // generate sort expression
+            var sort = searchEntry.OrderStatement == null
+                ? new OrderBy<Groups>(c => c.OrderBy(d => d.Name))
+                : new OrderBy<Groups>(searchEntry.OrderStatement.ColumName, searchEntry.OrderStatement.Reverse);
+            // generate filter expression
+            var filters = new Filter<Groups>(c => c.ApplicationUserGroups.Any(d => d.UserId == userId));
+            filters.AddExpression(c => c.ParentId == new Guid(parentId));
+            // generate includes expression
+            var includes = new Includes<Groups>(c => c.Include(v => v.InverseParent).Include(v => v.Parent));
+
+            IEnumerable<GroupDto> data;
+            try
+            {
+                using (var uow = _uowProvider.CreateUnitOfWork())
+                {
+                    var repository = uow.GetRepository<Groups, Guid>();
+
+                    // get data
+                    var items = await repository.QueryAsync(filters.Expression, sort.Expression, includes.Expression);
+                    data = items.Select(c => new GroupDto
+                    {
+                        Id = c.Id,
+                        ParentId = c.ParentId,
+                        Name = c.Name,
+                        CountChildren = c.InverseParent.Count
+                    });
+                }
             }
             catch (Exception ex)
             {
-                throw  ex;
+                throw ex;
             }
+
+            return data;
         }
 
-        public async Task<List<Groups>> GetByParentIdAsync(string userId, string parentId = null)
-        {
-            return null;
-        }
 
 
         //public async Task<DataPage<Groups, Guid>> GetRootAsync(PageSearchEntry searchEntry, string userId)
@@ -126,6 +172,7 @@ namespace IdentityServer.Webapi.Services
         //    _appUserGroupRepository.DeleteAppUserGroupAsync(userGroup);
 
         //    return;
+        //}
         //}
     }
 }

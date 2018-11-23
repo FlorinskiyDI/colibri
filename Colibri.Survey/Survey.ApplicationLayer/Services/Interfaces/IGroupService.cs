@@ -11,7 +11,7 @@ namespace Survey.ApplicationLayer.Services.Interfaces
     {
         Task<PageDataDto<GroupDto>> GetGroups(PageSearchEntryDto searchEntryDto);
         Task<PageDataDto<GroupDto>> GetRootGroups(PageSearchEntryDto searchEntryDto);
-
+        Task<IEnumerable<GroupDto>> GetSubgroups(SearchEntryDto searchEntryDto, string parentId);
 
 
         //Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId);

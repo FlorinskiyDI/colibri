@@ -1,11 +1,14 @@
-
-export class PageSearchEntryApiModel {
-    public pageNumber = 0;
+export class SearchEntryApiModel {
     public pageLength = 10;
     public filterStatements: Array<PageFilterStatement> = [];
     public orderStatement: PageOrderStatement;
     public globalSearch: string;
 }
+export class PageSearchEntryApiModel extends SearchEntryApiModel {
+    public pageNumber = 0;
+    public pageLength = 10;
+}
+
 
 export class PageOrderStatement {
     public columName: string;

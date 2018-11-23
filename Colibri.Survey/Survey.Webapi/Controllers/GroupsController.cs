@@ -20,10 +20,10 @@ namespace Survey.Webapi.Controllers
     {
         // POST: api/groups
         // POST: api/groups/root
+        // POST: api/groups/{id}/subgroups
 
 
         // GET: api/groups/{id}
-        // GET: api/groups/{id}/subgroups
         // POST: api/groups
         // PUT: api/groups
         // DELETE: api/groups/{id}
@@ -51,6 +51,14 @@ namespace Survey.Webapi.Controllers
         public async Task<IActionResult> GetRootGroups([FromBody] PageSearchEntryDto searchEntry)
         {
             var result = await _groupService.GetRootGroups(searchEntry);
+            return Ok(result);
+        }
+
+        // POST: api/groups/{id}/subgroups
+        [Route("{id}/subgroups")]
+        public async Task<IActionResult> GetSubgroupList([FromBody] SearchEntryDto searchEntry, string id)
+        {
+            var result = await _groupService.GetSubgroups(searchEntry, id);
             return Ok(result);
         }
 
@@ -193,6 +201,6 @@ namespace Survey.Webapi.Controllers
 
         //    return Ok();
         //}
-        
+
     }
 }

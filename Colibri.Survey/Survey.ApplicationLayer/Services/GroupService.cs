@@ -43,6 +43,15 @@ namespace Survey.ApplicationLayer.Services
             return list;
         }
 
+        public async Task<IEnumerable<GroupDto>> GetSubgroups(SearchEntryDto searchEntryDto, string parentId)
+        {
+            var searchEntry = Mapper.Map<SearchEntryDto, SearchEntryModel>(searchEntryDto);
+            var result = await _groupRequestService.GetSubgroups(searchEntry, parentId);
+            var list = Mapper.Map<IEnumerable<GroupModel>, IEnumerable<GroupDto>>(result);
+            return list;
+        }
+
+
         //public async Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId)
         //{
         //    var result = await _groupRequestService.GetSubGroupList(groupId);

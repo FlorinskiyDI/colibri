@@ -15,8 +15,6 @@
 
 
   <ItemGroup>
-    <PackageReference Include="dataaccesscore.Abstractions" Version="1.0.0" />
-    <PackageReference Include="dataaccesscore.EFCore" Version="1.0.0" />
     <PackageReference Include="IdentityServer4" Version="2.2.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.1.0" />
@@ -33,6 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\dataaccesscore.Abstractions\dataaccesscore.Abstractions.csproj" />
+    <ProjectReference Include="..\dataaccesscore.EFCore\dataaccesscore.EFCore.csproj" />
     <ProjectReference Include="..\ExpressionBuilder\ExpressionBuilder.csproj" />
   </ItemGroup>
 

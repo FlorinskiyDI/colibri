@@ -104,6 +104,7 @@
             width: 10px;
             }
         }
+        .ui-table .ui-table-tbody > tr:nth-child(even) {background-color: #fff; }
         .ui-table .ui-table-tbody > tr.ui-state-highlight {
             background-color: transparent;
             background-image: -o-linear-gradient(top,#1F86E1 0,#3b78e7 100%);

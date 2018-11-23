@@ -2,6 +2,8 @@
 using Survey.DomainModelLayer.Models.IdentityServer;
 using Survey.DomainModelLayer.Models.IdentityServer.Pager;
 using Survey.InfrastructureLayer.IdentityServerServices;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Survey.InfrastructureLayer.IdentityServices
@@ -25,6 +27,16 @@ namespace Survey.InfrastructureLayer.IdentityServices
             var request = new RestRequest("/api/groups/root", Method.POST) { RequestFormat = DataFormat.Json };
             request.AddBody(pageSearchEntry);
             IRestResponse<PageDataModel<GroupModel>> response = await restClient.ExecuteTaskAsync<PageDataModel<GroupModel>>(request);
+
+            return response.IsSuccessful ? response.Data : null;
+        }
+
+        public async Task<IEnumerable<GroupModel>> GetSubgroups(SearchEntryModel searchEntry, string parentId)
+        {
+            var restClient = await GetRestClient();
+            var request = new RestRequest("/api/groups/" + parentId + "/subgroups", Method.POST) { RequestFormat = DataFormat.Json };
+            request.AddBody(searchEntry);
+            IRestResponse<IEnumerable<GroupModel>> response = await restClient.ExecuteTaskAsync<IEnumerable<GroupModel>>(request);
 
             return response.IsSuccessful ? response.Data : null;
         }

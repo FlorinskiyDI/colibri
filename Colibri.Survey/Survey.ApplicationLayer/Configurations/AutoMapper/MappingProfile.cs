@@ -41,6 +41,7 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
         {
             // models
             CreateMap<PageSearchEntryDto, PageSearchEntryModel>();
+            CreateMap<SearchEntryDto, SearchEntryModel>();
             CreateMap<PageFilterStatementDto, PageFilterStatementModel>();
             CreateMap<PageOrderStatementDto, PageOrderStatementModel>();
             CreateMap(typeof(PageDataDto<>), typeof(PageDataModel<>));

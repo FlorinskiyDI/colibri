@@ -7,7 +7,7 @@
                     </cmp-group-data-filter>
                     
                     <span class="input-group-addon">
-                        <button class="btn btn-sm btn-default notification" (click)="cd.reject()">
+                        <button class="btn btn-sm btn-default notification" (click)="dtGroups.reset()">
                             <i class="fa fa-refresh"></i>
                         </button>
                         <button class="btn btn-sm btn-default notification" (click)="dtGroups.exportCSV()">
@@ -35,36 +35,28 @@
                     [totalRecords]="tbTotalItemCount"
                     [loading]="tbLoading"
                     [lazy]="true"
-                    (onLazyLoad)="loadNodes($event)">
+                    (onLazyLoad)="tbloadItems($event)">
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th *ngFor="let col of columns" [pSortableColumn]="col.field" style="width: 400px;" class="border-right-none">
                                 {{col.header}}
                                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                             </th>
-
-                            <!-- <th class="splitter"></th> -->
-                            <!-- <th pSortableColumn="Name" class="border-right-none" style="width: 400px;">
-                                Group name
-                               <p-sortIcon field="Name" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
-                            </th> -->
-                            <th class="border-right-none border-left-none" style="width: 200px;">Num of
-                                subscribers
-                            </th>
-                            <th class="border-left-none">Description</th>
+                            <th class="border-left-none border-right-none">Description</th>
+                            <th class="border-left-none border-right-none">Actions</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData let-columns="columns">
                         <tr [pSelectableRow]="rowData">
-                            <!-- <td class="border-right-none">                                
-                                {{rowData.name}}
-                            </td> -->
-
                             <td *ngFor="let col of columns" class="border-right-none">
                                 {{rowData[col.field]}}
                             </td>
-                            <td class="border-left-none border-right-none">0</td>
-                            <td class="border-left-none">some description</td>
+                            <td class="border-left-none border-right-none">some description</td>
+                            <td class="border-left-none border-right-none">
+                                <button class="btn btn-sm btn-default notification" (click)="dtGroups.reset()">
+                                    <mat-icon class="filter-icon">delete</mat-icon>
+                                </button>
+                            </td>
                         </tr>
                     </ng-template>
                 </p-table>

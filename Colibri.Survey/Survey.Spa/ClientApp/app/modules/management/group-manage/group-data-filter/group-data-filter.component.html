@@ -13,7 +13,7 @@
                             {{item.label}}
                             <mat-icon matChipRemove *ngIf="chipRemovable">cancel</mat-icon>
                         </mat-chip>
-                        <input #chipInput placeholder="filter query" [formControl]="chipFruitCtrl" [matAutocomplete]="auto"
+                        <input #chipInput placeholder="enter filter query" [formControl]="chipFruitCtrl" [matAutocomplete]="auto"
                             [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="chipSeparatorKeysCodes"
                             [matChipInputAddOnBlur]="chipAddOnBlur" (keyup.enter)="chipOnEnter(chipInput.value)"
                             (matChipInputTokenEnd)="add($event)">

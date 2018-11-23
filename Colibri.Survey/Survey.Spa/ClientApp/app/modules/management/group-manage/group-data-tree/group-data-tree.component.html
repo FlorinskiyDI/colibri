@@ -6,15 +6,12 @@
                     <cmp-group-data-filter>
                     </cmp-group-data-filter>
                     <span class="input-group-addon">
-                        <button class="btn btn-sm btn-default notification" (click)="cd.reject()">
+                        <button class="btn btn-sm btn-default notification" (click)="treeGroups.reset()">
                             <i class="fa fa-refresh"></i>
                         </button>
-                        <button class="btn btn-sm btn-default notification" (click)="dtGroups.exportCSV()">
-                            <i class="fa fa-download"></i>
-                        </button>
-                            <p-multiSelect [options]="tbColumns" [filter]="selectF" [(ngModel)]="tbSelectedColumns" optionLabel="header"
-                                selectedItemsLabel="{0} columns selected" defaultLabel="Choose Columns">
-                            </p-multiSelect>
+                        <p-multiSelect [options]="tbColumns" [filter]="selectF" [(ngModel)]="tbSelectedColumns" optionLabel="header"
+                            selectedItemsLabel="{0} columns selected" defaultLabel="Choose Columns">
+                        </p-multiSelect>
                     </span>
                 </div>
             </div>
@@ -23,35 +20,26 @@
     <div class="row">
         <div class="col-md-12">
             <div class="clbr--ui-treetable clbr--ui-treetable-v1">
-                <p-treeTable [value]="tbItems" [columns]="tbSelectedColumns" selectionMode="single" dataKey="id" [(selection)]="selectedNode" [paginator]="true"
+                <p-treeTable #treeGroups
+                    [value]="tbItems" [columns]="tbSelectedColumns" selectionMode="single" dataKey="id" [(selection)]="selectedNode" [paginator]="true"
                     [rows]="10" [rowsPerPageOptions]="[2,10,20]" [totalRecords]="tbTotalItemCount" [loading]="tbLoading"
-                    [lazy]="true" (onNodeExpand)="onNodeExpand($event)" (onNodeSelect)="onNodeSelect($event)" (onLazyLoad)="loadNodes($event)"
-                    (onNodeUnselect)="onNodeUnselect($event)" [(selection)]="selectedNode">
+                    [lazy]="true" (onNodeExpand)="onNodeExpand($event)" (onLazyLoad)="loadNodes($event)"
+                    [(selection)]="selectedNode">
                     <ng-template pTemplate="header" let-columns>
                         <tr>
-                            <th *ngFor="let col of columns" [ttSortableColumn]="col.field" class="border-right-none" style="width: 400px;">
+                            <th *ngFor="let col of columns" [ttSortableColumn]="col.field" class="border-right-none border-left-none" style="width: 400px;">
                                 {{col.header}}
                                 <p-treeTableSortIcon [field]="col.field"></p-treeTableSortIcon>
-                            </th>
-                            <!-- <th class="splitter"></th> -->
-                            <!-- <th class="border-right-none" ttSortableColumn="Name" style="width: 400px;">
-                                Group name
-                                <p-treeTableSortIcon [field]="Name"></p-treeTableSortIcon>
-                            </th> -->
-                            <th class="border-right-none border-left-none" style="width: 200px;">Num of
-                                subscribers
                             </th>
                             <th class="border-left-none">Description</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
                         <tr [ttSelectableRow]="rowNode">
-                            <!-- <td></td> -->
-                            <td *ngFor="let col of columns; let i = index" class="border-right-none">
+                            <td *ngFor="let col of columns; let i = index" class="border-right-none border-left-none">
                                 <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
                                 {{rowData[col.field]}}
                             </td>
-                            <td class="border-left-none border-right-none">0</td>
                             <td class="border-left-none">some description</td>
 
                         </tr>
