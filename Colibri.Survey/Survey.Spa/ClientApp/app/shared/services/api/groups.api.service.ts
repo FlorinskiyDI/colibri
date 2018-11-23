@@ -25,14 +25,29 @@ export class GroupsApiService {
         return result;
     }
 
-    getItem(id: string) {
-        const result = this.restangular.one('api/groups', id).get();
-        return result;
-    }
     getSubgroups(searchEntry: any = null, groupId: string) {
         const result = this.restangular.all('api/groups/' + groupId + '/subgroups').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
         return result;
     }
+
+    delete(id: string) {
+        const value = this.restangular.one('api/groups', id).remove();
+        return value;
+    }
+
+
+
+
+
+
+
+
+
+    getItem(id: string) {
+        const result = this.restangular.one('api/groups', id).get();
+        return result;
+    }
+
 
 
     get(id: string) {
@@ -47,8 +62,6 @@ export class GroupsApiService {
         return result;
     }
 
-
-
     create(data: any): any {
         const value = this.restangular.all('api/groups').post(data);
         return value;
@@ -60,10 +73,6 @@ export class GroupsApiService {
         return value;
     }
 
-    delete(id: string) {
-        const value = this.restangular.one('api/groups', id).remove();
-        return value;
-    }
 
     /* group members */
 

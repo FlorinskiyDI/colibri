@@ -84,7 +84,7 @@ export class GroupTreeComponent {
     loadNode(event: any) {
         this.treeloading = true;
         const that = this;
-        this.groupsApiService.getSubGroups(event.node.data.id).subscribe((data: Array<GroupApiModel>) => {
+        this.groupsApiService.getSubgroups(event.node.data.id).subscribe((data: Array<GroupApiModel>) => {
             event.node.children = data.map((item: GroupApiModel) => {
                 return {
                     'label': item.name,

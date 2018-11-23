@@ -35,7 +35,7 @@
                     [totalRecords]="tbTotalItemCount"
                     [loading]="tbLoading"
                     [lazy]="true"
-                    (onLazyLoad)="tbloadItems($event)">
+                    (onLazyLoad)="tb_loadItems($event)">
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th *ngFor="let col of columns" [pSortableColumn]="col.field" style="width: 400px;" class="border-right-none">
@@ -53,8 +53,11 @@
                             </td>
                             <td class="border-left-none border-right-none">some description</td>
                             <td class="border-left-none border-right-none">
-                                <button class="btn btn-sm btn-default notification" (click)="dtGroups.reset()">
-                                    <mat-icon class="filter-icon">delete</mat-icon>
+                                <button matTooltip="Edit group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_edit(rowData.id)">
+                                    <mat-icon class="filter-icon">edit</mat-icon>
+                                </button>
+                                <button matTooltip="Delete group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_delete(rowData.id)">
+                                    <mat-icon class="filter-icon" >delete</mat-icon>
                                 </button>
                             </td>
                         </tr>

@@ -20,9 +20,6 @@
                                     Create new grpoup
                                 </button>
                                 <span class="clbr--hr-divider"></span>
-                                <button class="clbr--btn-default btn btn-sm btn-default" (click)="createGroup()">
-                                    Remove
-                                </button>
                             </span>
                             <span class="pull-right">
                                 <p-dropdown [options]="view_OptionList" [(ngModel)]="view_Option" [style]="{'width':'150px'}">
@@ -37,7 +34,7 @@
 
                 <div [ngSwitch]="view_Option">
                     <div *ngSwitchCase="'list'">
-                        <cmp-group-data-grid>
+                        <cmp-group-data-grid (deleteItem)="item_delete($event)" (editItem)="item_edit($event)"  [events]="eventsSubject.asObservable()">
                         </cmp-group-data-grid>
                     </div>
                     <div *ngSwitchCase="'tree'">                        
@@ -56,16 +53,16 @@
     (onHide)="dialogGroupCreateOnHide($event)">
 </group-dialog-create-cmp>
 
-<!-- <p-confirmDialog #cd
-    icon="pi pi-exclamation-triangle"
-    class="clbr--dialog-confirm-v1"
-    header="Attention">
+
+
+<p-confirmDialog #cd header="Confirmation">
     <p-footer>
-        <button class="clbr--btn-default btn btn-sm btn-default notification"
-            (click)="cd.accept()">
-            <i class="fa fa-check"></i>Confirm</button>
-        <button class="clbr--btn-default btn btn-sm btn-default notification"
-            (click)="cd.reject()">
-            <i class="fa fa-remove"></i>Cancel</button>
+        <button class="btn btn-sm btn-default notification" (click)="cd.accept()">
+            <i class="fa fa-check"></i>Yes</button>
+        <button class="btn btn-sm btn-default notification" (click)="cd.reject()">
+            <i class="fa fa-remove"></i>No</button>
     </p-footer>
-</p-confirmDialog> -->
+</p-confirmDialog>
+
+<p-growl styleClass="clbr--growl-icon-none" [life]="5000">
+</p-growl>

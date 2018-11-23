@@ -62,6 +62,14 @@ namespace Survey.Webapi.Controllers
             return Ok(result);
         }
 
+        // DELETE: api/groups/{id}
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteGroup(Guid id)
+        {
+            return Ok();
+        }
+
         //// POST: api/groups
         //[HttpPost]
         //public async Task<IActionResult> GetGroups([FromQuery] string fields)

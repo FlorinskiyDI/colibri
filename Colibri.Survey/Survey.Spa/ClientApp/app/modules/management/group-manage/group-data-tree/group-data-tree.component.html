@@ -31,7 +31,8 @@
                                 {{col.header}}
                                 <p-treeTableSortIcon [field]="col.field"></p-treeTableSortIcon>
                             </th>
-                            <th class="border-left-none">Description</th>
+                            <th class="border-left-none border-right-none">Description</th>
+                            <th class="border-left-none border-right-none">Actions</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
@@ -40,8 +41,15 @@
                                 <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
                                 {{rowData[col.field]}}
                             </td>
-                            <td class="border-left-none">some description</td>
-
+                            <td class="border-left-none border-right-none">some description</td>
+                            <td class="border-left-none border-right-none">
+                                <button matTooltip="Edit group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right"  class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="dtGroups.reset()">
+                                    <mat-icon class="filter-icon">edit</mat-icon>
+                                </button>
+                                <button matTooltip="Delete group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right"  class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="dtGroups.reset()">
+                                    <mat-icon class="filter-icon">delete</mat-icon>
+                                </button>
+                            </td>
                         </tr>
                     </ng-template>
                 </p-treeTable>
