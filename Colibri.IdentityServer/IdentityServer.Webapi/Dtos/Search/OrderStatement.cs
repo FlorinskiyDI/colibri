@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Survey.ApplicationLayer.Dtos.Models.IdentityServer.Pager
+namespace IdentityServer.Webapi.Dtos.Search
 {
-    public class PageOrderStatementDto
+    public class OrderStatement
     {
         public string ColumName { get; set; }
         public bool Reverse { get; set; }

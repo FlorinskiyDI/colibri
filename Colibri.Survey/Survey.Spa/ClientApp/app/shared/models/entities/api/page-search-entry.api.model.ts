@@ -1,10 +1,10 @@
-export class SearchEntryApiModel {
-    public pageLength = 10;
+export class SearchQueryApiModel {
+    public searchQueryPage: SearchQueryPage;
     public filterStatements: Array<PageFilterStatement> = [];
     public orderStatement: PageOrderStatement;
     public globalSearch: string;
 }
-export class PageSearchEntryApiModel extends SearchEntryApiModel {
+export class SearchQueryPage {
     public pageNumber = 0;
     public pageLength = 10;
 }

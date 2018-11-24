@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { Subject } from 'rxjs/Subject';
 
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
+/* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 
 @Component({
     selector: 'cmp-group-data',
@@ -15,8 +16,8 @@ import { Subject } from 'rxjs/Subject';
     ]
 })
 export class GroupDataComponent {
-    eventsSubject: Subject<any> = new Subject<any>();
-    // view option for displaing group data
+    eventResetData: Subject<any> = new Subject<any>();
+    dialogGroupCreateConfig: DialogDataModel<any>;
     view_OptionList: Array<any> = [{ label: 'list', value: 'list' }, { label: 'tree', value: 'tree' }];
     view_Option = 'list';
 
@@ -27,14 +28,7 @@ export class GroupDataComponent {
     ) {
     }
 
-    ngOninit() {
-
-    }
-
-
-    // option_change() {
-    //     this.eventsSubject = new Subject<any>();
-    // }
+    ngOninit() { }
 
     item_delete(groupId: string) {
         this.confirmationService.confirm({
@@ -42,7 +36,7 @@ export class GroupDataComponent {
             accept: () => {
                 this.groupsApiService.delete(groupId).subscribe(
                     (response: any) => {
-                        this.eventsSubject.next();
+                        this.eventResetData.next();
                         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was removed successfully' });
                     },
                     (error: any) => {
@@ -55,4 +49,9 @@ export class GroupDataComponent {
     item_edit(groupId: string) {
         console.log(groupId);
     }
+
+    public dialogGroupCreateOpen() { this.dialogGroupCreateConfig = new DialogDataModel<any>(true); }
+    public dialogGroupCreateOnChange() { console.log('dialogGroupCreateOnChange'); }
+    public dialogGroupCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
+    public dialogGroupCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
 }

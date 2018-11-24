@@ -1,8 +1,7 @@
 ﻿using RestSharp;
 using Survey.DomainModelLayer.Models.IdentityServer;
-using Survey.DomainModelLayer.Models.IdentityServer.Pager;
+using Survey.DomainModelLayer.Models.Search;
 using Survey.InfrastructureLayer.IdentityServerServices;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,27 +10,27 @@ namespace Survey.InfrastructureLayer.IdentityServices
     public class GroupRequestService : BaseIdentityServerService, IGroupRequestService
     {
 
-        public async Task<PageDataModel<GroupModel>> GetGroups(PageSearchEntryModel pageSearchEntry)
+        public async Task<SearchResultModel<GroupModel>> GetGroups(SearchQueryModel pageSearchEntry)
         {
             var restClient = await GetRestClient();
             var request = new RestRequest("/api/groups/search", Method.POST) { RequestFormat = DataFormat.Json };
             request.AddBody(pageSearchEntry);
-            IRestResponse<PageDataModel<GroupModel>> response = await restClient.ExecuteTaskAsync<PageDataModel<GroupModel>>(request);
+            IRestResponse<SearchResultModel<GroupModel>> response = await restClient.ExecuteTaskAsync<SearchResultModel<GroupModel>>(request);
 
             return response.IsSuccessful ? response.Data : null;
         }
 
-        public async Task<PageDataModel<GroupModel>> GetRootGroups(PageSearchEntryModel pageSearchEntry)
+        public async Task<SearchResultModel<GroupModel>> GetRootGroups(SearchQueryModel pageSearchEntry)
         {
             var restClient = await GetRestClient();
             var request = new RestRequest("/api/groups/root", Method.POST) { RequestFormat = DataFormat.Json };
             request.AddBody(pageSearchEntry);
-            IRestResponse<PageDataModel<GroupModel>> response = await restClient.ExecuteTaskAsync<PageDataModel<GroupModel>>(request);
+            IRestResponse<SearchResultModel<GroupModel>> response = await restClient.ExecuteTaskAsync<SearchResultModel<GroupModel>>(request);
 
             return response.IsSuccessful ? response.Data : null;
         }
 
-        public async Task<IEnumerable<GroupModel>> GetSubgroups(SearchEntryModel searchEntry, string parentId)
+        public async Task<IEnumerable<GroupModel>> GetSubgroups(SearchQueryModel searchEntry, string parentId)
         {
             var restClient = await GetRestClient();
             var request = new RestRequest("/api/groups/" + parentId + "/subgroups", Method.POST) { RequestFormat = DataFormat.Json };

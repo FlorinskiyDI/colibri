@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, Output, Input, EventEmitter, OnInit } from '@angular/core';
 import { TreeDragDropService } from 'primeng/components/common/api';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
-/* model-api */ import { PageSearchEntryApiModel, SearchEntryApiModel, PageFilterStatement } from 'shared/models/entities/api/page-search-entry.api.model';
+/* model-api */ import { SearchQueryApiModel, SearchQueryPage } from 'shared/models/entities/api/page-search-entry.api.model';
 
 @Component({
     selector: 'cmp-group-data-tree',
@@ -20,10 +21,16 @@ import { Router } from '@angular/router';
 })
 
 
-export class GroupDataTreeComponent {
+export class GroupDataTreeComponent implements OnInit {
+    @ViewChild('treeGroups') treeGroups: any;
+    // output events
+    @Output() deleteItem = new EventEmitter<any>();
+    @Output() editItem = new EventEmitter<any>();
+    // input events
+    @Input() eventResetData: Observable<any>;
+    private subscriberResetData: any;
 
     // table
-    tbColumns: any[];
     tbSelectedColumns: any[];
     selectedGroup: any;
     tbItems: any[] = [];
@@ -31,37 +38,57 @@ export class GroupDataTreeComponent {
     tbLoading = true;
     tbTotalItemCount: number;
     isNodeSelected = false;
+
+    // option
+    optionTbToggle: any = {
+        columns: [
+            { field: 'name', header: 'Group name' },
+            { field: 'countChildren', header: 'Number of subgroups' },
+        ],
+        filter: false
+    };
+
     constructor(
         private router: Router,
         private groupsApiService: GroupsApiService,
     ) {
-        this.tbColumns = [
-            { field: 'name', header: 'Group name' },
-            { field: 'countChildren', header: 'Number of subgroups' },
-        ];
-        this.tbSelectedColumns = this.tbColumns;
+        this.tbSelectedColumns = this.optionTbToggle.columns;
         this.tbLoading = true;
+    }
+
+    ngOnInit() {
+        this.subscriberResetData = this.eventResetData.subscribe(() => this.treeGroups.reset());
+    }
+    ngOnDestroy() {
+        this.subscriberResetData.unsubscribe();
     }
 
     loadNodes(event: any) {
         this.tbLoading = true;
-        const searchEntry = {
-            pageNumber: event.first,
-            pageLength: event.rows,
-            orderStatement: (event.sortField && event.sortOrder) ? { columName: event.sortField, reverse: event.sortOrder > 0 } : null
 
-        } as PageSearchEntryApiModel;
+        const searchEntry = {
+            searchQueryPage: {
+                pageNumber: event.first,
+                pageLength: event.rows
+            } as SearchQueryPage,
+            orderStatement: (event.sortField && event.sortOrder) ? { columName: event.sortField, reverse: event.sortOrder > 0 } : null
+        } as SearchQueryApiModel;
+
         this._requestGetRootGroups(searchEntry);
     }
+
+    item_edit(groupId: string) { this.editItem.emit(groupId); }
+    item_delete(groupId: string) { this.deleteItem.emit(groupId); }
 
     onNodeExpand(event: any) {
         const node = event.node;
         const searchEntry = {
-            pageNumber: event.first,
-            pageLength: event.rows,
+            searchQueryPage: {
+                pageNumber: event.first,
+                pageLength: event.rows
+            } as SearchQueryPage,
             orderStatement: (event.sortField && event.sortOrder) ? { columName: event.sortField, reverse: event.sortOrder > 0 } : null
-
-        } as PageSearchEntryApiModel;
+        } as SearchQueryApiModel;
         //
         this._requestGetSubGroups(node, searchEntry);
     }
@@ -70,18 +97,18 @@ export class GroupDataTreeComponent {
         this.router.navigate(['/manage/groups/' + groupId]);
     }
 
-    _requestGetRootGroups(searchEntry: PageSearchEntryApiModel) {
+    _requestGetRootGroups(searchEntry: SearchQueryApiModel) {
         this.tbLoading = true;
         this.groupsApiService.getRoot(searchEntry).subscribe((response: any) => {
             this.tbLoading = false;
-            this.tbItems = response.items.map((item: GroupApiModel) => {
+            this.tbItems = response.itemList.map((item: GroupApiModel) => {
                 return {
                     'label': item.name,
                     'data': item,
                     'leaf': false
                 };
             });
-            this.tbTotalItemCount = response.totalItemCount;
+            this.tbTotalItemCount = response.searchResultPage.totalItemCount;
             this.selectedGroup = this.tbItems[0];
             // if (data.length > 0) {
             //     // this.groupManageTransferService.sendSelectedGroupId(data[0].id);
@@ -89,7 +116,7 @@ export class GroupDataTreeComponent {
         });
     }
 
-    _requestGetSubGroups(node: any, searchEntry: SearchEntryApiModel) {
+    _requestGetSubGroups(node: any, searchEntry: SearchQueryApiModel) {
         this.tbLoading = true;
         const that = this;
         this.groupsApiService.getSubgroups(searchEntry, node.data.id).subscribe((data: any) => {
@@ -99,10 +126,3 @@ export class GroupDataTreeComponent {
         });
     }
 }
-
-
-export class FilterItem {
-    public label: string;
-    public filterStatement?: PageFilterStatement = new PageFilterStatement();
-}
-

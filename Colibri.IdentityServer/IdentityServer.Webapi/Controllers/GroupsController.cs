@@ -1,23 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 using dataaccesscore.EFCore.Paging;
-using dataaccesscore.EFCore.Query;
-using ExpressionBuilder.Common;
-using ExpressionBuilder.Operations;
-using IdentityServer.Webapi.Controllers.Base;
 using IdentityServer.Webapi.Data;
-using IdentityServer.Webapi.Dtos.Pager;
+using IdentityServer.Webapi.Dtos.Search;
 using IdentityServer.Webapi.Repositories.Interfaces;
 using IdentityServer.Webapi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 
 namespace IdentityServer.Webapi.Controllers
 {
@@ -56,26 +47,26 @@ namespace IdentityServer.Webapi.Controllers
 
         // GET: api/groups/search
         [HttpPost("search")]
-        public async Task<IActionResult> GetGroups([FromBody] PageSearchEntry searchEntry)
+        public async Task<IActionResult> GetGroups([FromBody] SearchQuery searchEntry)
         {
             var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
-            var result = await _groupServices.GetPageDataAsync(_userId, searchEntry);
+            var result = await _groupServices.GetGroupsAsync(_userId, searchEntry);
             return Ok(result);
         }
 
 
         // POST: api/groups/root
         [HttpPost("root")]
-        public async Task<IActionResult> GetRootGroups([FromBody] PageSearchEntry searchEntry)
+        public async Task<IActionResult> GetRootGroups([FromBody] SearchQuery searchEntry)
         {
             var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
-            var result = await _groupServices.GetPageDataAsync(_userId, searchEntry, true);
+            var result = await _groupServices.GetGroupsAsync(_userId, searchEntry, true);
             return Ok(result);
         }
 
         // POST: api/groups/{id}/subgroups
         [HttpPost("{id}/subgroups")]
-        public async Task<IActionResult> GetSubGroups([FromBody] PageSearchEntry searchEntry, string id)
+        public async Task<IActionResult> GetSubGroups([FromBody] SearchQuery searchEntry, string id)
         {
             var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
             var result = await _groupServices.GetByParentIdAsync(_userId, searchEntry, id);

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Survey.ApplicationLayer.Dtos.Models;
-using Survey.ApplicationLayer.Dtos.Models.IdentityServer.Pager;
+using Survey.ApplicationLayer.Dtos.Search;
 using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.Webapi.Controllers.Base;
-using Survey.Webapi.Helpers.Shaping;
 using Survey.Webapi.Services.TypeHelper;
 
 namespace Survey.Webapi.Controllers
@@ -40,7 +36,7 @@ namespace Survey.Webapi.Controllers
 
         // POST: api/groups
         [HttpPost]
-        public async Task<IActionResult> GetGroups([FromBody] PageSearchEntryDto searchEntry)
+        public async Task<IActionResult> GetGroups([FromBody] SearchQueryDto searchEntry)
         {
             var result = await _groupService.GetGroups(searchEntry);
             return Ok(result);
@@ -48,7 +44,7 @@ namespace Survey.Webapi.Controllers
 
         // POST: api/groups/root
         [HttpPost("root")]
-        public async Task<IActionResult> GetRootGroups([FromBody] PageSearchEntryDto searchEntry)
+        public async Task<IActionResult> GetRootGroups([FromBody] SearchQueryDto searchEntry)
         {
             var result = await _groupService.GetRootGroups(searchEntry);
             return Ok(result);
@@ -56,7 +52,7 @@ namespace Survey.Webapi.Controllers
 
         // POST: api/groups/{id}/subgroups
         [Route("{id}/subgroups")]
-        public async Task<IActionResult> GetSubgroupList([FromBody] SearchEntryDto searchEntry, string id)
+        public async Task<IActionResult> GetSubgroupList([FromBody] SearchQueryDto searchEntry, string id)
         {
             var result = await _groupService.GetSubgroups(searchEntry, id);
             return Ok(result);

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IdentityServer.Webapi.Dtos.Pager
+namespace Survey.ApplicationLayer.Dtos.Search
 {
-    public class OrderStatement
+    public class OrderStatementDto
     {
         public string ColumName { get; set; }
         public bool Reverse { get; set; }

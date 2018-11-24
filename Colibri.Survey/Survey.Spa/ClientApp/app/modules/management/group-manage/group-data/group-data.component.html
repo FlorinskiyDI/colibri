@@ -16,7 +16,7 @@
                     <div class="col-md-12">
                         <div class="clbr--block-btns-v1">
                             <span>
-                                <button class="clbr--btn-default btn btn-sm btn-default" (click)="createGroup()">
+                                <button class="clbr--btn-default btn btn-sm btn-default" (click)="dialogGroupCreateOpen()">
                                     Create new grpoup
                                 </button>
                                 <span class="clbr--hr-divider"></span>
@@ -34,11 +34,11 @@
 
                 <div [ngSwitch]="view_Option">
                     <div *ngSwitchCase="'list'">
-                        <cmp-group-data-grid (deleteItem)="item_delete($event)" (editItem)="item_edit($event)"  [events]="eventsSubject.asObservable()">
+                        <cmp-group-data-grid (deleteItem)="item_delete($event)" (editItem)="item_edit($event)"  [eventResetData]="eventResetData.asObservable()">
                         </cmp-group-data-grid>
                     </div>
                     <div *ngSwitchCase="'tree'">                        
-                        <cmp-group-data-tree>
+                        <cmp-group-data-tree  (deleteItem)="item_delete($event)" (editItem)="item_edit($event)"  [eventResetData]="eventResetData.asObservable()">
                         </cmp-group-data-tree>
                     </div>
                 </div>
@@ -49,7 +49,10 @@
 
 </div>
 
-<group-dialog-create-cmp [config]="dialogGroupCreateConfig" (onChange)="dialogGroupCreateOnChange($event)" (onCancel)="dialogGroupCreateOnCancel($event)"
+<group-dialog-create-cmp
+    [config]="dialogGroupCreateConfig"
+    (onChange)="dialogGroupCreateOnChange($event)"
+    (onCancel)="dialogGroupCreateOnCancel($event)"
     (onHide)="dialogGroupCreateOnHide($event)">
 </group-dialog-create-cmp>
 

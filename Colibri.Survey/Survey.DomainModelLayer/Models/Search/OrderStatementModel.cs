@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Survey.DomainModelLayer.Models.IdentityServer.Pager
+namespace Survey.DomainModelLayer.Models.Search
 {
-    public class PageOrderStatementModel
+    public class OrderStatementModel
     {
         public string ColumName { get; set; }
         public bool Reverse { get; set; }
     }
-
 }

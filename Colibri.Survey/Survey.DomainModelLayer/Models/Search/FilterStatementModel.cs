@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Survey.ApplicationLayer.Dtos.Models.IdentityServer.Pager
+namespace Survey.DomainModelLayer.Models.Search
 {
-    public class PageFilterStatementDto
+    public class FilterStatementModel
     {
         public string PropertyName { get; set; }
         public object Value { get; set; }

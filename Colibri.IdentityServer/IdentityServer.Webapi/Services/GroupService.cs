@@ -3,7 +3,8 @@ using dataaccesscore.EFCore.Paging;
 using dataaccesscore.EFCore.Query;
 using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Dtos;
-using IdentityServer.Webapi.Dtos.Pager;
+using IdentityServer.Webapi.Dtos.Search;
+//using IdentityServer.Webapi.Dtos.Search;
 using IdentityServer.Webapi.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,7 +29,7 @@ namespace IdentityServer.Webapi.Services
             _pager = pager;
         }
 
-        public async Task<DataPage<GroupDto>> GetPageDataAsync(string userId, PageSearchEntry searchEntry, bool isRoot = false)
+        public async Task<SearchResult<GroupDto>> GetGroupsAsync(string userId, SearchQuery searchEntry, bool isRoot = false)
         {
             // generate sort expression
             var sort = searchEntry.OrderStatement == null
@@ -39,7 +40,7 @@ namespace IdentityServer.Webapi.Services
             // generate includes expression
             var includes = new Includes<Groups>(c => c.Include(v => v.InverseParent).Include(v => v.Parent));
 
-            var page = new DataPage<GroupDto>();
+            var page = new SearchResult<GroupDto>();
             try
             {
                 using (var uow = _uowProvider.CreateUnitOfWork())
@@ -55,24 +56,47 @@ namespace IdentityServer.Webapi.Services
                         filters.AddExpression(c => itemsUnion.Contains(c.ParentId.Value) || c.ParentId == null);  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
                     }
 
-                    // get page data
-                    var startRow = searchEntry.PageNumber;
-                    var data = await repository.QueryPageAsync(startRow, searchEntry.PageLength, filters.Expression, sort.Expression, includes.Expression);
-                    var totalCount = await repository.CountAsync(filters.Expression);
-
-                    page = new DataPage<GroupDto>()
+                    // get data
+                    if (searchEntry.SearchQueryPage == null)
                     {
-                        Items = data.Select(c => new GroupDto
+                        var data = await repository.QueryAsync(filters.Expression, sort.Expression, includes.Expression);
+                        page = new SearchResult<GroupDto>()
                         {
-                            Id = c.Id,
-                            ParentId = c.ParentId,
-                            Name = c.Name,
-                            CountChildren = c.InverseParent.Count
-                        }),
-                        TotalItemCount = totalCount,
-                        PageLength = searchEntry.PageLength,
-                        PageNumber = totalCount / searchEntry.PageLength
-                    };
+                            ItemList = data.Select(c => new GroupDto
+                            {
+                                Id = c.Id,
+                                ParentId = c.ParentId,
+                                Name = c.Name,
+                                CountChildren = c.InverseParent.Count
+                            }).ToList(),
+                        };
+
+                    }
+                    // get page data
+                    else
+                    {
+                        var startRow = searchEntry.SearchQueryPage.PageNumber;
+                        var data = await repository.QueryPageAsync(startRow, searchEntry.SearchQueryPage.PageLength, filters.Expression, sort.Expression, includes.Expression);
+                        var totalCount = await repository.CountAsync(filters.Expression);
+
+                        page = new SearchResult<GroupDto>()
+                        {
+                            ItemList = data.Select(c => new GroupDto
+                            {
+                                Id = c.Id,
+                                ParentId = c.ParentId,
+                                Name = c.Name,
+                                CountChildren = c.InverseParent.Count
+                            }).ToList(),
+                            SearchResultPage = new SearchResultPage()
+                            {
+                                TotalItemCount = totalCount,
+                                PageLength = searchEntry.SearchQueryPage.PageLength,
+                                PageNumber = totalCount / searchEntry.SearchQueryPage.PageLength
+                            }
+                        };
+                    }
+                    
                 }
             }
             catch (Exception ex) { throw ex; }
@@ -80,7 +104,7 @@ namespace IdentityServer.Webapi.Services
             return page;
         }
 
-        public async Task<IEnumerable<GroupDto>> GetByParentIdAsync(string userId, SearchEntry searchEntry, string parentId)
+        public async Task<IEnumerable<GroupDto>> GetByParentIdAsync(string userId, SearchQuery searchEntry, string parentId)
         {
             // generate sort expression
             var sort = searchEntry.OrderStatement == null

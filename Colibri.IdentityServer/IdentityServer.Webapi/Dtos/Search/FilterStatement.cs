@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IdentityServer.Webapi.Dtos.Pager
+namespace IdentityServer.Webapi.Dtos.Search
 {
-    public class PageFilterStatement
+    public class FilterStatement
     {
         public string PropertyName { get; set; }
         public object Value { get; set; }

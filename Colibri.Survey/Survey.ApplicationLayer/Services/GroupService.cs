@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using Survey.ApplicationLayer.Dtos.Models;
-using Survey.ApplicationLayer.Dtos.Models.IdentityServer.Pager;
+using Survey.ApplicationLayer.Dtos.Search;
 using Survey.ApplicationLayer.Services.Interfaces;
-using Survey.DomainModelLayer.Models;
 using Survey.DomainModelLayer.Models.IdentityServer;
-using Survey.DomainModelLayer.Models.IdentityServer.Pager;
+using Survey.DomainModelLayer.Models.Search;
 using Survey.InfrastructureLayer.IdentityServices;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Survey.ApplicationLayer.Services
@@ -27,25 +24,25 @@ namespace Survey.ApplicationLayer.Services
             Mapper = mapper;
         }
 
-        public async Task<PageDataDto<GroupDto>> GetGroups(PageSearchEntryDto searchEntryDto)
+        public async Task<SearchResultDto<GroupDto>> GetGroups(SearchQueryDto searchEntryDto)
         {
-            var searchEntry = Mapper.Map<PageSearchEntryDto, PageSearchEntryModel>(searchEntryDto);
+            var searchEntry = Mapper.Map<SearchQueryDto, SearchQueryModel>(searchEntryDto);
             var result = await _groupRequestService.GetGroups(searchEntry);
-            var list = Mapper.Map<PageDataModel<GroupModel>, PageDataDto<GroupDto>>(result);
+            var list = Mapper.Map<SearchResultModel<GroupModel>, SearchResultDto<GroupDto>>(result);
             return list;
         }
 
-        public async Task<PageDataDto<GroupDto>> GetRootGroups(PageSearchEntryDto searchEntryDto)
+        public async Task<SearchResultDto<GroupDto>> GetRootGroups(SearchQueryDto searchEntryDto)
         {
-            var searchEntry = Mapper.Map<PageSearchEntryDto, PageSearchEntryModel>(searchEntryDto);
+            var searchEntry = Mapper.Map<SearchQueryDto, SearchQueryModel>(searchEntryDto);
             var result = await _groupRequestService.GetRootGroups(searchEntry);
-            var list = Mapper.Map<PageDataModel<GroupModel>, PageDataDto<GroupDto>>(result);
+            var list = Mapper.Map<SearchResultModel<GroupModel>, SearchResultDto<GroupDto>>(result);
             return list;
         }
 
-        public async Task<IEnumerable<GroupDto>> GetSubgroups(SearchEntryDto searchEntryDto, string parentId)
+        public async Task<IEnumerable<GroupDto>> GetSubgroups(SearchQueryDto searchEntryDto, string parentId)
         {
-            var searchEntry = Mapper.Map<SearchEntryDto, SearchEntryModel>(searchEntryDto);
+            var searchEntry = Mapper.Map<SearchQueryDto, SearchQueryModel>(searchEntryDto);
             var result = await _groupRequestService.GetSubgroups(searchEntry, parentId);
             var list = Mapper.Map<IEnumerable<GroupModel>, IEnumerable<GroupDto>>(result);
             return list;

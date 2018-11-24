@@ -13,8 +13,8 @@
                         <button class="btn btn-sm btn-default notification" (click)="dtGroups.exportCSV()">
                             <i class="fa fa-download"></i>
                         </button>
-                            <p-multiSelect [options]="tbColumns" [filter]="selectF" [(ngModel)]="tbSelectedColumns" optionLabel="header"
-                                selectedItemsLabel="{0} columns selected" defaultLabel="Choose Columns">
+                            <p-multiSelect [options]="optionTbToggle.columns" [filter]="optionTbToggle.filter" [(ngModel)]="tbSelectedColumns" optionLabel="header"
+                                selectedItemsLabel="{0} columns selected">
                             </p-multiSelect>
                     </span>
                 </div>
