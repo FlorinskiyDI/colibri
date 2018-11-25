@@ -32,7 +32,7 @@ namespace IdentityServer.Webapi.Services
         public async Task<SearchResult<GroupDto>> GetGroupsAsync(string userId, SearchQuery searchEntry, bool isRoot = false)
         {
             // generate sort expression
-            var sort = searchEntry.OrderStatement == null
+            var sort = searchEntry?.OrderStatement == null
                 ? new OrderBy<Groups>(c => c.OrderBy(d => d.Name))
                 : new OrderBy<Groups>(searchEntry.OrderStatement.ColumName, searchEntry.OrderStatement.Reverse);
             // generate filter expression
@@ -57,7 +57,7 @@ namespace IdentityServer.Webapi.Services
                     }
 
                     // get data
-                    if (searchEntry.SearchQueryPage == null)
+                    if (searchEntry?.SearchQueryPage == null)
                     {
                         var data = await repository.QueryAsync(filters.Expression, sort.Expression, includes.Expression);
                         page = new SearchResult<GroupDto>()
@@ -86,7 +86,9 @@ namespace IdentityServer.Webapi.Services
                                 Id = c.Id,
                                 ParentId = c.ParentId,
                                 Name = c.Name,
-                                CountChildren = c.InverseParent.Count
+                                CountChildren = c.InverseParent.Count,
+                                GroupID = c.GroupID,
+                                Description = c.Description
                             }).ToList(),
                             SearchResultPage = new SearchResultPage()
                             {
@@ -107,12 +109,11 @@ namespace IdentityServer.Webapi.Services
         public async Task<IEnumerable<GroupDto>> GetByParentIdAsync(string userId, SearchQuery searchEntry, string parentId)
         {
             // generate sort expression
-            var sort = searchEntry.OrderStatement == null
+            var sort = searchEntry?.OrderStatement == null
                 ? new OrderBy<Groups>(c => c.OrderBy(d => d.Name))
                 : new OrderBy<Groups>(searchEntry.OrderStatement.ColumName, searchEntry.OrderStatement.Reverse);
             // generate filter expression
-            var filters = new Filter<Groups>(c => c.ApplicationUserGroups.Any(d => d.UserId == userId));
-            filters.AddExpression(c => c.ParentId == new Guid(parentId));
+            var filters = new Filter<Groups>(c => c.ParentId == new Guid(parentId));
             // generate includes expression
             var includes = new Includes<Groups>(c => c.Include(v => v.InverseParent).Include(v => v.Parent));
 
@@ -130,7 +131,9 @@ namespace IdentityServer.Webapi.Services
                         Id = c.Id,
                         ParentId = c.ParentId,
                         Name = c.Name,
-                        CountChildren = c.InverseParent.Count
+                        CountChildren = c.InverseParent.Count,
+                        GroupID = c.GroupID,
+                        Description = c.Description
                     });
                 }
             }

@@ -38,20 +38,18 @@
                     (onLazyLoad)="tb_loadItems($event)">
                     <ng-template pTemplate="header" let-columns>
                         <tr>
-                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" style="width: 400px;" class="border-right-none">
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" [style.width.px]="col.width" class="border-left-none border-right-none">
                                 {{col.header}}
                                 <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                             </th>
-                            <th class="border-left-none border-right-none">Description</th>
                             <th class="border-left-none border-right-none">Actions</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData let-columns="columns">
                         <tr [pSelectableRow]="rowData">
-                            <td *ngFor="let col of columns" class="border-right-none">
+                            <td *ngFor="let col of columns" class="border-left-none border-right-none">
                                 {{rowData[col.field]}}
                             </td>
-                            <td class="border-left-none border-right-none">some description</td>
                             <td class="border-left-none border-right-none">
                                 <button matTooltip="Edit group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_edit(rowData.id)">
                                     <mat-icon class="filter-icon">edit</mat-icon>

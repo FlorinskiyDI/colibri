@@ -34,7 +34,11 @@ export class GroupDataGridComponent implements OnInit {
     tbSelectedColumns: any[];
     // option
     optionTbToggle: any = {
-        columns: [{ field: 'name', header: 'Group name' }],
+        columns: [
+            { field: 'name', header: 'Group name', width: 320 },
+            { field: 'groupID', header: 'Identifier', width: 150 },
+            { field: 'description', header: 'Description', width: null }
+        ],
         filter: false
     };
 

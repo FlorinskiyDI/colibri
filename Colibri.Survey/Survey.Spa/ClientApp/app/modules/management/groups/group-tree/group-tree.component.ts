@@ -83,17 +83,17 @@ export class GroupTreeComponent {
 
     loadNode(event: any) {
         this.treeloading = true;
-        const that = this;
-        this.groupsApiService.getSubgroups(event.node.data.id).subscribe((data: Array<GroupApiModel>) => {
-            event.node.children = data.map((item: GroupApiModel) => {
-                return {
-                    'label': item.name,
-                    'data': { 'id': item.id },
-                    'leaf': false
-                };
-            });
-            that.treeloading = false;
-        });
+        // const that = this;
+        // this.groupsApiService.getSubgroups(event.node.data.id).subscribe((data: Array<GroupApiModel>) => {
+        //     event.node.children = data.map((item: GroupApiModel) => {
+        //         return {
+        //             'label': item.name,
+        //             'data': { 'id': item.id },
+        //             'leaf': false
+        //         };
+        //     });
+        //     that.treeloading = false;
+        // });
     }
 
     _requestGetRootGroups() {
@@ -116,23 +116,23 @@ export class GroupTreeComponent {
 
     _requestGetSubGroups(changeSelectedGroup: boolean, subGroupId: string = null) {
         this.treeloading = true;
-        this.groupsApiService.getSubGroups(subGroupId).subscribe((data: Array<GroupApiModel>) => {
-            this.treeItems = data.map((item: GroupApiModel) => {
-                return {
-                    'label': item.name,
-                    'data': { 'id': item.id },
-                    'leaf': false
-                };
-            });
-            this.treeloading = false;
+        // this.groupsApiService.getSubGroups(subGroupId).subscribe((data: Array<GroupApiModel>) => {
+        //     this.treeItems = data.map((item: GroupApiModel) => {
+        //         return {
+        //             'label': item.name,
+        //             'data': { 'id': item.id },
+        //             'leaf': false
+        //         };
+        //     });
+        //     this.treeloading = false;
 
-            if (changeSelectedGroup) {
-                this.selectedGroup = this.treeItems[0];
-                if (data.length > 0) {
-                    this.groupManageTransferService.sendSelectedGroupId(data[0].id);
-                }
-            }
+        //     if (changeSelectedGroup) {
+        //         this.selectedGroup = this.treeItems[0];
+        //         if (data.length > 0) {
+        //             this.groupManageTransferService.sendSelectedGroupId(data[0].id);
+        //         }
+        //     }
 
-        });
+        // });
     }
 }

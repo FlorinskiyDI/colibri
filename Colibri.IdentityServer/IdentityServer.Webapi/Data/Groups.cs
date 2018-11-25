@@ -18,6 +18,11 @@ namespace IdentityServer.Webapi.Data
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string GroupID { get; set; }
+        [StringLength(500)]
+        public string Description { get; set; }
 
         [ForeignKey("ParentId")]
         [InverseProperty("InverseParent")]

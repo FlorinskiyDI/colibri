@@ -27,11 +27,10 @@
                     [(selection)]="selectedNode">
                     <ng-template pTemplate="header" let-columns>
                         <tr>
-                            <th *ngFor="let col of columns" [ttSortableColumn]="col.field" class="border-right-none border-left-none" style="width: 400px;">
+                            <th *ngFor="let col of columns" [ttSortableColumn]="col.field" class="border-right-none border-left-none" [style.width.px]="col.width">
                                 {{col.header}}
                                 <p-treeTableSortIcon [field]="col.field"></p-treeTableSortIcon>
                             </th>
-                            <th class="border-left-none border-right-none">Description</th>
                             <th class="border-left-none border-right-none">Actions</th>
                         </tr>
                     </ng-template>
@@ -41,7 +40,6 @@
                                 <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
                                 {{rowData[col.field]}}
                             </td>
-                            <td class="border-left-none border-right-none">some description</td>
                             <td class="border-left-none border-right-none">
                                 <button matTooltip="Edit group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_edit(rowData.id)">
                                     <mat-icon class="filter-icon">edit</mat-icon>

@@ -10,5 +10,7 @@ namespace Survey.ApplicationLayer.Dtos.Models
         public Guid? ParentId { get; set; }
         public string Name { get; set; }
         public int CountChildren { get; set; }
+        public string GroupID { get; set; }
+        public string Description { get; set; }
     }
 }
