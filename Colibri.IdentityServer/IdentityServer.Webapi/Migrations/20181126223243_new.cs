@@ -1,11 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace IdentityServer.Webapi.Migrations
 {
-    public partial class test2 : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,8 +16,10 @@ namespace IdentityServer.Webapi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false, defaultValueSql: "(newsequentialid())"),
+                    ParentId = table.Column<Guid>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
-                    ParentId = table.Column<Guid>(nullable: true)
+                    GroupID = table.Column<string>(maxLength: 100, nullable: false),
+                    Description = table.Column<string>(maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -37,9 +38,9 @@ namespace IdentityServer.Webapi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,24 +53,24 @@ namespace IdentityServer.Webapi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    AccountExpires = table.Column<DateTime>(nullable: false, defaultValueSql: "(sysdatetimeoffset())"),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    DataEventRecordsRole = table.Column<string>(maxLength: 256, nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    IsAdmin = table.Column<bool>(nullable: false, defaultValueSql: "((0))"),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    SecuredFilesRole = table.Column<string>(maxLength: 256, nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    IsAdmin = table.Column<bool>(nullable: false, defaultValueSql: "((0))"),
+                    DataEventRecordsRole = table.Column<string>(maxLength: 256, nullable: true),
+                    SecuredFilesRole = table.Column<string>(maxLength: 256, nullable: true),
+                    AccountExpires = table.Column<DateTime>(nullable: false, defaultValueSql: "(sysdatetimeoffset())")
                 },
                 constraints: table =>
                 {
@@ -92,15 +93,40 @@ namespace IdentityServer.Webapi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GroupNode",
+                columns: table => new
+                {
+                    AncestorId = table.Column<Guid>(nullable: false),
+                    OffspringId = table.Column<Guid>(nullable: false),
+                    Depth = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupNode", x => new { x.AncestorId, x.OffspringId });
+                    table.ForeignKey(
+                        name: "FK_Offspring_ToAncestor",
+                        column: x => x.AncestorId,
+                        principalTable: "Groups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Ancestor_ToOffspring",
+                        column: x => x.OffspringId,
+                        principalTable: "Groups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
-                    RoleId = table.Column<string>(nullable: false)
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -119,8 +145,8 @@ namespace IdentityServer.Webapi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false, defaultValueSql: "(newsequentialid())"),
-                    GroupId = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<string>(maxLength: 450, nullable: false)
+                    UserId = table.Column<string>(maxLength: 450, nullable: false),
+                    GroupId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -147,9 +173,9 @@ namespace IdentityServer.Webapi.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false)
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -223,6 +249,11 @@ namespace IdentityServer.Webapi.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GroupNode_OffspringId",
+                table: "GroupNode",
+                column: "OffspringId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Groups_ParentId",
                 table: "Groups",
                 column: "ParentId");
@@ -282,6 +313,9 @@ namespace IdentityServer.Webapi.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ApplicationUserGroups");
+
+            migrationBuilder.DropTable(
+                name: "GroupNode");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims",

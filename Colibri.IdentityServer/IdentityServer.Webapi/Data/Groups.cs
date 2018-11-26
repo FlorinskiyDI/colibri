@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IdentityServer.Webapi.Data
 {
-    public partial class Groups: BaseEntity<Guid>
+    public partial class Groups : BaseEntity<Guid>
     {
         public Groups()
         {
@@ -31,5 +31,8 @@ namespace IdentityServer.Webapi.Data
         public ICollection<ApplicationUserGroups> ApplicationUserGroups { get; set; }
         [InverseProperty("Parent")]
         public ICollection<Groups> InverseParent { get; set; }
+
+        public virtual ICollection<GroupNode> Ancestors { get; set; }
+        public virtual ICollection<GroupNode> Offspring { get; set; }
     }
 }
