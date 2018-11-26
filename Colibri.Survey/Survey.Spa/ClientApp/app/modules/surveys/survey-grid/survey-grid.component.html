@@ -4,7 +4,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="clbr--page-title">
-                    Surveys management
+                    <div class="text">Survey management</div>
+                    <div class="description">List of survey in the system</div>
                 </div>
             </div>
         </div>
@@ -17,59 +18,56 @@
             <div class="clbr--block-btns-v1">
                 <button class="clbr--btn-default btn btn-sm btn-default" (click)="GoTo('/surveys/builder/')">
                     <i class="fa fa-plus"></i>
-                    Create
+                    Create new survey
                 </button>
             </div>
 
             <div class="row">
                 <div class="col-md-12">
-
-
                     <!-- <pre>{{surveys | json}}</pre> -->
+                    <div class="clbr--ui-table clbr--ui-table-v1">
+                        <p-table [value]="surveys" [lazy]="true" [paginator]="true" [rows]="5" [loading]="loading" [resizableColumns]="true" [rowsPerPageOptions]="[5,10,20]">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width:25%" class="border-right-none border-left-none">Name</th>
+                                    <th style="width:10%" class="border-right-none border-left-none">Is open access</th>
+                                    <th style="width:20%" class="border-right-none border-left-none">Date created</th>
+                                    <th style="width:10%" class="border-right-none border-left-none">Shown description</th>
+                                    <th style="width:15%" class="border-right-none border-left-none">Shown completed note</th>
+                                    <th style="width:10%" class="border-right-none border-left-none">Actions</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item>
+                                <tr>
+                                    <td class="border-left-none border-right-none">{{item.name}}</td>
+                                    <td class="border-left-none border-right-none">{{item.isOpenAccess}}</td>
+                                    <td class="border-left-none border-right-none">{{item.dateCreated | date:'medium'}}</td>
+                                    <td class="border-left-none border-right-none">{{item.isShowDescription}}</td>
+                                    <td class="border-left-none border-right-none">{{item.isShowProcessCompletedText}}</td>
 
-                    <p-table [value]="surveys" [lazy]="true" [paginator]="true" [rows]="5" [loading]="loading" [resizableColumns]="true" [rowsPerPageOptions]="[5,10,20]">
-
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th style="width:20%">Name</th>
-                                <th style="width:10%">Is open access</th>
-                                <th style="width:20%">Date created</th>
-                                <th style="width:10%">Shown description</th>
-                                <th style="width:15%">Shown completed note</th>
-                                <th style="width:25%">Actions</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-item>
-                            <tr>
-                                <td>{{item.name}}</td>
-                                <td>{{item.isOpenAccess}}</td>
-                                <td>{{item.dateCreated | date:'medium'}}</td>
-                                <td>{{item.isShowDescription}}</td>
-                                <td>{{item.isShowProcessCompletedText}}</td>
-
-                                <td>
-                                    <div class="clbr--btn-inline">
-                                        <!-- <button class="btn btn-sm btn-default notification" id="notification">
+                                    <td class="border-left-none border-right-none">
+                                        <div class="clbr--btn-inline">
+                                            <!-- <button class="btn btn-sm btn-default notification" id="notification">
                                             <i class="fa fa-file-o"></i>Add</button> -->
-                                        <button class="btn btn-sm btn-default d-action-button" (click)="GoTo('/surveys/builder/' + item.id)">
-                                            <i class="fa fa-pencil"></i>
-                                            <span class="d-action-text">Edit</span>
-                                        </button>
-                                        <button class="btn btn-sm btn-default d-action-button" (click)="GoTo('/surveys/report/' + item.id)">
-                                            <i class="fa fa-eye"></i>
-                                            <span class="d-action-text">Show responses</span>
-                                        </button>
-                                        <button class="btn btn-sm btn-default d-action-button">
-                                            <i class="fa fa-download"></i>
-                                            <span class="d-action-text">Export</span>
+                                            <button title="Edit" class="btn btn-sm btn-default d-action-button" (click)="GoTo('/surveys/builder/' + item.id)">
+                                                <i class="fa fa-pencil"></i>
+                                                <!-- <span class="d-action-text">Edit</span> -->
+                                            </button>
+                                            <button title="Show report" class="btn btn-sm btn-default d-action-button" (click)="GoTo('/surveys/report/' + item.id)">
+                                                <i class="fa fa-file-text"></i>
+                                                <!-- <span class="d-action-text">Show responses</span> -->
+                                            </button>
+                                            <button  title="Export" class="btn btn-sm btn-default d-action-button" (click)="GetExcelReport(item.id)">
+                                                <i class="fa fa-download"></i>
+                                                <!-- <span class="d-action-text">Export</span> -->
 
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
                 </div>
 
             </div>

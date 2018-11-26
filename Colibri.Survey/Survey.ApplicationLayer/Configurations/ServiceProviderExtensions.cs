@@ -35,6 +35,7 @@ namespace Survey.ApplicationLayer.Configurations
             services.AddScoped<IOptionGroupService, OptionGroupService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOptionChoiceService, OptionChoiceService>();
+            services.AddScoped<IExcelService, ExcelService>();
             return services;
         }
 
