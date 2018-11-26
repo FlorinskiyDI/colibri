@@ -104,6 +104,7 @@
             width: 10px;
             }
         }
+        .ui-table .ui-table-tbody > tr:nth-child(even) {background-color: #fff; }
         .ui-table .ui-table-tbody > tr.ui-state-highlight {
             background-color: transparent;
             background-image: -o-linear-gradient(top,#1F86E1 0,#3b78e7 100%);
@@ -127,6 +128,55 @@
             &.border-right-none { border-right: none !important; }
             &.border-left-none { border-left: none !important; }
         }
+    }
+}
+// #endregion
+
+
+
+
+// #region CHKBOX
+.clbr--ui-chkbox-1 {
+    .ui-chkbox-box.ui-state-active, .ui-radiobutton-box.ui-state-active {
+        border: 1px solid #cccccc;
+        background: #ffffff;
+        color: #000000;
+    }
+    .ui-chkbox-box.ui-state-focus, .ui-radiobutton-box.ui-state-focus {
+        box-shadow: none;
+    }
+    .title { font-size: 12px; font-weight: 400; padding-left: 5px; }
+}
+// #endregion
+
+// #region TREE
+.clbr--ui-tree-v1 {
+    display: block;
+
+    .ui-treenode-label { font-size: 13px; color: #777; padding-left: 7px; }
+    .ui-tree.ui-widget-content {
+        width: 100%; 
+    }
+    .ui-treenode-content { padding: 5px; }
+    .ui-treenode-content.ui-treenode-selectable:hover { background-color: #eeeeee; }
+    .ui-treenode-content.ui-treenode-selectable.ui-treenode-content-selected {
+        background-color: transparent;
+        background-image: -o-linear-gradient(top, #1F86E1 0, #3b78e7 100%);
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#1F86E1), to(#3b78e7));
+        background-image: linear-gradient(to bottom, #1F86E1 0, #3b78e7 100%);
+        color: #fff !important;
+        .ui-state-highlight { background-color: transparent; }
+    }
+    .ui-treenode-content.ui-treenode-selectable.ui-treenode-content-selected .ui-treenode-label { color: #fff !important; }
+    .pi-caret-right::before {
+        content: "\E901" !important;
+        font-size: 12px;
+        display: block;
+    }
+    .pi-caret-down::before {
+        content: "\E902" !important;
+        font-size: 12px;
+        display: block;
     }
 }
 // #endregion

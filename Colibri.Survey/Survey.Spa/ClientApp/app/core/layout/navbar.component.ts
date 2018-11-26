@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 this.isAuthorized = isAuthorized;
 
                 if (this.isAuthorized) {
-                    console.log('isAuthorized getting data');
+                    // console.log('isAuthorized getting data');
                 }
             });
 
@@ -51,7 +51,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                     }
                 }
 
-                console.log('userData getting data');
+                // console.log('userData getting data');
             });
     }
 
@@ -61,12 +61,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     login() {
-        console.log('Do login logic');
+        // console.log('Do login logic');
         this.oidcSecurityService.authorize();
     }
 
     logout() {
-        console.log('Do logout logic');
+        // console.log('Do logout logic');
         this.oidcSecurityService.logoff();
     }
 

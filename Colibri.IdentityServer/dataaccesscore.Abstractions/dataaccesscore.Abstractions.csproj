@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>developer</Company>
+    <Authors>FlorinskiyDI</Authors>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+</Project>

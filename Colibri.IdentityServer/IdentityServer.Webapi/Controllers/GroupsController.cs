@@ -1,23 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 using dataaccesscore.EFCore.Paging;
-using dataaccesscore.EFCore.Query;
-using ExpressionBuilder.Common;
-using ExpressionBuilder.Operations;
-using IdentityServer.Webapi.Controllers.Base;
 using IdentityServer.Webapi.Data;
-using IdentityServer.Webapi.Dtos.Pager;
+using IdentityServer.Webapi.Dtos.Search;
 using IdentityServer.Webapi.Repositories.Interfaces;
 using IdentityServer.Webapi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 
 namespace IdentityServer.Webapi.Controllers
 {
@@ -29,7 +20,8 @@ namespace IdentityServer.Webapi.Controllers
 
         // POST: api/groups/search
         // POST: api/groups/root
-        // GET: api/groups/{id}/subgroups
+        // POST: api/groups/{id}/subgroups
+
         // POST: api/groups
         // PUT: api/groups
         // DELETE: api/groups/{id}
@@ -55,22 +47,32 @@ namespace IdentityServer.Webapi.Controllers
 
         // GET: api/groups/search
         [HttpPost("search")]
-        public async Task<IActionResult> GetGroups([FromBody] PageSearchEntry searchEntry)
+        public async Task<IActionResult> GetGroups([FromBody] SearchQuery searchEntry)
         {
             var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
-            var result = await _groupServices.GetPageDataAsync(_userId, searchEntry);
+            var result = await _groupServices.GetGroupsAsync(_userId, searchEntry);
             return Ok(result);
         }
 
 
         // POST: api/groups/root
         [HttpPost("root")]
-        public async Task<IActionResult> GetRootGroups([FromBody] PageSearchEntry searchEntry)
+        public async Task<IActionResult> GetRootGroups([FromBody] SearchQuery searchEntry)
         {
             var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
-            var result = await _groupServices.GetPageDataAsync(_userId, searchEntry, true);
+            var result = await _groupServices.GetGroupsAsync(_userId, searchEntry, true);
             return Ok(result);
         }
+
+        // POST: api/groups/{id}/subgroups
+        [HttpPost("{id}/subgroups")]
+        public async Task<IActionResult> GetSubGroups([FromBody] SearchQuery searchEntry, string id)
+        {
+            var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
+            var result = await _groupServices.GetByParentIdAsync(_userId, searchEntry, id);
+            return Ok(result);
+        }
+
 
         //private List<Groups> recursiveTreeSearch(Groups group, List<Groups> siblings)
         //{
@@ -87,53 +89,53 @@ namespace IdentityServer.Webapi.Controllers
         //}
 
 
-        //public static T GetTfromString<T>(string mystring)
-        //{
-        //    var foo = TypeDescriptor.GetConverter(typeof(T));
-        //    return (T)(foo.ConvertFromInvariantString(mystring));
-        //}
+            //public static T GetTfromString<T>(string mystring)
+            //{
+            //    var foo = TypeDescriptor.GetConverter(typeof(T));
+            //    return (T)(foo.ConvertFromInvariantString(mystring));
+            //}
 
-        // GET: api/groups/{id}/subgroups
-        [HttpGet("{id}/subgroups")]
-        public async Task<IActionResult> GetSubGroups(Guid id)
-        {
+            // GET: api/groups/{id}/subgroups
+            //[HttpPost("{id}/subgroups")]
+            //public async Task<IActionResult> GetSubGroups([FromBody] PageSearchEntry searchEntry, Guid id)
+            //{
 
-            #region test filter
-            var columnNames = new List<string>(new string[] { "Id", "Name" });
-            var pageNumber = 1;
-            var pageLength = 10;
+            //    #region test filter
+            //    var columnNames = new List<string>(new string[] { "Id", "Name" });
+            //    var pageNumber = 1;
+            //    var pageLength = 10;
 
-            var parameter = Expression.Parameter(typeof(Groups), "x");
-            var member = Expression.Property(parameter, "Name"); //x.Name
-            var constant = Expression.Constant("mytest1");
-            var body = Expression.Equal(member, constant); //x.Name = "mytest1"
-            var finalExpression = Expression.Lambda<Func<Groups, bool>>(body, parameter); //x => x.Name >= "mytest1"
-            try
-            {
-                //Type myType = typeof(Groups).GetProperty("Name").PropertyType;
-                //MethodInfo method = typeof(GroupsController).GetMethod("GetTfromString");
-                //MethodInfo generic = method.MakeGenericMethod(myType);
-                //var ccc = generic.Invoke(this, new[] { "03.03.1993" });
+            //    var parameter = Expression.Parameter(typeof(Groups), "x");
+            //    var member = Expression.Property(parameter, "Name"); //x.Name
+            //    var constant = Expression.Constant("mytest1");
+            //    var body = Expression.Equal(member, constant); //x.Name = "mytest1"
+            //    var finalExpression = Expression.Lambda<Func<Groups, bool>>(body, parameter); //x => x.Name >= "mytest1"
+            //    try
+            //    {
+            //        //Type myType = typeof(Groups).GetProperty("Name").PropertyType;
+            //        //MethodInfo method = typeof(GroupsController).GetMethod("GetTfromString");
+            //        //MethodInfo generic = method.MakeGenericMethod(myType);
+            //        //var ccc = generic.Invoke(this, new[] { "03.03.1993" });
 
-                var filtertest = new ExpressionBuilder.Generics.Filter<Groups>();
-                filtertest.By("id", Operation.EqualTo, new Guid("5d35f7d0-4e5c-e811-9c5c-d017c2aa438d"), Connector.Or);
-                filtertest.By("id", Operation.EqualTo, new Guid("c8b7e8b8-d4c0-e811-9c7c-d017c2aa438d"));
-                var filter = new Filter<Groups>(filtertest);
-                var results = await _pager.QueryAsync(pageNumber, pageLength, filter);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            #endregion
+            //        var filtertest = new ExpressionBuilder.Generics.Filter<Groups>();
+            //        filtertest.By("id", Operation.EqualTo, new Guid("5d35f7d0-4e5c-e811-9c5c-d017c2aa438d"), Connector.Or);
+            //        filtertest.By("id", Operation.EqualTo, new Guid("c8b7e8b8-d4c0-e811-9c7c-d017c2aa438d"));
+            //        var filter = new Filter<Groups>(filtertest);
+            //        var results = await _pager.QueryAsync(pageNumber, pageLength, filter);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        throw;
+            //    }
+            //    #endregion
 
 
 
-            var list = await _groupRepository.GetSubGroupsAsync(id);
-            return Ok(list);
-        }
+            //    var list = await _groupRepository.GetSubGroupsAsync(id);
+            //    return Ok(list);
+            //}
 
-        // GET: api/groups/{id}
+            // GET: api/groups/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetGroup(Guid id)
         {
