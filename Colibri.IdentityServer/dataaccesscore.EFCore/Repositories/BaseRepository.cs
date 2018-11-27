@@ -1,5 +1,4 @@
 ﻿using dataaccesscore.Abstractions.Repositories;
-using dataaccesscore.EFCore.Entities;
 using dataaccesscore.EFCore.Models;
 using dataaccesscore.EFCore.Query;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace dataaccesscore.EFCore.Repositories
 {
-    public abstract class BaseRepository<TContext, TEntity, TKey> : Repository<TContext>, IBaseRepository<TEntity, TKey>
+    public abstract class BaseRepository<TContext, TEntity> : Repository<TContext>, IBaseRepository<TEntity>
             where TContext : DbContext
-            where TEntity : BaseEntity<TKey>,
+            where TEntity : class,
             new()
     {
-        private readonly OrderBy<TEntity> DefaultOrderBy = new OrderBy<TEntity>(qry => qry.OrderBy(e => e.Id));
+        private readonly OrderBy<TEntity> DefaultOrderBy;
 
         //public Expression<Func<TEntity, bool>> PreFilter { get; set; }
 
@@ -84,7 +83,7 @@ namespace dataaccesscore.EFCore.Repositories
             return await result.Skip(startRow).Take(pageLength).ToListAsync();
         }
 
-        public virtual TEntity Get(
+        public virtual TEntity Get<TKey>(
             TKey id,
             Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
         {
@@ -98,7 +97,7 @@ namespace dataaccesscore.EFCore.Repositories
             return query.Where("Id = @0", id).FirstOrDefault();
         }
 
-        public virtual Task<TEntity> GetAsync(
+        public virtual Task<TEntity> GetAsync<TKey>(
             TKey id,
             Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
         {
@@ -211,9 +210,9 @@ namespace dataaccesscore.EFCore.Repositories
             Context.Set<TEntity>().Remove(entity);
         }
 
-        public virtual void Remove(TKey id)
+        public virtual void Remove<TKey>(TKey id)
         {
-            var entity = new TEntity() { Id = id };
+            var entity = Context.Set<TEntity>().Find(id);
             this.Remove(entity);
         }
 

@@ -1,5 +1,4 @@
-﻿using dataaccesscore.Abstractions.Entities;
-using dataaccesscore.Abstractions.Uow;
+﻿using dataaccesscore.Abstractions.Uow;
 using dataaccesscore.EFCore.Query;
 using System;
 using System.Collections.Generic;
@@ -8,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace dataaccesscore.EFCore.Paging
 {
-    public class DataPager<TEntity, TKey> : IDataPager<TEntity, TKey>
-            where TEntity : IBaseEntity<TKey>
+    public class DataPager<TEntity> : IDataPager<TEntity>
+            where TEntity : class
     {
         public DataPager(IUowProvider uowProvider)
         {
@@ -27,7 +26,7 @@ namespace dataaccesscore.EFCore.Paging
         {
             using (var uow = _uowProvider.CreateUnitOfWork(false))
             {
-                var repository = uow.GetRepository<TEntity, TKey>();
+                var repository = uow.GetRepository<TEntity>();
 
                 var startRow = (pageNumber - 1) * pageLength;
                 var data = repository.GetPage(startRow, pageLength, includes: includes, orderBy: orderby?.Expression);
@@ -46,7 +45,7 @@ namespace dataaccesscore.EFCore.Paging
         {
             using (var uow = _uowProvider.CreateUnitOfWork(false))
             {
-                var repository = uow.GetRepository<TEntity, TKey>();
+                var repository = uow.GetRepository<TEntity>();
 
                 var startRow = (pageNumber - 1) * pageLength;
                 var data = await repository.GetPageAsync(startRow, pageLength, includes: includes, orderBy: orderby?.Expression);
@@ -66,7 +65,7 @@ namespace dataaccesscore.EFCore.Paging
         {
             using (var uow = _uowProvider.CreateUnitOfWork(false))
             {
-                var repository = uow.GetRepository<TEntity, TKey>();
+                var repository = uow.GetRepository<TEntity>();
 
                 var startRow = (pageNumber - 1) * pageLength;
                 var data = repository.QueryPage(startRow, pageLength, filter.Expression, includes: includes, orderBy: orderby?.Expression);
@@ -86,7 +85,7 @@ namespace dataaccesscore.EFCore.Paging
         {
             using (var uow = _uowProvider.CreateUnitOfWork(false))
             {
-                var repository = uow.GetRepository<TEntity, TKey>();
+                var repository = uow.GetRepository<TEntity>();
 
                 var startRow = (pageNumber - 1) * pageLength;
                 var data = await repository.QueryPageAsync(startRow, pageLength, filter.Expression, includes: includes, orderBy: orderby?.Expression);

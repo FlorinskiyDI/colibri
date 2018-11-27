@@ -17,12 +17,12 @@ namespace IdentityServer.Webapi.Services
     public class GroupService : IGroupService
     {
 
-        private readonly IDataPager<Groups, Guid> _pager;
+        private readonly IDataPager<Groups> _pager;
         protected readonly IUowProvider _uowProvider;
 
         public GroupService(
             IUowProvider uowProvider,
-            IDataPager<Groups, Guid> pager
+            IDataPager<Groups> pager
         )
         {
             _uowProvider = uowProvider;
@@ -45,7 +45,7 @@ namespace IdentityServer.Webapi.Services
             {
                 using (var uow = _uowProvider.CreateUnitOfWork())
                 {
-                    var repository = uow.GetRepository<Groups, Guid>();
+                    var repository = uow.GetRepository<Groups>();
                     // if items are root, than get parentids and add new filter
                     if (isRoot)
                     {
@@ -122,7 +122,7 @@ namespace IdentityServer.Webapi.Services
             {
                 using (var uow = _uowProvider.CreateUnitOfWork())
                 {
-                    var repository = uow.GetRepository<Groups, Guid>();
+                    var repository = uow.GetRepository<Groups>();
 
                     // get data
                     var items = await repository.QueryAsync(filters.Expression, sort.Expression, includes.Expression);

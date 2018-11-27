@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace dataaccesscore.Abstractions.Repositories
 {
-    public interface IBaseRepository<TEntity, in TKey>
+    public interface IBaseRepository<TEntity>
     {
         // get all
         IEnumerable<TEntity> GetAll(
@@ -34,11 +34,11 @@ namespace dataaccesscore.Abstractions.Repositories
         );
 
         // get
-        TEntity Get(
+        TEntity Get<TKey>(
             TKey id,
             Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null
         );
-        Task<TEntity> GetAsync(
+        Task<TEntity> GetAsync<TKey>(
             TKey id,
             Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null
         );
@@ -96,7 +96,7 @@ namespace dataaccesscore.Abstractions.Repositories
 
         // remove
         void Remove(TEntity entity);
-        void Remove(TKey id);
+        void Remove<TKey>(TKey id);
 
         // any
         bool Any(Expression<Func<TEntity, bool>> filter = null);

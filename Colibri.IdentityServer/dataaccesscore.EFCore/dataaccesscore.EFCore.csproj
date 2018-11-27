@@ -7,10 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="dataaccesscore.Abstractions" Version="1.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.4" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\dataaccesscore.Abstractions\dataaccesscore.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

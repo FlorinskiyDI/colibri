@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Repositories
 {
-    public class GroupRepository : BaseRepository<ApplicationDbContext, Groups, Guid>, IGroupRepository
+    public class GroupRepository : BaseRepository<ApplicationDbContext, Groups>, IGroupRepository
     {
         public GroupRepository(ILogger<LoggerDataAccess> logger)
         : base(logger, null)

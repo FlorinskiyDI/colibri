@@ -26,7 +26,7 @@ namespace IdentityServer.Webapi.Controllers
         // PUT: api/groups
         // DELETE: api/groups/{id}
 
-        private readonly IDataPager<Groups, Guid> _pager;
+        private readonly IDataPager<Groups> _pager;
         protected readonly IGroupService _groupServices;
         private readonly IGroupRepository _groupRepository;
         private readonly IAppUserGroupRepository _appUserGroupRepository;
@@ -35,7 +35,7 @@ namespace IdentityServer.Webapi.Controllers
             IGroupService groupServices,
             IGroupRepository groupRepository,
             IAppUserGroupRepository appUserGroupRepository,
-            IDataPager<Groups, Guid> pager
+            IDataPager<Groups> pager
         )
         {
             _groupRepository = groupRepository;

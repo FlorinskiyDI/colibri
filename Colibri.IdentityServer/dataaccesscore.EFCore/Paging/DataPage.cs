@@ -1,5 +1,4 @@
-﻿using dataaccesscore.Abstractions.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace dataaccesscore.EFCore.Paging
