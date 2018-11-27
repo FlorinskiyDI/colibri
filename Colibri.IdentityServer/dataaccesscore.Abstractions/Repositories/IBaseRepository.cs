@@ -85,7 +85,7 @@ namespace dataaccesscore.Abstractions.Repositories
 
         // add
         void Add(TEntity entity);
-        Task AddAsync(TEntity entity);
+        Task<TEntity> AddAsync(TEntity entity);
 
 
         //add range

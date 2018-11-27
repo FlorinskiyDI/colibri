@@ -48,6 +48,14 @@ namespace Survey.ApplicationLayer.Services
             return list;
         }
 
+        public async Task<GroupDto> CreateGroup(GroupDto modelDto)
+        {
+            var model = Mapper.Map<GroupDto, GroupModel>(modelDto);
+            var result = await _groupRequestService.CreateGroupAsync(model);
+            var value = Mapper.Map<GroupModel, GroupDto>(result);
+            return value;
+        }
+
 
         //public async Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId)
         //{

@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 /* service-transfer */ import { GroupManageTransferService } from '../group-manage/group-manage.transfer.service';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
-/* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
+// /* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
 
 @Component({
     selector: 'group-tree-cmp',

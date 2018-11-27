@@ -51,7 +51,7 @@ export class GroupDataComponent {
     }
 
     public dialogGroupCreateOpen() { this.dialogGroupCreateConfig = new DialogDataModel<any>(true); }
-    public dialogGroupCreateOnChange() { console.log('dialogGroupCreateOnChange'); }
+    public dialogGroupCreateOnChange() { this.eventResetData.next(); }
     public dialogGroupCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
     public dialogGroupCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
 }

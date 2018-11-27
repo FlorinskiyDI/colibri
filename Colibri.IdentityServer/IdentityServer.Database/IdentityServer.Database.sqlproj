@@ -72,5 +72,6 @@
     <Build Include="AdpNetIdentity\AspNetUserRoles.sql" />
     <Build Include="AdpNetIdentity\AspNetUsers.sql" />
     <Build Include="AdpNetIdentity\AspNetUserTokens.sql" />
+    <Build Include="GroupNode.sql" />
   </ItemGroup>
 </Project>

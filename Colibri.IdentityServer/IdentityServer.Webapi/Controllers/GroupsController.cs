@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using dataaccesscore.EFCore.Paging;
 using IdentityServer.Webapi.Data;
+using IdentityServer.Webapi.Dtos;
 using IdentityServer.Webapi.Dtos.Search;
 using IdentityServer.Webapi.Repositories.Interfaces;
 using IdentityServer.Webapi.Services.Interfaces;
@@ -73,6 +74,14 @@ namespace IdentityServer.Webapi.Controllers
             return Ok(result);
         }
 
+        // POST: api/groups
+        [HttpPost]
+        public async Task<IActionResult> CreateGroup([FromBody] GroupDto model)
+        {
+            var userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
+            var result = await _groupServices.CreateGroup(model, userId);
+            return Ok(result);
+        }
 
         //private List<Groups> recursiveTreeSearch(Groups group, List<Groups> siblings)
         //{
@@ -89,53 +98,53 @@ namespace IdentityServer.Webapi.Controllers
         //}
 
 
-            //public static T GetTfromString<T>(string mystring)
-            //{
-            //    var foo = TypeDescriptor.GetConverter(typeof(T));
-            //    return (T)(foo.ConvertFromInvariantString(mystring));
-            //}
+        //public static T GetTfromString<T>(string mystring)
+        //{
+        //    var foo = TypeDescriptor.GetConverter(typeof(T));
+        //    return (T)(foo.ConvertFromInvariantString(mystring));
+        //}
 
-            // GET: api/groups/{id}/subgroups
-            //[HttpPost("{id}/subgroups")]
-            //public async Task<IActionResult> GetSubGroups([FromBody] PageSearchEntry searchEntry, Guid id)
-            //{
+        // GET: api/groups/{id}/subgroups
+        //[HttpPost("{id}/subgroups")]
+        //public async Task<IActionResult> GetSubGroups([FromBody] PageSearchEntry searchEntry, Guid id)
+        //{
 
-            //    #region test filter
-            //    var columnNames = new List<string>(new string[] { "Id", "Name" });
-            //    var pageNumber = 1;
-            //    var pageLength = 10;
+        //    #region test filter
+        //    var columnNames = new List<string>(new string[] { "Id", "Name" });
+        //    var pageNumber = 1;
+        //    var pageLength = 10;
 
-            //    var parameter = Expression.Parameter(typeof(Groups), "x");
-            //    var member = Expression.Property(parameter, "Name"); //x.Name
-            //    var constant = Expression.Constant("mytest1");
-            //    var body = Expression.Equal(member, constant); //x.Name = "mytest1"
-            //    var finalExpression = Expression.Lambda<Func<Groups, bool>>(body, parameter); //x => x.Name >= "mytest1"
-            //    try
-            //    {
-            //        //Type myType = typeof(Groups).GetProperty("Name").PropertyType;
-            //        //MethodInfo method = typeof(GroupsController).GetMethod("GetTfromString");
-            //        //MethodInfo generic = method.MakeGenericMethod(myType);
-            //        //var ccc = generic.Invoke(this, new[] { "03.03.1993" });
+        //    var parameter = Expression.Parameter(typeof(Groups), "x");
+        //    var member = Expression.Property(parameter, "Name"); //x.Name
+        //    var constant = Expression.Constant("mytest1");
+        //    var body = Expression.Equal(member, constant); //x.Name = "mytest1"
+        //    var finalExpression = Expression.Lambda<Func<Groups, bool>>(body, parameter); //x => x.Name >= "mytest1"
+        //    try
+        //    {
+        //        //Type myType = typeof(Groups).GetProperty("Name").PropertyType;
+        //        //MethodInfo method = typeof(GroupsController).GetMethod("GetTfromString");
+        //        //MethodInfo generic = method.MakeGenericMethod(myType);
+        //        //var ccc = generic.Invoke(this, new[] { "03.03.1993" });
 
-            //        var filtertest = new ExpressionBuilder.Generics.Filter<Groups>();
-            //        filtertest.By("id", Operation.EqualTo, new Guid("5d35f7d0-4e5c-e811-9c5c-d017c2aa438d"), Connector.Or);
-            //        filtertest.By("id", Operation.EqualTo, new Guid("c8b7e8b8-d4c0-e811-9c7c-d017c2aa438d"));
-            //        var filter = new Filter<Groups>(filtertest);
-            //        var results = await _pager.QueryAsync(pageNumber, pageLength, filter);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        throw;
-            //    }
-            //    #endregion
+        //        var filtertest = new ExpressionBuilder.Generics.Filter<Groups>();
+        //        filtertest.By("id", Operation.EqualTo, new Guid("5d35f7d0-4e5c-e811-9c5c-d017c2aa438d"), Connector.Or);
+        //        filtertest.By("id", Operation.EqualTo, new Guid("c8b7e8b8-d4c0-e811-9c7c-d017c2aa438d"));
+        //        var filter = new Filter<Groups>(filtertest);
+        //        var results = await _pager.QueryAsync(pageNumber, pageLength, filter);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw;
+        //    }
+        //    #endregion
 
 
 
-            //    var list = await _groupRepository.GetSubGroupsAsync(id);
-            //    return Ok(list);
-            //}
+        //    var list = await _groupRepository.GetSubGroupsAsync(id);
+        //    return Ok(list);
+        //}
 
-            // GET: api/groups/{id}
+        // GET: api/groups/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetGroup(Guid id)
         {
@@ -157,8 +166,8 @@ namespace IdentityServer.Webapi.Controllers
         {
             try
             {
-                _appUserGroupRepository.DeleteAppUserGroupByGroupAsync(id);
-                _groupRepository.DeleteGroup(id);
+                //_appUserGroupRepository.DeleteAppUserGroupByGroupAsync(id);
+                //_groupRepository.DeleteGroup(id);
             }
             catch (Exception e)
             {
@@ -167,38 +176,38 @@ namespace IdentityServer.Webapi.Controllers
             return Ok();
         }
 
-        // POST: api/groups
-        [HttpPost]
-        public async Task<IActionResult> CreateGroup([FromBody] Groups model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+        //// POST: api/groups
+        //[HttpPost]
+        //public async Task<IActionResult> CreateGroup([FromBody] Groups model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var claims = this.HttpContext.User.Claims;
-            var userId = claims.First(c => c.Type == "sub").Value;
-            Groups group;
-            try
-            {
-                group = await _groupRepository.CreateGroupAsync(model);
-                // if the parent has not been set, specify the user as an owner
-                if (model.ParentId == null)
-                {
-                    await _appUserGroupRepository.CreateAppUserGroupAsync(new ApplicationUserGroups()
-                    {
-                        GroupId = group.Id,
-                        UserId = userId
-                    });
-                }
+        //    var claims = this.HttpContext.User.Claims;
+        //    var userId = claims.First(c => c.Type == "sub").Value;
+        //    Groups group;
+        //    try
+        //    {
+        //        group = await _groupRepository.CreateGroupAsync(model);
+        //        // if the parent has not been set, specify the user as an owner
+        //        if (model.ParentId == null)
+        //        {
+        //            await _appUserGroupRepository.CreateAppUserGroupAsync(new ApplicationUserGroups()
+        //            {
+        //                GroupId = group.Id,
+        //                UserId = userId
+        //            });
+        //        }
 
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-            return Ok(group);
-        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError);
+        //    }
+        //    return Ok(group);
+        //}
 
         // PUT: api/groups
         [HttpPut]

@@ -40,6 +40,16 @@ namespace Survey.InfrastructureLayer.IdentityServices
             return response.IsSuccessful ? response.Data : null;
         }
 
+        public async Task<GroupModel> CreateGroupAsync(GroupModel model)
+        {
+            var restClient = await GetRestClient();
+            var request = new RestRequest("/api/groups", Method.POST) { RequestFormat = DataFormat.Json };
+            request.AddBody(model);
+            IRestResponse<GroupModel> response = await restClient.ExecuteTaskAsync<GroupModel>(request);
+
+            return response.IsSuccessful ? response.Data : null;
+        }
+
         //public async Task<Groups> CreateGroupAsync(Groups group)
         //{            
         //    var tokenResponse = await GetToken();

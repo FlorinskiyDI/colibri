@@ -11,6 +11,7 @@ namespace IdentityServer.Webapi.Services.Interfaces
 
         Task<SearchResult<GroupDto>> GetGroupsAsync(string userId, SearchQuery searchEntry, bool isRoot = false);
         Task<IEnumerable<GroupDto>> GetByParentIdAsync(string userId, SearchQuery searchEntry, string parentId);
+        Task<GroupDto> CreateGroup(GroupDto model, string userId);
 
 
         //Task<DataPage<Groups, Guid>> GetRootAsync(PageSearchEntry searchEntry, string userId);

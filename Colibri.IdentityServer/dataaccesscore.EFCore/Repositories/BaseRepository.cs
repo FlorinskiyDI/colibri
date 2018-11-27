@@ -179,10 +179,11 @@ namespace dataaccesscore.EFCore.Repositories
             Context.Set<TEntity>().Add(entity);
         }
 
-        public virtual async Task AddAsync(TEntity entity)
+        public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
             if (entity == null) throw new InvalidOperationException("Unable to add a null entity to the repository.");
-            await Context.Set<TEntity>().AddAsync(entity);
+            var result = await Context.Set<TEntity>().AddAsync(entity);
+            return result.Entity;
         }
 
         public virtual async Task AddRangeAsync(TEntity[] entitys)
