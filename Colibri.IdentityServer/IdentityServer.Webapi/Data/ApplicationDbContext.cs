@@ -11,6 +11,7 @@ namespace IdentityServer.Webapi.Data
         public virtual DbSet<ApplicationUserGroups> ApplicationUserGroups { get; set; }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public virtual DbSet<Groups> Groups { get; set; }
+        public virtual DbSet<GroupNode> GroupNode { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -26,6 +27,10 @@ namespace IdentityServer.Webapi.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<GroupNode>(b =>
+            {
+                b.HasKey(p => new { p.AncestorId, p.OffspringId });
+            });
 
             modelBuilder.Entity<ApplicationUserGroups>(entity =>
             {
@@ -49,10 +54,24 @@ namespace IdentityServer.Webapi.Data
                 entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
 
                 entity.HasOne(d => d.Parent)
-                    .WithMany(p => p.InverseParent)                    
+                    .WithMany(p => p.InverseParent)
                     .HasForeignKey(d => d.ParentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Groups_ToGroups");
+
+                entity
+                    .HasMany(p => p.Ancestors)
+                    .WithOne(d => d.Offspring)
+                    .HasForeignKey(d => d.OffspringId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Ancestor_ToOffspring");
+
+                entity
+                    .HasMany(p => p.Offspring)
+                    .WithOne(d => d.Ancestor)
+                    .HasForeignKey(d => d.AncestorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Offspring_ToAncestor");
             });
 
             #region AspNetCore Identity
