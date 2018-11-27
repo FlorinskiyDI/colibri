@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using Survey.ApplicationLayer.Dtos;
+using Survey.ApplicationLayer.Dtos.Models.Report;
 using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.Common.Enums;
 using System;
@@ -73,21 +74,79 @@ namespace Survey.ApplicationLayer.Services
             DataTable dataTable = new DataTable();
             try
             {
+                var colCount = 0;
                 for (int i = 0; i < data.HeaderOption.Count; i++)
                 {
                     if (data.HeaderOption[i].Type == QuestionTypes.GridRadio.ToString())
                     {
+                        int childNumerator = 1;
                         foreach (var child in data.HeaderOption[i].Children)
                         {
-                            dataTable.Columns.Add(i + 1 + " " + child);
+                            dataTable.Columns.Add( "[" + (i + 1) + "." + childNumerator + "] - " + child);
+                            colCount = colCount + 1;
+                            ++childNumerator;
                         }
                     }
                     var type = data.HeaderOption[i].Type;
                     if (type == QuestionTypes.Textbox.ToString() || type == QuestionTypes.Textarea.ToString())
                     {
-                        dataTable.Columns.Add(i + 1 + " " + data.HeaderOption[i].Name);
+                        dataTable.Columns.Add("[" + (i + 1) + "] - " + data.HeaderOption[i].Name);
+                        colCount = colCount + 1;
                     }
+
+                    
                 }
+
+
+
+                foreach (var groupAnswer in data.Answers)
+                {
+                    object[] values = new object[colCount];
+                    int keyValue = 0;
+                    for (int i = 0; i < groupAnswer.Count; i++)
+                    {
+                        var type = groupAnswer[i].InputTypeName;
+
+                        if (type == QuestionTypes.GridRadio.ToString())
+                        {
+                            foreach (var child in groupAnswer[i].Answer as List<TableReportViewModel>)
+                            {
+                                values[keyValue] = child.Answer;
+                                keyValue = keyValue + 1;
+                            }
+                        }                
+
+                        if (type == QuestionTypes.Textbox.ToString() || type == QuestionTypes.Textarea.ToString())
+                        {
+                            values[keyValue] = groupAnswer[i].Answer;
+                            keyValue = keyValue + 1;
+                        }
+                    }
+                    dataTable.Rows.Add(values);
+
+
+
+
+
+
+                    //for (int i = 0; i < data.Answers.Count; i++)
+                    //{
+                    //    if (null == QuestionTypes.GridRadio.ToString())
+                    //    {
+                    //        foreach (var child in data.HeaderOption[i].Children)
+                    //        {
+                    //            dataTable.Columns.Add(i + 1 + " " + child);
+                    //        }
+                    //    }
+                    //    var type = data.HeaderOption[i].Type;
+                    //    if (type == QuestionTypes.Textbox.ToString() || type == QuestionTypes.Textarea.ToString())
+                    //    {
+                    //        dataTable.Columns.Add(i + 1 + " " + data.HeaderOption[i].Name);
+                    //    }
+                    //}
+                }
+
+                var check5 = 5;
             }
             catch (Exception ex)
             {
@@ -111,11 +170,11 @@ namespace Survey.ApplicationLayer.Services
             using (ExcelPackage package = new ExcelPackage())
             {
                 ExcelWorksheet workSheet = package.Workbook.Worksheets.Add(String.Format("{0} Data", heading));
-                int startRowFrom = String.IsNullOrEmpty(heading) ? 1 : 3;
+                int startRowFrom = String.IsNullOrEmpty(heading) ? 2 : 4;
 
                 if (showSrNo)
                 {
-                    DataColumn dataColumn = dataTable.Columns.Add("#", typeof(int));
+                    DataColumn dataColumn = dataTable.Columns.Add("№", typeof(int));
                     dataColumn.SetOrdinal(0);
                     int index = 1;
                     foreach (DataRow item in dataTable.Rows)
@@ -127,30 +186,39 @@ namespace Survey.ApplicationLayer.Services
 
 
                 // add the content into the Excel file
-                workSheet.Cells["A" + startRowFrom].LoadFromDataTable(dataTable, true);
+                workSheet.Cells["B" + startRowFrom].LoadFromDataTable(dataTable, true);
+                //MeargeCells(workSheet, 5, 1, 9, 9);
+
+
+
+                //workSheet.Cells[1, 1, 9, 9].Style.WrapText = true;
+
 
                 // autofit width of cells with small content
-                int columnIndex = 1;
-                foreach (DataColumn column in dataTable.Columns)
-                {
-                    ExcelRange columnCells = workSheet.Cells[workSheet.Dimension.Start.Row, columnIndex, workSheet.Dimension.End.Row, columnIndex];
-                    int maxLength = columnCells.Max(cell => cell.Value.ToString().Count());
-                    if (maxLength < 150)
-                    {
-                        workSheet.Column(columnIndex).AutoFit();
-                    }
+                //int columnIndex = 1;
+                //foreach (DataColumn column in dataTable.Columns)
+                //{
+                //    ExcelRange columnCells = workSheet.Cells[workSheet.Dimension.Start.Row, columnIndex, workSheet.Dimension.End.Row, columnIndex];
+                //    int maxLength = columnCells.Max(cell => cell.Value.ToString().Count());
+                //    if (maxLength < 150)
+                //    {
+                //        workSheet.Column(columnIndex).AutoFit();
+                //    }
 
 
-                    columnIndex++;
-                }
+                //    columnIndex++;
+                //}
 
                 // format header - bold, yellow on black
-                using (ExcelRange r = workSheet.Cells[startRowFrom, 1, startRowFrom, dataTable.Columns.Count])
+                int leftIndent = 1;
+                using (ExcelRange r = workSheet.Cells[startRowFrom, 1+ leftIndent, startRowFrom, dataTable.Columns.Count + leftIndent])
                 {
                     r.Style.Font.Color.SetColor(System.Drawing.Color.White);
                     r.Style.Font.Bold = true;
                     r.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                     r.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#1fb5ad"));
+                    r.Style.WrapText = true;
+                    r.Style.VerticalAlignment = ExcelVerticalAlignment.Top;
                 }
 
                 // format cells - add borders
@@ -195,6 +263,14 @@ namespace Survey.ApplicationLayer.Services
 
             return result;
         }
+
+
+        public static void MeargeCells(ExcelWorksheet worksheet, int FromRow, int FromColumn, int ToRow, int ToColumn)
+        {
+        worksheet.Cells[FromRow, FromColumn, ToRow, ToColumn].Merge = true;
+        }
+
+
 
         public FileModel ExportExcel(FileViewModel data, string Heading = "", bool showSlno = false)
         {
