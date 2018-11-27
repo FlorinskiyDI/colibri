@@ -19,11 +19,12 @@
         color: transparent;
         text-shadow: 0 1px 0 #ebebeb; 
     }
+    
     &:hover {
         border: 4px solid #fff !important;
     }
 
-    
+
 }
 
 ::ng-deep .ui-table.ui-table-hoverable-rows .ui-table-tbody > tr:not(.ui-state-highlight):not(.ui-contextmenu-selected):hover td .clbr-tb-action-btn{
