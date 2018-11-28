@@ -241,23 +241,36 @@ namespace IdentityServer.Webapi.Services
 
         public async Task DeleteGroup(string groupId, string userId)
         {
+            IEnumerable<GroupNode> ancestors;
+            IEnumerable<GroupNode> offspring;
+            IEnumerable<Groups> inverseParent;
+            
             try
             {
                 using (var uow = _uowProvider.CreateUnitOfWork())
                 {
                     var repository = uow.GetRepository<Groups>();
-                    var result = await repository.GetAsync<Guid>(new Guid(groupId), c => c.Include(d => d.Ancestors).Include(d => d.Offspring).Include(d => d.InverseParent));
-                    // delete all paths to group
-                    await _groupNodeService.DeletePathsForAncestorsByDescendants(result.Ancestors, result.Offspring);
-                    await _userGroupService.DeletePathsWhereGroup(groupId);
-                    repository.Remove(result);
-                    await uow.SaveChangesAsync();
-
-                    foreach (var item in result.InverseParent)
-                    {
-                        await _userGroupService.AddUserToGroup(new ApplicationUserGroups { GroupId = item.Id, UserId = userId });
-                    }
+                    var result = await repository.GetAsync<Guid>(new Guid(groupId), c => c.Include(d => d.Ancestors).Include(d => d.Offspring));
+                    ancestors = result.Ancestors;
+                    offspring = result.Offspring;
                 }
+                // delete all paths to group
+                await _groupNodeService.DeletePathsForAncestorsByDescendants(ancestors, offspring);
+                await _userGroupService.DeletePathsWhereGroup(groupId);
+                using (var uow = _uowProvider.CreateUnitOfWork())
+                {
+                    var repository = uow.GetRepository<Groups>();
+                    var result = await repository.GetAsync<Guid>(new Guid(groupId), c => c.Include(d => d.InverseParent));
+                    inverseParent = result.InverseParent;
+                    repository.Remove(result);
+                    uow.SaveChanges();
+                }
+
+                foreach (var item in inverseParent)
+                {
+                    await _userGroupService.AddUserToGroup(new ApplicationUserGroups { GroupId = item.Id, UserId = userId });
+                }
+
 
                 // add new group
                 //using (var uow = _uowProvider.CreateUnitOfWork())
