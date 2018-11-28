@@ -38,7 +38,7 @@ namespace IdentityServer.Webapi.Services
             _userGroupService = userGroupService;
         }
 
-        public async Task<SearchResult<GroupDto>> GetGroupsAsync(string userId, SearchQuery searchEntry, bool isRoot = false)
+        public async Task<SearchResult<GroupDto>> GetRootAsync(string userId, SearchQuery searchEntry)
         {
             // generate sort expression
             var sort = searchEntry?.OrderStatement == null
@@ -46,6 +46,68 @@ namespace IdentityServer.Webapi.Services
                 : new OrderBy<Groups>(searchEntry.OrderStatement.ColumName, searchEntry.OrderStatement.Reverse);
             // generate filter expression
             var filters = new Filter<Groups>(c => c.ApplicationUserGroups.Any(d => d.UserId == userId));
+
+            var page = new SearchResult<GroupDto>();
+            try
+            {
+                using (var uow = _uowProvider.CreateUnitOfWork())
+                {
+                    var repository = uow.GetRepository<Groups>();
+
+                    // get data
+                    if (searchEntry?.SearchQueryPage == null)
+                    {
+                        var data = await repository.QueryAsync(filters.Expression, sort.Expression);
+                        page = new SearchResult<GroupDto>()
+                        {
+                            ItemList = data.Select(c => new GroupDto
+                            {
+                                Id = c.Id,
+                                ParentId = c.ParentId,
+                                Name = c.Name,
+                                CountChildren = c.InverseParent.Count
+                            }).ToList(),
+                        };
+                    }
+                    // get page data
+                    else
+                    {
+                        var startRow = searchEntry.SearchQueryPage.PageNumber;
+                        var data = await repository.QueryPageAsync(startRow, searchEntry.SearchQueryPage.PageLength, filters.Expression, sort.Expression);
+                        var totalCount = await repository.CountAsync(filters.Expression);
+
+                        page = new SearchResult<GroupDto>()
+                        {
+                            ItemList = data.Select(c => new GroupDto
+                            {
+                                Id = c.Id,
+                                ParentId = c.ParentId,
+                                Name = c.Name,
+                                CountChildren = c.InverseParent.Count,
+                                GroupID = c.GroupID,
+                                Description = c.Description
+                            }).ToList(),
+                            SearchResultPage = new SearchResultPage()
+                            {
+                                TotalItemCount = totalCount,
+                                PageLength = searchEntry.SearchQueryPage.PageLength,
+                                PageNumber = totalCount / searchEntry.SearchQueryPage.PageLength
+                            }
+                        };
+                    }
+                }
+            }
+            catch (Exception ex) { throw ex; }
+
+            return page;
+        }
+
+        public async Task<SearchResult<GroupDto>> GetAllAsync(string userId, SearchQuery searchEntry)
+        {
+            // generate sort expression
+            var sort = searchEntry?.OrderStatement == null
+                ? new OrderBy<Groups>(c => c.OrderBy(d => d.Name))
+                : new OrderBy<Groups>(searchEntry.OrderStatement.ColumName, searchEntry.OrderStatement.Reverse);
             // generate includes expression
             var includes = new Includes<Groups>(c => c.Include(v => v.InverseParent).Include(v => v.Parent));
 
@@ -55,20 +117,16 @@ namespace IdentityServer.Webapi.Services
                 using (var uow = _uowProvider.CreateUnitOfWork())
                 {
                     var repository = uow.GetRepository<Groups>();
-                    // if items are root, than get parentids and add new filter
-                    if (isRoot)
-                    {
-                        var items = repository.Query(c => c.ApplicationUserGroups.Any(d => d.UserId == userId)).Select(c => new { Id = c.Id, ParentId = c.ParentId }).ToList();
-                        var itemParentIds = items.Where(c => c.ParentId != null).Select(c => c.ParentId).ToList();
-                        var itemIds = items.Select(c => c.Id).ToList();
-                        var itemsUnion = itemParentIds.Where(c => !itemIds.Contains(c.Value)).ToList();
-                        filters.AddExpression(c => itemsUnion.Contains(c.ParentId.Value) || c.ParentId == null);  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
-                    }
+
+                    // get root groups fo user
+                    var items = repository.Query(c => c.ApplicationUserGroups.Any(d => d.UserId == userId)).ToList();
+                    Filter<Groups> filters = new Filter<Groups>(c => c.Ancestors.Any(d => items.Contains(d.Ancestor)));  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
+                    //Filter<Groups> filters = new Filter<Groups>(c => items.Contains(c.ParentId.Value) || c.ParentId == null);  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
 
                     // get data
                     if (searchEntry?.SearchQueryPage == null)
                     {
-                        var data = await repository.QueryAsync(filters.Expression, sort.Expression, includes.Expression);
+                        var data = await repository.QueryAsync(filters.Expression, sort.Expression);
                         page = new SearchResult<GroupDto>()
                         {
                             ItemList = data.Select(c => new GroupDto
@@ -85,7 +143,7 @@ namespace IdentityServer.Webapi.Services
                     else
                     {
                         var startRow = searchEntry.SearchQueryPage.PageNumber;
-                        var data = await repository.QueryPageAsync(startRow, searchEntry.SearchQueryPage.PageLength, filters.Expression, sort.Expression, includes.Expression);
+                        var data = await repository.QueryPageAsync(startRow, searchEntry.SearchQueryPage.PageLength, filters.Expression, sort.Expression);
                         var totalCount = await repository.CountAsync(filters.Expression);
 
                         page = new SearchResult<GroupDto>()

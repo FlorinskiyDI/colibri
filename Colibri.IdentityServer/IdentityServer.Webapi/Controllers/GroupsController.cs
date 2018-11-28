@@ -51,7 +51,7 @@ namespace IdentityServer.Webapi.Controllers
         public async Task<IActionResult> GetGroups([FromBody] SearchQuery searchEntry)
         {
             var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
-            var result = await _groupServices.GetGroupsAsync(_userId, searchEntry);
+            var result = await _groupServices.GetAllAsync(_userId, searchEntry);
             return Ok(result);
         }
 
@@ -61,7 +61,7 @@ namespace IdentityServer.Webapi.Controllers
         public async Task<IActionResult> GetRootGroups([FromBody] SearchQuery searchEntry)
         {
             var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
-            var result = await _groupServices.GetGroupsAsync(_userId, searchEntry, true);
+            var result = await _groupServices.GetRootAsync(_userId, searchEntry);
             return Ok(result);
         }
 
