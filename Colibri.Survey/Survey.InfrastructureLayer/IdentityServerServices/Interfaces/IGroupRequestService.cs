@@ -11,6 +11,7 @@ namespace Survey.InfrastructureLayer.IdentityServices
         Task<SearchResultModel<GroupModel>> GetRootGroups(SearchQueryModel pageSearchEntry);
         Task<IEnumerable<GroupModel>> GetSubgroups(SearchQueryModel searchEntry, string parentId);
         Task<GroupModel> CreateGroupAsync(GroupModel model);
+        Task DeleteGroupAsync(string model);
 
 
         //// group

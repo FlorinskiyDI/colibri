@@ -83,6 +83,15 @@ namespace IdentityServer.Webapi.Controllers
             return Ok(result);
         }
 
+        // DELETE: api/groups/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteGroup(string id)
+        {
+            var userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
+            await _groupServices.DeleteGroup(id, userId);
+            return Ok();
+        }
+
         //private List<Groups> recursiveTreeSearch(Groups group, List<Groups> siblings)
         //{
         //    if (group.InverseParent.Count() > 0)
@@ -160,21 +169,7 @@ namespace IdentityServer.Webapi.Controllers
             return Ok(entity);
         }
 
-        // DELETE: api/groups/{id}
-        [HttpDelete("{id}")]
-        public IActionResult DeleteGroup(Guid id)
-        {
-            try
-            {
-                //_appUserGroupRepository.DeleteAppUserGroupByGroupAsync(id);
-                //_groupRepository.DeleteGroup(id);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-            return Ok();
-        }
+
 
         //// POST: api/groups
         //[HttpPost]

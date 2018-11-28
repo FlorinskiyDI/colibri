@@ -9,6 +9,7 @@ namespace IdentityServer.Webapi.Services.Interfaces
     public interface IGroupNodeService
     {
         Task<IEnumerable<GroupNode>> GetAncestors(Guid descendantId);
-        Task AddPathsBetweenDescendantAndAncestors(Guid newDescendantId, Guid? parentId);
+        Task AddPathsBetweenDescendantAndAncestors(Guid newDescendantId, Guid? groupId);
+        Task DeletePathsForAncestorsByDescendants(IEnumerable<GroupNode> ancestorList, IEnumerable<GroupNode> descendantList);
     }
 }

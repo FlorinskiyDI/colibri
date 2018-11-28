@@ -211,6 +211,16 @@ namespace dataaccesscore.EFCore.Repositories
             Context.Set<TEntity>().Remove(entity);
         }
 
+        public virtual void RemoveRange(IEnumerable<TEntity> list)
+        {
+            Context.Set<TEntity>().AttachRange(list);
+            foreach (var item in list)
+            {
+                Context.Entry(item).State = EntityState.Deleted;
+            }
+            Context.Set<TEntity>().RemoveRange(list);
+        }
+
         public virtual void Remove<TKey>(TKey id)
         {
             var entity = Context.Set<TEntity>().Find(id);

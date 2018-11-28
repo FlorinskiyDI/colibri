@@ -72,8 +72,9 @@ namespace Survey.Webapi.Controllers
         // DELETE: api/groups/{id}
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> DeleteGroup(Guid id)
+        public async Task<IActionResult> DeleteGroup(string id)
         {
+            await _groupService.DeleteGroup(id);
             return Ok();
         }
 

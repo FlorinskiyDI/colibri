@@ -5,7 +5,6 @@ using dataaccesscore.EFCore.Query;
 using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Dtos;
 using IdentityServer.Webapi.Dtos.Search;
-//using IdentityServer.Webapi.Dtos.Search;
 using IdentityServer.Webapi.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -214,9 +213,7 @@ namespace IdentityServer.Webapi.Services
 
         public async Task<GroupDto> CreateGroup(GroupDto model, string userId)
         {
-
             var entity = _mapper.Map<GroupDto, Groups>(model);
-
             try
             {
                 // add new group
@@ -239,10 +236,51 @@ namespace IdentityServer.Webapi.Services
                 throw ex;
             }
 
-
             return _mapper.Map<Groups, GroupDto>(entity);
         }
 
+        public async Task DeleteGroup(string groupId, string userId)
+        {
+            try
+            {
+                using (var uow = _uowProvider.CreateUnitOfWork())
+                {
+                    var repository = uow.GetRepository<Groups>();
+                    var result = await repository.GetAsync<Guid>(new Guid(groupId), c => c.Include(d => d.Ancestors).Include(d => d.Offspring).Include(d => d.InverseParent));
+                    // delete all paths to group
+                    await _groupNodeService.DeletePathsForAncestorsByDescendants(result.Ancestors, result.Offspring);
+                    await _userGroupService.DeletePathsWhereGroup(groupId);
+                    repository.Remove(result);
+                    await uow.SaveChangesAsync();
+
+                    foreach (var item in result.InverseParent)
+                    {
+                        await _userGroupService.AddUserToGroup(new ApplicationUserGroups { GroupId = item.Id, UserId = userId });
+                    }
+                }
+
+                // add new group
+                //using (var uow = _uowProvider.CreateUnitOfWork())
+                //{
+                //    var repository = uow.GetRepository<Groups>();
+                //    var result = await repository.AddAsync(entity);
+                //    await uow.SaveChangesAsync();
+                //}
+                //// add user to group
+                //if (model.ParentId == null)
+                //{
+                //    await _userGroupService.AddUserToGroup(new ApplicationUserGroups { GroupId = entity.Id, UserId = userId });
+                //}
+                //// add paths between new descendant and exist ancestors
+                //await _groupNodeService.AddPathsBetweenDescendantAndAncestors(entity.Id, model.ParentId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return;
+        }
 
 
         //public async Task<DataPage<Groups, Guid>> GetRootAsync(PageSearchEntry searchEntry, string userId)

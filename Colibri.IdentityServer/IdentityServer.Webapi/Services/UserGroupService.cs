@@ -1,4 +1,5 @@
 ﻿using dataaccesscore.Abstractions.Uow;
+using dataaccesscore.EFCore.Query;
 using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Services.Interfaces;
 using System;
@@ -36,6 +37,26 @@ namespace IdentityServer.Webapi.Services
             {
                 throw ex;
             }
+        }
+
+        public async Task DeletePathsWhereGroup(string groupId)
+        {
+            try
+            {
+                using (var uow = _uowProvider.CreateUnitOfWork())
+                {
+                    var repository = uow.GetRepository<ApplicationUserGroups>();
+                    var list = await repository.QueryAsync(c => c.GroupId == new Guid(groupId));
+                    repository.RemoveRange(list);
+                    await uow.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return;
         }
     }
 }

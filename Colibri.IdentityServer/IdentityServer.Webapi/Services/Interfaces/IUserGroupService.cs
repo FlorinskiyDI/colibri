@@ -9,5 +9,6 @@ namespace IdentityServer.Webapi.Services.Interfaces
     public interface IUserGroupService
     {
         Task<ApplicationUserGroups> AddUserToGroup(ApplicationUserGroups model);
+        Task DeletePathsWhereGroup(string groupId);
     }
 }

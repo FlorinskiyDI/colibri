@@ -97,6 +97,7 @@ namespace dataaccesscore.Abstractions.Repositories
         // remove
         void Remove(TEntity entity);
         void Remove<TKey>(TKey id);
+        void RemoveRange(IEnumerable<TEntity> list);
 
         // any
         bool Any(Expression<Func<TEntity, bool>> filter = null);

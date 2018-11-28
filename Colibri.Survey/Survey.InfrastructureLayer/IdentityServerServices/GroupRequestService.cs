@@ -50,6 +50,15 @@ namespace Survey.InfrastructureLayer.IdentityServices
             return response.IsSuccessful ? response.Data : null;
         }
 
+        public async Task DeleteGroupAsync(string groupId)
+        {
+            var restClient = await GetRestClient();
+            var request = new RestRequest("/api/groups/" + groupId , Method.DELETE) { RequestFormat = DataFormat.Json };
+            IRestResponse response = await restClient.ExecuteTaskAsync(request);
+
+            return;
+        }
+
         //public async Task<Groups> CreateGroupAsync(Groups group)
         //{            
         //    var tokenResponse = await GetToken();

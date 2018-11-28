@@ -56,6 +56,12 @@ namespace Survey.ApplicationLayer.Services
             return value;
         }
 
+        public async Task DeleteGroup(string groupId)
+        {
+            await _groupRequestService.DeleteGroupAsync(groupId);
+            return;
+        }
+
 
         //public async Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId)
         //{
