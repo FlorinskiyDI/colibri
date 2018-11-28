@@ -3,11 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.AspNetCore.Identity;
 using dataaccesscore.Abstractions.Context;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace IdentityServer.Webapi.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IEntityContext
     {
+        public static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] {
+                new ConsoleLoggerProvider((category, level)
+                    => category == DbLoggerCategory.Database.Command.Name
+                       && level == LogLevel.Debug, true)
+            });
+
         public virtual DbSet<ApplicationUserGroups> ApplicationUserGroups { get; set; }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public virtual DbSet<Groups> Groups { get; set; }
@@ -22,7 +30,10 @@ namespace IdentityServer.Webapi.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(SqlConnectionFactory.ConnectionString);
+            optionsBuilder
+                .EnableSensitiveDataLogging()
+                .UseLoggerFactory(MyLoggerFactory)
+                .UseSqlServer(SqlConnectionFactory.ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
