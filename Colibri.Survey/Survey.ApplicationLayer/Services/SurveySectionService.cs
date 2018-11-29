@@ -43,6 +43,22 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
+        public async Task<IEnumerable<SurveyExtendViewModel>> GetSurveysWithRespondentCount()
+        {
+            Guid userId = Guid.Parse(NTContext.Context.UserId);
+            IEnumerable<SurveySections> items;
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
+                items = await repositorySurveySection.GetAllAsync();
+                await uow.SaveChangesAsync();
+            }
+            return  Mapper.Map<IEnumerable<SurveySections>, IEnumerable<SurveyExtendViewModel>>(items);
+
+
+        }
+
+
         public async Task<IEnumerable<SurveySectionDto>> GetUnlockedSuerveys()
         {
             Guid userId = Guid.Parse(NTContext.Context.UserId);

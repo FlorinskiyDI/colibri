@@ -15,5 +15,6 @@ namespace Survey.ApplicationLayer.Services.Interfaces
         Task<Guid> Update(SurveyModel survey);
         Task<bool> SetLockState(Guid id, bool state);
         Task<IEnumerable<SurveySectionDto>> GetUnlockedSuerveys();
+        Task<IEnumerable<SurveyExtendViewModel>> GetSurveysWithRespondentCount();
     }
 }

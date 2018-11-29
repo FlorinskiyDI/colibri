@@ -7,6 +7,7 @@ export class SurveyModel {
     name: string;
     description: string;
     pages: PageModel[];
+    respondentsCount: number;
     isShowDescription: boolean;
     isOpenAccess: boolean;
     isShowProcessCompletedText: boolean;

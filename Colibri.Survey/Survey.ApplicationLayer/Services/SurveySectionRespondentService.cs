@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using dataaccesscore.Abstractions.Uow;
@@ -9,14 +11,14 @@ namespace Survey.ApplicationLayer.Services
 {
 
 
-    public class ServeySectionRespondentServie : IServeySectionRespondentServie
+    public class SurveySectionRespondentServie : ISurveySectionRespondentService
     {
 
 
         protected readonly IUowProvider UowProvider;
         protected readonly IMapper Mapper;
 
-        public ServeySectionRespondentServie(
+        public SurveySectionRespondentServie(
             IUowProvider uowProvider,
             IMapper mapper
         )
@@ -24,6 +26,18 @@ namespace Survey.ApplicationLayer.Services
             this.UowProvider = uowProvider;
             this.Mapper = mapper;
         }
+
+
+        public async Task<int> GetListBySurveyId(Guid id)
+        {
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                var repositorySR = uow.GetRepository<SurveySectoinRespondents, Guid>();
+                var items = await repositorySR.QueryAsync(x => x.SurveySectionId == id);
+                return items.Count();
+            }
+        }
+
 
 
 

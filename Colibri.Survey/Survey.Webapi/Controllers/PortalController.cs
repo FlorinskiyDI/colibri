@@ -19,7 +19,7 @@ namespace Survey.Webapi.Controllers
     public class PortalController : Controller
     {
 
-        private readonly IServeySectionRespondentServie _serveySectionRespondentServie;
+        private readonly ISurveySectionRespondentService _surveySectionRespondentService;
         private readonly ISurveySectionService _surveySectionService;
         private readonly IPageService _pageService;
         private readonly IQuestionService _questionService;
@@ -40,7 +40,7 @@ namespace Survey.Webapi.Controllers
             IQuestionOptionService questionOptionService,
             IUserService userService,
             IRespondentService respondentService,
-            IServeySectionRespondentServie serveySectionRespondentServie
+            ISurveySectionRespondentService surveySectionRespondentService
 
         )
         {
@@ -52,7 +52,7 @@ namespace Survey.Webapi.Controllers
             _questionOptionService = questionOptionService;
             _userService = userService;
             _respondentService = respondentService;
-            _serveySectionRespondentServie = serveySectionRespondentServie;
+            _surveySectionRespondentService = surveySectionRespondentService;
         }
 
 
@@ -117,7 +117,7 @@ namespace Survey.Webapi.Controllers
                 {
                     Guid respondentId = await _respondentService.AddAsync();
 
-                    await _serveySectionRespondentServie.AddAsync(respondentData.SurveyId, respondentId);
+                    await _surveySectionRespondentService.AddAsync(respondentData.SurveyId, respondentId);
                     List<BaseAnswerModel> typedAnswerList = new List<BaseAnswerModel>();
                     typedAnswerList = _answerService.GetTypedAnswerList(respondentData.AnswerList);
                     if (typedAnswerList.Any())

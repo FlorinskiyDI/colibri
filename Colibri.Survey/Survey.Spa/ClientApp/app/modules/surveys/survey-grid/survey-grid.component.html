@@ -34,6 +34,7 @@
                                     <th style="width:20%" class="border-right-none border-left-none">Date created</th>
                                     <th style="width:10%" class="border-right-none border-left-none">Shown description</th>
                                     <th style="width:15%" class="border-right-none border-left-none">Shown completed note</th>
+                                    <th style="width:15%" class="border-right-none border-left-none">Respondents</th>
                                     <th style="width:10%" class="border-right-none border-left-none">Actions</th>
                                 </tr>
                             </ng-template>
@@ -44,7 +45,8 @@
                                     <td class="border-left-none border-right-none">{{item.dateCreated | date:'medium'}}</td>
                                     <td class="border-left-none border-right-none">{{item.isShowDescription}}</td>
                                     <td class="border-left-none border-right-none">{{item.isShowProcessCompletedText}}</td>
-
+                                    
+                                    <td class="border-left-none border-right-none">({{item.respondentsCount}}) answers</td>
                                     <td class="border-left-none border-right-none">
                                         <div class="clbr--btn-inline">
                                             <!-- <button class="btn btn-sm btn-default notification" id="notification">
@@ -83,5 +85,5 @@
         </div>
     </div>
 
-    <p-growl styleClass="clbr--growl-icon-none" [life]="5000">
+    <p-growl styleClass="clbr--growl-icon-none d-note-index-max" [life]="5000">
     </p-growl>

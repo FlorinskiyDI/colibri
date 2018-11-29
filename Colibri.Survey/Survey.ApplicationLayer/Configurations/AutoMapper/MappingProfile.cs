@@ -35,6 +35,8 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
         }
         private void EntityToDto()
         {
+            // to viewModel
+            CreateMap<SurveySections, SurveyExtendViewModel>();
             // models
             CreateMap<SearchQueryDto, SearchQueryModel>();
             CreateMap<SearchQueryPageDto, SearchQueryPageModel>();

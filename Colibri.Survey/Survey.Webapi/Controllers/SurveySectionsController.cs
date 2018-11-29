@@ -27,15 +27,18 @@ namespace Survey.Webapi.Controllers
         private readonly ISurveySectionService _surveySectionService;
         private readonly IPageService _pageService;
         private readonly IQuestionService _questionService;
+        private readonly ISurveySectionRespondentService _surveySectionRespondentServie;
         ControlStates state;
 
         public SurveySectionsController(
+            ISurveySectionRespondentService surveySectionRespondentServie,
             IConfiguration configuration,
             ISurveySectionService surveySectionService,
             IPageService pageService,
         IQuestionService questionService
         )
         {
+            _surveySectionRespondentServie = surveySectionRespondentServie;
             _configuration = configuration;
             _surveySectionService = surveySectionService;
             _pageService = pageService;
@@ -47,17 +50,21 @@ namespace Survey.Webapi.Controllers
         [HttpGet]
         public async Task<IActionResult> Getlist()
         {
-            IEnumerable<SurveySectionDto> result;
+            IEnumerable<SurveyExtendViewModel> surveys;
             try
             {
-                result = await _surveySectionService.GetAll();
+                surveys = await _surveySectionService.GetSurveysWithRespondentCount();
+                foreach (var item in surveys)
+                {
+                    item.RespondentsCount = await _surveySectionRespondentServie.GetListBySurveyId(item.Id);
+                }
             }
             catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return Ok(result);
+            return Ok(surveys);
         }
 
 

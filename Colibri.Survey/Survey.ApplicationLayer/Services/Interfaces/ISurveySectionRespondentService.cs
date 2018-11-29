@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 namespace Survey.ApplicationLayer.Services.Interfaces
 {
 
-    public interface IServeySectionRespondentServie
+    public interface ISurveySectionRespondentService
     {
         Task<Guid> AddAsync(Guid surveyId, Guid RespondentId);
+        Task<int> GetListBySurveyId(Guid id);
     }
 }
