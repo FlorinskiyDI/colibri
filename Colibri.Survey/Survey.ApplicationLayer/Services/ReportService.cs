@@ -104,7 +104,7 @@ namespace Survey.ApplicationLayer.Services
                 var repositoryQuestion = uow.GetRepository<Questions, Guid>();
                 var repositoryInputType = uow.GetRepository<InputTypes, Guid>();
 
-                var questionList = repositoryRespondent.GetAll()
+                var answerList = repositoryRespondent.GetAll()
 
 
                     .Join(repositorySurvey.Query(p => p.Id == surveyId),
@@ -144,15 +144,15 @@ namespace Survey.ApplicationLayer.Services
 
 
 
-                if (questionList.Count > 0)
+                if (answerList.Count > 0)
                 {
-                    var groupes = questionList.GroupBy(u => u.ParentQuestionId == null).ToArray();
+                    var groupes = answerList.GroupBy(u => u.ParentQuestionId == null).ToArray();
                     //.GroupBy(u => u.ParentQuestionId == null)
                     var GroupAnswer = groupes.Single(g => g.Key == true).ToList();
 
 
 
-                    var groupedCustomerList = questionList
+                    var groupedCustomerList = answerList
                         .GroupBy(u => u.ParentQuestionId == null)
                         .Select(grp => grp.ToList())
                         .ToList();
@@ -165,7 +165,7 @@ namespace Survey.ApplicationLayer.Services
                 }
                 else
                 {
-                    return questionList;
+                    return answerList;
                 }
 
             }
@@ -214,7 +214,7 @@ namespace Survey.ApplicationLayer.Services
                                     }
                                 )
                                 .ToList();
-                            item.Answer = GetAnswerByType(item, answer);
+                            item.Answer = GetAnswerByType(item.InputTypeName, answer, item.QuestionId, item.RespondentId);
                         }
                     }
                 }
@@ -232,10 +232,10 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
-        protected object GetAnswerByType(TableReportViewModel answerModel, List<AnswerModel> answerList)
+        protected object GetAnswerByType(string inputTypeName, List<AnswerModel> answerList, Guid questionId, Guid respondentId)
         {
-            string answerONQuestion = "NO ANSWER";
-            if (Enum.TryParse(answerModel.InputTypeName, out type))
+            string answerONQuestion = "--NULL--";
+            if (Enum.TryParse(inputTypeName, out type))
             {
                 switch (type)
                 {
@@ -287,7 +287,7 @@ namespace Survey.ApplicationLayer.Services
                         {
                             List<TableReportViewModel> tempList = new List<TableReportViewModel>();
                             var rowQuestionList = _rowQuestions
-                                .Where(p => p.ParentQuestionId == answerModel.QuestionId).Where(p => p.RespondentId == answerModel.RespondentId).ToList();
+                                .Where(p => p.ParentQuestionId == questionId).Where(p => p.RespondentId == respondentId).ToList();
 
                             //tempList.Add(rowQuestionList);
                             var newanser = GetReport(rowQuestionList);
@@ -295,6 +295,10 @@ namespace Survey.ApplicationLayer.Services
                             //break;
                         }
                 }
+            }
+            else
+            {
+                var check = 5;
             }
             return answerONQuestion;
         }

@@ -15,6 +15,7 @@ namespace Survey.ApplicationLayer.Dtos.Entities
         public DateTime DateCreated { get; set; }
         public Guid UserId { get; set; }
         public bool IsOpenAccess { get; set; }
+        public bool IsLocked { get; set; }
         //public ICollection<PagesDto> Pages { get; set; }
     }
 }

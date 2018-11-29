@@ -63,7 +63,7 @@ namespace Survey.Webapi.Controllers
             IEnumerable<SurveySectionDto> result;
             try
             {
-                result = await _surveySectionService.GetAll();
+                result = await _surveySectionService.GetUnlockedSuerveys();
             }
             catch (Exception e)
             {

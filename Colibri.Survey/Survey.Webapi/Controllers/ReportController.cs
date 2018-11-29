@@ -42,10 +42,10 @@ namespace Survey.Webapi.Controllers
 
 
 
-            var questionList = _reportService.GetQuesionListBySurveyId(Guid.Parse(surveyId));
+            var answerList = _reportService.GetQuesionListBySurveyId(Guid.Parse(surveyId));
 
             //var surveyReport = _reportService.GetReport(questionList);
-            var sortAnswers = questionList.GroupBy(u => u.RespondentId)
+            var sortAnswers = answerList.GroupBy(u => u.RespondentId)
                 .Select(grp => grp.ToList())
                 .ToList();
 
@@ -91,7 +91,7 @@ namespace Survey.Webapi.Controllers
                 Answers = sortAnswers,
             };
 
-            var exportData = _excelService.ExportExcel(result, "", false);
+            var exportData = _excelService.ExportExcel(result, "", true);
 
             return new FileContentResult(exportData.Content, exportData.ContentType);
         }

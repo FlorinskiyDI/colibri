@@ -25,7 +25,7 @@ namespace Survey.DomainModelLayer.Entities
         public bool IsShowProcessCompletedText { get; set; }
         public string ProcessCompletedText { get; set; }
         public bool IsOpenAccess { get; set; }
-
+        public bool IsLocked { get; set; }
         [ForeignKey("UserId")]
         [InverseProperty("SurveySections")]
         public Users User { get; set; }

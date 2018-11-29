@@ -13,6 +13,7 @@ namespace Survey.ApplicationLayer.Dtos.Models
         public bool IsShowProcessCompletedText { get; set; }
         public string ProcessCompletedText { get; set; }
         public bool IsOpenAccess { get; set; }
+        public bool IsLocked { get; set; }
         public DateTime DateCreated { get; set; }
         public IEnumerable<PageModel> Pages { get; set; }
     }

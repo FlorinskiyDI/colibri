@@ -282,6 +282,7 @@ export class QuestionService {
       isShowProcessCompletedText: true,
       isShowDescription: true,
       isOpenAccess: true,
+      isLocked: true,
       pages: [
         new PageModel(
           {
@@ -534,6 +535,7 @@ export class QuestionService {
       processCompletedText: 'We thank you for your time spent taking this survey. Your response has been recorded...',
       isShowProcessCompletedText: true,
       isShowDescription: true,
+      isLocked: true,
       isOpenAccess: true,
 
       pages: [

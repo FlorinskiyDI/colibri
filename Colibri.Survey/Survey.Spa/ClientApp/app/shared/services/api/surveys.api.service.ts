@@ -44,4 +44,9 @@ export class SurveysApiService {
             { 'Content-Type': 'application/json' });
         return value;
     }
+
+    changeLock(id: string, isLocked: boolean): any {
+        const result = this.restangular.all(`api/surveySections/${id}/${isLocked}`).customGET(undefined, undefined, { 'Content-Type': 'application/json' });
+        return result;
+    }
 }

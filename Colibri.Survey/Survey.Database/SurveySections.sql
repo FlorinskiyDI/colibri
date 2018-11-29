@@ -3,6 +3,7 @@
     [Name] NVARCHAR(500) NOT NULL, 
 	[IsShowDescription] BIT NULL,
 	[IsOpenAccess] BIT NULL,
+	[IsLocked] BIT NULL,
     [Description] NVARCHAR(MAX) NULL,
 	[IsShowProcessCompletedText] BIT NULL,
 	[ProcessCompletedText] NVARCHAR(MAX) NULL,

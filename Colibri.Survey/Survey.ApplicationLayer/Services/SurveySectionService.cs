@@ -43,6 +43,20 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
+        public async Task<IEnumerable<SurveySectionDto>> GetUnlockedSuerveys()
+        {
+            Guid userId = Guid.Parse(NTContext.Context.UserId);
+            IEnumerable<SurveySections> items;
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
+                items = await repositorySurveySection.QueryAsync(x => x.IsLocked == false);
+                await uow.SaveChangesAsync();
+            }
+            return Mapper.Map<IEnumerable<SurveySections>, IEnumerable<SurveySectionDto>>(items);
+        }
+
+
 
         public async Task<SurveyModel> GetAsync(Guid surveyId)
         {
@@ -74,6 +88,21 @@ namespace Survey.ApplicationLayer.Services
             }
         }
 
+        public async Task<bool> SetLockState(Guid id, bool state)
+        {
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                SurveySections survey = new SurveySections();
+
+                var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
+                survey = await repositorySurveySection.GetAsync(id);
+                survey.IsLocked = state;
+                survey = repositorySurveySection.Update(survey);
+                await uow.SaveChangesAsync();
+                return survey.IsLocked == state;
+            }
+           
+        }
 
         public async Task<Guid> Update(SurveyModel survey)
         {
@@ -86,6 +115,7 @@ namespace Survey.ApplicationLayer.Services
                 surveyModel.Name = survey.Name;
                 surveyModel.Description = survey.Description;
                 surveyModel.IsOpenAccess = survey.IsOpenAccess;
+                surveyModel.IsLocked = survey.IsLocked;
                 surveyModel.IsShowDescription = survey.IsShowDescription;
                 surveyModel.IsShowProcessCompletedText = survey.IsShowProcessCompletedText;
                 surveyModel.ProcessCompletedText = survey.ProcessCompletedText;
@@ -130,7 +160,8 @@ namespace Survey.ApplicationLayer.Services
                 IsShowProcessCompletedText = survey.IsShowProcessCompletedText,
                 ProcessCompletedText = survey.ProcessCompletedText,
                 UserId = userId,
-                IsOpenAccess = survey.IsOpenAccess
+                IsOpenAccess = survey.IsOpenAccess,
+                IsLocked = survey.IsLocked
             };
 
             using (var uow = UowProvider.CreateUnitOfWork())

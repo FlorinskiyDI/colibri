@@ -13,5 +13,7 @@ namespace Survey.ApplicationLayer.Services.Interfaces
         Task<Guid> AddAsync(SurveyModel dto);
         Task<SurveyModel> GetAsync(Guid surveyId);
         Task<Guid> Update(SurveyModel survey);
+        Task<bool> SetLockState(Guid id, bool state);
+        Task<IEnumerable<SurveySectionDto>> GetUnlockedSuerveys();
     }
 }

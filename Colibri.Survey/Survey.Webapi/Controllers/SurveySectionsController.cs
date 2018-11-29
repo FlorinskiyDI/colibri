@@ -193,5 +193,14 @@ namespace Survey.Webapi.Controllers
                 throw;
             }
         }
+
+        [HttpGet("{surveyId}/{isLocked}")]
+        //[Produces("application/json")]
+        public async Task<IActionResult> LockSurvey(Guid surveyId, bool isLocked)
+        {
+            var state = _surveySectionService.SetLockState(surveyId, isLocked).Result;
+            return Ok();
+        }
     }
+
 }

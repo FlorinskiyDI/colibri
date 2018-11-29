@@ -533,19 +533,20 @@ namespace Survey.ApplicationLayer.Services
             }
             if (data.Grid.Rows.Count() > 0)
             {
-                foreach (var item in data.Grid.Rows)
+                foreach (var row in data.Grid.Rows)
                 {
-
+                    var rowTypeName = QuestionTypes.Radio.ToString();
+                    InputTypesDto rowsType = inputTypeList.Where(item => item.Name == rowTypeName).FirstOrDefault();
                     BaseQuestionModel rowQuestion = new BaseQuestionModel()
                     {
-                        Text = item.Value,
+                        Text = row.Value,
                         Description = "",
-                        ControlType = data.ControlType, // took from base question
+                        ControlType = rowTypeName,
                         IsAdditionalAnswer = false,
                         Required = data.Required,
                         Order = 0, // stub
                     };
-                    var rowQuestionId = SaveQuestion(rowQuestion, false, question.OptionGroupId, question.InputTypesId, question.Id).Result;
+                    var rowQuestionId = SaveQuestion(rowQuestion, false, question.OptionGroupId, rowsType.Id, question.Id).Result;
                 }
             }
 

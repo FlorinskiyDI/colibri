@@ -10,6 +10,7 @@ export class SurveyModel {
     isShowDescription: boolean;
     isOpenAccess: boolean;
     isShowProcessCompletedText: boolean;
+    isLocked: boolean;
     processCompletedText: string;
     constructor(options: any = {}) {
         this.id = options['id'];
@@ -20,5 +21,6 @@ export class SurveyModel {
         this.isShowProcessCompletedText = options['isShowProcessCompletedText'] || true;
         this.processCompletedText = options['processCompletedText'] || '';
         this.isOpenAccess = options['isOpenAccess'] || true;
+        this.isLocked = options['isLocked'] || true;
     }
 }
