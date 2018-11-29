@@ -171,7 +171,10 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
         const value = { title: 'Page', id: pageId };
 
         this.pagingList.push(value);
-        this.dpdPages.push({ label: value.title + ' №' + (this.dpdPages.length + 1), value: value.id });
+        this.dpdPages.push({ label: value.title + ' №' + (this.dpdPages.length), value: value.id });
+        this.selectedPage = this.dpdPages[this.dpdPages.length - 1].value;
+
+
         this.renderBatches();
         this.setBatchSize();
         if (this.pagingList.length > 6) {
@@ -188,11 +191,19 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
         this.questionTransferService.setdeletePageId({ id: id, index: index });
 
         this.pagingList.splice(index, 1);
-        if (index > 0) {
-            this.selectItem = this.pageId === this.selectItem ? this.pagingList[index - 1].id : this.pagingList[this.pagingList.length - 1].id;
 
-        } else {
-            this.selectItem = this.pageId === this.selectItem ? this.pagingList[0].id : this.selectItem;
+        const selectedPage = this.batches[0].find((x: any) => x.id === this.selectItem);
+        const indexSelectedPage = this.batches[0].indexOf(selectedPage);
+        debugger
+        if (indexSelectedPage === index  ) {
+
+
+            if (index > 0) {
+                this.selectItem = this.pageId === this.selectItem ? this.pagingList[index - 1].id : this.pagingList[this.pagingList.length - 1].id;
+
+            } else {
+                this.selectItem = this.pageId === this.selectItem ? this.pagingList[0].id : this.selectItem;
+            }
         }
         this.batches[0].splice(index, 1);
         this.updateDpdList(this.pagingList);

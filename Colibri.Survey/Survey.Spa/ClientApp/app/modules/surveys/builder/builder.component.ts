@@ -110,13 +110,17 @@ export class BuilderComponent {
 
             this.page = page;
             this.questionTransferService.setFormPage(page);
-            // this.isPageBuilder = true;
+            this.isPageBuilder = true;
         });
 
         this.questionTransferService.getdeletePageId().subscribe((data: any) => {
             this.deletePageList.push(data.id);
             this.survey.pages.splice(data.index, 1);
-            this.page = data.index > 1 ? this.survey.pages[data.index - 1] : this.survey.pages[0];
+            // debugger
+            if (this.page.order === data.index) {
+                this.page = data.index > 1 ? this.survey.pages[data.index - 1] : this.survey.pages[0];
+            }
+
             this.questionTransferService.setFormPage(this.page);
             this.sortPagesByIndex();
         });
