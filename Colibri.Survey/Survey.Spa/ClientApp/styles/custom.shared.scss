@@ -19,8 +19,14 @@ a { font-weight: 400; }
   .clbr--page-title {
     padding-top: 10px;
     padding-bottom: 5px;
-    .text { font-size: 12px; text-transform: uppercase; color: #000; font-weight: 600; }
-    .description { font-size: 12px; line-height: 12px; color: #000; }
+    .text { font-size: 11px; text-transform: uppercase; color: #000; font-weight: 500; }
+    .description { font-size: 11px; line-height: 12px; color: #000; }
+  }
+  .clbr--page-title-2 {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    .text { font-size: 11px; text-transform: uppercase; color: #000; font-weight: 600; }
+    .description { font-size: 11px; line-height: 12px; color: #000; }
   }
   .clbr--page-bread_crumbs { }
 }

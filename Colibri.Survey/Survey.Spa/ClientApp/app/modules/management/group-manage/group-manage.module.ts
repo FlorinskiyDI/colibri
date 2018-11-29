@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 /* component */ import { GroupDataTreeComponent } from './group-data-tree/group-data-tree.component';
 /* component */ import { GroupDataGridComponent } from './group-data-grid/group-data-grid.component';
 /* component */ import { GroupViewComponent } from './group-view/group-view.component';
-/* component */ import { GroupDetailComponent } from './group-detail/group-detail.component';
+/* component */ import { GroupViewDetailComponent } from './group-view-detail/group-view-detail.component';
 /* component */ import { GroupDialogCreateComponent } from './group-dialog-create/group-dialog-create.component';
 /* component */ import { GroupDataComponent } from './group-data/group-data.component';
 /* component */ import { GroupDataFilterComponent } from './group-data-filter/group-data-filter.component';
@@ -24,7 +24,7 @@ import { NgModule } from '@angular/core';
         GroupDataFilterComponent,
         GroupDialogCreateComponent,
         GroupViewComponent,
-        GroupDetailComponent
+        GroupViewDetailComponent
     ],
     providers: [
     ]

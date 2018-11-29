@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 /* component */ import { GroupDataComponent } from './group-data/group-data.component';
 // /* component */ import { GroupDataTreeComponent } from './group-data-tree/group-data-tree.component';
 /* component */ import { GroupViewComponent } from './group-view/group-view.component';
-/* component */ import { GroupDetailComponent } from './group-detail/group-detail.component';
+/* component */ import { GroupViewDetailComponent } from './group-view-detail/group-view-detail.component';
 
 const routes: Routes = [
     {
@@ -24,7 +24,7 @@ const routes: Routes = [
                 children: [
                     {
                         path: 'detail',
-                        component: GroupDetailComponent,
+                        component: GroupViewDetailComponent,
                         data: { breadcrumb: '' },
                     },
                 ]

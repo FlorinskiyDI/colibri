@@ -6,11 +6,11 @@ import { BlockableUI } from 'primeng/primeng';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 
 @Component({
-    selector: 'cmp-group-detail',
-    templateUrl: './group-detail.component.html'
+    selector: 'cmp-group-view-detail',
+    templateUrl: './group-view-detail.component.html'
 })
 
-export class GroupDetailComponent implements BlockableUI {
+export class GroupViewDetailComponent implements BlockableUI {
     configData: FormGroupUpdateConfig;
     @ViewChild('formGroupUpdate') formGroupUpdate: any;
 
