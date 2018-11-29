@@ -7,17 +7,16 @@
                     </cmp-group-data-filter>
                     
                     <span class="input-group-addon">
-                        <button class="btn btn-sm btn-default notification" (click)="cd.reject()">
+                        <button class="btn btn-sm btn-default notification" (click)="dtGroups.reset()">
                             <i class="fa fa-refresh"></i>
                         </button>
                         <button class="btn btn-sm btn-default notification" (click)="dtGroups.exportCSV()">
                             <i class="fa fa-download"></i>
                         </button>
-                            <p-multiSelect [options]="tbColumns" [filter]="selectF" [(ngModel)]="tbSelectedColumns" optionLabel="header"
-                                selectedItemsLabel="{0} columns selected" defaultLabel="Choose Columns">
+                            <p-multiSelect [options]="optionTbToggle.columns" [filter]="optionTbToggle.filter" [(ngModel)]="tbSelectedColumns" optionLabel="header"
+                                selectedItemsLabel="{0} columns selected">
                             </p-multiSelect>
                     </span>
-                    <!-- <span class="input-group-addon" id="basic-addon2">@example.com</span> -->
                 </div>
             </div>
         </div>
@@ -31,40 +30,34 @@
                     [columns]="tbSelectedColumns"
                     [value]="tbItems"
                     [paginator]="true"
-                    [rows]="2"
+                    [rows]="10"
                     [rowsPerPageOptions]="[2,10,20]"
                     [totalRecords]="tbTotalItemCount"
                     [loading]="tbLoading"
                     [lazy]="true"
-                    (onLazyLoad)="loadNodes($event)">
+                    (onLazyLoad)="tb_loadItems($event)">
                     <ng-template pTemplate="header" let-columns>
                         <tr>
-                            <th *ngFor="let col of columns" style="width: 400px;" class="border-right-none">
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" [style.width.px]="col.width" class="border-left-none border-right-none">
                                 {{col.header}}
+                                <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                             </th>
-
-                            <!-- <th class="splitter"></th> -->
-                            <!-- <th pSortableColumn="Name" class="border-right-none" style="width: 400px;">
-                                Group name
-                               <p-sortIcon field="Name" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
-                            </th> -->
-                            <th class="border-right-none border-left-none" style="width: 200px;">Num of
-                                subscribers
-                            </th>
-                            <th class="border-left-none">Description</th>
+                            <th class="border-left-none border-right-none">Actions</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData let-columns="columns">
                         <tr [pSelectableRow]="rowData">
-                            <!-- <td class="border-right-none">                                
-                                {{rowData.name}}
-                            </td> -->
-
-                            <td *ngFor="let col of columns" class="border-right-none">
+                            <td *ngFor="let col of columns" class="border-left-none border-right-none">
                                 {{rowData[col.field]}}
                             </td>
-                            <td class="border-left-none border-right-none">0</td>
-                            <td class="border-left-none">some description</td>
+                            <td class="border-left-none border-right-none">
+                                <button matTooltip="Edit group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_edit(rowData.id)">
+                                    <mat-icon class="filter-icon">edit</mat-icon>
+                                </button>
+                                <button matTooltip="Delete group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_delete(rowData.id)">
+                                    <mat-icon class="filter-icon" >delete</mat-icon>
+                                </button>
+                            </td>
                         </tr>
                     </ng-template>
                 </p-table>

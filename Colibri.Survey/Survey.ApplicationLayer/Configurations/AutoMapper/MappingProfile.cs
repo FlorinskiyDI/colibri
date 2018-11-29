@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
 using Survey.ApplicationLayer.Dtos.Entities;
 using Survey.ApplicationLayer.Dtos.Models;
-using Survey.ApplicationLayer.Dtos.Models.IdentityServer.Pager;
 using Survey.ApplicationLayer.Dtos.Models.Questions;
+using Survey.ApplicationLayer.Dtos.Search;
 using Survey.DomainModelLayer.Entities;
-using Survey.DomainModelLayer.Models;
 using Survey.DomainModelLayer.Models.IdentityServer;
-using Survey.DomainModelLayer.Models.IdentityServer.Pager;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Survey.DomainModelLayer.Models.Search;
 
 namespace Survey.ApplicationLayer.Configurations.AutoMapper
 {
@@ -40,10 +36,12 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
         private void EntityToDto()
         {
             // models
-            CreateMap<PageSearchEntryDto, PageSearchEntryModel>();
-            CreateMap<PageFilterStatementDto, PageFilterStatementModel>();
-            CreateMap<PageOrderStatementDto, PageOrderStatementModel>();
-            CreateMap(typeof(PageDataDto<>), typeof(PageDataModel<>));
+            CreateMap<SearchQueryDto, SearchQueryModel>();
+            CreateMap<SearchQueryPageDto, SearchQueryPageModel>();
+            CreateMap<FilterStatementDto, FilterStatementModel>();
+            CreateMap<OrderStatementDto, OrderStatementModel>();
+            CreateMap(typeof(SearchResultDto<>), typeof(SearchResultModel<>));
+            CreateMap<SearchResultPageDto, SearchResultPageModel>();
             CreateMap<IdentityUserDto, IdentityUserModel>();
             CreateMap<IdentityUserDto, IdentityUserModel>();
             CreateMap<SurveySections, SurveyModel>();

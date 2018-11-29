@@ -102,23 +102,23 @@ export class LayoutComponent implements OnInit {
     }
 
     _onOpenStart(): void {
-        console.log('Sidebar opening');
+        // console.log('Sidebar opening');
     }
 
     _onOpened(): void {
-        console.log('Sidebar opened');
+        // console.log('Sidebar opened');
     }
 
     _onCloseStart(): void {
-        console.log('Sidebar closing');
+        // console.log('Sidebar closing');
     }
 
     _onClosed(): void {
-        console.log('Sidebar closed');
+        // console.log('Sidebar closed');
     }
 
     _onTransitionEnd(): void {
-        console.log('Transition ended');
+        // console.log('Transition ended');
     }
     ngOnInit() {
         this.breadcrumbs$ = this.router.events.pipe(

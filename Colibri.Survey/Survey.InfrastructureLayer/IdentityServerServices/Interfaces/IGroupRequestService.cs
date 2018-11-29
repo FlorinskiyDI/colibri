@@ -1,18 +1,15 @@
-﻿using Survey.DomainModelLayer.Models;
-using Survey.DomainModelLayer.Models.IdentityServer;
-using Survey.DomainModelLayer.Models.IdentityServer.Pager;
-using System;
+﻿using Survey.DomainModelLayer.Models.IdentityServer;
+using Survey.DomainModelLayer.Models.Search;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Survey.InfrastructureLayer.IdentityServices
 {
     public interface IGroupRequestService
     {
-        Task<PageDataModel<GroupModel>> GetGroups(PageSearchEntryModel pageSearchEntry);
-        Task<PageDataModel<GroupModel>> GetRootGroups(PageSearchEntryModel pageSearchEntry);
-
+        Task<SearchResultModel<GroupModel>> GetGroups(SearchQueryModel pageSearchEntry);
+        Task<SearchResultModel<GroupModel>> GetRootGroups(SearchQueryModel pageSearchEntry);
+        Task<IEnumerable<GroupModel>> GetSubgroups(SearchQueryModel searchEntry, string parentId);
 
 
         //// group

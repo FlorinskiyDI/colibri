@@ -11,13 +11,13 @@ export class LoggerService {
 
     logWarning(message: any) {
         if (this.authConfiguration.log_console_warning_active) {
-            console.warn(message);
+            // console.warn(message);
         }
     }
 
     logDebug(message: any) {
         if (this.authConfiguration.log_console_debug_active) {
-            console.log(message);
+            // console.log(message);
         }
     }
 }

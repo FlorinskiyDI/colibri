@@ -3,7 +3,7 @@
         <div class="col-md-12"> -->
             <div class="clbr--block-filter">
                 
-                <mat-form-field class="example-chip-list">
+                <mat-form-field class="clbr--mat-form-field example-chip-list">
                     <span matPrefix>
                         <mat-icon class="filter-icon">filter_list</mat-icon>
                     </span>
@@ -13,7 +13,7 @@
                             {{item.label}}
                             <mat-icon matChipRemove *ngIf="chipRemovable">cancel</mat-icon>
                         </mat-chip>
-                        <input #chipInput placeholder="filter query" [formControl]="chipFruitCtrl" [matAutocomplete]="auto"
+                        <input #chipInput placeholder="enter filter query" [formControl]="chipFruitCtrl" [matAutocomplete]="auto"
                             [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="chipSeparatorKeysCodes"
                             [matChipInputAddOnBlur]="chipAddOnBlur" (keyup.enter)="chipOnEnter(chipInput.value)"
                             (matChipInputTokenEnd)="add($event)">

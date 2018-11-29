@@ -1,78 +1,64 @@
-<p-dialog header="Group creation"
-    class="clbr--p-dialog-v1"
-    minWidth="400"
-    width="400"
-    showEffect="fade"
-    [responsive]="true"
-    [modal]="true"
-    [resizable]="true"
-    [maximizable]="true"
-    (onHide)="dialogHide($event)"
-    [(visible)]="dialogConfig.visible">
+<p-dialog header="Group creation" class="clbr--p-dialog-v1" minWidth="400" width="400" showEffect="fade" [responsive]="true"
+    [modal]="true" [resizable]="true" [maximizable]="true" (onHide)="dialogHide($event)" [(visible)]="dialogConfig.visible">
 
     <div class="cmp-form-group-creat row">
         <div class="col-md-12">
 
-            <div #ngFormGroup="ngForm"
-                [formGroup]="formGroup"
-                class="clbr--form-horizontal form needs-validation"
-                role="form">
-                <div class="form-group form-group-sm">
-                    <mat-form-field class="mat-clbr--form-field-full-width">
-                        <input #ctrlName matInput maxlength="50"
-                            placeholder="Group ID *"
-                            formControlName="groupID">
+            <div #ngFormGroup="ngForm" [formGroup]="formGroup" class="clbr--form-horizontal form needs-validation" role="form">
+                <div class="clbr--form-group form-group form-group-sm">
+                    <mat-form-field class="clbr--mat-form-field clbr--mat-form-field-full-width">
+                        <input #ctrlGroupID matInput maxlength="100" placeholder="Group ID *" formControlName="groupID">
                         <mat-error *ngIf="formGroup.get('groupID').hasError('required') && formGroup.get('groupID').touched">
                             Value is required
                         </mat-error>
                         <mat-hint align="end">unique value</mat-hint>
                     </mat-form-field>
                 </div>
-                <div class="form-group form-group-sm">
-                    <mat-form-field class="mat-clbr--form-field-full-width">
-                        <input #ctrlName matInput maxlength="50"
-                            placeholder="Group name *"
-                            formControlName="name">
+                <div class="clbr--form-group form-group form-group-sm">
+                    <mat-form-field class="clbr--mat-form-field clbr--mat-form-field-full-width">
+                        <input #ctrlName matInput maxlength="100" placeholder="Group name *" formControlName="name">
                         <mat-error *ngIf="formGroup.get('name').hasError('required') && formGroup.get('name').touched">
                             Value is required
                         </mat-error>
-                        <mat-hint align="end">maximum length - {{ctrlName.value.length}} / 50</mat-hint>
+                        <mat-hint align="end">maximum length - {{ctrlName.value.length}} / 100</mat-hint>
                     </mat-form-field>
                 </div>
                 <div class="clbr--form-group form-group form-group-sm">
-                    <mat-form-field class="mat-clbr--form-field-full-width">
-                        <mat-select placeholder="Parent group"
-                            formControlName="parentId">
-                            <mat-option *ngFor="let item of drpdwnGroups"
-                                [value]="item.value">
-                                {{item.label}}
-                            </mat-option>
-                        </mat-select>
-                        <i *ngIf="!drpdwnGroups.length>0" matSuffix style="font-size: 13px;" class="fa fa-refresh fa-spin"></i>
-                    </mat-form-field>
-                </div>
-                <div class="form-group form-group-sm">
-                    <mat-form-field class="mat-clbr--form-field-full-width">
-                        <textarea  matInput
-                            placeholder="Description"
-                            formControlName="description">
+                    <mat-form-field class="clbr--mat-form-field clbr--mat-form-field-full-width">
+                        <textarea #ctrlDescription matInput placeholder="Description" formControlName="description">
                         </textarea>
                         <mat-error *ngIf="formGroup.get('name').hasError('required') && formGroup.get('name').touched">
                             Value is required
                         </mat-error>
+                        <mat-hint align="end">maximum length - {{ctrlDescription.value.length}} / 500</mat-hint>
                     </mat-form-field>
+                </div>
+                <div class="clbr--form-group form-group form-group-sm">
+                    <label class="clbr--ui-chkbox-1">
+                        <p-checkbox [(ngModel)]="isSubGroup" (onChange)="onChckboxChange($event)" formControlName="isSubgroup" binary="true"></p-checkbox>
+                        <span class="title">Set parent group</span>
+                    </label>
+                    <mat-form-field *ngIf="isSubGroup" class="clbr--mat-form-field clbr--mat-form-field-without-border clbr--mat-form-field-full-width">
+                        <input #ctrlParentId matInput formControlName="parentId" style="display: none;">
+                        <p-tree class="clbr--ui-tree-v1" #treeGroups selectionMode="single" [value]="treeItems" [loading]="treeloading" (onNodeSelect)="onNodeSelect($event)" (onNodeExpand)="onNodeExpand($event)"
+                            [(selection)]="selectedGroup">
+                        </p-tree>
+                        <mat-error *ngIf="formGroup.get('parentId').hasError('required') && formGroup.get('name').touched">
+                            Value is required
+                        </mat-error>
+                        <mat-hint align="end">the group administrator will have all rights to the new group</mat-hint>
+                    </mat-form-field>                    
                 </div>
             </div>
         </div>
     </div>
 
-    <p-footer>
-        <button class="clbr--btn-default btn btn-sm btn-default notification" (click)="formSubmit()">SAVE CHANGES</button>
+    <p-footer>        
         <button class="clbr--btn-default clbr--background-image-without btn btn-sm btn-default notification" (click)="formCancel()">CANCEL</button>
+        <button class="clbr--btn-default btn btn-sm btn-default notification pull-right" (click)="formSubmit()">SAVE CHANGES</button>
     </p-footer>
 
 </p-dialog>
 
-<p-growl styleClass="clbr--growl-icon-none"
-    [life]="5000">
+<p-growl styleClass="clbr--growl-icon-none" [life]="5000">
 </p-growl>

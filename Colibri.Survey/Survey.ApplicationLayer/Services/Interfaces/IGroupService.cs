@@ -1,17 +1,15 @@
 ﻿using Survey.ApplicationLayer.Dtos.Models;
-using Survey.ApplicationLayer.Dtos.Models.IdentityServer.Pager;
-using System;
+using Survey.ApplicationLayer.Dtos.Search;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Survey.ApplicationLayer.Services.Interfaces
 {
     public interface IGroupService
     {
-        Task<PageDataDto<GroupDto>> GetGroups(PageSearchEntryDto searchEntryDto);
-        Task<PageDataDto<GroupDto>> GetRootGroups(PageSearchEntryDto searchEntryDto);
-
+        Task<SearchResultDto<GroupDto>> GetGroups(SearchQueryDto searchEntryDto);
+        Task<SearchResultDto<GroupDto>> GetRootGroups(SearchQueryDto searchEntryDto);
+        Task<IEnumerable<GroupDto>> GetSubgroups(SearchQueryDto searchEntryDto, string parentId);
 
 
         //Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId);
