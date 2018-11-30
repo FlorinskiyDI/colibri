@@ -31,7 +31,6 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
     @Input() isPageBuilder: boolean;
     @Input() survey: any;
     @Output() formState = new EventEmitter<any>();
-
     formPage: FormGroup;
     selectQuestion: string;
     static deleteQuestionList: string[] = [];
@@ -67,11 +66,15 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         public questionService: QuestionService,
     ) {
         this.questionTransferService.getFormPage().subscribe((page: any) => { // updata formbuild after select page
+
+            this.questionTransferService.setQuestionOption(null);
             if (page) {
                 this.formPage.addControl(page.id, this.questionService.getFormPageGroup(page));
             }
         });
-
+        this.questionTransferService.getSelectedPage().subscribe((data: any) => {
+            this.selectQuestion = '';
+        });
         this.questionTransferService.getQuestionForDelete().subscribe((data: any) => { // check drag control if lost focus without need area
 
             this.page.questions.forEach((item: any, index: number) => {

@@ -50,7 +50,7 @@
                                         <div class="d-question-wrapp">
                                             <div class="d-item-left-section">
                                                 <div class="d-item-opt-controls">
-                                                    <input id="etitState" [checked]="selectQuestion == item.id" #editCheckbox type="checkbox" value="false" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? selectQuestion = item.id: selectQuestion = ''">
+                                                    <input id="etitState" [checked]="selectQuestion == item.id" #editCheckbox  type="checkbox" value="false" (change)="setQuestionOption(item, editCheckbox.checked); editCheckbox.checked ? selectQuestion = item.id: selectQuestion = ''">
                                                     <label for="etitState"> {{'Q' + (numericPageFrom + (i + 1))}}</label>
                                                 </div>
                                             </div>
@@ -183,7 +183,7 @@
     <div class="d-builder-option-header">
         <p class="d--text-tools-header"> Page Explorer (chenged)</p>
     </div>
-    <div class="d-action-buttons">
+    <!-- <div class="d-action-buttons">
         <button type="button" class="d-option-button">
             <i class="fa fa-save"></i>
         </button>
@@ -195,7 +195,7 @@
             <i class="fa fa-area-chart"></i>
         </button>
 
-    </div>
+    </div> -->
     <div class=""></div>
-    <question-options *ngIf="templateOptions" [questionTypes]="templateOptions"></question-options>
+    <question-options *ngIf="templateOptions && isPageBuilder " [questionTypes]="templateOptions"></question-options>
 </div>

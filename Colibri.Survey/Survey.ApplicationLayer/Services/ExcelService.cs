@@ -146,12 +146,15 @@ namespace Survey.ApplicationLayer.Services
                     {
                         headerColumn.Columns.Add("[" + (i + 1) + "] - " + item.Name);
                         var count = item.Children.Count;
+                        int checkcount = 1;
                         for (int j = 0; j < (count - 1); j++)
                         {
                             try
                             {
-                                headerColumn.Columns.Add(Guid.NewGuid().ToString());
-                                ++headerColCount;
+                                
+                                     headerColumn.Columns.Add("[" + (i + 1) + "." + checkcount + "] - " + item.Children[j]);
+                                //headerColumn.Columns.Add(Guid.NewGuid().ToString());
+                                ++checkcount;
                             }
                             catch (Exception ex)
                             {

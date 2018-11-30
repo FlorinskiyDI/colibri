@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Survey.DomainModelLayer.Entities;
 using dataaccesscore.Abstractions.Uow;
+using System.Linq;
 
 namespace Survey.ApplicationLayer.Services
 {
@@ -73,7 +74,7 @@ namespace Survey.ApplicationLayer.Services
                         };
                         pages.Add(page);
                     }
-                    return pages;
+                    return pages.OrderBy(x => x.Order).ToList();
 
                 }
             }

@@ -84,6 +84,7 @@ export class BuilderComponent {
 
             if (fakepage === undefined) {
                 this.isPageBuilder = false;
+
             } else {
                 this.page = fakepage;
                 this.isPageBuilder = true;
