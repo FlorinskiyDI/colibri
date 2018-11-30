@@ -17,6 +17,7 @@ namespace IdentityServer.Webapi.Repositories
         : base(logger, null)
         {
         }
+
         public async Task<IEnumerable<Groups>> GetRootWithInverseAsync(string userId)
         {
             using (var ctx = new ApplicationDbContext())

@@ -28,6 +28,8 @@ namespace IdentityServer.Webapi.Data
         public Groups Parent { get; set; }
         [InverseProperty("Group")]
         public ICollection<ApplicationUserGroups> ApplicationUserGroups { get; set; }
+        [InverseProperty("Group")]
+        public ICollection<MemberGroups> MemberGroups { get; set; }
         [InverseProperty("Parent")]
         public ICollection<Groups> InverseParent { get; set; }
 

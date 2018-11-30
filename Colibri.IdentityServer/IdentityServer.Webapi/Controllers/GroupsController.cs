@@ -46,7 +46,7 @@ namespace IdentityServer.Webapi.Controllers
             _pager = pager;
         }
 
-        // GET: api/groups/search
+        // POST: api/groups/search
         [HttpPost("search")]
         public async Task<IActionResult> GetGroups([FromBody] SearchQuery searchEntry)
         {

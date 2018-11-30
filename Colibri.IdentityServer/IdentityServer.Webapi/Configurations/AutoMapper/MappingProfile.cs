@@ -25,6 +25,7 @@ namespace IdentityServer.Webapi.Configurations.AutoMapper
         private void EntityToDto()
         {
             CreateMap<Groups, GroupDto>();
+            CreateMap<MemberDto, MemberDto>();
         }
 
         private void ViewModelToEntity()

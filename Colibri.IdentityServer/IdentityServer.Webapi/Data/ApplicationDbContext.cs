@@ -18,6 +18,7 @@ namespace IdentityServer.Webapi.Data
 
         public virtual DbSet<ApplicationUserGroups> ApplicationUserGroups { get; set; }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual DbSet<MemberGroups> MemberGroups { get; set; }
         public virtual DbSet<Groups> Groups { get; set; }
         public virtual DbSet<GroupNode> GroupNode { get; set; }
 
@@ -58,6 +59,23 @@ namespace IdentityServer.Webapi.Data
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ApplicationUserGroups_ToAspNetUsers");
+            });
+
+            modelBuilder.Entity<MemberGroups>(entity =>
+            {
+                entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.MemberGroups)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberGroups_ToGroups");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.MemberGroups)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberGroups_ToAspNetUsers");
             });
 
             modelBuilder.Entity<Groups>(entity =>

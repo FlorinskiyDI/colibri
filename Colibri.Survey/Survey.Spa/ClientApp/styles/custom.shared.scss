@@ -19,7 +19,7 @@ a { font-weight: 400; }
   .clbr--page-title {
     padding-top: 10px;
     padding-bottom: 5px;
-    .text { font-size: 11px; text-transform: uppercase; color: #000; font-weight: 500; }
+    .text { font-size: 12px; text-transform: uppercase; color: #3B78E7; font-weight: 500; }
     .description { font-size: 11px; line-height: 12px; color: #000; }
   }
   .clbr--page-title-2 {
@@ -47,13 +47,19 @@ a { font-weight: 400; }
 }
 
 .clbr--block-tab-menu_v1 {
-  border-bottom: 1px solid #DEDEDE;
-  //
-  .ui-tabmenu .ui-tabmenu-nav { padding: 0; }
-  .ui-tabmenu-nav { border: none !important; }
-  .ui-tabmenu .ui-tabmenu-nav > li.ui-state-default { background: transparent; border: none; }
-  .ui-tabmenu .ui-tabmenu-nav > li.ui-state-active a { border-bottom: 2px solid #1E7DDF; color: #1E7DDF; }
-  .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem a { padding: 7px 5px 3px 5px;  border-bottom: 2px solid transparent; border-radius: 0; }
+  .ui-tabmenu .ui-tabmenu-nav { padding-top: 9px; }
+  .ui-tabmenu .ui-tabmenu-nav { border: none; border-bottom: 1px solid #DBDBDB; }
+  .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem { margin-bottom: 0px; }
+  .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem a { padding: 4px 10px; font-size: 13px; color: #333333; }
+  .ui-tabmenu .ui-tabmenu-nav > li.ui-state-default {
+    border: 1px solid #F6F7F9;
+    border-bottom: 1px solid #DBDBDB;
+  }
+
+  .ui-tabmenu .ui-tabmenu-nav > li.ui-state-active {    
+    border: 1px solid #DBDBDB !important;
+    border-bottom: 1px solid #fff !important;
+  }
 }
 
 
@@ -195,13 +201,13 @@ a { font-weight: 400; }
     }
   }
 
-  .clbr--form-group {
+  .clbr--form-group {    
     span.valid-feedback { color: #a94442; font-size: 12px; }
   }
 }
 // #endregion
 
-
+.clbr--form-group { margin-bottom: 10px; }
 
 
 
