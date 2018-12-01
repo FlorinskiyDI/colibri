@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Survey.ApplicationLayer.Dtos.Models;
 using Survey.ApplicationLayer.Dtos.Search;
 using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.Webapi.Controllers.Base;
@@ -35,7 +36,7 @@ namespace Survey.Webapi.Controllers
         }
 
         // POST: api/groups
-        [HttpPost]
+        [HttpPost("search")]
         public async Task<IActionResult> GetGroups([FromBody] SearchQueryDto searchEntry)
         {
             var result = await _groupService.GetGroups(searchEntry);
@@ -58,11 +59,22 @@ namespace Survey.Webapi.Controllers
             return Ok(result);
         }
 
+
+        //// POST: api/groups
+        [HttpPost]
+        public async Task<IActionResult> CreateGroup([FromBody] GroupDto model)
+        {
+            var result = await _groupService.CreateGroup(model);
+            return Ok();
+        }
+
+
         // DELETE: api/groups/{id}
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> DeleteGroup(Guid id)
+        public async Task<IActionResult> DeleteGroup(string id)
         {
+            await _groupService.DeleteGroup(id);
             return Ok();
         }
 

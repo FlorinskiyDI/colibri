@@ -15,11 +15,18 @@ export class GroupMembersApiService {
         this.apiServer = apiUrl;
     }
 
-    getByGroup(groupId: string, objectFields: string[] | null = null) {
-        const paramObjectFields = objectFields ? objectFields.join(',') : null;
-        const result = this.restangular.all(`api/groups/${groupId}/members`).customGET(undefined, { fields: paramObjectFields });
+    getByGroup(groupId: string, searchEntry: any = null, objectFields: string[] | null = null) {
+        const result = this.restangular
+            .all('api/groups/' + groupId + '/members/search')
+            .customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
         return result;
     }
+
+    // getByGroup(groupId: string, objectFields: string[] | null = null) {
+    //     const paramObjectFields = objectFields ? objectFields.join(',') : null;
+    //     const result = this.restangular.all(`api/groups/${groupId}/members`).customGET(undefined, { fields: paramObjectFields });
+    //     return result;
+    // }
 
     deleteMemberFromGroup(groupId: string, id: string) {
         const result = this.restangular.one(`api/groups/${groupId}/members`, id).remove();

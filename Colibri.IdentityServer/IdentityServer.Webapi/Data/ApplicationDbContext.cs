@@ -3,13 +3,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.AspNetCore.Identity;
 using dataaccesscore.Abstractions.Context;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace IdentityServer.Webapi.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IEntityContext
     {
+        public static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] {
+                new ConsoleLoggerProvider((category, level)
+                    => category == DbLoggerCategory.Database.Command.Name
+                       && level == LogLevel.Debug, true)
+            });
+
         public virtual DbSet<ApplicationUserGroups> ApplicationUserGroups { get; set; }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual DbSet<MemberGroups> MemberGroups { get; set; }
         public virtual DbSet<Groups> Groups { get; set; }
         public virtual DbSet<GroupNode> GroupNode { get; set; }
 
@@ -22,7 +31,10 @@ namespace IdentityServer.Webapi.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(SqlConnectionFactory.ConnectionString);
+            optionsBuilder
+                .EnableSensitiveDataLogging()
+                .UseLoggerFactory(MyLoggerFactory)
+                .UseSqlServer(SqlConnectionFactory.ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -47,6 +59,23 @@ namespace IdentityServer.Webapi.Data
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ApplicationUserGroups_ToAspNetUsers");
+            });
+
+            modelBuilder.Entity<MemberGroups>(entity =>
+            {
+                entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.MemberGroups)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberGroups_ToGroups");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.MemberGroups)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberGroups_ToAspNetUsers");
             });
 
             modelBuilder.Entity<Groups>(entity =>

@@ -1,26 +1,30 @@
-<div class="clbr--page container-fluid">
+<div class="cmp-group-data.component">
+    <div class="clbr--page container-fluid">
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="clbr--page-title">
-                <span><a style="color: #1E7DDF">Groups</a> > View group "Test group 1"</span>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="clbr--page-title">
+                    <div class="text">View group "Test group 1"</div>
+                    <div class="description">Shows all the main information about the group</div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="clbr--block-tab-menu_v1">
-                <p-tabMenu [model]="items"></p-tabMenu>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="clbr--block-tab-menu_v1">
+                    <p-tabMenu [model]="items">
+                    </p-tabMenu>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="clbr--block-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="clbr--block-content">
 
-                <router-outlet>                    
-                </router-outlet>
+                    <router-outlet>
+                    </router-outlet>
 
+                </div>
             </div>
         </div>
     </div>

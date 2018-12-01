@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Repositories.Interfaces
 {
-    public interface IGroupRepository: IBaseRepository<Groups, Guid>
+    public interface IGroupRepository: IBaseRepository<Groups>
     {
         Task<IEnumerable<Groups>> GetSubGroupsAsync(Guid? groupId);
         Task<IEnumerable<Groups>> GetRootAsync(string userId);

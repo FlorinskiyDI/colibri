@@ -1,5 +1,4 @@
-﻿using dataaccesscore.Abstractions.Entities;
-using dataaccesscore.Abstractions.Repositories;
+﻿using dataaccesscore.Abstractions.Repositories;
 using dataaccesscore.Abstractions.Uow;
 using dataaccesscore.EFCore.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -38,11 +37,11 @@ namespace dataaccesscore.EFCore.Uow
             return _context.SaveChangesAsync(cancellationToken);
         }
 
-        public IBaseRepository<TEntity, TKey> GetRepository<TEntity, TKey>() where TEntity : IBaseEntity<TKey>
+        public IBaseRepository<TEntity> GetRepository<TEntity>() where TEntity : class
         {
             CheckDisposed();
-            var repositoryType = typeof(IBaseRepository<TEntity, TKey>);
-            var repository = (IBaseRepository<TEntity, TKey>)_serviceProvider.GetService(repositoryType);
+            var repositoryType = typeof(IBaseRepository<TEntity>);
+            var repository = (IBaseRepository<TEntity>)_serviceProvider.GetService(repositoryType);
             if (repository == null)
             {
                 throw new RepositoryNotFoundException(repositoryType.Name, String.Format("Repository {0} not found in the IOC container. Check if it is registered during startup.", repositoryType.Name));

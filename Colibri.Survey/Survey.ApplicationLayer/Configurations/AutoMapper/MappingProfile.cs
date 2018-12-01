@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Survey.ApplicationLayer.Dtos.Entities;
 using Survey.ApplicationLayer.Dtos.Models;
+using Survey.ApplicationLayer.Dtos.Models.IdentityServer;
 using Survey.ApplicationLayer.Dtos.Models.Questions;
 using Survey.ApplicationLayer.Dtos.Search;
 using Survey.DomainModelLayer.Entities;
@@ -23,6 +24,8 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
         {
             // models dto
             CreateMap<GroupModel, GroupDto>();
+            CreateMap<SearchQueryModel, SearchQueryDto>();
+            CreateMap<MemberModel, MemberDto>();
             CreateMap<IdentityUserModel, IdentityUserDto>();
             // entities dto
             CreateMap<SurveySectionDto, SurveySections>();
@@ -39,6 +42,7 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
             CreateMap<SurveySections, SurveyExtendViewModel>();
             // models
             CreateMap<SearchQueryDto, SearchQueryModel>();
+            CreateMap<MemberDto, MemberModel>();
             CreateMap<SearchQueryPageDto, SearchQueryPageModel>();
             CreateMap<FilterStatementDto, FilterStatementModel>();
             CreateMap<OrderStatementDto, OrderStatementModel>();

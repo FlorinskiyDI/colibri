@@ -1,5 +1,4 @@
-﻿using dataaccesscore.Abstractions.Entities;
-using dataaccesscore.Abstractions.Repositories;
+﻿using dataaccesscore.Abstractions.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +13,7 @@ namespace dataaccesscore.Abstractions.Uow
         Task<int> SaveChangesAsync();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
-        IBaseRepository<TEntity, TKey> GetRepository<TEntity, TKey>() where TEntity : IBaseEntity<TKey>;
+        IBaseRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
         TRepository GetCustomRepository<TRepository>();
     }
 }
