@@ -2,11 +2,9 @@ import { Component, Output, Input, EventEmitter, ViewChild } from '@angular/core
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/components/common/messageservice';
 
+/* helper */ import { CHECK_EMAIL } from 'shared/helpers/check-email.helper';
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
-/* model-api */ import { GroupApiModel } from 'shared/models/entities/api/group.api.model';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
-/* helper */ import { FormGroupHelper } from 'shared/helpers/form-group.helper';
-/* model-api */ import { SearchQueryApiModel } from 'shared/models/entities/api/page-search-entry.api.model';
 
 @Component({
     selector: 'cmp-member-dialog-create',
@@ -32,107 +30,61 @@ export class MemberDialogCreateComponent {
     // form variable
     @ViewChild('ngFormGroup') ngFormGroup: any;
     formGroup: FormGroup;
-    drpdwnGroups: any[] = [];
-
-    treeSelected: any;
-    treeItems: any[] = [];
-    treeloading = false;
-    isSubGroup = false;
+    formIsValid = true;
+    formIsValidEmail = true;
+    configData: any;
 
     constructor(
-        private messageService: MessageService,
         private groupsApiService: GroupsApiService
     ) {
     }
 
-    ngOnInit() { this.formInitBuild(); }
+    ngOnInit() {
+        this.formInitBuild();
+    }
     ngOnDestroy() { this.componentClear(); }
     private componentInit() {
-        this.isSubGroup = false;
-        this.treeItems = [];
-        this._getAllRoot();
     }
     private componentClear() {
         this.formInitBuild();
-        this.drpdwnGroups = [];
     }
+
+    chipsOnAdd(event: any) {
+        this.formIsValidEmail = true;
+        if (!CHECK_EMAIL.validateEmail(event.value)) {
+            this.formIsValidEmail = false;
+            const index = this.formGroup.controls.members.value.findIndex((x: any) => x === event.value);
+            this.formGroup.controls.members.value.splice(index, 1);
+            console.log(this.formGroup.controls.members.value);
+        }
+    }
+    chipsOnRemove(event: any) {
+        this.formIsValidEmail = true;
+    }
+
 
     private formInitBuild(data: any = {}): void {
         this.formGroup = new FormGroup({
-            'name': new FormControl(data.name, [Validators.required]),
-            'groupID': new FormControl(null, [Validators.required]),
-            'isSubgroup': new FormControl(null, [Validators.required]),
-            'parentId': new FormControl(data.parentId),
-            'description': new FormControl(data.description),
+            'members': new FormControl(data.name, [Validators.required])
         });
     }
-
     public formSubmit() {
-        if (!this.ngFormGroup.valid) {
-            FormGroupHelper.setFormControlsAsTouched(this.formGroup);
+        if (!this.formGroup.valid) {
+            this.formIsValid = false;
+            console.log('(FormGroupMemberAddComponent) Form is NOT VALID!!!');
             return;
         }
-        this.groupsApiService
-            .create(Object.assign({}, this.ngFormGroup.value))
-            .subscribe(
-                (response: any) => {
-                    this.dialogChange();
-                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was created successfully' });
-                },
-                (error: any) => { }
-            );
-    }
-    public formCancel() { this.dialogCancel(); }
 
-    _getAllRoot() {
-        this.treeloading = true;
-        const that = this;
-        this.groupsApiService.getAllRoot(null).subscribe((data: any) => {
-            this.treeItems = data.itemList.map((item: any) => {
-                return {
-                    'label': item.name,
-                    'data': { 'id': item.id },
-                    'leaf': false
-                };
-            });
-            that.treeloading = false;
+        const items: string[] = Object.assign([], this.formGroup.value.members);
+        this.groupsApiService.addMembers(this.configData.groupId, items).subscribe((response: any) => {
+            this.onChange.emit();
+            this.componentClear();
         });
     }
-
-    onChckboxChange(data: any) {
-        console.log(data);
-        console.log(this.isSubGroup);
-        if (this.isSubGroup) {
-            this._getAllRoot();
-            this.formGroup.controls['parentId'].setValidators([Validators.required]);
-            this.formGroup.controls['parentId'].markAsUntouched();
-            this.formGroup.controls['parentId'].updateValueAndValidity();
-        } else {
-            this.formGroup.controls['parentId'].setValue(null);
-            this.formGroup.controls['parentId'].clearValidators();
-            this.formGroup.controls['parentId'].updateValueAndValidity();
-            this.treeItems = [];
-        }
+    public formReset() {
+        this.componentClear();
     }
 
-    onNodeSelect(event: any) {
-        this.formGroup.controls['parentId'].setValue(event.node.data.id);
-    }
-
-    onNodeExpand(event: any) {
-        this.treeloading = true;
-        const that = this;
-        this.groupsApiService.getSubgroups(new SearchQueryApiModel(), event.node.data.id).subscribe((data: Array<GroupApiModel>) => {
-            event.node.children = data.map((item: GroupApiModel) => {
-                return {
-                    'label': item.name,
-                    'data': { 'id': item.id },
-                    'leaf': false
-                };
-            });
-            that.treeloading = false;
-        });
-    }
 
 
     //#region Dialog

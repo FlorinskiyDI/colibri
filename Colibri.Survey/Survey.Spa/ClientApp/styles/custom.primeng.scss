@@ -192,3 +192,56 @@
 
 
 
+// #region SPLITBUTTON
+.clbr--splitButton {
+    .ui-widget-header .ui-button, .ui-widget-content .ui-button, .ui-widget.ui-button, .ui-button {
+        background-image: -o-linear-gradient(top, #F9F9F9 0, #e5e5e5 100%);
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#e5e5e5));
+        background-image: linear-gradient(to bottom, #F9F9F9 0, #e5e5e5 100%);
+        border: 1px solid #ccc;
+    }
+    .ui-button .ui-button-text {
+        color: #5D5D5D;
+        text-shadow: 0 1px 0 #fff;
+    }
+
+    .ui-button.ui-corner-left { border-right: none; }    
+    .ui-button.ui-corner-right { border-left: none; }
+    .ui-widget-header .ui-button:enabled:hover,
+    .ui-widget-header .ui-button:focus,
+    .ui-widget-content .ui-button:enabled:hover,
+    .ui-widget-content .ui-button:focus,
+    .ui-widget.ui-button:enabled:hover,
+    .ui-widget.ui-button:focus,
+    .ui-button:enabled:hover,
+    .ui-button:focus {
+        border: 1px solid #ccc;
+        background-image: -o-linear-gradient(top, #F9F9F9 0, #e5e5e5 100%);
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#e5e5e5));
+        background-image: linear-gradient(to bottom, #F9F9F9 0, #e5e5e5 100%);
+        background-color: #e0e0e0;
+        background-position: 0 0px;
+        border-color: #adadad;
+        border-color: #adadad;
+    }
+    .ui-button.ui-corner-right .ui-button-icon-left { color: #5D5D5D; }
+
+    .ui-button.ui-corner-left:hover, .ui-button.ui-corner-left:focus { border-right: none !important; }
+    .ui-button.ui-corner-right:hover, .ui-button.ui-corner-right:focus { border-left: none !important; }
+    .ui-button.ui-corner-right:hover {
+        background-image: -o-linear-gradient(top, #ECECEC 0, #CCCCCC 100%) !important;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#ECECEC), to(#CCCCCC)) !important;
+        background-image: linear-gradient(to bottom, #ECECEC 0, #CCCCCC 100%) !important;
+    }
+    .ui-button.ui-corner-left:hover ~ .ui-corner-right {
+        border: 1px solid #adadad;
+        border-left: none !important;
+    }   
+    .ui-button.ui-corner-right:hover ~ .ui-corner-left {
+        border: 1px solid #adadad !important;
+        border-right: none !important;
+    }
+    .ui-button .ui-button-text { padding: 4px 13px; }
+}
+
+// #endregion

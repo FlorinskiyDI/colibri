@@ -40,6 +40,7 @@ import {NgxSmoothDnDModule} from 'ngx-smooth-dnd';
 /* module-primeng */ import { DragDropModule } from 'primeng/dragdrop';
 /* module-primeng */ import { ChipsModule } from 'primeng/chips';
 /* module-primeng */ import { MultiSelectModule } from 'primeng/multiselect';
+/* module-primeng */ import { SplitButtonModule } from 'primeng/splitbutton';
 /* module-angular-split */ import { AngularSplitModule } from 'angular-split';
 
 
@@ -99,7 +100,7 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         TabViewModule, TabMenuModule, ConfirmDialogModule, AccordionModule, InputTextareaModule, InputSwitchModule, CheckboxModule, CalendarModule,
         FileUploadModule, DataTableModule, DialogModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, OverlayPanelModule, ButtonModule,
         ScheduleModule, TooltipModule, ChartModule, ColorPickerModule, TooltipModule, ListboxModule, RadioButtonModule, TableModule, FieldsetModule,
-        TreeTableModule, TreeModule, BlockUIModule, PanelModule, DragDropModule, ChipsModule, MultiSelectModule,
+        TreeTableModule, TreeModule, BlockUIModule, PanelModule, DragDropModule, ChipsModule, MultiSelectModule, SplitButtonModule,
         // ngx-bootstrap
         TabsModule.forRoot(), BsDropdownModule.forRoot(),
         // material
@@ -134,7 +135,7 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         TabViewModule, TabMenuModule, ConfirmDialogModule, AccordionModule, InputTextareaModule, InputSwitchModule, CheckboxModule, CalendarModule,
         FileUploadModule, DataTableModule, DialogModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, OverlayPanelModule, ButtonModule,
         ScheduleModule, TooltipModule, ChartModule, ColorPickerModule, TooltipModule, ListboxModule, RadioButtonModule, TableModule, FieldsetModule,
-        TreeTableModule, TreeModule, BlockUIModule, PanelModule, DragDropModule, ChipsModule, MultiSelectModule,
+        TreeTableModule, TreeModule, BlockUIModule, PanelModule, DragDropModule, ChipsModule, MultiSelectModule, SplitButtonModule,
         // ngx-bootstrap
         TabsModule, BsDropdownModule,
         // material

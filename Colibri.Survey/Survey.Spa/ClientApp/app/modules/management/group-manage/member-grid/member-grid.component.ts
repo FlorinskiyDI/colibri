@@ -31,7 +31,7 @@ export class MemberGridComponent implements OnInit {
 
 
     dialogCreateConfig: DialogDataModel<any>;
-
+    items: any[] = [];
     groupId: any;
     // table
     tbItems: any[] = [];
@@ -53,6 +53,7 @@ export class MemberGridComponent implements OnInit {
         private groupMembersApiService: GroupMembersApiService,
         private route: ActivatedRoute,
     ) {
+        debugger
         this.tbSelectedColumns = this.optionTbToggle.columns;
         this.tbLoading = true;
         this.route.parent.params.subscribe((params: any) => {
@@ -61,11 +62,24 @@ export class MemberGridComponent implements OnInit {
     }
 
     ngOnInit() {
+        
+    this.items = [
+        {label: 'Add member(s)', icon: 'pi pi-refresh', command: () => {
+            this.addMembersByEmails();
+        }},
+        {label: 'Import csv', icon: 'pi pi-times', command: () => {
+            this.addByImportCsv();
+        }}
+    ];
         // this.subscriberResetData = this.eventResetData.subscribe(() => this.dtGroups.reset());
     }
     ngOnDestroy() {
         // this.subscriberResetData.unsubscribe();
     }
+
+    addByImportCsv() { console.log('addByImportCsv'); }
+    addMembersByEmails() { console.log('addMembersByEmails'); }
+
 
     item_edit(groupId: string) { this.editItem.emit(groupId); }
     item_delete(groupId: string) { this.deleteItem.emit(groupId); }
@@ -92,6 +106,8 @@ export class MemberGridComponent implements OnInit {
             this.tbTotalItemCount = response.totalItemCount;
         });
     }
+
+
 
     public dialogCreateOpen() { this.dialogCreateConfig = new DialogDataModel<any>(true); }
     // public dialogCreateOnChange() { this.eventResetData.next(); }
