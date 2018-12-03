@@ -11,6 +11,8 @@ import { NgModule } from '@angular/core';
 /* component */ import { GroupDataComponent } from './group-data/group-data.component';
 /* component */ import { GroupDataFilterComponent } from './group-data-filter/group-data-filter.component';
 /* component */ import { MemberGridComponent } from './member-grid/member-grid.component';
+/* component */ import { MemberDialogCreateComponent } from './member-dialog-create/member-dialog-create.component';
+
 
 @NgModule({
     imports: [
@@ -26,7 +28,8 @@ import { NgModule } from '@angular/core';
         GroupDialogCreateComponent,
         GroupViewComponent,
         GroupViewDetailComponent,
-        MemberGridComponent
+        MemberGridComponent,
+        MemberDialogCreateComponent
     ],
     providers: [
     ]

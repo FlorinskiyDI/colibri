@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 
 /* service-api */ import { GroupMembersApiService } from 'shared/services/api/group-members.api.service';
 /* model-api */ import { SearchQueryApiModel, SearchQueryPage } from 'shared/models/entities/api/page-search-entry.api.model';
+/* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 
 @Component({
     selector: 'cmp-member-grid',
@@ -27,6 +28,9 @@ export class MemberGridComponent implements OnInit {
     // input events
     @Input() eventResetData: Observable<any>;
     // private subscriberResetData: any;
+
+
+    dialogCreateConfig: DialogDataModel<any>;
 
     groupId: any;
     // table
@@ -88,4 +92,10 @@ export class MemberGridComponent implements OnInit {
             this.tbTotalItemCount = response.totalItemCount;
         });
     }
+
+    public dialogCreateOpen() { this.dialogCreateConfig = new DialogDataModel<any>(true); }
+    // public dialogCreateOnChange() { this.eventResetData.next(); }
+    public dialogCreateOnChange() {  }
+    public dialogCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
+    public dialogCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
 }
