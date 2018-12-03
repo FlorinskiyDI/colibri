@@ -13,10 +13,12 @@ namespace Survey.ApplicationLayer.Dtos.Models.Report
         public Guid? ParentQuestionId { get; set; }
         public int OrderNo { get; set; }
         public int PageOrderNo { get; set; }
+        public string AdditionalAnswer { get; set; }
 
         public TableReportViewModel()
         {
             this.Answer = null;
+            this.AdditionalAnswer = "";
         }
     }
 }

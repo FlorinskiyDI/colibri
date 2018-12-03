@@ -14,7 +14,7 @@ namespace Survey.ApplicationLayer.Dtos.Models.Report
         public List<string> Children { get; set; }
         public Guid? ParentId { get; set; }
         public int PageOrderNo { get; set; }
-
+        public bool AdditionalAnswer { get; set; }
         public ColumModel()
         {
             this.Children = new List<string>();

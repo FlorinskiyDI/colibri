@@ -67,33 +67,42 @@ namespace Survey.Webapi.Controllers
         //[Route("{quizId}")]
         public async Task<IActionResult> DownloadGrid(string quizId)
         {
-            var check = quizId.ToString();
-
-            var options = _reportService.GetQuestions(Guid.Parse(quizId));
-
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-
-
-
-            var questionList = _reportService.GetQuesionListBySurveyId(Guid.Parse(quizId));
-
-            //var surveyReport = _reportService.GetReport(questionList);
-            var sortAnswers = questionList.GroupBy(u => u.RespondentId)
-                .Select(grp => grp.ToList())
-                .ToList();
-
-            watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            var elapsedSec = elapsedMs / 1000;
-            var result = new FileViewModel()
+            try
             {
-                HeaderOption = options,
-                Answers = sortAnswers,
-            };
+                var check = quizId.ToString();
 
-            var exportData = _excelService.ExportExcel(result, "", true);
+                var options = _reportService.GetQuestions(Guid.Parse(quizId));
 
-            return new FileContentResult(exportData.Content, exportData.ContentType);
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+
+
+
+                var questionList = _reportService.GetQuesionListBySurveyId(Guid.Parse(quizId));
+
+                //var surveyReport = _reportService.GetReport(questionList);
+                var sortAnswers = questionList.GroupBy(u => u.RespondentId)
+                    .Select(grp => grp.ToList())
+                    .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                var elapsedSec = elapsedMs / 1000;
+                var result = new FileViewModel()
+                {
+                    HeaderOption = options,
+                    Answers = sortAnswers,
+                };
+
+                var exportData = _excelService.ExportExcel(result, "", true);
+
+                return new FileContentResult(exportData.Content, exportData.ContentType);
+            }
+            catch (Exception ex)
+            {
+                var check5 = ex;
+                throw;
+            }
+       
         }
     }
 }

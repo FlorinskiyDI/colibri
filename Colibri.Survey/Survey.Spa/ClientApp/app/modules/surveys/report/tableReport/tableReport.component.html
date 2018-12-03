@@ -20,24 +20,27 @@
 
             <div class="row">
                 <div class="col-md-12">
+                    <pre>{{answerList | json }}</pre>
                     <div class="clbr--ui-table clbr--ui-table-v1">
-                        <p-table 
-                        [resizableColumns]="true" 
-                        [loading]="gridLoading" 
-                        *ngIf="answerList" 
-                        [columns]="columOptions"
-                        [value]="answerList"
-                        (sortFunction)="customSort1($event)"
-                        [customSort]="true">
+                    <!-- <div class="clbr--ui-table"> -->
+                        <p-table [resizableColumns]="true" [loading]="gridLoading" *ngIf="answerList" [columns]="columOptions" [value]="answerList"
+                            (sortFunction)="customSort1($event)" [customSort]="true">
                             <ng-template let-sale pTemplate="header">
                                 <tr>
                                     <ng-container *ngFor="let item of columOptions">
                                         <ng-container *ngIf="item.type == 'GridRadio'">
-                                            <th class="border-right-none border-left-none" [attr.colspan]="item.children.length" [ngStyle]="{width:(200 * item.children.length) +'px'}" pResizableColumn>(P №{{item.pageOrderNo + 1}} / Q №{{item.orderNo + 1}}) {{item.name}}
+                                            <th class="border-right-none border-left-none" [attr.colspan]="item.children.length" [ngStyle]="{width:(210 * item.children.length) +'px'}"
+                                                pResizableColumn>[{{item.orderNo + 1}}] - {{item.name}}
                                             </th>
                                         </ng-container>
-                                        <th class="border-right-none border-left-none" *ngIf="item.type != 'GridRadio'" rowspan="2" [ngStyle]="{width:'200px'}" pResizableColumn [pSortableColumn]="item.name">(P №{{item.pageOrderNo + 1}} / Q №{{item.orderNo + 1}}) {{item.name}}
+                                        <th class="border-right-none border-left-none" *ngIf="item.type != 'GridRadio'" rowspan="2" [ngStyle]="{width:'210px'}" pResizableColumn
+                                            [pSortableColumn]="item.name"> [{{item.orderNo + 1}}] - {{item.name}}
                                             <p-sortIcon [field]="item.name"></p-sortIcon>
+                                        </th>
+
+                                        <th class="border-right-none border-left-none" *ngIf="item.additionalAnswer" rowspan="2" [ngStyle]="{width:'200px'}" pResizableColumn>
+                                                [{{item.orderNo + 1}}] - ADDITIONAL ANSWER
+
                                         </th>
 
                                     </ng-container>
@@ -45,19 +48,37 @@
                                 <tr>
                                     <ng-container *ngFor="let item of columOptions">
                                         <ng-container *ngIf="item.type == 'GridRadio'">
-                                            <th class="border-right-none border-left-none" *ngFor="let nestedQuestion of item.children; let i=index" [ngStyle]="{width:'200px'}" colspan="1">№{{item.orderNo + 1}}.{{i + 1}}. {{nestedQuestion}}
+                                            <th class="border-right-none border-left-none" *ngFor="let nestedQuestion of item.children; let i=index" [ngStyle]="{width:'200px'}"
+                                                colspan="1">[{{item.orderNo + 1}}.{{i + 1}}] {{nestedQuestion}}
                                             </th>
                                         </ng-container>
                                     </ng-container>
                                 </tr>
+
+
+
+                                <!-- <tr>
+                                    <ng-container *ngFor="let item of columOptions">
+                                        <ng-container *ngIf="item.type == 'GridRadio'">
+                                            <th class="border-right-none border-left-none" *ngFor="let nestedQuestion of item.children; let i=index" [ngStyle]="{width:'200px'}"
+                                                colspan="1">№{{item.orderNo + 1}}.{{i + 1}}. {{nestedQuestion}}
+                                            </th>
+                                        </ng-container>
+                                    </ng-container>
+                                </tr> -->
+
+
+
                             </ng-template>
                             <ng-template *ngIf="answerList.length > 0" pTemplate="body" let-sale let-rowIndex="rowIndex">
                                 <tr>
                                     <ng-container *ngFor="let item of sale">
                                         <ng-container *ngIf="item.inputTypeName == 'GridRadio'">
                                             <td *ngFor="let sell of item.answer" [ngStyle]="{width:'200px'}" [attr.title]="sell.answer" class="ui-resizable-column">{{sell.answer}}</td>
+                                            <td *ngIf="item.additionalAnswer.length > 0" [ngStyle]="{width:'200px'}" [attr.title]="item.answer" class="ui-resizable-column">{{item.additionalAnswer}}</td>
                                         </ng-container>
-                                        <td *ngIf="item.inputTypeName != 'GridRadio'" [ngStyle]="{width:'200px'}" [attr.title]="item.answer" class="ui-resizable-column">{{item.answer}}</td>
+                                        <td *ngIf="item.inputTypeName != 'GridRadio' " [ngStyle]="{width:'200px'}" [attr.title]="item.answer" class="ui-resizable-column">{{item.answer}}</td>
+                                        <td *ngIf="item.additionalAnswer.length > 0" [ngStyle]="{width:'200px'}" [attr.title]="item.answer" class="ui-resizable-column">{{item.additionalAnswer}}</td>
                                     </ng-container>
                                 </tr>
                             </ng-template>

@@ -86,7 +86,7 @@ namespace Survey.ApplicationLayer.Services
 
 
 
-        public async Task<List<ItemModel>> GetListByOptionGroup(Guid? optionGroupId)
+        public async Task<List<ItemModel>> GetListByOptionGroup(Guid? optionGroupId, bool includAdditionalChoice = false)
         {
             try
             {
@@ -101,15 +101,36 @@ namespace Survey.ApplicationLayer.Services
 
                     foreach (var item in optionChoisesDto)
                     {
-                        ItemModel page = new ItemModel()
+                        if (!item.IsAdditionalChoise)
                         {
-                            Id = item.Id.ToString(),
-                            Value = item.Name,
-                            Order = 0, // strub
-                            Label = ""
+                            ItemModel page = new ItemModel()
+                            {
+                                Id = item.Id.ToString(),
+                                Value = item.Name,
+                                Order = 0, // strub
+                                Label = "",
+                                IsAdditionalChoise = item.IsAdditionalChoise
 
-                        };
-                        items.Add(page);
+                            };
+                            items.Add(page);
+                        }
+                        else
+                        {
+                            if (includAdditionalChoice)
+                            {
+                                ItemModel page = new ItemModel()
+                                {
+                                    Id = item.Id.ToString(),
+                                    Value = item.Name,
+                                    Order = 0, // strub
+                                    Label = "",
+                                    IsAdditionalChoise = item.IsAdditionalChoise
+
+                                };
+                                items.Add(page);
+                            }
+                        }
+                      
                     }
                     return items;
 
@@ -123,12 +144,13 @@ namespace Survey.ApplicationLayer.Services
 
 
 
-        public async Task<Guid> AddAsync(Guid optionGroupId, ItemModel item = null)
+        public async Task<Guid> AddAsync(Guid optionGroupId, ItemModel item = null, bool isAdditionalChoice = false)
         {
             OptionChoisesDto optionChoisesDto = new OptionChoisesDto()
             {
                 Name = item != null ? item.Value : "",
                 OptionGroupId = optionGroupId,
+                IsAdditionalChoise = isAdditionalChoice,
                 OrderNo = 1 // stub
             };
 

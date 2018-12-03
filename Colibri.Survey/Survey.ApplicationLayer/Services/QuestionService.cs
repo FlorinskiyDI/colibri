@@ -320,6 +320,16 @@ namespace Survey.ApplicationLayer.Services
             {
                 _optionChoiceService.AddRange(optionGroupId, data.Options);
             }
+
+            if (data.IsAdditionalAnswer)
+            {
+                ItemModel item = new ItemModel()
+                {
+                    Value = "Additional answer radio"
+                };
+                _optionChoiceService.AddAsync(optionGroupId, item, true);
+
+            }
         }
 
         private void SaveCheckBoxQuestion(CheckBoxQuesstionModel data)
@@ -331,6 +341,16 @@ namespace Survey.ApplicationLayer.Services
             {
                 _optionChoiceService.AddRange(optionGroupId, data.Options);
             }
+
+            if (data.IsAdditionalAnswer)
+            {
+                ItemModel item = new ItemModel()
+                {
+                    Value = "Additional answer checkbox"
+                };
+                _optionChoiceService.AddAsync(optionGroupId, item, true);
+
+            }
         }
 
         private void SaveDropdownQuestion(DropdownQuestionModel data)
@@ -341,6 +361,16 @@ namespace Survey.ApplicationLayer.Services
             if (data.Options.Count() > 0)
             {
                 _optionChoiceService.AddRange(optionGroupId, data.Options);
+            }
+
+            if (data.IsAdditionalAnswer)
+            {
+                ItemModel item = new ItemModel()
+                {
+                    Value = "Additional answer dropdown"
+                };
+                _optionChoiceService.AddAsync(optionGroupId, item, true);
+
             }
         }
 
@@ -373,6 +403,16 @@ namespace Survey.ApplicationLayer.Services
             if (data.Grid.Cols.Count() > 0)
             {
                 _optionChoiceService.AddRange(optionGroupId, data.Grid.Cols);
+            }
+
+            if (data.IsAdditionalAnswer)
+            {
+                ItemModel item = new ItemModel()
+                {
+                    Value = "Additional answer gridRadio"
+                };
+                _optionChoiceService.AddAsync(optionGroupId, item, true);
+
             }
         }
 
@@ -640,6 +680,7 @@ namespace Survey.ApplicationLayer.Services
             pageId = id;
             switchQuestionType[baseQuestion.GetType()]();
         }
+
 
 
         public async Task<List<BaseQuestionModel>> GetTypedQuestionListByPage(Guid pageId)

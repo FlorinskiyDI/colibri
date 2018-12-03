@@ -61,7 +61,8 @@ namespace Survey.ApplicationLayer.Services
                             Type = inputType.Name,
                             OrderNo = nestedComboEntity.question.OrderNo,
                             ParentId = nestedComboEntity.question.ParentId,
-                            PageOrderNo = nestedComboEntity.surveyPageEntry.page.OrderNo
+                            PageOrderNo = nestedComboEntity.surveyPageEntry.page.OrderNo,
+                            AdditionalAnswer = nestedComboEntity.question.AdditionalAnswer
                         })
                     .OrderBy(p => p.PageOrderNo).ThenBy(p => p.OrderNo).ToList();
 
@@ -210,11 +211,12 @@ namespace Survey.ApplicationLayer.Services
                                     (combo, question) => new AnswerModel()
                                     {
                                         AnswerText = combo.oCCombo.combeEntry.answers.AnswerText,
+                                        IsAdditional = combo.optionChoice.IsAdditionalChoise,
                                         OptionChoise = combo.optionChoice.Name
                                     }
                                 )
                                 .ToList();
-                            item.Answer = GetAnswerByType(item.InputTypeName, answer, item.QuestionId, item.RespondentId);
+                            item.Answer = GetAnswerByType(item, answer, item.QuestionId, item.RespondentId);
                         }
                     }
                 }
@@ -232,10 +234,10 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
-        protected object GetAnswerByType(string inputTypeName, List<AnswerModel> answerList, Guid questionId, Guid respondentId)
+        protected object GetAnswerByType(TableReportViewModel answerModel, List<AnswerModel> answerList, Guid questionId, Guid respondentId)
         {
             string answerONQuestion = "--NULL--";
-            if (Enum.TryParse(inputTypeName, out type))
+            if (Enum.TryParse(answerModel.InputTypeName, out type))
             {
                 switch (type)
                 {
@@ -257,9 +259,16 @@ namespace Survey.ApplicationLayer.Services
                         }
                     case QuestionTypes.Radio:
                         {
-                            if (answerList.Count > 0)
+                            foreach (var item in answerList)
                             {
-                                answerONQuestion = answerList.FirstOrDefault().OptionChoise;
+                                if (item.IsAdditional)
+                                {
+                                    answerModel.AdditionalAnswer = item.AnswerText;
+                                }
+                                else
+                                {
+                                    answerONQuestion = item.OptionChoise;
+                                }
                             }
                             break;
                         }
@@ -270,21 +279,41 @@ namespace Survey.ApplicationLayer.Services
                                 answerONQuestion = "";
                                 foreach (var item in answerList)
                                 {
-                                    answerONQuestion = answerONQuestion + "," + item.OptionChoise;
+                                    if (item.IsAdditional)
+                                    {
+                                        answerModel.AdditionalAnswer = item.AnswerText;
+                                    }
+                                    else
+                                    {
+                                        answerONQuestion = answerONQuestion + "," + item.OptionChoise;
+                                    }
+
                                 }
                             }
                             break;
                         }
                     case QuestionTypes.Dropdown:
                         {
-                            if (answerList.Count > 0)
+                            foreach (var item in answerList)
                             {
-                                answerONQuestion = answerList.FirstOrDefault().OptionChoise;
+                                if (item.IsAdditional)
+                                {
+                                    answerModel.AdditionalAnswer = item.AnswerText;
+                                }
+                                else
+                                {
+                                    answerONQuestion = item.OptionChoise;
+                                }
                             }
                             break;
                         }
                     case QuestionTypes.GridRadio:
                         {
+                            answerModel.AdditionalAnswer = answerList.SingleOrDefault().AnswerText;
+                            //if (item.IsAdditional)
+                            //{
+                            //    answerModel.AdditionalAnswer = item.AnswerText;
+                            //}
                             List<TableReportViewModel> tempList = new List<TableReportViewModel>();
                             var rowQuestionList = _rowQuestions
                                 .Where(p => p.ParentQuestionId == questionId).Where(p => p.RespondentId == respondentId).ToList();

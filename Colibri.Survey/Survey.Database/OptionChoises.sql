@@ -3,5 +3,6 @@
     [Name] NVARCHAR(250) NOT NULL, 
 	[OptionGroupId] UNIQUEIDENTIFIER NOT NULL, 
 	[OrderNo] INT NOT NULL,
+	[IsAdditionalChoise] BIT NOT NULL,
 	CONSTRAINT [FK_OptionChoises_OptionGroups] FOREIGN KEY ([OptionGroupId]) REFERENCES [dbo].[OptionGroups]([Id])
 );

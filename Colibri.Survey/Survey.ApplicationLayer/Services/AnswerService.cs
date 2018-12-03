@@ -251,7 +251,35 @@ namespace Survey.ApplicationLayer.Services
                 };
 
                 var answerId = AddAsync(answer).Result;
+
+
+                if (!String.IsNullOrEmpty(data.AdditionalAnswer))
+                {
+                    AddAdditionalChoice(data);
+                }
             }
+        }
+
+
+        public void AddAdditionalChoice(BaseAnswerModel data)
+        {
+            var question = _questionService.GetQuestionById(data.Id);
+
+            var optionChoices = _optionChoiceService.GetListByOptionGroup(question.OptionGroupId, true).Result;
+            var optionChoice = optionChoices.Where(x => x.IsAdditionalChoise == true).FirstOrDefault();
+            var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(optionChoice.Id));
+
+            Answers answer = new Answers()
+            {
+                AnswerBoolean = false,
+                AnswerDateTime = null,
+                AnswerNumeric = null,
+                AnswerText = data.AdditionalAnswer,
+                RespondentId = respondentId,
+                QuestionOptionId = questionOptionId
+            };
+
+            var answerId = AddAsync(answer).Result;
         }
 
 
@@ -276,6 +304,10 @@ namespace Survey.ApplicationLayer.Services
 
                     var answerId = AddAsync(answer).Result;
                 }
+                if (!String.IsNullOrEmpty(data.AdditionalAnswer))
+                {
+                    AddAdditionalChoice(data);
+                }
             }
         }
 
@@ -296,6 +328,11 @@ namespace Survey.ApplicationLayer.Services
                 };
 
                 var answerId = AddAsync(answer).Result;
+
+                if (!String.IsNullOrEmpty(data.AdditionalAnswer))
+                {
+                    AddAdditionalChoice(data);
+                }
             }
 
         }
@@ -322,6 +359,11 @@ namespace Survey.ApplicationLayer.Services
                     };
 
                     var answerId = AddAsync(answer).Result;
+                }
+
+                if (!String.IsNullOrEmpty(data.AdditionalAnswer))
+                {
+                    AddAdditionalChoice(data);
                 }
             }
         }

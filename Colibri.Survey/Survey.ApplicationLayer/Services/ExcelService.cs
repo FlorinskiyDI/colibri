@@ -77,6 +77,11 @@ namespace Survey.ApplicationLayer.Services
                     dataTable.Columns.Add("[" + (i + 1) + "] - " + data.HeaderOption[i].Name);
                     colCount = colCount + 1;
                 }
+                if (data.HeaderOption[i].AdditionalAnswer)
+                {
+                    dataTable.Columns.Add("[" + (i + 1) + "] - Additional answer");
+                    colCount = colCount + 1;
+                }
             }
 
 
@@ -109,6 +114,11 @@ namespace Survey.ApplicationLayer.Services
                     type == QuestionTypes.Dropdown.ToString())
                     {
                         values[keyValue] = groupAnswer[i].Answer;
+                        keyValue = keyValue + 1;
+                    }
+                    if (!String.IsNullOrEmpty(groupAnswer[i].AdditionalAnswer))
+                    {
+                        values[keyValue] = groupAnswer[i].AdditionalAnswer;
                         keyValue = keyValue + 1;
                     }
                 }
@@ -196,21 +206,24 @@ namespace Survey.ApplicationLayer.Services
                             ToColumn = firstCell
                         }
                         );
-
                         ++firstCell;
-                        //cellList.Add(new CellPosition()
-                        //{
-                        //    FromColumn = startRowFrom - 1,
-                        //    FromRow = 0,
-                        //    ToColumn = startRowFrom - 1,
-                        //    ToRow = 0
-                        //}
-                        // );
-
-
-                        //values[keyValue] = groupAnswer[i].Answer;
-                        //keyValue = keyValue + 1;
                     }
+                    if (data.HeaderOption[i].AdditionalAnswer)
+                    {
+                        headerColumn.Columns.Add("[" + (i + 1) + " - ADDITIONAL ANSWER]");
+                        ++headerColCount;
+
+                        cellList.Add(new CellPosition()
+                        {
+                            FromRow = startRowFrom - 1,
+                            FromColumn = firstCell,
+                            ToRow = startRowFrom,
+                            ToColumn = firstCell
+                        }
+                        );
+                        ++firstCell;
+                    }
+
                 }
 
                 // not work !!!!
