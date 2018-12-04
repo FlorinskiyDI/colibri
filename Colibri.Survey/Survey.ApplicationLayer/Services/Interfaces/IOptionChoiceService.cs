@@ -13,7 +13,7 @@ namespace Survey.ApplicationLayer.Services.Interfaces
         //Task AddAsync(Guid optionGroupId, ItemModel item);
         void AddRange(Guid optionGroupId, List<ItemModel> items);
         Task<List<ItemModel>> GetListByOptionGroup(Guid? optionGroupId, bool includAdditionalChoice = false);
-        Task<IEnumerable<OptionChoises>> GetListByOptionGroupId(Guid? optionGroupId);
+        Task<List<OptionChoises>> GetListByOptionGroupId(Guid? optionGroupId, bool includAdditionalChoice = false);
         void UpdateOptionChoise(OptionChoises choise);
         void DeleteOptionChoise(OptionChoises choise);
     }

@@ -233,7 +233,9 @@ export class BuilderComponent {
 
     saveSurvey() {
         if (this.surveyId === null) {
-            const data = this.surveysApiService.save(this.survey);
+            const data = this.surveysApiService.save(this.survey).subscribe((result: any) => {
+                this.router.navigateByUrl('/surveys');
+            });
             console.log(data);
         } else {
             const updateData: any = {

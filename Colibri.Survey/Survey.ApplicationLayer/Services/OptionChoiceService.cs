@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -28,7 +29,7 @@ namespace Survey.ApplicationLayer.Services
 
 
 
-        public async Task<IEnumerable<OptionChoises>> GetListByOptionGroupId(Guid? optionGroupId)
+        public async Task<List<OptionChoises>> GetListByOptionGroupId(Guid? optionGroupId, bool includAdditionalChoice = false)
         {
             try
             {
@@ -37,9 +38,16 @@ namespace Survey.ApplicationLayer.Services
                 using (var uow = UowProvider.CreateUnitOfWork())
                 {
                     var repositoryOptionChoice = uow.GetRepository<OptionChoises, Guid>();
-                    var choises = await repositoryOptionChoice.QueryAsync(item => item.OptionGroupId == optionGroupId);
-                    await uow.SaveChangesAsync();
-                    return choises;
+                    if (!includAdditionalChoice)
+                    {
+                        return repositoryOptionChoice.QueryAsync(item => item.OptionGroupId == optionGroupId).Result.Where(x => x.IsAdditionalChoise == includAdditionalChoice).ToList();
+                    }
+                    else
+                    {
+                        return repositoryOptionChoice.QueryAsync(item => item.OptionGroupId == optionGroupId).Result.ToList();
+                    }
+                    
+
                 }
             }
             catch (Exception)
@@ -183,6 +191,7 @@ namespace Survey.ApplicationLayer.Services
             {
                 OptionChoisesDto optionChoisesDto = new OptionChoisesDto()
                 {
+                    IsAdditionalChoise = item.IsAdditionalChoise,
                     Name = item != null ? item.Value : "",
                     OptionGroupId = optionGroupId,
                     OrderNo = 1 // stub

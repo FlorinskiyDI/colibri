@@ -300,7 +300,7 @@ namespace Survey.ApplicationLayer.Services
             Guid optionGroupId = _optionGroupService.AddAsync(optionGroupDefinitions.textBox).Result;
             InputTypesDto type = inputTypeList.Where(item => item.Name == data.ControlType).FirstOrDefault();
             var questionId = SaveQuestion(data, false, optionGroupId, type.Id, null).Result;
-            Guid id =  _optionChoiceService.AddAsync(optionGroupId, null).Result;
+            Guid id = _optionChoiceService.AddAsync(optionGroupId, null).Result;
         }
 
         private void SaveTextAreaQuestion(TextAreaQuestionModel data)
@@ -325,9 +325,14 @@ namespace Survey.ApplicationLayer.Services
             {
                 ItemModel item = new ItemModel()
                 {
+                    IsAdditionalChoise = true,
                     Value = "Additional answer radio"
                 };
-                _optionChoiceService.AddAsync(optionGroupId, item, true);
+                var excistAdditional = _optionChoiceService.GetListByOptionGroup(optionGroupId).Result.Where(x => x.IsAdditionalChoise == true).FirstOrDefault();
+                if (excistAdditional == null)
+                {
+                    _optionChoiceService.AddAsync(optionGroupId, item, true);
+                }
 
             }
         }
@@ -346,9 +351,15 @@ namespace Survey.ApplicationLayer.Services
             {
                 ItemModel item = new ItemModel()
                 {
+                    IsAdditionalChoise = true,
                     Value = "Additional answer checkbox"
                 };
-                _optionChoiceService.AddAsync(optionGroupId, item, true);
+                var excistAdditional = _optionChoiceService.GetListByOptionGroup(optionGroupId).Result.Where(x => x.IsAdditionalChoise == true).FirstOrDefault();
+                if (excistAdditional == null)
+                {
+                    _optionChoiceService.AddAsync(optionGroupId, item, true);
+                }
+             
 
             }
         }
@@ -367,9 +378,14 @@ namespace Survey.ApplicationLayer.Services
             {
                 ItemModel item = new ItemModel()
                 {
+                    IsAdditionalChoise = true,
                     Value = "Additional answer dropdown"
                 };
-                _optionChoiceService.AddAsync(optionGroupId, item, true);
+                var excistAdditional = _optionChoiceService.GetListByOptionGroup(optionGroupId).Result.Where(x => x.IsAdditionalChoise == true).FirstOrDefault();
+                if (excistAdditional == null)
+                {
+                    _optionChoiceService.AddAsync(optionGroupId, item, true);
+                }
 
             }
         }
@@ -409,9 +425,14 @@ namespace Survey.ApplicationLayer.Services
             {
                 ItemModel item = new ItemModel()
                 {
+                    IsAdditionalChoise = true,
                     Value = "Additional answer gridRadio"
                 };
-                _optionChoiceService.AddAsync(optionGroupId, item, true);
+                //var excistAdditional = _optionChoiceService.GetListByOptionGroup(optionGroupId).Result.Where(x => x.IsAdditionalChoise == true).FirstOrDefault();
+                //if (excistAdditional == null)
+                //{
+                    _optionChoiceService.AddAsync(optionGroupId, item, true);
+                //}
 
             }
         }
@@ -482,7 +503,25 @@ namespace Survey.ApplicationLayer.Services
                     _optionChoiceService.DeleteOptionChoise(item);
                 }
             }
+
+            if (data.IsAdditionalAnswer)
+            {
+                ItemModel item = new ItemModel()
+                {
+                    IsAdditionalChoise = true,
+                    Value = "Additional answer radio2"
+                };
+                var excistAdditional = _optionChoiceService.GetListByOptionGroup(question.OptionGroupId, true).Result.Where(x => x.IsAdditionalChoise == true).FirstOrDefault();
+                if (excistAdditional == null)
+                {
+                    data.Options.Add(item);
+                }
+            }
+
             _optionChoiceService.AddRange(question.OptionGroupId.Value, data.Options);
+
+
+
         }
 
 
@@ -514,7 +553,22 @@ namespace Survey.ApplicationLayer.Services
                     _optionChoiceService.DeleteOptionChoise(item);
                 }
             }
+            if (data.IsAdditionalAnswer)
+            {
+                ItemModel item = new ItemModel()
+                {
+                    IsAdditionalChoise = true,
+                    Value = "Additional answer dropdown2"
+                };
+                var excistAdditional = _optionChoiceService.GetListByOptionGroup(question.OptionGroupId, true).Result.Where(x => x.IsAdditionalChoise == true).FirstOrDefault();
+                if (excistAdditional == null)
+                {
+                    data.Options.Add(item);
+                }
+            }
             _optionChoiceService.AddRange(question.OptionGroupId.Value, data.Options);
+
+
         }
 
 
@@ -548,6 +602,20 @@ namespace Survey.ApplicationLayer.Services
                     // delete this item from db
                     _optionChoiceService.DeleteOptionChoise(item);
                 }
+            }
+            if (data.IsAdditionalAnswer)
+            {
+                ItemModel item = new ItemModel()
+                {
+                    IsAdditionalChoise = true,
+                    Value = "Additional answer gridRadio2"
+                };
+                var excistAdditional = _optionChoiceService.GetListByOptionGroup(question.OptionGroupId, true).Result.Where(x => x.IsAdditionalChoise == true).FirstOrDefault();
+                if (excistAdditional == null)
+                {
+                    _optionChoiceService.AddAsync(question.OptionGroupId.Value, item, true);
+                }
+
             }
             _optionChoiceService.AddRange(question.OptionGroupId.Value, data.Grid.Cols);
 
@@ -589,7 +657,6 @@ namespace Survey.ApplicationLayer.Services
                     var rowQuestionId = SaveQuestion(rowQuestion, false, question.OptionGroupId, rowsType.Id, question.Id).Result;
                 }
             }
-
         }
 
         private void UpdateCheckboxQuestion(CheckBoxQuesstionModel data)
@@ -618,6 +685,19 @@ namespace Survey.ApplicationLayer.Services
                 {
                     // delete this item form db
                     _optionChoiceService.DeleteOptionChoise(item);
+                }
+            }
+            if (data.IsAdditionalAnswer)
+            {
+                ItemModel item = new ItemModel()
+                {
+                    IsAdditionalChoise = true,
+                    Value = "Additional answer checkbox2"
+                };
+                var excistAdditional = _optionChoiceService.GetListByOptionGroup(question.OptionGroupId, true).Result.Where(x => x.IsAdditionalChoise == true).FirstOrDefault();
+                if (excistAdditional == null)
+                {
+                    data.Options.Add(item);
                 }
             }
             _optionChoiceService.AddRange(question.OptionGroupId.Value, data.Options);

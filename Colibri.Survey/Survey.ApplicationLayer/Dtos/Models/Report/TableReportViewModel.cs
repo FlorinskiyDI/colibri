@@ -14,7 +14,7 @@ namespace Survey.ApplicationLayer.Dtos.Models.Report
         public int OrderNo { get; set; }
         public int PageOrderNo { get; set; }
         public string AdditionalAnswer { get; set; }
-
+        public Guid? GroupId { get; set; }
         public TableReportViewModel()
         {
             this.Answer = null;

@@ -8,6 +8,7 @@ using Survey.ApplicationLayer.Dtos.Models.Report;
 using Survey.DomainModelLayer.Entities;
 using Survey.Common.Enums;
 using dataaccesscore.Abstractions.Uow;
+using System.Threading.Tasks;
 
 namespace Survey.ApplicationLayer.Services
 {
@@ -16,15 +17,17 @@ namespace Survey.ApplicationLayer.Services
         QuestionTypes type;
         protected readonly IUowProvider UowProvider;
         protected readonly IMapper Mapper;
-
+        protected readonly IOptionChoiceService optionChoiceService;
 
         private List<TableReportViewModel> _rowQuestions;
 
         public ReportService(
             IUowProvider uowProvider,
+            IOptionChoiceService optionChoiceService,
             IMapper mapper
         )
         {
+            this.optionChoiceService = optionChoiceService;
             this.UowProvider = uowProvider;
             this.Mapper = mapper;
 
@@ -40,31 +43,36 @@ namespace Survey.ApplicationLayer.Services
                 var repositoryQuestion = uow.GetRepository<Questions, Guid>();
                 var repositoryInputType = uow.GetRepository<InputTypes, Guid>();
 
-                var questionList = repositorySurvey.Query(p => p.Id == surveyId)
-                    .Join(repositoryPage.GetAll(),
-                        survey => survey.Id,
-                        pages => pages.SurveyId,
-                        (survey, page) => new { survey, page })
 
-                    .Join(repositoryQuestion.GetAll(),
-                        surveyPageEntry => surveyPageEntry.page.Id,
-                        questions => questions.PageId,
-                        (surveyPageEntry, question) => new { surveyPageEntry, question })
+                try
+                {
+                    var questionList = repositorySurvey.Query(p => p.Id == surveyId)
+                  .Join(repositoryPage.GetAll(),
+                      survey => survey.Id,
+                      pages => pages.SurveyId,
+                      (survey, page) => new { survey, page })
 
-                    .Join(repositoryInputType.GetAll(),
-                        typeNeatCombeEntry => typeNeatCombeEntry.question.InputTypesId,
-                        inputType => inputType.Id,
-                        (nestedComboEntity, inputType) => new ColumModel()
-                        {
-                            Id = nestedComboEntity.question.Id,
-                            Name = nestedComboEntity.question.Name,
-                            Type = inputType.Name,
-                            OrderNo = nestedComboEntity.question.OrderNo,
-                            ParentId = nestedComboEntity.question.ParentId,
-                            PageOrderNo = nestedComboEntity.surveyPageEntry.page.OrderNo,
-                            AdditionalAnswer = nestedComboEntity.question.AdditionalAnswer
-                        })
-                    .OrderBy(p => p.PageOrderNo).ThenBy(p => p.OrderNo).ToList();
+                  .Join(repositoryQuestion.GetAll(),
+                      surveyPageEntry => surveyPageEntry.page.Id,
+                      questions => questions.PageId,
+                      (surveyPageEntry, question) => new { surveyPageEntry, question })
+
+                  .Join(repositoryInputType.GetAll(),
+                      typeNeatCombeEntry => typeNeatCombeEntry.question.InputTypesId,
+                      inputType => inputType.Id,
+                      (nestedComboEntity, inputType) => new ColumModel()
+                      {
+                          Id = nestedComboEntity.question.Id,
+                          Name = nestedComboEntity.question.Name,
+                          Type = inputType.Name,
+                          OrderNo = nestedComboEntity.question.OrderNo,
+                          ParentId = nestedComboEntity.question.ParentId,
+                          PageOrderNo = nestedComboEntity.surveyPageEntry.page.OrderNo,
+                          AdditionalAnswer = IsExcistAdditionalOptionChoice(nestedComboEntity.question.OptionGroupId).Result
+                      })
+                  .OrderBy(p => p.PageOrderNo).ThenBy(p => p.OrderNo).ToList();
+               
+              
 
 
 
@@ -90,9 +98,30 @@ namespace Survey.ApplicationLayer.Services
 
                 return group;
 
+                }
+                catch (Exception ex)
+                {
+                    var catc = ex;
+                    throw;
+                }
+
             }
 
         }
+
+
+        public async Task<bool> IsExcistAdditionalOptionChoice(Guid? optionGroupId)
+        {
+            var optionChoices =await  optionChoiceService.GetListByOptionGroupId(optionGroupId, true);
+            var item = optionChoices.Where(x => x.IsAdditionalChoise == true).SingleOrDefault();
+            if (item != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+
 
 
         public List<TableReportViewModel> GetQuesionListBySurveyId(Guid surveyId)
@@ -131,6 +160,7 @@ namespace Survey.ApplicationLayer.Services
                         inputType => inputType.Id,
                         (typeNeatCombeEntry, inputType) => new TableReportViewModel()
                         {
+                            GroupId = typeNeatCombeEntry.question.OptionGroupId,
                             InputTypeName = inputType.Name,
                             QuestionId = typeNeatCombeEntry.question.Id,
                             ParentQuestionId = typeNeatCombeEntry.question.ParentId,
@@ -217,6 +247,10 @@ namespace Survey.ApplicationLayer.Services
                                 )
                                 .ToList();
                             item.Answer = GetAnswerByType(item, answer, item.QuestionId, item.RespondentId);
+
+                            var check = IsExcistAdditionalOptionChoice(item.GroupId).Result;
+                            //item.AdditionalAnswer = IsExcistAdditionalOptionChoice(item.GroupId).Result ? "NULL" : "";
+                            item.AdditionalAnswer = item.AdditionalAnswer.Count() > 0 ? item.AdditionalAnswer :  (IsExcistAdditionalOptionChoice(item.GroupId).Result ? "--NOT SET--": "");
                         }
                     }
                 }
@@ -309,7 +343,11 @@ namespace Survey.ApplicationLayer.Services
                         }
                     case QuestionTypes.GridRadio:
                         {
-                            answerModel.AdditionalAnswer = answerList.SingleOrDefault().AnswerText;
+                            if (answerList.Count > 0)
+                            {
+                                answerModel.AdditionalAnswer = answerList.SingleOrDefault().AnswerText;
+                            }
+                           
                             //if (item.IsAdditional)
                             //{
                             //    answerModel.AdditionalAnswer = item.AnswerText;
