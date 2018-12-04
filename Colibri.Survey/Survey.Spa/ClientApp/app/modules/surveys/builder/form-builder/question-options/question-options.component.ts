@@ -100,6 +100,13 @@ export class QuestionOptionsComponent {
         // }
     }
 
+    isAllowSetAdditional(type: any) {
+        if (type === ControTypes.textbox || type === ControTypes.textarea) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 
     getQuestionByType(value: any, index: any) {
