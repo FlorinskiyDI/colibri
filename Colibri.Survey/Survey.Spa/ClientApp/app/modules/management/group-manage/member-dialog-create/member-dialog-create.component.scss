@@ -1,0 +1,48 @@
+.cmp-member-dialog-create {
+    
+    .cmp--mat-form-field-import {
+        .cmp--btn-import-tmp {
+            padding: 2px 5px 2px 5px;
+            margin: 0 5px;
+            vertical-align: bottom;
+            margin-bottom: 2px;
+        }
+        .cmp--file-name { display: inline-block; vertical-align: top; padding-top: 8px; padding-left: 5px; font-size: 13px; }
+        .cmp--file-name .fa { padding: 3px 8px; font-size: 11px; color: #666; }
+        ::ng-deep.mat-form-field-infix { padding: 0; }
+        ::ng-deep.ui-button-icon-left { display: none; }
+        ::ng-deep.ui-button {
+            border-color: #ccc;
+            background-image: -o-linear-gradient(top, #F9F9F9 0, #e5e5e5 100%);
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#e5e5e5));
+            background-image: linear-gradient(to bottom, #F9F9F9 0, #e5e5e5 100%);
+            color: #333;
+            font-size: 13px; 
+        }
+        ::ng-deep.ui-button:hover { 
+            background-image: -o-linear-gradient(top, #ECECEC 0, #CCCCCC 100%) !important;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#ECECEC), to(#CCCCCC)) !important;
+            background-image: linear-gradient(to bottom, #ECECEC 0, #CCCCCC 100%) !important;
+        }
+        ::ng-deep.ui-button-text {
+            padding: .25em 1em .25em 1em;
+            
+        }
+        p-fileupload {
+            display: inline-block;
+            height: 25px;
+            margin: 4px;
+        }
+    }
+
+    .cmp--mat-form-field-values {
+        width: 100%;
+        ::ng-deep.mat-form-field-label-wrapper { display: none; }
+    }
+
+    .cmp--btn-import-btn-email {
+        padding: 2px 6px 1px 6px;
+        margin-right: 5px;
+        font-size: 11px;
+    }
+}

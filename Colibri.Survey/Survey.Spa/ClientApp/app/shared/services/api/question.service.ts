@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SurveyModel } from '../../models/form-builder/survey.model';
+// import { SurveyModel } from '../../models/form-builder/survey.model';
 import { PageModel } from '../../models/form-builder/page.model';
 
 
@@ -10,7 +10,7 @@ import { DropdownQuestion } from '../../models/form-builder/question-dropdown.mo
 import { TextAreaQuestion } from '../../models/form-builder/question-textarea.model';
 // import { RadioQuestion } from '../../models/form-builder/question-radio.model';
 // import { CheckboxQuestion } from '../../models/form-builder/question-checkbox.model';
-import { GridRadioQuestion } from '../../models/form-builder/question-grid-radio.model';
+// import { GridRadioQuestion } from '../../models/form-builder/question-grid-radio.model';
 
 
 @Injectable()
@@ -273,7 +273,7 @@ export class QuestionService {
 
     // ];
 
-    const survey: SurveyModel = {
+    const survey: any = {
       //  controlType: 'textbox', // same as in control-type.constant.ts
       id: 'fbd8800b-93ee-4707-b527-83feb23fb005',
       name: 'New Project...',
@@ -529,7 +529,7 @@ export class QuestionService {
 
     ];
 
-    const survey: SurveyModel = {
+    const survey: any = {
       //  controlType: 'textbox', // same as in control-type.constant.ts
       id: 'id_firstName11',
       name: 'survey name 1',

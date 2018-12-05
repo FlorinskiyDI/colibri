@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild , OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
 import { TreeDragDropService } from 'primeng/components/common/api';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -53,7 +53,6 @@ export class MemberGridComponent implements OnInit {
         private groupMembersApiService: GroupMembersApiService,
         private route: ActivatedRoute,
     ) {
-        debugger
         this.tbSelectedColumns = this.optionTbToggle.columns;
         this.tbLoading = true;
         this.route.parent.params.subscribe((params: any) => {
@@ -62,15 +61,19 @@ export class MemberGridComponent implements OnInit {
     }
 
     ngOnInit() {
-        
-    this.items = [
-        {label: 'Add member(s)', icon: 'pi pi-refresh', command: () => {
-            this.addMembersByEmails();
-        }},
-        {label: 'Import csv', icon: 'pi pi-times', command: () => {
-            this.addByImportCsv();
-        }}
-    ];
+
+        this.items = [
+            {
+                label: 'Add member(s)', icon: 'pi pi-refresh', command: () => {
+                    this.addMembersByEmails();
+                }
+            },
+            {
+                label: 'Import csv', icon: 'pi pi-times', command: () => {
+                    this.addByImportCsv();
+                }
+            }
+        ];
         // this.subscriberResetData = this.eventResetData.subscribe(() => this.dtGroups.reset());
     }
     ngOnDestroy() {
@@ -111,7 +114,7 @@ export class MemberGridComponent implements OnInit {
 
     public dialogCreateOpen() { this.dialogCreateConfig = new DialogDataModel<any>(true); }
     // public dialogCreateOnChange() { this.eventResetData.next(); }
-    public dialogCreateOnChange() {  }
+    public dialogCreateOnChange() { }
     public dialogCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
     public dialogCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
 }

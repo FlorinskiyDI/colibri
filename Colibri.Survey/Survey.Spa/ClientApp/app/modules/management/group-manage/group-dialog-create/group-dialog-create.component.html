@@ -39,12 +39,12 @@
                         <span class="title">Set parent group</span>
                     </label>
                     <mat-form-field *ngIf="isSubGroup" class="clbr--mat-form-field clbr--mat-form-field-without-padding clbr--mat-form-field-full-width">
-                        <input #ctrlParentId matInput formControlName="parentId" style="display: none;">
+                        <input matInput formControlName="parentId" style="display: none;">
                         <p-tree *ngIf="treeItems.length != 0" class="clbr--ui-tree-v1" #treeGroups selectionMode="single" [value]="treeItems" [loading]="treeloading" (onNodeSelect)="onNodeSelect($event)" (onNodeExpand)="onNodeExpand($event)"
                             [(selection)]="selectedGroup">
                         </p-tree>
                         <div *ngIf="treeItems.length == 0" style="font-size: 13px; padding: 10px;">no records</div>
-                        <mat-error *ngIf="formGroup.get('parentId').hasError('required') && formGroup.get('name').touched">
+                        <mat-error *ngIf="formGroup.get('parentId').hasError('required') && formGroup.get('parentId').touched">
                             Value is required
                         </mat-error>
                         <mat-hint align="end">the group administrator will have all rights to the new group</mat-hint>
