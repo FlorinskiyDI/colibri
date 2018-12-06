@@ -194,8 +194,8 @@ export class PagingFormComponent implements OnInit, AfterViewChecked {
 
         const selectedPage = this.batches[0].find((x: any) => x.id === this.selectItem);
         const indexSelectedPage = this.batches[0].indexOf(selectedPage);
-        debugger
-        if (indexSelectedPage === index  ) {
+
+        if (indexSelectedPage === index) {
 
 
             if (index > 0) {

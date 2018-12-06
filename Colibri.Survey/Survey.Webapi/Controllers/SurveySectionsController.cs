@@ -14,6 +14,7 @@ using Survey.ApplicationLayer.Services;
 using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.Common.Context;
 using Survey.Common.Enums;
+using Survey.DomainModelLayer.Entities;
 using Survey.Webapi.Models.Survey;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -28,6 +29,8 @@ namespace Survey.Webapi.Controllers
         private readonly IPageService _pageService;
         private readonly IQuestionService _questionService;
         private readonly ISurveySectionRespondentService _surveySectionRespondentServie;
+        private readonly IQuestionOptionService _questionOptionService;
+        private readonly IAnswerService _answerService;
         ControlStates state;
 
         public SurveySectionsController(
@@ -35,14 +38,18 @@ namespace Survey.Webapi.Controllers
             IConfiguration configuration,
             ISurveySectionService surveySectionService,
             IPageService pageService,
-        IQuestionService questionService
+            IAnswerService answerService,
+            IQuestionService questionService,
+            IQuestionOptionService questionOptionService
         )
         {
+            _answerService = answerService;
             _surveySectionRespondentServie = surveySectionRespondentServie;
             _configuration = configuration;
             _surveySectionService = surveySectionService;
             _pageService = pageService;
             _questionService = questionService;
+            _questionOptionService = questionOptionService;
         }
 
 
@@ -165,34 +172,80 @@ namespace Survey.Webapi.Controllers
                         }
                     }
 
-
-                    if (data.deleteQuestions.Count > 0)
+                    var deleteQuestionList = data.deleteQuestions.Distinct().ToList();
+                    if (deleteQuestionList.Count > 0)
                     {
-                        foreach (var item in data.deleteQuestions)
+                        foreach (var item in deleteQuestionList)
                         {
-                            _questionService.DeleteQuestionById(item);
+                            var questionOptions = _questionOptionService.GetAllAsync().Result.Where(x => x.QuestionId == item);
+
+
+                            if (questionOptions.Count() > 0)
+                            {
+                                foreach (var q_o in questionOptions)
+                                {
+                                    var answerList = _answerService.GetAllAsync().Result.Where(x => x.QuestionOptionId == q_o.Id);
+                                    foreach (var answer in answerList)
+                                    {
+                                        await _answerService.Remove(answer);
+                                    }
+                                    await _questionOptionService.Remove(q_o);
+                                };
+
+                            }
+                            var childQuestions = await _questionService.GetListByBaseQuestion(item);
+                            if (childQuestions.Count() > 0)
+                            {
+                                foreach (var childQuestion in childQuestions)
+                                {
+                                    await _questionService.DeleteQuestionById(childQuestion.Id);
+                                }
+
+                            }
+                            await _questionService.DeleteQuestionById(item);
                         }
                     }
-                    if (data.deletePages.Count > 0)
+                    var deletePageList = data.deletePages.Distinct().ToList();
+                    if (deletePageList.Count > 0)
                     {
-                        foreach (var item in data.deletePages)
+                        foreach (var pageId in deletePageList)
                         {
-                            var page = _pageService.GetPageById(item);
-                            var questions = _questionService.GetListByPageId(page.Id);
-                            if (questions.Count() > 0)
+
+
+                            var questions = _questionService.GetListByPageId(pageId).Select(x => x.Id).ToList();
+                            foreach (var question in questions)
                             {
-                                foreach (var question in questions)
+                                var questionOptions = _questionOptionService.GetAllAsync().Result.Where(x => x.QuestionId == question);
+                                if (questionOptions.Count() > 0)
                                 {
-                                    _questionService.DeleteQuestionById(question.Id);
+                                    foreach (var q_o in questionOptions)
+                                    {
+                                        var answerList = _answerService.GetAllAsync().Result.Where(x => x.QuestionOptionId == q_o.Id);
+                                        foreach (var answer in answerList)
+                                        {
+                                            await _answerService.Remove(answer);
+                                        }
+                                        await _questionOptionService.Remove(q_o);
+                                    };
                                 }
+                                var childQuestions = await _questionService.GetListByBaseQuestion(question);
+                                if (childQuestions.Count() > 0)
+                                {
+                                    foreach (var childQuestion in childQuestions)
+                                    {
+                                        await _questionService.DeleteQuestionById(childQuestion.Id);
+                                    }
+
+                                }
+                                await _questionService.DeleteQuestionById(question);
                             }
-                            _pageService.DeletePageById(item);
+                            _pageService.DeletePageById(pageId);
                         }
                     }
 
 
                 }
-                return Ok(true);
+                return Ok();
             }
             catch (Exception ex)
             {

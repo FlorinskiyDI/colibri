@@ -3,6 +3,7 @@
     <div class="form-viewr-controls">
         <div>
             <!-- {{question.order | json}} -->
+            <!-- <pre>{{isSingleControl}}</pre> -->
             <label [attr.for]="question.id">{{question.text}}
                 <label *ngIf="question.required" style="color:red">*</label>
             </label>
@@ -119,7 +120,7 @@
 
         <div class="d-action-panel">
 
-            <button class="d-action-del" type="button" title="Remove Question" (click)="removeQuestion(question)">
+            <button class="d-action-del" [disabled]="isSingleControl" type="button" [attr.title]="isSingleControl ? 'Can`t remove the last Question' : 'Remove Question'" (click)="removeQuestion(question)">
                     <i class="fa fa-times"></i>
             </button>
 

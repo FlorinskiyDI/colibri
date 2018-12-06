@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Survey.ApplicationLayer.Services
 {
-    class AnswerService : IAnswerService
+    public class AnswerService : IAnswerService
     {
         AnswerTypes type;
         private readonly IQuestionOptionService _questionOptionService;
@@ -103,7 +103,27 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
+        public async Task Remove(Answers answer)
+        {
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                var repositoryAnswer = uow.GetRepository<Answers, Guid>();
 
+                repositoryAnswer.Remove(answer);
+                uow.SaveChanges();
+            }
+        }
+
+        public async Task<IEnumerable<Answers>> GetAllAsync()
+        {
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                var repositoryAnswer = uow.GetRepository<Answers, Guid>();
+
+                return await repositoryAnswer.GetAllAsync();
+
+            }
+        }
 
 
         public List<BaseAnswerModel> GetTypedAnswerList(List<object> survey)

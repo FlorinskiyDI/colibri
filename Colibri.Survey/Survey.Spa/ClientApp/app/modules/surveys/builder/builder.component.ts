@@ -128,6 +128,7 @@ export class BuilderComponent {
     }
 
     ngOnInit() {
+
         // this.startNumericPageFrom = 12;
         this.templateOptions = {
             dragTemplateZones: ['dropZone1', 'dropZone2', 'dropZone3', 'dropZons4', 'dropZone5', 'dropZone6'],
@@ -203,12 +204,6 @@ export class BuilderComponent {
     }
 
 
-    deleteDragQuestion(question: any) {
-        // this.deleteQuestionList.push(question.id);
-        this.questionTransferService.setDeleteDragQuestion(question);
-    }
-
-
     getTemplates(): any[] {
         return [
             new QuestionTemplate(ControTypes.textbox, 'Textbox', 1, 'dropZone1', 'Textbox description', 'fa-font'),
@@ -238,6 +233,7 @@ export class BuilderComponent {
             });
             console.log(data);
         } else {
+
             const updateData: any = {
                 survey: this.survey,
                 // deleteQuestions: this.deleteQuestionList
@@ -245,12 +241,13 @@ export class BuilderComponent {
                 deletePages: this.deletePageList
             };
 
-            const data = this.surveysApiService.update(updateData);
-            console.log(data);
-            this.router.navigateByUrl('/surveys');
+            this.surveysApiService.update(updateData).subscribe((result: any) => {
+
+                FormBuilderComponent.deleteQuestionList = [];
+                this.router.navigateByUrl('/surveys');
+            });
+
         }
-
-
     }
 }
 

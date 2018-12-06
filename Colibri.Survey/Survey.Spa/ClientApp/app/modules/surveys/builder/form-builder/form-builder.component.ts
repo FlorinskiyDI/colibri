@@ -30,10 +30,11 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
     @Input() numericPageFrom: number;
     @Input() isPageBuilder: boolean;
     @Input() survey: any;
+    @Input() isUpdateSurvey: any;
     @Output() formState = new EventEmitter<any>();
     formPage: FormGroup;
     selectQuestion: string;
-    static deleteQuestionList: string[] = [];
+    static deleteQuestionList: string[];
 
     onDrop(dropResult: any) {
 
@@ -65,6 +66,8 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         private questionTransferService: QuestionTransferService,
         public questionService: QuestionService,
     ) {
+
+        FormBuilderComponent.deleteQuestionList = [];
         this.questionTransferService.getFormPage().subscribe((page: any) => { // updata formbuild after select page
 
             this.questionTransferService.setQuestionOption(null);
@@ -127,6 +130,7 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
 
 
     ngOnInit() {
+
         const page: any = {};
         page[this.page.id] = this.questionService.getFormPageGroup(this.page);
         this.formPage = new FormGroup(page);
@@ -159,6 +163,14 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         const formQuestion = this.formPage.controls[this.page.id].get('questions').get(id);
 
         return formQuestion;
+    }
+
+    isOneTotalQuestions(): boolean {
+        let count = 0;
+        this.survey.pages.forEach((item: any) => {
+            count = count + item.questions.length;
+        });
+        return count === 1;
     }
 
 

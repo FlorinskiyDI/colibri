@@ -71,32 +71,33 @@ namespace Survey.ApplicationLayer.Services
                           AdditionalAnswer = IsExcistAdditionalOptionChoice(nestedComboEntity.question.OptionGroupId).Result
                       })
                   .OrderBy(p => p.PageOrderNo).ThenBy(p => p.OrderNo).ToList();
-               
-              
 
 
 
-                //var result = questionList
-                //    .GroupBy(u => u.ParentId == null)
-                //    .Select(grp => grp.ToList()).ToList();
 
 
-                var result = questionList
-                    .GroupBy(u => u.ParentId == null).ToList();
+                    //var result = questionList
+                    //    .GroupBy(u => u.ParentId == null)
+                    //    .Select(grp => grp.ToList()).ToList();
 
-                var group = result.Single(g => g.Key == true).ToList();
-                //var res = result.FindAll().Key(true);
-                foreach (var question in group)
-                {
-                    if (question.Type == QuestionTypes.GridRadio.ToString())
+
+                    var result = questionList
+                        .GroupBy(u => u.ParentId == null).ToList();
+
+                    List<ColumModel> group = new List<ColumModel>();
+                    if (result.Count() > 0)
                     {
-                        question.Children = result.Single(g => g.Key == false).Where(p => p.ParentId == question.Id).Select(c => c.Name).ToList<string>();
+                        group = result.Single(g => g.Key == true).ToList();
+                        //var res = result.FindAll().Key(true);
+                        foreach (var question in group)
+                        {
+                            if (question.Type == QuestionTypes.GridRadio.ToString())
+                            {
+                                question.Children = result.Single(g => g.Key == false).Where(p => p.ParentId == question.Id).Select(c => c.Name).ToList<string>();
+                            }
+                        }
                     }
-                }
-
-
-
-                return group;
+                    return group;
 
                 }
                 catch (Exception ex)
@@ -112,7 +113,7 @@ namespace Survey.ApplicationLayer.Services
 
         public async Task<bool> IsExcistAdditionalOptionChoice(Guid? optionGroupId)
         {
-            var optionChoices =await  optionChoiceService.GetListByOptionGroupId(optionGroupId, true);
+            var optionChoices = await optionChoiceService.GetListByOptionGroupId(optionGroupId, true);
             var item = optionChoices.Where(x => x.IsAdditionalChoise == true).SingleOrDefault();
             if (item != null)
             {
@@ -250,7 +251,7 @@ namespace Survey.ApplicationLayer.Services
 
                             var check = IsExcistAdditionalOptionChoice(item.GroupId).Result;
                             //item.AdditionalAnswer = IsExcistAdditionalOptionChoice(item.GroupId).Result ? "NULL" : "";
-                            item.AdditionalAnswer = item.AdditionalAnswer.Count() > 0 ? item.AdditionalAnswer :  (IsExcistAdditionalOptionChoice(item.GroupId).Result ? "--NOT SET--": "");
+                            item.AdditionalAnswer = item.AdditionalAnswer.Count() > 0 ? item.AdditionalAnswer : (IsExcistAdditionalOptionChoice(item.GroupId).Result ? "--NOT SET--" : "");
                         }
                     }
                 }
@@ -347,7 +348,7 @@ namespace Survey.ApplicationLayer.Services
                             {
                                 answerModel.AdditionalAnswer = answerList.SingleOrDefault().AnswerText;
                             }
-                           
+
                             //if (item.IsAdditional)
                             //{
                             //    answerModel.AdditionalAnswer = item.AnswerText;

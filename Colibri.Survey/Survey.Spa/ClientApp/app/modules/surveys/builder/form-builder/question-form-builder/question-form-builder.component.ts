@@ -27,6 +27,7 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
     @Input() question: any;
     @Input() formPage: FormGroup;
     @Input() pageId: any;
+    @Input() isSingleControl: boolean;
 
     // @Output() removeQuestionId = new EventEmitter<string>();
 

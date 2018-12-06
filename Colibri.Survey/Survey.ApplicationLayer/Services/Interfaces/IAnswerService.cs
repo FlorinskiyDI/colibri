@@ -12,5 +12,7 @@ namespace Survey.ApplicationLayer.Services.Interfaces
         Task<Guid> AddAsync(Answers answer);
         List<BaseAnswerModel> GetTypedAnswerList(List<object> survey);
         void SaveAnswerByType(BaseAnswerModel item, Guid id);
+        Task Remove(Answers answer);
+        Task<IEnumerable<Answers>> GetAllAsync();
     }
 }

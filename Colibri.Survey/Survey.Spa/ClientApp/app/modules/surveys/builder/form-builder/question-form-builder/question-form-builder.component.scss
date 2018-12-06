@@ -33,6 +33,9 @@
             background-color: #a83a3a;
             border: 1px solid #f1f1f1;
         }
+        &[disabled] {
+            cursor: not-allowed;
+          }
     }
 
     }

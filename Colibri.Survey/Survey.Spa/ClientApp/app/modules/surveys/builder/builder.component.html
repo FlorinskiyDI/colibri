@@ -125,7 +125,7 @@
 
 
     <div class="d-builder-body" [ngClass]='{"d-builder-body-changed": !isPageBuilder}'>
-        <form-builder [(survey)]="survey" *ngIf="page && templateOptions && pagingList" [isPageBuilder]="isPageBuilder" [pagingList]="pagingList" [page]="page"
+        <form-builder [(survey)]="survey" *ngIf="page && templateOptions && pagingList" [isUpdateSurvey]="surveyId" [isPageBuilder]="isPageBuilder" [pagingList]="pagingList" [page]="page"
             (formState)="checkstate($event)" [templateOptions]="templateOptions" [(numericPageFrom)]="startNumericPageFrom"></form-builder>
     </div>
 

@@ -22,6 +22,7 @@ namespace Survey.ApplicationLayer.Services
         private readonly IOptionChoiceService _optionChoiceService;
         private readonly IOptionGroupService _optionGroupService;
         private readonly IInputTypeService _inputTypeService;
+
         QuestionTypes type;
         ControlStates state;
 
@@ -46,6 +47,7 @@ namespace Survey.ApplicationLayer.Services
             IInputTypeService inputTypeService,
             IOptionGroupService optionGroupService,
             IOptionChoiceService optionChoiceService
+
         )
         {
 
@@ -54,7 +56,6 @@ namespace Survey.ApplicationLayer.Services
             this._inputTypeService = inputTypeService;
             this._optionGroupService = optionGroupService;
             this._optionChoiceService = optionChoiceService;
-
             inputTypeList = _inputTypeService.GetAll();
             optionGroupDefinitions = new OptionGroupDefinitions();
 
@@ -188,7 +189,7 @@ namespace Survey.ApplicationLayer.Services
             }
         }
 
-        public void DeleteQuestionById(Guid questionId)
+        public async Task DeleteQuestionById(Guid questionId)
         {
             try
             {

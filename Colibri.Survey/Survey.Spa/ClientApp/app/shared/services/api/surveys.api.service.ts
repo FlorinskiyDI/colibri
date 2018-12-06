@@ -40,9 +40,9 @@ export class SurveysApiService {
         return result;
     }
     update(data: any): any {
-        const value = this.restangular.all('api/surveySections').customPUT(data, undefined, undefined,
+        const result = this.restangular.all('api/surveySections').customPUT(data, undefined, undefined,
             { 'Content-Type': 'application/json' });
-        return value;
+        return result;
     }
 
     changeLock(id: string, isLocked: boolean): any {

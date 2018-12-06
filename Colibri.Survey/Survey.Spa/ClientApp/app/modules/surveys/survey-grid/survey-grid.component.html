@@ -26,7 +26,7 @@
                 <div class="col-md-12">
                     <!-- <pre>{{surveys | json}}</pre> -->
                     <div class="clbr--ui-table clbr--ui-table-v1">
-                        <p-table [value]="surveys" [lazy]="true" [paginator]="true" [rows]="10" [loading]="loading" [resizableColumns]="true" [rowsPerPageOptions]="[10,20,30]">
+                        <p-table [scrollable]="true" scrollHeight="500px" [value]="surveys" [lazy]="true" [paginator]="true" [rows]="10" [loading]="loading" [resizableColumns]="true" [rowsPerPageOptions]="[10,20,30]">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th style="width:2%" class="border-right-none border-left-none">#</th>
