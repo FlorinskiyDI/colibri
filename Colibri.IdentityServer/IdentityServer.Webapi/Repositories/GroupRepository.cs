@@ -11,12 +11,13 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Repositories
 {
-    public class GroupRepository : BaseRepository<ApplicationDbContext, Groups, Guid>, IGroupRepository
+    public class GroupRepository : BaseRepository<ApplicationDbContext, Groups>, IGroupRepository
     {
         public GroupRepository(ILogger<LoggerDataAccess> logger)
         : base(logger, null)
         {
         }
+
         public async Task<IEnumerable<Groups>> GetRootWithInverseAsync(string userId)
         {
             using (var ctx = new ApplicationDbContext())

@@ -16,7 +16,7 @@ export class GroupsApiService {
     }
 
     getAll(searchEntry: any = null, objectFields: string[] | null = null) {
-        const result = this.restangular.all('api/groups').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
+        const result = this.restangular.all('api/groups/search').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
         return result;
     }
 

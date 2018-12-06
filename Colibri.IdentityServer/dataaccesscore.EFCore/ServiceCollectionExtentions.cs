@@ -23,8 +23,8 @@ namespace dataaccesscore.EFCore
             services.TryAddScoped<IUowProvider, UowProvider>();
             services.TryAddTransient<IEntityContext, TEntityContext>();
 
-            services.TryAddTransient(typeof(IBaseRepository<,>), typeof(GenericRepository<,>));
-            services.TryAddTransient(typeof(IDataPager<,>), typeof(DataPager<,>));
+            services.TryAddTransient(typeof(IBaseRepository<>), typeof(GenericRepository<>));
+            services.TryAddTransient(typeof(IDataPager<>), typeof(DataPager<>));
         }
     }
 }

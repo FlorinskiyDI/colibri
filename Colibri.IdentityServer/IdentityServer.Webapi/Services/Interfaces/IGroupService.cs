@@ -8,10 +8,11 @@ namespace IdentityServer.Webapi.Services.Interfaces
 {
     public interface IGroupService
     {
-
-        Task<SearchResult<GroupDto>> GetGroupsAsync(string userId, SearchQuery searchEntry, bool isRoot = false);
+        Task<SearchResult<GroupDto>> GetRootAsync(string userId, SearchQuery searchEntry);
+        Task<SearchResult<GroupDto>> GetAllAsync(string userId, SearchQuery searchEntry);
         Task<IEnumerable<GroupDto>> GetByParentIdAsync(string userId, SearchQuery searchEntry, string parentId);
-
+        Task<GroupDto> CreateGroup(GroupDto model, string userId);
+        Task DeleteGroup(string groupId, string userId);
 
         //Task<DataPage<Groups, Guid>> GetRootAsync(PageSearchEntry searchEntry, string userId);
         //void SubscribeToGroupAsync(string userId, Guid groupId);

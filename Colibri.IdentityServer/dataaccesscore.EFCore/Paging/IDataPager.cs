@@ -1,5 +1,4 @@
-﻿using dataaccesscore.Abstractions.Entities;
-using dataaccesscore.EFCore.Query;
+﻿using dataaccesscore.EFCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace dataaccesscore.EFCore.Paging
 {
-    public interface IDataPager<TEntity, TKey>
-            where TEntity : IBaseEntity<TKey>
+    public interface IDataPager<TEntity>
+            where TEntity : class
     {
         DataPage<TEntity> Get(
             int pageNumber,

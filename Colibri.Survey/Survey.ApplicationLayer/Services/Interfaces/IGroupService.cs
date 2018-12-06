@@ -10,6 +10,8 @@ namespace Survey.ApplicationLayer.Services.Interfaces
         Task<SearchResultDto<GroupDto>> GetGroups(SearchQueryDto searchEntryDto);
         Task<SearchResultDto<GroupDto>> GetRootGroups(SearchQueryDto searchEntryDto);
         Task<IEnumerable<GroupDto>> GetSubgroups(SearchQueryDto searchEntryDto, string parentId);
+        Task<GroupDto> CreateGroup(GroupDto model);
+        Task DeleteGroup(string groupId);
 
 
         //Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId);

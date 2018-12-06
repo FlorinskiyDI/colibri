@@ -15,11 +15,14 @@ namespace IdentityServer.Webapi.Data
         }
 
         public bool IsAdmin { get; set; }
+
         public string DataEventRecordsRole { get; set; }
         public string SecuredFilesRole { get; set; }
         public DateTime AccountExpires { get; set; }
 
         [InverseProperty("User")]
         public ICollection<ApplicationUserGroups> ApplicationUserGroups { get; set; }
+        [InverseProperty("User")]
+        public ICollection<MemberGroups> MemberGroups { get; set; }
     }
 }

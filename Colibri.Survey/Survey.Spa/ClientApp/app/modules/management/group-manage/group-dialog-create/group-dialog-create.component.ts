@@ -86,6 +86,8 @@ export class GroupDialogCreateComponent {
             .create(Object.assign({}, this.ngFormGroup.value))
             .subscribe(
                 (response: any) => {
+                    this.dialogChange();
+                    // this.dialogConfig.visible = false;
                     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was created successfully' });
                 },
                 (error: any) => { }

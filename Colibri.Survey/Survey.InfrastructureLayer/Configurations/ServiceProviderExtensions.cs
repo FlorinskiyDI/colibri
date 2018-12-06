@@ -23,6 +23,7 @@ namespace Survey.InfrastructureLayer.Configurations
 
         private static void AddServices(IServiceCollection services)
         {
+            services.AddScoped<IGroupMemberRequestService, GroupMemberRequestService>();
             services.AddScoped<IGroupRequestService, GroupRequestService>();
             services.AddScoped<IIdentityUserRequestService, IdentityUserRequestService>();
 

@@ -1,19 +1,18 @@
-﻿using dataaccesscore.EFCore.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IdentityServer.Webapi.Data
 {
-    public partial class Groups : BaseEntity<Guid>
+    public partial class Groups
     {
         public Groups()
         {
             ApplicationUserGroups = new HashSet<ApplicationUserGroups>();
             InverseParent = new HashSet<Groups>();
         }
-
+        public Guid Id { get; set; }
         public Guid? ParentId { get; set; }
         [Required]
         [StringLength(100)]
@@ -29,6 +28,8 @@ namespace IdentityServer.Webapi.Data
         public Groups Parent { get; set; }
         [InverseProperty("Group")]
         public ICollection<ApplicationUserGroups> ApplicationUserGroups { get; set; }
+        [InverseProperty("Group")]
+        public ICollection<MemberGroups> MemberGroups { get; set; }
         [InverseProperty("Parent")]
         public ICollection<Groups> InverseParent { get; set; }
 

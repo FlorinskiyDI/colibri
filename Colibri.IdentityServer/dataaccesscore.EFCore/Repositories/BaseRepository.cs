@@ -1,5 +1,4 @@
 ﻿using dataaccesscore.Abstractions.Repositories;
-using dataaccesscore.EFCore.Entities;
 using dataaccesscore.EFCore.Models;
 using dataaccesscore.EFCore.Query;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace dataaccesscore.EFCore.Repositories
 {
-    public abstract class BaseRepository<TContext, TEntity, TKey> : Repository<TContext>, IBaseRepository<TEntity, TKey>
+    public abstract class BaseRepository<TContext, TEntity> : Repository<TContext>, IBaseRepository<TEntity>
             where TContext : DbContext
-            where TEntity : BaseEntity<TKey>,
+            where TEntity : class,
             new()
     {
-        private readonly OrderBy<TEntity> DefaultOrderBy = new OrderBy<TEntity>(qry => qry.OrderBy(e => e.Id));
+        private readonly OrderBy<TEntity> DefaultOrderBy;
 
         //public Expression<Func<TEntity, bool>> PreFilter { get; set; }
 
@@ -84,7 +83,7 @@ namespace dataaccesscore.EFCore.Repositories
             return await result.Skip(startRow).Take(pageLength).ToListAsync();
         }
 
-        public virtual TEntity Get(
+        public virtual TEntity Get<TKey>(
             TKey id,
             Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
         {
@@ -98,7 +97,7 @@ namespace dataaccesscore.EFCore.Repositories
             return query.Where("Id = @0", id).FirstOrDefault();
         }
 
-        public virtual Task<TEntity> GetAsync(
+        public virtual Task<TEntity> GetAsync<TKey>(
             TKey id,
             Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
         {
@@ -180,10 +179,11 @@ namespace dataaccesscore.EFCore.Repositories
             Context.Set<TEntity>().Add(entity);
         }
 
-        public virtual async Task AddAsync(TEntity entity)
+        public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
             if (entity == null) throw new InvalidOperationException("Unable to add a null entity to the repository.");
-            await Context.Set<TEntity>().AddAsync(entity);
+            var result = await Context.Set<TEntity>().AddAsync(entity);
+            return result.Entity;
         }
 
         public virtual async Task AddRangeAsync(TEntity[] entitys)
@@ -211,9 +211,19 @@ namespace dataaccesscore.EFCore.Repositories
             Context.Set<TEntity>().Remove(entity);
         }
 
-        public virtual void Remove(TKey id)
+        public virtual void RemoveRange(IEnumerable<TEntity> list)
         {
-            var entity = new TEntity() { Id = id };
+            Context.Set<TEntity>().AttachRange(list);
+            foreach (var item in list)
+            {
+                Context.Entry(item).State = EntityState.Deleted;
+            }
+            Context.Set<TEntity>().RemoveRange(list);
+        }
+
+        public virtual void Remove<TKey>(TKey id)
+        {
+            var entity = Context.Set<TEntity>().Find(id);
             this.Remove(entity);
         }
 

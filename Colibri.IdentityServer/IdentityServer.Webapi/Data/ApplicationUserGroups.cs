@@ -1,5 +1,4 @@
-﻿using dataaccesscore.EFCore.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Data
 {
-    public partial class ApplicationUserGroups : BaseEntity<Guid>
+    public partial class ApplicationUserGroups
     {
+        public Guid Id { get; set; }
         [Required]
         [StringLength(450)]
         public string UserId { get; set; }

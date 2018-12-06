@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Subject } from 'rxjs/Subject';
+import { Router } from '@angular/router';
 
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
@@ -22,6 +23,7 @@ export class GroupDataComponent {
     view_Option = 'list';
 
     constructor(
+        private router: Router,
         private messageService: MessageService,
         private confirmationService: ConfirmationService,
         private groupsApiService: GroupsApiService,
@@ -47,11 +49,11 @@ export class GroupDataComponent {
         });
     }
     item_edit(groupId: string) {
-        console.log(groupId);
+        this.router.navigate(['manage/groups/' + groupId + '/detail']);
     }
 
     public dialogGroupCreateOpen() { this.dialogGroupCreateConfig = new DialogDataModel<any>(true); }
-    public dialogGroupCreateOnChange() { console.log('dialogGroupCreateOnChange'); }
+    public dialogGroupCreateOnChange() { this.eventResetData.next(); }
     public dialogGroupCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
     public dialogGroupCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
 }
