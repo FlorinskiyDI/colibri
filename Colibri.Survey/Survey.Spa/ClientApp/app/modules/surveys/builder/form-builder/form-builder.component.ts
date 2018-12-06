@@ -113,6 +113,8 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
 
 
         this.questionTransferService.getDataForChangeQuestion().subscribe((data: any) => {
+            FormBuilderComponent.deleteQuestionList.push(data.object.id);
+
             this.page.questions[data.object.order] = data.object;
             const val = this.formPage.controls[this.page.id] as FormGroup;
             val.setControl(data.object.id, data.control);

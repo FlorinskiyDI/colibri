@@ -28,6 +28,10 @@
                             (sortFunction)="customSort1($event)" [customSort]="true">
                             <ng-template let-sale pTemplate="header">
                                 <tr>
+                                    <th class="border-right-none border-left-none"  rowspan="2" [ngStyle]="{width:'30px'}" pResizableColumn>
+                                       #
+
+                                    </th>
                                     <ng-container *ngFor="let item of columOptions">
                                         <ng-container *ngIf="item.type == 'GridRadio'">
                                             <th class="border-right-none border-left-none" [attr.colspan]="item.children.length" [ngStyle]="{width:(210 * item.children.length) +'px'}"
@@ -73,14 +77,16 @@
                             </ng-template>
                             <ng-template *ngIf="answerList.length > 0" pTemplate="body" let-sale let-rowIndex="rowIndex">
                                 <tr>
+                                    <td>{{rowIndex + 1}}</td>
                                     <ng-container *ngFor="let item of sale">
                                         <ng-container *ngIf="item.inputTypeName == 'GridRadio'">
                                             <td *ngFor="let sell of item.answer" [ngStyle]="{width:'200px'}" [attr.title]="sell.answer" class="ui-resizable-column">{{sell.answer}}</td>
                                             <td *ngIf="item.additionalAnswer.length > 0" [ngStyle]="{width:'200px'}" [attr.title]="item.answer" class="ui-resizable-column">{{item.additionalAnswer}}</td>
                                         </ng-container>
-                                        
+
                                         <td *ngIf="item.inputTypeName != 'GridRadio' " [ngStyle]="{width:'200px'}" [attr.title]="item.answer" class="ui-resizable-column">{{item.answer}}</td>
-                                        <td *ngIf="item.additionalAnswer.length > 0 && item.inputTypeName != 'GridRadio'" [ngStyle]="{width:'200px'}" [attr.title]="item.answer" class="ui-resizable-column">{{item.additionalAnswer}}</td>
+                                        <td *ngIf="item.additionalAnswer.length > 0 && item.inputTypeName != 'GridRadio'" [ngStyle]="{width:'200px'}" [attr.title]="item.answer"
+                                            class="ui-resizable-column">{{item.additionalAnswer}}</td>
                                     </ng-container>
                                 </tr>
                             </ng-template>

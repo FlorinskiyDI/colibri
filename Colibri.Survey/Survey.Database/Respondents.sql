@@ -1,5 +1,6 @@
 ﻿CREATE TABLE [dbo].[Respondents] (
     [Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT (NEWSEQUENTIALID()),  
 	[UserId] UNIQUEIDENTIFIER NULL, 
+	[DateCreated] DATETIME NOT NULL,
 	CONSTRAINT [FK_Respondents_Users] FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users]([Id])
 );
