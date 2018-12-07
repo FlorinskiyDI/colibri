@@ -13,13 +13,14 @@ namespace IdentityServer.Webapi.Services
 {
     public class MemberService : IMemberService
     {
-        //private readonly IAppUserService _appUserService;
+        private readonly IAppUserService _appUserService;
         protected readonly IUowProvider _uowProvider;
         public MemberService(
-            //IAppUserService appUserService
+            IAppUserService appUserService,
             IUowProvider uowProvider
-        ) {
-            //_appUserService = appUserService;
+        )
+        {
+            _appUserService = appUserService;
             _uowProvider = uowProvider;
         }
 
@@ -85,6 +86,45 @@ namespace IdentityServer.Webapi.Services
             return page;
         }
 
+
+
+        public async Task AddMembersToGroupByEmailsAsync(IEnumerable<string> emailList, Guid groupId)
+        {
+            // check and get users by email in system
+            var userList = new List<ApplicationUser>();
+            foreach (var email in emailList)
+            {
+                var user = await _appUserService.AddUserByEmailWithoutPassword(email);
+                userList.Add(user);
+            }
+
+            // add relationchips between user and group (members)
+            var memberGroupList = userList.Select(c => new MemberGroups() { UserId = c.Id, GroupId = groupId });
+            using (var uow = _uowProvider.CreateUnitOfWork())
+            {
+                var repository = uow.GetRepository<MemberGroups>();
+                await repository.AddRangeAsync(memberGroupList);
+            }
+
+            return;
+        }
+
+        public async Task DeleteMemberOfGroupAsync(string userId, Guid groupId)
+        {
+            using (var uow = _uowProvider.CreateUnitOfWork())
+            {
+                var repository = uow.GetRepository<MemberGroups>();
+                var entity = await repository.QueryAsync(c => c.GroupId == groupId && c.UserId == userId);
+                if (entity != null)
+                {
+                    repository.Remove(entity);
+                } 
+                else
+                {
+                    throw new Exception($"Entity 'memberGroup' was not found where groupId: {groupId}, userId: {userId}");
+                }
+            }
+        }
 
         //public async Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emailList)
         //{

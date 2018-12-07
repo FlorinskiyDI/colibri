@@ -89,8 +89,8 @@ namespace dataaccesscore.Abstractions.Repositories
 
 
         //add range
-        Task AddRangeAsync(TEntity[] entitys);
-        void AddRange(TEntity[] entitys);
+        Task AddRangeAsync(IEnumerable<TEntity> entitys);
+        void AddRange(IEnumerable<TEntity> entitys);
         // update
         TEntity Update(TEntity entity);
 

@@ -37,7 +37,23 @@ namespace IdentityServer.Webapi.Controllers
             return Ok(result);
         }
 
+        // POST: api/groups/1/members
+        [HttpPost("search")]
+        public async Task<IActionResult> AddMembers([FromBody] IEnumerable<string> emailList, [FromRoute] Guid groupId)
+        {
+            var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
+            await _groupMemberService.AddMembersToGroupByEmailsAsync(emailList, groupId);
+            return Ok();
+        }
 
+        // DELETE: api/groups/1/members/1
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMember([FromBody] IEnumerable<string> emailList, [FromRoute] Guid groupId, [FromRoute] Guid userId)
+        {
+            var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
+            await _groupMemberService.AddMembersToGroupByEmailsAsync(emailList, groupId);
+            return Ok();
+        }
 
         //// GET: api/groups/{groupId}/members
         //[HttpGet]

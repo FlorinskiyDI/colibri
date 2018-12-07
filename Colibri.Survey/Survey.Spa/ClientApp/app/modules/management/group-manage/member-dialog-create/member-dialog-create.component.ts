@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx';
 
 /* helper */ import { CHECK_EMAIL } from 'shared/helpers/check-email.helper';
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
-/* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
+// /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* helper */ import { FormGroupHelper } from 'shared/helpers/form-group.helper';
 
 @Component({
@@ -31,6 +31,8 @@ export class MemberDialogCreateComponent {
         }
     }
     fileIsNotValid = false;
+
+    isFillByFile = false;
     // form variable
     @ViewChild('ngFormGroup') ngFormGroup: any;
     formGroup: FormGroup;
@@ -41,7 +43,7 @@ export class MemberDialogCreateComponent {
     fileName: any;
     constructor(
         private fb: FormBuilder,
-        private groupsApiService: GroupsApiService
+        // private groupsApiService: GroupsApiService
     ) {
     }
 
@@ -96,13 +98,23 @@ export class MemberDialogCreateComponent {
                     newList.push(element.userEmail);
                 }
             });
-
+            debugger
             if (newList.length === 0) {
-                this.formGroup.get('importData').markAsTouched();
+                this.formGroup.get('importData').setValue(null);
                 this.formGroup.get('importData').updateValueAndValidity();
+                const emailArray = this.formGroup.controls['emailArray'] as FormArray;
+                emailArray.controls = [];
             } else {
-                this.formGroup.get('importData').markAsUntouched();
+                this.formGroup.get('importData').setValue({});
                 this.formGroup.get('importData').updateValueAndValidity();
+
+                const emailArray = this.formGroup.controls['emailArray'] as FormArray;
+                newList.forEach(element => {
+                    const control = this.fb.group({ 'email': [element, Validators.required] }) as FormGroup;
+                    control.markAsTouched();
+                    emailArray.push(control);
+                });
+
             }
             console.log(newList);
         };
@@ -111,7 +123,7 @@ export class MemberDialogCreateComponent {
 
     private formInitBuild(data: any = {}): void {
         this.formGroup = new FormGroup({
-            'importData': new FormControl(null, [Validators.required]),
+            'importData': new FormControl({}, [Validators.required]),
             'emailArray': this.fb.array([]),
         });
 
@@ -143,8 +155,20 @@ export class MemberDialogCreateComponent {
         console.log(item.touched);
         if (!item.touched) {
             const emailArray = this.formGroup.controls['emailArray'] as FormArray;
-            emailArray.push(this.fb.group({ 'email': [null] }));
-            // this.formGroup.get('emailArray').markAsUntouched();
+            const control = this.fb.group({ 'email': [null] }) as FormGroup;
+            emailArray.push(control);
+        }
+    }
+
+    onChckboxChange(data: any) {
+        this.isFillByFile = data;
+        if (data) {
+            const emailArray = this.formGroup.get('emailArray') as FormArray;
+            emailArray.controls = [];
+        } else {
+            const emailArray = this.formGroup.controls['emailArray'] as FormArray;
+            const control = this.fb.group({ 'email': [null] }) as FormGroup;
+            emailArray.push(control);
         }
     }
 
@@ -156,6 +180,7 @@ export class MemberDialogCreateComponent {
         }
     }
     getIndex(item: any) {
+        debugger
         const emailArray = this.formGroup.get('emailArray') as FormArray;
         return emailArray.controls.indexOf(item);
     }

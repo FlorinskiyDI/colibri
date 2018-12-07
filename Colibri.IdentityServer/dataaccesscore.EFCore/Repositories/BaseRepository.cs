@@ -186,14 +186,14 @@ namespace dataaccesscore.EFCore.Repositories
             return result.Entity;
         }
 
-        public virtual async Task AddRangeAsync(TEntity[] entitys)
+        public virtual async Task AddRangeAsync(IEnumerable<TEntity> entitys)
         {
             if (entitys == null) throw new InvalidOperationException("Unable to add a null entity to the repository.");
             await Context.Set<TEntity>().AddRangeAsync(entitys);
         }
 
 
-        public virtual void AddRange(TEntity[] entitys)
+        public virtual void AddRange(IEnumerable<TEntity> entitys)
         {
             if (entitys == null) throw new InvalidOperationException("Unable to add a null entity to the repository.");
             Context.Set<TEntity>().AddRange(entitys);
