@@ -10,7 +10,7 @@ namespace IdentityServer.Webapi.Services.Interfaces
     {
         Task<SearchResult<MemberDto>> GetMembersByGroup(string groupId, SearchQuery searchEntry);
         Task AddMembersToGroupByEmailsAsync(IEnumerable<string> emailList, Guid groupId);
-        Task DeleteMemberOfGroupAsync(string userId, Guid groupId);
+        Task DeleteMemberOfGroupAsync(Guid id);
 
         //Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emailList);
         //Task<IEnumerable<ApplicationUser>> GetMembersForGroupAsync(Guid groupId);

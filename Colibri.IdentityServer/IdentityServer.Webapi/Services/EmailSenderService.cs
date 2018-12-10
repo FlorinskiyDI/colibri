@@ -92,7 +92,7 @@ namespace IdentityServer.Webapi.Services
             smtpOptions.Password = _configuration["SmtpOptions:Password"];
             smtpOptions.DefaultEmailFromAddress = _configuration["SmtpOptions:DefaultEmailFromAddress"];
             //smtpOptions.PreferredEncoding = siteSettings.SmtpPreferredEncoding;
-            //smtpOptions.UseSsl = siteSettings.SmtpUseSsl;
+            smtpOptions.UseSsl = Boolean.Parse(_configuration["SmtpOptions:UseSsl"]);
             //
             return await Task.FromResult(smtpOptions);
         }

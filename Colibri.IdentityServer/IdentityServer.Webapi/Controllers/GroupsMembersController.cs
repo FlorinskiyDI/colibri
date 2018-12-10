@@ -38,7 +38,7 @@ namespace IdentityServer.Webapi.Controllers
         }
 
         // POST: api/groups/1/members
-        [HttpPost("search")]
+        [HttpPost]
         public async Task<IActionResult> AddMembers([FromBody] IEnumerable<string> emailList, [FromRoute] Guid groupId)
         {
             var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
@@ -46,12 +46,12 @@ namespace IdentityServer.Webapi.Controllers
             return Ok();
         }
 
-        // DELETE: api/groups/1/members/1
+        // DELETE: api/groups/members/1
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMember([FromBody] IEnumerable<string> emailList, [FromRoute] Guid groupId, [FromRoute] Guid userId)
+        public async Task<IActionResult> DeleteMember([FromRoute] Guid id)
         {
             var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
-            await _groupMemberService.AddMembersToGroupByEmailsAsync(emailList, groupId);
+            await _groupMemberService.DeleteMemberOfGroupAsync(id);
             return Ok();
         }
 

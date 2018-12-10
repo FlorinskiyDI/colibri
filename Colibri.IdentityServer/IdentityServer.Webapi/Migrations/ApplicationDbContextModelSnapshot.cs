@@ -146,6 +146,30 @@ namespace IdentityServer.Webapi.Migrations
                     b.ToTable("Groups");
                 });
 
+            modelBuilder.Entity("IdentityServer.Webapi.Data.MemberGroups", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("(newsequentialid())");
+
+                    b.Property<DateTimeOffset>("DateOfSubscribe");
+
+                    b.Property<Guid>("GroupId");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("UserId", "GroupId")
+                        .IsUnique();
+
+                    b.ToTable("MemberGroups");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -288,6 +312,19 @@ namespace IdentityServer.Webapi.Migrations
                         .WithMany("InverseParent")
                         .HasForeignKey("ParentId")
                         .HasConstraintName("FK_Groups_ToGroups");
+                });
+
+            modelBuilder.Entity("IdentityServer.Webapi.Data.MemberGroups", b =>
+                {
+                    b.HasOne("IdentityServer.Webapi.Data.Groups", "Group")
+                        .WithMany("MemberGroups")
+                        .HasForeignKey("GroupId")
+                        .HasConstraintName("FK_MemberGroups_ToGroups");
+
+                    b.HasOne("IdentityServer.Webapi.Data.ApplicationUser", "User")
+                        .WithMany("MemberGroups")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_MemberGroups_ToAspNetUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -5,8 +5,9 @@ import * as XLSX from 'xlsx';
 
 /* helper */ import { CHECK_EMAIL } from 'shared/helpers/check-email.helper';
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
-// /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
+/* service-api */ import { GroupMembersApiService } from 'shared/services/api/group-members.api.service';
 /* helper */ import { FormGroupHelper } from 'shared/helpers/form-group.helper';
+import { combineLatest } from 'rxjs/operators';
 
 @Component({
     selector: 'cmp-member-dialog-create',
@@ -43,7 +44,7 @@ export class MemberDialogCreateComponent {
     fileName: any;
     constructor(
         private fb: FormBuilder,
-        // private groupsApiService: GroupsApiService
+        private apiService: GroupMembersApiService
     ) {
     }
 
@@ -130,7 +131,7 @@ export class MemberDialogCreateComponent {
         this.formGroup.get('importData').markAsTouched();
         // add first element by default
         const emailArray = this.formGroup.controls['emailArray'] as FormArray;
-        emailArray.push(this.fb.group({ 'email': [null, Validators.required] }));
+        emailArray.push(this.fb.group({ 'email': [null] }));
         this.formGroup.get('importData').updateValueAndValidity();
 
         this.formGroup.statusChanges.subscribe((val: any) => {
@@ -139,9 +140,27 @@ export class MemberDialogCreateComponent {
 
     }
     public formSubmit() {
-        if (!this.ngFormGroup.valid) {
-            FormGroupHelper.setFormControlsAsTouched(this.formGroup);
+        if (!this.formGroup.valid) {
+            console.log(this.ngFormGroup);
+            // const emailArray = this.formGroup.controls['emailArray'] as FormArray;
+            // for (let index = 0; index < emailArray.controls.length - 1; index++) {
+            //     const ctrl = emailArray.controls[index] as FormControl;
+            //     ctrl.markAsTouched();
+            // }
+            // FormGroupHelper.setFormControlsAsTouched(this.formGroup);
             return;
+        } else {
+            const emailList: any[] = [];
+            this.ngFormGroup.value.emailArray.forEach((element: any) => {
+                if (element.email) {
+                    emailList.push(element.email);
+                }
+            });
+            this.apiService.addMultiple(this.dialogConfig.extraData.groupId, emailList)
+                .subscribe((val: any) => {
+                    console.log(val);
+                });
+            console.log('VALID');
         }
     }
 
@@ -151,7 +170,7 @@ export class MemberDialogCreateComponent {
         //     this.formGroup.get('emailArray').updateValueAndValidity();
         // }
         item.get('email').setValidators([Validators.required]);
-        item.get('email').updateValueAndValidity({ onlySelf: true });
+        item.get('email').updateValueAndValidity();
         console.log(item.touched);
         if (!item.touched) {
             const emailArray = this.formGroup.controls['emailArray'] as FormArray;

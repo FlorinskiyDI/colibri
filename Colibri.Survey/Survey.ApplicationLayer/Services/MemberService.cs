@@ -5,6 +5,7 @@ using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.DomainModelLayer.Models.IdentityServer;
 using Survey.DomainModelLayer.Models.Search;
 using Survey.InfrastructureLayer.IdentityServerServices.Interfaces;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Survey.ApplicationLayer.Services
@@ -28,6 +29,12 @@ namespace Survey.ApplicationLayer.Services
             var result = await _groupMemberRequestService.GetMembers(groupId, searchEntry);
             var list = _mapper.Map<SearchResultModel<MemberModel>, SearchResultDto<MemberDto>>(result);
             return list;
+        }
+
+        public async Task AddMembersAsync(string groupId, IEnumerable<string> emailList)
+        {
+            await _groupMemberRequestService.AddMembers(groupId, emailList);
+            return ;
         }
     }
 }

@@ -43,8 +43,9 @@ export class MemberGridComponent implements OnInit {
     optionTbToggle: any = {
         columns: [
             { field: 'userName', header: 'Member name', width: 320 },
-            { field: 'email', header: 'Email', width: 150 },
-            { field: 'emailConfirmed', header: 'Is activate', width: null }
+            { field: 'email', header: 'Email', width: 200 },
+            { field: 'emailConfirmed', header: 'Is activate', width: 200 },
+            { field: 'dateOfSubscribe', header: 'Date of subscribe', width: 220 }
         ],
         filter: false
     };
@@ -53,7 +54,7 @@ export class MemberGridComponent implements OnInit {
         private groupMembersApiService: GroupMembersApiService,
         private route: ActivatedRoute,
     ) {
-        this.tbSelectedColumns = this.optionTbToggle.columns;
+        this.tbSelectedColumns = [this.optionTbToggle.columns[0], this.optionTbToggle.columns[1], this.optionTbToggle.columns[3]];
         this.tbLoading = true;
         this.route.parent.params.subscribe((params: any) => {
             this.groupId = params['id'] ? params['id'] : null;
@@ -112,7 +113,7 @@ export class MemberGridComponent implements OnInit {
 
 
 
-    public dialogCreateOpen() { this.dialogCreateConfig = new DialogDataModel<any>(true); }
+    public dialogCreateOpen() { this.dialogCreateConfig = new DialogDataModel<any>(true, { groupId: this.groupId }); }
     // public dialogCreateOnChange() { this.eventResetData.next(); }
     public dialogCreateOnChange() { }
     public dialogCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }

@@ -49,7 +49,7 @@
                     <div *ngFor="let item of formGroup.controls['emailArray'].controls" class="clbr--form-group form-group form-group-sm cmp--form-group-email-value">
                         <mat-form-field [formGroup]="item" class="clbr--mat-form-field clbr--mat-form-field-full-width cmp--mat-form-field-email-value">
                             <input #ctrlName matInput maxlength="100" placeholder="email" formControlName="email" (focus)="addNewControl(item)">
-                            <button *ngIf="formGroup.controls['emailArray'].controls.length!=getIndex(item)" tabindex="-1" matSuffix class="cmp--btn-import-btn-email btn btn-sm btn-default notification" (click)="removeEmail(item)">
+                            <button tabindex="-1" matSuffix class="cmp--btn-import-btn-email btn btn-sm btn-default notification" (click)="removeEmail(item)">
                                 <i class="fa fa-close"></i>
                             </button>
                             <mat-error *ngIf="item.get('email').hasError('required') && item.get('email').touched">

@@ -8,6 +8,7 @@ using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Dtos;
 using IdentityServer.Webapi.Dtos.Search;
 using IdentityServer.Webapi.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace IdentityServer.Webapi.Services
 {
@@ -28,49 +29,38 @@ namespace IdentityServer.Webapi.Services
         {
             // generate sort expression
             var sort = searchEntry?.OrderStatement == null
-                ? new OrderBy<ApplicationUser>(c => c.OrderBy(d => d.Id))
-                : new OrderBy<ApplicationUser>(searchEntry.OrderStatement.ColumName, searchEntry.OrderStatement.Reverse);
+                ? new OrderBy<MemberGroups>(c => c.OrderBy(d => d.Id))
+                : new OrderBy<MemberGroups>(searchEntry.OrderStatement.ColumName, searchEntry.OrderStatement.Reverse);
             // generate filter expression
-            var filters = new Filter<ApplicationUser>(c => c.MemberGroups.Any(d => d.GroupId == new Guid(groupId)));
+            var filters = new Filter<MemberGroups>(d => d.GroupId == new Guid(groupId));
+            var includes = new Includes<MemberGroups>(c => c.Include(d => d.User));
 
             var page = new SearchResult<MemberDto>();
             try
             {
                 using (var uow = _uowProvider.CreateUnitOfWork())
                 {
-                    var repository = uow.GetRepository<ApplicationUser>();
+                    var repository = uow.GetRepository<MemberGroups>();
 
                     // get data
                     if (searchEntry?.SearchQueryPage == null)
                     {
-                        var data = await repository.QueryAsync(filters.Expression, sort.Expression);
+                        var data = await repository.QueryAsync(filters.Expression, sort.Expression, includes.Expression);
                         page = new SearchResult<MemberDto>()
                         {
-                            ItemList = data.Select(c => new MemberDto
-                            {
-                                Id = c.Id,
-                                UserName = c.UserName,
-                                Email = c.Email,
-                                EmailConfirmed = c.EmailConfirmed
-                            }).ToList()
+                            ItemList = this.MapMemberEntityToMemberDto(data).ToList(),
                         };
                     }
                     // get page data
                     else
                     {
                         var startRow = searchEntry.SearchQueryPage.PageNumber;
-                        var data = await repository.QueryPageAsync(startRow, searchEntry.SearchQueryPage.PageLength, filters.Expression, sort.Expression);
+                        var data = await repository.QueryPageAsync(startRow, searchEntry.SearchQueryPage.PageLength, filters.Expression, sort.Expression, includes.Expression);
                         var totalCount = await repository.CountAsync(filters.Expression);
 
                         page = new SearchResult<MemberDto>()
                         {
-                            ItemList = data.Select(c => new MemberDto
-                            {
-                                Id = c.Id,
-                                UserName = c.UserName,
-                                Email = c.Email,
-                                EmailConfirmed = c.EmailConfirmed
-                            }).ToList(),
+                            ItemList = this.MapMemberEntityToMemberDto(data).ToList(),
                             SearchResultPage = new SearchResultPage()
                             {
                                 TotalItemCount = totalCount,
@@ -104,26 +94,41 @@ namespace IdentityServer.Webapi.Services
             {
                 var repository = uow.GetRepository<MemberGroups>();
                 await repository.AddRangeAsync(memberGroupList);
+                await uow.SaveChangesAsync();
             }
 
             return;
         }
 
-        public async Task DeleteMemberOfGroupAsync(string userId, Guid groupId)
+        public async Task DeleteMemberOfGroupAsync(Guid id)
         {
             using (var uow = _uowProvider.CreateUnitOfWork())
             {
                 var repository = uow.GetRepository<MemberGroups>();
-                var entity = await repository.QueryAsync(c => c.GroupId == groupId && c.UserId == userId);
+                var entity = await repository.GetAsync<Guid>(id);
                 if (entity != null)
                 {
                     repository.Remove(entity);
                 } 
                 else
                 {
-                    throw new Exception($"Entity 'memberGroup' was not found where groupId: {groupId}, userId: {userId}");
+                    throw new Exception($"Entity 'memberGroup' was not found with id: {id}");
                 }
             }
+        }
+
+
+        private IEnumerable<MemberDto> MapMemberEntityToMemberDto(IEnumerable<MemberGroups> list)
+        {
+            return list.Select(c => new MemberDto
+            {
+                Id = c.Id,
+                UserId = c.User.Id,
+                UserName = c.User.UserName,
+                Email = c.User.Email,
+                EmailConfirmed = c.User.EmailConfirmed,
+                DateOfSubscribe = c.DateOfSubscribe
+            });
         }
 
         //public async Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emailList)

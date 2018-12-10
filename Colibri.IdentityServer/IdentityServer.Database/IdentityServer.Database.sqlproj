@@ -14,7 +14,7 @@
     </RootPath>
     <RootNamespace>IdentityServer.Database</RootNamespace>
     <AssemblyName>IdentityServer.Database</AssemblyName>
-    <ModelCollation>1049,CI</ModelCollation>
+    <ModelCollation>1033,CI</ModelCollation>
     <DefaultFileStructure>Undefined</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
@@ -23,7 +23,7 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
-    <DefaultCollation>Cyrillic_General_CI_AS</DefaultCollation>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
     <DefaultFilegroup>PRIMARY</DefaultFilegroup>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -64,7 +64,9 @@
   <ItemGroup>
     <Build Include="__EFMigrationsHistory.sql" />
     <Build Include="Groups.sql" />
+    <Build Include="GroupNode.sql" />
     <Build Include="ApplicationUserGroups.sql" />
+    <Build Include="MemberGroups.sql" />
     <Build Include="AdpNetIdentity\AspNetRoleClaims.sql" />
     <Build Include="AdpNetIdentity\AspNetRoles.sql" />
     <Build Include="AdpNetIdentity\AspNetUserClaims.sql" />
@@ -72,7 +74,5 @@
     <Build Include="AdpNetIdentity\AspNetUserRoles.sql" />
     <Build Include="AdpNetIdentity\AspNetUsers.sql" />
     <Build Include="AdpNetIdentity\AspNetUserTokens.sql" />
-    <Build Include="GroupNode.sql" />
-    <Build Include="MemberGroups.sql" />
   </ItemGroup>
 </Project>

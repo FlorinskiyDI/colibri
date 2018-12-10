@@ -22,6 +22,14 @@ export class GroupMembersApiService {
         return result;
     }
 
+    addMultiple(groupId: string, emails: any[]) {
+        const result = this.restangular
+            .all('api/groups/' + groupId + '/members')
+            .customPOST(emails, undefined, undefined, { 'Content-Type': 'application/json' });
+        return result;
+    }
+
+
     // getByGroup(groupId: string, objectFields: string[] | null = null) {
     //     const paramObjectFields = objectFields ? objectFields.join(',') : null;
     //     const result = this.restangular.all(`api/groups/${groupId}/members`).customGET(undefined, { fields: paramObjectFields });

@@ -14,6 +14,7 @@ namespace IdentityServer.Webapi.Data
         [StringLength(450)]
         public string UserId { get; set; }
         public Guid GroupId { get; set; }
+        public DateTimeOffset DateOfSubscribe { get; set; }
 
         [ForeignKey("GroupId")]
         [InverseProperty("MemberGroups")]

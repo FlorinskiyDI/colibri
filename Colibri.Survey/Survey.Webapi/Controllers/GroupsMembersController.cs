@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +40,14 @@ namespace Survey.Webapi.Controllers
             return Ok(result);
         }
 
-
+        // POST: api/groups/1/members
+        [HttpPost]
+        public async Task<IActionResult> AddMembers([FromBody] IEnumerable<string> emailList, [FromRoute] string groupId)
+        {
+            var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
+            await _memberService.AddMembersAsync(groupId, emailList);
+            return Ok();
+        }
         //// GET: api/groups//{groupId?}/members
         //[HttpGet]
         //public async Task<IActionResult> GetMembers(Guid groupId)

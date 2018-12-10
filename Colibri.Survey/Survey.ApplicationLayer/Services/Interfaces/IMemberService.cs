@@ -10,5 +10,6 @@ namespace Survey.ApplicationLayer.Services.Interfaces
     public interface IMemberService
     {
         Task<SearchResultDto<MemberDto>> GetMembersAsync(string groupId, SearchQueryDto pageSearchEntry);
+        Task AddMembersAsync(string groupId, IEnumerable<string> emailList);
     }
 }

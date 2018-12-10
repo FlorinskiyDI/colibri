@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IdentityServer.Webapi.Migrations
 {
-    public partial class @new : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -167,6 +167,33 @@ namespace IdentityServer.Webapi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MemberGroups",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "(newsequentialid())"),
+                    UserId = table.Column<string>(maxLength: 450, nullable: false),
+                    GroupId = table.Column<Guid>(nullable: false),
+                    DateOfSubscribe = table.Column<DateTimeOffset>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MemberGroups", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MemberGroups_ToGroups",
+                        column: x => x.GroupId,
+                        principalTable: "Groups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MemberGroups_ToAspNetUsers",
+                        column: x => x.UserId,
+                        principalSchema: "dbo",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 schema: "dbo",
                 columns: table => new
@@ -259,6 +286,17 @@ namespace IdentityServer.Webapi.Migrations
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MemberGroups_GroupId",
+                table: "MemberGroups",
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MemberGroups_UserId_GroupId",
+                table: "MemberGroups",
+                columns: new[] { "UserId", "GroupId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 schema: "dbo",
                 table: "AspNetRoleClaims",
@@ -316,6 +354,9 @@ namespace IdentityServer.Webapi.Migrations
 
             migrationBuilder.DropTable(
                 name: "GroupNode");
+
+            migrationBuilder.DropTable(
+                name: "MemberGroups");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims",

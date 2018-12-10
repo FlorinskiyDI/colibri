@@ -62,7 +62,8 @@ namespace IdentityServer.Webapi.Data
             });
 
             modelBuilder.Entity<MemberGroups>(entity =>
-            {
+            {   
+                entity.HasIndex(p => new { p.UserId, p.GroupId }).IsUnique();
                 entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
 
                 entity.HasOne(d => d.Group)
