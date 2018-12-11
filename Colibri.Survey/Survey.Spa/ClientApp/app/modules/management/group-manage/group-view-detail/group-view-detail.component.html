@@ -1,4 +1,4 @@
-<div class="cmp-form-group-creat row">
+<div class="cmp--group-view-detail row">
     <div class="col-md-3">
 
         <div #ngFormGroup="ngForm"
@@ -45,7 +45,14 @@
                 </mat-form-field>
             </div>
             <div class="clbr--form-group form-group form-group-sm">
-                <label class="clbr--ui-chkbox-1">
+                <mat-form-field class="clbr--mat-form-field clbr--mat-form-field-full-width">
+                    <input
+                        matInput
+                        maxlength="100"
+                        placeholder="Parent group"
+                        formControlName="parentId" disabled>
+                </mat-form-field>
+                <!-- <label class="clbr--ui-chkbox-1">
                     <p-checkbox [(ngModel)]="isSubGroup"
                         (onChange)="onChckboxChange($event)"
                         formControlName="isSubgroup"
@@ -74,9 +81,14 @@
                         Value is required
                     </mat-error>
                     <mat-hint align="end">the group administrator will have all rights to the new group</mat-hint>
-                </mat-form-field>
+                </mat-form-field> -->
             </div>
         </div>
+        <button class="clbr--btn-default clbr--background-image-without btn btn-sm btn-default notification cmp--btn-cancel" (click)="formCancel()">CANCEL</button>
+        <button class="clbr--btn-default btn btn-sm btn-default notification" (click)="formSubmit()">SAVE CHANGES</button>
 
     </div>
 </div>
+
+<p-growl styleClass="clbr--growl-icon-none" [life]="5000">
+</p-growl>

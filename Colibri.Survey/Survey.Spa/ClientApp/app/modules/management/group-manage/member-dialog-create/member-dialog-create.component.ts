@@ -6,8 +6,8 @@ import * as XLSX from 'xlsx';
 /* helper */ import { CHECK_EMAIL } from 'shared/helpers/check-email.helper';
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 /* service-api */ import { GroupMembersApiService } from 'shared/services/api/group-members.api.service';
-/* helper */ import { FormGroupHelper } from 'shared/helpers/form-group.helper';
-import { combineLatest } from 'rxjs/operators';
+// /* helper */ import { FormGroupHelper } from 'shared/helpers/form-group.helper';
+// import { combineLatest } from 'rxjs/operators';
 
 @Component({
     selector: 'cmp-member-dialog-create',
@@ -42,7 +42,9 @@ export class MemberDialogCreateComponent {
     configData: any;
     uploadedFiles: any[] = [];
     fileName: any;
+
     constructor(
+        private messageService: MessageService,
         private fb: FormBuilder,
         private apiService: GroupMembersApiService
     ) {
@@ -77,8 +79,8 @@ export class MemberDialogCreateComponent {
         console.log('uploadHandler');
         console.log(data);
     }
-    onSelect(event: any) {
 
+    onSelect(event: any) {
         let arrayBuffer: any;
         const file = event.files[0];
         this.fileName = file.name;
@@ -99,7 +101,7 @@ export class MemberDialogCreateComponent {
                     newList.push(element.userEmail);
                 }
             });
-            debugger
+
             if (newList.length === 0) {
                 this.formGroup.get('importData').setValue(null);
                 this.formGroup.get('importData').updateValueAndValidity();
@@ -158,7 +160,8 @@ export class MemberDialogCreateComponent {
             });
             this.apiService.addMultiple(this.dialogConfig.extraData.groupId, emailList)
                 .subscribe((val: any) => {
-                    console.log(val);
+                    this.dialogChange();
+                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was created successfully' });
                 });
             console.log('VALID');
         }
@@ -199,7 +202,6 @@ export class MemberDialogCreateComponent {
         }
     }
     getIndex(item: any) {
-        debugger
         const emailArray = this.formGroup.get('emailArray') as FormArray;
         return emailArray.controls.indexOf(item);
     }
@@ -208,7 +210,12 @@ export class MemberDialogCreateComponent {
         this.componentClear();
     }
 
-
+    getTemplates() {
+        const link = document.createElement('a');
+        link.download = 'template.xlsx';
+        link.href = 'files/template.xlsx';
+        link.click();
+    }
 
     //#region Dialog
     public dialogCancel() {

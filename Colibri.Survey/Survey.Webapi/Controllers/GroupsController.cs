@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Survey.ApplicationLayer.Dtos.Models;
@@ -77,6 +78,24 @@ namespace Survey.Webapi.Controllers
             await _groupService.DeleteGroup(id);
             return Ok();
         }
+
+        // GET: api/groups/{id}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetGroup(Guid id)
+        {
+            var result = await _groupService.GetGroup(id);
+            return Ok(result);
+        }
+
+         //PUT: api/groups/{id}/subgroups
+        [HttpPut()]
+        public async Task<IActionResult> UpdateGroups([FromBody] GroupDto model)
+        {
+            var result = await _groupService.UpdateGroup(model);
+            return Ok(result);
+        }
+
+
 
         //// POST: api/groups
         //[HttpPost]
@@ -157,19 +176,7 @@ namespace Survey.Webapi.Controllers
         //    return Ok();
         //}
 
-        //// GET: api/groups/{id}
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetGroup(Guid id)
-        //{
-        //    GroupDto groupDto;
-        //    try
-        //    {
-        //        groupDto = await _groupService.GetGroup(id);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError);
-        //    }
+
 
         //    return Ok(groupDto);
         //}

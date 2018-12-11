@@ -23,8 +23,8 @@
         <div class="col-md-12">
             <div class="clbr--block-options">
                 <div class="input-group">
-                    <cmp-group-data-filter>
-                    </cmp-group-data-filter>
+                    <clbr-data-filter>
+                    </clbr-data-filter>
                     
                     <span class="input-group-addon">
                         <button class="btn btn-sm btn-default notification" (click)="dtMembers.reset()">
@@ -85,7 +85,7 @@
                                     matTooltipClass="TestMatTooltipClass"
                                     matTooltipPosition="right"
                                     class="clbr-tb-action-btn btn btn-sm btn-default notification"
-                                    (click)="item_delete(rowData.id)">
+                                    (click)="item_unsubscribe(rowData.id)">
                                     <mat-icon class="filter-icon">link_off</mat-icon>
                                 </button>
                             </td>
@@ -104,3 +104,15 @@
     (onCancel)="dialogCreateOnCancel($event)"
     (onHide)="dialogCreateOnHide($event)">
 </cmp-member-dialog-create>
+
+<p-confirmDialog #cd header="Confirmation">
+    <p-footer>
+        <button class="btn btn-sm btn-default notification" (click)="cd.accept()">
+            <i class="fa fa-check"></i>Yes</button>
+        <button class="btn btn-sm btn-default notification" (click)="cd.reject()">
+            <i class="fa fa-remove"></i>No</button>
+    </p-footer>
+</p-confirmDialog>
+
+<p-growl styleClass="clbr--growl-icon-none" [life]="5000">
+</p-growl>

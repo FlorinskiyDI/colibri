@@ -11,5 +11,6 @@ namespace Survey.ApplicationLayer.Services.Interfaces
     {
         Task<SearchResultDto<MemberDto>> GetMembersAsync(string groupId, SearchQueryDto pageSearchEntry);
         Task AddMembersAsync(string groupId, IEnumerable<string> emailList);
+        Task UnsubscribeMemberAsync(string groupId, string memberId);
     }
 }

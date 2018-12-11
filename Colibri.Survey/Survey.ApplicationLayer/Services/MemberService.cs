@@ -36,5 +36,11 @@ namespace Survey.ApplicationLayer.Services
             await _groupMemberRequestService.AddMembers(groupId, emailList);
             return ;
         }
+
+        public async Task UnsubscribeMemberAsync(string groupId, string memberId)
+        {
+            await _groupMemberRequestService.UnsubscribeMember(groupId, memberId);
+            return;
+        }
     }
 }

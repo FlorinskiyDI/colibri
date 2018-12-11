@@ -1,5 +1,6 @@
 ﻿using Survey.ApplicationLayer.Dtos.Models;
 using Survey.ApplicationLayer.Dtos.Search;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,8 +13,8 @@ namespace Survey.ApplicationLayer.Services.Interfaces
         Task<IEnumerable<GroupDto>> GetSubgroups(SearchQueryDto searchEntryDto, string parentId);
         Task<GroupDto> CreateGroup(GroupDto model);
         Task DeleteGroup(string groupId);
-
-
+        Task<GroupDto> GetGroup(Guid groupId);
+        Task<GroupDto> UpdateGroup(GroupDto model);
         //Task<IEnumerable<GroupDto>> GetSubGroupList(Guid groupId);
         //Task<GroupDto> CreateGroup(GroupDto groupDto);
         //Task<bool> DeleteGroup(Guid groupId);

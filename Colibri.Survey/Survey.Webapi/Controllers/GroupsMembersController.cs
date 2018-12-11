@@ -48,6 +48,16 @@ namespace Survey.Webapi.Controllers
             await _memberService.AddMembersAsync(groupId, emailList);
             return Ok();
         }
+
+        // DELETE: api/groups/members/1
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMember([FromRoute] string groupId, [FromRoute] Guid id)
+        {
+            var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
+            await _memberService.UnsubscribeMemberAsync(groupId, id.ToString());
+            return Ok();
+        }
+
         //// GET: api/groups//{groupId?}/members
         //[HttpGet]
         //public async Task<IActionResult> GetMembers(Guid groupId)

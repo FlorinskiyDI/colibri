@@ -109,6 +109,7 @@ namespace IdentityServer.Webapi.Services
                 if (entity != null)
                 {
                     repository.Remove(entity);
+                    uow.SaveChanges();
                 } 
                 else
                 {

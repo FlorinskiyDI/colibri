@@ -9,5 +9,6 @@ namespace Survey.InfrastructureLayer.IdentityServerServices.Interfaces
     {
         Task<SearchResultModel<MemberModel>> GetMembers(string groupId, SearchQueryModel pageSearchEntry);
         Task AddMembers(string groupId, IEnumerable<string> emailList);
+        Task UnsubscribeMember(string groupId, string memberId);
     }
 }

@@ -12,7 +12,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
     selector: 'group-dialog-create-cmp',
     templateUrl: './group-dialog-create.component.html',
     styleUrls: ['./group-dialog-create.component.scss'],
-    providers: [MessageService]
+    providers: [ MessageService ]
 })
 
 export class GroupDialogCreateComponent {

@@ -92,6 +92,15 @@ namespace IdentityServer.Webapi.Controllers
             return Ok();
         }
 
+        // PUT: api/groups/{id}/subgroups
+        [HttpPut()]
+        public async Task<IActionResult> UpdateGroups([FromBody] GroupDto model)
+        {
+            var userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
+            var result = await _groupServices.UpdateGroup(model, userId);
+            return Ok(result);
+        }
+
         //private List<Groups> recursiveTreeSearch(Groups group, List<Groups> siblings)
         //{
         //    if (group.InverseParent.Count() > 0)
@@ -205,34 +214,28 @@ namespace IdentityServer.Webapi.Controllers
         //}
 
         // PUT: api/groups
-        [HttpPut]
-        public IActionResult UpdateGroup([FromBody] Groups model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+        //[HttpPut]
+        //public IActionResult UpdateGroup([FromBody] Groups model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var claims = this.HttpContext.User.Claims;
-            var userId = claims.First(c => c.Type == "sub").Value;
-            Groups group;
-            try
-            {
-                group = _groupRepository.UpdateGroup(model);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-            return Ok(group);
-        }
+        //    var claims = this.HttpContext.User.Claims;
+        //    var userId = claims.First(c => c.Type == "sub").Value;
+        //    Groups group;
+        //    try
+        //    {
+        //        group = _groupRepository.UpdateGroup(model);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError);
+        //    }
+        //    return Ok(group);
+        //}
 
     }
 
-    //public class Test
-    //{
-    //    public int MyInt{ get; set; }
-    //    public string MyString { get; set; }
-    //    public DateTime MyDate { get; set; }
-    //}
 }

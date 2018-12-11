@@ -2,6 +2,7 @@
 using Survey.DomainModelLayer.Models.IdentityServer;
 using Survey.DomainModelLayer.Models.Search;
 using Survey.InfrastructureLayer.IdentityServerServices;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -57,6 +58,40 @@ namespace Survey.InfrastructureLayer.IdentityServices
             IRestResponse response = await restClient.ExecuteTaskAsync(request);
 
             return;
+        }
+
+        public async Task<GroupModel> GetGroup(Guid groupId)
+        { 
+            var restClient = await GetRestClient();
+            var request = new RestRequest("/api/groups/" + groupId, Method.GET);
+            IRestResponse<GroupModel> response = await restClient.ExecuteTaskAsync<GroupModel>(request);
+
+            if (response.ErrorException == null)
+            {
+                return response.Data;
+            }
+            else
+            {
+                var ex = new ApplicationException("Error retrieving response.  Check inner details for more info.", response.ErrorException);
+                throw ex;
+            }
+        }
+
+        public async Task<GroupModel> UpdateGroup(GroupModel model)
+        {
+            var restClient = await GetRestClient();
+            var request = new RestRequest("/api/groups", Method.PUT) { RequestFormat = DataFormat.Json };
+            request.AddBody(model);
+            IRestResponse<GroupModel> response = await restClient.ExecuteTaskAsync<GroupModel>(request);
+
+            if (response.ErrorException == null)
+            {
+                return response.Data;
+            }
+            else
+            {
+                throw new ApplicationException("Error retrieving response.  Check inner details for more info.", response.ErrorException);
+            }
         }
 
         //public async Task<Groups> CreateGroupAsync(Groups group)
@@ -135,25 +170,7 @@ namespace Survey.InfrastructureLayer.IdentityServices
         //    }
         //}
 
-        //public async Task<Groups> GetGroup(Guid groupId)
-        //{
-        //    var tokenResponse = await GetToken();
 
-        //    // call to identity server for get group
-        //    var restClient = new RestClient(NTContext.Context.IdentityUrl);
-        //    restClient.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(tokenResponse.AccessToken, "Bearer");
-        //    var request = new RestRequest("/api/groups/" + groupId, Method.GET);
-        //    IRestResponse<Groups> response = await restClient.ExecuteTaskAsync<Groups>(request);
-
-        //    if (!response.IsSuccessful)
-        //    {
-        //        return null;
-        //    }
-        //    else
-        //    {
-        //        return response.Data;
-        //    }
-        //}
 
         //public async Task<IEnumerable<Groups>> GetSubGroupList(Guid groupId)
         //{

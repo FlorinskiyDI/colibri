@@ -20,14 +20,14 @@
                 <div class="clbr--form-group form-group form-group-sm">
                     <label class="clbr--ui-chkbox-1">
                         <p-checkbox (onChange)="onChckboxChange($event)" binary="true"></p-checkbox>
-                        <span class="title">Import data from file (csv, xlsx)</span>
+                        <span class="title">Import data from file (xlsx)</span>
                     </label>
                 </div>
                 <div class="clbr--form-group form-group form-group-sm">
                     <mat-form-field *ngIf="isFillByFile" class="clbr--mat-form-field clbr--mat-form-field-full-width cmp--mat-form-field-import">
                         <input matInput formControlName="importData" style="display: none;">
                         <p-fileUpload matPrefix
-                            accept=".csv,.xlsx"
+                            accept=".xlsx"
                             mode="basic" name="demo[]" maxFileSize="1000000"
                             (onSelect)="onSelect($event)"
                             auto="false" chooseLabel="Choose File">
@@ -40,7 +40,7 @@
                             <i class="fa fa-download"></i>
                         </button>
                         <mat-error *ngIf="formGroup.get('importData').hasError('required') && formGroup.get('importData').touched">
-                            The file type is not correct or list data is emplty (allowed file types: .csv, .xlsx)
+                            The file type is not correct or list data is emplty (allowed file types: .xlsx)
                         </mat-error>
                         <mat-hint align="end">Import from file (csv/xlsx)</mat-hint>
                     </mat-form-field>
@@ -73,6 +73,5 @@
 
 </p-dialog>
 
-<p-growl styleClass="clbr--growl-icon-none"
-    [life]="5000">
+<p-growl styleClass="clbr--growl-icon-none" [life]="5000">
 </p-growl>

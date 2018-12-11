@@ -37,6 +37,30 @@ namespace IdentityServer.Webapi.Services
             _userGroupService = userGroupService;
         }
 
+
+        public async Task<GroupDto> UpdateGroup(GroupDto model, string userId)
+        {
+            var entity = new Groups();
+            try
+            {
+                using (var uow = _uowProvider.CreateUnitOfWork())
+                {
+                    var repository = uow.GetRepository<Groups>();
+                    entity = await repository.GetAsync<Guid>(model.Id);
+                    entity = _mapper.Map<GroupDto, Groups>(model, entity);
+                    repository.Update(entity);
+                    await uow.SaveChangesAsync();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return _mapper.Map<Groups, GroupDto>(entity);
+        }
+
         public async Task<SearchResult<GroupDto>> GetRootAsync(string userId, SearchQuery searchEntry)
         {
             // generate sort expression
@@ -244,7 +268,7 @@ namespace IdentityServer.Webapi.Services
             IEnumerable<GroupNode> ancestors;
             IEnumerable<GroupNode> offspring;
             IEnumerable<Groups> inverseParent;
-            
+
             try
             {
                 using (var uow = _uowProvider.CreateUnitOfWork())

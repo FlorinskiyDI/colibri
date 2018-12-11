@@ -67,10 +67,12 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
 /* service-api */ import { GroupMembersApiService } from 'shared/services/api/group-members.api.service';
 /* service-api */ import { UsersApiService } from 'shared/services/api/users.api.service';
 
+
 // import { FormBuilderComponent } from '../modules/surveys/builder/form-builder/form-builder.component';
 
-/* clbr-modal */ import { ModalComponent } from 'shared/directives/modal/modal.component';
-/* clbr-modal */ import { ModalService } from 'shared/directives/modal/modal.service';
+/* component */ import { DataFilterComponent } from 'shared/directives/data-filter/data-filter.component';
+/* component-modal */ import { ModalComponent } from 'shared/directives/modal/modal.component';
+/* component-modal */ import { ModalService } from 'shared/directives/modal/modal.service';
 
 
 @NgModule({
@@ -117,7 +119,8 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
     ],
     declarations: [
         // diractives
-        ModalComponent
+        ModalComponent,
+        DataFilterComponent
     ],
     providers: [
         ModalService
@@ -150,7 +153,8 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         // else
         AngularSplitModule,
         // directives
-        ModalComponent
+        ModalComponent,
+        DataFilterComponent
     ]
 })
 

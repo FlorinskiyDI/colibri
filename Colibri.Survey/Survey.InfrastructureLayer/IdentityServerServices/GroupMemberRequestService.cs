@@ -30,5 +30,14 @@ namespace Survey.InfrastructureLayer.IdentityServerServices
             return;
         }
 
+        public async Task UnsubscribeMember(string groupId, string memberId)
+        {
+            var restClient = await GetRestClient();
+            var request = new RestRequest("/api/groups/" + groupId + "/members/" + memberId, Method.DELETE) { RequestFormat = DataFormat.Json };
+            IRestResponse response = await restClient.ExecuteTaskAsync(request);
+
+            return;
+        }
+
     }
 }

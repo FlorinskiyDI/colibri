@@ -13,7 +13,7 @@ namespace IdentityServer.Webapi.Services.Interfaces
         Task<IEnumerable<GroupDto>> GetByParentIdAsync(string userId, SearchQuery searchEntry, string parentId);
         Task<GroupDto> CreateGroup(GroupDto model, string userId);
         Task DeleteGroup(string groupId, string userId);
-
+        Task<GroupDto> UpdateGroup(GroupDto model, string userId);
         //Task<DataPage<Groups, Guid>> GetRootAsync(PageSearchEntry searchEntry, string userId);
         //void SubscribeToGroupAsync(string userId, Guid groupId);
         //Task UnsubscribeToGroup(string userId, Guid groupId);

@@ -1,6 +1,7 @@
-import { Component, ViewChild} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { ActivatedRoute } from '@angular/router';
 
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* helper */ import { FormGroupHelper } from 'shared/helpers/form-group.helper';
@@ -8,6 +9,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 @Component({
     selector: 'cmp-group-view-detail',
     templateUrl: './group-view-detail.component.html',
+    styleUrls: ['./group-view-detail.component.scss'],
     providers: [MessageService]
 })
 
@@ -16,20 +18,32 @@ export class GroupViewDetailComponent {
     @ViewChild('ngFormGroup') ngFormGroup: any;
     formGroup: FormGroup;
     drpdwnGroups: any[] = [];
-
+    groupId: any;
     treeSelected: any;
     treeItems: any[] = [];
     treeloading = false;
     isSubGroup = false;
 
     constructor(
+        private route: ActivatedRoute,
         private messageService: MessageService,
         private groupsApiService: GroupsApiService
     ) {
+        this.route.parent.params.subscribe((params: any) => {
+            this.groupId = params['id'] ? params['id'] : null;
+            this.initFormBuild(this.groupId);
+        });
         this.componentInit();
     }
 
-    ngOnInit() { this.formInitBuild(); }
+    initFormBuild(groupId: any) {
+        this.groupsApiService.get(groupId).subscribe(
+            (data: any) => {
+                this.formBuild(data);
+            });
+    }
+
+    ngOnInit() { this.formBuild(); }
     ngOnDestroy() { this.componentClear(); }
     private componentInit() {
         this.isSubGroup = false;
@@ -37,20 +51,23 @@ export class GroupViewDetailComponent {
         this._getAllRoot();
     }
     private componentClear() {
-        this.formInitBuild();
+        this.formBuild();
         this.drpdwnGroups = [];
     }
 
     // Form
-    private formInitBuild(data: any = {}): void {
+    private formBuild(data: any = {}): void {
         this.formGroup = new FormGroup({
+            'id': new FormControl(data.id, []),
+            'parentId': new FormControl({value: data.parentId, disabled: true}),
             'name': new FormControl(data.name, [Validators.required]),
-            'groupID': new FormControl(null, [Validators.required]),
-            'isSubgroup': new FormControl(null, [Validators.required]),
-            'parentId': new FormControl(data.parentId),
+            'groupID': new FormControl(data.groupID, [Validators.required]),
             'description': new FormControl(data.description),
+            // extra property
+            // 'isSubgroup': new FormControl(null, [Validators.required]),
         });
     }
+
     // private formInitControlData() {
     //     this.groupsApiService.getAll(['id', 'name']).subscribe(
     //         (response: Array<GroupApiModel>) => {
@@ -59,6 +76,7 @@ export class GroupViewDetailComponent {
 
     //         });
     // }
+
     public formSubmit() {
         if (!this.ngFormGroup.valid) {
             FormGroupHelper.setFormControlsAsTouched(this.formGroup);
@@ -66,7 +84,11 @@ export class GroupViewDetailComponent {
         }
         // const group = Object.assign({}, this.ngFormGroup.value);
         this.groupsApiService
-            .create(Object.assign({}, this.ngFormGroup.value))
+            .update(Object.assign(
+                {},
+                this.ngFormGroup.value,
+                { parentId: this.formGroup.get('parentId').value }
+            ))
             .subscribe(
                 (response: any) => {
                     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was created successfully' });

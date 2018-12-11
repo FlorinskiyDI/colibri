@@ -3,8 +3,8 @@
         <div class="col-md-12">
             <div class="clbr--block-options">
                 <div class="input-group">
-                    <cmp-group-data-filter>
-                    </cmp-group-data-filter>
+                    <clbr-data-filter>
+                    </clbr-data-filter>
                     
                     <span class="input-group-addon">
                         <button class="btn btn-sm btn-default notification" (click)="dtGroups.reset()">
@@ -13,10 +13,11 @@
                         <button class="btn btn-sm btn-default notification" (click)="dtGroups.exportCSV()">
                             <i class="fa fa-download"></i>
                         </button>
-                            <p-multiSelect [options]="optionTbToggle.columns" [filter]="optionTbToggle.filter" [(ngModel)]="tbSelectedColumns" optionLabel="header"
-                                selectedItemsLabel="{0} columns selected">
-                            </p-multiSelect>
+                        <p-multiSelect [options]="optionTbToggle.columns" [filter]="optionTbToggle.filter" [(ngModel)]="tbSelectedColumns" optionLabel="header"
+                            selectedItemsLabel="{0} columns selected">
+                        </p-multiSelect>
                     </span>
+
                 </div>
             </div>
         </div>

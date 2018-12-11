@@ -8,11 +8,11 @@ import { FormControl } from '@angular/forms';
 
 
 @Component({
-    selector: 'cmp-group-data-filter',
-    templateUrl: './group-data-filter.component.html',
-    styleUrls: ['./group-data-filter.component.scss']
+    selector: 'clbr-data-filter',
+    templateUrl: './data-filter.component.html',
+    styleUrls: ['./data-filter.component.scss']
 })
-export class GroupDataFilterComponent {
+export class DataFilterComponent {
     // ///////////
     // ///////////
     // visible = true;

@@ -21,7 +21,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class MemberGridComponent implements OnInit {
-    @ViewChild('dtGroups') dtGroups: any;
+    @ViewChild('dtMembers') dtMembers: any;
     // output events
     @Output() deleteItem = new EventEmitter<any>();
     @Output() editItem = new EventEmitter<any>();
@@ -51,6 +51,8 @@ export class MemberGridComponent implements OnInit {
     };
 
     constructor(
+        private messageService: MessageService,
+        private confirmationService: ConfirmationService,
         private groupMembersApiService: GroupMembersApiService,
         private route: ActivatedRoute,
     ) {
@@ -86,7 +88,22 @@ export class MemberGridComponent implements OnInit {
 
 
     item_edit(groupId: string) { this.editItem.emit(groupId); }
-    item_delete(groupId: string) { this.deleteItem.emit(groupId); }
+    item_unsubscribe(memberId: string) {
+        this.confirmationService.confirm({
+            message: 'Are you sure that you want to remove this group?',
+            accept: () => {
+                this.groupMembersApiService.deleteMemberFromGroup(this.groupId, memberId).subscribe(
+                    (response: any) => {
+                        this.dtMembers.reset();
+                        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was removed successfully' });
+                    },
+                    (error: any) => {
+                        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error' });
+                    }
+                );
+            }
+        });
+    }
 
     tb_loadItems(event: any) {
         this.tbLoading = true;
@@ -114,8 +131,7 @@ export class MemberGridComponent implements OnInit {
 
 
     public dialogCreateOpen() { this.dialogCreateConfig = new DialogDataModel<any>(true, { groupId: this.groupId }); }
-    // public dialogCreateOnChange() { this.eventResetData.next(); }
-    public dialogCreateOnChange() { }
+    public dialogCreateOnChange() { this.dtMembers.reset(); }
     public dialogCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
     public dialogCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
 }

@@ -73,29 +73,35 @@ namespace IdentityServer.Webapi.Infrastructure.Messaging
 
             m.Body = bodyBuilder.ToMessageBody();
 
-            using (var client = new SmtpClient())
+            try
             {
-                await client.ConnectAsync(
-                    smtpOptions.Server,
-                    smtpOptions.Port,
-                    smtpOptions.UseSsl)
-                    .ConfigureAwait(false);
-
-                // Note: since we don't have an OAuth2 token, disable
-                // the XOAUTH2 authentication mechanism.
-                client.AuthenticationMechanisms.Remove("XOAUTH2");
-
-                // Note: only needed if the SMTP server requires authentication
-                if (smtpOptions.RequiresAuthentication)
+                using (var client = new SmtpClient())
                 {
-                    await client.AuthenticateAsync(smtpOptions.User, smtpOptions.Password)
+                    await client.ConnectAsync(
+                        smtpOptions.Server,
+                        smtpOptions.Port,
+                        smtpOptions.UseSsl)
                         .ConfigureAwait(false);
+
+                    // Note: since we don't have an OAuth2 token, disable
+                    // the XOAUTH2 authentication mechanism.
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+
+                    // Note: only needed if the SMTP server requires authentication
+                    if (smtpOptions.RequiresAuthentication)
+                    {
+                        await client.AuthenticateAsync(smtpOptions.User, smtpOptions.Password)
+                            .ConfigureAwait(false);
+                    }
+
+                    await client.SendAsync(m).ConfigureAwait(false);
+                    await client.DisconnectAsync(true).ConfigureAwait(false);
                 }
-
-                await client.SendAsync(m).ConfigureAwait(false);
-                await client.DisconnectAsync(true).ConfigureAwait(false);
             }
-
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task SendMultipleEmailAsync(
