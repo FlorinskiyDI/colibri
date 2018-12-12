@@ -1,19 +1,20 @@
 import { Routes, RouterModule } from '@angular/router';
 
 /* component */ import { UserManageComponent } from './user-manage.component';
+/* component */ import { UserGridComponent } from './user-grid/user-grid.component';
 
 const routes: Routes = [
     {
-        path: 'groups',
+        path: 'users',
         component: UserManageComponent,
-        data: { breadcrumb: 'Group managment' },
-        // children: [
-        //     {
-        //         path: '',
-        //         component: GroupManageComponent,
-        //         data: { breadcrumb: 'Grid' },
-        //     },
-        // ]
+        data: { breadcrumb: 'User managment' },
+        children: [
+            {
+                path: '',
+                component: UserGridComponent,
+                data: { breadcrumb: 'users' },
+            },
+        ]
     }
 ];
 

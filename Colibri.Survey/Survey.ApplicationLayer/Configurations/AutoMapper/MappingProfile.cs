@@ -21,6 +21,7 @@ namespace Survey.ApplicationLayer.Configurations.AutoMapper
 
 
         private void DtoToEntity()
+
         {
             // models dto
             CreateMap<GroupModel, GroupDto>();

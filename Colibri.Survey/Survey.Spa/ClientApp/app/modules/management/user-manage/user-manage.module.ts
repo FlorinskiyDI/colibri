@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 /* module */ import { SharedModule } from 'shared/shared.module';
 /* module */ import { UserManageRoutingModule } from './user-manage.routes';
 /* component */ import { UserManageComponent } from './user-manage.component';
+/* component */ import { UserGridComponent } from './user-grid/user-grid.component';
 
 @NgModule({
     imports: [
@@ -10,7 +11,8 @@ import { NgModule } from '@angular/core';
         SharedModule
     ],
     declarations: [
-        UserManageComponent
+        UserManageComponent,
+        UserGridComponent
     ],
     providers: [
     ]

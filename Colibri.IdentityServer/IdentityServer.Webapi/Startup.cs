@@ -20,6 +20,7 @@ using IdentityServer4.Validation;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using dataaccesscore.EFCore;
+using IdentityServer.Webapi.Configurations.AspNetIdentity;
 
 namespace IdentityServer.Webapi
 {
@@ -56,6 +57,14 @@ namespace IdentityServer.Webapi
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddStorageCoreDataAccess<ApplicationDbContext>();
 
+
+            // configure expiring token of  EmailConfirmationToken
+            var emailConfirmTokenProviderName = Configuration.GetSection("TokenProviders").GetSection("EmailConfirmTokenProvider").GetValue<string>("Name");
+            var emailConfirmTokenProviderTokenLifespan = Configuration.GetSection("TokenProviders").GetSection("EmailConfirmTokenProvider").GetValue<double>("TokenLifespan");
+            services.Configure<IdentityOptions>(options => options.Tokens.EmailConfirmationTokenProvider = emailConfirmTokenProviderName);
+            services.Configure<EmailConfirmProtectorTokenProviderOptions>(options => options.TokenLifespan = TimeSpan.FromMilliseconds(emailConfirmTokenProviderTokenLifespan));
+
+
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
                     options.Password.RequireDigit = false;
@@ -64,10 +73,10 @@ namespace IdentityServer.Webapi
                     options.Password.RequiredLength = 6;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddTokenProvider<EmailConfirmDataProtectorTokenProvider<ApplicationUser>>(emailConfirmTokenProviderName);
 
             var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
-
             policy.Headers.Add("*");
             policy.Methods.Add("*");
             policy.Origins.Add("*");

@@ -68,7 +68,7 @@ namespace dataaccesscore.EFCore.Paging
                 var repository = uow.GetRepository<TEntity>();
 
                 var startRow = (pageNumber - 1) * pageLength;
-                var data = repository.QueryPage(startRow, pageLength, filter.Expression, includes: includes, orderBy: orderby?.Expression);
+                var data = repository.QueryPage(filter.Expression, orderby?.Expression, includes, startRow, pageLength);
                 var totalCount = repository.Count(filter.Expression);
 
                 return CreateDataPage(pageNumber, pageLength, data, totalCount);
@@ -88,7 +88,7 @@ namespace dataaccesscore.EFCore.Paging
                 var repository = uow.GetRepository<TEntity>();
 
                 var startRow = (pageNumber - 1) * pageLength;
-                var data = await repository.QueryPageAsync(startRow, pageLength, filter.Expression, includes: includes, orderBy: orderby?.Expression);
+                var data = await repository.QueryPageAsync(filter.Expression, orderby?.Expression, includes, startRow, pageLength);
                 var totalCount = await repository.CountAsync(filter.Expression);
 
                 return CreateDataPage(pageNumber, pageLength, data, totalCount);

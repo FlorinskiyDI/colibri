@@ -65,7 +65,7 @@ namespace dataaccesscore.EFCore.Repositories
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
         {
-            if (orderBy == null) orderBy = DefaultOrderBy.Expression;
+            //if (orderBy == null) orderBy = DefaultOrderBy.Expression;
 
             var result = QueryDb(null, orderBy, includes);
             return result.Skip(startRow).Take(pageLength).ToList();
@@ -77,7 +77,7 @@ namespace dataaccesscore.EFCore.Repositories
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
         {
-            if (orderBy == null) orderBy = DefaultOrderBy.Expression;
+            //if (orderBy == null) orderBy = DefaultOrderBy.Expression;
 
             var result = QueryDb(null, orderBy, includes);
             return await result.Skip(startRow).Take(pageLength).ToListAsync();
@@ -148,29 +148,43 @@ namespace dataaccesscore.EFCore.Repositories
         }
 
         public virtual IEnumerable<TEntity> QueryPage(
-            int startRow,
-            int pageLength,
             Expression<Func<TEntity, bool>> filter,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
+            Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null,
+            int? startRow = null,
+            int? pageLength = null)
         {
-            if (orderBy == null) orderBy = DefaultOrderBy.Expression;
+            //if (orderBy == null) orderBy = DefaultOrderBy.Expression;
 
             var result = QueryDb(filter, orderBy, includes);
-            return result.Skip(startRow).Take(pageLength).ToList();
+            if (startRow == null || pageLength == null)
+            {
+                return result.ToList();
+            }
+            else
+            {
+                return result.Skip(startRow.Value).Take(pageLength.Value).ToList();
+            }
         }
 
         public virtual async Task<IEnumerable<TEntity>> QueryPageAsync(
-            int startRow,
-            int pageLength,
             Expression<Func<TEntity, bool>> filter,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null)
+            Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null,
+            int? startRow = null,
+            int? pageLength = null)
         {
-            if (orderBy == null) orderBy = DefaultOrderBy.Expression;
-
+            //if (orderBy == null) orderBy = DefaultOrderBy.Expression;
             var result = QueryDb(filter, orderBy, includes);
-            return await result.Skip(startRow).Take(pageLength).ToListAsync();
+
+            if (startRow == null || pageLength == null)
+            {
+                return await result.ToListAsync();
+            }
+            else
+            {
+                return await result.Skip(startRow.Value).Take(pageLength.Value).ToListAsync();
+            }            
         }
 
         public virtual void Add(TEntity entity)

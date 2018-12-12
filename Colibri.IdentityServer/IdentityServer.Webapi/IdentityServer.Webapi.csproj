@@ -38,4 +38,8 @@
     <ProjectReference Include="..\ExpressionBuilder\ExpressionBuilder.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\Options\" />
+  </ItemGroup>
+
 </Project>

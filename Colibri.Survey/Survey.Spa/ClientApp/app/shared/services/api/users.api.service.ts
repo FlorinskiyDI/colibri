@@ -2,22 +2,20 @@
 import { Injectable, Inject } from '@angular/core';
 import { Restangular } from 'ngx-restangular';
 import 'rxjs/add/operator/map';
+import { RESTANGULAR_IDENTITYSERVER } from '../../../app.module.browser';
 
 @Injectable()
 export class UsersApiService {
 
-    apiServer: string;
-
     constructor(
-        private restangular: Restangular,
+        // private restangular: Restangular,
+        @Inject('RESTANGULAR_IDENTITYSERVER') public restangularIdentityServer: Restangular,
         @Inject('SURVEY_API_URL') apiUrl: string
     ) {
-        this.apiServer = apiUrl;
     }
 
-    getAll(): any {
-
-        const value = this.restangular.allUrl('googlers', this.apiServer).getList();
-        return value;
+    getAll(searchEntry: any = null, objectFields: string[] | null = null) {
+        const result = this.restangularIdentityServer.all('api/users/search').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
+        return result;
     }
 }

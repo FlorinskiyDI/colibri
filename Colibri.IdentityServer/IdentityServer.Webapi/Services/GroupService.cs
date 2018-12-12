@@ -42,6 +42,9 @@ namespace IdentityServer.Webapi.Services
         {
             var entity = new Groups();
             try
+
+
+
             {
                 using (var uow = _uowProvider.CreateUnitOfWork())
                 {
@@ -96,7 +99,7 @@ namespace IdentityServer.Webapi.Services
                     else
                     {
                         var startRow = searchEntry.SearchQueryPage.PageNumber;
-                        var data = await repository.QueryPageAsync(startRow, searchEntry.SearchQueryPage.PageLength, filters.Expression, sort.Expression);
+                        var data = await repository.QueryPageAsync(filters.Expression, sort.Expression, null, startRow, searchEntry.SearchQueryPage.PageLength);
                         var totalCount = await repository.CountAsync(filters.Expression);
 
                         page = new SearchResult<GroupDto>()
@@ -166,7 +169,7 @@ namespace IdentityServer.Webapi.Services
                     else
                     {
                         var startRow = searchEntry.SearchQueryPage.PageNumber;
-                        var data = await repository.QueryPageAsync(startRow, searchEntry.SearchQueryPage.PageLength, filters.Expression, sort.Expression);
+                        var data = await repository.QueryPageAsync(filters.Expression, sort.Expression, null, startRow, searchEntry.SearchQueryPage.PageLength);
                         var totalCount = await repository.CountAsync(filters.Expression);
 
                         page = new SearchResult<GroupDto>()

@@ -19,6 +19,8 @@ namespace IdentityServer.Webapi.Data
         public string DataEventRecordsRole { get; set; }
         public string SecuredFilesRole { get; set; }
         public DateTime AccountExpires { get; set; }
+        public TimeSpan EmailConfirmTokenLifespan { get; set; }
+        public DateTimeOffset EmailConfirmInvitationDate { get; set; }
 
         [InverseProperty("User")]
         public ICollection<ApplicationUserGroups> ApplicationUserGroups { get; set; }

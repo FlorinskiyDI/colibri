@@ -57,18 +57,18 @@ namespace dataaccesscore.Abstractions.Repositories
 
         // query page
         IEnumerable<TEntity> QueryPage(
-            int startRij,
-            int aantal,
             Expression<Func<TEntity, bool>> filter,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null
+            Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null,
+            int? startRij = null,
+            int? aantal = null
         );
         Task<IEnumerable<TEntity>> QueryPageAsync(
-            int startRij,
-            int aantal,
             Expression<Func<TEntity, bool>> filter,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null
+            Func<IQueryable<TEntity>, IQueryable<TEntity>> includes = null,
+            int? startRij = null,
+            int? aantal = null
         );
 
         // load

@@ -20,10 +20,10 @@ const routes: Routes = [
                 path: '',
                 loadChildren: 'modules/management/group-manage/group-manage.module#GroupManageModule',
             },
-            // {
-            //     path: '',
-            //     loadChildren: 'modules/management/users/user.module#UserModule',
-            // },
+            {
+                path: '',
+                loadChildren: 'modules/management/user-manage/user-manage.module#UserManageModule',
+            },
         ]
     }
 ];

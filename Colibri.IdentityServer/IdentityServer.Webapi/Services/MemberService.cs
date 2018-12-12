@@ -55,7 +55,7 @@ namespace IdentityServer.Webapi.Services
                     else
                     {
                         var startRow = searchEntry.SearchQueryPage.PageNumber;
-                        var data = await repository.QueryPageAsync(startRow, searchEntry.SearchQueryPage.PageLength, filters.Expression, sort.Expression, includes.Expression);
+                        var data = await repository.QueryPageAsync(filters.Expression, sort.Expression, includes.Expression, startRow, searchEntry.SearchQueryPage.PageLength);
                         var totalCount = await repository.CountAsync(filters.Expression);
 
                         page = new SearchResult<MemberDto>()

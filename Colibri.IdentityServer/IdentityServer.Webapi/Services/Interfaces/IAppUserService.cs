@@ -1,4 +1,6 @@
 ﻿using IdentityServer.Webapi.Data;
+using IdentityServer.Webapi.Dtos;
+using IdentityServer.Webapi.Dtos.Search;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +12,6 @@ namespace IdentityServer.Webapi.Services.Interfaces
     {
         Task<ApplicationUser> AddUserByEmailWithoutPassword(string email);
         Task<string> GetEmailConfirmationToken(string email);
+        Task<SearchResult<AppUserPageDto>> GetSearchData(SearchQuery searchEntry);
     }
 }

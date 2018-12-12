@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using IdentityServer.Webapi.Models.AccountViewModels;
-using IdentityServer.Webapi.Services;
 using IdentityServer.Webapi.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using IdentityServer4;
 using IdentityModel;
 using IdentityServer4.Extensions;
-using System.Globalization;
 using IdentityServer4.Models;
 using IdentityServer4.Stores;
 using IdentityServer4.Services;
@@ -443,6 +440,8 @@ namespace IdentityServer.Webapi.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+
 
         //
         // GET: /Account/ForgotPasswordConfirmation
