@@ -150,7 +150,6 @@ namespace Survey.ApplicationLayer.Services
 
         public List<TableReportViewModel> AddAnswerToReport(List<TableReportViewModel> answersData)
         {
-
             using (var uow = UowProvider.CreateUnitOfWork())
             {
                 var repositoryAnswer = uow.GetRepository<Answers, Guid>();
@@ -179,8 +178,6 @@ namespace Survey.ApplicationLayer.Services
                         ).ToList();
 
                     item.Answer = answerData.Count > 0 ? GetAnswerByType(item, answerData) : "--NULL--";
-
-                    //item.Answer = GetAnswerByType(item, answerData);
                     item.AdditionalAnswer = item.AdditionalAnswer.Count() > 0 ? item.AdditionalAnswer : (IsHaveAdditionalVariable(item.GroupId).Result ? "--NOT SET--" : "");
                 }
             }
@@ -195,7 +192,6 @@ namespace Survey.ApplicationLayer.Services
             {
                 switch (type)
                 {
-
                     case QuestionTypes.Textbox:
                         {
                             answerONQuestion = answerList.FirstOrDefault().AnswerText;

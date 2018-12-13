@@ -6,18 +6,13 @@ using Survey.ApplicationLayer.Services.Interfaces;
 using Survey.Common.Enums;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
 namespace Survey.ApplicationLayer.Services
 {
     public class ExcelService : IExcelService
     {
-
-
         public static string ExcelContentType
         {
             get
@@ -59,7 +54,6 @@ namespace Survey.ApplicationLayer.Services
                 }
             }
 
-
             foreach (var groupAnswer in data.Answers)
             {
                 object[] values = new object[colCount];
@@ -68,7 +62,6 @@ namespace Survey.ApplicationLayer.Services
                 for (int i = 0; i < groupAnswer.DataList.Count; i++)
                 {
                     var type = groupAnswer.DataList[i].InputTypeName;
-
 
                     // grid answer
                     if (type == QuestionTypes.GridRadio.ToString())
@@ -104,9 +97,6 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
-
-
-
         public static byte[] ExportToExcel(FileViewModel data, string heading = "", bool showSrNo = false)
         {
             var dataTable = ObjectListToDataTable(data);
@@ -135,7 +125,6 @@ namespace Survey.ApplicationLayer.Services
                             try
                             {
                                 headerColumn.Columns.Add("[" + (i + 1) + "." + checkcount + "] - " + item.Children[j]);
-                                //headerColumn.Columns.Add(Guid.NewGuid().ToString());
                                 ++checkcount;
                             }
                             catch (Exception ex)
@@ -200,21 +189,19 @@ namespace Survey.ApplicationLayer.Services
                 for (int i = 2; i < (dataTable.Columns.Count + 2); i++)
                 {
                     workSheet.Column(i).AutoFit();
-                    //workSheet.Column(i).Width = 30;
                 }
                 foreach (var item in cellList)
                 {
                     MeargeCells(workSheet, item.FromRow, item.FromColumn, item.ToRow, item.ToColumn);
                 }
 
-
-                // format header - bold, yellow on black
                 int leftIndent = 1;
                 using (ExcelRange r = workSheet.Cells[startRowFrom - 1, 1 + leftIndent, startRowFrom, dataTable.Columns.Count + leftIndent])
                 {
                     r.Style.Font.Bold = true;
                     r.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                     r.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#a2c4c9"));
+
                     // add border style
                     r.Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                     r.Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
@@ -231,6 +218,7 @@ namespace Survey.ApplicationLayer.Services
                 {
                     rr.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                     rr.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#d0e0e3"));
+
                     // add border style
                     rr.Style.Border.Top.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                     rr.Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
@@ -239,7 +227,6 @@ namespace Survey.ApplicationLayer.Services
 
                     // add border color
                     rr.Style.Border.Top.Color.SetColor(Color.Black);
-
                     rr.Style.WrapText = true;
                     rr.Style.VerticalAlignment = ExcelVerticalAlignment.Top;
                 }
@@ -263,6 +250,7 @@ namespace Survey.ApplicationLayer.Services
         {
             worksheet.Cells[FromRow, FromColumn, ToRow, ToColumn].Merge = true;
         }
+
 
         public FileModel ExportExcel(FileViewModel data, string Heading = "", bool showSlno = false)
         {

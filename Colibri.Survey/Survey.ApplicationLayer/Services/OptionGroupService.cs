@@ -11,7 +11,6 @@ namespace Survey.ApplicationLayer.Services
 
     public class OptionGroupService : IOptionGroupService
     {
-
         protected readonly IUowProvider UowProvider;
         protected readonly IMapper Mapper;
 
@@ -22,7 +21,6 @@ namespace Survey.ApplicationLayer.Services
         {
             this.UowProvider = uowProvider;
             this.Mapper = mapper;
-
         }
 
         public async Task<Guid> AddAsync(string groupDefinition)
@@ -33,23 +31,13 @@ namespace Survey.ApplicationLayer.Services
             };
             using (var uow = UowProvider.CreateUnitOfWork())
             {
-                try
-                {
-                    OptionGroups optiongroupEntity = Mapper.Map<OptionGroupsDto, OptionGroups>(optiongroup);
-                    var repositoryPage = uow.GetRepository<OptionGroups, Guid>();
-                    await repositoryPage.AddAsync(optiongroupEntity);
-                    await uow.SaveChangesAsync();
+                OptionGroups optiongroupEntity = Mapper.Map<OptionGroupsDto, OptionGroups>(optiongroup);
+                var repositoryPage = uow.GetRepository<OptionGroups, Guid>();
+                await repositoryPage.AddAsync(optiongroupEntity);
+                await uow.SaveChangesAsync();
 
-                    return optiongroupEntity.Id;
-                }
-                catch (Exception e)
-                {
-                    Console.Write(e);
-                    throw;
-                }
+                return optiongroupEntity.Id;
             }
         }
-
-
     }
 }

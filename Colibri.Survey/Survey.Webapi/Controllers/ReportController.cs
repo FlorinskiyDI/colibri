@@ -33,10 +33,11 @@ namespace Survey.Webapi.Controllers
             var answerList = _reportService.GetAnswersBySurveyId(Guid.Parse(surveyId));
 
             var sortAnswers = answerList.GroupBy(u => u.RespondentId)
-                .Select(grp => new Item { DateCreated = grp.First().DateCreated, DataList = grp.ToList() })
+                .Select(grp => new AnswerGroup { DateCreated = grp.First().DateCreated, DataList = grp.ToList() })
                 .ToList();
 
             watch.Stop();
+
             var elapsedMs = watch.ElapsedMilliseconds;
             var elapsedSec = elapsedMs / 1000;
             var result = new
@@ -53,34 +54,25 @@ namespace Survey.Webapi.Controllers
         [HttpPost("DownloadGrid/{quizId}")]
         public async Task<IActionResult> DownloadGrid(string quizId)
         {
-            try
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            var options = _reportService.GetQuestions(Guid.Parse(quizId));
+            var questionList = _reportService.GetAnswersBySurveyId(Guid.Parse(quizId));
+
+            var sortAnswers = questionList.GroupBy(u => u.RespondentId)
+                .Select(grp => new AnswerGroup { DateCreated = grp.First().DateCreated, DataList = grp.ToList() })
+                .ToList();
+
+            var result = new FileViewModel()
             {
-                var watch = System.Diagnostics.Stopwatch.StartNew();
-                var options = _reportService.GetQuestions(Guid.Parse(quizId));
-                var questionList = _reportService.GetAnswersBySurveyId(Guid.Parse(quizId));
+                HeaderOption = options,
+                Answers = sortAnswers,
+            };
 
-                var sortAnswers = questionList.GroupBy(u => u.RespondentId)
-                    .Select(grp => new Item { DateCreated = grp.First().DateCreated, DataList = grp.ToList() })
-                    .ToList();
-
-                var result = new FileViewModel()
-                {
-                    HeaderOption = options,
-                    Answers = sortAnswers,
-                };
-
-                var exportData = _excelService.ExportExcel(result, "", true);
-                watch.Stop();
-                var elapsedMs = watch.ElapsedMilliseconds;
-                var elapsedSec = elapsedMs / 1000;
-                return new FileContentResult(exportData.Content, exportData.ContentType);
-            }
-            catch (Exception ex)
-            {
-                var check5 = ex;
-                throw;
-            }
-
+            var exportData = _excelService.ExportExcel(result, "", true);
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            var elapsedSec = elapsedMs / 1000;
+            return new FileContentResult(exportData.Content, exportData.ContentType);
         }
     }
 }
