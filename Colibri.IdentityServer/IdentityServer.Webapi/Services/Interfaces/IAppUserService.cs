@@ -11,7 +11,7 @@ namespace IdentityServer.Webapi.Services.Interfaces
     public interface IAppUserService
     {
         Task<ApplicationUser> AddUserByEmailWithoutPassword(string email);
-        Task<string> GetEmailConfirmationToken(string email);
+        Task SendInvitationByEmailConfirmationToken(string userId);
         Task<SearchResult<AppUserPageDto>> GetSearchData(SearchQuery searchEntry);
     }
 }

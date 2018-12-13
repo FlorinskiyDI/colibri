@@ -18,4 +18,9 @@ export class UsersApiService {
         const result = this.restangularIdentityServer.all('api/users/search').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
         return result;
     }
+
+    sendInvite(userId: any) {
+        const result = this.restangularIdentityServer.one('api/users', userId).customGET('invite');
+        return result;
+    }
 }

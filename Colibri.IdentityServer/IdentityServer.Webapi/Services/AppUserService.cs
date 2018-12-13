@@ -52,13 +52,16 @@ namespace IdentityServer.Webapi.Services
                 try
                 {
                     var data = await repository.QueryPageAsync(filters?.Expression, null, null, startRow, pageLength);
-                    searchResult = new SearchResult<AppUserPageDto>() {
+                    searchResult = new SearchResult<AppUserPageDto>()
+                    {
                         ItemList = data.Select(c => new AppUserPageDto
                         {
                             Id = c.Id,
                             UserName = c.UserName,
                             Email = c.Email,
-                            EmailConfirmed = c.EmailConfirmed
+                            EmailConfirmed = c.EmailConfirmed,
+                            EmailConfirmInvitationDate = c.EmailConfirmInvitationDate,
+                            EmailConfirmTokenLifespan = c.EmailConfirmTokenLifespan
                         }).ToList()
                     };
 
@@ -88,7 +91,8 @@ namespace IdentityServer.Webapi.Services
             if (user == null)
             {
                 var emailConfirmTokenLifespan = Double.Parse(_configuration["TokenProviders:EmailConfirmTokenProvider:TokenLifespan"]);
-                user = new ApplicationUser {
+                user = new ApplicationUser
+                {
                     UserName = email,
                     Email = email
                 };
@@ -98,23 +102,37 @@ namespace IdentityServer.Webapi.Services
                     throw new ArgumentException("The app user was not created");
                 }
                 // send invite to user
-                var confirmationToken = await GetEmailConfirmationToken(user);
-                string codeHtmlVersion = HttpUtility.UrlEncode(confirmationToken);
-                var confirmationUrl = $@"http://localhost:5050/Account/RegisterByEmail/?userId={ user.Id }&code={ codeHtmlVersion }";
-                await _emailSenderService.SendAccountConfirmationEmailAsync(null, email, "Confirm your account", confirmationUrl);
+                await SendInvitationByEmailConfirmationToken(user.Id);
             }
             //
             return user;
         }
 
-        public async Task<string> GetEmailConfirmationToken(ApplicationUser model)
+        public async Task SendInvitationByEmailConfirmationToken(string userId)
         {
-            _userManager.
-                    EmailConfirmTokenLifespan = TimeSpan.FromMilliseconds(emailConfirmTokenLifespan)
-            //EmailConfirmInvitationDate = DateTimeOffset.UtcNow
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            var emailTokenLifespan = Double.Parse(_configuration["TokenProviders:EmailConfirmTokenProvider:TokenLifespan"]);
+            using (var uow = _uowProvider.CreateUnitOfWork())
+            {
+                var repository = uow.GetRepository<ApplicationUser>();
+                // get user and update emailConfirm data 
+                var entity = await repository.GetAsync(userId);
+                entity.EmailConfirmInvitationDate = DateTimeOffset.UtcNow;
+                entity.EmailConfirmTokenLifespan = emailTokenLifespan;
+                repository.Update(entity);
+                uow.SaveChanges();
+
+                // send invitation using email confirm token
+                var confirmationToken = await GetEmailConfirmationToken(entity.Email);
+                string codeHtmlVersion = HttpUtility.UrlEncode(confirmationToken);
+                var confirmationUrl = $@"http://localhost:5050/Account/RegisterByEmail/?userId={ entity.Id }&code={ codeHtmlVersion }";
+                await _emailSenderService.SendAccountConfirmationEmailAsync(null, entity.Email, "Confirm your account", confirmationUrl);
+            }
+        }
+
+        private async Task<string> GetEmailConfirmationToken(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            //
             return token;
         }
 

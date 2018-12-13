@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 /* module */ import { UserManageRoutingModule } from './user-manage.routes';
 /* component */ import { UserManageComponent } from './user-manage.component';
 /* component */ import { UserGridComponent } from './user-grid/user-grid.component';
+/* pipe */ import { UserStatusPipe } from './user-grid/user-status.pipe';
 
 @NgModule({
     imports: [
@@ -11,8 +12,11 @@ import { NgModule } from '@angular/core';
         SharedModule
     ],
     declarations: [
+        // components
         UserManageComponent,
-        UserGridComponent
+        UserGridComponent,
+        // pipes
+        UserStatusPipe
     ],
     providers: [
     ]

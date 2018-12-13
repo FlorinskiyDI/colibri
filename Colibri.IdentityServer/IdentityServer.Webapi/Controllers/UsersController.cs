@@ -30,5 +30,14 @@ namespace IdentityServer.Webapi.Controllers
             return Ok(result);
         }
 
+        // GET: api/users/1/invite
+        [HttpGet("{id}/invite")]
+        public async Task<IActionResult> SendInvite([FromQuery] string id)
+        {
+            //var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
+            await _appUserService.SendInvitationByEmailConfirmationToken(id);
+            return Ok();
+        }
+
     }
 }

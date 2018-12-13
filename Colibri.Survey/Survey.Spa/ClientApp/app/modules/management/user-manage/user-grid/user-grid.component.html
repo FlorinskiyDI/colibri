@@ -61,7 +61,10 @@
                                     <ng-template pTemplate="body" let-rowData let-columns="columns">
                                         <tr [pSelectableRow]="rowData">
                                             <td *ngFor="let col of columns" class="border-left-none border-right-none" [ngSwitch]="col.field">
-                                                <span *ngSwitchCase="'emailConfirmed'">{{rowData[col.field]?'Registered':'Invited'}}</span>
+                                                <span *ngSwitchCase="'emailConfirmed'">
+                                                    {{ rowData.emailConfirmed | userstatus: rowData.emailConfirmInvitationDate: rowData.emailConfirmTokenLifespan }}
+                                                    <!-- {{rowData[col.field]?'Registered':'Invited'}} -->
+                                                </span>
                                                 <span *ngSwitchDefault>{{rowData[col.field]}}</span>
                                                 
                                             </td>
@@ -70,8 +73,11 @@
                                                     <mat-icon class="filter-icon">edit</mat-icon>
                                                 </button>
                                                 <button matTooltip="Delete group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_delete(rowData.id)">
-                                                    <mat-icon class="filter-icon" >delete</mat-icon>
+                                                    <mat-icon class="filter-icon">delete</mat-icon>
                                                 </button>
+                                                <button matTooltip="Delete group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_invite(rowData.id)">
+                                                    <mat-icon class="filter-icon">sync</mat-icon>
+                                                </button>                                                
                                             </td>
                                         </tr>
                                     </ng-template>

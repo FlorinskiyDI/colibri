@@ -43,6 +43,7 @@ export class UserGridComponent implements OnInit {
     };
 
     constructor(
+        private messageService: MessageService,
         private usersApiService: UsersApiService,
     ) {
         this.tbSelectedColumns = this.optionTbToggle.columns;
@@ -56,10 +57,18 @@ export class UserGridComponent implements OnInit {
         // this.subscriberResetData.unsubscribe();
     }
 
-    item_edit(groupId: string) {
+    item_edit(id: string) {
         // this.editItem.emit(groupId);
     }
-    item_delete(groupId: string) {
+    item_delete(id: string) {
+        // this.deleteItem.emit(groupId);
+    }
+    item_invite(id: string) {
+        this.usersApiService.sendInvite(id).subscribe(
+            (data: any) => {
+                this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was removed successfully' });
+            }
+        );
         // this.deleteItem.emit(groupId);
     }
 
