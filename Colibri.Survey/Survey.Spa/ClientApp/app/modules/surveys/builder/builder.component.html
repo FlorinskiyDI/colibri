@@ -17,13 +17,6 @@
             <p>Distributions</p>
         </button>
         </div>
-
-
-
-
-
-
-
     </div>
     <div class="d-right-bar">
         <div class="d-buttons-operation">
@@ -70,70 +63,25 @@
                             </smooth-dnd-draggable>
                         </smooth-dnd-container>
                     </div>
-                    <!-- <div [ngStyle]="{'marginLeft': '50px', 'flex': '1'}">
-                        <smooth-dnd-container [groupName]="'1'" [getChildPayload]="questionTemplates" (drop)="onDrop('items2', $event)">
-                            <smooth-dnd-draggable *ngFor="let question of templateOptions.questionTemplates;">
-                                <div class="draggable-item">
-                                    {{question.name}}
-                                </div>
-                            </smooth-dnd-draggable>
-                        </smooth-dnd-container>
-                    </div> -->
-                    <!-- <div dnd-sortable-container [sortableData]="templateOptions.questionTemplates" [dropZones]="['container-dropZone']">
-                        <div *ngFor="let question of templateOptions.questionTemplates; let i = index" dnd-sortable [sortableIndex]="i" [dragEnabled]="false">
-                            <div class="d-panel-sortable" dnd-sortable-container [sortableData]="questionTemplates" [dropZones]="[question.dropZone]">
-                                <div *ngFor="let control of templateOptions.questionTemplates; let x = index">
-                                    <div *ngIf="i == x" class="d--repeat-allow-question-wrapper" (dragend)="dragEndQuestionTemplate($event, control)" (onDropSuccess)="deleteDragQuestion($event)"
-                                        dnd-sortable [sortableIndex]="x" [dragEnabled]="true" [dragData]="control">
-                                        <div class="d--repeat-allow-question">
-                                            <div class="repeat-block_1">
-                                                <p class="icon fa {{control.icon}}" href="#"></p>
-                                            </div>
-                                            <div class="repeat-block_2">
-                                                <div id="outer">
-                                                    <div id="inner">
-                                                        <p class="d--mainText">{{control.name}}</p>
-                                                        <p class="d--descriptionText">{{control.description}}.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
                 </p-accordionTab>
                 <p-accordionTab header="Advanced Question" [selected]="false">
-                    <!-- <button (click)="changeData()">change form data</button> -->
                     <div *ngIf="isFormValid">
-                        <!-- {{isFormValid | json}} -->
                     </div>
                 </p-accordionTab>
                 <p-accordionTab header="Additional Controls" [selected]="true">
-                    <!-- <pre>{{templateOptions.questionTemplates | json}}</pre> -->
                 </p-accordionTab>
                 <p-accordionTab header="Another Controls">
-                    <!-- <pre>{{survey | json}}</pre> -->
                 </p-accordionTab>
             </p-accordion>
         </div>
     </div>
-
     <div *ngIf="!isPageBuilder" id="d-builder-widgets-rolled">
         <div class="rolled-wrapper">
             <p>Toolbox</p>
         </div>
     </div>
-
-
     <div class="d-builder-body" [ngClass]='{"d-builder-body-changed": !isPageBuilder}'>
         <form-builder [(survey)]="survey" *ngIf="page && templateOptions && pagingList" [isUpdateSurvey]="surveyId" [isPageBuilder]="isPageBuilder" [pagingList]="pagingList" [page]="page"
             (formState)="checkstate($event)" [templateOptions]="templateOptions" [(numericPageFrom)]="startNumericPageFrom"></form-builder>
     </div>
-
 </div>
-
-<!-- <div class="d-notification-wrapper">
-    <div class="d-notification"></div>
-</div> -->

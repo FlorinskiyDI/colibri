@@ -29,8 +29,6 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
     @Input() pageId: any;
     @Input() isSingleControl: boolean;
 
-    // @Output() removeQuestionId = new EventEmitter<string>();
-
     isChangeRow = true;
     lengthRows = 0;
     lengthItems = 0;
@@ -43,19 +41,15 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
         private questionTransferService: QuestionTransferService,
     ) { }
 
-
     ngOnInit() { }
-
 
     ngOnDestroy() {
         this.sub.unsubscribe();
     }
 
-
     ngAfterContentChecked() {
         this.cdr.detectChanges();
     }
-
 
     ngAfterViewInit() {
         this.sub = this.rows.changes.subscribe((resp: any) => {
@@ -70,7 +64,6 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
         });
     }
 
-
     addItem(mass: any[], questionId: string) {
 
         const optionId = GUID.getNewGUIDString();
@@ -82,10 +75,8 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
         this.lengthItems = mass.length;
         mass.push(item);
         this.isChangeRow = false;
-
         this.question.state = this.question.state !== ControStates.created ? ControStates.updated : ControStates.created;
     }
-
 
     deleteItem(index: any, mass: ControlOptionModel[], itemId: string, questionId: string) {
         if (mass.length > 1) {
@@ -98,7 +89,6 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
             this.question.state = this.question.state !== ControStates.created ? ControStates.updated : ControStates.created;
         }
     }
-
 
     addCol(mass: any[], questionId: string) {
         const colId = GUID.getNewGUIDString();
@@ -114,7 +104,6 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
         this.question.state = this.question.state !== ControStates.created ? ControStates.updated : ControStates.created;
     }
 
-
     deleteCol(index: any, question: any, colId: string) {
         if (question.grid.cols.length > 1) {
             const colsList = this.formPage.controls[this.pageId].get(question.id).get('cols') as FormGroup;
@@ -122,16 +111,12 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
             question.grid.cols.splice(index, 1);
             this.lengthItems = question.grid.cols.length;
             this.isChangeRow = false;
-
             this.question.state = this.question.state !== ControStates.created ? ControStates.updated : ControStates.created;
-
         }
     }
 
-
     addRow(mass: any[], questionId: string) {
         const rowId = GUID.getNewGUIDString();
-
         const rowsList = this.formPage.controls[this.pageId].get(questionId).get('rows') as FormGroup;
         rowsList.addControl(rowId, this.fb.group({
             'name': new FormControl('Some value...', Validators.required)
@@ -144,7 +129,6 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
         this.question.state = this.question.state !== ControStates.created ? ControStates.updated : ControStates.created;
 
     }
-
 
     deleteRow(index: any, question: any, rowId: string) {
         if (question.grid.rows.length > 1) {
@@ -159,9 +143,7 @@ export class QuestionFormBuilderComponent implements AfterContentChecked, OnDest
         }
     }
 
-
     removeQuestion(question: any) {
         this.questionTransferService.setDeleteDragQuestion(question);
-        // console.log(id);
     }
 }

@@ -1,8 +1,4 @@
 
-// .smooth-dnd-container {
-//     min-height: 100px;
-//     border: 1px dashed red;
-// }
 .flex-container {
     padding: 0;
     margin: 0;
@@ -15,21 +11,18 @@
     width: 100%;
   }
   .flex-item {
-    // background: tomato;
     padding: 5px;
     width: 200px;
     height: 150px;
     margin: 10px;
     line-height: 150px;
     color: silver;
-    // font-weight: bold;
     font-size: 22px;
     text-align: center;
   }
 .d-drag-conteiner {
     display: block;
     background-color: #fdf4bf;
-    // height: 100px;
     border: 1px dashed #4d6082;
     margin: 6px;
     cursor: default;
@@ -58,13 +51,11 @@
 
 #d-builder-option{
     background-color: #CFD6E5;
-
     position: absolute;
     height: calc(100%); 
     width: calc(20% - 5px); // 10px = margin-left + margin-rignt
     right: 0px;
     overflow: auto;
-    // padding: 10px;
     border: 1px solid #8694B5;
 
     .d-builder-option-header{
@@ -81,6 +72,7 @@
             margin: 0px;
         }
     }
+
     .d-action-buttons {
         background-color: #CFD6E5;
         height: 32px;
@@ -105,55 +97,36 @@
     }
 }
 
-
 .body-question-builder{
-    // background-color: #626E83;
-    // background-color: #EEEEF2
     background-color: #5F6C81;
     min-height: 100%;
-    // padding-bottom: 60px;
     .header {
-        // height: 60px;
-        // width: 100%;
-
         width: 98%;
         min-height: 100px;
-        /* align-items: center; */
         margin: 0 auto;
         background-color: #fff;
-        //  background-color: silver;
     }
 
     .body {
         width: 98%;
         height: 100%;
-        // border: 1px solid #CCCEDB;
         align-items: center;
         padding-top: 30px;
         margin: 0 auto; 
         background-color: #fff;
 
         .question-list {
-            // background-color: green;
-
             .d-list-group {
                 padding-left: 0px;
             }
-
-            
-            .d-repeat-question{
-                
+    
+            .d-repeat-question{       
                 display: block;
                 position: relative;
                 border: 1px solid #cfd6e5;
-                // margin-bottom: 4px;
                 background-color: #fff;
 
-                // margin: 6px;
-
-
                 &:hover {
-                    // background-color: #FAFAFA;
                 }
             
                 .d-question-header {
@@ -174,26 +147,18 @@
                     }
                 }
 
-                
-
-
                 .d-question-wrapp {
                     display: flex;
                 }
                 .d-item-left-section {
-                    // min-height: calc( 100% - 1px );
                     width: 8%;
                     border-right: 1px solid #cfd6e5;
-                    // border-bottom: 1px solid #CCCEDB;
-                    // height: calc(100% - 1px);
                     background-color: #FAFAFA;
                     position: relative;
                     min-height: 30px;
 
                     .d-item-opt-controls{
                         margin: 0;
-                        
-                        // background: yellow;
                         position: absolute;
                         top: 50px;
                         left: 50%;
@@ -208,21 +173,12 @@
                         }
                         input[type=radio] {
                             bottom: 2px;
-                        }
-                        
+                        }       
                     }
                 }
-
                 .d-item-right-section{
                     width: 92%;
-                    // position: absolute;
-                    // width: 95px;
-                    // right: 0px;
-                    // background-color: #fff;
                 }
-
-
-
                 .d-btn-option {
                     background-color: #606D82;
                     border: 1px solid #c5ccda;
@@ -230,7 +186,6 @@
                     padding: 6px 8px;
                     border-radius: 3px;
                     font-size: 10px;
-                    // cursor: pointer;
                     margin: 5px;
                 }
             }
@@ -240,25 +195,19 @@
                 background-color: #CCCEDB;
             }
             .d-edit-repeat-question{
-
                 border: 1px solid #4D6082;
 
                 .d-item-left-section {
                     background-color: #C5CCDA;
                     border-right: 1px solid #a2acbf;
-                    // color: #fff;
                 }
 
                 .d-item-right-section{
                     background-color: #CFD6E5;
                 }
             }
-
         }
     }
-
-
-
 
     .dnd-sortable-drag{
         border: 2px dotted green;
@@ -296,31 +245,18 @@
                     font-size: 12px;
                     font-weight: bold;
                 }         
-               
             }
             .d-setting-item-value{
                 width: 100%;
-                // input{   
-                //     height: 23px;
-                //     width: 40%;
-                //     font-size: 12px;
-                //     border: 1px solid #7A7A7A;
-                //     padding: 5px;
-                //     text-overflow: ellipsis;
-                //     overflow: hidden;
-                //     color: #000;    
-                // }
                 #IdisShowDescription, #IdisShowProcessCompleted, .d-radio-input {
                     margin: 3px 8px 3px 5px;
                 }
                 .d-checkbox-input{
                     vertical-align: top;
-                    // margin-top: 6px;
                 }
 
                 .d-radio-input{
                     vertical-align: top;
-                    // margin-top: 6px;
                 }
 
                 label {
@@ -332,9 +268,7 @@
                     border: 1px solid #f5f5f5;
                     background-color: #eeeeee;
                     width: 100%;
-                    // max-width: 100%;
                     font-size: 13px;
-                    // border: 0px solid #7A7A7A;
                     padding: 5px;
                     text-overflow: ellipsis;
                     overflow: hidden;
@@ -358,17 +292,14 @@
 
             .d-setting-item-value-title{
                 width: 100%;
-
-            
+ 
                 .d-mane-input{   
                     border: 1px solid #f5f5f5;
                     background-color: #f5f5f5;
                     padding: 3px;
                     margin-bottom: 10px;
-                    // height: 23px;
                     width: inherit;
                     font-size: 22px;
-                    // border: 0px solid #7A7A7A;
                     padding: 5px;
                     text-overflow: ellipsis;
                     overflow: hidden;
@@ -388,10 +319,3 @@
         }
     }
 }
-
-
-
-// background-color: #E7EEF7;
-// background-image: url(../wwwroot/assets/images/grey-stripe-bg.png);
-// background-repeat: repeat;
-// background-position: left top;

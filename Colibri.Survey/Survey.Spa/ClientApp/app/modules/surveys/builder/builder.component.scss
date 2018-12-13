@@ -1,12 +1,9 @@
 
 #d-builder-wrapper{
     background-color: #324464;
-    // border: 1px solid silver;
-    // padding: 5px;
     height: 100%;
     width: 100%;
     outline: none !important;
-    // margin-bottom: 24px;
 }
 
 .d-notification-wrapper {
@@ -18,7 +15,6 @@
     width: 100%;
     height: 32px;
     background-color: #ca5100;
-   
 }
 
 #d-builder-header {
@@ -30,7 +26,6 @@
         left: 0px;
         width: 60%;
         height: 32px;
-        // background-color: #d6dbe9;
 
         .d-buttons-operation {
             display: flex;
@@ -58,7 +53,6 @@
                     color: #324464;
                     margin: 0px 3px 0px 3px;
                     &:hover {
-
                     }
                 }
                 i {
@@ -69,7 +63,6 @@
             }
             .d-disabled-button {
                 cursor: not-allowed;
-                // background-color: red;
                 &:hover {
                     border: 1px solid #cccedb;
                     background-color: #cccedb;
@@ -82,10 +75,8 @@
                 p {
                     font-size: 12px;
                     color: #6d6d70;
-                    margin: 0px 3px 0px 3px;
-                    
+                    margin: 0px 3px 0px 3px;           
                 }
-
             }
         }
     }
@@ -95,14 +86,10 @@
         right: 0px;
         width: 40%;
         height: inherit;
-        // background-color: green;
 
         .d-buttons-operation {
-
             display: flex;
-            // width: 34px;
             height: 28px;
-            // background-color: #3A8F35;
 
             i{
                 color: #fff;
@@ -112,8 +99,6 @@
             }
 
             .d-save-button {
-                // position: absolute;
-                // right: 5px;
                 flex-direction: row;
                 outline: none;
                 cursor: pointer;
@@ -129,17 +114,6 @@
                 font-size: 14px;
                 right: 5px;
                 position: absolute;
-                // &:hover {
-                //     background-color: #f6b94d;
-                //     border: 1px solid #ff9900;
-                //     .d-action-text{
-
-                //         color: #fff;
-
-                //     }
-                // }
-
-
                  &:hover {
                     background-color: #106198;
                     border: 1px solid #0d4f7a;
@@ -183,9 +157,6 @@
                 }
             }
 
-            
-
-
             .d-envalid-form-button {
                 flex-direction: row;
                 outline: none;
@@ -199,8 +170,7 @@
                 background-color: #bb4242;
                 border: 1px solid #bb4242;
                 right: 40px;
-                position: absolute;
-            
+                position: absolute;     
                 font-size: 14px;
 
                 &:hover {
@@ -221,13 +191,10 @@
             }      
         }
     }
-
-
 }
 
 
 #d-builder-widgets-rolled{
-    // margin:1em;
     position:relative;
     padding-left:2em; /* line-height of .wrapper div:first-child span */
     background:#fed;
@@ -269,7 +236,6 @@
     }
 }
 
-
 #d-builder-widgets{
     background-color: white;
     position: absolute;
@@ -279,7 +245,6 @@
     padding: 0px;
     overflow: auto;
     border: 1px solid #8694B5;
-
         .d-builder-widgets-header{
             height: 21px;
             line-height: 21px;
@@ -293,7 +258,6 @@
                 margin: 0px;
             }
         }
-
         .d-builder-widgets-body{
             padding: 2px 2px 2px 2px;
         }
@@ -304,16 +268,10 @@
         &:hover {
             background-color: #FAFAFA;
         }
-
         .d--repeat-allow-question{
             height: 52px;
-            // border: 1px solid silver;
             margin-bottom: 1px;
             display: flex;
-
-
-
-
             .repeat-block_1 {
                 text-align: center;
                 width: 40px;
@@ -326,7 +284,6 @@
                     font-size: 15px;
                     color: #000;
                 }
-
             }
             .repeat-block_2 {
                 font-size: 8px;
@@ -369,13 +326,9 @@
                 h4 {
                     font-size: 8px;
                 }
-            }
-
-
-           
+            }   
         }
     }
-
 
     .ui-accordion .ui-accordion-content{
         padding: 0px;
@@ -392,31 +345,19 @@
             padding: 2px 0px 2px 0px;
         }     
     }
-
 }
 
-
-
-
-
-
-
 .d-builder-body{
-    // background-color: #f0f0e3;
     position: absolute;
     margin: 5px 5px 5px 0px;
     height: calc(100% - 10px); // 10px = margin-top + margin-bottom
     width: calc(80% - 5px); // 10px = margin-left + margin-rignt
     left: 20%;
-    // overflow: auto;
-    // border: 1px solid #8694B5;
 
     .d-builder-body-header {
         height: 21px; // 21
         position: absolute;
         width: 80%;
-        // background-color: green;
-        // border-bottom: 1px solid #5B7199;
     }
 
     .d-builder-body-content{
@@ -454,10 +395,6 @@
 .dragQuestoinType{
     background-color: #FFF29D;
    
-    
-    .d--repeat-allow-question{
-    }
-    // cursor: move;
     .repeat-block_1{
         border-top: 1px solid #e5c365;
         border-left: 1px solid #e5c365;
@@ -472,4 +409,3 @@
 }
 
 .d--repeat-allow-question { cursor: grab; }
-// .d--repeat-allow-question:active { cursor: grabbing; }

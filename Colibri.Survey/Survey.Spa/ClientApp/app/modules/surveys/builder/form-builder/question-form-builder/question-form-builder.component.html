@@ -2,8 +2,6 @@
     <div class="d-cover"></div>
     <div class="form-viewr-controls">
         <div>
-            <!-- {{question.order | json}} -->
-            <!-- <pre>{{isSingleControl}}</pre> -->
             <label [attr.for]="question.id">{{question.text}}
                 <label *ngIf="question.required" style="color:red">*</label>
             </label>
@@ -13,8 +11,6 @@
             <div *ngIf="!!question.name">
                 {{question.name}}
             </div>
-
-
             <div [ngSwitch]="question.controlType">
                 <div *ngSwitchCase="'Textbox'">
                     <div class="d-control-wrap">
@@ -25,8 +21,6 @@
                         <input class="d-input-other" type="text">
                     </div>
                 </div>
-
-
                 <div *ngSwitchCase="'Textarea'">
                     <div class="d-control-wrap">
                         <textarea class="d-textarea-control" rows="5" [disabled]="true"></textarea>
@@ -36,8 +30,6 @@
                         <input class="d-input-other" type="text">
                     </div>
                 </div>
-
-
                 <div *ngSwitchCase="'Dropdown'">
                     <div class="d-control-wrap">
                         <p-dropdown [options]="question.options" optionLabel="value" [style]="{'width':'50%', 'font-size':'12px', 'border': '1px solid #a9a9a9'}">
@@ -48,8 +40,6 @@
                         <input class="d-input-other" type="text">
                     </div>
                 </div>
-
-
                 <div *ngSwitchCase="'Radio'">
                     <div style="margin-bottom: 10px" class="form-check" *ngFor="let opt of question.options">
                         <input style="margin: 0px; vertical-align: middle;" type="radio" id="{{opt.id}}">
@@ -62,8 +52,6 @@
                         <input class="d-input-other" type="text">
                     </div>
                 </div>
-
-
                 <div *ngSwitchCase="'Checkbox'">
                     <div style="margin-bottom: 10px" class="form-check" *ngFor="let opt of question.options">
                         <input style="margin: 0px; vertical-align: middle;" type="checkbox" id="{{opt.id}}">
@@ -76,8 +64,6 @@
                         <input class="d-input-other" type="text">
                     </div>
                 </div>
-
-
                 <div *ngSwitchCase="'GridRadio'">
                     <div>
                         <div class="hscroll">
@@ -113,29 +99,18 @@
         </div>
     </div>
 </div>
-
-
 <div [formGroup]="formPage" *ngIf="isEditState" class="d-question-wrapper ">
     <div class="form-builder-controls">
-
         <div class="d-action-panel">
-
             <button class="d-action-del" [disabled]="isSingleControl" type="button" [attr.title]="isSingleControl ? 'Can`t remove the last Question' : 'Remove Question'" (click)="removeQuestion(question)">
                     <i class="fa fa-times"></i>
             </button>
-
-            <!-- <button class="d-action-del" type="button" title="Remove Question" (click)="removeQuestion(question.id)">
-                    <i class="fa fa-times"></i>
-            </button> -->
         </div>
-
-
         <div *ngIf="!!question.name">
             {{question.name}}
         </div>
         <div [formGroupName]="pageId" [ngSwitch]="question.controlType">
             <div *ngSwitchCase="'Textbox'" [formGroupName]="question.id">
-
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
                         <p class="d-label-text">Question text:</p>
@@ -162,8 +137,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div *ngSwitchCase="'Textarea'" [formGroupName]="question.id">
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
@@ -191,8 +164,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div *ngSwitchCase="'Dropdown'" [formGroupName]="question.id">
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
@@ -201,7 +172,6 @@
                     <div class="d-item-content">
                         <input autofocus class="d-input-textbox" [type]="text" [formControlName]="'name'" (keyup)="question.text = $event.target.value">
                     </div>
-
                 </div>
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
@@ -234,8 +204,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div *ngSwitchCase="'Radio'" [formGroupName]="question.id">
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
@@ -263,9 +231,7 @@
                                 <i class="fa fa-circle-o"></i>
                             </button>
                             <input autofocus #inputCol class="d-input-textbox" [type]="text" [formControlName]="'name'" (keyup)="item.value = $event.target.value">
-                            <!-- <button *ngIf="question.options.length > 1" (click)="deleteItem(i, question.options, item.id, question.id)" type="button">x</button> -->
                             <button *ngIf="question.options.length > 1" class="d-delete-item-btn d-radio-delete-item-btn" (click)="deleteItem(i, question.options, item.id, question.id)" type="button">
-                                    <!-- <i _ngcontent-c11="" class="fa fa-times"></i> -->
                                     <span class="d-delete-text">x</span>
                             </button>
                         </div>
@@ -273,7 +239,6 @@
                 </div>
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
-
                     </div>
                     <div class="d-item-content">
                         <div class="d-repeat-item">
@@ -285,8 +250,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div *ngSwitchCase="'Checkbox'" [formGroupName]="question.id">
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
@@ -314,9 +277,7 @@
                                 <i class="fa fa-square-o"></i>
                             </button>
                             <input autofocus #inputCol class="d-input-textbox"  [type]="text" [formControlName]="'name'" (keyup)="item.value = $event.target.value">
-                            <!-- <button *ngIf="question.options.length > 1" (click)="deleteItem(i, question.options, item.id, question.id)" type="button">x</button> -->
                             <button *ngIf="question.options.length > 1" class="d-delete-item-btn d-check-delete-item-btn" (click)="deleteItem(i, question.options, item.id, question.id)" type="button">
-                                    <!-- <i _ngcontent-c11="" class="fa fa-times"></i> -->
                                     <span class="d-delete-text">x</span>
                             </button>
                         </div>
@@ -335,8 +296,6 @@
                     </div>
                 </div>
             </div>
-
-
             <div *ngSwitchCase="'GridRadio'" [formGroupName]="question.id">
                 <div class="d-item-wrapper">
                     <div class="d-item-label">
@@ -355,8 +314,6 @@
                     </div>
                 </div>
                 <br>
-
-
                 <div [formGroupName]="'rows'">
                     <div class="d-item-wrapper" *ngFor="let row of question.grid.rows; let i = index; last as isLast;">
                         <div class="d-item-label">
@@ -366,7 +323,6 @@
                             <div class="d-repeat-item">
                                 <input autofocus calass="d-check-input" #inputRow class="d-input-textbox" [formControlName]="'name'" [type]="text" (keyup)="row.value = $event.target.value">
                                 <button *ngIf="question.grid.rows.length > 1" class="d-delete-item-btn d-grid-delete-item-btn" (click)="deleteRow(i, question, row.id)" type="button">
-                                        <!-- <i _ngcontent-c11="" class="fa fa-times"></i> -->
                                         <span class="d-delete-text">x</span>
                                 </button>
                             </div>
@@ -382,8 +338,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <br>
                 <div [formGroupName]="'cols'">
                     <div class="d-item-wrapper" *ngFor="let col of question.grid.cols; let i = index;">
@@ -393,9 +347,7 @@
                         <div [formGroupName]="col.id" class="d-item-content">
                             <div class="d-repeat-item">
                                 <input autofocus #inputCol class="d-input-textbox" [type]="text" [formControlName]="'name'" (keyup)="col.value = $event.target.value">
-                                <!-- <button *ngIf="question.grid.cols.length > 1" (click)="deleteCol(i, question, col.id)" type="button">x</button> -->
                                 <button *ngIf="question.grid.cols.length > 1" class="d-delete-item-btn d-grid-delete-item-btn" (click)="deleteCol(i, question, col.id)" type="button">
-                                        <!-- <i _ngcontent-c11="" class="fa fa-times"></i> -->
                                         <span class="d-delete-text">x</span>
                                 </button>
                             </div>
