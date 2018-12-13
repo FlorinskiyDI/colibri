@@ -38,260 +38,176 @@ namespace Survey.ApplicationLayer.Services
         {
             using (var uow = UowProvider.CreateUnitOfWork())
             {
-                var repositorySurvey = uow.GetRepository<SurveySections, Guid>();
                 var repositoryPage = uow.GetRepository<Pages, Guid>();
                 var repositoryQuestion = uow.GetRepository<Questions, Guid>();
                 var repositoryInputType = uow.GetRepository<InputTypes, Guid>();
 
-
-                try
-                {
-                    var questionList = repositorySurvey.Query(p => p.Id == surveyId)
-                  .Join(repositoryPage.GetAll(),
-                      survey => survey.Id,
-                      pages => pages.SurveyId,
-                      (survey, page) => new { survey, page })
-
-                  .Join(repositoryQuestion.GetAll(),
-                      surveyPageEntry => surveyPageEntry.page.Id,
-                      questions => questions.PageId,
-                      (surveyPageEntry, question) => new { surveyPageEntry, question })
-
-                  .Join(repositoryInputType.GetAll(),
-                      typeNeatCombeEntry => typeNeatCombeEntry.question.InputTypesId,
-                      inputType => inputType.Id,
-                      (nestedComboEntity, inputType) => new ColumModel()
-                      {
-                          Id = nestedComboEntity.question.Id,
-                          Name = nestedComboEntity.question.Name,
-                          Type = inputType.Name,
-                          OrderNo = nestedComboEntity.question.OrderNo,
-                          ParentId = nestedComboEntity.question.ParentId,
-                          PageOrderNo = nestedComboEntity.surveyPageEntry.page.OrderNo,
-                          AdditionalAnswer = IsExcistAdditionalOptionChoice(nestedComboEntity.question.OptionGroupId).Result
-                      })
-                  .OrderBy(p => p.PageOrderNo).ThenBy(p => p.OrderNo).ToList();
-
-
-
-
-
-                    //var result = questionList
-                    //    .GroupBy(u => u.ParentId == null)
-                    //    .Select(grp => grp.ToList()).ToList();
-
-
-                    var result = questionList
-                        .GroupBy(u => u.ParentId == null).ToList();
-
-                    List<ColumModel> group = new List<ColumModel>();
-                    if (result.Count() > 0)
+                var questions = repositoryPage.Query(x => x.SurveyId == surveyId).AsQueryable()
+                .Join(repositoryQuestion.GetAll().AsQueryable(),
+                    page => page.Id,
+                    question => question.PageId,
+                    (page, question) => new { page, question })
+                .Join(repositoryInputType.GetAll().AsQueryable(),
+                    p_q => p_q.question.InputTypesId,
+                    inputType => inputType.Id,
+                    (p_q, inputType) => new ColumModel()
                     {
-                        group = result.Single(g => g.Key == true).ToList();
-                        //var res = result.FindAll().Key(true);
-                        foreach (var question in group)
-                        {
-                            if (question.Type == QuestionTypes.GridRadio.ToString())
-                            {
-                                question.Children = result.Single(g => g.Key == false).Where(p => p.ParentId == question.Id).Select(c => c.Name).ToList<string>();
-                            }
-                        }
-                    }
-                    return group;
+                        Id = p_q.question.Id,
+                        Name = p_q.question.Name,
+                        Type = inputType.Name,
+                        OrderNo = p_q.question.OrderNo,
+                        ParentId = p_q.question.ParentId,
+                        PageOrderNo = p_q.page.OrderNo,
+                        AdditionalAnswer = IsHaveAdditionalVariable(p_q.question.OptionGroupId).Result
+                    })
+                .OrderBy(p => p.PageOrderNo).ThenBy(p => p.OrderNo)
+                .GroupBy(u => u.ParentId == null).ToList();
 
-                }
-                catch (Exception ex)
+                List<ColumModel> clearQuestions = new List<ColumModel>();
+                if (questions.Count() > 0)
                 {
-                    var catc = ex;
-                    throw;
+                    clearQuestions = questions.Single(g => g.Key == true).ToList();
+                    var rowQuestions = questions.Single(g => g.Key == false).ToList();
+
+                    foreach (var item in rowQuestions)
+                    {
+                        var clearQuestoin = clearQuestions.Where(x => x.Id == item.ParentId).SingleOrDefault();
+                        clearQuestoin.Children.Add(item.Name);
+                    }
                 }
-
+                return clearQuestions;
             }
-
         }
 
 
-        public async Task<bool> IsExcistAdditionalOptionChoice(Guid? optionGroupId)
+        public async Task<bool> IsHaveAdditionalVariable(Guid? optionGroupId)
         {
             var optionChoices = await optionChoiceService.GetListByOptionGroupId(optionGroupId, true);
             var item = optionChoices.Where(x => x.IsAdditionalChoise == true).SingleOrDefault();
-            if (item != null)
-            {
-                return true;
-            }
-            return false;
+            return item == null ? false : true;
         }
 
 
-
-
-        public List<TableReportViewModel> GetQuesionListBySurveyId(Guid surveyId)
+        public List<TableReportViewModel> GetAnswersBySurveyId(Guid id)
         {
             using (var uow = UowProvider.CreateUnitOfWork())
             {
-                var repositoryRespondent = uow.GetRepository<SurveySectoinRespondents, Guid>();
-                var repositorySurvey = uow.GetRepository<SurveySections, Guid>();
+                var repositoryS_R = uow.GetRepository<SurveySectoinRespondents, Guid>();
+                var repositoryRespondent = uow.GetRepository<Respondents, Guid>();
                 var repositoryPage = uow.GetRepository<Pages, Guid>();
                 var repositoryQuestion = uow.GetRepository<Questions, Guid>();
                 var repositoryInputType = uow.GetRepository<InputTypes, Guid>();
 
-                var answerList = repositoryRespondent.GetAll()
+                var answers = repositoryS_R.Query(x => x.SurveySectionId == id).AsQueryable()
 
+                .Join(repositoryRespondent.GetAll().AsQueryable(),
+                    d => d.RespondentId,
+                    respondent => respondent.Id,
+                    (SS_Respondent, respondent) => new { SS_Respondent, respondent })
 
-                    .Join(repositorySurvey.Query(p => p.Id == surveyId),
-                        surveyResp => surveyResp.SurveySectionId,
-                        survey => survey.Id,
-                        (survResp, surv) => new { survResp, surv })
+                .Join(repositoryPage.GetAll().AsQueryable(),
+                    x => x.SS_Respondent.SurveySectionId,
+                    page => page.SurveyId,
+                    (x, page) => new { x, page })
 
+                .Join(repositoryQuestion.GetAll().AsQueryable(),
+                    y => y.page.Id,
+                    question => question.PageId,
+                    (y, question) => new { y, question })
 
-                    .Join(repositoryPage.GetAll(),
-                        combinedEntry => combinedEntry.surv.Id,
-                        pages => pages.SurveyId,
-                        (combeEntry, page) => new { combeEntry, page })
-
-
-                    .Join(repositoryQuestion.GetAll(),
-                        seedCombinedEntry => seedCombinedEntry.page.Id,
-                        questions => questions.PageId,
-                        (neatCombeEntry, question) => new { neatCombeEntry, question })
-
-
-                    .Join(repositoryInputType.GetAll(),
-                        typeNeatCombeEntry => typeNeatCombeEntry.question.InputTypesId,
-                        inputType => inputType.Id,
-                        (typeNeatCombeEntry, inputType) => new TableReportViewModel()
-                        {
-                            GroupId = typeNeatCombeEntry.question.OptionGroupId,
-                            InputTypeName = inputType.Name,
-                            QuestionId = typeNeatCombeEntry.question.Id,
-                            ParentQuestionId = typeNeatCombeEntry.question.ParentId,
-                            QuestionName = typeNeatCombeEntry.question.Name,
-                            RespondentId = typeNeatCombeEntry.neatCombeEntry.combeEntry.survResp.RespondentId,
-                            OrderNo = typeNeatCombeEntry.question.OrderNo,
-                            PageOrderNo = typeNeatCombeEntry.neatCombeEntry.page.OrderNo
-                        })
-                    .OrderBy(p => p.PageOrderNo).ThenBy(p => p.OrderNo).ToList();
-
-
-
-
-
-                if (answerList.Count > 0)
-                {
-                    var groupes = answerList.GroupBy(u => u.ParentQuestionId == null).ToArray();
-                    //.GroupBy(u => u.ParentQuestionId == null)
-                    var GroupAnswer = groupes.Single(g => g.Key == true).ToList();
-
-
-
-                    var groupedCustomerList = answerList
-                        .GroupBy(u => u.ParentQuestionId == null)
-                        .Select(grp => grp.ToList())
-                        .ToList();
-
-                    if (groupedCustomerList.Count > 1)
+                .Join(repositoryInputType.GetAll().AsQueryable(),
+                    b => b.question.InputTypesId,
+                    inputType => inputType.Id,
+                    (b, inputType) => new TableReportViewModel()
                     {
-                        _rowQuestions = groupes.Single(g => g.Key == false).ToList(); ;
-                    }
-                    return GetReport(GroupAnswer);
-                }
-                else
-                {
-                    return answerList;
-                }
+                        GroupId = b.question.OptionGroupId,
+                        DateCreated = b.y.x.respondent.DateCreated,
+                        InputTypeName = inputType.Name,
+                        QuestionId = b.question.Id,
+                        ParentQuestionId = b.question.ParentId,
+                        QuestionName = b.question.Name,
+                        RespondentId = b.y.x.respondent.Id,
+                        OrderNo = b.question.OrderNo,
+                        PageOrderNo = b.y.page.OrderNo
+                    })
+                .OrderBy(p => p.PageOrderNo).ThenBy(p => p.OrderNo).ToList();
 
+                if (answers.Count > 0)
+                {
+                    var answerGroups = answers.GroupBy(u => u.ParentQuestionId == null).ToList();
+                    var clearAnswer = answerGroups.Single(g => g.Key == true).ToList();
+
+                    if (answerGroups.Count > 1)
+                    {
+                        _rowQuestions = answerGroups.Single(g => g.Key == false).ToList(); ;
+                    }
+                    return AddAnswerToReport(clearAnswer);
+                }
+                return answers;
             }
         }
 
-        public List<TableReportViewModel> GetReport(List<TableReportViewModel> answersData)
+
+        public List<TableReportViewModel> AddAnswerToReport(List<TableReportViewModel> answersData)
         {
 
-            try
+            using (var uow = UowProvider.CreateUnitOfWork())
             {
-                if (answersData.Count > 0)
+                var repositoryAnswer = uow.GetRepository<Answers, Guid>();
+                var repositoryQuestion_Options = uow.GetRepository<QuestionOptions, Guid>();
+                var repositoryOptionChoice = uow.GetRepository<OptionChoises, Guid>();
+
+                foreach (var item in answersData)
                 {
-                    using (var uow = UowProvider.CreateUnitOfWork())
-                    {
-                        var repositoryRespondent = uow.GetRepository<Respondents, Guid>();
-                        var repositoryAnswer = uow.GetRepository<Answers, Guid>();
-                        var repositoryQuestion_Options = uow.GetRepository<QuestionOptions, Guid>();
-                        var repositoryOptionChoice = uow.GetRepository<OptionChoises, Guid>();
-                        var repositoryQuestion = uow.GetRepository<Questions, Guid>();
+                    List<AnswerModel> answerData = new List<AnswerModel>();
+                    answerData = repositoryAnswer.Query(x => x.RespondentId == item.RespondentId).AsQueryable()
 
-                        foreach (var item in answersData)
-                        {
-                            List<AnswerModel> answer = new List<AnswerModel>();
-                            answer = repositoryRespondent.Query(p => p.Id == item.RespondentId)
-                                .Join(repositoryAnswer.GetAll(),
-                                    surveyResp => surveyResp.Id,
-                                    answers => answers.RespondentId,
-                                    (survResp, answers) => new { survResp, answers })
-                                .Join(repositoryQuestion_Options.Query(p => p.QuestionId == item.QuestionId),
-                                    combinedEntry => combinedEntry.answers.QuestionOptionId,
-                                    question_option => question_option.Id,
-                                    (combeEntry, ques_opt) => new { combeEntry, ques_opt })
+                        .Join(repositoryQuestion_Options.Query(p => p.QuestionId == item.QuestionId).AsQueryable(),
+                            answer => answer.QuestionOptionId,
+                            question_option => question_option.Id,
+                            (answer, question_option) => new { answer, question_option })
 
-                                .Join(repositoryOptionChoice.GetAll(),
-                                    oCCombo => oCCombo.ques_opt.OptionChoiseId,
-                                    optionChoice => optionChoice.Id,
-                                    (oCCombo, optionChoice) => new { oCCombo, optionChoice }
-                                )
-                                .Join(repositoryQuestion.GetAll(),
-                                    combo => combo.oCCombo.ques_opt.QuestionId,
-                                    question => question.Id,
-                                    (combo, question) => new AnswerModel()
-                                    {
-                                        AnswerText = combo.oCCombo.combeEntry.answers.AnswerText,
-                                        IsAdditional = combo.optionChoice.IsAdditionalChoise,
-                                        OptionChoise = combo.optionChoice.Name
-                                    }
-                                )
-                                .ToList();
-                            item.Answer = GetAnswerByType(item, answer, item.QuestionId, item.RespondentId);
+                        .Join(repositoryOptionChoice.GetAll().AsQueryable(),
+                            x => x.question_option.OptionChoiseId,
+                            optionChoice => optionChoice.Id,
+                            (x, optionChoice) => new AnswerModel()
+                            {
+                                AnswerText = x.answer.AnswerText,
+                                IsAdditional = optionChoice.IsAdditionalChoise,
+                                OptionChoise = optionChoice.Name
+                            }
+                        ).ToList();
 
-                            var check = IsExcistAdditionalOptionChoice(item.GroupId).Result;
-                            //item.AdditionalAnswer = IsExcistAdditionalOptionChoice(item.GroupId).Result ? "NULL" : "";
-                            item.AdditionalAnswer = item.AdditionalAnswer.Count() > 0 ? item.AdditionalAnswer : (IsExcistAdditionalOptionChoice(item.GroupId).Result ? "--NOT SET--" : "");
-                        }
-                    }
+                    item.Answer = answerData.Count > 0 ? GetAnswerByType(item, answerData) : "--NULL--";
+
+                    //item.Answer = GetAnswerByType(item, answerData);
+                    item.AdditionalAnswer = item.AdditionalAnswer.Count() > 0 ? item.AdditionalAnswer : (IsHaveAdditionalVariable(item.GroupId).Result ? "--NOT SET--" : "");
                 }
-                var result = answersData
-                    .GroupBy(u => u.RespondentId)
-                    .Select(grp => grp.ToList())
-                    .ToList();
-                return answersData;
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            return answersData;
         }
 
 
-        protected object GetAnswerByType(TableReportViewModel answerModel, List<AnswerModel> answerList, Guid questionId, Guid respondentId)
+        protected object GetAnswerByType(TableReportViewModel answerModel, List<AnswerModel> answerList)
         {
             string answerONQuestion = "--NULL--";
             if (Enum.TryParse(answerModel.InputTypeName, out type))
             {
                 switch (type)
                 {
+
                     case QuestionTypes.Textbox:
                         {
-                            if (answerList.Count > 0)
-                            {
-                                answerONQuestion = answerList.FirstOrDefault().AnswerText;
-                            }
+                            answerONQuestion = answerList.FirstOrDefault().AnswerText;
                             break;
                         }
+
                     case QuestionTypes.Textarea:
                         {
-                            if (answerList.Count > 0)
-                            {
-                                answerONQuestion = answerList.FirstOrDefault().AnswerText;
-                            }
+                            answerONQuestion = answerList.FirstOrDefault().AnswerText;
                             break;
                         }
+
                     case QuestionTypes.Radio:
                         {
                             foreach (var item in answerList)
@@ -307,26 +223,24 @@ namespace Survey.ApplicationLayer.Services
                             }
                             break;
                         }
+
                     case QuestionTypes.Checkbox:
                         {
-                            if (answerList.Count > 0)
+                            answerONQuestion = "";
+                            foreach (var item in answerList)
                             {
-                                answerONQuestion = "";
-                                foreach (var item in answerList)
+                                if (item.IsAdditional)
                                 {
-                                    if (item.IsAdditional)
-                                    {
-                                        answerModel.AdditionalAnswer = item.AnswerText;
-                                    }
-                                    else
-                                    {
-                                        answerONQuestion = answerONQuestion + "," + item.OptionChoise;
-                                    }
-
+                                    answerModel.AdditionalAnswer = item.AnswerText;
+                                }
+                                else
+                                {
+                                    answerONQuestion = answerONQuestion + "," + item.OptionChoise;
                                 }
                             }
                             break;
                         }
+
                     case QuestionTypes.Dropdown:
                         {
                             foreach (var item in answerList)
@@ -342,31 +256,16 @@ namespace Survey.ApplicationLayer.Services
                             }
                             break;
                         }
+
                     case QuestionTypes.GridRadio:
                         {
-                            if (answerList.Count > 0)
-                            {
-                                answerModel.AdditionalAnswer = answerList.SingleOrDefault().AnswerText;
-                            }
+                            answerModel.AdditionalAnswer = answerList.SingleOrDefault().AnswerText;
 
-                            //if (item.IsAdditional)
-                            //{
-                            //    answerModel.AdditionalAnswer = item.AnswerText;
-                            //}
                             List<TableReportViewModel> tempList = new List<TableReportViewModel>();
-                            var rowQuestionList = _rowQuestions
-                                .Where(p => p.ParentQuestionId == questionId).Where(p => p.RespondentId == respondentId).ToList();
-
-                            //tempList.Add(rowQuestionList);
-                            var newanser = GetReport(rowQuestionList);
-                            return newanser;
-                            //break;
+                            var rowQuestionList = _rowQuestions.Where(p => p.ParentQuestionId == answerModel.QuestionId).Where(p => p.RespondentId == answerModel.RespondentId).ToList();
+                            return AddAnswerToReport(rowQuestionList);
                         }
                 }
-            }
-            else
-            {
-                var check = 5;
             }
             return answerONQuestion;
         }

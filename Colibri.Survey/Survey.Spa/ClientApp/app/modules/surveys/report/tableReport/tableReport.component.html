@@ -28,9 +28,12 @@
                             (sortFunction)="customSort1($event)" [customSort]="true">
                             <ng-template let-sale pTemplate="header">
                                 <tr>
-                                    <th class="border-right-none border-left-none"  rowspan="2" [ngStyle]="{width:'30px'}" pResizableColumn>
-                                       #
+                                    <th class="border-right-none border-left-none" rowspan="2" [ngStyle]="{width:'35px'}" pResizableColumn>
+                                        #
 
+                                    </th>
+                                    <th class="border-right-none border-left-none" rowspan="2" [ngStyle]="{width:'160px'}" pResizableColumn>
+                                        Date created
                                     </th>
                                     <ng-container *ngFor="let item of columOptions">
                                         <ng-container *ngIf="item.type == 'GridRadio'">
@@ -75,10 +78,11 @@
 
 
                             </ng-template>
-                            <ng-template *ngIf="answerList.length > 0" pTemplate="body" let-sale let-rowIndex="rowIndex">
+                            <ng-template *ngIf="answerList.length > 0" pTemplate="body" let-data let-rowIndex="rowIndex">
                                 <tr>
                                     <td>{{rowIndex + 1}}</td>
-                                    <ng-container *ngFor="let item of sale">
+                                    <td>{{data.dateCreated | date:'medium'}}</td>
+                                    <ng-container *ngFor="let item of data.dataList">
                                         <ng-container *ngIf="item.inputTypeName == 'GridRadio'">
                                             <td *ngFor="let sell of item.answer" [ngStyle]="{width:'200px'}" [attr.title]="sell.answer" class="ui-resizable-column">{{sell.answer}}</td>
                                             <td *ngIf="item.additionalAnswer.length > 0" [ngStyle]="{width:'200px'}" [attr.title]="item.answer" class="ui-resizable-column">{{item.additionalAnswer}}</td>

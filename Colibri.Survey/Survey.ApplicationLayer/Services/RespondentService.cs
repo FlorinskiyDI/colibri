@@ -28,7 +28,10 @@ namespace Survey.ApplicationLayer.Services
         public async Task<Guid> AddAsync()
         {
 
-            Respondents respondent = new Respondents();
+            Respondents respondent = new Respondents()
+            {
+                DateCreated = System.DateTime.Now
+            };
 
 
             using (var uow = UowProvider.CreateUnitOfWork())

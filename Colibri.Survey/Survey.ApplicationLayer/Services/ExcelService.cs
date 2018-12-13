@@ -27,7 +27,7 @@ namespace Survey.ApplicationLayer.Services
         public static DataTable ObjectListToDataTable(FileViewModel data)
         {
             DataTable dataTable = new DataTable();
-
+            data.HeaderOption.Insert(0, new ColumModel { AdditionalAnswer = false, Name = "Date Created", Type = QuestionTypes.Textbox.ToString() });
             var colCount = 0;
             for (int i = 0; i < data.HeaderOption.Count; i++)
             {
@@ -63,16 +63,17 @@ namespace Survey.ApplicationLayer.Services
             foreach (var groupAnswer in data.Answers)
             {
                 object[] values = new object[colCount];
-                int keyValue = 0;
-                for (int i = 0; i < groupAnswer.Count; i++)
+                values[0] = groupAnswer.DateCreated;
+                int keyValue = 1;
+                for (int i = 0; i < groupAnswer.DataList.Count; i++)
                 {
-                    var type = groupAnswer[i].InputTypeName;
+                    var type = groupAnswer.DataList[i].InputTypeName;
 
 
                     // grid answer
                     if (type == QuestionTypes.GridRadio.ToString())
                     {
-                        foreach (var child in groupAnswer[i].Answer as List<TableReportViewModel>)
+                        foreach (var child in groupAnswer.DataList[i].Answer as List<TableReportViewModel>)
                         {
                             var answerString = child.Answer as string;
                             values[keyValue] = String.IsNullOrEmpty(answerString) ? "NULL" : answerString;
@@ -88,12 +89,12 @@ namespace Survey.ApplicationLayer.Services
                     type == QuestionTypes.Checkbox.ToString() ||
                     type == QuestionTypes.Dropdown.ToString())
                     {
-                        values[keyValue] = groupAnswer[i].Answer;
+                        values[keyValue] = groupAnswer.DataList[i].Answer;
                         keyValue = keyValue + 1;
                     }
-                    if (!String.IsNullOrEmpty(groupAnswer[i].AdditionalAnswer))
+                    if (!String.IsNullOrEmpty(groupAnswer.DataList[i].AdditionalAnswer))
                     {
-                        values[keyValue] = groupAnswer[i].AdditionalAnswer;
+                        values[keyValue] = groupAnswer.DataList[i].AdditionalAnswer;
                         keyValue = keyValue + 1;
                     }
                 }
