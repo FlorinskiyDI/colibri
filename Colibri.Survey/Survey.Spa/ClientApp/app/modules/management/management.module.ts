@@ -10,9 +10,11 @@ import { NgModule } from '@angular/core';
         SharedModule
     ],
     declarations: [
+        // components
         ManagementComponent
     ],
-    providers: [ ]
+    providers: [
+    ]
 })
 
 export class ManagementModule { }

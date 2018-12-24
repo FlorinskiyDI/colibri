@@ -10,19 +10,19 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                loadChildren: 'modules/management/options/options.module#OptionsModule',
+                loadChildren: 'modules/management/containers/options/options.module#OptionsModule',
             },
             {
                 path: '',
-                loadChildren: 'modules/management/profile/profile.module#ProfileModule',
+                loadChildren: 'modules/management/containers/profile/profile.module#ProfileModule',
             },
             {
                 path: '',
-                loadChildren: 'modules/management/group-manage/group-manage.module#GroupManageModule',
+                loadChildren: 'modules/management/containers/group-manage/group-manage.module#GroupManageModule',
             },
             {
                 path: '',
-                loadChildren: 'modules/management/user-manage/user-manage.module#UserManageModule',
+                loadChildren: 'modules/management/containers/user-manage/user-manage.module#UserManageModule',
             },
         ]
     }

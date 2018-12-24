@@ -1,4 +1,4 @@
-import { NgModule, InjectionToken } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,7 +13,7 @@ import { RestangularModule, Restangular} from 'ngx-restangular';
 /* helpers */ import { Helpers } from 'shared/helpers/helpers';
 declare let window: any;
 
-export const RESTANGULAR_IDENTITYSERVER = new InjectionToken<any>('RestangularIdentityServer');
+// export const RESTANGULAR_IDENTITYSERVER = new InjectionToken<any>('RestangularIdentityServer');
 
 @NgModule({
     bootstrap: [AppComponent],

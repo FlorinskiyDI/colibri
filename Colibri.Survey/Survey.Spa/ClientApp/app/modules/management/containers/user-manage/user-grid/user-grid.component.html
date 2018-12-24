@@ -1,0 +1,111 @@
+<div class="clbr--page cmp--user-grid container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--page-title">
+                <div class="text">User management</div>
+                <div class="description">Shows user list in the system</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--block-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="clbr--block-options">
+                            <div class="input-group">
+                                <clbr-data-filter>
+                                </clbr-data-filter>
+                                <span class="input-group-addon">
+                                    <button class="btn btn-sm btn-default notification" (click)="dtUsers.reset()">
+                                        <i class="fa fa-refresh"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-default notification" (click)="dtUsers.exportCSV()">
+                                        <i class="fa fa-download"></i>
+                                    </button>
+                                    <p-multiSelect [options]="optionTbToggle.columns" [filter]="optionTbToggle.filter" [(ngModel)]="tbSelectedColumns" optionLabel="header"
+                                        selectedItemsLabel="{0} columns selected">
+                                    </p-multiSelect>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="clbr--ui-table clbr--ui-table-v1">
+                            
+                            <p-table #dtUsers
+                                selectionMode="single"
+                                [columns]="tbSelectedColumns"
+                                [value]="tbItems"
+                                [paginator]="true"
+                                [rows]="10"
+                                [rowsPerPageOptions]="[2,10,20]"
+                                [totalRecords]="tbTotalItemCount"
+                                [loading]="tbLoading"
+                                [lazy]="true"
+                                (onLazyLoad)="tb_loadItems($event)">
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns" [pSortableColumn]="'col.field'" [style.width.px]="col.width" class="border-left-none border-right-none">
+                                            {{col.header}}
+                                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                                        </th>
+                                        <th class="border-left-none border-right-none">Actions</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                    <tr [pSelectableRow]="rowData">
+                                        <td *ngFor="let col of columns" class="border-left-none border-right-none" [ngSwitch]="col.field">
+                                            <span *ngSwitchCase="'emailConfirmed'">
+                                                {{ rowData.emailConfirmed | userstatus: rowData.emailConfirmInvitationDate: rowData.emailConfirmTokenLifespan }}
+                                            </span>
+                                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                                        </td>
+                                        <td class="border-left-none border-right-none">
+                                            <button matTooltip="View details" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_viewDetails(rowData.id)">
+                                                <mat-icon class="filter-icon">person</mat-icon>
+                                            </button>
+                                            <button matTooltip="Delete user" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_delete(rowData.id)">
+                                                <mat-icon class="filter-icon">delete</mat-icon>
+                                            </button>
+                                            <button *ngIf="checkIsExpired(rowData.emailConfirmInvitationDate, rowData.emailConfirmTokenLifespan)" matTooltip="Send invite" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_invite(rowData.id)">
+                                                <mat-icon class="filter-icon">sync</mat-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>    
+</div>
+
+<user-dialog-details-cmp
+    [config]="dialogViewDetailsConfig"
+    (onChange)="dialogCreateOnChange($event)"
+    (onCancel)="dialogCreateOnCancel($event)"
+    (onHide)="dialogCreateOnHide($event)">
+</user-dialog-details-cmp>
+  
+<p-confirmDialog #cd header="Confirmation">
+    <p-footer>
+        <button class="btn btn-sm btn-default notification" (click)="cd.accept()">
+            <i class="fa fa-check"></i>Yes</button>
+        <button class="btn btn-sm btn-default notification" (click)="cd.reject()">
+            <i class="fa fa-remove"></i>No</button>
+    </p-footer>
+</p-confirmDialog>
+
+<p-growl styleClass="clbr--growl-icon-none" [life]="5000">
+</p-growl>
+    

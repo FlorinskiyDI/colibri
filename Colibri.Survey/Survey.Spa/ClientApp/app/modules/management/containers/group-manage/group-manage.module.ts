@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 
 /* module */ import { SharedModule } from 'shared/shared.module';
+// /* module */ import { ManagementSharedModule } from '../../management-shared.module';
 /* module */ import { GroupManageRoutingModule } from './group-manage.routes';
 /* component */ import { GroupManageComponent } from './group-manage.component';
 /* component */ import { GroupDataTreeComponent } from './group-data-tree/group-data-tree.component';
@@ -11,14 +12,17 @@ import { NgModule } from '@angular/core';
 /* component */ import { GroupDataComponent } from './group-data/group-data.component';
 /* component */ import { MemberGridComponent } from './member-grid/member-grid.component';
 /* component */ import { MemberDialogCreateComponent } from './member-dialog-create/member-dialog-create.component';
-
+// /* pipe */ import { UserStatusPipe } from '../../common/pipes/user-status.pipe';
+// /* service */ import { UserService } from '../../common/services/user.service';
 
 @NgModule({
     imports: [
-        GroupManageRoutingModule,
-        SharedModule
+        SharedModule,
+        // ManagementSharedModule,
+        GroupManageRoutingModule
     ],
     declarations: [
+        // components
         GroupDataComponent,
         GroupManageComponent,
         GroupDataTreeComponent,
@@ -27,9 +31,12 @@ import { NgModule } from '@angular/core';
         GroupViewComponent,
         GroupViewDetailComponent,
         MemberGridComponent,
-        MemberDialogCreateComponent
+        MemberDialogCreateComponent,
+        // pipes
+        // UserStatusPipe
     ],
     providers: [
+        // UserService
     ]
 })
 

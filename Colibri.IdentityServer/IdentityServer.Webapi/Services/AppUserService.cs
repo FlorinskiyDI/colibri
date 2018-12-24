@@ -3,6 +3,8 @@ using dataaccesscore.EFCore.Query;
 using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Dtos;
 using IdentityServer.Webapi.Dtos.Search;
+using IdentityServer.Webapi.Dtos.Views;
+using IdentityServer.Webapi.Repositories.Interfaces;
 using IdentityServer.Webapi.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -136,5 +138,22 @@ namespace IdentityServer.Webapi.Services
             return token;
         }
 
+        public async Task<UserFullDetailsViewModel> GetUserFullDetails(string userId)
+        {
+            try
+            {
+                using (var uow = _uowProvider.CreateUnitOfWork())
+                {
+                    var repository = uow.GetCustomRepository<IAppUserRepository>();
+                    var result = await repository.GetUserFullDetails(userId);
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
+        }
     }
 }

@@ -17,7 +17,8 @@ namespace IdentityServer.Webapi.Controllers
         private readonly IAppUserService _appUserService;
         public UsersController(
             IAppUserService appUserService
-        ) {
+        )
+        {
             _appUserService = appUserService;
         }
 
@@ -32,10 +33,19 @@ namespace IdentityServer.Webapi.Controllers
 
         // GET: api/users/1/invite
         [HttpGet("{id}/invite")]
-        public async Task<IActionResult> SendInvite([FromQuery] string id)
+        public async Task<IActionResult> SendInvite(string id)
         {
             //var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
             await _appUserService.SendInvitationByEmailConfirmationToken(id);
+            return Ok();
+        }
+
+        // GET: api/users/1
+        [HttpGet("{id}/full")]
+        public async Task<IActionResult> GetFull(string id)
+        {
+            //var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
+            await _appUserService.GetUserFullDetails(id);
             return Ok();
         }
 

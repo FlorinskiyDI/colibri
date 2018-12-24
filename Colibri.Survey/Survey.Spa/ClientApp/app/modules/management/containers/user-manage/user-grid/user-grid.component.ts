@@ -1,4 +1,4 @@
-import { Component, ViewChild , OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { TreeDragDropService } from 'primeng/components/common/api';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -6,6 +6,8 @@ import { MessageService } from 'primeng/components/common/messageservice';
 
 /* service-api */ import { UsersApiService } from 'shared/services/api/users.api.service';
 /* model-api */ import { SearchQueryApiModel, SearchQueryPage } from 'shared/models/entities/api/page-search-entry.api.model';
+/* service */ import { UserService } from '../../../common/services/user.service';
+/* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 
 @Component({
     selector: 'cmp-user-grid',
@@ -19,13 +21,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 })
 export class UserGridComponent implements OnInit {
     @ViewChild('dtUsers') dtUsers: any;
-    // // // output events
-    // // @Output() deleteItem = new EventEmitter<any>();
-    // // @Output() editItem = new EventEmitter<any>();
-    // // // input events
-    // // @Input() eventResetData: Observable<any>;
-    // // private subscriberResetData: any;
-
+    dialogViewDetailsConfig: DialogDataModel<any>;
     // table
     tbItems: any[] = [];
     tbCols: any[] = [];
@@ -45,6 +41,7 @@ export class UserGridComponent implements OnInit {
     constructor(
         private messageService: MessageService,
         private usersApiService: UsersApiService,
+        private userService: UserService
     ) {
         this.tbSelectedColumns = this.optionTbToggle.columns;
         this.tbLoading = true;
@@ -57,8 +54,8 @@ export class UserGridComponent implements OnInit {
         // this.subscriberResetData.unsubscribe();
     }
 
-    item_edit(id: string) {
-        // this.editItem.emit(groupId);
+    item_viewDetails(id: string) {
+        this.dialogViewDetailsConfig = new DialogDataModel(true, { userId: id });
     }
     item_delete(id: string) {
         // this.deleteItem.emit(groupId);
@@ -66,6 +63,7 @@ export class UserGridComponent implements OnInit {
     item_invite(id: string) {
         this.usersApiService.sendInvite(id).subscribe(
             (data: any) => {
+                this.dtUsers.reset();
                 this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Group was removed successfully' });
             }
         );
@@ -84,6 +82,14 @@ export class UserGridComponent implements OnInit {
                 : null
         } as SearchQueryApiModel;
         this._requestGetRootGroups(searchEntry);
+    }
+
+    public checkIsExpired(emailConfirmInvitationDate: any, emailConfirmTokenLifespan: any) {
+        if (emailConfirmInvitationDate && emailConfirmTokenLifespan) {
+            const result = this.userService.checkIsExpired(emailConfirmInvitationDate, emailConfirmTokenLifespan);
+            return result;
+        }
+        return false;
     }
 
     _requestGetRootGroups(searchEntry: SearchQueryApiModel) {
