@@ -45,8 +45,8 @@ namespace IdentityServer.Webapi.Controllers
         public async Task<IActionResult> GetFull(string id)
         {
             //var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
-            await _appUserService.GetUserFullDetails(id);
-            return Ok();
+            var result = await _appUserService.GetUserFullDetails(id);
+            return Ok(result);
         }
 
     }

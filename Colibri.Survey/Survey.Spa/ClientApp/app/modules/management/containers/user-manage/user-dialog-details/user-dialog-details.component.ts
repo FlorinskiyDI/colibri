@@ -34,6 +34,7 @@ export class UserDialogDetailsComponent {
     private componentInit(userId: any) {
         this.usersApiService.getFullInfo(userId).subscribe(
             (data: any) => {
+                debugger
                 console.log(data);
             }
         );
