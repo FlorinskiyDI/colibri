@@ -1,0 +1,22 @@
+<div class="cmp--layout-identity">
+
+    <div class="clbr--navbar">
+        <nav class="navbar navbar-default navbar-fixed-top clbr--navbar--block"
+            role="navigation">
+            <div class="container-fluid">
+                <div class="">
+                    <div class="navbar-header">
+                        <button mat-icon-button class="clbr--sidebar-btns" (click)="sidebarToggle($event)">
+                            <mat-icon aria-label="Example icon-button with a heart icon">menu</mat-icon>
+                        </button>
+                        <div class="navbar-brand">Identity Server</div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<cmp-sidebar [eventSidebarToggle]="eventSidebarToggle.asObservable()">
+
+</cmp-sidebar>

@@ -1,0 +1,51 @@
+<div class="cmp-sidebar">
+    <ng-sidebar-container>
+        <!-- sidebar -->
+        <ng-sidebar [(opened)]="_opened"
+            [mode]="_MODES[_modeNum]"
+            [keyClose]="_keyClose"
+            [position]="_POSITIONS[_positionNum]"
+            [dock]="_dock"
+            [dockedSize]="'0px'"
+            [autoCollapseHeight]="_autoCollapseHeight"
+            [autoCollapseWidth]="_autoCollapseWidth"
+            [closeOnClickOutside]="_closeOnClickOutside"
+            [closeOnClickBackdrop]="_closeOnClickBackdrop"
+            [showBackdrop]="_showBackdrop"
+            [animate]="_animate"
+            [trapFocus]="_trapFocus"
+            [autoFocus]="_autoFocus"
+            [sidebarClass]="'clbr--sidebar'"
+            [ariaLabel]="'My sidebar'"
+            (onOpenStart)="_onOpenStart()"
+            (onOpened)="_onOpened()"
+            (onCloseStart)="_onCloseStart()"
+            (onClosed)="_onClosed()"
+            (onTransitionEnd)="_onTransitionEnd()">
+            <div class="clbr--sidebar-block">
+                <ul class="clbr-ul-list">
+                    <li class="clbr-ul-list-item" routerLinkActive="active-route">
+                        <a [routerLink]="['/portal2']">
+                            <i class="bowtie-icon bowtie-build-queue-new"></i>
+                            <span>Survey portal</span>
+                        </a>
+                    </li>
+                    <li class="clbr-ul-list-item" routerLinkActive="active-route">
+                        <a [routerLink]="['/dashboard']">
+                            <i class="bowtie-icon bowtie-work-item"></i>
+                            <span>Survey Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="clbr-ul-list-item" routerLinkActive="active-route">
+                        <a [routerLink]="['/is']">
+                            <i class="bowtie-icon bowtie-azure-api-management"></i>
+                            <span>Identity Server</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </ng-sidebar>
+        <!-- End sidebar -->
+    </ng-sidebar-container>
+
+</div>

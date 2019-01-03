@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
 
 /* service */ import { OidcSecurityService } from 'core/auth/services/oidc.security.service';
 
@@ -24,7 +26,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
     userDataSubscription: Subscription;
     userData: any = {};
 
-    constructor(public oidcSecurityService: OidcSecurityService) {
+    constructor(
+        public oidcSecurityService: OidcSecurityService,
+        iconRegistry: MatIconRegistry,
+        sanitizer: DomSanitizer
+    ) {
+        iconRegistry.addSvgIcon(
+            'twotone-question_answer',
+            sanitizer.bypassSecurityTrustResourceUrl('assets/material-icons/twotone-question_answer-24px.svg')
+        );
     }
 
     ngOnInit() {

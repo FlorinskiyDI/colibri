@@ -24,10 +24,12 @@ import 'jquery';
         '../../node_modules/primeng/resources/themes/omega/theme.css',
 
         './app.component.scss',
+        '../styles/main.scss',
         '../styles/custom.material.scss',
         '../styles/custom.primeng.scss',
         '../styles/custom.bootstrap.scss',
-        '../styles/custom.shared.scss'
+        '../styles/font.bowtie.scss',
+        
     ]
 })
 

@@ -34,20 +34,20 @@ export class UserDialogDetailsComponent {
     private componentInit(userId: any) {
         this.usersApiService.getFullInfo(userId).subscribe(
             (data: any) => {
-                debugger
                 console.log(data);
             }
         );
     }
+
     private componentClear() {
     }
-
 
     //#region Dialog
     public dialogCancel() {
         this.dialogConfig.visible = false;
         this.onCancel.emit();
     }
+
     public dialogChange(data: any | null = null) {
         this.dialogConfig.visible = false;
         this.onChange.emit(data);
