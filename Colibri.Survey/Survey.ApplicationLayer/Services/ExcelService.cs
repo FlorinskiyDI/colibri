@@ -21,8 +21,9 @@ namespace Survey.ApplicationLayer.Services
 
         public static DataTable ObjectListToDataTable(FileViewModel data)
         {
+            var firstColumnName = "Date Created";
             DataTable dataTable = new DataTable();
-            data.HeaderOption.Insert(0, new ColumModel { AdditionalAnswer = false, Name = "Date Created", Type = QuestionTypes.Textbox.ToString() });
+            data.HeaderOption.Insert(0, new ColumModel { AdditionalAnswer = false, Name = firstColumnName, Type = QuestionTypes.Textbox.ToString() });
             var colCount = 0;
             for (int i = 0; i < data.HeaderOption.Count; i++)
             {
@@ -32,7 +33,7 @@ namespace Survey.ApplicationLayer.Services
                     int childNumerator = 1;
                     foreach (var child in data.HeaderOption[i].Children)
                     {
-                        dataTable.Columns.Add("[" + (i + 1) + "." + childNumerator + "] - " + child);
+                        dataTable.Columns.Add("[" + i + "." + childNumerator + "] - " + child);
                         colCount = colCount + 1;
                         ++childNumerator;
                     }
@@ -44,7 +45,10 @@ namespace Survey.ApplicationLayer.Services
                     type == QuestionTypes.Checkbox.ToString() ||
                     type == QuestionTypes.Dropdown.ToString())
                 {
-                    dataTable.Columns.Add("[" + (i + 1) + "] - " + data.HeaderOption[i].Name);
+                    var text = data.HeaderOption[i].Name == firstColumnName ? "" : ("[" + i + "] - ");
+                    dataTable.Columns.Add(text + data.HeaderOption[i].Name);
+
+                    //dataTable.Columns.Add("[" + (i + 1) + "] - " + data.HeaderOption[i].Name);
                     colCount = colCount + 1;
                 }
                 if (data.HeaderOption[i].AdditionalAnswer)
@@ -99,6 +103,7 @@ namespace Survey.ApplicationLayer.Services
 
         public static byte[] ExportToExcel(FileViewModel data, string heading = "", bool showSrNo = false)
         {
+            var firstColumnName = "Date Created";
             var dataTable = ObjectListToDataTable(data);
             byte[] result = null;
             using (ExcelPackage package = new ExcelPackage())
@@ -117,7 +122,8 @@ namespace Survey.ApplicationLayer.Services
                     // grid answer
                     if (item.Type == QuestionTypes.GridRadio.ToString())
                     {
-                        headerColumn.Columns.Add("[" + (i + 1) + "] - " + item.Name);
+                        var text = data.HeaderOption[i].Name == firstColumnName ? "" : ("[" + i + "] - ");
+                        headerColumn.Columns.Add(text + item.Name);
                         var count = item.Children.Count;
                         int checkcount = 1;
                         for (int j = 0; j < (count - 1); j++)
@@ -154,7 +160,8 @@ namespace Survey.ApplicationLayer.Services
                         item.Type == QuestionTypes.Checkbox.ToString() ||
                         item.Type == QuestionTypes.Dropdown.ToString())
                     {
-                        headerColumn.Columns.Add("[" + (i + 1) + "] - " + item.Name);
+                        var text = data.HeaderOption[i].Name == firstColumnName ? "" : ("[" + i + "] - ");
+                        headerColumn.Columns.Add(text + item.Name);
                         ++headerColCount;
                         cellList.Add(new CellPosition()
                         {
@@ -168,7 +175,8 @@ namespace Survey.ApplicationLayer.Services
                     }
                     if (data.HeaderOption[i].AdditionalAnswer)
                     {
-                        headerColumn.Columns.Add("[" + (i + 1) + " - ADDITIONAL ANSWER]");
+
+                        headerColumn.Columns.Add("[" + i + " - ADDITIONAL ANSWER]");
                         ++headerColCount;
                         cellList.Add(new CellPosition()
                         {

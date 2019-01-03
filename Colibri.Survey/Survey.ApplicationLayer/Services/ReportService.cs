@@ -64,11 +64,12 @@ namespace Survey.ApplicationLayer.Services
                 .GroupBy(u => u.ParentId == null).ToList();
 
                 List<ColumModel> clearQuestions = new List<ColumModel>();
+                List<ColumModel> rowQuestions = new List<ColumModel>();
                 if (questions.Count() > 0)
                 {
                     clearQuestions = questions.Single(g => g.Key == true).ToList();
-                    var rowQuestions = questions.Single(g => g.Key == false).ToList();
-
+                    rowQuestions = questions.Count() > 1 ? questions.Single(g => g.Key == false).ToList() : rowQuestions;
+                    //rowQuestions = questions.Single(g => g.Key == false).ToList();
                     foreach (var item in rowQuestions)
                     {
                         var clearQuestoin = clearQuestions.Where(x => x.Id == item.ParentId).SingleOrDefault();
@@ -172,6 +173,7 @@ namespace Survey.ApplicationLayer.Services
                             (x, optionChoice) => new AnswerModel()
                             {
                                 AnswerText = x.answer.AnswerText,
+                                AnswerBoolean = x.answer.AnswerBoolean,
                                 IsAdditional = optionChoice.IsAdditionalChoise,
                                 OptionChoise = optionChoice.Name
                             }

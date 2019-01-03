@@ -57,7 +57,9 @@ export class SurveyViewerComponent implements OnInit {
         this.questionTransferService.setFormViewrPage(this.page);
         setTimeout(() => { //  waiting while focus achieve anchor place
             this.unfilledQestionId = questionId;
-            ressetAnchor1.click();
+            if (ressetAnchor1 !== null) {
+                ressetAnchor1.click();
+            }
         }, 500);
 
 
