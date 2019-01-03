@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Survey.ApplicationLayer.Dtos;
 using Survey.ApplicationLayer.Services.Interfaces;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Survey.Webapi.Controllers
 {
@@ -16,8 +12,6 @@ namespace Survey.Webapi.Controllers
     {
         private readonly IReportService _reportService;
         private readonly IExcelService _excelService;
-
-
 
         public ReportController(
              IReportService reportService,
@@ -29,27 +23,21 @@ namespace Survey.Webapi.Controllers
         }
 
 
-
         [HttpGet]
         [Route("{surveyId}")]
-        public async Task<IActionResult> GetReport(string surveyId)
+        public IActionResult GetReport(string surveyId)
         {
-            var check = surveyId.ToString();
-
-            var options = _reportService.GetQuestions(Guid.Parse(surveyId));
-
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
+            var options = _reportService.GetQuestions(Guid.Parse(surveyId));
+            var answerList = _reportService.GetAnswersBySurveyId(Guid.Parse(surveyId));
 
-
-            var answerList = _reportService.GetQuesionListBySurveyId(Guid.Parse(surveyId));
-
-            //var surveyReport = _reportService.GetReport(questionList);
             var sortAnswers = answerList.GroupBy(u => u.RespondentId)
-                .Select(grp => grp.ToList())
+                .Select(grp => new AnswerGroup { DateCreated = grp.First().DateCreated, DataList = grp.ToList() })
                 .ToList();
 
             watch.Stop();
+
             var elapsedMs = watch.ElapsedMilliseconds;
             var elapsedSec = elapsedMs / 1000;
             var result = new
@@ -64,27 +52,16 @@ namespace Survey.Webapi.Controllers
 
 
         [HttpPost("DownloadGrid/{quizId}")]
-        //[Route("{quizId}")]
         public async Task<IActionResult> DownloadGrid(string quizId)
         {
-            var check = quizId.ToString();
-
-            var options = _reportService.GetQuestions(Guid.Parse(quizId));
-
             var watch = System.Diagnostics.Stopwatch.StartNew();
+            var options = _reportService.GetQuestions(Guid.Parse(quizId));
+            var questionList = _reportService.GetAnswersBySurveyId(Guid.Parse(quizId));
 
-
-
-            var questionList = _reportService.GetQuesionListBySurveyId(Guid.Parse(quizId));
-
-            //var surveyReport = _reportService.GetReport(questionList);
             var sortAnswers = questionList.GroupBy(u => u.RespondentId)
-                .Select(grp => grp.ToList())
+                .Select(grp => new AnswerGroup { DateCreated = grp.First().DateCreated, DataList = grp.ToList() })
                 .ToList();
 
-            watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            var elapsedSec = elapsedMs / 1000;
             var result = new FileViewModel()
             {
                 HeaderOption = options,
@@ -92,7 +69,9 @@ namespace Survey.Webapi.Controllers
             };
 
             var exportData = _excelService.ExportExcel(result, "", true);
-
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            var elapsedSec = elapsedMs / 1000;
             return new FileContentResult(exportData.Content, exportData.ContentType);
         }
     }

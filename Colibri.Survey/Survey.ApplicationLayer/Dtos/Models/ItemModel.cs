@@ -10,5 +10,6 @@ namespace Survey.ApplicationLayer.Dtos.Models
         public string Label { get; set; }
         public string Value { get; set; }
         public int Order { get; set; }
+        public bool IsAdditionalChoise { get; set; }
     }
 }

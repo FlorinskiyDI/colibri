@@ -1,10 +1,8 @@
 import { Component, ViewEncapsulation, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
 import { QuestionService } from '../../services/builder.service';
-
 import { ControTypes } from 'shared/constants/control-types.constant';
 import { ControStates } from 'shared/constants/control-states.constant';
 
@@ -36,7 +34,6 @@ export class QuestionOptionsComponent {
         private questionTransferService: QuestionTransferService,
 
     ) {
-
         this.questionTransferService.getQuestionOption().subscribe((data: any) => {
             if (data != null) {
                 this.question = data.question;
@@ -62,13 +59,10 @@ export class QuestionOptionsComponent {
                     this.divAdditional = false;
                 }, 500); // time as transition property in css
             }
-
         });
     }
 
-
     changeQuestion(event: any) {
-
         const group: any = {};
         this.getQuestionByType(event.value, this.question.order);
         this.newquestion.id = this.question.id;
@@ -87,20 +81,21 @@ export class QuestionOptionsComponent {
         });
     }
 
-
     changeQuestionValidation(question: any, state: boolean) {
         question.state = question.state !== ControStates.created ? ControStates.updated : question.state;
     }
 
-
     AddAdditionalQuestion(question: any, state: boolean) {
         question.state = question.state !== ControStates.created ? ControStates.updated : question.state;
-        // if (!state) {
-        //     this.questionControl.controls['additionalAnswer'].setValue('');
-        // }
     }
 
-
+    isAllowSetAdditional(type: any) {
+        if (type === ControTypes.textbox || type === ControTypes.textarea) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     getQuestionByType(value: any, index: any) {
         this.newquestion = {};

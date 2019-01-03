@@ -5,30 +5,18 @@
             <div [formGroupName]="pageId" [ngSwitch]="question.controlType">
 
 
-
                 <div *ngSwitchCase="'Textbox'" [formGroupName]="question.id">
                     <div class="d-control-wrap">
                         <input class="d-text-control d-viewer-input" [formControlName]="'answer'">
                     </div>
-                    <!-- <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
-                        Other:
-                        <input class="d-input-other" [formControlName]="'additionalAnswer'" type="text">
-                    </div> -->
                 </div>
-
-
 
 
                 <div *ngSwitchCase="'Textarea'" [formGroupName]="question.id">
                     <div class="d-control-wrap">
                         <textarea class="d-textarea-control d-viewer-input" rows="5" [formControlName]="'answer'" [disabled]="true"></textarea>
                     </div>
-                    <!-- <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
-                        Other:
-                        <input class="d-input-other" [formControlName]="'additionalAnswer'" type="text">
-                    </div> -->
                 </div>
-
 
 
 
@@ -46,13 +34,6 @@
 
 
                 <div *ngSwitchCase="'Radio'" [formGroupName]="question.id">
-                    <!-- <div style="margin-bottom: 10px" class="form-check" *ngFor="let opt of question.options">
-                        <input style="margin: 0px; vertical-align: middle;" [formControlName]="'answer'" name="answer" type="radio" id="{{opt.id}}"
-                            [value]="opt.id">
-                        <label style="margin: 0px; vertical-align: middle;" for="{{opt.id}}" class="form-check-label">
-                            {{opt.value}}
-                        </label>
-                    </div> -->
                     <div style="margin-bottom: 10px" class="form-check" *ngFor="let opt of question.options">
                         <mdl-radio name="answer" [value]="opt.id" [formControlName]="'answer'" mdl-ripple>{{opt.value}}</mdl-radio>
                     </div>
@@ -65,18 +46,14 @@
 
 
                 <div *ngSwitchCase="'Checkbox'" [formGroupName]="question.id">
-                    <!-- <mdl-checkbox [mdl-ripple]="true" [formControlName]="'answer'" (change)="onChange(question.id, opt.id, $event.target.checked)">
-                        Checkbox
-                    </mdl-checkbox>
-                    <mdl-checkbox [mdl-ripple]="true">
-                        Checkbox
-                    </mdl-checkbox> -->
-                    <div style="margin-bottom: 10px" class="form-check" *ngFor="let opt of question.options">
-                        <mdl-checkbox [mdl-ripple]="true" (change)="checkState.checked = !checkState.checked; onChange(question.id, opt.id, checkState.checked)">
-                            {{opt.value}}
-                        </mdl-checkbox>
+                    <div style="margin-bottom: 10px" class="form-check" *ngFor="let opt of form.controls[pageId].get(question.id).get('options').controls; let index = index">
+                        <div [formGroupName]="'options'">
+                            <mdl-checkbox [mdl-ripple]="true" [formControlName]="index" (change)="checkState.checked = !checkState.checked; onChange(question.id, question.options[index].id, checkState.checked)">
+                                {{question.options[index].value}}
+                            </mdl-checkbox>
+                        </div>
                         <div>
-                            <input #checkState style="display: none" [checked]="false" type="checkbox" id="{{opt.id}}">
+                            <input #checkState style="display: none" [checked]="opt.value" type="checkbox" id="{{opt.id}}">
                         </div>
                     </div>
                     <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">
@@ -89,7 +66,6 @@
 
                 <div *ngSwitchCase="'GridRadio'" [formGroupName]="question.id">
                     <div>
-                        <!-- {{question.isAdditionalAnswer| json}} -->
                         <div class="hscroll">
                             <table cellspacing="0" cellpadding="6">
                                 <tbody [formGroupName]="'rows'">
@@ -105,11 +81,6 @@
                                         <td *ngFor="let itemCol of question.grid.cols let iItemCol=index">
                                             <mdl-radio name="label" [value]="itemCol.id" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value)"
                                                 [formControlName]="'label'" mdl-ripple></mdl-radio>
-
-
-
-                                            <!-- <input [formControlName]="'label'" value="{{itemCol.id}}" (change)="onChangeGridRadio( itemRowLabel, itemCol, question.id, itemRowLabel.value, $event.target.checked)"
-                                                type='radio'> -->
                                         </td>
                                     </tr>
                                 </tbody>

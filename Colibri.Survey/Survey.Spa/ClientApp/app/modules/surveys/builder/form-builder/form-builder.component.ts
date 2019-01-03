@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, EventEmitter, Output, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-// import { applyDrag } from '../utils/utilse.service';
 // models
 import { ControTypes } from 'shared/constants/control-types.constant';
 import { QuestionBase } from 'shared/models/form-builder/question-base.model';
@@ -11,9 +10,6 @@ import { PageModel } from 'shared/models/form-builder/page.model';
 import { QuestionTransferService } from 'shared/transfers/question-transfer.service';
 import { QuestionService } from '../services/builder.service';
 import { ControStates } from 'shared/constants/control-states.constant';
-
-// import { ContainerComponent, DraggableComponent, IDropResult } from 'ngx-smooth-dnd';
-
 
 
 @Component({
@@ -30,21 +26,18 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
     @Input() numericPageFrom: number;
     @Input() isPageBuilder: boolean;
     @Input() survey: any;
+    @Input() isUpdateSurvey: any;
     @Output() formState = new EventEmitter<any>();
-
     formPage: FormGroup;
     selectQuestion: string;
-    static deleteQuestionList: string[] = [];
+    static deleteQuestionList: string[];
 
     onDrop(dropResult: any) {
-
-        // update item list according to the @dropResult
         this.applyDrag(this.page.questions, dropResult);
     }
 
     applyDrag = (arr: any, dragResult: any) => {
         const { removedIndex, addedIndex, payload } = dragResult;
-
         if (removedIndex === null && addedIndex === null) {
             return arr;
         }
@@ -59,19 +52,22 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
         }
     }
 
-
-
     constructor(
         private cdr: ChangeDetectorRef,
         private questionTransferService: QuestionTransferService,
         public questionService: QuestionService,
     ) {
+        FormBuilderComponent.deleteQuestionList = [];
         this.questionTransferService.getFormPage().subscribe((page: any) => { // updata formbuild after select page
+
+            this.questionTransferService.setQuestionOption(null);
             if (page) {
                 this.formPage.addControl(page.id, this.questionService.getFormPageGroup(page));
             }
         });
-
+        this.questionTransferService.getSelectedPage().subscribe((data: any) => {
+            this.selectQuestion = '';
+        });
         this.questionTransferService.getQuestionForDelete().subscribe((data: any) => { // check drag control if lost focus without need area
 
             this.page.questions.forEach((item: any, index: number) => {
@@ -88,16 +84,11 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
 
 
         this.questionTransferService.getDeleteDragQuestion().subscribe((data: any) => {
-
             FormBuilderComponent.deleteQuestionList.push(data.id);
-
             this.page.questions.splice(data.order, 1);
-
             const formQuestions = this.formPage.controls[this.page.id] as FormGroup;
             formQuestions.removeControl(data.id);
-            // this.page.questions.sort((a, b) => a.order - b.order);
             this.sortQuestionByIndex();
-
             const updateQuestioRange = this.page.questions.slice(data.order, this.page.questions.length); // get question range (max, min) for make resortable
             updateQuestioRange.forEach((item: any) => {
                 item.state = item.state !== ControStates.created ? ControStates.updated : item.state;
@@ -107,10 +98,10 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
 
 
         this.questionTransferService.getDataForChangeQuestion().subscribe((data: any) => {
+            FormBuilderComponent.deleteQuestionList.push(data.object.id);
             this.page.questions[data.object.order] = data.object;
             const val = this.formPage.controls[this.page.id] as FormGroup;
             val.setControl(data.object.id, data.control);
-
             this.questionTransferService.setQuestionOption(
                 {
                     question: this.page.questions[data.object.order],
@@ -154,50 +145,48 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
 
     getFormQuestion(id: string): any {
         const formQuestion = this.formPage.controls[this.page.id].get('questions').get(id);
-
         return formQuestion;
+    }
+
+    isOneTotalQuestions(): boolean {
+        let count = 0;
+        this.survey.pages.forEach((item: any) => {
+            count = count + item.questions.length;
+        });
+        return count === 1;
     }
 
 
     sortQuestion(event: any, index: number) {
-
         const minIndex = event.order > index ? index : event.order;
         const maxIndex = event.order > index ? event.order : index;
-
         const updateQuestioRange = this.page.questions.slice(minIndex, maxIndex + 1); // get question range (max, min)
         updateQuestioRange.forEach((item: any) => {
             item.state = item.state !== ControStates.created ? ControStates.updated : item.state;
         });
-        // this.page.questions.sort((a, b) => a.order - b.order);
         this.sortQuestionByIndex();
     }
 
 
     sortQuestionByIndex() {
         this.page.questions.forEach(x => {
-
             const indexOf = this.page.questions.indexOf(x);
             x.order = indexOf;
         });
     }
 
     addQuestion(object: any, index: number) {
-
-        // this.page.questions.splice(index, 1); // remove AvailableQuestions object
         let question: any;
         const isAddItem = object.name;
-
 
         if (isAddItem === undefined) {
             question = object;
             question.order = index;
 
         } else {
-            // this.page.questions.splice(index, 1); // remove AvailableQuestions object
             question = this.getQuestionByType(object.type, index);
             question.state = ControStates.created;
         }
-
 
         const group: any = {};
 
@@ -243,8 +232,6 @@ export class FormBuilderComponent implements OnInit, AfterContentChecked {
             }
         }
     }
-
-
 
     ngAfterContentChecked() {
         this.cdr.detectChanges();

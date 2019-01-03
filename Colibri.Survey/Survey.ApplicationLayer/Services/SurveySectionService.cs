@@ -15,7 +15,6 @@ namespace Survey.ApplicationLayer.Services
     {
         protected readonly IUowProvider UowProvider;
         protected readonly IMapper Mapper;
-
         private readonly IUserService _userService;
 
         public SurveySectionService(
@@ -53,9 +52,7 @@ namespace Survey.ApplicationLayer.Services
                 items = await repositorySurveySection.GetAllAsync();
                 await uow.SaveChangesAsync();
             }
-            return  Mapper.Map<IEnumerable<SurveySections>, IEnumerable<SurveyExtendViewModel>>(items);
-
-
+            return Mapper.Map<IEnumerable<SurveySections>, IEnumerable<SurveyExtendViewModel>>(items);
         }
 
 
@@ -73,43 +70,25 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
-
         public async Task<SurveyModel> GetAsync(Guid surveyId)
         {
-            //surveyId = Guid.Parse("c8a801ba-ea5c-e811-9122-107b44194709");
-            try
+            using (var uow = UowProvider.CreateUnitOfWork())
             {
-
-                using (var uow = UowProvider.CreateUnitOfWork())
-                {
-                    SurveySections survey = new SurveySections();
-
-                    var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
-                    survey = await repositorySurveySection.GetAsync(surveyId);
-                    await uow.SaveChangesAsync();
-                    SurveyModel surveyModel = Mapper.Map<SurveySections, SurveyModel>(survey);
-
-                    //SurveyModel surveyModel = new SurveyModel()
-                    //{
-                    //    Name = surveyDto.Name,
-                    //    Description = surveyDto.Description,
-                    //    Id = surveyDto.Id.ToString()
-                    //};
-                    return surveyModel;
-                }
-            }
-            catch (Exception)
-            {
-                throw;
+                SurveySections survey = new SurveySections();
+                var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
+                survey = await repositorySurveySection.GetAsync(surveyId);
+                await uow.SaveChangesAsync();
+                SurveyModel surveyModel = Mapper.Map<SurveySections, SurveyModel>(survey);
+                return surveyModel;
             }
         }
+
 
         public async Task<bool> SetLockState(Guid id, bool state)
         {
             using (var uow = UowProvider.CreateUnitOfWork())
             {
                 SurveySections survey = new SurveySections();
-
                 var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
                 survey = await repositorySurveySection.GetAsync(id);
                 survey.IsLocked = state;
@@ -117,17 +96,15 @@ namespace Survey.ApplicationLayer.Services
                 await uow.SaveChangesAsync();
                 return survey.IsLocked == state;
             }
-           
         }
+
 
         public async Task<Guid> Update(SurveyModel survey)
         {
             using (var uow = UowProvider.CreateUnitOfWork())
             {
-
                 var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
                 var surveyModel = await repositorySurveySection.GetAsync(Guid.Parse(survey.Id));
-
                 surveyModel.Name = survey.Name;
                 surveyModel.Description = survey.Description;
                 surveyModel.IsOpenAccess = survey.IsOpenAccess;
@@ -135,19 +112,10 @@ namespace Survey.ApplicationLayer.Services
                 surveyModel.IsShowDescription = survey.IsShowDescription;
                 surveyModel.IsShowProcessCompletedText = survey.IsShowProcessCompletedText;
                 surveyModel.ProcessCompletedText = survey.ProcessCompletedText;
-
                 repositorySurveySection.Update(surveyModel);
 
                 await uow.SaveChangesAsync();
-                //SurveySectionDto surveyDto = Mapper.Map<SurveySections, SurveySectionDto>(survey);
                 return surveyModel.Id;
-                //SurveyModel surveyModel = new SurveyModel()
-                //{
-                //    Name = surveyDto.Name,
-                //    Description = surveyDto.Description,
-                //    Id = surveyDto.Id.ToString()
-                //};
-                //return surveyModel;
             }
         }
 
@@ -164,11 +132,8 @@ namespace Survey.ApplicationLayer.Services
             {
                 userId = existUser.Id;
             }
-
             SurveySectionDto surveyDto = new SurveySectionDto()
             {
-
-                //Id = new Guid(),
                 Description = survey.Description,
                 Name = survey.Name,
                 DateCreated = System.DateTime.Now,
@@ -182,23 +147,12 @@ namespace Survey.ApplicationLayer.Services
 
             using (var uow = UowProvider.CreateUnitOfWork())
             {
-                try
-                {
-                    SurveySections surveyEntity = Mapper.Map<SurveySectionDto, SurveySections>(surveyDto);
-                    var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
-                    await repositorySurveySection.AddAsync(surveyEntity);
-                    await uow.SaveChangesAsync();
-
-                    return surveyEntity.Id;
-                }
-                catch (Exception e)
-                {
-                    Console.Write(e);
-                    throw;
-                }
+                SurveySections surveyEntity = Mapper.Map<SurveySectionDto, SurveySections>(surveyDto);
+                var repositorySurveySection = uow.GetRepository<SurveySections, Guid>();
+                await repositorySurveySection.AddAsync(surveyEntity);
+                await uow.SaveChangesAsync();
+                return surveyEntity.Id;
             }
-
         }
-
     }
 }

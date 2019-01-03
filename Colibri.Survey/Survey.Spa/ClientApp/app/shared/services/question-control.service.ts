@@ -48,10 +48,12 @@ export class QuestionControlService {
 
     switch (question.controlType) {
       case ControTypes.checkbox: {
+
         group[question.id] = this.fb.group({
           'type': new FormControl(question.controlType),
           'answer': !question.required ? this.fb.array([]) : this.fb.array([], Validators.required),
-          'additionalAnswer': new FormControl('')
+          'additionalAnswer': new FormControl(''),
+          'options': this.buildOptions(question.options)
         });
         break;
       }
@@ -81,7 +83,18 @@ export class QuestionControlService {
         break;
       }
 
+      case ControTypes.checkbox: {
+        debugger
+        group[question.id] = this.fb.group({
+          'type': new FormControl(question.controlType),
+          'answer': !question.required ? new FormControl(question.value || '') : new FormControl(question.value || '', Validators.required),
+          'additionalAnswer': new FormControl(''),
+          'options': this.buildOptions(question.options)
+        });
 
+
+        break;
+      }
 
 
 
@@ -92,23 +105,21 @@ export class QuestionControlService {
           'answer': !question.required ? new FormControl(question.value || '') : new FormControl(question.value || '', Validators.required),
           'additionalAnswer': new FormControl('')
         });
-
-
-
-
-
-
-
-        group[question.id] = this.fb.group({
-          'type': new FormControl(question.controlType),
-          'answer': !question.required ? new FormControl(question.value || '') : new FormControl(question.value || '', Validators.required),
-          'additionalAnswer': new FormControl('')
-        });
         break;
       }
     }
 
     return group[question.id];
+  }
+
+
+
+
+  buildOptions(options: any) {
+    const arr = options.map((opt: any) => {
+      return this.fb.control(false);
+    });
+    return this.fb.array(arr);
   }
 
 

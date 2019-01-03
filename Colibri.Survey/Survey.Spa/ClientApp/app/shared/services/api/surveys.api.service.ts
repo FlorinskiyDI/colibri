@@ -35,14 +35,14 @@ export class SurveysApiService {
 
 
     save(data: any): any {
-        const value = this.restangular.all('api/surveySections').customPOST(data, undefined, undefined,
+        const result = this.restangular.all('api/surveySections').customPOST(data, undefined, undefined,
             { 'Content-Type': 'application/json' });
-        return value.value;
+        return result;
     }
     update(data: any): any {
-        const value = this.restangular.all('api/surveySections').customPUT(data, undefined, undefined,
+        const result = this.restangular.all('api/surveySections').customPUT(data, undefined, undefined,
             { 'Content-Type': 'application/json' });
-        return value;
+        return result;
     }
 
     changeLock(id: string, isLocked: boolean): any {

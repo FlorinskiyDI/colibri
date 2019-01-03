@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Survey.ApplicationLayer.Services
 {
-    class AnswerService : IAnswerService
+    public class AnswerService : IAnswerService
     {
         AnswerTypes type;
         private readonly IQuestionOptionService _questionOptionService;
@@ -77,39 +77,42 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
-
-
         public async Task<Guid> AddAsync(Answers answer)
         {
-
-
             using (var uow = UowProvider.CreateUnitOfWork())
             {
-                try
-                {
-                    //Answers optionChoisesEntity = Mapper.Map<OptionChoisesDto, Answers>(answer);
-                    var repositoryAnswer = uow.GetRepository<Answers, Guid>();
-                    await repositoryAnswer.AddAsync(answer);
-                    await uow.SaveChangesAsync();
-                    return answer.Id;
-
-                }
-                catch (Exception e)
-                {
-                    Console.Write(e);
-                    throw;
-                }
+                var repositoryAnswer = uow.GetRepository<Answers, Guid>();
+                await repositoryAnswer.AddAsync(answer);
+                await uow.SaveChangesAsync();
+                return answer.Id;
             }
         }
 
 
+        public async Task Remove(Answers answer)
+        {
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                var repositoryAnswer = uow.GetRepository<Answers, Guid>();
+                repositoryAnswer.Remove(answer);
+                uow.SaveChanges();
+            }
+        }
 
+
+        public async Task<IEnumerable<Answers>> GetAllAsync()
+        {
+            using (var uow = UowProvider.CreateUnitOfWork())
+            {
+                var repositoryAnswer = uow.GetRepository<Answers, Guid>();
+                return await repositoryAnswer.GetAllAsync();
+            }
+        }
 
 
         public List<BaseAnswerModel> GetTypedAnswerList(List<object> survey)
         {
             List<BaseAnswerModel> baseAnswerList = new List<BaseAnswerModel>();
-
             if (survey != null)
             {
                 foreach (var item in survey)
@@ -118,11 +121,8 @@ namespace Survey.ApplicationLayer.Services
                     baseAnswerList.Add(question);
                 }
             }
-
             return baseAnswerList;
         }
-
-
 
 
         public void SaveAnswerByType(BaseAnswerModel baseAnswer, Guid id)
@@ -174,14 +174,12 @@ namespace Survey.ApplicationLayer.Services
                         {
                             GridAnswerModel question = JsonConvert.DeserializeObject<GridAnswerModel>(baseQuestion);
                             baseAnswerM = question as BaseAnswerModel;
-
                             break;
                         }
                 }
             }
             return baseAnswerM;
         }
-
 
 
         private void SaveTextAnswer(TextAnswerModel data)
@@ -201,10 +199,8 @@ namespace Survey.ApplicationLayer.Services
                     RespondentId = respondentId,
                     QuestionOptionId = questionOptionId
                 };
-
                 var answerId = AddAsync(answer).Result;
             }
-
         }
 
         private void SaveTextAreaAnswer(TextAreaAnswerModel data)
@@ -212,8 +208,7 @@ namespace Survey.ApplicationLayer.Services
             if (data.Answer.Length > 0)
             {
                 var question = _questionService.GetQuestionById(data.Id);
-                var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result
-                    .FirstOrDefault();
+                var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
                 var questionOptionId = _questionOptionService.Add(data.Id, optionChoice.Id);
 
                 Answers answer = new Answers()
@@ -225,7 +220,6 @@ namespace Survey.ApplicationLayer.Services
                     RespondentId = respondentId,
                     QuestionOptionId = questionOptionId
                 };
-
                 var answerId = AddAsync(answer).Result;
             }
         }
@@ -236,8 +230,6 @@ namespace Survey.ApplicationLayer.Services
         {
             if (data.Answer.Length > 0)
             {
-                //var question = _questionService.GetQuestionById(data.Id);
-                //var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
                 var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(data.Answer));
 
                 Answers answer = new Answers()
@@ -251,7 +243,31 @@ namespace Survey.ApplicationLayer.Services
                 };
 
                 var answerId = AddAsync(answer).Result;
+                if (!String.IsNullOrEmpty(data.AdditionalAnswer))
+                {
+                    AddAdditionalChoice(data);
+                }
             }
+        }
+
+
+        public void AddAdditionalChoice(BaseAnswerModel data)
+        {
+            var question = _questionService.GetQuestionById(data.Id);
+            var optionChoices = _optionChoiceService.GetListByOptionGroup(question.OptionGroupId, true).Result;
+            var optionChoice = optionChoices.Where(x => x.IsAdditionalChoise == true).FirstOrDefault();
+            var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(optionChoice.Id));
+
+            Answers answer = new Answers()
+            {
+                AnswerBoolean = false,
+                AnswerDateTime = null,
+                AnswerNumeric = null,
+                AnswerText = data.AdditionalAnswer,
+                RespondentId = respondentId,
+                QuestionOptionId = questionOptionId
+            };
+            var answerId = AddAsync(answer).Result;
         }
 
 
@@ -263,7 +279,6 @@ namespace Survey.ApplicationLayer.Services
                 foreach (var item in data.Answer)
                 {
                     var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(item));
-
                     Answers answer = new Answers()
                     {
                         AnswerBoolean = true,
@@ -273,8 +288,11 @@ namespace Survey.ApplicationLayer.Services
                         RespondentId = respondentId,
                         QuestionOptionId = questionOptionId
                     };
-
                     var answerId = AddAsync(answer).Result;
+                }
+                if (!String.IsNullOrEmpty(data.AdditionalAnswer))
+                {
+                    AddAdditionalChoice(data);
                 }
             }
         }
@@ -296,10 +314,12 @@ namespace Survey.ApplicationLayer.Services
                 };
 
                 var answerId = AddAsync(answer).Result;
+                if (!String.IsNullOrEmpty(data.AdditionalAnswer))
+                {
+                    AddAdditionalChoice(data);
+                }
             }
-
         }
-
 
 
         private void SaveGridRadioAnswer(GridAnswerModel data)
@@ -308,7 +328,6 @@ namespace Survey.ApplicationLayer.Services
             {
                 foreach (var item in data.Answer)
                 {
-
                     var questionOptionId = _questionOptionService.Add(Guid.Parse(item.Row.Id), Guid.Parse(item.Col.Id));
 
                     Answers answer = new Answers()
@@ -320,8 +339,11 @@ namespace Survey.ApplicationLayer.Services
                         RespondentId = respondentId,
                         QuestionOptionId = questionOptionId
                     };
-
                     var answerId = AddAsync(answer).Result;
+                }
+                if (!String.IsNullOrEmpty(data.AdditionalAnswer))
+                {
+                    AddAdditionalChoice(data);
                 }
             }
         }

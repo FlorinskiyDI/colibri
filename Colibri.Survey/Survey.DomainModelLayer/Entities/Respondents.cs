@@ -16,7 +16,7 @@ namespace Survey.DomainModelLayer.Entities
 
         //public Guid Id { get; set; }
         public Guid? UserId { get; set; }
-
+        public DateTime DateCreated { get; set; }
         [ForeignKey("UserId")]
         [InverseProperty("Respondents")]
         public Users User { get; set; }

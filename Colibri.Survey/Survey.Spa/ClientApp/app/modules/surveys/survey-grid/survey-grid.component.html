@@ -26,26 +26,28 @@
                 <div class="col-md-12">
                     <!-- <pre>{{surveys | json}}</pre> -->
                     <div class="clbr--ui-table clbr--ui-table-v1">
-                        <p-table [value]="surveys" [lazy]="true" [paginator]="true" [rows]="5" [loading]="loading" [resizableColumns]="true" [rowsPerPageOptions]="[5,10,20]">
+                        <p-table [scrollable]="true" scrollHeight="500px" [value]="surveys" [lazy]="true" [paginator]="true" [rows]="10" [loading]="loading" [resizableColumns]="true" [rowsPerPageOptions]="[10,20,30]">
                             <ng-template pTemplate="header">
                                 <tr>
+                                    <th style="width:2%" class="border-right-none border-left-none">#</th>
                                     <th style="width:25%" class="border-right-none border-left-none">Name</th>
                                     <th style="width:10%" class="border-right-none border-left-none">Is open access</th>
                                     <th style="width:20%" class="border-right-none border-left-none">Date created</th>
                                     <th style="width:10%" class="border-right-none border-left-none">Shown description</th>
                                     <th style="width:15%" class="border-right-none border-left-none">Shown completed note</th>
-                                    <th style="width:15%" class="border-right-none border-left-none">Respondents</th>
+                                    <th style="width:13%" class="border-right-none border-left-none">Respondents</th>
                                     <th style="width:10%" class="border-right-none border-left-none">Actions</th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-item>
+                            <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
                                 <tr>
+                                    <td class="">{{rowIndex + 1}}</td>
                                     <td class="border-left-none border-right-none">{{item.name}}</td>
                                     <td class="border-left-none border-right-none">{{item.isOpenAccess}}</td>
                                     <td class="border-left-none border-right-none">{{item.dateCreated | date:'medium'}}</td>
                                     <td class="border-left-none border-right-none">{{item.isShowDescription}}</td>
                                     <td class="border-left-none border-right-none">{{item.isShowProcessCompletedText}}</td>
-                                    
+
                                     <td class="border-left-none border-right-none">({{item.respondentsCount}}) answers</td>
                                     <td class="border-left-none border-right-none">
                                         <div class="clbr--btn-inline">
@@ -59,17 +61,17 @@
                                                 <i class="fa fa-file-text"></i>
                                                 <!-- <span class="d-action-text">Show responses</span> -->
                                             </button>
-                                            <button  title="Export" class="btn btn-sm btn-default d-action-button" (click)="GetExcelReport(item.id)">
+                                            <button title="Export" class="btn btn-sm btn-default d-action-button" (click)="GetExcelReport(item.id)">
                                                 <i class="fa fa-download"></i>
                                                 <!-- <span class="d-action-text">Export</span> -->
 
                                             </button>
 
 
-                                            <button *ngIf="item.isLocked"  title="Locked survey" class="btn btn-sm btn-default d-action-button" (click)="ChangeLock(item.id, item.isLocked)">
+                                            <button *ngIf="item.isLocked" title="Locked survey" class="btn btn-sm btn-default d-action-button" (click)="ChangeLock(item.id, item.isLocked)">
                                                 <i class="fa fa-lock"></i>
                                             </button>
-                                            <button *ngIf="!item.isLocked"  title="Unlocked survey" class="btn btn-sm btn-default d-action-button" (click)="ChangeLock(item.id, item.isLocked)">
+                                            <button *ngIf="!item.isLocked" title="Unlocked survey" class="btn btn-sm btn-default d-action-button" (click)="ChangeLock(item.id, item.isLocked)">
                                                 <i class="fa fa-unlock"></i>
                                             </button>
                                         </div>

@@ -9,7 +9,7 @@ namespace Survey.ApplicationLayer.Services.Interfaces
     public interface IReportService
     {
         List<ColumModel> GetQuestions(Guid surveyId);
-        List<TableReportViewModel> GetQuesionListBySurveyId(Guid surveyId);
+        List<TableReportViewModel> GetAnswersBySurveyId(Guid id);
 
         //Task<IEnumerable<>> GetAll();
     }

@@ -52,6 +52,7 @@ export class SurveyViewerFormComponent implements OnInit, OnChanges {
         const page: any = {};
         page[this.page.id] = this.questionControlService.toFormGroup(this.page.questions);
         this.form = new FormGroup(page);
+        debugger
     }
 
     goToNextPage() {

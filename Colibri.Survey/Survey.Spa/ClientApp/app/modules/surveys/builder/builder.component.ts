@@ -20,7 +20,6 @@ import { QuestionBase } from 'shared/models/form-builder/question-base.model';
 import { FormBuilderComponent } from './form-builder/form-builder.component';
 
 import { QuestionTemplate } from 'shared/models/form-builder/form-control/question-template.model';
-// import { forEach } from '@angular/router/src/utils/collection';
 
 /* provider */ import { WINDOW } from 'shared/providers//window.provider';
 import { FormGroup } from '@angular/forms';
@@ -34,7 +33,6 @@ import { applyDrag } from './utils/utilse.service';
     encapsulation: ViewEncapsulation.None,
     providers: [QuestionService, QuestionControlService]
 })
-
 
 export class BuilderComponent {
 
@@ -61,7 +59,6 @@ export class BuilderComponent {
         private questionTransferService: QuestionTransferService,
         public questionService: QuestionService,
     ) {
-
         this.route.params.subscribe((params: any) => {
 
             this.surveyId = params['id'] ? params['id'] : null;
@@ -78,10 +75,7 @@ export class BuilderComponent {
 
 
         this.questionTransferService.getSelectedPage().subscribe((pageId: string) => {
-            // Init data
             const fakepage = this.survey.pages.find(item => item.id === pageId);
-
-
             if (fakepage === undefined) {
                 this.isPageBuilder = false;
             } else {
@@ -110,35 +104,34 @@ export class BuilderComponent {
 
             this.page = page;
             this.questionTransferService.setFormPage(page);
-            // this.isPageBuilder = true;
+            this.isPageBuilder = true;
         });
 
         this.questionTransferService.getdeletePageId().subscribe((data: any) => {
             this.deletePageList.push(data.id);
             this.survey.pages.splice(data.index, 1);
-            this.page = data.index > 1 ? this.survey.pages[data.index - 1] : this.survey.pages[0];
+            if (this.page.order === data.index) {
+                this.page = data.index > 1 ? this.survey.pages[data.index - 1] : this.survey.pages[0];
+            }
+
             this.questionTransferService.setFormPage(this.page);
             this.sortPagesByIndex();
         });
     }
 
+
     ngOnInit() {
-        // this.startNumericPageFrom = 12;
         this.templateOptions = {
             dragTemplateZones: ['dropZone1', 'dropZone2', 'dropZone3', 'dropZons4', 'dropZone5', 'dropZone6'],
             questionTemplates: cloneDeep(this.getTemplates())
         };
 
 
-
         if (this.surveyId === null) {
-
             this.survey = this.questionService.getSurvey();
             this.pagingList = this.getPagingList();
-            // init data
             this.page = this.survey.pages[0];
             this.questionTemplates = this.getTemplates();
-
         } else {
             this.surveysApiService.get(this.surveyId).subscribe((data: SurveyModel) => {
 
@@ -153,7 +146,6 @@ export class BuilderComponent {
                 }
             });
         }
-
         this.getChildPayload = this.getChildPayload.bind(this);
     }
 
@@ -181,7 +173,6 @@ export class BuilderComponent {
 
 
     GoToSurvey() {
-        // this.router.navigateByUrl('/surveys/portal/' + this.surveyId);
         this.window.open('/portal/' + this.surveyId, '_blank');
     }
 
@@ -195,12 +186,6 @@ export class BuilderComponent {
         this.questionTemplates.push(widget);
         this.questionTemplates.sort((a: any, b: any) => a.order - b.order);
         this.questionTransferService.setQuestionForDelete(widget);
-    }
-
-
-    deleteDragQuestion(question: any) {
-        // this.deleteQuestionList.push(question.id);
-        this.questionTransferService.setDeleteDragQuestion(question);
     }
 
 
@@ -221,29 +206,30 @@ export class BuilderComponent {
         this.survey.pages.forEach((item: any, index: number) => {
             result.push({ title: 'Page', id: item.id, type: 'page' });
         });
-        // result.unshift({ title: 'Page', id: '1', type: 'descrip' });
         return result;
     }
 
 
     saveSurvey() {
         if (this.surveyId === null) {
-            const data = this.surveysApiService.save(this.survey);
-            console.log(data);
+            const data = this.surveysApiService.save(this.survey).subscribe((result: any) => {
+                this.router.navigateByUrl('/surveys');
+            });
         } else {
+
             const updateData: any = {
                 survey: this.survey,
-                // deleteQuestions: this.deleteQuestionList
                 deleteQuestions: FormBuilderComponent.deleteQuestionList,
                 deletePages: this.deletePageList
             };
 
-            const data = this.surveysApiService.update(updateData);
-            console.log(data);
-            this.router.navigateByUrl('/surveys');
+            this.surveysApiService.update(updateData).subscribe((result: any) => {
+
+                FormBuilderComponent.deleteQuestionList = [];
+                this.router.navigateByUrl('/surveys');
+            });
+
         }
-
-
     }
 }
 

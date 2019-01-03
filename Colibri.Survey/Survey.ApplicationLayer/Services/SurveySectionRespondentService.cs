@@ -9,12 +9,8 @@ using Survey.DomainModelLayer.Entities;
 
 namespace Survey.ApplicationLayer.Services
 {
-
-
     public class SurveySectionRespondentServie : ISurveySectionRespondentService
     {
-
-
         protected readonly IUowProvider UowProvider;
         protected readonly IMapper Mapper;
 
@@ -39,36 +35,20 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
-
-
         public async Task<Guid> AddAsync(Guid surveyId, Guid RespondentId)
         {
-
             SurveySectoinRespondents item = new SurveySectoinRespondents
             {
                 RespondentId = RespondentId,
                 SurveySectionId = surveyId
             };
-
-
             using (var uow = UowProvider.CreateUnitOfWork())
             {
-                try
-                {
-
-                    var repositorySR = uow.GetRepository<SurveySectoinRespondents, Guid>();
-                    await repositorySR.AddAsync(item);
-                    await uow.SaveChangesAsync();
-
-                    return item.Id;
-                }
-                catch (Exception e)
-                {
-                    Console.Write(e);
-                    throw;
-                }
+                var repositorySR = uow.GetRepository<SurveySectoinRespondents, Guid>();
+                await repositorySR.AddAsync(item);
+                await uow.SaveChangesAsync();
+                return item.Id;
             }
-
         }
     }
 }

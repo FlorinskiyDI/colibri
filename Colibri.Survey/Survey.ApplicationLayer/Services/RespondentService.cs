@@ -9,8 +9,6 @@ namespace Survey.ApplicationLayer.Services
 {
     public class RespondentService : IRespondentService
     {
-
-
         protected readonly IUowProvider UowProvider;
         protected readonly IMapper Mapper;
 
@@ -24,31 +22,20 @@ namespace Survey.ApplicationLayer.Services
         }
 
 
-
         public async Task<Guid> AddAsync()
         {
-
-            Respondents respondent = new Respondents();
-
-
+            Respondents respondent = new Respondents()
+            {
+                DateCreated = System.DateTime.Now
+            };
             using (var uow = UowProvider.CreateUnitOfWork())
             {
-                try
-                {
+                var repositoryRspondent = uow.GetRepository<Respondents, Guid>();
+                await repositoryRspondent.AddAsync(respondent);
+                await uow.SaveChangesAsync();
 
-                    var repositoryRspondent = uow.GetRepository<Respondents, Guid>();
-                    await repositoryRspondent.AddAsync(respondent);
-                    await uow.SaveChangesAsync();
-
-                    return respondent.Id;
-                }
-                catch (Exception e)
-                {
-                    Console.Write(e);
-                    throw;
-                }
+                return respondent.Id;
             }
-
         }
     }
 }

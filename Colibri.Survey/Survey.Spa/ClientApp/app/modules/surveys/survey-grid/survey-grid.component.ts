@@ -49,7 +49,7 @@ export class SurveyGridComponent {
             const link = document.createElement('a');
             const file = new Blob([response._body]);
             link.href = window.URL.createObjectURL(file);
-            link.download = 'name.xlsx';
+            link.download = 'surveyReport.xlsx';
             link.click();
             console.log('got excel report successfull!');
         });

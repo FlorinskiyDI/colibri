@@ -26,7 +26,6 @@ export class QuestionService {
 
     constructor(private fb: FormBuilder) { }
 
-
     getFormPageGroup(page: PageModel) {
         this.questionGroup = {};
         if (page.questions.length > 0) {
@@ -131,12 +130,6 @@ export class QuestionService {
     }
 
     markChangedQuestion(formControl: FormGroup, question: any) {
-        // formControl.con.subscribe((form: any) => { // Intercept changes and mark the question for update
-
-        //     if (!formControl.pristine) {
-        //         question.state = question.state !== ControStates.created ? ControStates.updated : ControStates.created;
-        //     }
-        // });
         formControl.valueChanges.subscribe((form: any) => { // Intercept changes and mark the question for update
             if (!formControl.pristine) {
                 question.state = question.state !== ControStates.created ? ControStates.updated : ControStates.created;

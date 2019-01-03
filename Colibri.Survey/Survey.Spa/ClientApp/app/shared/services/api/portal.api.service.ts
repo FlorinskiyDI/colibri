@@ -65,7 +65,7 @@ export class PortalApiService {
         const url = this.apiServer + `api/report/DownloadGrid/${quizId}`;
         const body = {};
         const options = this.getOptionRequestFile();
-        options.responseType = ResponseContentType.Blob;
+        // options.responseType = ResponseContentType.Blob;
         return this.http.post(url, body, options);
     }
 

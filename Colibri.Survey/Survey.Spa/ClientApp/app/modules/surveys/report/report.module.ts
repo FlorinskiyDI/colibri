@@ -6,22 +6,15 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 /* component */ import { TableReportComponent } from './tableReport/tableReport.component';
 
 
-import {CellGridComponent} from './tableReport/cellGridQuestion/cellGrid.component';
-// import { DndModule } from 'ng2-dnd';
 @NgModule({
     imports: [
         ReportRoutingModule,
         SharedModule,
-        // DndModule.forRoot(),
     ],
     declarations: [
         ReportComponent,
-        TableReportComponent,
-        CellGridComponent
+        TableReportComponent
     ],
-    // entryComponents: [
-    //     FormBuilderComponent,
-    //   ],
     providers: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
