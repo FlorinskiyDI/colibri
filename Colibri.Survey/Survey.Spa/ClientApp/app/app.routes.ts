@@ -19,24 +19,23 @@ const appRoutes: Routes = [
     {
         path: 'is', component: LayoutIdentityComponent,
         canActivate: [HasAdminRoleAuthenticationGuard],
-        children: [
-            {
-                path: 'home',
-                component: HomeComponent,
-                data: { breadcrumb: 'Home page' },
-            },
+        children: [            
             {
                 path: '',
-                loadChildren: 'modules/management/management.module#ManagementModule',
+                loadChildren: 'modules/identity-server/management.module#ManagementModule',
             },
-            {
-                path: '',
-                loadChildren: 'modules/dashboard/dashboard.module#DashboardModule',
-            },
-            {
-                path: '',
-                loadChildren: 'modules/surveys/survey.module#SurveyModule',
-            },
+            // {
+            //     path: '',
+            //     loadChildren: 'modules/management/management.module#ManagementModule',
+            // },
+            // {
+            //     path: '',
+            //     loadChildren: 'modules/dashboard/dashboard.module#DashboardModule',
+            // },
+            // {
+            //     path: '',
+            //     loadChildren: 'modules/surveys/survey.module#SurveyModule',
+            // },
         ]
     },
     {
