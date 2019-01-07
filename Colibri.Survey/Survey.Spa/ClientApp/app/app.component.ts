@@ -25,6 +25,7 @@ import 'jquery';
 
         './app.component.scss',
         '../styles/main.scss',
+        '../styles/custom.shared.scss',
         '../styles/custom.material.scss',
         '../styles/custom.primeng.scss',
         '../styles/custom.bootstrap.scss',

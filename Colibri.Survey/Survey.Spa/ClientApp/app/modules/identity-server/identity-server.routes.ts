@@ -11,9 +11,10 @@ import { Routes, RouterModule } from '@angular/router';
 /* component */ import { UserProfileComponent } from './containers/user-profile/user-profile.component';
 
 const routes: Routes = [
-    { 
+    {
         path: 'groups',
         component: GroupComponent,
+        data: { breadcrumb: 'Management of organizations' },
         children: [
             {
                 path: '',
@@ -22,7 +23,7 @@ const routes: Routes = [
             {
                 path: 'overview/:id',
                 component: GroupOverviewComponent,
-                data: { breadcrumb: '' },
+                data: { breadcrumb: 'Overview' },
                 children: [
                     {
                         path: 'general',

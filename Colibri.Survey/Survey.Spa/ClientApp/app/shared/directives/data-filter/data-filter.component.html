@@ -1,7 +1,7 @@
 <div class="clbr--block-filter">
-    <mat-form-field class="clbr--mat-form-field example-chip-list">
+    <mat-form-field appearance="outline" class="cmp--mat-form-field-filter clbr--mat-form-field-without-border clbr--mat-form-field-full-width example-chip-list">
         <span matPrefix>
-            <mat-icon class="filter-icon">filter_list</mat-icon>
+            <i class="bowtie-icon bowtie-search-filter clbr--bowtie-search-filter-icon"></i>
         </span>
         <mat-chip-list #chipList>
             <mat-chip *ngFor="let item of chipItems"
@@ -13,7 +13,7 @@
                     *ngIf="chipRemovable">cancel</mat-icon>
             </mat-chip>
             <input #chipInput
-                placeholder="enter filter query"
+                placeholder="set filter value"
                 [formControl]="chipFruitCtrl"
                 [matAutocomplete]="auto"
                 [matChipInputFor]="chipList"
@@ -30,12 +30,15 @@
                 {{item}}
             </mat-option>
         </mat-autocomplete>
-        <button mat-button
+        <!-- <button matSuffix mat-icon-button (click)="chipClean()">
+            <mat-icon aria-label="Example icon-button with a heart icon">close</mat-icon>
+        </button> -->
+        <!-- <button mat-button
             matSuffix
             mat-icon-button
             aria-label="Clear"
             (click)="chipClean()">
             <mat-icon>close</mat-icon>
-        </button>
+        </button> -->
     </mat-form-field>
 </div>

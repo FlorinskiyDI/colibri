@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 /* component */ import { ForbiddenComponent } from './core/forbidden/forbidden.component';
 /* component */ import { HomeComponent } from './home/home.component';
 
-/* component */ import { LayoutComponent } from 'core/layout/layout.component';
+// /* component */ import { LayoutComponent } from 'core/layout/layout.component';
 /* component */ import { LayoutPortal2Component } from 'core/layout-portal/layout-portal.component';
 /* component */ import { LayoutIdentityComponent } from 'core/layout/layout-identity/layout-identity.component';
 /* component */ import { LayoutPortalComponent } from 'core/layout/layout-portal/layout-portal.component';
@@ -19,10 +19,10 @@ const appRoutes: Routes = [
     {
         path: 'is', component: LayoutIdentityComponent,
         canActivate: [HasAdminRoleAuthenticationGuard],
-        children: [            
+        children: [
             {
                 path: '',
-                loadChildren: 'modules/identity-server/management.module#ManagementModule',
+                loadChildren: 'modules/identity-server/identity-server.module#IdentityServerModule',
             },
             // {
             //     path: '',

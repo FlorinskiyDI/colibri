@@ -10,6 +10,8 @@ import { MatIconRegistry } from '@angular/material';
 /* module-material */ import { MatChipsModule } from '@angular/material/chips';
 /* module-material */ import { MatCheckboxModule } from '@angular/material/checkbox';
 /* module-material */ import { MatAutocompleteModule } from '@angular/material/autocomplete';
+/* module-material */ import { MatRippleModule } from '@angular/material/core';
+/* module-material */ import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
     imports: [
@@ -21,6 +23,8 @@ import { MatIconRegistry } from '@angular/material';
         MatCheckboxModule,
         MatAutocompleteModule,
         MatIconModule,
+        MatRippleModule,
+        MatMenuModule
     ],
     declarations: [ ],
     providers: [ ],
@@ -33,6 +37,8 @@ import { MatIconRegistry } from '@angular/material';
         MatCheckboxModule,
         MatAutocompleteModule,
         MatIconModule,
+        MatRippleModule,
+        MatMenuModule
     ]
 })
 

@@ -42,10 +42,10 @@ export class GroupDataTreeComponent implements OnInit {
     // option
     optionTbToggle: any = {
         columns: [
-            { field: 'name', header: 'Group name', width: 320 },
-            { field: 'groupID', header: 'Identifier', width: 150 },
-            { field: 'countChildren', header: 'Number of subgroups', width: 150 },
-            { field: 'description', header: 'Description', width: null },
+            { field: 'name', header: 'Group name', width: 400, sort: true },
+            { field: 'groupID', header: 'Identifier', width: 150, sort: true },
+            { field: 'countChildren', header: 'Suborgs', width: 100, sort: false },
+            { field: 'description', header: 'Description', width: null, sort: true },
         ],
         filter: false
     };

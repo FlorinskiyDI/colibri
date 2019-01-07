@@ -10,18 +10,18 @@ import { MessageService } from 'primeng/components/common/messageservice';
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 
 @Component({
-    selector: 'cmp-user-grid',
-    templateUrl: './user-grid.component.html',
-    styleUrls: ['./user-grid.component.scss'],
+    selector: 'cmp-user-data-grid',
+    templateUrl: './user-data-grid.component.html',
+    styleUrls: ['./user-data-grid.component.scss'],
     providers: [
         TreeDragDropService,
         ConfirmationService,
         MessageService
     ]
 })
-export class UserGridComponent implements OnInit {
+export class UserDataGridComponent implements OnInit {
     @ViewChild('dtUsers') dtUsers: any;
-    dialogViewDetailsConfig: DialogDataModel<any>;
+    userDialogOverviewConfig: DialogDataModel<any>;
     // table
     tbItems: any[] = [];
     tbCols: any[] = [];
@@ -31,7 +31,7 @@ export class UserGridComponent implements OnInit {
     // option
     optionTbToggle: any = {
         columns: [
-            { field: 'userName', header: 'User name', width: 300 },
+            { field: 'userName', header: 'User name', width: 330 },
             { field: 'email', header: 'Email', width: 300 },
             { field: 'emailConfirmed', header: 'Status in system', width: null }
         ],
@@ -54,9 +54,9 @@ export class UserGridComponent implements OnInit {
         // this.subscriberResetData.unsubscribe();
     }
 
-    item_viewDetails(id: string) {
-        this.dialogViewDetailsConfig = new DialogDataModel(true, { userId: id });
-    }
+    // item_viewDetails(id: string) {
+    //     this.userDialogOverviewConfig = new DialogDataModel(true, { userId: id });
+    // }
     item_delete(id: string) {
         // this.deleteItem.emit(groupId);
     }
@@ -100,4 +100,9 @@ export class UserGridComponent implements OnInit {
             this.tbTotalItemCount = response.totalItemCount;
         });
     }
+
+    public dialogCreateOpen(id: any) { this.userDialogOverviewConfig = new DialogDataModel(true, { userId: id }); }
+    public dialogCreateOnChange() { this.dtUsers.reset(); }
+    public dialogCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
+    public dialogCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
 }

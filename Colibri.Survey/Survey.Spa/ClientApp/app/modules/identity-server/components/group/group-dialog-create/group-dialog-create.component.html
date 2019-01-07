@@ -1,5 +1,5 @@
-<p-dialog header="Group creation" class="clbr--p-dialog-v1" minWidth="400" width="400" showEffect="fade" [responsive]="true"
-    [modal]="true" [resizable]="true" [maximizable]="true" (onHide)="dialogHide($event)" [(visible)]="dialogConfig.visible">
+<p-dialog header="Create a new organization" class="clbr--p-dialog-v1" minWidth="450" width="450" showEffect="fade" [responsive]="true"
+    [modal]="true" [resizable]="true" [maximizable]="false" (onHide)="dialogHide($event)" [(visible)]="dialogConfig.visible">
 
     <div class="cmp-form-group-creat row">
         <div class="col-md-12">
@@ -34,9 +34,9 @@
                     </mat-form-field>
                 </div>
                 <div class="clbr--form-group form-group form-group-sm">
-                    <label class="clbr--ui-chkbox-1">
+                    <label class="clbr--ui-chkbox-v1">
                         <p-checkbox [(ngModel)]="isSubGroup" (onChange)="onChckboxChange($event)" formControlName="isSubgroup" binary="true"></p-checkbox>
-                        <span class="title">Set parent group</span>
+                        <span class="title">Set parent organization</span>
                     </label>
                     <mat-form-field *ngIf="isSubGroup" class="clbr--mat-form-field clbr--mat-form-field-without-padding clbr--mat-form-field-full-width">
                         <input matInput formControlName="parentId" style="display: none;">
@@ -47,7 +47,7 @@
                         <mat-error *ngIf="formGroup.get('parentId').hasError('required') && formGroup.get('parentId').touched">
                             Value is required
                         </mat-error>
-                        <mat-hint align="end">the group administrator will have all rights to the new group</mat-hint>
+                        <mat-hint align="end">the administrator of the parent group will have all rights to the new group</mat-hint>
                     </mat-form-field>                    
                 </div>
             </div>

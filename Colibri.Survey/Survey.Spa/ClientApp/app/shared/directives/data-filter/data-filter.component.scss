@@ -1,0 +1,18 @@
+.clbr--block-filter {
+    // ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper { padding-bottom: 0px; }
+
+    .cmp--mat-form-field-filter {
+        padding: 7px 0;
+        //
+        ::ng-deep .mat-form-field-wrapper { padding: 0px; }
+        ::ng-deep .mat-form-field-infix { border: none; padding: 0px; }
+        ::ng-deep .mat-chip-list-wrapper .mat-standard-chip { margin: 0px; padding: 2px 4px 2px 9px; }
+        ::ng-deep .mat-input-element { font-size: 12px; }
+        ::ng-deep .mat-chip { margin-right: 5px !important; }
+        ::ng-deep .mat-form-field-prefix { width: 25px; display: inline-block; vertical-align: middle }
+        
+        ::ng-deep .mat-form-field-prefix { top: 0px !important; }
+        ::ng-deep .mat-form-field-suffix { top: 0px !important; }
+        .clbr--bowtie-search-filter-icon { font-size: 12px; }
+    }
+}

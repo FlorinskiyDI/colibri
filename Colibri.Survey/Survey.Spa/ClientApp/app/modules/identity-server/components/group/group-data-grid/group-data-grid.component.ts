@@ -4,6 +4,11 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Observable } from 'rxjs/Observable';
 
+import {
+    Router,
+    NavigationExtras
+  } from '@angular/router';
+
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* model-api */ import { SearchQueryApiModel, SearchQueryPage } from 'shared/models/entities/api/page-search-entry.api.model';
 
@@ -35,18 +40,30 @@ export class GroupDataGridComponent implements OnInit {
     // option
     optionTbToggle: any = {
         columns: [
-            { field: 'name', header: 'Group name', width: 320 },
-            { field: 'groupID', header: 'Identifier', width: 150 },
-            { field: 'description', header: 'Description', width: null }
+            // { field: 'name', header: 'Group name', width: 360, sort: true },
+            { field: 'groupID', header: 'Identifier', width: 160, sort: true },
+            { field: 'description', header: 'Description', width: null, sort: true }
         ],
         filter: false
     };
 
     constructor(
+        private router: Router,
         private groupsApiService: GroupsApiService,
     ) {
         this.tbSelectedColumns = this.optionTbToggle.columns;
         this.tbLoading = true;
+    }
+
+    goToOverview(data1: any, data2: any) {
+        debugger
+        const navigationExtras: NavigationExtras = {
+            queryParams: { 'session_id': data1 },
+            fragment: data2,
+            skipLocationChange: true
+        };
+        this.router.navigate(['is/groups/overview/' + data1], navigationExtras);
+        window.history.pushState('', '', 'is/groups/overview/' + data1);
     }
 
     ngOnInit() {
@@ -78,7 +95,7 @@ export class GroupDataGridComponent implements OnInit {
         this.groupsApiService.getAll(searchEntry).subscribe((response: any) => {
             this.tbLoading = false;
             this.tbItems = response.itemList;
-            this.tbTotalItemCount = response.totalItemCount;
+            this.tbTotalItemCount = response.searchResultPage.totalItemCount;
         });
     }
 }

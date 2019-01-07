@@ -1,3 +1,7 @@
+
+<cmp-sidebar [eventSidebarToggle]="eventSidebarToggle.asObservable()">
+</cmp-sidebar>
+
 <div class="cmp--layout-identity">
 
     <div class="clbr--navbar">
@@ -10,13 +14,54 @@
                             <mat-icon aria-label="Example icon-button with a heart icon">menu</mat-icon>
                         </button>
                         <div class="navbar-brand">Identity Server</div>
+                        <ol class="breadcrumb">
+                            <li *ngFor="let breadcrumb of breadcrumbs$ | async; let i = index; let count = count" class="breadcrumb-item">
+                                 <!-- <span >
+                                    <a [routerLink]="[breadcrumb.url]">{{ breadcrumb.label }}</a>
+                                </span> -->
+                                <span *ngIf="i+1 != count">
+                                    <a [routerLink]="[breadcrumb.url]">{{ breadcrumb.label }}</a>
+                                </span>
+                                <span *ngIf="i+1 == count">{{ breadcrumb.label }}</span>
+                            </li>
+                        </ol>
                     </div>
                 </div>
             </div>
         </nav>
     </div>
+
+    <div class="clbr--left-sidebar">
+        <ul class="clbr-ul-list">
+            <li class="clbr-ul-list-item" routerLinkActive="active-route">
+                <a [routerLink]="['/is/groups']">
+                    <i class="bowtie-icon bowtie-group-rows"></i>
+                    <span>Management of organizations</span>
+                </a>
+            </li>
+            <li class="clbr-ul-list-item" routerLinkActive="active-route">
+                <a [routerLink]="['/is/users']">
+                    <i class="bowtie-icon bowtie-users"></i>
+                    <span>Management of user</span>
+                </a>
+            </li>
+            <li class="clbr-ul-list-item" routerLinkActive="active-route">
+                <a [routerLink]="['/is/system']">
+                    <i class="bowtie-icon bowtie-settings-gear-outline clbr--bowtie-settings-gear-outline"></i>
+                    <span>System configuration</span>
+                </a>
+            </li>
+            <li class="clbr-ul-list-item" routerLinkActive="active-route">
+                <a [routerLink]="['/is/profile']">
+                    <i class="bowtie-icon bowtie-user clbr--bowtie-user"></i>
+                    <span>Edit user profile</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    
+    <div class="clbr--content">
+        <router-outlet></router-outlet>
+    </div>
 </div>
-
-<cmp-sidebar [eventSidebarToggle]="eventSidebarToggle.asObservable()">
-
-</cmp-sidebar>

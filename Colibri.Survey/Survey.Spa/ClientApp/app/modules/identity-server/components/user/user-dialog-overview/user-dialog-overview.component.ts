@@ -4,12 +4,12 @@ import { Component, Output, Input, EventEmitter } from '@angular/core';
 /* service-api */ import { UsersApiService } from 'shared/services/api/users.api.service';
 
 @Component({
-    selector: 'user-dialog-details-cmp',
-    templateUrl: './user-dialog-details.component.html',
-    styleUrls: ['./user-dialog-details.component.scss']
+    selector: 'cmp-user-dialog-overview',
+    templateUrl: './user-dialog-overview.component.html',
+    styleUrls: ['./user-dialog-overview.component.scss']
 })
 
-export class UserDialogDetailsComponent {
+export class UserDialogOverviewComponent {
     // dialog variable
     dialogConfig: DialogDataModel<any> = new DialogDataModel();
     @Output() onChange = new EventEmitter<any>();

@@ -1,7 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 
 /* component */ import { UserManageComponent } from './user-manage.component';
-/* component */ import { UserGridComponent } from './user-grid/user-grid.component';
+// /* component */ import { UserGridComponent } from './user-grid/user-grid.component';
 
 const routes: Routes = [
     {
@@ -11,7 +11,7 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: UserGridComponent,
+                // component: UserGridComponent,
                 data: { breadcrumb: 'users' },
             },
         ]

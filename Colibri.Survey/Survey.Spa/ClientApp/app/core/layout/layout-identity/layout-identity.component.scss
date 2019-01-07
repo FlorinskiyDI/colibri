@@ -1,5 +1,10 @@
 .cmp--layout-identity{
-    
+    position: absolute;
+    top: 0px;
+    bottom: 0;
+    left: 0px;
+    right: 0px;
+
     // navbar
     .navbar { min-height: 47px; }
     .navbar-brand {
@@ -28,14 +33,46 @@
         height: 40px;
         margin: 3px 0;
     }
+    .container-fluid { padding: 0 20px; }
 
-    .container-fluid { padding: 0 10px; }
     .clbr--navbar--block {
         z-index: 999999999;
         background-color: #3B78E7;
         border: none;
         -webkit-box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.2), 0 1px 8px 0 rgba(0,0,0,.12);
         box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.2), 0 1px 8px 0 rgba(0,0,0,.12);
+    }
+
+
+    .clbr--left-sidebar {
+        padding-top: 5px;
+        position: absolute;
+        top: 60px;
+        bottom: 0;
+        left: 0;
+        width: 270px;
+        border-right: 1px solid #E5E5E5;
+
+        .clbr-ul-list { padding-inline-start: 0px; }
+        .clbr-ul-list li { list-style-type: none; }
+        .clbr-ul-list li:hover { background: rgba(0,0,0,.04); cursor: pointer; }
+        .clbr-ul-list li.active-route { background-color: #e7e7e7 }
+        .clbr-ul-list li a { text-decoration: none; }
+        .clbr-ul-list li.clbr-ul-list-item { padding: 5px 30px; font-size: 13px  }    
+        .clbr-ul-list li.clbr-ul-list-item mat-icon{ color: #1D69A9; }
+        .clbr-ul-list li.clbr-ul-list-item span{ color: rgb(10, 10, 10); font-weight: 400; font-size: 12px; padding-left: 25px; }
+        .bowtie-icon { width: 14px; display: inline-block; text-align: center; }
+        .bowtie-icon.clbr--bowtie-user { font-size: 12px; }
+        .bowtie-icon.clbr--bowtie-settings-gear-outline { font-size: 13px; }
+        
+    }
+
+    .clbr--content {
+        position: absolute;
+        top: 65px;
+        bottom: 0;
+        left: 270px;
+        right: 0;
     }
 
 }

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'cmp-group',
-    templateUrl: 'group.component.html',
-    styleUrls: ['./group.component.scss']
+    template: `<router-outlet></router-outlet>`
 })
 
 export class GroupComponent implements OnInit {
