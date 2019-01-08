@@ -54,8 +54,8 @@
                     <ng-template pTemplate="body" let-rowData let-columns="columns">
                         <tr [pSelectableRow]="rowData">
                             <td class="border-left-none border-right-none">
-                                <a class="cmp--row-link" (click)="goToOverview(rowData.id, rowData.name)">{{rowData.name}}</a>       
-                                <!-- <a class="cmp--row-link" [routerLink]="['overview', rowData.id, {data: 'adadad'}]">{{rowData.name}}</a>                                 -->
+                                <!-- <a class="cmp--row-link" (click)="goToOverview(rowData.id, rowData.name)">{{rowData.name}}</a>        -->
+                                <a class="cmp--row-link" [routerLink]="['overview/' + rowData.id + '/main']">{{rowData.name}}</a>                                
                             </td>
                             <td *ngFor="let col of columns" class="border-left-none border-right-none">
                                 {{rowData[col.field]}}

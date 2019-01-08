@@ -7,12 +7,12 @@ import { ActivatedRoute } from '@angular/router';
 
 /* service-api */ import { GroupMembersApiService } from 'shared/services/api/group-members.api.service';
 /* model-api */ import { SearchQueryApiModel, SearchQueryPage } from 'shared/models/entities/api/page-search-entry.api.model';
-/* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
+
 
 @Component({
-    selector: 'cmp-member-grid',
-    templateUrl: './member-grid.component.html',
-    styleUrls: ['./member-grid.component.scss'],
+    selector: 'cmp-member-data-grid',
+    templateUrl: './member-data-grid.component.html',
+    styleUrls: ['./member-data-grid.component.scss'],
     providers: [
         TreeDragDropService,
         ConfirmationService,
@@ -20,7 +20,7 @@ import { ActivatedRoute } from '@angular/router';
     ]
 })
 
-export class MemberGridComponent implements OnInit {
+export class MemberDataGridComponent implements OnInit {
     @ViewChild('dtMembers') dtMembers: any;
     // output events
     @Output() deleteItem = new EventEmitter<any>();
@@ -30,7 +30,6 @@ export class MemberGridComponent implements OnInit {
     // private subscriberResetData: any;
 
 
-    dialogCreateConfig: DialogDataModel<any>;
     items: any[] = [];
     groupId: any;
     // table
@@ -130,8 +129,5 @@ export class MemberGridComponent implements OnInit {
 
 
 
-    public dialogCreateOpen() { this.dialogCreateConfig = new DialogDataModel<any>(true, { groupId: this.groupId }); }
-    public dialogCreateOnChange() { this.dtMembers.reset(); }
-    public dialogCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
-    public dialogCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
+
 }

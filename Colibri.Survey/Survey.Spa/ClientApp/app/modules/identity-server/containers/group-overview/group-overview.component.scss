@@ -1,0 +1,20 @@
+.cmp--group-overview {
+    padding: 0 20px;
+
+    .clbr--page-navigation {
+        margin-bottom: 10px;
+    }
+    ::ng-deep .cmp--p-tabMenu {
+        background-color: red;
+        .ui-state-active a { color: #212121 !important; }
+        .ui-state-default { border: none; }
+        .ui-state-default a { color: #888; }
+        .ui-widget-header { border: none; }
+        .ui-tabmenu .ui-tabmenu-nav { padding: 0px 0 15px 0; }
+        .ui-tabmenu .ui-tabmenu-nav > li.ui-state-default { background-color: transparent; }
+        .ui-tabmenu .ui-tabmenu-nav > li.ui-state-active { background-color: transparent; }
+        .ui-tabmenu .ui-tabmenu-nav > li:first-child a { padding-left: 0px; }
+        .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem a { font-size: 12px; font-weight: 400; padding: 0 8px; }
+    }
+    
+}

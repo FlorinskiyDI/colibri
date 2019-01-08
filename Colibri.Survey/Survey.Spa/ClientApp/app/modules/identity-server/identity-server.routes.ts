@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 /* component */ import { GroupComponent } from './containers/group/group.component';
 /* component */ import { GroupManageComponent } from './containers/group-manage/group-manage.component';
 /* component */ import { GroupOverviewComponent } from './containers/group-overview/group-overview.component';
-/* component */ import { GroupOverviewGeneralComponent } from './containers/group-overview-general/group-overview-general.component';
+/* component */ import { GroupOverviewMainComponent } from './containers/group-overview-main/group-overview-main.component';
 /* component */ import { SystemConfigurationComponent } from './containers/system-configuration/system-configuration.component';
 /* component */ import { MemberManageComponent } from './containers/member-manage/member-manage.component';
 /* component */ import { UserComponent } from './containers/user/user.component';
@@ -14,7 +14,9 @@ const routes: Routes = [
     {
         path: 'groups',
         component: GroupComponent,
-        data: { breadcrumb: 'Management of organizations' },
+        data: {
+            breadcrumb: { title: 'Management of organizations', icon: '' }
+        },
         children: [
             {
                 path: '',
@@ -23,11 +25,13 @@ const routes: Routes = [
             {
                 path: 'overview/:id',
                 component: GroupOverviewComponent,
-                data: { breadcrumb: 'Overview' },
+                data: {
+                    breadcrumb: { title: 'Overview', icon: 'bowtie-group-rows' }
+                },
                 children: [
                     {
-                        path: 'general',
-                        component: GroupOverviewGeneralComponent
+                        path: 'main',
+                        component: GroupOverviewMainComponent
                     },
                     {
                         path: 'members',

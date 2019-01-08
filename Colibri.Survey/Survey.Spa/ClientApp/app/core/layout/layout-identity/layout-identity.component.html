@@ -13,18 +13,18 @@
                         <button mat-icon-button class="clbr--sidebar-btns" (click)="sidebarToggle($event)">
                             <mat-icon aria-label="Example icon-button with a heart icon">menu</mat-icon>
                         </button>
-                        <div class="navbar-brand">Identity Server</div>
-                        <ol class="breadcrumb">
-                            <li *ngFor="let breadcrumb of breadcrumbs$ | async; let i = index; let count = count" class="breadcrumb-item">
-                                 <!-- <span >
-                                    <a [routerLink]="[breadcrumb.url]">{{ breadcrumb.label }}</a>
-                                </span> -->
-                                <span *ngIf="i+1 != count">
-                                    <a [routerLink]="[breadcrumb.url]">{{ breadcrumb.label }}</a>
-                                </span>
-                                <span *ngIf="i+1 == count">{{ breadcrumb.label }}</span>
-                            </li>
-                        </ol>
+                        <div class="navbar-brand">IDENTITY SERVER</div>
+                        <span class="cmp--breadcrumb">
+                            <ol class="breadcrumb">
+                                <li *ngFor="let breadcrumb of breadcrumbs$ | async; let i = index; let count = count" [ngClass]="{active: i+1 == count, parent: i+1 < count }">
+                                    <span *ngIf="i+1 != count">
+                                        <a [routerLink]="[breadcrumb.url]">{{ breadcrumb.label }}</a>
+                                    </span>
+                                    <i *ngIf="breadcrumb.icon" class="breadcrumb-icon bowtie-icon" [ngClass]="breadcrumb.icon"></i>
+                                    <span *ngIf="i+1 == count">{{ breadcrumb.label }}</span>
+                                </li>
+                            </ol>
+                        </span>
                     </div>
                 </div>
             </div>

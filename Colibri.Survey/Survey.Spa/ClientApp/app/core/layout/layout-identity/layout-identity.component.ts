@@ -44,19 +44,24 @@ export class LayoutIdentityComponent implements OnInit {
         breadcrumbs: Array<BreadCrumb> = []
     ): Array<BreadCrumb> {
         // If no routeConfig is avalailable we are on the root path
-        const breadcrumbData = route.routeConfig && route.routeConfig.data && route.routeConfig.data['breadcrumb'];
+        const breadcrumbData =
+            route.routeConfig &&
+            route.routeConfig.data &&
+            route.routeConfig.data.breadcrumb;
 
         let newBreadcrumbs: any = [...breadcrumbs];
         let nextUrl = '';
 
-        const label = route.routeConfig ? breadcrumbData : null;
+        const label = route.routeConfig ? breadcrumbData && breadcrumbData.title : null;
+        const icon = route.routeConfig ? breadcrumbData && breadcrumbData.icon : null;
         const path = route.routeConfig ? route.routeConfig.path : '';
         // In the routeConfig the complete path is not available,
         // so we rebuild it each time
         nextUrl = `${url}${path}/`;
         const breadcrumb = {
             label: label,
-            url: nextUrl
+            url: nextUrl,
+            icon: icon
         };
         if (breadcrumbData) {
             console.log(route);

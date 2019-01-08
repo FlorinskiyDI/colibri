@@ -5,8 +5,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { Observable } from 'rxjs/Observable';
 
 import {
-    Router,
-    NavigationExtras
+    Router
   } from '@angular/router';
 
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
@@ -55,16 +54,15 @@ export class GroupDataGridComponent implements OnInit {
         this.tbLoading = true;
     }
 
-    goToOverview(data1: any, data2: any) {
-        debugger
-        const navigationExtras: NavigationExtras = {
-            queryParams: { 'session_id': data1 },
-            fragment: data2,
-            skipLocationChange: true
-        };
-        this.router.navigate(['is/groups/overview/' + data1], navigationExtras);
-        window.history.pushState('', '', 'is/groups/overview/' + data1);
-    }
+    // goToOverview(data1: any, data2: any) {
+    //     const navigationExtras: NavigationExtras = {
+    //         queryParams: { 'session_id': data1 },
+    //         fragment: data2,
+    //         skipLocationChange: true
+    //     };
+    //     this.router.navigate(['is/groups/overview/' + data1], navigationExtras);
+    //     window.history.pushState('', '', 'is/groups/overview/' + data1);
+    // }
 
     ngOnInit() {
         this.subscriberResetData = this.eventResetData.subscribe(() => this.dtGroups.reset());

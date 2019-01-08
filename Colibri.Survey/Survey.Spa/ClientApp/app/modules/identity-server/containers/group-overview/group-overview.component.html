@@ -1,7 +1,22 @@
 <div class="cmp--group-overview container-fluid">
+
+    <!-- page-navigation -->
     <div class="row">
-        <div class="col-md-12">
-            cmp--group-overview
+        <div class="col-md-10">
+            <div class="clbr--page-navigation">
+                <p-tabMenu class="cmp--p-tabMenu" [model]="menuItems">
+                </p-tabMenu>
+            </div>
         </div>
     </div>
+
+    <!-- page-content -->
+    <div class="row">
+        <div class="col-md-10">
+            <div class="clbr--page-content">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+
 </div>

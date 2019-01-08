@@ -7,11 +7,13 @@ import { NgModule } from '@angular/core';
 /* component */ import { GroupDataTreeComponent } from './components/group/group-data-tree/group-data-tree.component';
 /* component */ import { GroupDataGridComponent } from './components/group/group-data-grid/group-data-grid.component';
 /* component */ import { GroupOverviewComponent } from './containers/group-overview/group-overview.component';
-/* component */ import { GroupOverviewGeneralComponent } from './containers/group-overview-general/group-overview-general.component';
+/* component */ import { GroupOverviewMainComponent } from './containers/group-overview-main/group-overview-main.component';
 /* component */ import { GroupDialogCreateComponent } from './components/group/group-dialog-create/group-dialog-create.component';
 /* component */ import { SystemConfigurationComponent } from './containers/system-configuration/system-configuration.component';
 /* component */ import { UserDialogDetailsComponent } from './containers/user-dialog-details/user-dialog-details.component';
 /* component */ import { MemberManageComponent } from './containers/member-manage/member-manage.component';
+/* component */ import { MemberDataGridComponent } from './components/member/member-data-grid/member-data-grid.component';
+/* component */ import { MemberDialogCreateComponent } from './components/member/member-dialog-create/member-dialog-create.component';
 /* component */ import { UserComponent } from './containers/user/user.component';
 /* component */ import { UserManageComponent } from './containers/user-manage/user-manage.component';
 /* component */ import { UserProfileComponent } from './containers/user-profile/user-profile.component';
@@ -29,7 +31,7 @@ import { NgModule } from '@angular/core';
         // components
         GroupComponent,
         GroupOverviewComponent,
-        GroupOverviewGeneralComponent,
+        GroupOverviewMainComponent,
         GroupManageComponent,
         GroupDataTreeComponent,
         GroupDataGridComponent,
@@ -41,6 +43,8 @@ import { NgModule } from '@angular/core';
         UserDataGridComponent,
         UserDialogOverviewComponent,
         MemberManageComponent,
+        MemberDataGridComponent,
+        MemberDialogCreateComponent,
         SystemConfigurationComponent,
         // pipes
         UserStatusPipe
