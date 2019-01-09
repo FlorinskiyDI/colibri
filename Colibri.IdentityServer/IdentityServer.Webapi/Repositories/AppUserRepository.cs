@@ -39,11 +39,11 @@ namespace IdentityServer.Webapi.Repositories
                 var data = await ctx.Set<ApplicationUser>()
                     .Include(c => c.ApplicationUserGroups).ThenInclude(d => d.Group)
                     .Include(c => c.MemberGroups).ThenInclude(d => d.Group)
-                    .FirstOrDefaultAsync(c => c.Id == userId);
+                    .FirstOrDefaultAsync(c => c.Id == new Guid(userId));
 
                 result = new UserFullDetailsViewModel()
                 {
-                    Id = data.Id,
+                    Id =  data.Id.ToString(),
                     UserName = data.UserName,
                     Email = data.Email,
                     EmailConfirmed = data.EmailConfirmed,

@@ -5,10 +5,13 @@ using Microsoft.AspNetCore.Identity;
 using dataaccesscore.Abstractions.Context;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using System;
 
 namespace IdentityServer.Webapi.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IEntityContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid,
+        IdentityUserClaim<Guid>, ApplicationUserRole, IdentityUserLogin<Guid>,
+        IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>, IEntityContext
     {
         public static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] {
                 new ConsoleLoggerProvider((category, level)
@@ -18,6 +21,8 @@ namespace IdentityServer.Webapi.Data
 
         public virtual DbSet<ApplicationUserGroups> ApplicationUserGroups { get; set; }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual DbSet<ApplicationRole> ApplicationRoles { get; set; }
+        public virtual DbSet<ApplicationUserRole> ApplicationUserRoles { get; set; }
         public virtual DbSet<MemberGroups> MemberGroups { get; set; }
         public virtual DbSet<Groups> Groups { get; set; }
         public virtual DbSet<GroupNode> GroupNode { get; set; }
@@ -109,8 +114,14 @@ namespace IdentityServer.Webapi.Data
                 .HasAnnotation("ProductVersion", "1.0.0-rc3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity<IdentityRole>(b =>
+            modelBuilder.Entity<ApplicationRole>(b =>
             {
+                // Each Role can have many entries in the UserRole join table
+                b.HasMany(e => e.UserRoles)
+                    .WithOne(e => e.Role)
+                    .HasForeignKey(ur => ur.RoleId)
+                    .IsRequired();
+
                 b.Property(x => x.ConcurrencyStamp)
                     .IsConcurrencyToken();
 
@@ -215,6 +226,29 @@ namespace IdentityServer.Webapi.Data
 
             modelBuilder.Entity<ApplicationUser>(b =>
             {
+                b.HasMany(e => e.Claims)
+                .WithOne()
+                .HasForeignKey(uc => uc.UserId)
+                .IsRequired();
+
+                // Each User can have many UserLogins
+                b.HasMany(e => e.Logins)
+                    .WithOne()
+                    .HasForeignKey(ul => ul.UserId)
+                    .IsRequired();
+
+                // Each User can have many UserTokens
+                b.HasMany(e => e.Tokens)
+                    .WithOne()
+                    .HasForeignKey(ut => ut.UserId)
+                    .IsRequired();
+
+                // Each User can have many entries in the UserRole join table
+                b.HasMany(e => e.UserRoles)
+                    .WithOne()
+                    .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
+
                 b.Property(x => x.ConcurrencyStamp)
                     .IsConcurrencyToken();
 

@@ -65,7 +65,7 @@ namespace IdentityServer.Webapi
             services.Configure<EmailConfirmProtectorTokenProviderOptions>(options => options.TokenLifespan = TimeSpan.FromMilliseconds(emailConfirmTokenProviderTokenLifespan));
 
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequireNonAlphanumeric = false;

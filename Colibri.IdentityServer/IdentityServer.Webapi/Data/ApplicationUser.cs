@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Data
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<Guid>
     {
         public ApplicationUser()
         {
@@ -27,5 +27,10 @@ namespace IdentityServer.Webapi.Data
         public ICollection<ApplicationUserGroups> ApplicationUserGroups { get; set; }
         [InverseProperty("User")]
         public ICollection<MemberGroups> MemberGroups { get; set; }
+
+        public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
+        public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+        public virtual ICollection<IdentityUserToken<string>> Tokens { get; set; }
+        public virtual ICollection<IdentityUserRole<string>> UserRoles { get; set; }
     }
 }

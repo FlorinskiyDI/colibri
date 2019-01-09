@@ -58,7 +58,7 @@ namespace IdentityServer.Webapi.Services
                     {
                         ItemList = data.Select(c => new AppUserPageDto
                         {
-                            Id = c.Id,
+                            Id = c.Id.ToString(),
                             UserName = c.UserName,
                             Email = c.Email,
                             EmailConfirmed = c.EmailConfirmed,
@@ -104,7 +104,7 @@ namespace IdentityServer.Webapi.Services
                     throw new ArgumentException("The app user was not created");
                 }
                 // send invite to user
-                await SendInvitationByEmailConfirmationToken(user.Id);
+                await SendInvitationByEmailConfirmationToken(user.Id.ToString());
             }
             //
             return user;
