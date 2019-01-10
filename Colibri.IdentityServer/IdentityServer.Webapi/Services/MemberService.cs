@@ -89,7 +89,7 @@ namespace IdentityServer.Webapi.Services
             }
 
             // add relationchips between user and group (members)
-            var memberGroupList = userList.Select(c => new MemberGroups() { UserId = c.Id.ToString(), GroupId = groupId });
+            var memberGroupList = userList.Select(c => new MemberGroups() { UserId = c.Id, GroupId = groupId });
             using (var uow = _uowProvider.CreateUnitOfWork())
             {
                 var repository = uow.GetRepository<MemberGroups>();

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Data
 {
-    public class ApplicationUserRole : IdentityUserRole<Guid>
+    public class ApplicationRoleClaim : IdentityRoleClaim<Guid>
     {
-        //public virtual ApplicationUser User { get; set; }
         //public virtual ApplicationRole Role { get; set; }
     }
 }

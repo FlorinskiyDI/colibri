@@ -6,7 +6,7 @@ namespace IdentityServer.Webapi.Data
 {
     public class ApplicationRole : IdentityRole<Guid>
     {
-        public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
+        //public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
 
         public ApplicationRole() : base()
         { }

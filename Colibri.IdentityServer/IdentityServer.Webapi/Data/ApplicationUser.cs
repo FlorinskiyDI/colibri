@@ -28,9 +28,9 @@ namespace IdentityServer.Webapi.Data
         [InverseProperty("User")]
         public ICollection<MemberGroups> MemberGroups { get; set; }
 
-        public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
-        public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
-        public virtual ICollection<IdentityUserToken<string>> Tokens { get; set; }
-        public virtual ICollection<IdentityUserRole<string>> UserRoles { get; set; }
+        //public virtual ICollection<IdentityUserClaim<Guid>> Claims { get; set; }
+        //public virtual ICollection<IdentityUserLogin<Guid>> Logins { get; set; }
+        //public virtual ICollection<IdentityUserToken<Guid>> Tokens { get; set; }
+        //public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
     }
 }

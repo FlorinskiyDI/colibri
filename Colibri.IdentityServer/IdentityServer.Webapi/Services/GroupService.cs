@@ -71,7 +71,7 @@ namespace IdentityServer.Webapi.Services
                 ? new OrderBy<Groups>(c => c.OrderBy(d => d.Name))
                 : new OrderBy<Groups>(searchEntry.OrderStatement.ColumName, searchEntry.OrderStatement.Reverse);
             // generate filter expression
-            var filters = new Filter<Groups>(c => c.ApplicationUserGroups.Any(d => d.UserId == userId));
+            var filters = new Filter<Groups>(c => c.ApplicationUserGroups.Any(d => d.UserId == new Guid(userId)));
 
             var page = new SearchResult<GroupDto>();
             try
@@ -145,7 +145,7 @@ namespace IdentityServer.Webapi.Services
                     var repository = uow.GetRepository<Groups>();
 
                     // get root groups fo user
-                    var items = repository.Query(c => c.ApplicationUserGroups.Any(d => d.UserId == userId)).ToList();
+                    var items = repository.Query(c => c.ApplicationUserGroups.Any(d => d.UserId == new Guid(userId))).ToList();
                     Filter<Groups> filters = new Filter<Groups>(c => c.Ancestors.Any(d => items.Contains(d.Ancestor)));  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
                     //Filter<Groups> filters = new Filter<Groups>(c => items.Contains(c.ParentId.Value) || c.ParentId == null);  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
 
@@ -253,7 +253,7 @@ namespace IdentityServer.Webapi.Services
                 // add user to group
                 if (model.ParentId == null)
                 {
-                    await _userGroupService.AddUserToGroup(new ApplicationUserGroups { GroupId = entity.Id, UserId = userId });
+                    await _userGroupService.AddUserToGroup(new ApplicationUserGroups { GroupId = entity.Id, UserId = new Guid(userId) });
                 }
                 // add paths between new descendant and exist ancestors
                 await _groupNodeService.AddPathsBetweenDescendantAndAncestors(entity.Id, model.ParentId);
@@ -295,7 +295,7 @@ namespace IdentityServer.Webapi.Services
 
                 foreach (var item in inverseParent)
                 {
-                    await _userGroupService.AddUserToGroup(new ApplicationUserGroups { GroupId = item.Id, UserId = userId });
+                    await _userGroupService.AddUserToGroup(new ApplicationUserGroups { GroupId = item.Id, UserId = new Guid(userId) });
                 }
 
 

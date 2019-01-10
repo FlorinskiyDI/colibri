@@ -47,11 +47,18 @@ namespace IdentityServer.Webapi
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             //var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "damienbodserver.pfx"), "");
+
+            services.AddTransient<UserManager<ApplicationUser>>();
+            services.AddTransient<RoleManager<ApplicationRole>>();
+            services.AddTransient<SignInManager<ApplicationRole>>();
+
+            
+
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -100,6 +107,8 @@ namespace IdentityServer.Webapi
                 .AddInMemoryClients(Clients.GetClients())
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<IdentityProfileService>();
+
+
 
             services.AddTransient<IProfileService, IdentityProfileService>();
             services.AddTransient<IExtensionGrantValidator, DelegationGrantValidator>();
