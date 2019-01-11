@@ -21,6 +21,7 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using dataaccesscore.EFCore;
 using IdentityServer.Webapi.Configurations.AspNetIdentity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace IdentityServer.Webapi
 {
@@ -53,9 +54,9 @@ namespace IdentityServer.Webapi
         {
             //var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "damienbodserver.pfx"), "");
 
-            services.AddTransient<UserManager<ApplicationUser>>();
-            services.AddTransient<RoleManager<ApplicationRole>>();
-            services.AddTransient<SignInManager<ApplicationRole>>();
+            //services.AddTransient<UserManager<ApplicationUser>>();
+            //services.AddTransient<RoleManager<ApplicationRole>>();
+            //services.AddTransient<SignInManager<ApplicationRole>>();
 
             
 
@@ -71,6 +72,10 @@ namespace IdentityServer.Webapi
             services.Configure<IdentityOptions>(options => options.Tokens.EmailConfirmationTokenProvider = emailConfirmTokenProviderName);
             services.Configure<EmailConfirmProtectorTokenProviderOptions>(options => options.TokenLifespan = TimeSpan.FromMilliseconds(emailConfirmTokenProviderTokenLifespan));
 
+            services.AddScoped<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid, IdentityUserClaim<Guid>, ApplicationUserRole, IdentityUserLogin<Guid>, IdentityUserToken<Guid>, IdentityRoleClaim<Guid>>, ApplicationUserStore>();
+            services.AddScoped<UserManager<ApplicationUser>, ApplicationUserManager>();
+            //services.AddScoped<ApplicationUserStore, ApplicationUserStore>();
+            //services.AddScoped<ApplicationUserManager, ApplicationUserManager>();
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
                 {
@@ -80,6 +85,8 @@ namespace IdentityServer.Webapi
                     options.Password.RequiredLength = 6;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddUserStore<ApplicationUserStore>()
+                .AddUserManager<ApplicationUserManager>()
                 .AddDefaultTokenProviders()
                 .AddTokenProvider<EmailConfirmDataProtectorTokenProvider<ApplicationUser>>(emailConfirmTokenProviderName);
 

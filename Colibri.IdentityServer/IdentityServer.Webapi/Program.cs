@@ -23,7 +23,7 @@ namespace IdentityServer.Webapi
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>() as ApplicationUserManager;
                     var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
                     var context = services.GetRequiredService<ApplicationDbContext>();
                     var dbInitializerLogger = services.GetRequiredService<ILogger<DbInitializer>>();

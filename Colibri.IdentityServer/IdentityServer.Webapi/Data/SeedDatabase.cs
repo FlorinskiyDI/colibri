@@ -10,7 +10,7 @@ namespace IdentityServer.Webapi.Data
     {
         public DbInitializer() { }
 
-        public static async Task SeedingAsync(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, ApplicationDbContext context, ILogger<DbInitializer> logger)
+        public static async Task SeedingAsync(ApplicationUserManager userManager, RoleManager<ApplicationRole> roleManager, ApplicationDbContext context, ILogger<DbInitializer> logger)
         {
             if (!context.Roles.Any())
             {
@@ -20,8 +20,9 @@ namespace IdentityServer.Webapi.Data
             }
             if (!context.Users.Any())
             {
-                var user = await CreateDefaultUser(userManager, logger, "SuperAdmin", "SuperAdmin@gmail.com");
-                await SetPasswordForUser(userManager, logger, "SuperAdmin@gmail.com", user, "Flor_93");
+                var user = await CreateDefaultUser(userManager, logger, "superadmin@gmail.com");
+                await SetPasswordForUser(userManager, logger, "superadmin@gmail.com", user, "Flor_93");
+                await AddToRoleAsync(user, userManager, logger, "SuperAdmin");
             }
         }
 
@@ -41,14 +42,29 @@ namespace IdentityServer.Webapi.Data
             }
         }
 
-        private static async Task<ApplicationUser> CreateDefaultUser(UserManager<ApplicationUser> userManager, ILogger<DbInitializer> logger, string userName, string email)
+        private static async Task AddToRoleAsync(ApplicationUser user, ApplicationUserManager userManager, ILogger<DbInitializer> logger, string role, Guid? group = null)
+        {
+            IdentityResult result = await userManager.AddToRoleAsync(user, role, group);
+            if (result.Succeeded)
+            {
+                logger.LogDebug($"Added the role `{role}` to user successfully");
+            }
+            else
+            {
+                ApplicationException exception = new ApplicationException($"Role `{role}` cannot be added to user `{user.UserName}`");
+                //logger.LogError(exception, GetIdentiryErrorsInCommaSeperatedList(result));
+                throw exception;
+            }
+        }
+
+        private static async Task<ApplicationUser> CreateDefaultUser(UserManager<ApplicationUser> userManager, ILogger<DbInitializer> logger, string email)
         {
             logger.LogInformation($"Create default user with email `{email}` for application");
 
             ApplicationUser user = new ApplicationUser
             {
 
-                UserName = userName,
+                UserName = email,
                 Email = email,
                 EmailConfirmed = true
             };
