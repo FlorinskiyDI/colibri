@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer.Webapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190110142015_test")]
+    [Migration("20190112092509_test")]
     partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -156,7 +156,11 @@ namespace IdentityServer.Webapi.Migrations
 
                     b.Property<Guid>("RoleId");
 
+                    b.Property<Guid?>("GroupId");
+
                     b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("RoleId");
 
@@ -302,6 +306,11 @@ namespace IdentityServer.Webapi.Migrations
 
             modelBuilder.Entity("IdentityServer.Webapi.Data.ApplicationUserRole", b =>
                 {
+                    b.HasOne("IdentityServer.Webapi.Data.Groups", "Group")
+                        .WithMany("ApplicationUserRoles")
+                        .HasForeignKey("GroupId")
+                        .HasConstraintName("FK_ApplicationUserRole_ToGroups");
+
                     b.HasOne("IdentityServer.Webapi.Data.ApplicationRole")
                         .WithMany()
                         .HasForeignKey("RoleId")

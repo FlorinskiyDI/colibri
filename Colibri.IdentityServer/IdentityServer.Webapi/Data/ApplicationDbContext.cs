@@ -386,6 +386,13 @@ namespace IdentityServer.Webapi.Data
                     .HasForeignKey(x => x.UserId)
                     .OnDelete(DeleteBehavior.Cascade);
 
+
+                b.HasOne(d => d.Group)
+                    .WithMany(p => p.ApplicationUserRoles)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ApplicationUserRole_ToGroups");
+
                 b.ToTable("AspNetUserRoles", "dbo");
             });
 

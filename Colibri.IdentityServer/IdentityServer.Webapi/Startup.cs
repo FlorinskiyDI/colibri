@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using dataaccesscore.EFCore;
 using IdentityServer.Webapi.Configurations.AspNetIdentity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace IdentityServer.Webapi
 {
@@ -136,22 +137,15 @@ namespace IdentityServer.Webapi
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
-                {
-                    policyAdmin.RequireClaim("role", "dataEventRecords.admin");
-                });
-                options.AddPolicy("admin", policyAdmin =>
-                {
-                    policyAdmin.RequireClaim("role", "admin");
-                });
-                options.AddPolicy("user", policyUser =>
-                {
-                    policyUser.RequireClaim("role", "user");
-                });
-                options.AddPolicy("dataEventRecords", policyUser =>
-                {
-                    policyUser.RequireClaim("scope", "dataEventRecords");
-                });
+                var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
+                defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+                options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+                //options.AddPolicy("user", policyUser =>
+                //{
+                //    policyUser.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+                //    policyUser.RequireAuthenticatedUser();
+                //    policyUser.RequireClaim("role", "user");
+                //});
             });
 
             services.AddMvc().AddJsonOptions(options =>

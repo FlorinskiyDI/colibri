@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer", Policy = "user")]
+    [Authorize]
     [Produces("application/json")]
     [Route("api/users")]
     public class UsersController : Controller

@@ -28,7 +28,7 @@ namespace IdentityServer.Webapi.Data
             _applicationUserStore = userStore as ApplicationUserStore;
         }
 
-        public async Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role, Guid? group = null)
+        public async Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role, Guid? groupId = null)
         {
             ThrowIfDisposed();
             //var userRoleStore = Store as IUserRoleStore<ApplicationUser>;
@@ -41,9 +41,9 @@ namespace IdentityServer.Webapi.Data
             if (await _applicationUserStore.IsInRoleAsync(user, normalizedRole, CancellationToken))
             {
                 var errors = new IdentityError();
-                return IdentityResult.Failed(new IdentityError() { Description = $"User `{user.UserName}` with group id `{group}` already have role `{role}`" } );
+                return IdentityResult.Failed(new IdentityError() { Description = $"User `{user.UserName}` with group id `{groupId}` already have role `{role}`" } );
             }
-            await _applicationUserStore.AddToRoleAsync(user, normalizedRole, group, CancellationToken);
+            await _applicationUserStore.AddToRoleAsync(user, normalizedRole, groupId, CancellationToken);
             return await UpdateUserAsync(user);
         }
 

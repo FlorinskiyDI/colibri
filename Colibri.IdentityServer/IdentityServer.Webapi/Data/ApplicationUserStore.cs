@@ -19,10 +19,12 @@ namespace IdentityServer.Webapi.Data
         //    return base.AddToRoleAsync(user, normalizedRoleName, cancellationToken);
         //}
 
-        public Task AddToRoleAsync(ApplicationUser user,  String normalizedRoleName, Guid? group = null, CancellationToken cancellationToken = default)
+        public Task AddToRoleAsync(ApplicationUser user,  String normalizedRoleName, Guid? groupId = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
+
+            // Checking user
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
@@ -31,6 +33,8 @@ namespace IdentityServer.Webapi.Data
             {
                 throw new ArgumentException("Value cannot be null or empty", nameof(normalizedRoleName));
             }
+
+            // Checking role
             ApplicationRole roleEntity = null;
             try
             {
@@ -40,15 +44,32 @@ namespace IdentityServer.Webapi.Data
             {
                 throw ex;
             }
-
             if (roleEntity == null)
             {
                 throw new InvalidOperationException($"Role `{normalizedRoleName}` not found");
             }
 
+            // Checking group
+            Groups groupEntity = null;
+            if (groupId != null)
+            {
+                try
+                {
+                    groupEntity = Context.Set<Groups>().Where(r => r.Id == groupId).Single();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                if (groupEntity == null)
+                {
+                    throw new InvalidOperationException($"Group `{groupId}` not found");
+                }
+            }
+
             Context.Set<ApplicationUserRole>().Add(new ApplicationUserRole
             {
-                //GroupId = group,
+                GroupId = groupEntity?.Id,
                 RoleId = roleEntity.Id,
                 UserId = user.Id
             });

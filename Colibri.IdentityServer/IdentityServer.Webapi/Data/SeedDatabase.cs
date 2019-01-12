@@ -20,8 +20,8 @@ namespace IdentityServer.Webapi.Data
             }
             if (!context.Users.Any())
             {
-                var user = await CreateDefaultUser(userManager, logger, "superadmin@gmail.com");
-                await SetPasswordForUser(userManager, logger, "superadmin@gmail.com", user, "Flor_93");
+                var user = await CreateDefaultUser(userManager, logger, "superadmin@gmail.com", "sadmin");
+                await SetPasswordForUser(userManager, logger, "superadmin@gmail.com", user, "sadmin");
                 await AddToRoleAsync(user, userManager, logger, "SuperAdmin");
             }
         }
@@ -57,14 +57,14 @@ namespace IdentityServer.Webapi.Data
             }
         }
 
-        private static async Task<ApplicationUser> CreateDefaultUser(UserManager<ApplicationUser> userManager, ILogger<DbInitializer> logger, string email)
+        private static async Task<ApplicationUser> CreateDefaultUser(UserManager<ApplicationUser> userManager, ILogger<DbInitializer> logger, string email, string userName)
         {
             logger.LogInformation($"Create default user with email `{email}` for application");
 
             ApplicationUser user = new ApplicationUser
             {
 
-                UserName = email,
+                UserName = userName,
                 Email = email,
                 EmailConfirmed = true
             };
