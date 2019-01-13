@@ -19,7 +19,6 @@ namespace IdentityServer.Webapi.Data
                        && level == LogLevel.Debug, true)
             });
 
-        public virtual DbSet<ApplicationUserGroups> ApplicationUserGroups { get; set; }
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public virtual DbSet<ApplicationRole> ApplicationRoles { get; set; }
         public virtual DbSet<ApplicationRoleClaim> ApplicationRoleClaim { get; set; }
@@ -48,23 +47,6 @@ namespace IdentityServer.Webapi.Data
             modelBuilder.Entity<GroupNode>(b =>
             {
                 b.HasKey(p => new { p.AncestorId, p.OffspringId });
-            });
-
-            modelBuilder.Entity<ApplicationUserGroups>(entity =>
-            {
-                entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
-
-                entity.HasOne(d => d.Group)
-                    .WithMany(p => p.ApplicationUserGroups)
-                    .HasForeignKey(d => d.GroupId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ApplicationUserGroups_ToGroups");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.ApplicationUserGroups)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ApplicationUserGroups_ToAspNetUsers");
             });
 
             modelBuilder.Entity<MemberGroups>(entity =>

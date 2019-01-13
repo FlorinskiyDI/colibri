@@ -16,17 +16,18 @@ namespace IdentityServer.Webapi.Services
 {
     public class GroupService : IGroupService
     {
-        private readonly IUserGroupService _userGroupService;
+        private readonly IMemberService _memberService;
         private readonly IGroupNodeService _groupNodeService;
         private readonly IDataPager<Groups> _pager;
-        protected readonly IUowProvider _uowProvider;
-        protected readonly IMapper _mapper;
-
+        private readonly IUowProvider _uowProvider;
+        private readonly IMapper _mapper;
+        private readonly ApplicationUserManager _userManager;
         public GroupService(
             IUowProvider uowProvider,
             IDataPager<Groups> pager,
             IGroupNodeService groupNodeService,
-            IUserGroupService userGroupService,
+            IMemberService memberService,
+            ApplicationUserManager userManager,
             IMapper mapper
         )
         {
@@ -34,7 +35,8 @@ namespace IdentityServer.Webapi.Services
             _pager = pager;
             _mapper = mapper;
             _groupNodeService = groupNodeService;
-            _userGroupService = userGroupService;
+            _memberService = memberService;
+            _userManager = userManager;
         }
 
 
@@ -71,7 +73,7 @@ namespace IdentityServer.Webapi.Services
                 ? new OrderBy<Groups>(c => c.OrderBy(d => d.Name))
                 : new OrderBy<Groups>(searchEntry.OrderStatement.ColumName, searchEntry.OrderStatement.Reverse);
             // generate filter expression
-            var filters = new Filter<Groups>(c => c.ApplicationUserGroups.Any(d => d.UserId == new Guid(userId)));
+            var filters = new Filter<Groups>(c => c.MemberGroups.Any(d => d.UserId == new Guid(userId)));
 
             var page = new SearchResult<GroupDto>();
             try
@@ -143,35 +145,37 @@ namespace IdentityServer.Webapi.Services
                 using (var uow = _uowProvider.CreateUnitOfWork())
                 {
                     var repository = uow.GetRepository<Groups>();
+                    var userRolerepository = uow.GetRepository<ApplicationUserRole>();
 
                     // get root groups fo user
-                    var items = repository.Query(c => c.ApplicationUserGroups.Any(d => d.UserId == new Guid(userId))).ToList();
-                    Filter<Groups> filters = new Filter<Groups>(c => c.Ancestors.Any(d => items.Contains(d.Ancestor)));  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
+                    var items = repository.Query(c => c.MemberGroups.Any(d => d.UserId == new Guid(userId))).ToList();
+
+                    //Filter<Groups> filters = new Filter<Groups>(c => c.Ancestors.Any(d => items.Contains(d.Ancestor)));  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
                     //Filter<Groups> filters = new Filter<Groups>(c => items.Contains(c.ParentId.Value) || c.ParentId == null);  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
 
                     // get data
                     if (searchEntry?.SearchQueryPage == null)
                     {
-                        var data = await repository.QueryAsync(filters.Expression, sort.Expression);
-                        page = new SearchResult<GroupDto>()
-                        {
-                            ItemList = data.Select(c => new GroupDto
-                            {
-                                Id = c.Id,
-                                ParentId = c.ParentId,
-                                Name = c.Name,
-                                CountChildren = c.InverseParent.Count
-                            }).ToList(),
-                        };
+                    //    var data = await repository.QueryAsync(filters.Expression, sort.Expression);
+                    //    page = new SearchResult<GroupDto>()
+                    //    {
+                    //        ItemList = data.Select(c => new GroupDto
+                    //        {
+                    //            Id = c.Id,
+                    //            ParentId = c.ParentId,
+                    //            Name = c.Name,
+                    //            CountChildren = c.InverseParent.Count
+                    //        }).ToList(),
+                    //    };
 
-                    }
-                    // get page data
+                }
+                        // get page data
                     else
                     {
                         var startRow = searchEntry.SearchQueryPage.PageNumber;
-                        var data = await repository.QueryPageAsync(filters.Expression, sort.Expression, null, startRow, searchEntry.SearchQueryPage.PageLength);
-                        var totalCount = await repository.CountAsync(filters.Expression);
-
+                        var data = await repository.GetAllAsync(sort.Expression);
+                        //var totalCount = await repository.CountAsync(filters.Expression);
+                        var totalCount = 50;
                         page = new SearchResult<GroupDto>()
                         {
                             ItemList = data.Select(c => new GroupDto
@@ -244,16 +248,22 @@ namespace IdentityServer.Webapi.Services
             try
             {
                 // add new group
+                Groups group = null;
                 using (var uow = _uowProvider.CreateUnitOfWork())
                 {
                     var repository = uow.GetRepository<Groups>();
-                    var result = await repository.AddAsync(entity);
+                    group = await repository.AddAsync(entity);
                     await uow.SaveChangesAsync();
                 }
-                // add user to group
+                
                 if (model.ParentId == null)
                 {
-                    await _userGroupService.AddUserToGroup(new ApplicationUserGroups { GroupId = entity.Id, UserId = new Guid(userId) });
+                    // add member to group
+                    await _memberService.AddUserToGroup(new MemberGroups { GroupId = entity.Id, UserId = new Guid(userId) });
+                    // add role to member user
+                    var user = await _userManager.FindByIdAsync(userId);
+                    await _userManager.AddToRoleAsync(user, "GroupAdmin", group.Id);
+
                 }
                 // add paths between new descendant and exist ancestors
                 await _groupNodeService.AddPathsBetweenDescendantAndAncestors(entity.Id, model.ParentId);
@@ -283,7 +293,7 @@ namespace IdentityServer.Webapi.Services
                 }
                 // delete all paths to group
                 await _groupNodeService.DeletePathsForAncestorsByDescendants(ancestors, offspring);
-                await _userGroupService.DeletePathsWhereGroup(groupId);
+                await _memberService.DeletePathsWhereGroup(groupId);
                 using (var uow = _uowProvider.CreateUnitOfWork())
                 {
                     var repository = uow.GetRepository<Groups>();
@@ -295,7 +305,7 @@ namespace IdentityServer.Webapi.Services
 
                 foreach (var item in inverseParent)
                 {
-                    await _userGroupService.AddUserToGroup(new ApplicationUserGroups { GroupId = item.Id, UserId = new Guid(userId) });
+                    await _memberService.AddUserToGroup(new MemberGroups { GroupId = item.Id, UserId = new Guid(userId) });
                 }
 
 
@@ -309,7 +319,7 @@ namespace IdentityServer.Webapi.Services
                 //// add user to group
                 //if (model.ParentId == null)
                 //{
-                //    await _userGroupService.AddUserToGroup(new ApplicationUserGroups { GroupId = entity.Id, UserId = userId });
+                //    await _memberService.AddUserToGroup(new ApplicationUserGroups { GroupId = entity.Id, UserId = userId });
                 //}
                 //// add paths between new descendant and exist ancestors
                 //await _groupNodeService.AddPathsBetweenDescendantAndAncestors(entity.Id, model.ParentId);

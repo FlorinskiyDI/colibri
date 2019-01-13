@@ -1,4 +1,5 @@
 ﻿using IdentityModel;
+using IdentityServer.Webapi.Configurations.AspNetIdentity;
 using IdentityServer.Webapi.Data;
 using IdentityServer4;
 using IdentityServer4.Extensions;
@@ -32,8 +33,7 @@ namespace IdentityServer.Webapi.Integration
             var principal = await _claimsFactory.CreateAsync(user);
 
             var claims = principal.Claims.ToList();
-
-            claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
+            claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type) || claim.Type == CustomClaimValueTypes.Permission).Distinct().ToList();
 
 
             claims.Add(new Claim(JwtClaimTypes.GivenName, user.UserName));

@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using IdentityServer.Webapi.Configurations;
+using IdentityServer.Webapi.Configurations.AspNetIdentity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Data
@@ -14,16 +17,46 @@ namespace IdentityServer.Webapi.Data
         {
             if (!context.Roles.Any())
             {
+                // SuperAdmin
                 await CreateRole(roleManager, logger, "SuperAdmin");
+                await AddAllPermissionsToRole(roleManager, logger, "SuperAdmin");
+                // GroupAdmin
                 await CreateRole(roleManager, logger, "GroupAdmin");
-
+                await AddPermissionToRole(roleManager, logger, "GroupAdmin", SystemPermissionScope.GroupCreate);
+                await AddPermissionToRole(roleManager, logger, "GroupAdmin", SystemPermissionScope.GroupDelete);
+                await AddPermissionToRole(roleManager, logger, "GroupAdmin", SystemPermissionScope.GroupGet);
+                await AddPermissionToRole(roleManager, logger, "GroupAdmin", SystemPermissionScope.GroupGetSubgroups);
+                await AddPermissionToRole(roleManager, logger, "GroupAdmin", SystemPermissionScope.GroupList);
+                await AddPermissionToRole(roleManager, logger, "GroupAdmin", SystemPermissionScope.GroupUpdate);
             }
             if (!context.Users.Any())
             {
                 var user = await CreateDefaultUser(userManager, logger, "superadmin@gmail.com", "sadmin");
                 await SetPasswordForUser(userManager, logger, "superadmin@gmail.com", user, "sadmin");
                 await AddToRoleAsync(user, userManager, logger, "SuperAdmin");
+                await AddToRoleAsync(user, userManager, logger, "GroupAdmin");
+
+                var user2 = await CreateDefaultUser(userManager, logger, "superadmin2@gmail.com", "sadmin2");
+                await SetPasswordForUser(userManager, logger, "superadmin2@gmail.com", user2, "sadmin2");
+                await AddToRoleAsync(user2, userManager, logger, "SuperAdmin");
             }
+        }
+
+        private static async Task AddAllPermissionsToRole(RoleManager<ApplicationRole> roleManager, ILogger<DbInitializer> logger, string role)
+        {
+            var permissionList = SystemPermissionScope.GetValues();
+            var roleEntity = await roleManager.FindByNameAsync(role);
+            foreach (var per in permissionList)
+            {
+                await roleManager.AddClaimAsync(roleEntity, new Claim(CustomClaimValueTypes.Permission, per));
+            }
+
+        }
+
+        private static async Task AddPermissionToRole(RoleManager<ApplicationRole> roleManager, ILogger<DbInitializer> logger, string role, string permission)
+        {
+            var roleEntity = await roleManager.FindByNameAsync(role);
+            await roleManager.AddClaimAsync(roleEntity, new Claim(CustomClaimValueTypes.Permission, permission));
         }
 
         private static async Task CreateRole(RoleManager<ApplicationRole> roleManager, ILogger<DbInitializer> logger, string role)

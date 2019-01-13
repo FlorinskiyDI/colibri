@@ -40,6 +40,7 @@ namespace Survey.Webapi.Controllers
         [HttpPost("search")]
         public async Task<IActionResult> GetGroups([FromBody] SearchQueryDto searchEntry)
         {
+            var subjectId = HttpContext.User.Identity;
             var result = await _groupService.GetGroups(searchEntry);
             return Ok(result);
         }

@@ -59,7 +59,7 @@ namespace IdentityServer.Webapi
             //services.AddTransient<RoleManager<ApplicationRole>>();
             //services.AddTransient<SignInManager<ApplicationRole>>();
 
-            
+
 
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -76,7 +76,7 @@ namespace IdentityServer.Webapi
             services.AddScoped<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid, IdentityUserClaim<Guid>, ApplicationUserRole, IdentityUserLogin<Guid>, IdentityUserToken<Guid>, IdentityRoleClaim<Guid>>, ApplicationUserStore>();
             services.AddScoped<UserManager<ApplicationUser>, ApplicationUserManager>();
             //services.AddScoped<ApplicationUserStore, ApplicationUserStore>();
-            //services.AddScoped<ApplicationUserManager, ApplicationUserManager>();
+            services.AddScoped<ApplicationUserManager, ApplicationUserManager>();
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
                 {
@@ -91,13 +91,13 @@ namespace IdentityServer.Webapi
                 .AddDefaultTokenProviders()
                 .AddTokenProvider<EmailConfirmDataProtectorTokenProvider<ApplicationUser>>(emailConfirmTokenProviderName);
 
-            var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
-            policy.Headers.Add("*");
-            policy.Methods.Add("*");
-            policy.Origins.Add("*");
-            policy.SupportsCredentials = true;
+            var corsPolicy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
+            corsPolicy.Headers.Add("*");
+            corsPolicy.Methods.Add("*");
+            corsPolicy.Origins.Add("*");
+            corsPolicy.SupportsCredentials = true;
 
-            services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
+            services.AddCors(x => x.AddPolicy("corsGlobalPolicy", corsPolicy));
 
             var guestPolicy = new AuthorizationPolicyBuilder()
                .RequireAuthenticatedUser()
@@ -106,7 +106,7 @@ namespace IdentityServer.Webapi
 
 
 
-            
+
 
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
@@ -120,6 +120,7 @@ namespace IdentityServer.Webapi
 
             services.AddTransient<IProfileService, IdentityProfileService>();
             services.AddTransient<IExtensionGrantValidator, DelegationGrantValidator>();
+            services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDependencies(Configuration, connectionString);
@@ -137,15 +138,18 @@ namespace IdentityServer.Webapi
 
             services.AddAuthorization(options =>
             {
-                var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
-                defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
-                options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
-                //options.AddPolicy("user", policyUser =>
-                //{
-                //    policyUser.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
-                //    policyUser.RequireAuthenticatedUser();
-                //    policyUser.RequireClaim("role", "user");
-                //});
+                // Note: It is policy for Authorize atribute
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme })
+                .RequireAuthenticatedUser()
+                .Build();
+                // Note: Adding permisions as policy
+                var permissionList = SystemPermissionScope.GetValues();
+                foreach (var permission in permissionList)
+                {
+                    options.AddPolicy(
+                        permission,
+                        policy => { policy.Requirements.Add(new PermissionRequirement(permission)); });
+                }
             });
 
             services.AddMvc().AddJsonOptions(options =>
@@ -173,7 +177,7 @@ namespace IdentityServer.Webapi
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+
 
             //var connectionString = Configuration.GetConnectionString("DefaultConnection");
             //SqlConnectionFactory.ConnectionString = connectionString;

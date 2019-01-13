@@ -15,7 +15,6 @@ namespace IdentityServer.Webapi.Dtos.Views
         public double? EmailConfirmTokenLifespan { get; set; }
         public DateTimeOffset? EmailConfirmInvitationDate { get; set; }
 
-        public List<Groups> GroupsToManage { get; set; }
         public List<Groups> GroupsToMember { get; set; }
     }
 }

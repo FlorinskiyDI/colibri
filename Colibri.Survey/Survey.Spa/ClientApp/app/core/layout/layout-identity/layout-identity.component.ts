@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs/Subscription';
+
+/* service */ import { OidcSecurityService } from 'core/auth/services/oidc.security.service';
 
 @Component({
     selector: 'cmp-layout-identity',
@@ -12,8 +15,11 @@ import { filter } from 'rxjs/operators';
 export class LayoutIdentityComponent implements OnInit {
     eventSidebarToggle: Subject<any> = new Subject<any>();
     breadcrumbs$: any;
+    userDataSubscription: Subscription;
+    userData: any = {};
 
     constructor(
+        public oidcSecurityService: OidcSecurityService,
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) {}
@@ -32,10 +38,30 @@ export class LayoutIdentityComponent implements OnInit {
                 console.log(data);
             }
         );
+
+        this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
+            (userData: any) => {
+                this.userData = userData;
+                if (userData && userData !== '' && userData.role) {
+                    for (let i = 0; i < userData.role.length; i++) {
+                        if (userData.role[i] === 'dataEventRecords.admin') {
+                        }
+                        if (userData.role[i] === 'admin') {
+                        }
+                    }
+                }
+
+                // console.log('userData getting data');
+            });
     }
 
     sidebarToggle() {
         this.eventSidebarToggle.next();
+    }
+
+    logout() {
+        // console.log('Do logout logic');
+        this.oidcSecurityService.logoff();
     }
 
     private buildBreadCrumb(

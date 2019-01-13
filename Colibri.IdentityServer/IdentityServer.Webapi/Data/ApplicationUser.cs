@@ -11,7 +11,6 @@ namespace IdentityServer.Webapi.Data
     {
         public ApplicationUser()
         {
-            ApplicationUserGroups = new HashSet<ApplicationUserGroups>();
         }
 
         public bool IsAdmin { get; set; }
@@ -22,9 +21,6 @@ namespace IdentityServer.Webapi.Data
 
         public double? EmailConfirmTokenLifespan { get; set; }
         public DateTimeOffset? EmailConfirmInvitationDate { get; set; }
-
-        [InverseProperty("User")]
-        public ICollection<ApplicationUserGroups> ApplicationUserGroups { get; set; }
         [InverseProperty("User")]
         public ICollection<MemberGroups> MemberGroups { get; set; }
 

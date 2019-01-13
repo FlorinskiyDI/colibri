@@ -9,6 +9,7 @@ export class GroupsApiService {
     apiServer: string;
 
     constructor(
+        @Inject('RESTANGULAR_IDENTITYSERVER') public restangularIdentityServer: Restangular,
         private restangular: Restangular,
         @Inject('SURVEY_API_URL') apiUrl: string
     ) {
@@ -16,7 +17,7 @@ export class GroupsApiService {
     }
 
     getAll(searchEntry: any = null, objectFields: string[] | null = null) {
-        const result = this.restangular.all('api/groups/search').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
+        const result = this.restangularIdentityServer.all('api/groups/search').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
         return result;
     }
 

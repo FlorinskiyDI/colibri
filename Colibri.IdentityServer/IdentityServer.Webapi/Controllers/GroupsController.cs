@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using dataaccesscore.EFCore.Paging;
+using IdentityServer.Webapi.Configurations;
 using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Dtos;
 using IdentityServer.Webapi.Dtos.Search;
@@ -13,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServer.Webapi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Produces("application/json")]
     [Route("api/groups")]
     public class GroupsController : Controller
@@ -30,23 +31,21 @@ namespace IdentityServer.Webapi.Controllers
         private readonly IDataPager<Groups> _pager;
         protected readonly IGroupService _groupServices;
         private readonly IGroupRepository _groupRepository;
-        private readonly IAppUserGroupRepository _appUserGroupRepository;
 
         public GroupsController(
             IGroupService groupServices,
             IGroupRepository groupRepository,
-            IAppUserGroupRepository appUserGroupRepository,
             IDataPager<Groups> pager
         )
         {
             _groupRepository = groupRepository;
             _groupRepository = groupRepository;
-            _appUserGroupRepository = appUserGroupRepository;
             _groupServices = groupServices;
             _pager = pager;
         }
 
         // POST: api/groups/search
+        [Authorize(Policy = SystemPermissionScope.GroupList)]
         [HttpPost("search")]
         public async Task<IActionResult> GetGroups([FromBody] SearchQuery searchEntry)
         {

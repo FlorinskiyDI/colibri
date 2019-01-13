@@ -26,6 +26,25 @@
                             </ol>
                         </span>
                     </div>
+                    <div class="collapse navbar-collapse main-navbar-collapse">
+                        <ul class="nav nav--block navbar-nav navbar-right">                            
+                            <li class="dropdown" dropdown>
+                                <a dropdownToggle class="" data-hover="dropdown">
+                                    <mat-icon>account_circle</mat-icon>
+                                </a>
+                                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                    <li role="menuitem">
+                                        <a class="dropdown-item" href="#">My Profile</a>
+                                    </li>
+                                    <li class="divider dropdown-divider"></li>
+                                    <li role="menuitem">
+                                        <a class="dropdown-item" (click)="logout()">log out</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+        
+                    </div>
                 </div>
             </div>
         </nav>

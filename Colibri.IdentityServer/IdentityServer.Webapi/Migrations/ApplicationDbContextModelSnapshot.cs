@@ -129,25 +129,6 @@ namespace IdentityServer.Webapi.Migrations
                     b.ToTable("AspNetUsers","dbo");
                 });
 
-            modelBuilder.Entity("IdentityServer.Webapi.Data.ApplicationUserGroups", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("(newsequentialid())");
-
-                    b.Property<Guid>("GroupId");
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ApplicationUserGroups");
-                });
-
             modelBuilder.Entity("IdentityServer.Webapi.Data.ApplicationUserRole", b =>
                 {
                     b.Property<Guid>("UserId");
@@ -287,19 +268,6 @@ namespace IdentityServer.Webapi.Migrations
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("IdentityServer.Webapi.Data.ApplicationUserGroups", b =>
-                {
-                    b.HasOne("IdentityServer.Webapi.Data.Groups", "Group")
-                        .WithMany("ApplicationUserGroups")
-                        .HasForeignKey("GroupId")
-                        .HasConstraintName("FK_ApplicationUserGroups_ToGroups");
-
-                    b.HasOne("IdentityServer.Webapi.Data.ApplicationUser", "User")
-                        .WithMany("ApplicationUserGroups")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK_ApplicationUserGroups_ToAspNetUsers");
                 });
 
             modelBuilder.Entity("IdentityServer.Webapi.Data.ApplicationUserRole", b =>

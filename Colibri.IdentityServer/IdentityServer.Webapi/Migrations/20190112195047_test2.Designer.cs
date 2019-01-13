@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer.Webapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190112092509_test")]
-    partial class test
+    [Migration("20190112195047_test2")]
+    partial class test2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -129,25 +129,6 @@ namespace IdentityServer.Webapi.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers","dbo");
-                });
-
-            modelBuilder.Entity("IdentityServer.Webapi.Data.ApplicationUserGroups", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("(newsequentialid())");
-
-                    b.Property<Guid>("GroupId");
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ApplicationUserGroups");
                 });
 
             modelBuilder.Entity("IdentityServer.Webapi.Data.ApplicationUserRole", b =>
@@ -289,19 +270,6 @@ namespace IdentityServer.Webapi.Migrations
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("IdentityServer.Webapi.Data.ApplicationUserGroups", b =>
-                {
-                    b.HasOne("IdentityServer.Webapi.Data.Groups", "Group")
-                        .WithMany("ApplicationUserGroups")
-                        .HasForeignKey("GroupId")
-                        .HasConstraintName("FK_ApplicationUserGroups_ToGroups");
-
-                    b.HasOne("IdentityServer.Webapi.Data.ApplicationUser", "User")
-                        .WithMany("ApplicationUserGroups")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK_ApplicationUserGroups_ToAspNetUsers");
                 });
 
             modelBuilder.Entity("IdentityServer.Webapi.Data.ApplicationUserRole", b =>

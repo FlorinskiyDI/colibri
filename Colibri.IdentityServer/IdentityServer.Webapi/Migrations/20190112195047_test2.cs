@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IdentityServer.Webapi.Migrations
 {
-    public partial class test : Migration
+    public partial class test2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -143,32 +143,6 @@ namespace IdentityServer.Webapi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ApplicationUserGroups",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "(newsequentialid())"),
-                    UserId = table.Column<Guid>(nullable: false),
-                    GroupId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ApplicationUserGroups", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ApplicationUserGroups_ToGroups",
-                        column: x => x.GroupId,
-                        principalTable: "Groups",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ApplicationUserGroups_ToAspNetUsers",
-                        column: x => x.UserId,
-                        principalSchema: "dbo",
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MemberGroups",
                 columns: table => new
                 {
@@ -275,16 +249,6 @@ namespace IdentityServer.Webapi.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApplicationUserGroups_GroupId",
-                table: "ApplicationUserGroups",
-                column: "GroupId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ApplicationUserGroups_UserId",
-                table: "ApplicationUserGroups",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_GroupNode_OffspringId",
                 table: "GroupNode",
                 column: "OffspringId");
@@ -364,9 +328,6 @@ namespace IdentityServer.Webapi.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ApplicationUserGroups");
-
             migrationBuilder.DropTable(
                 name: "GroupNode");
 

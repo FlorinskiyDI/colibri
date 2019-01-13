@@ -417,6 +417,7 @@ export class OidcSecurityService {
     }
 
     logoff() {
+        debugger
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
         this.loggerService.logDebug('BEGIN Authorize, no auth data');
 

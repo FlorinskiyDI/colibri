@@ -25,6 +25,45 @@ namespace IdentityServer.Webapi.Services
             _uowProvider = uowProvider;
         }
 
+        public async Task<MemberGroups> AddUserToGroup(MemberGroups model)
+        {
+            try
+            {
+                using (var uow = _uowProvider.CreateUnitOfWork())
+                {
+                    var repository = uow.GetRepository<MemberGroups>();
+                    var result = await repository.AddAsync(model);
+                    await uow.SaveChangesAsync();
+
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task DeletePathsWhereGroup(string groupId)
+        {
+            try
+            {
+                using (var uow = _uowProvider.CreateUnitOfWork())
+                {
+                    var repository = uow.GetRepository<MemberGroups>();
+                    var list = await repository.QueryAsync(c => c.GroupId == new Guid(groupId));
+                    repository.RemoveRange(list);
+                    await uow.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return;
+        }
+
         public async Task<SearchResult<MemberDto>> GetMembersByGroup(string groupId, SearchQuery searchEntry)
         {
             // generate sort expression
