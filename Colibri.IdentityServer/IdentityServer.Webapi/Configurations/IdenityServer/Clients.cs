@@ -27,6 +27,7 @@ namespace IdentityServer.Webapi.Configurations
                     //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
                     AllowedGrantTypes = { "implicit", "delegation" },
                     RequireConsent = false,
+                    AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {

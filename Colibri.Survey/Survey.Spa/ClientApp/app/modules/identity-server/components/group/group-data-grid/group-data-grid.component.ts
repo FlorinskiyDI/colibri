@@ -4,9 +4,7 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { Observable } from 'rxjs/Observable';
 
-import {
-    Router
-  } from '@angular/router';
+// import { Router } from '@angular/router';
 
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* model-api */ import { SearchQueryApiModel, SearchQueryPage } from 'shared/models/entities/api/page-search-entry.api.model';
@@ -47,7 +45,7 @@ export class GroupDataGridComponent implements OnInit {
     };
 
     constructor(
-        private router: Router,
+        // private router: Router,
         private groupsApiService: GroupsApiService,
     ) {
         this.tbSelectedColumns = this.optionTbToggle.columns;

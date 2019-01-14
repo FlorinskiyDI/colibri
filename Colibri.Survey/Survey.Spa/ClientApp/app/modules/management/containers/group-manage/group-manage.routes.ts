@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 // /* component */ import { GroupDataTreeComponent } from './group-data-tree/group-data-tree.component';
 /* component */ import { GroupViewComponent } from './group-view/group-view.component';
 /* component */ import { GroupViewDetailComponent } from './group-view-detail/group-view-detail.component';
-/* component */ import { MemberGridComponent } from './member-grid/member-grid.component';
+// /* component */ import { MemberGridComponent } from './member-grid/member-grid.component';
 
 const routes: Routes = [
     {
@@ -30,7 +30,7 @@ const routes: Routes = [
                     },
                     {
                         path: 'members',
-                        component: MemberGridComponent,
+                        // component: MemberGridComponent,
                         data: { breadcrumb: '' },
                     },
                 ]

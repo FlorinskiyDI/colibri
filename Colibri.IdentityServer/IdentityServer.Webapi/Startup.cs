@@ -148,7 +148,10 @@ namespace IdentityServer.Webapi
                 {
                     options.AddPolicy(
                         permission,
-                        policy => { policy.Requirements.Add(new PermissionRequirement(permission)); });
+                        policy => {
+                            policy.AddAuthenticationSchemes(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme });
+                            policy.Requirements.Add(new PermissionRequirement(permission));
+                        });
                 }
             });
 

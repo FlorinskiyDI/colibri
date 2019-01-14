@@ -32,13 +32,14 @@ namespace IdentityServer.Webapi.Configurations
     {
         // GROUP
         public const string GroupListAll = "identity.groups.listAll";
+        public const string GroupListRoot = "identity.groups.listRoot";
         public const string GroupList = "identity.groups.list";
         public const string GroupGet = "identity.groups.get";
         public const string GroupGetSubgroups = "identity.groups.getSubgroups";
         public const string GroupCreate = "identity.groups.create";
         public const string GroupUpdate = "identity.groups.update";
         public const string GroupDelete = "identity.groups.delete";
-        
+
         // MEMBER
 
         // USER
@@ -57,5 +58,4 @@ namespace IdentityServer.Webapi.Configurations
             return values;
         }
     }
-    
 }

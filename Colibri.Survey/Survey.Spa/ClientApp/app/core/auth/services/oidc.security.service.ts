@@ -183,6 +183,7 @@ export class OidcSecurityService {
     }
 
     authorize() {
+        debugger
         if (this.authWellKnownEndpoints) {
             this.authWellKnownEndpointsLoaded = true;
         }

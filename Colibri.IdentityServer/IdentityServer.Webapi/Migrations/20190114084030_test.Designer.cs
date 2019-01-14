@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer.Webapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190112195047_test2")]
-    partial class test2
+    [Migration("20190114084030_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
