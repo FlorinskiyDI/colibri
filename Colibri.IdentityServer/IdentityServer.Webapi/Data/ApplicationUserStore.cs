@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -98,6 +100,22 @@ namespace IdentityServer.Webapi.Data
             return false;
         }
 
+        public override async Task<IList<string>> GetRolesAsync(ApplicationUser user, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+            var userId = user.Id;
+            var query = from userRole in Context.ApplicationUserRoles
+                        join role in Context.ApplicationRoles on userRole.RoleId equals role.Id
+                        where userRole.UserId.Equals(userId) && userRole.GroupId == null
+                        select role.Name;
+            var result = await query.ToListAsync(cancellationToken);
+            return result;
+        }
 
     }
 }

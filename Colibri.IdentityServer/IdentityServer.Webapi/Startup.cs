@@ -75,6 +75,8 @@ namespace IdentityServer.Webapi
 
             services.AddScoped<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid, IdentityUserClaim<Guid>, ApplicationUserRole, IdentityUserLogin<Guid>, IdentityUserToken<Guid>, IdentityRoleClaim<Guid>>, ApplicationUserStore>();
             services.AddScoped<UserManager<ApplicationUser>, ApplicationUserManager>();
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>>();
+
             //services.AddScoped<ApplicationUserStore, ApplicationUserStore>();
             services.AddScoped<ApplicationUserManager, ApplicationUserManager>();
 
@@ -88,6 +90,7 @@ namespace IdentityServer.Webapi
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddUserStore<ApplicationUserStore>()
                 .AddUserManager<ApplicationUserManager>()
+                .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>>()
                 .AddDefaultTokenProviders()
                 .AddTokenProvider<EmailConfirmDataProtectorTokenProvider<ApplicationUser>>(emailConfirmTokenProviderName);
 
