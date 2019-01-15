@@ -15,7 +15,8 @@ namespace IdentityServer.Webapi.Configurations
         public static IEnumerable<Client> GetClients()
         {
             var cc = GrantTypes.Implicit;
-
+            var ResourceOwnerPassword = GrantTypes.ResourceOwnerPassword;
+                
             // client credentials client
             return new List<Client>
             {
@@ -25,9 +26,8 @@ namespace IdentityServer.Webapi.Configurations
                     ClientId = "singleapp",
                     AccessTokenType = AccessTokenType.Reference,
                     //AccessTokenLifetime = 600, // 10 minutes, default 60 minutes
-                    AllowedGrantTypes = { "implicit", "delegation" },
+                    AllowedGrantTypes = { "implicit", "delegation", "password"},
                     RequireConsent = false,
-                    AllowOfflineAccess = true,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = new List<string>
                     {

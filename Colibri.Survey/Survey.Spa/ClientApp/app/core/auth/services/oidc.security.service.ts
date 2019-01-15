@@ -183,7 +183,7 @@ export class OidcSecurityService {
     }
 
     authorize() {
-        debugger
+        // debugger
         if (this.authWellKnownEndpoints) {
             this.authWellKnownEndpointsLoaded = true;
         }
@@ -226,10 +226,14 @@ export class OidcSecurityService {
             state,
             this.authWellKnownEndpoints.authorization_endpoint
         );
-        window.location.href = url;
+        // debugger
+        // window.location.href = url;
+        
+        window.location.href = url + '&acr_values=tenant:tenantName';
     }
 
     authorizedCallback(hash?: string) {
+        // debugger
         const silentRenew = this.oidcSecurityCommon.silentRenewRunning;
         const isRenewProcess = silentRenew === 'running';
 
@@ -418,7 +422,7 @@ export class OidcSecurityService {
     }
 
     logoff() {
-        debugger
+        // debugger
         // /connect/endsession?id_token_hint=...&post_logout_redirect_uri=https://myapp.com
         this.loggerService.logDebug('BEGIN Authorize, no auth data');
 
@@ -452,6 +456,7 @@ export class OidcSecurityService {
     }
 
     refreshSession(): Observable<any> {
+        // debugger
         this.loggerService.logDebug('BEGIN refresh session Authorize');
 
         let state = this.oidcSecurityCommon.authStateControl;
@@ -479,6 +484,7 @@ export class OidcSecurityService {
     }
 
     handleError(error: any) {
+        // debugger
         this.loggerService.logError(error);
         if (error.status === 403 || error.status === '403') {
             if (this.authConfiguration.trigger_authorization_result_event) {

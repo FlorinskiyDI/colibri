@@ -114,7 +114,8 @@ namespace IdentityServer.Webapi
                 .AddInMemoryApiResources(Resources.GetApiResources())
                 .AddInMemoryClients(Clients.GetClients())
                 .AddAspNetIdentity<ApplicationUser>()
-                .AddProfileService<IdentityProfileService>();
+                .AddProfileService<IdentityProfileService>()
+                .AddAuthorizeInteractionResponseGenerator<AccountChooserResponseGenerator>();
 
 
 
