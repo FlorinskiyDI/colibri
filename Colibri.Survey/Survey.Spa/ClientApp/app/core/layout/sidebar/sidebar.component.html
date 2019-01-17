@@ -1,51 +1,50 @@
-<div class="cmp-sidebar">
-    <ng-sidebar-container>
-        <!-- sidebar -->
-        <ng-sidebar [(opened)]="_opened"
-            [mode]="_MODES[_modeNum]"
-            [keyClose]="_keyClose"
-            [position]="_POSITIONS[_positionNum]"
-            [dock]="_dock"
-            [dockedSize]="'0px'"
-            [autoCollapseHeight]="_autoCollapseHeight"
-            [autoCollapseWidth]="_autoCollapseWidth"
-            [closeOnClickOutside]="_closeOnClickOutside"
-            [closeOnClickBackdrop]="_closeOnClickBackdrop"
-            [showBackdrop]="_showBackdrop"
-            [animate]="_animate"
-            [trapFocus]="_trapFocus"
-            [autoFocus]="_autoFocus"
-            [sidebarClass]="'clbr--sidebar'"
-            [ariaLabel]="'My sidebar'"
-            (onOpenStart)="_onOpenStart()"
-            (onOpened)="_onOpened()"
-            (onCloseStart)="_onCloseStart()"
-            (onClosed)="_onClosed()"
-            (onTransitionEnd)="_onTransitionEnd()">
-            <div class="clbr--sidebar-block">
-                <ul class="clbr-ul-list">
-                    <li class="clbr-ul-list-item" routerLinkActive="active-route">
-                        <a [routerLink]="['/portal2']">
-                            <i class="bowtie-icon bowtie-build-queue-new"></i>
-                            <span>SURVEY PORTAL</span>
-                        </a>
-                    </li>
-                    <li class="clbr-ul-list-item" routerLinkActive="active-route">
-                        <a [routerLink]="['/dashboard']">
-                            <i class="bowtie-icon bowtie-work-item"></i>
-                            <span>SURVEY DASHBOARD</span>
-                        </a>
-                    </li>
-                    <li class="clbr-ul-list-item" routerLinkActive="active-route">
-                        <a [routerLink]="['/is']">
-                            <i class="bowtie-icon bowtie-azure-api-management"></i>
-                            <span>IDENTITY SERVER</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </ng-sidebar>
-        <!-- End sidebar -->
-    </ng-sidebar-container>
+<div class="cmp--sidebar">
+    <mat-sidenav-container class="example-container">
+        <mat-sidenav #sidenav
+            [mode]="push">
+            <ul class="clbr-ul-list">
+                <!-- <li class="clbr-ul-list-item"
+                    routerLinkActive="active-route">
+                    <a [routerLink]="['/portal2']">
+                        <i class="bowtie-icon bowtie-build-queue-new"></i>
+                        <span>SURVEY PORTAL</span>
+                    </a>
+                </li> -->
+                <li class="clbr-ul-list-item"
+                    routerLinkActive="active-route" (mouseenter)="mouseEnter(menuDashboardTrigger, menuIdentityTrigger)">
+                    <a [routerLink]="['/dashboard']" >                        
+                        <mat-icon svgIcon="twotone-dashboard"></mat-icon>
+                        <span>Survey dashboard</span>
+                        <i class="bowtie-icon bowtie-chevron-right-light"
+                        [matMenuTriggerFor]="menuDashboard"
+                        #menuDashboardTrigger="matMenuTrigger"></i>
+                        <mat-menu class="clbr--fix--open-menu-hover clbr--mat-menu-panel-v1"  #menuDashboard="matMenu">
+                            <button mat-menu-item>Create new survey</button>
+                            <button mat-menu-item>Explorer</button>
+                        </mat-menu>
+                    </a>
+                </li>
+                <li class="clbr-ul-list-item" (mouseenter)="mouseEnter(menuIdentityTrigger, menuDashboardTrigger)"
+                    routerLinkActive="active-route">
+                    <a [routerLink]="['/is']" >
+                        <mat-icon svgIcon="twotone-security"></mat-icon>
+                        <span>Identity server</span>                        
+                        <i class="bowtie-icon bowtie-chevron-right-light"                        
+                        [matMenuTriggerFor]="menuIdentity"
+                        #menuIdentityTrigger="matMenuTrigger"></i>
+                        <mat-menu class="clbr--fix--open-menu-hover clbr--mat-menu-panel-v1"  #menuIdentity="matMenu">
+                            <button mat-menu-item>Manage organizations</button>
+                            <button mat-menu-item>Manage users</button>
+                            <button mat-menu-item>System configurations</button>
+                        </mat-menu>
+                    </a>
+                </li>
+            </ul>            
+        </mat-sidenav>
 
+        <mat-sidenav-content>
+            <div></div>
+            <!-- pass empty content -->
+        </mat-sidenav-content>
+    </mat-sidenav-container>
 </div>

@@ -15,6 +15,10 @@
 }
 
 // mat-menu
+.mat-menu-panel.clbr--mat-menu-panel-v1 {
+    min-width: 180px;
+    .mat-menu-item { height: 26px; line-height: 26px; font-size: 12px; }
+}
 .clbr--mat-menu-v1 {
     margin-top: 30px;
     .mat-menu-content { padding: 3px 0px !important; }

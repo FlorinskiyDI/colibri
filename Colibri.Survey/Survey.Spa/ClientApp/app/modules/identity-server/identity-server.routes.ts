@@ -11,54 +11,54 @@ import { Routes, RouterModule } from '@angular/router';
 /* component */ import { UserProfileComponent } from './containers/user-profile/user-profile.component';
 
 const routes: Routes = [
-    {
-        path: 'groups',
-        component: GroupComponent,
-        data: {
-            breadcrumb: { title: 'Management of organizations', icon: '' }
-        },
-        children: [
-            {
-                path: '',
-                component: GroupManageComponent,
+        {
+            path: 'groups',
+            component: GroupComponent,
+            data: {
+                breadcrumb: { title: 'Management of organizations', icon: '' }
             },
-            {
-                path: 'overview/:id',
-                component: GroupOverviewComponent,
-                data: {
-                    breadcrumb: { title: 'Overview', icon: 'bowtie-group-rows' }
+            children: [
+                {
+                    path: '',
+                    component: GroupManageComponent,
                 },
-                children: [
-                    {
-                        path: 'main',
-                        component: GroupOverviewMainComponent
+                {
+                    path: 'overview/:id',
+                    component: GroupOverviewComponent,
+                    data: {
+                        breadcrumb: { title: 'Overview', icon: 'bowtie-group-rows' }
                     },
-                    {
-                        path: 'members',
-                        component: MemberManageComponent
-                    },
-                ]
-            },
-        ]
-    },
-    {
-        path: 'users',
-        component: UserComponent,
-        children: [
-            {
-                path: '',
-                component: UserManageComponent
-            },
-        ]
-    },
-    {
-        path: 'profile',
-        component: UserProfileComponent
-    },
-    {
-        path: 'system',
-        component: SystemConfigurationComponent
-    }
-];
+                    children: [
+                        {
+                            path: 'main',
+                            component: GroupOverviewMainComponent
+                        },
+                        {
+                            path: 'members',
+                            component: MemberManageComponent
+                        },
+                    ]
+                },
+            ]
+        },
+        {
+            path: 'users',
+            component: UserComponent,
+            children: [
+                {
+                    path: '',
+                    component: UserManageComponent
+                },
+            ]
+        },
+        {
+            path: 'profile',
+            component: UserProfileComponent
+        },
+        {
+            path: 'system',
+            component: SystemConfigurationComponent
+        }
+    ];
 
 export const IdentityServerRoutingModule = RouterModule.forChild(routes);

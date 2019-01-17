@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { MatSidenav } from '@angular/material';
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'cmp-sidebar',
@@ -8,27 +10,11 @@ import { Observable } from 'rxjs/Observable';
 })
 
 export class SidebarComponent implements OnInit {
+    @ViewChild('sidenav') sidenav: MatSidenav;
     @Input() eventSidebarToggle: Observable<any>;
     private subscriberSidebarToggle: any;
-
-    private _opened = false;
-    private _modeNum = 0;
-    private _positionNum = 0;
-    private _dock = true;
-    private _closeOnClickOutside = true;
-    private _closeOnClickBackdrop = false;
-    private _showBackdrop = true;
-    private _animate = true;
-    private _trapFocus = true;
-    private _autoFocus = true;
-    private _keyClose = false;
-    private _autoCollapseHeight: number | null;
-    private _autoCollapseWidth: number | null;
-    private _MODES: Array<string> = ['over', 'push', 'slide'];
-    private _POSITIONS: Array<string> = ['left', 'right', 'top', 'bottom'];
-
+    mode = new FormControl('over');
     constructor() {
-        
     }
     ngOnInit() {
         this.subscriberSidebarToggle = this.eventSidebarToggle.subscribe(() => this._toggleOpened());
@@ -37,28 +23,53 @@ export class SidebarComponent implements OnInit {
     ngOnDestroy() {
         this.subscriberSidebarToggle.unsubscribe();
     }
-    _toggleOpened(): void { this._opened = !this._opened; }
-    _toggleAutoCollapseHeight(): void { this._autoCollapseHeight = this._autoCollapseHeight ? null : 500; }
-    _toggleAutoCollapseWidth(): void { this._autoCollapseWidth = this._autoCollapseWidth ? null : 500; }
-    _toggleDock(): void { this._dock = !this._dock; }
-    _toggleCloseOnClickOutside(): void { this._closeOnClickOutside = !this._closeOnClickOutside; }
-    _toggleCloseOnClickBackdrop(): void { this._closeOnClickBackdrop = !this._closeOnClickBackdrop; }
-    _toggleShowBackdrop(): void { this._showBackdrop = !this._showBackdrop; }
-    _toggleAnimate(): void { this._animate = !this._animate; }
-    _toggleTrapFocus(): void { this._trapFocus = !this._trapFocus; }
-    _toggleAutoFocus(): void { this._autoFocus = !this._autoFocus; }
-    _toggleKeyClose(): void { this._keyClose = !this._keyClose; }
-    _onOpenStart(): void { /*console.log('Sidebar opening');*/ }
-    _onOpened(): void { /*console.log('Sidebar opened');*/ }
-    _onCloseStart(): void { /*console.log('Sidebar closing');*/ }
-    _onClosed(): void { /*console.log('Sidebar closed');*/ }
-    _onTransitionEnd(): void { /*console.log('Transition ended');*/ }
-    _togglePosition(): void {
-        this._positionNum++;
-        if (this._positionNum === this._POSITIONS.length) { this._positionNum = 0; }
+    _toggleOpened(): void {
+        this.sidenav.toggle();
+        console.log('!!!!');
     }
-    _toggleMode(): void {
-        this._modeNum++;
-        if (this._modeNum === this._MODES.length) { this._modeNum = 0; }
+
+    mouseEnter(data: any, ...args: any[]) {
+        data.openMenu();
+        args.forEach((item: any) => {
+            item.closeMenu();
+        });
     }
 }
+
+
+// import { AfterContentInit, Component, Input, ViewChild } from '@angular/core';
+// import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+// import { MatSidenav } from '@angular/material';
+// import { Subject } from 'rxjs/Subject';
+// import { Observable } from 'rxjs/Observable';
+// import { map } from 'rxjs/operators';
+
+// @ Component({
+//   selector: 'cmp-sidebar',
+//   templateUrl: './sidebar.component.html',
+//   styles: []
+// })
+// export class SidebarComponent implements AfterContentInit {
+//   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+//     .pipe(map(result => result.matches));
+
+//   @Input() openedSubject: Subject<boolean>;
+//   @ViewChild('sidenav') sidenav: MatSidenav;
+
+//   constructor(private breakpointObserver: BreakpointObserver) {
+//   }
+
+//   ngAfterContentInit() {
+//     this.openedSubject.subscribe( c => {
+//         console.log('!!!!!!');
+//         this.openedSubject.next(!this.sidenav.opened);
+//     }
+//     //   keepOpen => this.sidenav[keepOpen ? 'open' : 'close']()
+//     );
+//   }
+
+// //   toggle() {
+// //     this.openedSubject.next(!this.sidenav.opened);
+// //   }
+
+// }

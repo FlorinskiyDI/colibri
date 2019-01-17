@@ -17,25 +17,15 @@ import { Routes, RouterModule } from '@angular/router';
 
 const appRoutes: Routes = [
     {
+        // path: '',
+        // loadChildren: 'modules/identity-server/identity-server.module#IdentityServerModule',
         path: 'is', component: LayoutIdentityComponent,
         canActivate: [HasAdminRoleAuthenticationGuard],
         children: [
             {
                 path: '',
                 loadChildren: 'modules/identity-server/identity-server.module#IdentityServerModule',
-            },
-            // {
-            //     path: '',
-            //     loadChildren: 'modules/management/management.module#ManagementModule',
-            // },
-            // {
-            //     path: '',
-            //     loadChildren: 'modules/dashboard/dashboard.module#DashboardModule',
-            // },
-            // {
-            //     path: '',
-            //     loadChildren: 'modules/surveys/survey.module#SurveyModule',
-            // },
+            }
         ]
     },
     {

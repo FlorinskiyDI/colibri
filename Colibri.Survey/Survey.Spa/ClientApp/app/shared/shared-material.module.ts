@@ -12,6 +12,8 @@ import { MatIconRegistry } from '@angular/material';
 /* module-material */ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 /* module-material */ import { MatRippleModule } from '@angular/material/core';
 /* module-material */ import { MatMenuModule } from '@angular/material/menu';
+/* module-material */ import { MatToolbarModule } from '@angular/material/toolbar';
+/* module-material */ import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
     imports: [
@@ -24,7 +26,9 @@ import { MatIconRegistry } from '@angular/material';
         MatAutocompleteModule,
         MatIconModule,
         MatRippleModule,
-        MatMenuModule
+        MatMenuModule,
+        MatToolbarModule,
+        MatSidenavModule
     ],
     declarations: [ ],
     providers: [ ],
@@ -38,7 +42,9 @@ import { MatIconRegistry } from '@angular/material';
         MatAutocompleteModule,
         MatIconModule,
         MatRippleModule,
-        MatMenuModule
+        MatMenuModule,
+        MatToolbarModule,
+        MatSidenavModule
     ]
 })
 
@@ -54,9 +60,11 @@ export class SharedMaterialModule {
         iconRegistry: MatIconRegistry,
         sanitizer: DomSanitizer
     ) {
-        iconRegistry.addSvgIcon('twotone-question_answer', sanitizer.bypassSecurityTrustResourceUrl('assets/images/icons-material/twotone-question_answer-24px.svg'));
+        iconRegistry.addSvgIcon('twotone-question_answer', sanitizer.bypassSecurityTrustResourceUrl('assets/images/icons-material/twotone-question_answer.svg'));
         iconRegistry.addSvgIcon('azure-api-management', sanitizer.bypassSecurityTrustResourceUrl('assets/images/icons-material/azure-api-management.svg'));
         iconRegistry.addSvgIcon('build-queue-new', sanitizer.bypassSecurityTrustResourceUrl('assets/images/icons-material/build-queue-new.svg'));
         iconRegistry.addSvgIcon('work-item', sanitizer.bypassSecurityTrustResourceUrl('assets/images/icons-material/work-item.svg'));
+        iconRegistry.addSvgIcon('twotone-security', sanitizer.bypassSecurityTrustResourceUrl('assets/images/icons-material/twotone-security.svg'));
+        iconRegistry.addSvgIcon('twotone-dashboard', sanitizer.bypassSecurityTrustResourceUrl('assets/images/icons-material/twotone-dashboard.svg'));
     }
 }

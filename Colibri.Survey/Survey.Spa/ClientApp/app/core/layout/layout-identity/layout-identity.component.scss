@@ -1,108 +1,151 @@
-.cmp--layout-identity{
-    position: absolute;
-    top: 0px;
-    bottom: 0;
-    left: 0px;
-    right: 0px;
-
-    // navbar
-    .navbar { min-height: 47px; }
-    .navbar-brand {
-        height: 47px;
-        padding: 10px 15px;
-        color: white;
-        box-shadow: none;
-        border: none;
-        text-shadow: none;
-        padding-top: 14px;
-        padding-right: 8px;
-        font-size: 14px;
-        font-weight: 300;
-        padding-left: 25px;
-    }
-    .navbar-brand:hover { color: #ffffff; }
-    .nav > li > a { padding: 10px 15px; cursor: pointer; }
-    .navbar-default { background-image: none; font-size: 12px; }
-
-    // buttons
-    .clbr--sidebar-btns {
-        vertical-align: text-top;
-        color: #fff;
-        float: left;
-        height: 40px;
-        margin: 3px 0;
-    }
-    .container-fluid { padding: 0 15px; }
-
-    .clbr--navbar--block {
-        z-index: 999999999;
-        background-color: #3B78E7;
-        border: none;
-        -webkit-box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.2), 0 1px 8px 0 rgba(0,0,0,.12);
-        box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.2), 0 1px 8px 0 rgba(0,0,0,.12);
-    }
-
-
-    .clbr--left-sidebar {
-        padding-top: 5px;
+.cmp--laout-identity {
+    .cmp--mat-toolbar {
+        z-index: 2;
         position: absolute;
-        top: 60px;
-        bottom: 0;
         left: 0;
-        width: 255px;
-        border-right: 1px solid #E5E5E5;
-
-        .clbr-ul-list { padding-inline-start: 0px; }
-        .clbr-ul-list li { list-style-type: none; }
-        .clbr-ul-list li:hover { background: rgba(0,0,0,.04); cursor: pointer; }
-        .clbr-ul-list li.active-route { background-color: #e7e7e7 }
-        .clbr-ul-list li a { text-decoration: none; }
-        .clbr-ul-list li.clbr-ul-list-item { padding: 5px 25px; font-size: 13px  }
-        .clbr-ul-list li.clbr-ul-list-item mat-icon{ color: #1D69A9; }
-        .clbr-ul-list li.clbr-ul-list-item span{ color: rgb(10, 10, 10); font-weight: 400; font-size: 12px; padding-left: 25px; }
-        .bowtie-icon { width: 14px; display: inline-block; text-align: center; }
-        .bowtie-icon.clbr--bowtie-user { font-size: 12px; }
-        .bowtie-icon.clbr--bowtie-settings-gear-outline { font-size: 13px; }
-        
-    }
-
-    .clbr--content {
-        position: absolute;
-        top: 65px;
-        bottom: 0;
-        left: 255px;
         right: 0;
     }
 
-    .cmp--breadcrumb {
-        position: absolute;
-        left: 255px;
-        top: 6px;
-        .breadcrumb>li+li:before { padding: 0 7px }
-        .breadcrumb { margin-bottom: 0px; background-color: transparent; }
-        .breadcrumb li.parent:hover span a { background-color: #3770d8; }
-        .breadcrumb li.parent span a { border-radius: 3px; padding: 5px 7px; font-size: 13px; color: #fff; opacity: 0.85; font-weight: 300; text-decoration: none;  }
-        .breadcrumb li.active span { color: #fff; font-weight: 300; font-size: 13px; padding: 5px 7px; }
-        .breadcrumb li.active .breadcrumb-icon { color: #fff; }
+    ::ng-deep .mat-toolbar{
+        background-color: #3B78E7;
+        -webkit-box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.2), 0 1px 8px 0 rgba(0,0,0,.12);
+        box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.2), 0 1px 8px 0 rgba(0,0,0,.12);
+        color: #fff;
+        height: 44px;
+
+        .mat-icon-button {
+            width: 34px;
+            line-height: 34px;
+            height: 34px;
+            .material-icons { font-size: 20px; width: 22px; line-height: 22px; height: 22px;  }
+        }
+        .cmp--brand { font-size: 16px; font-weight: 300; padding-left: 10px; }
+        .cmp--btn-account .mat-icon { color: #3B78E7; font-size: 22px; background-color: #7faeff; border-radius: 50%; }
+        .cmp--btn-account .mat-icon:hover { background-color: #A0C3FF; }
+        
     }
 
-    .nav--block { 
-        > li > a {
-            text-shadow: none;
-            color: white;
-            border-radius: 50%;
-            margin: 4px 0px;
-            padding: 9px 12px;
-        }
-        > li > a .mat-icon {
-            margin-top: 2px;
-            height: 16px;
-            width: 16px;
-            font-size: 16px;
-        }
-        > li > a:hover {
-            background: rgba(255,255,255,.2);
-        }
-     }
+    
+    .example-fill-remaining-space {
+        /* This fills the remaining space, by using flexbox. 
+           Every toolbar row uses a flexbox row layout. */
+        flex: 1 1 auto;
+    }
 
+    ::ng-deep .cmp--mat-menu-item {
+        line-height: 28px;
+        height: 28px;
+        font-size: 13px;
+    }
 }
+
+
+
+// .cmp--layout-identity{
+//     position: absolute;
+//     top: 0px;
+//     bottom: 0;
+//     left: 0px;
+//     right: 0px;
+
+//     // navbar
+//     .navbar { min-height: 47px; }
+//     .navbar-brand {
+//         height: 47px;
+//         padding: 10px 15px;
+//         color: white;
+//         box-shadow: none;
+//         border: none;
+//         text-shadow: none;
+//         padding-top: 14px;
+//         padding-right: 8px;
+//         font-size: 14px;
+//         font-weight: 300;
+//         padding-left: 25px;
+//     }
+//     .navbar-brand:hover { color: #ffffff; }
+//     .nav > li > a { padding: 10px 15px; cursor: pointer; }
+//     .navbar-default { background-image: none; font-size: 12px; }
+
+//     // buttons
+//     .clbr--sidebar-btns {
+//         vertical-align: text-top;
+//         color: #fff;
+//         float: left;
+//         height: 40px;
+//         margin: 3px 0;
+//     }
+//     .container-fluid { padding: 0 15px; }
+
+//     .clbr--navbar--block {
+//         z-index: 999999999;
+//         background-color: #3B78E7;
+//         border: none;
+//         -webkit-box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.2), 0 1px 8px 0 rgba(0,0,0,.12);
+//         box-shadow: 0 3px 4px 0 rgba(0,0,0,.14), 0 3px 3px -2px rgba(0,0,0,.2), 0 1px 8px 0 rgba(0,0,0,.12);
+//     }
+
+
+//     .clbr--left-sidebar {
+//         padding-top: 5px;
+//         position: absolute;
+//         top: 60px;
+//         bottom: 0;
+//         left: 0;
+//         width: 255px;
+//         border-right: 1px solid #E5E5E5;
+
+//         .clbr-ul-list { padding-inline-start: 0px; }
+//         .clbr-ul-list li { list-style-type: none; }
+//         .clbr-ul-list li:hover { background: rgba(0,0,0,.04); cursor: pointer; }
+//         .clbr-ul-list li.active-route { background-color: #e7e7e7 }
+//         .clbr-ul-list li a { text-decoration: none; }
+//         .clbr-ul-list li.clbr-ul-list-item { padding: 5px 25px; font-size: 13px  }
+//         .clbr-ul-list li.clbr-ul-list-item mat-icon{ color: #1D69A9; }
+//         .clbr-ul-list li.clbr-ul-list-item span{ color: rgb(10, 10, 10); font-weight: 400; font-size: 12px; padding-left: 25px; }
+//         .bowtie-icon { width: 14px; display: inline-block; text-align: center; }
+//         .bowtie-icon.clbr--bowtie-user { font-size: 12px; }
+//         .bowtie-icon.clbr--bowtie-settings-gear-outline { font-size: 13px; }
+        
+//     }
+
+//     .clbr--content {
+//         position: absolute;
+//         top: 65px;
+//         bottom: 0;
+//         left: 255px;
+//         right: 0;
+//     }
+
+//     .cmp--breadcrumb {
+//         position: absolute;
+//         left: 255px;
+//         top: 6px;
+//         .breadcrumb>li+li:before { padding: 0 7px }
+//         .breadcrumb { margin-bottom: 0px; background-color: transparent; }
+//         .breadcrumb li.parent:hover span a { background-color: #3770d8; }
+//         .breadcrumb li.parent span a { border-radius: 3px; padding: 5px 7px; font-size: 13px; color: #fff; opacity: 0.85; font-weight: 300; text-decoration: none;  }
+//         .breadcrumb li.active span { color: #fff; font-weight: 300; font-size: 13px; padding: 5px 7px; }
+//         .breadcrumb li.active .breadcrumb-icon { color: #fff; }
+//     }
+
+//     .nav--block { 
+//         > li > a {
+//             text-shadow: none;
+//             color: white;
+//             border-radius: 50%;
+//             margin: 4px 0px;
+//             padding: 9px 12px;
+//         }
+//         > li > a .mat-icon {
+//             margin-top: 2px;
+//             height: 16px;
+//             width: 16px;
+//             font-size: 16px;
+//         }
+//         > li > a:hover {
+//             background: rgba(255,255,255,.2);
+//         }
+//      }
+
+// }
