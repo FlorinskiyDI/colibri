@@ -12,13 +12,13 @@
                 </li> -->
                 <li class="clbr-ul-list-item"
                     routerLinkActive="active-route" (mouseenter)="mouseEnter(menuDashboardTrigger, menuIdentityTrigger)">
-                    <a [routerLink]="['/dashboard']" >                        
-                        <mat-icon svgIcon="twotone-dashboard"></mat-icon>
+                    <a [routerLink]="['/dashboard']">
+                        <!-- <mat-icon svgIcon="twotone-dashboard"></mat-icon> -->
                         <span>Survey dashboard</span>
                         <i class="bowtie-icon bowtie-chevron-right-light"
                         [matMenuTriggerFor]="menuDashboard"
                         #menuDashboardTrigger="matMenuTrigger"></i>
-                        <mat-menu class="clbr--fix--open-menu-hover clbr--mat-menu-panel-v1"  #menuDashboard="matMenu">
+                        <mat-menu class="cmp--menu-panel-position clbr--mat-menu-panel-v1"  #menuDashboard="matMenu">
                             <button mat-menu-item>Create new survey</button>
                             <button mat-menu-item>Explorer</button>
                         </mat-menu>
@@ -27,15 +27,20 @@
                 <li class="clbr-ul-list-item" (mouseenter)="mouseEnter(menuIdentityTrigger, menuDashboardTrigger)"
                     routerLinkActive="active-route">
                     <a [routerLink]="['/is']" >
-                        <mat-icon svgIcon="twotone-security"></mat-icon>
-                        <span>Identity server</span>                        
-                        <i class="bowtie-icon bowtie-chevron-right-light"                        
+                        <!-- <mat-icon svgIcon="twotone-security"></mat-icon> -->
+                        <span>Identity Server</span>
+                        <i class="bowtie-icon bowtie-chevron-right-light"
                         [matMenuTriggerFor]="menuIdentity"
                         #menuIdentityTrigger="matMenuTrigger"></i>
-                        <mat-menu class="clbr--fix--open-menu-hover clbr--mat-menu-panel-v1"  #menuIdentity="matMenu">
-                            <button mat-menu-item>Manage organizations</button>
-                            <button mat-menu-item>Manage users</button>
-                            <button mat-menu-item>System configurations</button>
+                        <mat-menu class="cmp--menu-panel-position clbr--mat-menu-panel-v1"  #menuIdentity="matMenu">
+                            <ul>
+                                <li><a mat-menu-item>Manage organizations</a></li>
+                                <li  mytooltip="['identity.users.list', 'identity.groups.delete']" [matTooltipClass]="'my-tooltip'"><button class="clbr--mat-menu-item" (click)="testClick()">Manage users</button></li>
+                                <li><button class="clbr--mat-menu-item" >System configurations</button></li>
+                            </ul>
+                            <!-- <button mat-menu-item *hasPermission="['identity.users.list']">Manage users</button> -->
+                            
+                            <!-- <button class="clbr--mat-menu-item" >System configurations</button> -->
                         </mat-menu>
                     </a>
                 </li>

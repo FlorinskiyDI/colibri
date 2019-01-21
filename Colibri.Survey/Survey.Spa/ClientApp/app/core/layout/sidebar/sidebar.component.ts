@@ -34,6 +34,10 @@ export class SidebarComponent implements OnInit {
             item.closeMenu();
         });
     }
+
+    testClick() {
+        console.log('1!!!!!!!!!!!!!!!!!!!!');
+    }
 }
 
 

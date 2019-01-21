@@ -43,6 +43,7 @@ namespace IdentityServer.Webapi.Configurations
         // MEMBER
 
         // USER
+        public const string UserList= "identity.users.list";
 
         // SYSTEM
 

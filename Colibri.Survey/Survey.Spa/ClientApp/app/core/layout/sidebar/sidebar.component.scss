@@ -8,15 +8,15 @@
     }
     .mat-drawer-container { background-color: transparent; }
     // .mat-drawer { background-color: transparent; }
-    .clbr--sidebar-block { padding: 15px 0px; }
+    .clbr--sidebar-block { padding: 10px 0px; }
     .clbr-ul-list { padding-inline-start: 0px; padding-top: 15px; width: 250px; }
     .clbr-ul-list li { list-style-type: none; }
     .clbr-ul-list li:hover { background: rgba(0,0,0,.08); cursor: pointer; }
     .clbr-ul-list li:hover mat-icon { color: #212121 !important; }
-    .clbr-ul-list li.active-route mat-icon { color: #3b78e7 !important; font-weight: 400 !important; }
-    .clbr-ul-list li.active-route span { color: #3b78e7 !important; font-weight: 400 !important; }
+    .clbr-ul-list li.active-route mat-icon { color: #3367d6 !important; font-weight: 400 !important; }
+    .clbr-ul-list li.active-route span { color: #3367d6 !important; font-weight: 400 !important; }
     .clbr-ul-list li a { text-decoration: none; }
-    .clbr-ul-list li.clbr-ul-list-item { padding: 8px 20px; font-size: 13px; color: #3367d6; }
+    .clbr-ul-list li.clbr-ul-list-item { padding: 4px 20px; font-size: 13px; color: #3367d6; }
     .clbr-ul-list li.clbr-ul-list-item i { float: right; padding-top: 3px; font-weight: 600; font-size: 12px; }
     .clbr-ul-list li.clbr-ul-list-item mat-icon{
         -webkit-transition: color 0.3s ease-out;
@@ -27,9 +27,10 @@
         height: 18px;
         width: 18px;
     }
-    .clbr-ul-list li.clbr-ul-list-item span{ vertical-align: text-top; color: #333; font-weight: 400; font-size: 13px; padding-left: 15px; }
+    .clbr-ul-list li.clbr-ul-list-item span{ vertical-align: text-top; color: #333; font-weight: 400; font-size: 14px; }
+    
 }
-
+::ng-deep .cmp--menu-panel-position { margin-left: 20px; }
 
 // Fix show menu on hover
 //////////////////////////

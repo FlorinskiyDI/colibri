@@ -16,6 +16,9 @@ import { DndModule } from 'ng2-dnd';
 /* component */ import { SidebarComponent } from 'core/layout/sidebar/sidebar.component';
 
 
+/* component */ import { HasPermissionDirective } from 'shared/directives/has-permission/has-permission.directive';
+/* component */ import { HasPermissionDirective2 } from 'shared/directives/has-permission/has-permission2.directive';
+
 import { ParticlesModule } from 'angular-particle';
 
 import { MdlMenuModule } from '@angular-mdl/core/components/menu';
@@ -25,29 +28,32 @@ declare let window: any;
 
 @NgModule({
     declarations: [
+        // components
         LayoutComponent,
         LayoutPortal2Component,
         LayoutIdentityComponent,
         LayoutPortalComponent,
         LayoutDashboardComponent,
-
         SidebarComponent,
         NavbarComponent,
         ForbiddenComponent,
         ForbiddenComponent,
         UnauthorizedComponent,
         LoginComponent,
-        // MdlMenuComponent,
-
-
+        // directives
+        HasPermissionDirective,
+        HasPermissionDirective2
     ],
     exports: [
+        // modules
         DndModule,
         NavbarComponent,
         MdlModule,
         MdlCheckboxModule,
-        MdlMenuModule
-
+        MdlMenuModule,
+        // directives
+        HasPermissionDirective,
+        HasPermissionDirective2
     ],
     imports: [
         DndModule.forRoot(),

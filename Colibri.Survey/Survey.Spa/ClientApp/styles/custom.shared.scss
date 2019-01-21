@@ -1,6 +1,9 @@
 
 .clbr--page-navigation .navbar { margin-bottom: 0px; min-height: 30px; }
-
+ul { padding-left: 0px; margin-bottom: 0px; }
+ul li { list-style-type: none; }
+a:hover { text-decoration: none; color: #000; }
+.my-tooltip { white-space: pre-line !important; }
 // body {
 //   font-size: 14px;
 //   font-family: 'Roboto', sans-serif;
