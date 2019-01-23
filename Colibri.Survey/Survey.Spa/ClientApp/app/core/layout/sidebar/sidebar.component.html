@@ -1,5 +1,5 @@
 <div class="cmp--sidebar">
-    <mat-sidenav-container class="example-container">
+    <mat-sidenav-container class="clbr-drawer-container example-container">
         <mat-sidenav #sidenav
             [mode]="push">
             <ul class="clbr-ul-list">
@@ -27,20 +27,22 @@
                 <li class="clbr-ul-list-item" (mouseenter)="mouseEnter(menuIdentityTrigger, menuDashboardTrigger)"
                     routerLinkActive="active-route">
                     <a [routerLink]="['/is']" >
-                        <!-- <mat-icon svgIcon="twotone-security"></mat-icon> -->
                         <span>Identity Server</span>
                         <i class="bowtie-icon bowtie-chevron-right-light"
                         [matMenuTriggerFor]="menuIdentity"
                         #menuIdentityTrigger="matMenuTrigger"></i>
                         <mat-menu class="cmp--menu-panel-position clbr--mat-menu-panel-v1"  #menuIdentity="matMenu">
                             <ul>
-                                <li><a mat-menu-item>Manage organizations</a></li>
-                                <li  mytooltip="['identity.users.list', 'identity.groups.delete']" [matTooltipClass]="'my-tooltip'"><button class="clbr--mat-menu-item" (click)="testClick()">Manage users</button></li>
-                                <li><button class="clbr--mat-menu-item" >System configurations</button></li>
-                            </ul>
-                            <!-- <button mat-menu-item *hasPermission="['identity.users.list']">Manage users</button> -->
-                            
-                            <!-- <button class="clbr--mat-menu-item" >System configurations</button> -->
+                                <li [hasPermission]="['identity.groups.list']" [matTooltipClass]="'my-tooltip'">
+                                    <button hasPermissionCtrl class="clbr--mat-menu-item" (click)="router.navigateByUrl('is/groups')">Manage organizations</button>
+                                </li>
+                                <li [hasPermission]="['identity.users.list']" [matTooltipClass]="'my-tooltip'">
+                                    <button hasPermissionCtrl class="clbr--mat-menu-item" (click)="router.navigateByUrl('/user')">Manage users</button>
+                                </li>
+                                <li [hasPermission]="['identity.system.config']" [matTooltipClass]="'my-tooltip'">
+                                    <button hasPermissionCtrl class="clbr--mat-menu-item" (click)="router.navigateByUrl('/user')">System configurations</button>
+                                </li>
+                            </ul>                           
                         </mat-menu>
                     </a>
                 </li>
@@ -48,8 +50,7 @@
         </mat-sidenav>
 
         <mat-sidenav-content>
-            <div></div>
-            <!-- pass empty content -->
+            <ng-content></ng-content>
         </mat-sidenav-content>
     </mat-sidenav-container>
 </div>

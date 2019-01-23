@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MatSidenav } from '@angular/material';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'cmp-sidebar',
@@ -14,7 +15,8 @@ export class SidebarComponent implements OnInit {
     @Input() eventSidebarToggle: Observable<any>;
     private subscriberSidebarToggle: any;
     mode = new FormControl('over');
-    constructor() {
+    constructor(public router: Router
+    ) {
     }
     ngOnInit() {
         this.subscriberSidebarToggle = this.eventSidebarToggle.subscribe(() => this._toggleOpened());

@@ -16,8 +16,8 @@ import { DndModule } from 'ng2-dnd';
 /* component */ import { SidebarComponent } from 'core/layout/sidebar/sidebar.component';
 
 
+// /* component */ import { HasPermissionDirective } from 'shared/directives/has-permission/has-permission.directive';
 /* component */ import { HasPermissionDirective } from 'shared/directives/has-permission/has-permission.directive';
-/* component */ import { HasPermissionDirective2 } from 'shared/directives/has-permission/has-permission2.directive';
 
 import { ParticlesModule } from 'angular-particle';
 
@@ -41,8 +41,7 @@ declare let window: any;
         UnauthorizedComponent,
         LoginComponent,
         // directives
-        HasPermissionDirective,
-        HasPermissionDirective2
+        HasPermissionDirective
     ],
     exports: [
         // modules
@@ -52,8 +51,7 @@ declare let window: any;
         MdlCheckboxModule,
         MdlMenuModule,
         // directives
-        HasPermissionDirective,
-        HasPermissionDirective2
+        HasPermissionDirective
     ],
     imports: [
         DndModule.forRoot(),

@@ -2,8 +2,17 @@
 .clbr--page-navigation .navbar { margin-bottom: 0px; min-height: 30px; }
 ul { padding-left: 0px; margin-bottom: 0px; }
 ul li { list-style-type: none; }
-a:hover { text-decoration: none; color: #000; }
-.my-tooltip { white-space: pre-line !important; }
+a:hover { text-decoration: none !important; color: #000; }
+.mat-tooltip.my-tooltip {
+    white-space: pre-line !important;
+    //@warn
+    font-size: 11px;
+    background-color: #000;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    background-color: #ffffff;
+    color: #666666 !important;
+    padding: 10px 15px !important;
+}
 // body {
 //   font-size: 14px;
 //   font-family: 'Roboto', sans-serif;

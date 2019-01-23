@@ -106,8 +106,10 @@
 }
 
 
-
-
+// mat-sidenav
+.clbr-drawer-container {
+    &.mat-sidenav-container .mat-drawer-backdrop { background-color: rgba(0,0,0,.2); }
+}
 
 
 
