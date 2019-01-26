@@ -43,8 +43,9 @@ namespace IdentityServer.Webapi.Configurations
         // MEMBER
 
         // USER
-
+        public const string UserList = "identity.users.list";
         // SYSTEM
+        public const string SystemConfig = "identity.system.config";
 
         public static List<string> GetValues()
         {

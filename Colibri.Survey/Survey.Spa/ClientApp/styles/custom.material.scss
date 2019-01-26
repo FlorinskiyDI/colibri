@@ -1,3 +1,41 @@
+// // /* ANGULAR-MATERIAL */
+.cdk-overlay-container { z-index: 999999999; } // more than bootstrap nav {{1030}}
+
+// mat-menu
+.mat-menu-panel.clbr--mat-menu-panel-v1 {
+    min-width: 180px;
+    .mat-menu-item { height: 26px; line-height: 26px; font-size: 12px; }
+    .clbr--mat-menu-item:disabled { background-color: transparent !important; cursor: auto; color: #999 }
+    .clbr--mat-menu-item:hover { background: rgba(0,0,0,.04); }
+    .clbr--mat-menu-item {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        outline: 0;
+        border: none;
+        -webkit-tap-highlight-color: transparent;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        line-height: 48px;
+        height: 48px;
+        padding: 0 16px;
+        text-align: left;
+        text-decoration: none;
+        max-width: 100%;
+        position: relative;
+        height: 26px;
+        line-height: 26px;
+        font-size: 12px;
+        background: 0 0;
+        color: rgba(0,0,0,.87);
+        width: 100%;
+    }
+}
+
 // mat-raised-button
 .clbr--mat-raised-button-v1 {
     font-size: 11px;
@@ -5,7 +43,12 @@
     line-height: 22px !important;
     padding: 2px 10px 0px 10px !important;
     border-radius: 3px !important;
-    &.clbr--mat-raised-button-primary { color: #3370e0; }
+    color: #666;
+    &.clbr--mat-raised-button-primary {
+        // color: #3370e0;
+    }
+    &.mat-raised-button { margin-right: 10px; font-weight: 600; min-width: auto; }
+    // margin-right: 8px !important;
 }
 
 // matTooltip

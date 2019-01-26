@@ -1,5 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { MenuItem } from 'primeng/api';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { Router } from '@angular/router';
+import { Sidebar } from 'ng-sidebar';
 
 @Component({
     selector: 'cmp-sidebar',
@@ -8,8 +12,11 @@ import { Observable } from 'rxjs/Observable';
 })
 
 export class SidebarComponent implements OnInit {
+    @ViewChild('sidebarLeft') sidebarLeft: Sidebar;
     @Input() eventSidebarToggle: Observable<any>;
     private subscriberSidebarToggle: any;
+    items: MenuItem[];
+
 
     private _opened = false;
     private _modeNum = 0;
@@ -27,13 +34,17 @@ export class SidebarComponent implements OnInit {
     private _MODES: Array<string> = ['over', 'push', 'slide'];
     private _POSITIONS: Array<string> = ['left', 'right', 'top', 'bottom'];
 
-    constructor() {
-        
-    }
+    constructor(
+        public router: Router
+    ) { }
+
     ngOnInit() {
         this.subscriberSidebarToggle = this.eventSidebarToggle.subscribe(() => this._toggleOpened());
     }
-
+    mouseEnter(data: any, ...args: any[]) {
+        data.openMenu();
+        args.forEach((item: any) => { item.closeMenu(); });
+    }
     ngOnDestroy() {
         this.subscriberSidebarToggle.unsubscribe();
     }
@@ -50,8 +61,10 @@ export class SidebarComponent implements OnInit {
     _toggleKeyClose(): void { this._keyClose = !this._keyClose; }
     _onOpenStart(): void { /*console.log('Sidebar opening');*/ }
     _onOpened(): void { /*console.log('Sidebar opened');*/ }
-    _onCloseStart(): void { /*console.log('Sidebar closing');*/ }
-    _onClosed(): void { /*console.log('Sidebar closed');*/ }
+    _onCloseStart(...args: MatMenuTrigger[]): void {
+        args.forEach((item: MatMenuTrigger) => { if (item.menuOpen) { item.closeMenu(); } });
+    }
+    _onClosed(): void { }
     _onTransitionEnd(): void { /*console.log('Transition ended');*/ }
     _togglePosition(): void {
         this._positionNum++;
@@ -60,5 +73,9 @@ export class SidebarComponent implements OnInit {
     _toggleMode(): void {
         this._modeNum++;
         if (this._modeNum === this._MODES.length) { this._modeNum = 0; }
+    }
+
+    closeSidebar() {
+        this.sidebarLeft.close();
     }
 }

@@ -4,19 +4,21 @@
     bottom: 0;
     left: 0px;
     right: 0px;
-
+    .cmp--btn-option  { margin: 2px 0px 2px 0px; color: #fff; }
+    .cmp--btn-option .mat-icon  { font-size: 20px; }
+    .cmp--btn-account { margin: 2px 10px 2px 0px; color: #fff; }
     // navbar
-    .navbar { min-height: 47px; }
+    .navbar { min-height: 44px; }
     .navbar-brand {
-        height: 47px;
+        height: 44px;
         padding: 10px 15px;
         color: white;
         box-shadow: none;
         border: none;
         text-shadow: none;
-        padding-top: 14px;
+        padding-top: 12px;
         padding-right: 8px;
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 300;
         padding-left: 25px;
     }
@@ -30,7 +32,7 @@
         color: #fff;
         float: left;
         height: 40px;
-        margin: 3px 0;
+        margin: 2px 0;
     }
     .container-fluid { padding: 0 15px; }
 
@@ -68,9 +70,9 @@
 
     .clbr--content {
         position: absolute;
-        top: 65px;
+        top: 44px;
         bottom: 0;
-        left: 255px;
+        left: 0px;
         right: 0;
     }
 

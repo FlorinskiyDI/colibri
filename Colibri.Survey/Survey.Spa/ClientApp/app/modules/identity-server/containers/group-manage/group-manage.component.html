@@ -11,17 +11,22 @@
 
     <!-- page-navigation -->
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="clbr--page-navigation">
                 <nav class="navbar">
                     <ul class="nav navbar-nav">
-                        <li class="active">
-                            <button class="clbr--mat-raised-button-v1 clbr--mat-raised-button-primary" mat-raised-button (click)="dialogGroupCreateOpen()">ADD NEW ORGANIZATION</button>
+                        <li class="active">      
+                            <button class="cmp--nav-btn-back" mat-icon-button (click)="router.navigate(['is/home')">
+                                <mat-icon>reply_all</mat-icon>
+                            </button>                      
+                            <p class="cmp--nav-title">Manage organizations</p>
+                            <button class="clbr--mat-raised-button-v1 clbr--mat-raised-button-primary" mat-raised-button (click)="dialogGroupCreateOpen()">CREATE ORGANIZATION</button>
+                            <button class="clbr--mat-raised-button-v1 clbr--mat-raised-button-primary" mat-raised-button (click)="dialogGroupCreateOpen()">DELETE</button>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right" style="padding-right: 15px;">
                         <li>
-                            <p-dropdown class="clbr--p-dropdown-v1" [options]="view_OptionList" [(ngModel)]="view_Option" [style]="{'width':'170px'}">
+                            <p-dropdown class="clbr--p-dropdown-v1 cmp--view-option" [options]="view_OptionList" [(ngModel)]="view_Option" [style]="{'width':'170px'}">
                                 <ng-template let-item pTemplate="selectedItem">                                        
                                     view option:<span>{{item.label}}</span> 
                                 </ng-template>
@@ -35,7 +40,7 @@
 
     <!-- page-content -->
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="clbr--page-content">
                 <div [ngSwitch]="view_Option">
                     <div *ngSwitchCase="'list'">

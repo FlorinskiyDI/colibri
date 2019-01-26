@@ -33,13 +33,14 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 /* module-primeng */ import { ChipsModule } from 'primeng/chips';
 /* module-primeng */ import { MultiSelectModule } from 'primeng/multiselect';
 /* module-primeng */ import { SplitButtonModule } from 'primeng/splitbutton';
+/* module-primeng */ import { MegaMenuModule } from 'primeng/megamenu';
 
 @NgModule({
     imports: [
         TabViewModule, TabMenuModule, ConfirmDialogModule, AccordionModule, InputTextareaModule, InputSwitchModule, CheckboxModule, CalendarModule,
         FileUploadModule, DataTableModule, DialogModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, OverlayPanelModule, ButtonModule,
         ScheduleModule, TooltipModule, ChartModule, ColorPickerModule, TooltipModule, ListboxModule, RadioButtonModule, TableModule, FieldsetModule,
-        TreeTableModule, TreeModule, BlockUIModule, PanelModule, DragDropModule, ChipsModule, MultiSelectModule, SplitButtonModule,
+        TreeTableModule, TreeModule, BlockUIModule, PanelModule, DragDropModule, ChipsModule, MultiSelectModule, SplitButtonModule, MegaMenuModule
     ],
     declarations: [ ],
     providers: [ ],
@@ -47,7 +48,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
         TabViewModule, TabMenuModule, ConfirmDialogModule, AccordionModule, InputTextareaModule, InputSwitchModule, CheckboxModule, CalendarModule,
         FileUploadModule, DataTableModule, DialogModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, OverlayPanelModule, ButtonModule,
         ScheduleModule, TooltipModule, ChartModule, ColorPickerModule, TooltipModule, ListboxModule, RadioButtonModule, TableModule, FieldsetModule,
-        TreeTableModule, TreeModule, BlockUIModule, PanelModule, DragDropModule, ChipsModule, MultiSelectModule, SplitButtonModule,
+        TreeTableModule, TreeModule, BlockUIModule, PanelModule, DragDropModule, ChipsModule, MultiSelectModule, SplitButtonModule, MegaMenuModule
 
     ]
 })

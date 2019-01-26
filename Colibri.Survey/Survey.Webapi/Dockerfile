@@ -1,18 +1,21 @@
-FROM microsoft/aspnetcore:2.0 AS base
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM microsoft/aspnetcore-build:2.0 AS build
+FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
-COPY *.sln ./
 COPY Survey.Webapi/Survey.Webapi.csproj Survey.Webapi/
-RUN dotnet restore
+COPY ../Survey.Common/Survey.Common.csproj ../Survey.Common/
+COPY Survey.InfrastructureLayer/Survey.InfrastructureLayer.csproj Survey.InfrastructureLayer/
+COPY Survey.DomainModelLayer/Survey.DomainModelLayer.csproj Survey.DomainModelLayer/
+COPY Survey.ApplicationLayer/Survey.ApplicationLayer.csproj Survey.ApplicationLayer/
+RUN dotnet restore Survey.Webapi/Survey.Webapi.csproj
 COPY . .
 WORKDIR /src/Survey.Webapi
-RUN dotnet build -c Release -o /app
+RUN dotnet build Survey.Webapi.csproj -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish -c Release -o /app
+RUN dotnet publish Survey.Webapi.csproj -c Release -o /app
 
 FROM base AS final
 WORKDIR /app

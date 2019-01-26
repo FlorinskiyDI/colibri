@@ -2,14 +2,7 @@ version: '3.4'
 
 services:
   survey.webapi:
-    image: survey.webapi
+    image: ${DOCKER_REGISTRY}surveywebapi
     build:
       context: .
       dockerfile: Survey.Webapi/Dockerfile
-
-  survey.spa:
-    image: survey.spa
-    build:
-      context: .
-      dockerfile: Survey.Spa/Dockerfile
-

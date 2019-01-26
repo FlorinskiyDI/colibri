@@ -12,7 +12,8 @@ import { MatIconRegistry } from '@angular/material';
 /* module-material */ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 /* module-material */ import { MatRippleModule } from '@angular/material/core';
 /* module-material */ import { MatMenuModule } from '@angular/material/menu';
-
+/* module-material */ import { MatCardModule } from '@angular/material/card';
+/* module-material */ import { MatGridListModule } from '@angular/material/grid-list';
 @NgModule({
     imports: [
         MatTooltipModule,
@@ -24,10 +25,12 @@ import { MatIconRegistry } from '@angular/material';
         MatAutocompleteModule,
         MatIconModule,
         MatRippleModule,
-        MatMenuModule
+        MatMenuModule,
+        MatCardModule,
+        MatGridListModule
     ],
-    declarations: [ ],
-    providers: [ ],
+    declarations: [],
+    providers: [],
     exports: [
         MatTooltipModule,
         MatButtonModule,
@@ -38,7 +41,9 @@ import { MatIconRegistry } from '@angular/material';
         MatAutocompleteModule,
         MatIconModule,
         MatRippleModule,
-        MatMenuModule
+        MatMenuModule,
+        MatCardModule,
+        MatGridListModule
     ]
 })
 
@@ -46,7 +51,7 @@ export class SharedMaterialModule {
     public static forRoot(): ModuleWithProviders {
         return {
             ngModule: SharedMaterialModule,
-            providers: [ ]
+            providers: []
         };
     }
 

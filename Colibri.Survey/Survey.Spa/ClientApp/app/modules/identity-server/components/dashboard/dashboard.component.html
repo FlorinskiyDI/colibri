@@ -1,0 +1,56 @@
+<div class="cmp--dashboard-component">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="cmp--page-title">Dashboard</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <mat-grid-list cols="12">
+                    <a class="cmp--grid-list-item" (click)="router.navigateByUrl('is/groups')">
+                        <mat-card class="cmp--card">
+                            <mat-card-header>
+                                <mat-card-title>Manage Organizations</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <p>Short test description for organization page</p>
+                            </mat-card-content>                            
+                        </mat-card>
+                    </a>
+                    <a class="cmp--grid-list-item" (click)="router.navigateByUrl('is/users')">
+                        <mat-card class="cmp--card">
+                            <mat-card-header>
+                                <mat-card-title>Manage Users</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <p>Short test description for organization page</p>
+                            </mat-card-content>                            
+                        </mat-card>
+                    </a>
+                    <a class="cmp--grid-list-item" (click)="router.navigateByUrl('is/system')">
+                        <mat-card class="cmp--card">
+                            <mat-card-header>
+                                <mat-card-title>System Configs</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <p>Short test description for organization page</p>
+                            </mat-card-content>                            
+                        </mat-card>
+                    </a>
+                    <a class="cmp--grid-list-item" (click)="router.navigateByUrl('is/profile')">
+                        <mat-card class="cmp--card">
+                            <mat-card-header>
+                                <mat-card-title>My Profile</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <p>Short test description for user profile page</p>
+                            </mat-card-content>                            
+                        </mat-card>
+                    </a>
+                   
+                </mat-grid-list>
+            </div>
+        </div>
+    </div>
+</div>

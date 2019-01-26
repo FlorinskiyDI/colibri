@@ -9,6 +9,7 @@ import { Routes, RouterModule } from '@angular/router';
 /* component */ import { UserComponent } from './containers/user/user.component';
 /* component */ import { UserManageComponent } from './containers/user-manage/user-manage.component';
 /* component */ import { UserProfileComponent } from './containers/user-profile/user-profile.component';
+/* component */ import { HomeComponent } from './containers/home/home.component';
 
 const routes: Routes = [
     {
@@ -40,6 +41,10 @@ const routes: Routes = [
                 ]
             },
         ]
+    },
+    {
+        path: 'home',
+        component: HomeComponent
     },
     {
         path: 'users',

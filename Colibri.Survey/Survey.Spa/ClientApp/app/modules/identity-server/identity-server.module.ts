@@ -19,6 +19,9 @@ import { NgModule } from '@angular/core';
 /* component */ import { UserProfileComponent } from './containers/user-profile/user-profile.component';
 /* component */ import { UserDataGridComponent } from './components/user/user-data-grid/user-data-grid.component';
 /* component */ import { UserDialogOverviewComponent } from './components/user/user-dialog-overview/user-dialog-overview.component';
+/* component */ import { HomeComponent } from './containers/home/home.component';
+/* component */ import { DashboardComponent } from './components/dashboard/dashboard.component';
+
 /* pipe */ import { UserStatusPipe } from './common/pipes/user-status.pipe';
 /* service */ import { UserService } from './common/services/user.service';
 
@@ -46,6 +49,8 @@ import { NgModule } from '@angular/core';
         MemberDataGridComponent,
         MemberDialogCreateComponent,
         SystemConfigurationComponent,
+        HomeComponent,
+        DashboardComponent,
         // pipes
         UserStatusPipe
     ],

@@ -9,34 +9,30 @@ import { NgxSmoothDnDModule } from 'ngx-smooth-dnd';
 
 /* translate */ import { TranslateModule, TranslateStore, TranslateLoader } from '@ngx-translate/core';
 /* translate */ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+// modules
 /* module-angular-split */ import { AngularSplitModule } from 'angular-split';
-
-/* shared-module-primeng */ import { SharedPrimeNgModule } from './shared-primeng.module';
-/* shared-module-primeng */ import { SharedMaterialModule } from './shared-material.module';
-
-
-
+/* module-shared-primeng */ import { SharedPrimeNgModule } from './shared-primeng.module';
+/* module-shared-primeng */ import { SharedMaterialModule } from './shared-material.module';
 /* module-ngx-bootstrap */ import { TabsModule } from 'ngx-bootstrap/tabs';
 /* module-ngx-bootstrap */ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
-import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
-
-// import { MdlModule } from '@angular-mdl/core';
-// import { MdlModule } from '@angular-mdl/compo';
-
+// services
 /* service-api */ import { SurveysApiService } from 'shared/services/api/surveys.api.service';
 /* service-api */ import { PortalApiService } from 'shared/services/api/portal.api.service';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* service-api */ import { GroupMembersApiService } from 'shared/services/api/group-members.api.service';
 /* service-api */ import { UsersApiService } from 'shared/services/api/users.api.service';
 
+// directives
+/* directive */ import { HasPermissionDirective } from 'shared/directives/has-permission/has-permission.directive';
 
-// import { FormBuilderComponent } from '../modules/surveys/builder/form-builder/form-builder.component';
-
+// components
 /* component */ import { DataFilterComponent } from 'shared/directives/data-filter/data-filter.component';
 /* component-modal */ import { ModalComponent } from 'shared/directives/modal/modal.component';
 /* component-modal */ import { ModalService } from 'shared/directives/modal/modal.service';
 
+import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
 
 @NgModule({
     imports: [
@@ -51,8 +47,6 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         NgxSmoothDnDModule,
         SharedPrimeNgModule,
         SharedMaterialModule,
-        // MdlModule,
-        // Translate
         TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,
@@ -72,6 +66,7 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
     ],
     declarations: [
         // diractives
+        HasPermissionDirective,
         ModalComponent,
         DataFilterComponent
     ],
@@ -94,6 +89,7 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         // else
         AngularSplitModule,
         // directives
+        HasPermissionDirective,
         ModalComponent,
         DataFilterComponent
     ]
@@ -112,6 +108,7 @@ export class SharedModule {
                 UsersApiService,
                 PortalApiService,
                 // diractives
+                HasPermissionDirective
                 // ModalService
             ]
         };

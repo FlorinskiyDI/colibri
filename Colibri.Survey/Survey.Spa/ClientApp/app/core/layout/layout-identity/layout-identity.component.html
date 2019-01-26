@@ -1,19 +1,17 @@
-
 <cmp-sidebar [eventSidebarToggle]="eventSidebarToggle.asObservable()">
 </cmp-sidebar>
 
 <div class="cmp--layout-identity">
 
     <div class="clbr--navbar">
-        <nav class="navbar navbar-default navbar-fixed-top clbr--navbar--block"
-            role="navigation">
+        <nav class="navbar navbar-default navbar-fixed-top clbr--navbar--block" role="navigation">
             <div class="container-fluid">
                 <div class="">
                     <div class="navbar-header">
                         <button mat-icon-button class="clbr--sidebar-btns" (click)="sidebarToggle($event)">
                             <mat-icon aria-label="Example icon-button with a heart icon">menu</mat-icon>
                         </button>
-                        <div class="navbar-brand">IDENTITY SERVER</div>
+                        <div class="navbar-brand">Identity Server</div>
                         <span class="cmp--breadcrumb">
                             <ol class="breadcrumb">
                                 <li *ngFor="let breadcrumb of breadcrumbs$ | async; let i = index; let count = count" [ngClass]="{active: i+1 == count, parent: i+1 < count }">
@@ -27,30 +25,35 @@
                         </span>
                     </div>
                     <div class="collapse navbar-collapse main-navbar-collapse">
-                        <ul class="nav nav--block navbar-nav navbar-right">                            
+                        <ul class="nav nav--block navbar-nav navbar-right">
                             <li class="dropdown" dropdown>
-                                <a dropdownToggle class="" data-hover="dropdown">
-                                    <mat-icon>account_circle</mat-icon>
-                                </a>
-                                <ul *dropdownMenu class="dropdown-menu" role="menu">
-                                    <li role="menuitem">
-                                        <a class="dropdown-item" href="#">My Profile</a>
-                                    </li>
-                                    <li class="divider dropdown-divider"></li>
-                                    <li role="menuitem">
-                                        <a class="dropdown-item" (click)="logout()">log out</a>
-                                    </li>
-                                </ul>
+                                <button class="cmp--btn-option" mat-icon-button [matMenuTriggerFor]="menuOption">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                                <mat-menu class="clbr--mat-menu-panel-v1" overlapTrigger="false" #menuOption="matMenu">
+                                    <button mat-menu-item>Option 1</button>
+                                    <button mat-menu-item>Option 2</button>
+                                    <button mat-menu-item>Option 3</button>
+                                </mat-menu>
+                            </li>
+                            <li class="dropdown" dropdown>
+                                <button class="cmp--btn-account" mat-icon-button [matMenuTriggerFor]="menuAccount">
+                                    <mat-icon>panorama_fish_eye</mat-icon>
+                                </button>
+                                <mat-menu class="clbr--mat-menu-panel-v1" overlapTrigger="false" #menuAccount="matMenu">
+                                    <button class="clbr--mat-menu-item" mat-menu-item>User profile</button>
+                                    <button class="clbr--mat-menu-item" mat-menu-item (click)="logout()">Log out</button>
+                                </mat-menu>
                             </li>
                         </ul>
-        
+
                     </div>
                 </div>
             </div>
         </nav>
     </div>
 
-    <div class="clbr--left-sidebar">
+    <!-- <div class="clbr--left-sidebar">
         <ul class="clbr-ul-list">
             <li class="clbr-ul-list-item" routerLinkActive="active-route">
                 <a [routerLink]="['/is/groups']">
@@ -77,9 +80,9 @@
                 </a>
             </li>
         </ul>
-    </div>
+    </div> -->
 
-    
+
     <div class="clbr--content">
         <router-outlet></router-outlet>
     </div>
