@@ -14,13 +14,16 @@
                         <div class="navbar-brand">Identity Server</div>
                         <span class="cmp--breadcrumb">
                             <ol class="breadcrumb">
-                                <li *ngFor="let breadcrumb of breadcrumbs$ | async; let i = index; let count = count" [ngClass]="{active: i+1 == count, parent: i+1 < count }">
-                                    <span *ngIf="i+1 != count">
-                                        <a [routerLink]="[breadcrumb.url]">{{ breadcrumb.label }}</a>
-                                    </span>
-                                    <i *ngIf="breadcrumb.icon" class="breadcrumb-icon bowtie-icon" [ngClass]="breadcrumb.icon"></i>
-                                    <span *ngIf="i+1 == count">{{ breadcrumb.label }}</span>
-                                </li>
+                                <ng-container *ngFor="let breadcrumb of breadcrumbs$ | async; let i = index; let count = count">
+                                    <!-- if item is first - than hide item (*ngIf="count!=1") -->
+                                    <li *ngIf="count!=1" [ngClass]="{active: i+1 == count, parent: i+1 < count }">
+                                        <span *ngIf="i+1 != count">
+                                            <a [routerLink]="[breadcrumb.url]">{{ breadcrumb.label }}</a>
+                                        </span>
+                                        <i *ngIf="breadcrumb.icon" class="breadcrumb-icon bowtie-icon" [ngClass]="breadcrumb.icon"></i>
+                                        <span *ngIf="i+1 == count">{{ breadcrumb.label }}</span>
+                                    </li>
+                                </ng-container>
                             </ol>
                         </span>
                     </div>

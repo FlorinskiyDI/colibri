@@ -1,9 +1,9 @@
 .cmp-group-data-grid {
-    
+    ::ng-deep &.clbr--block-v1 .clbr--block--options { margin-top: 0px !important; }
     ::ng-deep .clbr--p-multiSelect-column-option .pi.pi-caret-down:before { content: "\EA58"; }
-    .clbr--block-options .pi { font-size: 12px; }
-    .clbr--block-options .clbr--btn-default:hover { background-color: #D3D5D8; }
-    .clbr--block-options .clbr--btn-default {
+    .clbr--block--options .pi { font-size: 12px; }
+    .clbr--block--options .clbr--btn-default:hover { background-color: #D3D5D8; }
+    .clbr--block--options .clbr--btn-default {
         border-radius: 0;
         background-color: transparent;
         background-image: none;

@@ -78,8 +78,10 @@
 
     .cmp--breadcrumb {
         position: absolute;
-        left: 255px;
+        // left: 0px;
         top: 6px;
+        .breadcrumb { padding: 8px 15px 8px 3px; }
+        .breadcrumb>li:before { padding: 0 5px; color: #ccc; content: "/\A0"; }
         .breadcrumb>li+li:before { padding: 0 7px }
         .breadcrumb { margin-bottom: 0px; background-color: transparent; }
         .breadcrumb li.parent:hover span a { background-color: #3770d8; }

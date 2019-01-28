@@ -1,0 +1,14 @@
+.cmp--access-manage {
+    .clbr--mat-raised-button-primary { margin-right: 10px; color: #666;}
+
+    // .cmp--ui--dropdown-view-by { margin-right: 20px; }
+    .cmp--ui--dropdown-view-by ::ng-deep.ui-dropdown-label { font-size: 12px !important; }
+    .cmp--ui--dropdown-view-by .cmp--ui-dropdown-label-view-by {
+        font-size: 11px;
+        font-weight: 500;
+        color: #666;
+        padding-left: 10px;
+        color: #3B78E7;
+    }
+
+}

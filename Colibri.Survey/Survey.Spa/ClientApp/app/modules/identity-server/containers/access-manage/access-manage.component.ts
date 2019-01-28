@@ -4,15 +4,16 @@ import { ActivatedRoute } from '@angular/router';
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 
 @Component({
-    selector: 'cmp-overview-general',
-    templateUrl: 'member-manage.component.html',
-    styleUrls: ['./member-manage.component.scss']
+    selector: 'cmp-access-general',
+    templateUrl: 'access-manage.component.html',
+    styleUrls: ['./access-manage.component.scss']
 })
 
-export class MemberManageComponent implements OnInit {
+export class AccessManageComponent implements OnInit {
 
     dialogCreateConfig: DialogDataModel<any>;
     itemId: any;
+    view_OptionList: Array<any> = [{ label: 'MEMBERS', value: 'members' }, { label: 'ROLES', value: 'roles' }];
 
     constructor(
         private route: ActivatedRoute

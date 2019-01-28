@@ -27,17 +27,35 @@
     &.pi-check:before { content: "\E977"; }
     
 }
-    
-// p-dropdown
-.clbr--p-dropdown-v1 { 
-    .ui-dropdown-trigger {
+
+//// ui-tabmenu
+.clbr--ui--tabmenu {
+    &.ui-tabmenu { margin-left: -8px; }
+    &.ui-tabmenu .ui-state-active a { color: #212121 !important; }
+    &.ui-tabmenu .ui-state-default { border: none; }
+    &.ui-tabmenu .ui-state-default a { color: #888; }
+    &.ui-tabmenu .ui-widget-header { border: none; }
+    &.ui-tabmenu .ui-tabmenu-nav { padding: 0px; }
+    &.ui-tabmenu .ui-tabmenu-nav > li.ui-state-default { background-color: transparent; border-radius: 2px; }
+    &.ui-tabmenu .ui-tabmenu-nav > li.ui-state-active { background-color: transparent; }
+    &.ui-tabmenu .ui-tabmenu-nav > li:first-child a {  }
+    &.ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem a { font-size: 12px; font-weight: 400; padding: 5px 8px 3px 8px; }
+}
+
+//// ui--dropdown
+.clbr--ui--dropdown-v1 {
+    &.ui-dropdown { box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+        width: 170px;
+        border: none;
+    }
+    &.ui-dropdown .ui-dropdown-trigger {
         border-left: none;
         background-image: -o-linear-gradient(top,#fff 0,#f9f9f9 100%);
         background-image: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#f9f9f9));
         background-image: linear-gradient(to bottom, #fff 0, #f9f9f9 100%);
     }
-    .ui-dropdown .ui-dropdown-label {
-        padding: 3px 10px 1px 10px;
+    &.ui-dropdown .ui-dropdown-label {
+        padding: 2px 10px 1px 10px;
         font-size: 13px;
         color: #333;
         background-image: -o-linear-gradient(top,#fff 0,#f9f9f9 100%);
@@ -45,6 +63,24 @@
         background-image: linear-gradient(to bottom, #fff 0, #f9f9f9 100%);
     }
 }
+    
+// // p-dropdown
+// .clbr--p-dropdown-v1 { 
+//     .ui-dropdown-trigger {
+//         border-left: none;
+//         background-image: -o-linear-gradient(top,#fff 0,#f9f9f9 100%);
+//         background-image: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#f9f9f9));
+//         background-image: linear-gradient(to bottom, #fff 0, #f9f9f9 100%);
+//     }
+//     .ui-dropdown .ui-dropdown-label {
+//         padding: 3px 10px 1px 10px;
+//         font-size: 13px;
+//         color: #333;
+//         background-image: -o-linear-gradient(top,#fff 0,#f9f9f9 100%);
+//         background-image: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#f9f9f9));
+//         background-image: linear-gradient(to bottom, #fff 0, #f9f9f9 100%);
+//     }
+// }
 
 // p-treetable
 .clbr--ui-treetable-v1 {

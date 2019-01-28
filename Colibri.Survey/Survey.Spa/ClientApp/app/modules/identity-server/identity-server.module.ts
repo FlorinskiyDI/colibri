@@ -9,9 +9,11 @@ import { NgModule } from '@angular/core';
 /* component */ import { GroupOverviewComponent } from './containers/group-overview/group-overview.component';
 /* component */ import { GroupOverviewMainComponent } from './containers/group-overview-main/group-overview-main.component';
 /* component */ import { GroupDialogCreateComponent } from './components/group/group-dialog-create/group-dialog-create.component';
+/* component */ import { GroupFormCreateComponent } from './components/group/group-form-create/group-form-create.component';
+/* component */ import { GroupCreateComponent } from './containers/group-create/group-create.component';
 /* component */ import { SystemConfigurationComponent } from './containers/system-configuration/system-configuration.component';
 /* component */ import { UserDialogDetailsComponent } from './containers/user-dialog-details/user-dialog-details.component';
-/* component */ import { MemberManageComponent } from './containers/member-manage/member-manage.component';
+/* component */ import { AccessManageComponent } from './containers/access-manage/access-manage.component';
 /* component */ import { MemberDataGridComponent } from './components/member/member-data-grid/member-data-grid.component';
 /* component */ import { MemberDialogCreateComponent } from './components/member/member-dialog-create/member-dialog-create.component';
 /* component */ import { UserComponent } from './containers/user/user.component';
@@ -39,13 +41,15 @@ import { NgModule } from '@angular/core';
         GroupDataTreeComponent,
         GroupDataGridComponent,
         GroupDialogCreateComponent,
+        GroupFormCreateComponent,
+        GroupCreateComponent,
         UserDialogDetailsComponent,
         UserComponent,
         UserManageComponent,
         UserProfileComponent,
         UserDataGridComponent,
         UserDialogOverviewComponent,
-        MemberManageComponent,
+        AccessManageComponent,
         MemberDataGridComponent,
         MemberDialogCreateComponent,
         SystemConfigurationComponent,
