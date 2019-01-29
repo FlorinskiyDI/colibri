@@ -63,8 +63,7 @@ export class HasPermissionDirective extends MatTooltip implements AfterViewInit 
             if (this._isHidden) {
                 // hide element
                 this.element.nativeElement.hidden = true;
-            }
-            else {
+            } else {
                 // set  message of overrrided tooltip
                 this.message = `
                 You need permissions for this action.
@@ -73,7 +72,7 @@ export class HasPermissionDirective extends MatTooltip implements AfterViewInit 
                 // disable children elements with attribute
                 const elementWithAtribute: any = this._getElementByAttribute(this.HAS_PERMISSION_CTRL_ATTRIBUTE, this.element.nativeElement);
                 if (this._isDisable) {
-                    elementWithAtribute.disabled = !this._isDisable;
+                    elementWithAtribute.disabled = this._isDisable;
                 }
             }
         }

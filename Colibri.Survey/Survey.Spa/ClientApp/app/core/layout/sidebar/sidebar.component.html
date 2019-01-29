@@ -31,17 +31,17 @@
                             <mat-menu backdropClass="cmp--sidebar-menu-overlay" class="cmp--sidebar-menu-panel-position clbr--mat-menu-panel-v1" #menuIdentity="matMenu">
                                 <ul>
                                     <li><button mat-menu-item (click)="router.navigateByUrl('is/home')">Home</button></li>
-                                    <li [hasPermission]="['identity.groups.list']" [matTooltipClass]="'my-tooltip'">
-                                        <button hasPermissionCtrl [IsDisable]="true" mat-menu-item class="clbr--mat-menu-item" (click)="router.navigateByUrl('is/groups')">Manage organizations</button>
+                                    <li [hasPermission]="['identity.groups.list']" [IsDisable]="true" [matTooltipClass]="'my-tooltip'">
+                                        <button hasPermissionCtrl mat-menu-item class="clbr--mat-menu-item" (click)="router.navigateByUrl('is/groups')">Manage organizations</button>
                                     </li>
-                                    <li [hasPermission]="['identity.users.list']" [matTooltipClass]="'my-tooltip'">
-                                        <button hasPermissionCtrl [IsDisable]="true" mat-menu-item class="clbr--mat-menu-item" (click)="router.navigateByUrl('is/users')">Manage users</button>
+                                    <li [hasPermission]="['identity.users.list']" [IsDisable]="true" [matTooltipClass]="'my-tooltip'">
+                                        <button hasPermissionCtrl  mat-menu-item class="clbr--mat-menu-item" (click)="router.navigateByUrl('is/users')">Manage users</button>
                                     </li>
-                                    <li [hasPermission]="['identity.system.config']" [matTooltipClass]="'my-tooltip'">
-                                        <button hasPermissionCtrl [IsDisable]="true" mat-menu-item class="clbr--mat-menu-item" (click)="router.navigateByUrl('is/system')">System configurations</button>
+                                    <li [hasPermission]="['identity.system.config']" [IsDisable]="true" [matTooltipClass]="'my-tooltip'">
+                                        <button hasPermissionCtrl mat-menu-item class="clbr--mat-menu-item" (click)="router.navigateByUrl('is/system')">System configurations</button>
                                     </li>
-                                    <li [hasPermission]="['identity.system.config']" [matTooltipClass]="'my-tooltip'">
-                                        <button hasPermissionCtrl [IsDisable]="true" mat-menu-item class="clbr--mat-menu-item" (click)="router.navigateByUrl('is/profile')">User profile</button>
+                                    <li [hasPermission]="['identity.users.update']" [IsDisable]="true" [matTooltipClass]="'my-tooltip'">
+                                        <button hasPermissionCtrl mat-menu-item class="clbr--mat-menu-item" (click)="router.navigateByUrl('is/profile')">User profile</button>
                                     </li>
                                 </ul>
                             </mat-menu>

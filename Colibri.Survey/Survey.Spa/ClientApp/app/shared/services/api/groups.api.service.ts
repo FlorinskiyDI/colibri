@@ -10,7 +10,7 @@ export class GroupsApiService {
 
     constructor(
         @Inject('RESTANGULAR_IDENTITYSERVER') public restangularIdentityServer: Restangular,
-        private restangular: Restangular,
+        // private restangular: Restangular,
         @Inject('SURVEY_API_URL') apiUrl: string
     ) {
         this.apiServer = apiUrl;
