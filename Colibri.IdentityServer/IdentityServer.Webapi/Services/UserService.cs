@@ -15,14 +15,14 @@ using System.Web;
 
 namespace IdentityServer.Webapi.Services
 {
-    public class AppUserService : IAppUserService
+    public class UserService : IUserService
     {
         private IConfiguration _configuration;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSenderService _emailSenderService;
         protected readonly IUowProvider _uowProvider;
 
-        public AppUserService(
+        public UserService(
             UserManager<ApplicationUser> userManager,
             IEmailSenderService emailSenderService,
             IUowProvider uowProvider,
@@ -86,6 +86,8 @@ namespace IdentityServer.Webapi.Services
 
             return searchResult;
         }
+
+
 
         public async Task<ApplicationUser> AddUserByEmailWithoutPassword(string email)
         {

@@ -14,10 +14,10 @@ namespace IdentityServer.Webapi.Services
 {
     public class MemberService : IMemberService
     {
-        private readonly IAppUserService _appUserService;
+        private readonly IUserService _appUserService;
         protected readonly IUowProvider _uowProvider;
         public MemberService(
-            IAppUserService appUserService,
+            IUserService appUserService,
             IUowProvider uowProvider
         )
         {

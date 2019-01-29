@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-12">
                 <mat-grid-list cols="12">
-                    <a class="cmp--grid-list-item" (click)="router.navigateByUrl('is/groups')">
+                    <a [hasPermission]="['identity.groups.list']" [IsHidden]="true" class="cmp--grid-list-item" (click)="router.navigateByUrl('is/groups')">
                         <mat-card class="cmp--card">
                             <mat-card-header>
                                 <mat-card-title>Manage Organizations</mat-card-title>
@@ -18,7 +18,7 @@
                             </mat-card-content>                            
                         </mat-card>
                     </a>
-                    <a class="cmp--grid-list-item" (click)="router.navigateByUrl('is/users')">
+                    <a [hasPermission]="['identity.users.list']" [IsHidden]="true" class="cmp--grid-list-item" (click)="router.navigateByUrl('is/users')">
                         <mat-card class="cmp--card">
                             <mat-card-header>
                                 <mat-card-title>Manage Users</mat-card-title>
@@ -28,7 +28,7 @@
                             </mat-card-content>                            
                         </mat-card>
                     </a>
-                    <a class="cmp--grid-list-item" (click)="router.navigateByUrl('is/system')">
+                    <a [hasPermission]="['identity.configs.get']" [IsHidden]="true" class="cmp--grid-list-item" (click)="router.navigateByUrl('is/system')">
                         <mat-card class="cmp--card">
                             <mat-card-header>
                                 <mat-card-title>System Configs</mat-card-title>
@@ -38,7 +38,7 @@
                             </mat-card-content>                            
                         </mat-card>
                     </a>
-                    <a class="cmp--grid-list-item" (click)="router.navigateByUrl('is/profile')">
+                    <a [hasPermission]="['identity.users.get']" [IsHidden]="true" class="cmp--grid-list-item" (click)="router.navigateByUrl('is/profile')">
                         <mat-card class="cmp--card">
                             <mat-card-header>
                                 <mat-card-title>My Profile</mat-card-title>

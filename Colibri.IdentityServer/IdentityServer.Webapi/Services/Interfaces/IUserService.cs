@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Services.Interfaces
 {
-    public interface IAppUserService
+    public interface IUserService
     {
         Task<ApplicationUser> AddUserByEmailWithoutPassword(string email);
         Task SendInvitationByEmailConfirmationToken(string userId);

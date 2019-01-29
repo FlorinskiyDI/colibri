@@ -15,7 +15,7 @@ import { Platform } from '@angular/cdk/platform';
 export class HasPermissionDirective extends MatTooltip implements AfterViewInit {
     private currentUser: any;
     private _permissions: any[] = [];
-    private _isDisable = true;
+    private _isDisable = false;
     private _isHidden = false;
     private _permissionCtrl: any;
     private _logicalOp = 'AND';
@@ -63,7 +63,8 @@ export class HasPermissionDirective extends MatTooltip implements AfterViewInit 
             if (this._isHidden) {
                 // hide element
                 this.element.nativeElement.hidden = true;
-            } else {
+            }
+            else {
                 // set  message of overrrided tooltip
                 this.message = `
                 You need permissions for this action.
@@ -71,7 +72,9 @@ export class HasPermissionDirective extends MatTooltip implements AfterViewInit 
                 `;
                 // disable children elements with attribute
                 const elementWithAtribute: any = this._getElementByAttribute(this.HAS_PERMISSION_CTRL_ATTRIBUTE, this.element.nativeElement);
-                elementWithAtribute.disabled = this._isDisable;
+                if (this._isDisable) {
+                    elementWithAtribute.disabled = !this._isDisable;
+                }
             }
         }
     }
