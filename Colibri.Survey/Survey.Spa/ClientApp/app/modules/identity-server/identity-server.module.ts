@@ -10,6 +10,7 @@ import { NgModule } from '@angular/core';
 /* component */ import { GroupOverviewMainComponent } from './containers/group-overview-main/group-overview-main.component';
 /* component */ import { GroupDialogCreateComponent } from './components/group/group-dialog-create/group-dialog-create.component';
 /* component */ import { GroupFormCreateComponent } from './components/group/group-form-create/group-form-create.component';
+/* component */ import { GroupFormUpdateComponent } from './components/group/group-form-update/group-form-update.component';
 /* component */ import { GroupCreateComponent } from './containers/group-create/group-create.component';
 /* component */ import { SystemConfigurationComponent } from './containers/system-configuration/system-configuration.component';
 /* component */ import { UserDialogDetailsComponent } from './containers/user-dialog-details/user-dialog-details.component';
@@ -42,6 +43,7 @@ import { NgModule } from '@angular/core';
         GroupDataGridComponent,
         GroupDialogCreateComponent,
         GroupFormCreateComponent,
+        GroupFormUpdateComponent,
         GroupCreateComponent,
         UserDialogDetailsComponent,
         UserComponent,

@@ -46,7 +46,7 @@ namespace IdentityServer.Webapi.Controllers
 
         // POST: api/groups/search
         [HttpPost("search")]
-        [Authorize(Policy = SystemPermissionScope.GroupList)]
+        [Authorize(Policy = SystemStaticPermissions.Groups.List)]
         public async Task<IActionResult> GetGroups([FromBody] SearchQuery searchEntry)
         {
             var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
@@ -57,7 +57,7 @@ namespace IdentityServer.Webapi.Controllers
 
         // POST: api/groups/root
         [HttpPost("root")]
-        [Authorize(Policy = SystemPermissionScope.GroupListRoot)]
+        [Authorize(Policy = SystemStaticPermissions.Groups.ListRoot)]
         public async Task<IActionResult> GetRootGroups([FromBody] SearchQuery searchEntry)
         {
             var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
@@ -67,7 +67,7 @@ namespace IdentityServer.Webapi.Controllers
 
         // POST: api/groups/{id}/subgroups
         [HttpPost("{id}/subgroups")]
-        [Authorize(Policy = SystemPermissionScope.GroupGetSubgroups)]
+        [Authorize(Policy = SystemStaticPermissions.Groups.GetSubgroups)]
         public async Task<IActionResult> GetSubGroups([FromBody] SearchQuery searchEntry, string id)
         {
             var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
@@ -77,7 +77,7 @@ namespace IdentityServer.Webapi.Controllers
 
         // POST: api/groups
         [HttpPost]
-        [Authorize(Policy = SystemPermissionScope.GroupCreate)]
+        [Authorize(Policy = SystemStaticPermissions.Groups.Create)]
         public async Task<IActionResult> CreateGroup([FromBody] GroupDto model)
         {
             var userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
@@ -87,7 +87,7 @@ namespace IdentityServer.Webapi.Controllers
 
         // DELETE: api/groups/{id}
         [HttpDelete("{id}")]
-        [Authorize(Policy = SystemPermissionScope.GroupDelete)]
+        [Authorize(Policy = SystemStaticPermissions.Groups.Delete)]
         public async Task<IActionResult> DeleteGroup(string id)
         {
             var userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
@@ -97,7 +97,7 @@ namespace IdentityServer.Webapi.Controllers
 
         // PUT: api/groups/{id}/subgroups
         [HttpPut()]
-        [Authorize(Policy = SystemPermissionScope.GroupUpdate)]
+        [Authorize(Policy = SystemStaticPermissions.Groups.Update)]
         public async Task<IActionResult> UpdateGroups([FromBody] GroupDto model)
         {
             var userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
@@ -107,7 +107,7 @@ namespace IdentityServer.Webapi.Controllers
 
         // GET: api/groups/{id}
         [HttpGet("{id}")]
-        [Authorize(Policy = SystemPermissionScope.GroupGet)]
+        [Authorize(Policy = SystemStaticPermissions.Groups.Get)]
         public async Task<IActionResult> GetGroup(Guid id)
         {
             Groups entity;

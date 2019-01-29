@@ -22,63 +22,52 @@ export class GroupsApiService {
     }
 
     getAllRoot(searchEntry: any = null, objectFields: string[] | null = null) {
-        const result = this.restangular.all('api/groups/root').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
+        const result = this.restangularIdentityServer.all('api/groups/root').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
         return result;
     }
 
     getSubgroups(searchEntry: any = null, groupId: string) {
-        const result = this.restangular.all('api/groups/' + groupId + '/subgroups').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
+        const result = this.restangularIdentityServer.all('api/groups/' + groupId + '/subgroups').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
         return result;
     }
 
     delete(id: string) {
-        const value = this.restangular.one('api/groups', id).remove();
+        const value = this.restangularIdentityServer.one('api/groups', id).remove();
         return value;
     }
 
-
-
-
-
-
-
-
-
     getItem(id: string) {
-        const result = this.restangular.one('api/groups', id).get();
+        const result = this.restangularIdentityServer.one('api/groups', id).get();
         return result;
     }
 
-
-
     get(id: string) {
-        const result = this.restangular.one('api/groups', id).get();
+        const result = this.restangularIdentityServer.one('api/groups', id).get();
         return result;
     }
 
     getRoot(searchEntry: any = null, objectFields: string[] | null = null) {
-        // const result = this.restangular.all('api/groups/root').post(searchEntry);
-        const result = this.restangular.all('api/groups/root').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
-        // const result = this.restangular.one('api/groups/root').customPost(undefined, objectFields ? objectFields.join(',') : undefined);
+        // const result = this.restangularIdentityServer.all('api/groups/root').post(searchEntry);
+        const result = this.restangularIdentityServer.all('api/groups/root').customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
+        // const result = this.restangularIdentityServer.one('api/groups/root').customPost(undefined, objectFields ? objectFields.join(',') : undefined);
         return result;
     }
 
     create(data: any): any {
-        const value = this.restangular.all('api/groups').post(data);
+        const value = this.restangularIdentityServer.all('api/groups').post(data);
         return value;
     }
 
     update(data: any): any {
-        const value = this.restangular.all('api/groups').customPUT(data, undefined, undefined,
+        const value = this.restangularIdentityServer.all('api/groups').customPUT(data, undefined, undefined,
             { 'Content-Type': 'application/json' });
         return value;
     }
 
-
     /* group members */
 
     addMembers(groupId: string, data: string[]): any {
-        const value = this.restangular.all('api/groups/' + groupId + '/members').post(data);
+        const value = this.restangularIdentityServer.all('api/groups/' + groupId + '/members').post(data);
         return value;
     }
 }

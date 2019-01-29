@@ -29,21 +29,23 @@
         <div class="col-md-12">
             <div class="clbr--ui-table clbr--ui-table-v1">
 
-                <p-table #dtGroups exportFilename="org-data" selectionMode="single" [columns]="tbSelectedColumns" [value]="tbItems" [paginator]="true"
-                    [rows]="10" [rowsPerPageOptions]="[2,10,20]" [totalRecords]="tbTotalItemCount" [loading]="tbLoading" [lazy]="true"
-                    (onLazyLoad)="tb_loadItems($event)">
+                <p-table #dtGroups exportFilename="org-data" selectionMode="single" [columns]="tbSelectedColumns"
+                    [value]="tbItems" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[2,10,20]" [totalRecords]="tbTotalItemCount"
+                    [loading]="tbLoading" [lazy]="true" (onLazyLoad)="tb_loadItems($event)">
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th pSortableColumn="name" [style.width.px]="360" class="border-left-none border-right-none">
                                 Organization name
-                                <p-sortIcon field="name" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
-                            </th>
-                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" [style.width.px]="col.width" class="border-left-none border-right-none">
-                                {{col.header}}
-                                <p-sortIcon *ngIf="col.sort" [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
+                                <p-sortIcon field="name" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order"
                                     ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                             </th>
-                            <!-- <th class="border-left-none border-right-none">Actions</th> -->
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" [style.width.px]="col.width"
+                                class="border-left-none border-right-none">
+                                {{col.header}}
+                                <p-sortIcon *ngIf="col.sort" [field]="col.field" ariaLabel="Activate to sort"
+                                    ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                            </th>
+                            <th class="border-left-none border-right-none"></th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-rowData let-columns="columns">
@@ -55,15 +57,20 @@
                             <td *ngFor="let col of columns" class="border-left-none border-right-none">
                                 {{rowData[col.field]}}
                             </td>
-
-                            <!-- <td class="border-left-none border-right-none">
-                                <button matTooltip="Edit group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_edit(rowData.id)">
-                                    <mat-icon class="filter-icon">edit</mat-icon>
+                            <td class="border-left-none border-right-none cmp--padding-top-bottom-0">
+                                <button class="cmp--mat-icon-button-option cmp--float-right" mat-icon-button
+                                    [matMenuTriggerFor]="menu">
+                                    <mat-icon>more_vert</mat-icon>
                                 </button>
-                                <button matTooltip="Delete group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_delete(rowData.id)">
-                                    <mat-icon class="filter-icon" >delete</mat-icon>
-                                </button>
-                            </td> -->
+                                <mat-menu panelClass="clbr--mat-menu-v1" backdropClass="clbr--mat-menu-v1" class="clbr--mat-menu-v1"
+                                    xPosition="before" yPosition="below" #menu="matMenu">
+                                    <button mat-menu-item (click)="dialogCreateOpen(rowData.id)"><i class="pi bowtie-edit-outline"></i><span
+                                            style="padding-left: 8px">overview</span></button>
+                                    <button mat-menu-item><i class="pi bowtie-edit-remove"></i><span style="padding-left: 8px">unsubscribe</span></button>
+                                    <button mat-menu-item style="color: #b51e1e;"><i class="pi bowtie-trash" style="color: #b51e1e;"></i><span
+                                            style="padding-left: 8px">delete</span></button>
+                                </mat-menu>
+                            </td>
                         </tr>
                     </ng-template>
                 </p-table>

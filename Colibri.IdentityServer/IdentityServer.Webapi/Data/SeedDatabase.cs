@@ -1,8 +1,10 @@
 ﻿using IdentityServer.Webapi.Configurations;
 using IdentityServer.Webapi.Configurations.AspNetIdentity;
+using IdentityServer.Webapi.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -23,71 +25,120 @@ namespace IdentityServer.Webapi.Data
             if (!context.Roles.Any())
             {
                 // SuperAdmin
-                await CreateRole(roleManager, logger, "SuperAdmin");
-                await AddAllPermissionsToRole(roleManager, logger, "SuperAdmin");
-                // GroupAdmin
-                await CreateRole(roleManager, logger, "GroupAdmin");
-                await AddPermissionToRole(roleManager, logger, "GroupAdmin", SystemPermissionScope.GroupCreate);
-                await AddPermissionToRole(roleManager, logger, "GroupAdmin", SystemPermissionScope.GroupDelete);
-                await AddPermissionToRole(roleManager, logger, "GroupAdmin", SystemPermissionScope.GroupGet);
-                await AddPermissionToRole(roleManager, logger, "GroupAdmin", SystemPermissionScope.GroupGetSubgroups);
-                await AddPermissionToRole(roleManager, logger, "GroupAdmin", SystemPermissionScope.GroupList);
-                await AddPermissionToRole(roleManager, logger, "GroupAdmin", SystemPermissionScope.GroupUpdate);
-                // GroupOwner
-                await CreateRole(roleManager, logger, "GroupOwner");
-                await AddPermissionToRole(roleManager, logger, "GroupOwner", SystemPermissionScope.GroupDelete);
-                await AddPermissionToRole(roleManager, logger, "GroupOwner", SystemPermissionScope.GroupGet);
-                await AddPermissionToRole(roleManager, logger, "GroupOwner", SystemPermissionScope.GroupGetSubgroups);
-                await AddPermissionToRole(roleManager, logger, "GroupOwner", SystemPermissionScope.GroupList);
-                await AddPermissionToRole(roleManager, logger, "GroupOwner", SystemPermissionScope.GroupUpdate);
+                await CreateRole(roleManager, logger, SystemRoleScopes.SUPER_ADMIN);
+                await AddAllPermissionsToRole(roleManager, logger, SystemRoleScopes.SUPER_ADMIN);
+                // Admin
+                await CreateRole(roleManager, logger, SystemRoleScopes.ADMIN);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Users.List);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Users.Get);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Users.Invite);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Users.Update);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Users.Disable);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.Create);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.List);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.ListAll);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.ListRoot);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.Get);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.Update);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.Delete);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.GetSubgroups);
+                // User
+                await CreateRole(roleManager, logger, SystemRoleScopes.USER);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.USER, SystemStaticPermissions.Users.Get);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.USER, SystemStaticPermissions.Users.Update);
                 // GroupCreator
-                await CreateRole(roleManager, logger, "GroupCreator");
-                await AddPermissionToRole(roleManager, logger, "GroupCreator", SystemPermissionScope.GroupCreate);
+                await CreateRole(roleManager, logger, SystemRoleScopes.GROUP_CREATOR);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.GROUP_CREATOR, SystemStaticPermissions.Groups.Create);
+                // GroupAdmin
+                await CreateRole(roleManager, logger, SystemRoleScopes.Groups.ADMIN);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.ADMIN, SystemStaticPermissions.Groups.Delete);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.ADMIN, SystemStaticPermissions.Groups.List);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.ADMIN, SystemStaticPermissions.Groups.ListAll);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.ADMIN, SystemStaticPermissions.Groups.ListRoot);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.ADMIN, SystemStaticPermissions.Groups.Get);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.ADMIN, SystemStaticPermissions.Groups.Update);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.ADMIN, SystemStaticPermissions.Groups.GetSubgroups);
                 // GroupEditor
-                await CreateRole(roleManager, logger, "GroupEditor");
-                await AddPermissionToRole(roleManager, logger, "GroupEditor", SystemPermissionScope.GroupGet);
-                await AddPermissionToRole(roleManager, logger, "GroupEditor", SystemPermissionScope.GroupGetSubgroups);
-                await AddPermissionToRole(roleManager, logger, "GroupEditor", SystemPermissionScope.GroupList);
-                await AddPermissionToRole(roleManager, logger, "GroupEditor", SystemPermissionScope.GroupUpdate);
+                await CreateRole(roleManager, logger, SystemRoleScopes.Groups.EDITOR);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.EDITOR, SystemStaticPermissions.Groups.List);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.EDITOR, SystemStaticPermissions.Groups.ListAll);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.EDITOR, SystemStaticPermissions.Groups.ListRoot);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.EDITOR, SystemStaticPermissions.Groups.Get);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.EDITOR, SystemStaticPermissions.Groups.Update);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.EDITOR, SystemStaticPermissions.Groups.GetSubgroups);
                 // GroupViewer
-                await CreateRole(roleManager, logger, "GroupViewer");
-                await AddPermissionToRole(roleManager, logger, "GroupViewer", SystemPermissionScope.GroupGet);
-                await AddPermissionToRole(roleManager, logger, "GroupViewer", SystemPermissionScope.GroupGetSubgroups);
-                await AddPermissionToRole(roleManager, logger, "GroupViewer", SystemPermissionScope.GroupList);
-                
+                await CreateRole(roleManager, logger, SystemRoleScopes.Groups.VIEWER);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.VIEWER, SystemStaticPermissions.Groups.List);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.VIEWER, SystemStaticPermissions.Groups.ListAll);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.VIEWER, SystemStaticPermissions.Groups.ListRoot);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.VIEWER, SystemStaticPermissions.Groups.Get);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.VIEWER, SystemStaticPermissions.Groups.GetSubgroups);
             }
+
             if (!context.Users.Any())
             {
-                // SuperAdmin
-                var user = await CreateDefaultUser(userManager, logger, "superadmin@gmail.com", "sadmin");
-                await SetPasswordForUser(userManager, logger, "superadmin@gmail.com", user, "sadmin");
-                await AddToRoleAsync(user, userManager, logger, "SuperAdmin");
-                // GroupAdmin
-                var groupadmin= await CreateDefaultUser(userManager, logger, "groupadmin@gmail.com", "groupadmin");
-                await SetPasswordForUser(userManager, logger, "groupadmin@gmail.com", groupadmin, "groupadmin");
-                await AddToRoleAsync(groupadmin, userManager, logger, "GroupAdmin");
-                // GroupOwner
-                var groupowner = await CreateDefaultUser(userManager, logger, "groupowner@gmail.com", "groupowner");
-                await SetPasswordForUser(userManager, logger, "groupowner@gmail.com", groupowner, "groupowner");
-                await AddToRoleAsync(groupowner, userManager, logger, "GroupOwner");
-                // GroupCreator
-                var groupcreator= await CreateDefaultUser(userManager, logger, "groupcreator@gmail.com", "groupcreator");
-                await SetPasswordForUser(userManager, logger, "groupcreator@gmail.com", groupcreator, "groupcreator");
-                await AddToRoleAsync(groupcreator, userManager, logger, "GroupCreator");
-                // GroupEditor
-                var groupeditor = await CreateDefaultUser(userManager, logger, "groupeditor@gmail.com", "groupeditor");
-                await SetPasswordForUser(userManager, logger, "groupeditor@gmail.com", groupeditor, "groupeditor");
-                await AddToRoleAsync(groupeditor, userManager, logger, "GroupEditor");
                 // GroupViewer
-                var groupviwer = await CreateDefaultUser(userManager, logger, "groupviwer@gmail.com", "groupviwer");
-                await SetPasswordForUser(userManager, logger, "groupviwer@gmail.com", groupviwer, "groupviwer");
-                await AddToRoleAsync(groupviwer, userManager, logger, "GroupViewer");
+                var groupViewer = await CreateDefaultUser(userManager, logger, "group_viewer@gmail.com", "groupviewer");
+                await SetPasswordForUser(userManager, logger, "group_viewer@gmail.com", groupViewer, "groupviewer");
+                await AddToRoleAsync(groupViewer, userManager, logger, SystemRoleScopes.Groups.VIEWER);
+                // GroupEditor
+                var groupEditor = await CreateDefaultUser(userManager, logger, "group_editor@gmail.com", "groupeditor");
+                await SetPasswordForUser(userManager, logger, "group_editor@gmail.com", groupEditor, "groupeditor");
+                await AddToRoleAsync(groupEditor, userManager, logger, SystemRoleScopes.Groups.EDITOR);
+                // GroupAdmin
+                var groupAdmin = await CreateDefaultUser(userManager, logger, "group_admin@gmail.com", "groupadmin");
+                await SetPasswordForUser(userManager, logger, "group_admin@gmail.com", groupAdmin, "groupadmin");
+                await AddToRoleAsync(groupAdmin, userManager, logger, SystemRoleScopes.Groups.ADMIN);
+                // GroupCreator
+                var groupCreator = await CreateDefaultUser(userManager, logger, "group_creator@gmail.com", "groupcreator");
+                await SetPasswordForUser(userManager, logger, "group_creator@gmail.com", groupCreator, "groupcreator");
+                await AddToRoleAsync(groupCreator , userManager, logger, SystemRoleScopes.GROUP_CREATOR);
+                // User
+                var user = await CreateDefaultUser(userManager, logger, "user@gmail.com", "user");
+                await SetPasswordForUser(userManager, logger, "user@gmail.com", user, "user");
+                await AddToRoleAsync(user, userManager, logger, SystemRoleScopes.USER);
+                // Admin
+                var admin = await CreateDefaultUser(userManager, logger, "admin@gmail.com", "admin");
+                await SetPasswordForUser(userManager, logger, "admin@gmail.com", admin, "admin");
+                await AddToRoleAsync(admin, userManager, logger, SystemRoleScopes.SUPER_ADMIN);
+                // SuperAdmin
+                var sadmin = await CreateDefaultUser(userManager, logger, "superadmin@gmail.com", "sadmin");
+                await SetPasswordForUser(userManager, logger, "superadmin@gmail.com", sadmin, "sadmin");
+                await AddToRoleAsync(sadmin, userManager, logger, SystemRoleScopes.SUPER_ADMIN);
+
+
+
+
+                //// GroupAdmin
+                //var groupadmin= await CreateDefaultUser(userManager, logger, "groupadmin@gmail.com", "groupadmin");
+                //await SetPasswordForUser(userManager, logger, "groupadmin@gmail.com", groupadmin, "groupadmin");
+                //await AddToRoleAsync(groupadmin, userManager, logger, "GroupAdmin");
+                //// GroupOwner
+                //var groupowner = await CreateDefaultUser(userManager, logger, "groupowner@gmail.com", "groupowner");
+                //await SetPasswordForUser(userManager, logger, "groupowner@gmail.com", groupowner, "groupowner");
+                //await AddToRoleAsync(groupowner, userManager, logger, "GroupOwner");
+                //// GroupCreator
+                //var groupcreator= await CreateDefaultUser(userManager, logger, "groupcreator@gmail.com", "groupcreator");
+                //await SetPasswordForUser(userManager, logger, "groupcreator@gmail.com", groupcreator, "groupcreator");
+                //await AddToRoleAsync(groupcreator, userManager, logger, "GroupCreator");
+                //// GroupEditor
+                //var groupeditor = await CreateDefaultUser(userManager, logger, "groupeditor@gmail.com", "groupeditor");
+                //await SetPasswordForUser(userManager, logger, "groupeditor@gmail.com", groupeditor, "groupeditor");
+                //await AddToRoleAsync(groupeditor, userManager, logger, "GroupEditor");
+                //// GroupViewer
+                //var groupviwer = await CreateDefaultUser(userManager, logger, "groupviwer@gmail.com", "groupviwer");
+                //await SetPasswordForUser(userManager, logger, "groupviwer@gmail.com", groupviwer, "groupviwer");
+                //await AddToRoleAsync(groupviwer, userManager, logger, "GroupViewer");
             }
         }
 
         private static async Task AddAllPermissionsToRole(RoleManager<ApplicationRole> roleManager, ILogger<DbInitializer> logger, string role)
         {
-            var permissionList = SystemPermissionScope.GetValues();
+            var permissionList = new List<string>();
+            permissionList.AddRange(ClassHelper.GetConstantValues<SystemStaticPermissions.Configs>());
+            permissionList.AddRange(ClassHelper.GetConstantValues<SystemStaticPermissions.Users>());
+            permissionList.AddRange(ClassHelper.GetConstantValues<SystemStaticPermissions.Groups>());
+            //var permissionList
             var roleEntity = await roleManager.FindByNameAsync(role);
             foreach (var per in permissionList)
             {

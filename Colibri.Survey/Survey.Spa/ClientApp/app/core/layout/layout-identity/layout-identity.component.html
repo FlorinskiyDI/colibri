@@ -14,7 +14,7 @@
                         <div class="navbar-brand">Identity Server</div>
                         <span class="cmp--breadcrumb">
                             <ol class="breadcrumb">
-                                <ng-container *ngFor="let breadcrumb of breadcrumbs$ | async; let i = index; let count = count">
+                                <ng-container *ngFor="let breadcrumb of breadcrumbData; let i = index; let count = count">
                                     <!-- if item is first - than hide item (*ngIf="count!=1") -->
                                     <li *ngIf="count!=1" [ngClass]="{active: i+1 == count, parent: i+1 < count }">
                                         <span *ngIf="i+1 != count">
@@ -44,7 +44,7 @@
                                     <mat-icon>panorama_fish_eye</mat-icon>
                                 </button>
                                 <mat-menu class="clbr--mat-menu-panel-v1" overlapTrigger="false" #menuAccount="matMenu">
-                                    <button class="clbr--mat-menu-item" mat-menu-item>User profile</button>
+                                    <button class="clbr--mat-menu-item" mat-menu-item>My profile</button>
                                     <button class="clbr--mat-menu-item" mat-menu-item (click)="logout()">Log out</button>
                                 </mat-menu>
                             </li>
@@ -56,37 +56,8 @@
         </nav>
     </div>
 
-    <!-- <div class="clbr--left-sidebar">
-        <ul class="clbr-ul-list">
-            <li class="clbr-ul-list-item" routerLinkActive="active-route">
-                <a [routerLink]="['/is/groups']">
-                    <i class="bowtie-icon bowtie-group-rows"></i>
-                    <span>Management of organizations</span>
-                </a>
-            </li>
-            <li class="clbr-ul-list-item" routerLinkActive="active-route">
-                <a [routerLink]="['/is/users']">
-                    <i class="bowtie-icon bowtie-users"></i>
-                    <span>Management of user</span>
-                </a>
-            </li>
-            <li class="clbr-ul-list-item" routerLinkActive="active-route">
-                <a [routerLink]="['/is/system']">
-                    <i class="bowtie-icon bowtie-settings-gear-outline clbr--bowtie-settings-gear-outline"></i>
-                    <span>System configuration</span>
-                </a>
-            </li>
-            <li class="clbr-ul-list-item" routerLinkActive="active-route">
-                <a [routerLink]="['/is/profile']">
-                    <i class="bowtie-icon bowtie-user clbr--bowtie-user"></i>
-                    <span>Edit user profile</span>
-                </a>
-            </li>
-        </ul>
-    </div> -->
-
-
     <div class="clbr--content">
         <router-outlet></router-outlet>
     </div>
+    
 </div>

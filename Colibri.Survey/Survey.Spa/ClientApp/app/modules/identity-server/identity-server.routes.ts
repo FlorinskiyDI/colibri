@@ -17,7 +17,7 @@ const routes: Routes = [
         path: 'groups',
         component: GroupComponent,
         data: {
-            breadcrumb: { title: 'Management of organizations', icon: '' }
+            breadcrumb: { title: 'Manage organizations', icon: '' }
         },
         children: [
             {

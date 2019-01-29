@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { filter } from 'rxjs/operators';
@@ -12,9 +12,10 @@ import { Subscription } from 'rxjs/Subscription';
     styleUrls: ['./layout-identity.component.scss']
 })
 
-export class LayoutIdentityComponent implements OnInit {
+export class LayoutIdentityComponent implements OnInit, OnDestroy {
     eventSidebarToggle: Subject<any> = new Subject<any>();
-    breadcrumbs$: any;
+    breadcrumbs: any;
+    breadcrumbData: any;
     userDataSubscription: Subscription;
     userData: any = {};
 
@@ -22,23 +23,24 @@ export class LayoutIdentityComponent implements OnInit {
         public oidcSecurityService: OidcSecurityService,
         private router: Router,
         private activatedRoute: ActivatedRoute
-    ) {}
+    ) {
 
-    ngOnInit() {
-        this.breadcrumbs$ = this.router.events.pipe(
+        this.breadcrumbs = this.router.events.pipe(
             filter((event: any) => event instanceof NavigationEnd))
             .distinctUntilChanged()
             .map((event: any) => {
-                return this.buildBreadCrumb(this.activatedRoute.root);
+                return event;
             });
 
-        this.breadcrumbs$.subscribe(
-            (data: any) => {
-                // debugger
-                console.log(data);
-            }
+        this.breadcrumbs.subscribe(
+            (data: any) => { this.breadcrumbData = this.buildBreadCrumb(this.activatedRoute.root); }
         );
 
+    }
+    ngOnDestroy() {
+        this.breadcrumbs.unsubscribe();
+    }
+    ngOnInit() {
         this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
             (userData: any) => {
                 this.userData = userData;

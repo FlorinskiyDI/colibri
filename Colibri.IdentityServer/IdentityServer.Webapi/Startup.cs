@@ -23,6 +23,8 @@ using dataaccesscore.EFCore;
 using IdentityServer.Webapi.Configurations.AspNetIdentity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using IdentityServer.Webapi.Helpers;
+using System.Collections.Generic;
 
 namespace IdentityServer.Webapi
 {
@@ -85,7 +87,7 @@ namespace IdentityServer.Webapi
                     options.Password.RequireDigit = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
-                    options.Password.RequiredLength = 6;
+                    options.Password.RequiredLength = 4;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddUserStore<ApplicationUserStore>()
@@ -147,7 +149,10 @@ namespace IdentityServer.Webapi
                 .RequireAuthenticatedUser()
                 .Build();
                 // Note: Adding permisions as policy
-                var permissionList = SystemPermissionScope.GetValues();
+                var permissionList = new List<string>();
+                permissionList.AddRange(ClassHelper.GetConstantValues<SystemStaticPermissions.Configs>());
+                permissionList.AddRange(ClassHelper.GetConstantValues<SystemStaticPermissions.Users>());
+                permissionList.AddRange(ClassHelper.GetConstantValues<SystemStaticPermissions.Groups>());
                 foreach (var permission in permissionList)
                 {
                     options.AddPolicy(

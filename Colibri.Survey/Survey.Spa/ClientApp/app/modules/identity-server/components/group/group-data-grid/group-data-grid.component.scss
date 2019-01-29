@@ -15,6 +15,11 @@
     .clbr--ui-table tr:hover .cmp--row-link { text-decoration: underline; }
     .cmp--row-link { font-weight: 400; color: #454545; }
     .cmp--row-link:hover { color: #3367d6; }
+
+    .cmp--mat-icon-button-option.mat-icon-button { width: 30px; height: 30px; line-height: 20px; }
+    .cmp--mat-icon-button-option.mat-icon-button .mat-icon { font-size: 20px; }
+    .cmp--padding-top-bottom-0 { padding-top: 0 !important; padding-bottom: 0 !important; }
+    .cmp--float-right { float: right; }
 }
 
 
