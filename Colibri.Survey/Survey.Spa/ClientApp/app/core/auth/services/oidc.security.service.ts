@@ -228,7 +228,7 @@ export class OidcSecurityService {
         );
         // debugger
         // window.location.href = url;
-        
+        debugger
         window.location.href = url + '&acr_values=tenant:tenantName';
     }
 

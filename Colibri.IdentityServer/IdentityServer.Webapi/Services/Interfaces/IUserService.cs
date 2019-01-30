@@ -1,6 +1,7 @@
 ﻿using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Dtos;
 using IdentityServer.Webapi.Dtos.Search;
+using IdentityServer.Webapi.Dtos.Users;
 using IdentityServer.Webapi.Dtos.Views;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,7 @@ namespace IdentityServer.Webapi.Services.Interfaces
         Task SendInvitationByEmailConfirmationToken(string userId);
         Task<SearchResult<AppUserPageDto>> GetSearchData(SearchQuery searchEntry);
         Task<UserFullDetailsViewModel> GetUserFullDetails(string userId);
+        Task SetPolicy(UserPolicyDto userPolicy);
+
     }
 }

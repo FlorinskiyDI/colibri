@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Dtos.Users
 {
-    public class UserInviteDto
+    public class UserPolicyDto
     {
         public List<string> Emails { get; set; }
         public List <string> Roles { get; set; }
-        public string GroupId { get; set; }
     }
 }

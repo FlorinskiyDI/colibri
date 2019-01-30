@@ -1,6 +1,27 @@
 // // /* ANGULAR-MATERIAL */
 .cdk-overlay-container { z-index: 999999999; } // more than bootstrap nav {{1030}}
 
+.clbr--mat-form-field { width: 100%; }
+
+
+//// mat-chip-lis
+.mat-chip-list.clbr--mat-chip-list-v1 {
+    .mat-standard-chip.mat-chip-with-trailing-icon {
+        padding-top: 1px;
+        padding-bottom: 1px;
+        padding-right: 5px;
+        padding-left: 8px;
+    }
+    .mat-chip-list-wrapper { margin-left: 0px; margin-right: 0; }
+    .mat-chip { margin-top: 1px; margin-bottom: 2px;}
+}
+
+//// mat-button
+.mat-button.clbr--button-v1 { padding: 0 10px; line-height: 30px; min-width: 65px; }
+.mat-button.clbr--button-v1 .mat-button-wrapper { font-size: 13px; }
+
+
+
 // mat-menu
 .mat-menu-panel.clbr--mat-menu-panel-v1 {
     min-width: 180px;
@@ -35,6 +56,8 @@
         width: 100%;
     }
 }
+
+
 
 // mat-raised-button
 .clbr--mat-raised-button-v1 {

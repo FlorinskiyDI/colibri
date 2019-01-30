@@ -59,7 +59,7 @@
                                     <mat-icon>more_vert</mat-icon>
                                 </button>
                                 <mat-menu panelClass="clbr--mat-menu-v1" backdropClass="clbr--mat-menu-v1" class="clbr--mat-menu-v1" xPosition="before" yPosition="below" #menu="matMenu">
-                                    <button mat-menu-item (click)="dialogCreateOpen(rowData.id)"><i class="pi bowtie-status-info-outline"></i><span style="padding-left: 8px">show user detail</span></button>
+                                    <button mat-menu-item (click)="userDialogOverviewOpen(rowData.id)"><i class="pi bowtie-status-info-outline"></i><span style="padding-left: 8px">show user detail</span></button>
                                     <button mat-menu-item><i class="pi bowtie-comment-next"></i><span style="padding-left: 8px">send invite again</span></button>
                                     <button mat-menu-item style="color: #b51e1e;"><i class="pi bowtie-trash" style="color: #b51e1e;"></i><span style="padding-left: 8px">delete user from system</span></button>
                                 </mat-menu>
@@ -88,9 +88,9 @@
 
 <cmp-user-dialog-overview
     [config]="userDialogOverviewConfig"
-    (onChange)="dialogCreateOnChange($event)"
-    (onCancel)="dialogCreateOnCancel($event)"
-    (onHide)="dialogCreateOnHide($event)">
+    (onChange)="userDialogOverviewOnChange($event)"
+    (onCancel)="userDialogOverviewOnCancel($event)"
+    (onHide)="userDialogOverviewOnHide($event)">
 </cmp-user-dialog-overview>
   
 <p-confirmDialog #cd header="Confirmation">

@@ -19,6 +19,14 @@
 
 
 
+//// form
+.clbr--form {
+    .clbr--form-group {    
+        .valid-feedback { color: #f44336; font-size: 12px; }
+    }
+}
+// #endregion
+
 //// navbar
 .clbr--navbar {
     &.navbar { margin-bottom: 0; min-height: auto; }

@@ -3,6 +3,7 @@ using dataaccesscore.EFCore.Query;
 using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Dtos;
 using IdentityServer.Webapi.Dtos.Search;
+using IdentityServer.Webapi.Dtos.Users;
 using IdentityServer.Webapi.Dtos.Views;
 using IdentityServer.Webapi.Repositories.Interfaces;
 using IdentityServer.Webapi.Services.Interfaces;
@@ -98,8 +99,10 @@ namespace IdentityServer.Webapi.Services
                 user = new ApplicationUser
                 {
                     UserName = email,
-                    Email = email
+                    Email = email,
+                    EmailConfirmInvitationDate = DateTimeOffset.UtcNow
                 };
+
                 var result = await _userManager.CreateAsync(user);
                 if (!result.Succeeded)
                 {
@@ -155,7 +158,22 @@ namespace IdentityServer.Webapi.Services
             {
                 throw ex;
             }
-           
+
+        }
+
+        public async Task SetPolicy(UserPolicyDto userPolicy)
+        {
+            foreach (var email in userPolicy.Emails)
+            {
+                // get user data
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    user = await AddUserByEmailWithoutPassword(email);
+                }
+
+                await _userManager.AddToRolesAsync(user, userPolicy.Roles);
+            }
         }
     }
 }

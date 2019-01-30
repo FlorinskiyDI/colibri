@@ -101,8 +101,9 @@ export class UserDataGridComponent implements OnInit {
         });
     }
 
-    public dialogCreateOpen(id: any) { this.userDialogOverviewConfig = new DialogDataModel(true, { userId: id }); }
-    public dialogCreateOnChange() { this.dtUsers.reset(); }
-    public dialogCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
-    public dialogCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
+
+    public userDialogOverviewOpen(id: any) { this.userDialogOverviewConfig = new DialogDataModel(true, { userId: id }); }
+    public userDialogOverviewOnChange() { this.dtUsers.reset(); }
+    public userDialogOverviewOnCancel() { console.log('userDialogOverviewOnCancel'); }
+    public userDialogOverviewOnHide() { console.log('userDialogOverviewOnHide'); }
 }

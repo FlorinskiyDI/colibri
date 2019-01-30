@@ -43,9 +43,9 @@ namespace IdentityServer.Webapi.Data
                 await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.Delete);
                 await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.GetSubgroups);
                 // User
-                await CreateRole(roleManager, logger, SystemRoleScopes.USER);
-                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.USER, SystemStaticPermissions.Users.Get);
-                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.USER, SystemStaticPermissions.Users.Update);
+                //await CreateRole(roleManager, logger, SystemRoleScopes.USER);
+                //await AddPermissionToRole(roleManager, logger, SystemRoleScopes.USER, SystemStaticPermissions.Users.Get);
+                //await AddPermissionToRole(roleManager, logger, SystemRoleScopes.USER, SystemStaticPermissions.Users.Update);
                 // GroupCreator
                 await CreateRole(roleManager, logger, SystemRoleScopes.GROUP_CREATOR);
                 await AddPermissionToRole(roleManager, logger, SystemRoleScopes.GROUP_CREATOR, SystemStaticPermissions.Groups.Create);
@@ -94,9 +94,9 @@ namespace IdentityServer.Webapi.Data
                 await SetPasswordForUser(userManager, logger, "group_creator@gmail.com", groupCreator, "groupcreator");
                 await AddToRoleAsync(groupCreator , userManager, logger, SystemRoleScopes.GROUP_CREATOR);
                 // User
-                var user = await CreateDefaultUser(userManager, logger, "user@gmail.com", "user");
-                await SetPasswordForUser(userManager, logger, "user@gmail.com", user, "user");
-                await AddToRoleAsync(user, userManager, logger, SystemRoleScopes.USER);
+                //var user = await CreateDefaultUser(userManager, logger, "user@gmail.com", "user");
+                //await SetPasswordForUser(userManager, logger, "user@gmail.com", user, "user");
+                //await AddToRoleAsync(user, userManager, logger, SystemRoleScopes.USER);
                 // Admin
                 var admin = await CreateDefaultUser(userManager, logger, "admin@gmail.com", "admin");
                 await SetPasswordForUser(userManager, logger, "admin@gmail.com", admin, "admin");

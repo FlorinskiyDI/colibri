@@ -1,16 +1,20 @@
 <p-dialog header="User information" class="clbr--p-dialog-v1" minWidth="400" width="400" showEffect="fade" [responsive]="true"
     [modal]="true" [resizable]="true" [maximizable]="true" (onHide)="dialogHide($event)" [(visible)]="dialogConfig.visible">
 
-    <div class="cmp-form-group-creat row">
-        <div class="col-md-12">
 
-            Test
-            {{dialogConfig | json}}
-            
+    <div class="cmp-user-dialog-overview clbr--block-v1 container-fluid">
+        <div class="clbr--block--content" style="min-height: 300px;">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <pre>{{dialogConfig | json}}</pre>
+
+                </div>
+            </div>
         </div>
     </div>
 
-    <p-footer>        
+    <p-footer>
     </p-footer>
 
 </p-dialog>

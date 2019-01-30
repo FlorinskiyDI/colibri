@@ -4,6 +4,17 @@
     bottom: 0;
     left: 0px;
     right: 0px;
+
+    .cmp--mat-button-user-email { 
+        color: #fff;
+        font-weight: 300;
+        margin: 0px 5px 0px 0px;
+        padding: 0 8px;
+        line-height: 44px;
+        border-radius: 0px;
+        font-size: 13px;
+    }
+
     .cmp--btn-option  { margin: 2px 0px 2px 0px; color: #fff; }
     .cmp--btn-option .mat-icon  { font-size: 20px; }
     .cmp--btn-account { margin: 2px 10px 2px 0px; color: #fff; }

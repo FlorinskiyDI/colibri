@@ -40,9 +40,10 @@
                                 </mat-menu>
                             </li>
                             <li class="dropdown" dropdown>
-                                <button class="cmp--btn-account" mat-icon-button [matMenuTriggerFor]="menuAccount">
+                                <button class="cmp--mat-button-user-email" mat-button [matMenuTriggerFor]="menuAccount">{{userData.email}}</button>
+                                <!-- <button class="cmp--btn-account" mat-icon-button [matMenuTriggerFor]="menuAccount">
                                     <mat-icon>panorama_fish_eye</mat-icon>
-                                </button>
+                                </button> -->
                                 <mat-menu class="clbr--mat-menu-panel-v1" overlapTrigger="false" #menuAccount="matMenu">
                                     <button class="clbr--mat-menu-item" mat-menu-item>My profile</button>
                                     <button class="clbr--mat-menu-item" mat-menu-item (click)="logout()">Log out</button>

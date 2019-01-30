@@ -15,7 +15,7 @@
                                 <p class="cmp--nav-title">Manage users</p>
                                 <span [hasPermission]="['identity.groups.create']">
                                     <button hasPermissionCtrl class="clbr--mat-raised-button-v1 clbr--mat-raised-button-primary"
-                                        mat-raised-button (click)="router.navigate(['is/groups/create'])">INVITE USER TO SYSTEM</button>
+                                        mat-raised-button (click)="userDialogInviteOpen()">INVITE USER TO SYSTEM</button>
                                 </span>
                             </li>
                         </ul>
@@ -36,3 +36,11 @@
 
     </div>
 </div>
+
+
+<cmp-user-dialog-invite
+    [config]="userDialogInviteConfig"
+    (onChange)="userDialogInviteOnChange($event)"
+    (onCancel)="userDialogInviteOnCancel($event)"
+    (onHide)="userDialogInviteOnHide($event)">
+</cmp-user-dialog-invite>
