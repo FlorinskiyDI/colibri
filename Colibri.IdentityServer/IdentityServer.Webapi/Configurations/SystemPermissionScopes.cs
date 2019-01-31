@@ -45,6 +45,7 @@ namespace IdentityServer.Webapi.Configurations
             public const string Update = "identity.users.update";
             public const string Disable = "identity.users.disable";
             public const string GetIamPolicy = "identity.users.getIamPolicy";
+            public const string SetIamPolicy = "identity.users.setIamPolicy";            
         }
 
         public class Groups
@@ -57,6 +58,9 @@ namespace IdentityServer.Webapi.Configurations
             public const string Get = "identity.groups.get";
             public const string Update = "identity.groups.update";
             public const string GetSubgroups = "identity.groups.getSubgroups";
+            public const string GetRoles= "identity.groups.getRoles";
+            public const string GetIamPolicy = "identity.groups.getIamPolicy";
+            public const string SetIamPolicy = "identity.groups.setIamPolicy";
         }
 
     }

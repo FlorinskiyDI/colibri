@@ -27,7 +27,7 @@ export class MemberDataGridComponent implements OnInit {
     @Output() editItem = new EventEmitter<any>();
     // input events
     @Input() eventResetData: Observable<any>;
-    // private subscriberResetData: any;
+    private subscriberResetData: any;
 
 
     items: any[] = [];
@@ -65,21 +65,13 @@ export class MemberDataGridComponent implements OnInit {
     ngOnInit() {
 
         this.items = [
-            {
-                label: 'Add member(s)', icon: 'pi pi-refresh', command: () => {
-                    this.addMembersByEmails();
-                }
-            },
-            {
-                label: 'Import csv', icon: 'pi pi-times', command: () => {
-                    this.addByImportCsv();
-                }
-            }
+            { label: 'Add member(s)', icon: 'pi pi-refresh', command: () => { this.addMembersByEmails(); }},
+            { label: 'Import csv', icon: 'pi pi-times', command: () => { this.addByImportCsv(); }}
         ];
-        // this.subscriberResetData = this.eventResetData.subscribe(() => this.dtGroups.reset());
+        this.subscriberResetData = this.eventResetData.subscribe(() => this.dtMembers.reset());
     }
     ngOnDestroy() {
-        // this.subscriberResetData.unsubscribe();
+        this.subscriberResetData.unsubscribe();
     }
 
     addByImportCsv() { console.log('addByImportCsv'); }

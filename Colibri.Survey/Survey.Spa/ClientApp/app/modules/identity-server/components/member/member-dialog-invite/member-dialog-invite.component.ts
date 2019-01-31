@@ -6,17 +6,18 @@ import { MatChipInputEvent } from '@angular/material';
 import { ErrorStateMatcher } from '@angular/material/core';
 
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
-/* service-api */ import { UsersApiService } from 'shared/services/api/users.api.service';
+/* service-api */ import { GroupMembersApiService } from 'shared/services/api/group-members.api.service';
+/* service-api */ import { GroupRolesApiService } from 'shared/services/api/group-roles.api.service';
 /* helper */ import { FormGroupHelper } from 'shared/helpers/form-group.helper';
 
 @Component({
-    selector: 'cmp-user-dialog-invite',
-    templateUrl: './user-dialog-invite.component.html',
-    styleUrls: ['./user-dialog-invite.component.scss'],
-    providers: [MessageService]
+    selector: 'cmp-member-dialog-invite',
+    templateUrl: './member-dialog-invite.component.html',
+    styleUrls: ['./member-dialog-invite.component.scss'],
+    providers: [ MessageService ]
 })
 
-export class UserDialogInviteComponent {
+export class MemberDialogInviteComponent {
     // dialog variable
     dialogConfig: DialogDataModel<any> = new DialogDataModel();
     @Output() onChange = new EventEmitter<any>();
@@ -48,7 +49,8 @@ export class UserDialogInviteComponent {
     constructor(
         private fb: FormBuilder,
         private messageService: MessageService,
-        private usersApiService: UsersApiService
+        private groupMembersApiService: GroupMembersApiService,
+        private groupRolesApiService: GroupRolesApiService
     ) {
     }
 
@@ -82,11 +84,11 @@ export class UserDialogInviteComponent {
             {},
             {
                 emails: this.ngFormGroup.value.emails.map((item: any) => item.name),
-                roles: this.ngFormGroup.value.roleArray
+                roles: this.ngFormGroup.value.roleArray,
+                groupId: this.dialogConfig.extraData.groupId
             });
 
-        debugger
-        this.usersApiService
+        this.groupMembersApiService
             .setIamPolicy(data)
             .subscribe(
                 (response: any) => {
@@ -99,8 +101,8 @@ export class UserDialogInviteComponent {
     public formCancel() { this.dialogCancel(); }
 
     _getRoles() {
-        this.usersApiService
-            .getIamPolicy()
+        this.groupRolesApiService
+            .get()
             .subscribe(
                 (response: any) => {
                     this.drpdwnRoles = [];

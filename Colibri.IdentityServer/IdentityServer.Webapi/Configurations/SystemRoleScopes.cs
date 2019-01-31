@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Configurations
 {
-    public static class SystemRoleScopes
+    public class SystemRoleScopes
     {
         public const string SUPER_ADMIN = "SuperAdmin";
         public const string ADMIN = "Admin";
         public const string GROUP_CREATOR = "GroupCreator";
 
-        public static class Groups
+        public class Groups
         {
             public const string ADMIN = "GroupAdmin";
             public const string EDITOR = "GroupEditor";

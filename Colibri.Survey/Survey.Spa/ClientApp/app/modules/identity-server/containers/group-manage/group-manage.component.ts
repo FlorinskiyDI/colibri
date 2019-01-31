@@ -4,7 +4,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { Subject } from 'rxjs/Subject';
 import { Router } from '@angular/router';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
-/* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
+// /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 
 
 @Component({
@@ -19,7 +19,6 @@ import { Router } from '@angular/router';
 
 export class GroupManageComponent implements OnInit {
     eventResetData: Subject<any> = new Subject<any>();
-    dialogGroupCreateConfig: DialogDataModel<any>;
     view_OptionList: Array<any> = [{ label: 'list', value: 'list' }, { label: 'tree', value: 'tree' }];
     view_Option = 'list';
 
@@ -52,9 +51,4 @@ export class GroupManageComponent implements OnInit {
     item_edit(groupId: string) {
         this.router.navigate(['manage/groups/' + groupId + '/detail']);
     }
-
-    public dialogGroupCreateOpen() { this.dialogGroupCreateConfig = new DialogDataModel<any>(true); }
-    public dialogGroupCreateOnChange() { this.eventResetData.next(); }
-    public dialogGroupCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
-    public dialogGroupCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
 }

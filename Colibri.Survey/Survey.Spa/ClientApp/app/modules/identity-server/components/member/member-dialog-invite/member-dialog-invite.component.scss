@@ -1,0 +1,22 @@
+
+
+.cmp-user-dialog-invite {
+    ::ng-deep .cmp--mat-form-field-members { 
+        &.clbr--mat-form-field.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+            display: none;
+        }
+    }
+    .clbr--block--description { padding-bottom: 15px; }
+    .cmp--mat-icon-button-role-delete {
+        width: 26px;
+        height: 26px;
+        line-height: 26px;
+        margin-left: 5px;
+        .mat-icon {
+            line-height: 24px;
+            font-size: 17px;
+        }
+    }
+    ::ng-deep.cmp--mat-button-add-role { padding: 0 8px; line-height: 24px; }
+    ::ng-deep.cmp--mat-button-add-role .mat-button-wrapper { font-size: 12px; }
+}

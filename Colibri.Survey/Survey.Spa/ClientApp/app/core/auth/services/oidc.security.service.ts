@@ -226,9 +226,8 @@ export class OidcSecurityService {
             state,
             this.authWellKnownEndpoints.authorization_endpoint
         );
-        // debugger
+        // debuggerdebugger
         // window.location.href = url;
-        debugger
         window.location.href = url + '&acr_values=tenant:tenantName';
     }
 

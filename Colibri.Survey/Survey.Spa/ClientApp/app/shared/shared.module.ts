@@ -22,6 +22,7 @@ import { NgxSmoothDnDModule } from 'ngx-smooth-dnd';
 /* service-api */ import { PortalApiService } from 'shared/services/api/portal.api.service';
 /* service-api */ import { GroupsApiService } from 'shared/services/api/groups.api.service';
 /* service-api */ import { GroupMembersApiService } from 'shared/services/api/group-members.api.service';
+/* service-api */ import { GroupRolesApiService } from 'shared/services/api/group-roles.api.service';
 /* service-api */ import { UsersApiService } from 'shared/services/api/users.api.service';
 
 // directives
@@ -71,7 +72,7 @@ import { FragmentPolyfillModule } from './helpers/fragment-polyfill.module';
         DataFilterComponent
     ],
     providers: [
-        ModalService
+        ModalService,
     ],
     exports: [
         // modules
@@ -104,6 +105,7 @@ export class SharedModule {
                 // api service
                 GroupsApiService,
                 GroupMembersApiService,
+                GroupRolesApiService,
                 SurveysApiService,
                 UsersApiService,
                 PortalApiService,

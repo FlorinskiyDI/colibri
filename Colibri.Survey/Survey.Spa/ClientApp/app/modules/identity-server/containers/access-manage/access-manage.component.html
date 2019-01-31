@@ -45,7 +45,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="clbr--block--content">
-                <cmp-member-data-grid>
+                <cmp-member-data-grid [eventResetData]="eventResetData.asObservable()">
                 </cmp-member-data-grid>
             </div>
         </div>
@@ -80,6 +80,6 @@
 </div>
 
 
-<cmp-member-dialog-create [config]="dialogCreateConfig" (onChange)="dialogCreateOnChange($event)" (onCancel)="dialogCreateOnCancel($event)"
+<cmp-member-dialog-invite [config]="dialogCreateConfig" (onChange)="dialogCreateOnChange($event)" (onCancel)="dialogCreateOnCancel($event)"
     (onHide)="dialogCreateOnHide($event)">
-</cmp-member-dialog-create>
+</cmp-member-dialog-invite>

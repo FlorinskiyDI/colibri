@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
 
 /* model-control */ import { DialogDataModel } from 'shared/models/controls/dialog-data.model';
 
@@ -11,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 
 export class AccessManageComponent implements OnInit {
 
+    eventResetData: Subject<any> = new Subject<any>();
     dialogCreateConfig: DialogDataModel<any>;
     itemId: any;
     view_OptionList: Array<any> = [{ label: 'MEMBERS', value: 'members' }, { label: 'ROLES', value: 'roles' }];
@@ -25,7 +27,10 @@ export class AccessManageComponent implements OnInit {
     ngOnInit() {}
 
     public dialogCreateOpen() { this.dialogCreateConfig = new DialogDataModel<any>(true, { groupId: this.itemId }); }
-    // public dialogCreateOnChange() { this.dtMembers.reset(); }
+    public dialogCreateOnChange() {
+        debugger
+        this.eventResetData.next();
+    }
     public dialogCreateOnCancel() { console.log('dialogGroupCreateOnCancel'); }
     public dialogCreateOnHide() { console.log('dialogGroupCreateOnHide'); }
 }

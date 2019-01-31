@@ -42,6 +42,7 @@ namespace IdentityServer.Webapi.Data
                 await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.Update);
                 await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.Delete);
                 await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.GetSubgroups);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.GetRoles);
                 // User
                 //await CreateRole(roleManager, logger, SystemRoleScopes.USER);
                 //await AddPermissionToRole(roleManager, logger, SystemRoleScopes.USER, SystemStaticPermissions.Users.Get);
@@ -58,6 +59,7 @@ namespace IdentityServer.Webapi.Data
                 await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.ADMIN, SystemStaticPermissions.Groups.Get);
                 await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.ADMIN, SystemStaticPermissions.Groups.Update);
                 await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.ADMIN, SystemStaticPermissions.Groups.GetSubgroups);
+                await AddPermissionToRole(roleManager, logger, SystemRoleScopes.ADMIN, SystemStaticPermissions.Groups.GetRoles);
                 // GroupEditor
                 await CreateRole(roleManager, logger, SystemRoleScopes.Groups.EDITOR);
                 await AddPermissionToRole(roleManager, logger, SystemRoleScopes.Groups.EDITOR, SystemStaticPermissions.Groups.List);

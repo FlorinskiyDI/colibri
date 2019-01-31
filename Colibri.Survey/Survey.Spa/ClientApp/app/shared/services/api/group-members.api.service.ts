@@ -9,21 +9,22 @@ export class GroupMembersApiService {
     apiServer: string;
 
     constructor(
-        private restangular: Restangular,
-        @Inject('SURVEY_API_URL') apiUrl: string
+        @Inject('SURVEY_API_URL') apiUrl: string,
+        @Inject('RESTANGULAR_IDENTITYSERVER') public restangularIdentityServer: Restangular,
+        // private restangular: Restangular,
     ) {
         this.apiServer = apiUrl;
     }
 
     getByGroup(groupId: string, searchEntry: any = null, objectFields: string[] | null = null) {
-        const result = this.restangular
+        const result = this.restangularIdentityServer
             .all('api/groups/' + groupId + '/members/search')
             .customPOST(searchEntry, undefined, undefined, { 'Content-Type': 'application/json' });
         return result;
     }
 
     addMultiple(groupId: string, emails: any[]) {
-        const result = this.restangular
+        const result = this.restangularIdentityServer
             .all('api/groups/' + groupId + '/members')
             .customPOST(emails, undefined, undefined, { 'Content-Type': 'application/json' });
         return result;
@@ -37,7 +38,18 @@ export class GroupMembersApiService {
     // }
 
     deleteMemberFromGroup(groupId: string, id: string) {
-        const result = this.restangular.one(`api/groups/${groupId}/members`, id).remove();
+        const result = this.restangularIdentityServer.one(`api/groups/${groupId}/members`, id).remove();
+        return result;
+    }
+
+
+    setIamPolicy(data: any) {
+        const result = this.restangularIdentityServer.all('api/groups/members/iamPolicy').customPOST(data, undefined, undefined, { 'Content-Type': 'application/json' });
+        return result;
+    }
+
+    getIamPolicy() {
+        const result = this.restangularIdentityServer.one('api/groups/members').customGET('iamPolicy');
         return result;
     }
 

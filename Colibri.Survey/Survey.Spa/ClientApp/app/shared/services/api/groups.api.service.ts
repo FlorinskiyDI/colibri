@@ -70,4 +70,8 @@ export class GroupsApiService {
         const value = this.restangularIdentityServer.all('api/groups/' + groupId + '/members').post(data);
         return value;
     }
+
+
+
+
 }

@@ -46,6 +46,7 @@ namespace IdentityServer.Webapi.Controllers
 
 
         // POST: api/users/iamPolicy
+        [Authorize(Policy = SystemStaticPermissions.Users.SetIamPolicy)]
         [HttpPost("iamPolicy")]
         public async Task<IActionResult> SetIamPolicy([FromBody] UserPolicyDto model)
         {

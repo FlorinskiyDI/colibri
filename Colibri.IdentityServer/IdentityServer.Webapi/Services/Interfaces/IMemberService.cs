@@ -15,6 +15,7 @@ namespace IdentityServer.Webapi.Services.Interfaces
         //
         Task<MemberGroups> AddUserToGroup(MemberGroups model);
         Task DeletePathsWhereGroup(string groupId);
+        Task SetPolicy(GroupPolicyDto policy, Guid groupId);
         //Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emailList);
         //Task<IEnumerable<ApplicationUser>> GetMembersForGroupAsync(Guid groupId);
         //Task DeleteMember(string userId, Guid groupId);
