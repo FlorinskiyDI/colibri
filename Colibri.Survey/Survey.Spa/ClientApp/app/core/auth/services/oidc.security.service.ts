@@ -182,7 +182,7 @@ export class OidcSecurityService {
         this.oidcSecurityCommon.customRequestParams = params;
     }
 
-    authorize() {
+    authorize(tenant: any = null) {
         // debugger
         if (this.authWellKnownEndpoints) {
             this.authWellKnownEndpointsLoaded = true;
@@ -228,7 +228,10 @@ export class OidcSecurityService {
         );
         // debuggerdebugger
         // window.location.href = url;
-        window.location.href = url + '&acr_values=tenant:tenantName';
+
+        const customParams = tenant ? ('&acr_values=tenant:' + tenant) : '';
+        const myurl = url + customParams;
+        window.location.href = myurl;
     }
 
     authorizedCallback(hash?: string) {

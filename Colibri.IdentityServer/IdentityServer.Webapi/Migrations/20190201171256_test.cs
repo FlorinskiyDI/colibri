@@ -221,11 +221,11 @@ namespace IdentityServer.Webapi.Migrations
                 {
                     UserId = table.Column<Guid>(nullable: false),
                     RoleId = table.Column<Guid>(nullable: false),
-                    GroupId = table.Column<Guid>(nullable: true)
+                    GroupId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId, x.GroupId });
                     table.ForeignKey(
                         name: "FK_ApplicationUserRole_ToGroups",
                         column: x => x.GroupId,

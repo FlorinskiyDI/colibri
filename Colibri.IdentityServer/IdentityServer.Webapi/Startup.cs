@@ -79,7 +79,7 @@ namespace IdentityServer.Webapi
             services.AddScoped<UserManager<ApplicationUser>, ApplicationUserManager>();
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>>();
 
-            //services.AddScoped<ApplicationUserStore, ApplicationUserStore>();
+            services.AddScoped<ApplicationUserStore, ApplicationUserStore>();
             services.AddScoped<ApplicationUserManager, ApplicationUserManager>();
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>

@@ -32,26 +32,26 @@ namespace IdentityServer.Webapi.Data
             return new ClaimsPrincipal(id);
         }
 
-        protected override async Task<ClaimsIdentity> GenerateClaimsAsync(TUser user)
-        {
-            var id = await base.GenerateClaimsAsync(user);
-            if (UserManager.SupportsUserRole)
-            {
-                var roles = await UserManager.GetRolesAsync(user);
-                foreach (var roleName in roles)
-                {
-                    id.AddClaim(new Claim(Options.ClaimsIdentity.RoleClaimType, roleName));
-                    if (RoleManager.SupportsRoleClaims)
-                    {
-                        var role = await RoleManager.FindByNameAsync(roleName);
-                        if (role != null)
-                        {
-                            id.AddClaims(await RoleManager.GetClaimsAsync(role));
-                        }
-                    }
-                }
-            }
-            return id;
-        }
+        //protected override async Task<ClaimsIdentity> GenerateClaimsAsync(TUser user)
+        //{
+        //    var id = await base.GenerateClaimsAsync(user);
+        //    if (UserManager.SupportsUserRole)
+        //    {
+        //        var roles = await UserManager.GetRolesAsync(user);
+        //        foreach (var roleName in roles)
+        //        {
+        //            id.AddClaim(new Claim(Options.ClaimsIdentity.RoleClaimType, roleName));
+        //            if (RoleManager.SupportsRoleClaims)
+        //            {
+        //                var role = await RoleManager.FindByNameAsync(roleName);
+        //                if (role != null)
+        //                {
+        //                    id.AddClaims(await RoleManager.GetClaimsAsync(role));
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return id;
+        //}
     }
 }

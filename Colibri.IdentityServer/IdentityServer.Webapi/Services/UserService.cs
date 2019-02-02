@@ -1,5 +1,6 @@
 ﻿using dataaccesscore.Abstractions.Uow;
 using dataaccesscore.EFCore.Query;
+using IdentityServer.Webapi.Configurations;
 using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Dtos;
 using IdentityServer.Webapi.Dtos.Search;
@@ -108,10 +109,10 @@ namespace IdentityServer.Webapi.Services
                 {
                     throw new ArgumentException("The app user was not created");
                 }
-                // send invite to user
-                await SendInvitationByEmailConfirmationToken(user.Id.ToString());
+                await _userManager.AddToRoleAsync(user, SystemRoleScopes.USER); // set default role 
+                await SendInvitationByEmailConfirmationToken(user.Id.ToString()); // send invite to user
             }
-            //
+
             return user;
         }
 

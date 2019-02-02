@@ -352,7 +352,9 @@ namespace IdentityServer.Webapi.Data
 
             modelBuilder.Entity<ApplicationUserRole>(b =>
             {
-                b.HasKey("UserId", "RoleId");
+                //b.HasKey("UserId", "RoleId");
+
+                b.HasKey(c => new { c.UserId, c.RoleId, c.GroupId });
 
                 b.HasIndex(x => x.RoleId);
 

@@ -135,9 +135,9 @@ namespace IdentityServer.Webapi.Migrations
 
                     b.Property<Guid>("RoleId");
 
-                    b.Property<Guid?>("GroupId");
+                    b.Property<Guid>("GroupId");
 
-                    b.HasKey("UserId", "RoleId");
+                    b.HasKey("UserId", "RoleId", "GroupId");
 
                     b.HasIndex("GroupId");
 

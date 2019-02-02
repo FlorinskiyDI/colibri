@@ -149,33 +149,31 @@ namespace IdentityServer.Webapi.Services
 
                     // get root groups fo user
                     var items = repository.Query(c => c.MemberGroups.Any(d => d.UserId == new Guid(userId))).ToList();
-
-                    //Filter<Groups> filters = new Filter<Groups>(c => c.Ancestors.Any(d => items.Contains(d.Ancestor)));  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
+                    Filter<Groups> filters = new Filter<Groups>(c => c.Ancestors.Any(d => items.Contains(d.Ancestor)));  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
                     //Filter<Groups> filters = new Filter<Groups>(c => items.Contains(c.ParentId.Value) || c.ParentId == null);  // TODO: List "itemsParentIds" can store a large list that will be passed in the request. It may cause an error in the future!!!
 
                     // get data
                     if (searchEntry?.SearchQueryPage == null)
                     {
-                    //    var data = await repository.QueryAsync(filters.Expression, sort.Expression);
-                    //    page = new SearchResult<GroupDto>()
-                    //    {
-                    //        ItemList = data.Select(c => new GroupDto
-                    //        {
-                    //            Id = c.Id,
-                    //            ParentId = c.ParentId,
-                    //            Name = c.Name,
-                    //            CountChildren = c.InverseParent.Count
-                    //        }).ToList(),
-                    //    };
+                        var data = await repository.QueryAsync(filters.Expression, sort.Expression);
+                        page = new SearchResult<GroupDto>()
+                        {
+                            ItemList = data.Select(c => new GroupDto
+                            {
+                                Id = c.Id,
+                                ParentId = c.ParentId,
+                                Name = c.Name,
+                                CountChildren = c.InverseParent.Count
+                            }).ToList(),
+                        };
 
-                }
-                        // get page data
-                    else
+                    }
+                    else // get page data
                     {
                         var startRow = searchEntry.SearchQueryPage.PageNumber;
-                        var data = await repository.GetAllAsync(sort.Expression);
-                        //var totalCount = await repository.CountAsync(filters.Expression);
-                        var totalCount = 50;
+                        var data = await repository.QueryPageAsync(filters.Expression, sort.Expression, null, startRow, searchEntry.SearchQueryPage.PageLength);
+                        var totalCount = await repository.CountAsync(filters.Expression);
+
                         page = new SearchResult<GroupDto>()
                         {
                             ItemList = data.Select(c => new GroupDto

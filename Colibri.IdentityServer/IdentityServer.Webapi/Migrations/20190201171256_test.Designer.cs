@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer.Webapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190114084030_test")]
+    [Migration("20190201171256_test")]
     partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,9 +137,9 @@ namespace IdentityServer.Webapi.Migrations
 
                     b.Property<Guid>("RoleId");
 
-                    b.Property<Guid?>("GroupId");
+                    b.Property<Guid>("GroupId");
 
-                    b.HasKey("UserId", "RoleId");
+                    b.HasKey("UserId", "RoleId", "GroupId");
 
                     b.HasIndex("GroupId");
 

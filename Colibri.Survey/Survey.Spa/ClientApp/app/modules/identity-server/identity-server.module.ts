@@ -23,7 +23,7 @@ import { NgModule } from '@angular/core';
 /* component */ import { UserDialogInviteComponent } from './components/user/user-dialog-invite/user-dialog-invite.component';
 /* component */ import { HomeComponent } from './containers/home/home.component';
 /* component */ import { DashboardComponent } from './components/dashboard/dashboard.component';
-
+/* resolver */ import { GroupOverviewResolve } from './containers/group-overview/group-overview.resolver';
 /* pipe */ import { UserStatusPipe } from './common/pipes/user-status.pipe';
 /* service */ import { UserService } from './common/services/user.service';
 
@@ -59,7 +59,8 @@ import { NgModule } from '@angular/core';
         UserStatusPipe
     ],
     providers: [
-        UserService
+        UserService,
+        GroupOverviewResolve
     ]
 })
 

@@ -21,7 +21,7 @@ namespace IdentityServer.Webapi.Data
         //    return base.AddToRoleAsync(user, normalizedRoleName, cancellationToken);
         //}
 
-        public Task AddToRoleAsync(ApplicationUser user,  String normalizedRoleName, Guid? groupId = null, CancellationToken cancellationToken = default)
+        public Task AddToRoleAsync(ApplicationUser user, String normalizedRoleName, Guid? groupId = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
@@ -68,33 +68,49 @@ namespace IdentityServer.Webapi.Data
                     throw new InvalidOperationException($"Group `{groupId}` not found");
                 }
             }
-
-            Context.Set<ApplicationUserRole>().Add(new ApplicationUserRole
+            try
             {
-                GroupId = groupEntity?.Id,
-                RoleId = roleEntity.Id,
-                UserId = user.Id
-            });
+                Context.Set<ApplicationUserRole>().AddAsync(new ApplicationUserRole
+                {
+                    GroupId = groupEntity.Id,
+                    RoleId = roleEntity.Id,
+                    UserId = user.Id
+                });
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
 
             return Context.SaveChangesAsync();
         }
 
-        public async Task<bool> IsInRoleAsync(ApplicationUser user, Groups group, string normalizedRoleName, CancellationToken cancellationToken = default)
+        //protected  Task<ApplicationRole> FindRoleByGroupAsync(Guid roleId, CancellationToken cancellationToken)
+        //{
+        //    return Context.ApplicationUserRoles.SingleOrDefaultAsync(r => r.RoleId == normalizedRoleName && r. ,  cancellationToken);
+        //}
+
+        protected async Task<ApplicationUserRole> FindUserRoleGroupAsync(Guid userId, Guid roleId, Guid groupId, CancellationToken cancellationToken)
+        {
+            var obj = new object[] { userId, roleId, groupId };
+            var result = await Context.ApplicationUserRoles.Where(c => c.RoleId == roleId && c.UserId == userId && c.GroupId == groupId).FirstOrDefaultAsync();
+            return result;
+        }
+
+        public async Task<bool> IsInRoleAsync(ApplicationUser user, Guid groupId, string normalizedRoleName, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-            if (string.IsNullOrWhiteSpace(normalizedRoleName))
-            {
-                throw new ArgumentException("Value cannot be null or empty", nameof(normalizedRoleName));
-            }
+            if (groupId == null) { throw new ArgumentNullException(nameof(groupId)); }
+            if (user == null) { throw new ArgumentNullException(nameof(user)); }
+            if (string.IsNullOrWhiteSpace(normalizedRoleName)) { throw new ArgumentException("Value cannot be null or empty", nameof(normalizedRoleName)); }
+
             var role = await FindRoleAsync(normalizedRoleName, cancellationToken);
             if (role != null)
             {
-                var userRole = await FindUserRoleAsync(user.Id, role.Id, cancellationToken);
+                var userRole = await FindUserRoleGroupAsync(user.Id, role.Id, groupId, cancellationToken);
                 return userRole != null;
             }
             return false;
@@ -116,6 +132,23 @@ namespace IdentityServer.Webapi.Data
             var result = await query.ToListAsync(cancellationToken);
             return result;
         }
+
+        //public async Task<IList<string>> GetRolesByGroupAsync(ApplicationUser user, Guid groupId, CancellationToken cancellationToken = default)
+        //{
+        //    cancellationToken.ThrowIfCancellationRequested();
+        //    ThrowIfDisposed();
+        //    if (user == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(user));
+        //    }
+        //    var userId = user.Id;
+        //    var query = from userRole in Context.ApplicationUserRoles
+        //                join role in Context.ApplicationRoles on userRole.RoleId equals role.Id
+        //                where userRole.UserId.Equals(userId) && userRole.GroupId == groupId
+        //                select role.Name;
+        //    var result = await query.ToListAsync(cancellationToken);
+        //    return result;
+        //}
 
     }
 }

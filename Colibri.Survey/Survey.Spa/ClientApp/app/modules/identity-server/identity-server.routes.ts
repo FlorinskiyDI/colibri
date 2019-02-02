@@ -11,6 +11,7 @@ import { Routes, RouterModule } from '@angular/router';
 /* component */ import { UserManageComponent } from './containers/user-manage/user-manage.component';
 /* component */ import { UserProfileComponent } from './containers/user-profile/user-profile.component';
 /* component */ import { HomeComponent } from './containers/home/home.component';
+/* resolver */ import { GroupOverviewResolve } from './containers/group-overview/group-overview.resolver';
 
 const routes: Routes = [
     {
@@ -29,6 +30,9 @@ const routes: Routes = [
                 component: GroupOverviewComponent,
                 data: {
                     breadcrumb: { title: 'Overview', icon: 'bowtie-group-rows' }
+                },
+                resolve: {
+                    groups: GroupOverviewResolve
                 },
                 children: [
                     {

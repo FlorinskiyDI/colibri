@@ -9,6 +9,7 @@ namespace IdentityServer.Webapi.Configurations
     {
         public const string SUPER_ADMIN = "SuperAdmin";
         public const string ADMIN = "Admin";
+        public const string USER = "User";
         public const string GROUP_CREATOR = "GroupCreator";
 
         public class Groups
