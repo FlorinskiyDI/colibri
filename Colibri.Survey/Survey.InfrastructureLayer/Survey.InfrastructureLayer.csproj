@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Survey.Common\Survey.Common.csproj" />
+    <ProjectReference Include="..\Survey.Common\Survey.Common.csproj" />
     <ProjectReference Include="..\Survey.DomainModelLayer\Survey.DomainModelLayer.csproj" />
   </ItemGroup>
 
