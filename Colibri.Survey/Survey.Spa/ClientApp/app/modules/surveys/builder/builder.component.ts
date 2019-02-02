@@ -212,9 +212,9 @@ export class BuilderComponent {
 
     saveSurvey() {
         if (this.surveyId === null) {
-            const data = this.surveysApiService.save(this.survey).subscribe((result: any) => {
+            //const data = this.surveysApiService.save(this.survey).subscribe((result: any) => {
                 this.router.navigateByUrl('/surveys');
-            });
+            
         } else {
 
             const updateData: any = {

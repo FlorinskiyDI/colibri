@@ -7,6 +7,7 @@ namespace Survey.ApplicationLayer.Dtos.Models.Answers
     public class BaseAnswerModel
     {
         public Guid Id { get; set; }
+        public Guid OptionGroupId { get; set; }
         public string Type { get; set; }
         public string AdditionalAnswer { get; set; }
         //public object Answer { get; set; }

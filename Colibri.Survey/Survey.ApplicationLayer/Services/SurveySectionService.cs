@@ -58,7 +58,7 @@ namespace Survey.ApplicationLayer.Services
 
         public async Task<IEnumerable<SurveySectionDto>> GetUnlockedSuerveys()
         {
-            Guid userId = Guid.Parse(NTContext.Context.UserId);
+            //Guid userId = Guid.Parse(NTContext.Context.UserId);
             IEnumerable<SurveySections> items;
             using (var uow = UowProvider.CreateUnitOfWork())
             {

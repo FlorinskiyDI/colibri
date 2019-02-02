@@ -198,6 +198,22 @@ namespace Survey.Webapi.Controllers
                             {
                                 foreach (var childQuestion in childQuestions)
                                 {
+                                    var questionOptionList = _questionOptionService.GetAllAsync().Result.Where(x => x.QuestionId == childQuestion.Id);
+
+
+                                    if (questionOptionList.Count() > 0)
+                                    {
+                                        foreach (var q_o in questionOptionList)
+                                        {
+                                            var answerList = _answerService.GetAllAsync().Result.Where(x => x.QuestionOptionId == q_o.Id);
+                                            foreach (var answer in answerList)
+                                            {
+                                                await _answerService.Remove(answer);
+                                            }
+                                            await _questionOptionService.Remove(q_o);
+                                        };
+
+                                    }
                                     await _questionService.DeleteQuestionById(childQuestion.Id);
                                 }
 

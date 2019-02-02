@@ -19,11 +19,14 @@ namespace Survey.ApplicationLayer.Services
 
     public class QuestionService : IQuestionService
     {
+
         private readonly IOptionChoiceService _optionChoiceService;
         private readonly IOptionGroupService _optionGroupService;
         private readonly IInputTypeService _inputTypeService;
+        private readonly IQuestionOptionService _questionOptionService;
         protected readonly IUowProvider UowProvider;
         protected readonly IMapper Mapper;
+        private readonly ISurveyStructureService _surveyStructureService;
 
         QuestionTypes type;
         ControlStates state;
@@ -32,7 +35,6 @@ namespace Survey.ApplicationLayer.Services
         private Guid pageId;
         private BaseQuestionModel baseQuestionModel;
         private BaseQuestionModel baseQuestionUpdateModel;
-
         private Dictionary<Type, Action> switchQuestionType;
         private Dictionary<Type, Action> switchUpdateQuestionType;
         private IEnumerable<InputTypesDto> inputTypeList;
@@ -42,7 +44,10 @@ namespace Survey.ApplicationLayer.Services
             IMapper mapper,
             IInputTypeService inputTypeService,
             IOptionGroupService optionGroupService,
-            IOptionChoiceService optionChoiceService
+            IOptionChoiceService optionChoiceService,
+            IQuestionOptionService questionOptionService,
+            ISurveyStructureService surveyStructureService
+
         )
         {
             this.UowProvider = uowProvider;
@@ -50,6 +55,9 @@ namespace Survey.ApplicationLayer.Services
             this._inputTypeService = inputTypeService;
             this._optionGroupService = optionGroupService;
             this._optionChoiceService = optionChoiceService;
+            _questionOptionService = questionOptionService;
+            _surveyStructureService = surveyStructureService;
+
             inputTypeList = _inputTypeService.GetAll();
             optionGroupDefinitions = new OptionGroupDefinitions();
             switchQuestionType = new Dictionary<Type, Action> {
@@ -408,6 +416,8 @@ namespace Survey.ApplicationLayer.Services
                 }
                 else
                 {
+                    DeleteOptionChoises(item.Id);
+
                     _optionChoiceService.DeleteOptionChoise(item);
                 }
             }
@@ -450,6 +460,7 @@ namespace Survey.ApplicationLayer.Services
                 }
                 else
                 {
+                    DeleteOptionChoises(item.Id);
                     _optionChoiceService.DeleteOptionChoise(item);
                 }
             }
@@ -492,6 +503,7 @@ namespace Survey.ApplicationLayer.Services
                 }
                 else
                 {
+                    DeleteOptionChoises(item.Id);
                     _optionChoiceService.DeleteOptionChoise(item);
                 }
             }
@@ -570,6 +582,7 @@ namespace Survey.ApplicationLayer.Services
                 }
                 else
                 {
+                    DeleteOptionChoises(item.Id);
                     _optionChoiceService.DeleteOptionChoise(item);
                 }
             }
@@ -645,6 +658,27 @@ namespace Survey.ApplicationLayer.Services
             baseQuestionModel = baseQuestion;
             pageId = id;
             switchQuestionType[baseQuestion.GetType()]();
+        }
+
+
+        public void DeleteOptionChoises(Guid id)
+        {
+            var questionOptions = _questionOptionService.GetAllAsync().Result.Where(x => x.OptionChoiseId == id);
+
+
+            if (questionOptions.Count() > 0)
+            {
+                foreach (var q_o in questionOptions)
+                {
+                    var answerList = _surveyStructureService.GetAnsersByQuestion_OptionId(q_o.Id);
+                    foreach (var answer in answerList)
+                    {
+                        _surveyStructureService.RemoveAnswer(answer);
+                    }
+                    _questionOptionService.Remove(q_o);
+                };
+
+            }
         }
 
 

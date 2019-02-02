@@ -179,7 +179,7 @@ namespace Survey.ApplicationLayer.Services
                             }
                         ).ToList();
 
-                    item.Answer = answerData.Count > 0 ? GetAnswerByType(item, answerData) : "--NULL--";
+                    item.Answer = GetAnswerByType(item, answerData);
                     item.AdditionalAnswer = item.AdditionalAnswer.Count() > 0 ? item.AdditionalAnswer : (IsHaveAdditionalVariable(item.GroupId).Result ? "--NOT SET--" : "");
                 }
             }
@@ -196,13 +196,13 @@ namespace Survey.ApplicationLayer.Services
                 {
                     case QuestionTypes.Textbox:
                         {
-                            answerONQuestion = answerList.FirstOrDefault().AnswerText;
+                            answerONQuestion = answerList.Count() > 0 ? answerList.FirstOrDefault().AnswerText : answerONQuestion;
                             break;
                         }
 
                     case QuestionTypes.Textarea:
                         {
-                            answerONQuestion = answerList.FirstOrDefault().AnswerText;
+                            answerONQuestion = answerList.Count() > 0 ? answerList.FirstOrDefault().AnswerText : answerONQuestion;
                             break;
                         }
 
@@ -224,32 +224,39 @@ namespace Survey.ApplicationLayer.Services
 
                     case QuestionTypes.Checkbox:
                         {
-                            answerONQuestion = "";
-                            foreach (var item in answerList)
+                            if (answerList.Count() > 0)
                             {
-                                if (item.IsAdditional)
+                                answerONQuestion = "";
+                                foreach (var item in answerList)
                                 {
-                                    answerModel.AdditionalAnswer = item.AnswerText;
-                                }
-                                else
-                                {
-                                    answerONQuestion = answerONQuestion + "," + item.OptionChoise;
+                                    if (item.IsAdditional)
+                                    {
+                                        answerModel.AdditionalAnswer = item.AnswerText;
+                                    }
+                                    else
+                                    {
+                                        answerONQuestion = answerONQuestion + "," + item.OptionChoise;
+                                    }
                                 }
                             }
+
                             break;
                         }
 
                     case QuestionTypes.Dropdown:
                         {
-                            foreach (var item in answerList)
+                            if (answerList.Count() > 0)
                             {
-                                if (item.IsAdditional)
+                                foreach (var item in answerList)
                                 {
-                                    answerModel.AdditionalAnswer = item.AnswerText;
-                                }
-                                else
-                                {
-                                    answerONQuestion = item.OptionChoise;
+                                    if (item.IsAdditional)
+                                    {
+                                        answerModel.AdditionalAnswer = item.AnswerText;
+                                    }
+                                    else
+                                    {
+                                        answerONQuestion = item.OptionChoise;
+                                    }
                                 }
                             }
                             break;
@@ -257,7 +264,7 @@ namespace Survey.ApplicationLayer.Services
 
                     case QuestionTypes.GridRadio:
                         {
-                            answerModel.AdditionalAnswer = answerList.SingleOrDefault().AnswerText;
+                            answerModel.AdditionalAnswer = answerList.Count() > 0 ? answerList.SingleOrDefault().AnswerText : "";
 
                             List<TableReportViewModel> tempList = new List<TableReportViewModel>();
                             var rowQuestionList = _rowQuestions.Where(p => p.ParentQuestionId == answerModel.QuestionId).Where(p => p.RespondentId == answerModel.RespondentId).ToList();

@@ -22,7 +22,7 @@
 
                 <div *ngSwitchCase="'Dropdown'" [formGroupName]="question.id">
                     <div class="d-control-wrap">
-                        <p-dropdown [options]="question.options" [formControlName]="'answer'" optionLabel="value" [style]="{'width':'50%', 'font-size':'12px', 'border': '2px solid #757575'}">
+                        <p-dropdown [options]="question.options" placeholder="Select a item" [formControlName]="'answer'" optionLabel="value" [style]="{'width':'50%', 'font-size':'12px', 'border': '2px solid #757575'}">
                         </p-dropdown>
                     </div>
                     <div class="d-additional-control" *ngIf="question.isAdditionalAnswer">

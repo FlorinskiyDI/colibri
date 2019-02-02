@@ -16,9 +16,7 @@ namespace Survey.ApplicationLayer.Services
     {
         AnswerTypes type;
         private readonly IQuestionOptionService _questionOptionService;
-        private readonly IQuestionService _questionService;
         private readonly IOptionChoiceService _optionChoiceService;
-
         protected readonly IUowProvider UowProvider;
         protected readonly IMapper Mapper;
 
@@ -30,14 +28,12 @@ namespace Survey.ApplicationLayer.Services
 
         public AnswerService(
             IQuestionOptionService questionOptionService,
-            IQuestionService questionService,
             IOptionChoiceService optionChoiceService,
             IUowProvider uowProvider,
             IMapper mapper
             )
         {
             _questionOptionService = questionOptionService;
-            _questionService = questionService;
             _optionChoiceService = optionChoiceService;
             this.UowProvider = uowProvider;
             this.Mapper = mapper;
@@ -186,8 +182,7 @@ namespace Survey.ApplicationLayer.Services
         {
             if (data.Answer.Length > 0)
             {
-                var question = _questionService.GetQuestionById(data.Id);
-                var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
+                var optionChoice = _optionChoiceService.GetListByOptionGroupId(data.OptionGroupId).Result.FirstOrDefault();
                 var questionOptionId = _questionOptionService.Add(data.Id, optionChoice.Id);
 
                 Answers answer = new Answers()
@@ -207,8 +202,7 @@ namespace Survey.ApplicationLayer.Services
         {
             if (data.Answer.Length > 0)
             {
-                var question = _questionService.GetQuestionById(data.Id);
-                var optionChoice = _optionChoiceService.GetListByOptionGroupId(question.OptionGroupId).Result.FirstOrDefault();
+                var optionChoice = _optionChoiceService.GetListByOptionGroupId(data.OptionGroupId).Result.FirstOrDefault();
                 var questionOptionId = _questionOptionService.Add(data.Id, optionChoice.Id);
 
                 Answers answer = new Answers()
@@ -253,8 +247,7 @@ namespace Survey.ApplicationLayer.Services
 
         public void AddAdditionalChoice(BaseAnswerModel data)
         {
-            var question = _questionService.GetQuestionById(data.Id);
-            var optionChoices = _optionChoiceService.GetListByOptionGroup(question.OptionGroupId, true).Result;
+            var optionChoices = _optionChoiceService.GetListByOptionGroup(data.OptionGroupId, true).Result;
             var optionChoice = optionChoices.Where(x => x.IsAdditionalChoise == true).FirstOrDefault();
             var questionOptionId = _questionOptionService.Add(data.Id, Guid.Parse(optionChoice.Id));
 

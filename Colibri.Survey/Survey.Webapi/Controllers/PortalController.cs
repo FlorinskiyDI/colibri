@@ -84,7 +84,8 @@ namespace Survey.Webapi.Controllers
             {
                 foreach (var item in typedAnswerList)
                 {
-
+                    var question = _questionService.GetQuestionById(item.Id);
+                    item.OptionGroupId = question.OptionGroupId.Value;
                     _answerService.SaveAnswerByType(item, respondentId);
                 }
             }

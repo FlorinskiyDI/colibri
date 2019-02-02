@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 // import {  map, share } from 'rxjs/operators';
 // import { HttpClient } from '@angular/common/http';
-import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
+import { Http, RequestOptions, Headers } from '@angular/http';
 
 // import { SurveyModel } from '../../models/form-builder/survey.model';
 @Injectable()
