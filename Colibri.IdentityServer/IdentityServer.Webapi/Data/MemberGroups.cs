@@ -11,8 +11,7 @@ namespace IdentityServer.Webapi.Data
     {
         public Guid Id { get; set; }
         [Required]
-        [StringLength(450)]
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
         public Guid GroupId { get; set; }
         public DateTimeOffset DateOfSubscribe { get; set; }
 

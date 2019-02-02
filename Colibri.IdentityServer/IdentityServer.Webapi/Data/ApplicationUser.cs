@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.Webapi.Data
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<Guid>
     {
         public ApplicationUser()
         {
-            ApplicationUserGroups = new HashSet<ApplicationUserGroups>();
         }
 
         public bool IsAdmin { get; set; }
@@ -22,10 +21,12 @@ namespace IdentityServer.Webapi.Data
 
         public double? EmailConfirmTokenLifespan { get; set; }
         public DateTimeOffset? EmailConfirmInvitationDate { get; set; }
-
-        [InverseProperty("User")]
-        public ICollection<ApplicationUserGroups> ApplicationUserGroups { get; set; }
         [InverseProperty("User")]
         public ICollection<MemberGroups> MemberGroups { get; set; }
+
+        //public virtual ICollection<IdentityUserClaim<Guid>> Claims { get; set; }
+        //public virtual ICollection<IdentityUserLogin<Guid>> Logins { get; set; }
+        //public virtual ICollection<IdentityUserToken<Guid>> Tokens { get; set; }
+        //public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
     }
 }

@@ -1,0 +1,24 @@
+<div class="cmp--group-overview clbr--page-v1">
+    <div class="container-fluid">
+
+        <!-- page--navigation -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="clbr--page--navigation">
+                    <p-tabMenu styleClass="clbr--ui--tabmenu" [model]="menuItems">
+                    </p-tabMenu>
+                </div>
+            </div>
+        </div>
+
+        <!-- page--content -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="clbr--page--content">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

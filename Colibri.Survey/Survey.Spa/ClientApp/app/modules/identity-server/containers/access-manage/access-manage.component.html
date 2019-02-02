@@ -1,0 +1,85 @@
+<!-- block -->
+<div class="cmp--access-manage clbr--block-v1">
+
+    <!-- block--title -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--block--title">
+                Permissions for organization "Dashboard"
+            </div>
+            <div class="clbr--block--description">
+                These permissions affect this organization and all sub-organization in the system.
+            </div>
+        </div>
+    </div>
+
+    <!-- block--options -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--block--options">
+                <nav class="clbr--navbar navbar">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <button class="clbr--mat-raised-button-v1 clbr--mat-raised-button-primary" (click)="dialogCreateOpen()"
+                                mat-raised-button>ADD MEMBER(S)</button>
+                            <button class="clbr--mat-raised-button-v1 clbr--mat-raised-button-primary"
+                                mat-raised-button>DELETE</button>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right" style="padding-right: 15px;">
+                        <li>
+                            <p-dropdown styleClass="clbr--ui--dropdown-v1" class="cmp--ui--dropdown-view-by" [options]="view_OptionList"
+                                [(ngModel)]="view_Option" [style]="{'width':'170px'}">
+                                <ng-template let-item pTemplate="selectedItem">
+                                    view by:<span class="cmp--ui-dropdown-label-view-by"> {{item.label}}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- block--content -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--block--content">
+                <cmp-member-data-grid [eventResetData]="eventResetData.asObservable()">
+                </cmp-member-data-grid>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!--     
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--page-navigation">
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--page-content">
+                
+            </div>
+        </div>
+    </div> -->
+
+</div>
+
+
+<cmp-member-dialog-invite [config]="dialogCreateConfig" (onChange)="dialogCreateOnChange($event)" (onCancel)="dialogCreateOnCancel($event)"
+    (onHide)="dialogCreateOnHide($event)">
+</cmp-member-dialog-invite>

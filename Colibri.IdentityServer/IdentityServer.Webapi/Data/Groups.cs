@@ -9,7 +9,6 @@ namespace IdentityServer.Webapi.Data
     {
         public Groups()
         {
-            ApplicationUserGroups = new HashSet<ApplicationUserGroups>();
             InverseParent = new HashSet<Groups>();
         }
         public Guid Id { get; set; }
@@ -27,11 +26,11 @@ namespace IdentityServer.Webapi.Data
         [InverseProperty("InverseParent")]
         public Groups Parent { get; set; }
         [InverseProperty("Group")]
-        public ICollection<ApplicationUserGroups> ApplicationUserGroups { get; set; }
-        [InverseProperty("Group")]
         public ICollection<MemberGroups> MemberGroups { get; set; }
         [InverseProperty("Parent")]
         public ICollection<Groups> InverseParent { get; set; }
+        [InverseProperty("Group")]
+        public virtual ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
 
         public virtual ICollection<GroupNode> Ancestors { get; set; }
         public virtual ICollection<GroupNode> Offspring { get; set; }

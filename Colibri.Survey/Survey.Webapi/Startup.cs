@@ -13,6 +13,10 @@ using Survey.ApplicationLayer.Configurations;
 using Survey.InfrastructureLayer.Configurations;
 using Survey.Webapi.Configurations;
 using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Survey.Webapi
 {
@@ -48,9 +52,19 @@ namespace Survey.Webapi
             //    .AddEntityFrameworkStores<ApplicationDbContext>()
             //     .AddDefaultTokenProviders();
 
+            services.AddAuthorization(options =>
+            {
+                //options.DefaultPolicy = new AuthorizationPolicyBuilder(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme })
+                //.RequireAuthenticatedUser()
+                //.Build();
+            });
+
             services.AddMvc(config =>
             {
-                //var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                //var policy = new AuthorizationPolicyBuilder(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme })
+                //.RequireAuthenticatedUser()
+                //.Build();
+                ////var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 //config.Filters.Add(new AuthorizeFilter(policy));
             });
 

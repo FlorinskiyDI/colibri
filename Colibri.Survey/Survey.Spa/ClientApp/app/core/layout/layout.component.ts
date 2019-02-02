@@ -15,18 +15,17 @@ export class LayoutComponent implements OnInit {
     simpleDrop = 0;
     constructor(
         private router: Router,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
     ) {
 
-
     }
-    private _opened = true;
-    private _modeNum = 1;
+    private _opened = false;
+    private _modeNum = 0;
     private _positionNum = 0;
     private _dock = true;
-    private _closeOnClickOutside = false;
+    private _closeOnClickOutside = true;
     private _closeOnClickBackdrop = false;
-    private _showBackdrop = false;
+    private _showBackdrop = true;
     private _animate = true;
     private _trapFocus = true;
     private _autoFocus = true;
@@ -47,7 +46,6 @@ export class LayoutComponent implements OnInit {
 
     _toggleMode(): void {
         this._modeNum++;
-
         if (this._modeNum === this._MODES.length) {
             this._modeNum = 0;
         }

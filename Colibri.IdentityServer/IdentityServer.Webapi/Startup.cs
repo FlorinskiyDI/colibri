@@ -21,6 +21,10 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using dataaccesscore.EFCore;
 using IdentityServer.Webapi.Configurations.AspNetIdentity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using IdentityServer.Webapi.Helpers;
+using System.Collections.Generic;
 
 namespace IdentityServer.Webapi
 {
@@ -47,11 +51,18 @@ namespace IdentityServer.Webapi
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             //var cert = new X509Certificate2(Path.Combine(_environment.ContentRootPath, "damienbodserver.pfx"), "");
+
+            //services.AddTransient<UserManager<ApplicationUser>>();
+            //services.AddTransient<RoleManager<ApplicationRole>>();
+            //services.AddTransient<SignInManager<ApplicationRole>>();
+
+
+
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -64,25 +75,34 @@ namespace IdentityServer.Webapi
             services.Configure<IdentityOptions>(options => options.Tokens.EmailConfirmationTokenProvider = emailConfirmTokenProviderName);
             services.Configure<EmailConfirmProtectorTokenProviderOptions>(options => options.TokenLifespan = TimeSpan.FromMilliseconds(emailConfirmTokenProviderTokenLifespan));
 
+            services.AddScoped<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid, IdentityUserClaim<Guid>, ApplicationUserRole, IdentityUserLogin<Guid>, IdentityUserToken<Guid>, IdentityRoleClaim<Guid>>, ApplicationUserStore>();
+            services.AddScoped<UserManager<ApplicationUser>, ApplicationUserManager>();
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>>();
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            services.AddScoped<ApplicationUserStore, ApplicationUserStore>();
+            services.AddScoped<ApplicationUserManager, ApplicationUserManager>();
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
-                    options.Password.RequiredLength = 6;
+                    options.Password.RequiredLength = 4;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddUserStore<ApplicationUserStore>()
+                .AddUserManager<ApplicationUserManager>()
+                .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>>()
                 .AddDefaultTokenProviders()
                 .AddTokenProvider<EmailConfirmDataProtectorTokenProvider<ApplicationUser>>(emailConfirmTokenProviderName);
 
-            var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
-            policy.Headers.Add("*");
-            policy.Methods.Add("*");
-            policy.Origins.Add("*");
-            policy.SupportsCredentials = true;
+            var corsPolicy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
+            corsPolicy.Headers.Add("*");
+            corsPolicy.Methods.Add("*");
+            corsPolicy.Origins.Add("*");
+            corsPolicy.SupportsCredentials = true;
 
-            services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
+            services.AddCors(x => x.AddPolicy("corsGlobalPolicy", corsPolicy));
 
             var guestPolicy = new AuthorizationPolicyBuilder()
                .RequireAuthenticatedUser()
@@ -91,7 +111,7 @@ namespace IdentityServer.Webapi
 
 
 
-            
+
 
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
@@ -99,10 +119,14 @@ namespace IdentityServer.Webapi
                 .AddInMemoryApiResources(Resources.GetApiResources())
                 .AddInMemoryClients(Clients.GetClients())
                 .AddAspNetIdentity<ApplicationUser>()
-                .AddProfileService<IdentityProfileService>();
+                .AddProfileService<IdentityProfileService>()
+                .AddAuthorizeInteractionResponseGenerator<AccountChooserResponseGenerator>();
+
+
 
             services.AddTransient<IProfileService, IdentityProfileService>();
             services.AddTransient<IExtensionGrantValidator, DelegationGrantValidator>();
+            services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDependencies(Configuration, connectionString);
@@ -120,22 +144,24 @@ namespace IdentityServer.Webapi
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("dataEventRecordsAdmin", policyAdmin =>
+                // Note: It is policy for Authorize atribute
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme })
+                .RequireAuthenticatedUser()
+                .Build();
+                // Note: Adding permisions as policy
+                var permissionList = new List<string>();
+                permissionList.AddRange(ClassHelper.GetConstantValues<SystemStaticPermissions.Configs>());
+                permissionList.AddRange(ClassHelper.GetConstantValues<SystemStaticPermissions.Users>());
+                permissionList.AddRange(ClassHelper.GetConstantValues<SystemStaticPermissions.Groups>());
+                foreach (var permission in permissionList)
                 {
-                    policyAdmin.RequireClaim("role", "dataEventRecords.admin");
-                });
-                options.AddPolicy("admin", policyAdmin =>
-                {
-                    policyAdmin.RequireClaim("role", "admin");
-                });
-                options.AddPolicy("user", policyUser =>
-                {
-                    policyUser.RequireClaim("role", "user");
-                });
-                options.AddPolicy("dataEventRecords", policyUser =>
-                {
-                    policyUser.RequireClaim("scope", "dataEventRecords");
-                });
+                    options.AddPolicy(
+                        permission,
+                        policy => {
+                            policy.AddAuthenticationSchemes(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme });
+                            policy.Requirements.Add(new PermissionRequirement(permission));
+                        });
+                }
             });
 
             services.AddMvc().AddJsonOptions(options =>
@@ -163,7 +189,7 @@ namespace IdentityServer.Webapi
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+
 
             //var connectionString = Configuration.GetConnectionString("DefaultConnection");
             //SqlConnectionFactory.ConnectionString = connectionString;

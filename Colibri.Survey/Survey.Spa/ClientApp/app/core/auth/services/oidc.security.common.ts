@@ -109,9 +109,9 @@ export class OidcSecurityCommon {
         this.store(this.storage_custom_request_params, value);
     }
 
-    constructor(private oidcSecurityStorage: OidcSecurityStorage) {}
+    constructor(private oidcSecurityStorage: OidcSecurityStorage) { }
 
-    setupModule() {}
+    setupModule() { }
 
     private retrieve(key: string): any {
         return this.oidcSecurityStorage.read(key);

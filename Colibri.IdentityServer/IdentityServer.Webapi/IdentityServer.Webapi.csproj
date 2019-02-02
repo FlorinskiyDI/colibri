@@ -2,15 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>7.1</LangVersion>
     <UserSecretsId>aspnet-IdentityServer.Webapi-FA5E04A2-FA8B-4EA4-B1AA-5E4B1814E201</UserSecretsId>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Data\Migrations\**" />
+    <Compile Remove="Dtos\Options\**" />
     <Content Remove="Data\Migrations\**" />
+    <Content Remove="Dtos\Options\**" />
     <EmbeddedResource Remove="Data\Migrations\**" />
+    <EmbeddedResource Remove="Dtos\Options\**" />
     <None Remove="Data\Migrations\**" />
+    <None Remove="Dtos\Options\**" />
   </ItemGroup>
 
 
@@ -36,10 +41,6 @@
     <ProjectReference Include="..\dataaccesscore.Abstractions\dataaccesscore.Abstractions.csproj" />
     <ProjectReference Include="..\dataaccesscore.EFCore\dataaccesscore.EFCore.csproj" />
     <ProjectReference Include="..\ExpressionBuilder\ExpressionBuilder.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Dtos\Options\" />
   </ItemGroup>
 
 </Project>

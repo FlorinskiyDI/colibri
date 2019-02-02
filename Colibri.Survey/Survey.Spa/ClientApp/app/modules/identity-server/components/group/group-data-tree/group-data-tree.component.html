@@ -1,0 +1,61 @@
+<div class="cmp-group-data-tree">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--block-options">
+                <div class="input-group">
+                    <clbr-data-filter>
+                    </clbr-data-filter>                    
+                    <span class="input-group-addon">
+                        <button matTooltip="reload grid" matTooltipClass="clbr--matTooltip" class="clbr--btn-default btn btn-sm btn-default notification" (click)="treeGroups.reset()">
+                            <i class="pi bowtie-synchronize"></i>
+                        </button>                        
+                        <p-multiSelect matTooltip="column options" matTooltipClass="clbr--matTooltip" class="clbr--p-multiSelect-v1 clbr--p-multiSelect-column-option" [options]="optionTbToggle.columns" [filter]="optionTbToggle.filter" [(ngModel)]="tbSelectedColumns" optionLabel="header"
+                            selectedItemsLabel="{0} columns selected">
+                        </p-multiSelect>
+                    </span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clbr--ui-treetable clbr--ui-treetable-v1">
+                <p-treeTable #treeGroups
+                    [value]="tbItems" [columns]="tbSelectedColumns" selectionMode="single" dataKey="id" [(selection)]="selectedNode" [paginator]="true"
+                    [rows]="10" [rowsPerPageOptions]="[2,10,20]" [totalRecords]="tbTotalItemCount" [loading]="tbLoading"
+                    [lazy]="true" (onNodeExpand)="onNodeExpand($event)" (onLazyLoad)="loadNodes($event)"
+                    [(selection)]="selectedNode">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns" [ttSortableColumn]="col.sort ? col.field: null" class="border-right-none border-left-none" [style.width.px]="col.width">
+                                {{col.header}}
+                                <p-treeTableSortIcon *ngIf="col.sort" [field]="col.field"></p-treeTableSortIcon>
+                            </th>
+                            <!-- <th class="border-left-none border-right-none">Actions</th> -->
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+                        <tr [ttSelectableRow]="rowNode">
+                            <td *ngFor="let col of columns; let i = index" class="border-right-none border-left-none">
+                                <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
+                                {{rowData[col.field]}}
+                            </td>
+                            <!-- <td class="border-left-none border-right-none">
+                                <button matTooltip="Edit group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_edit(rowData.id)">
+                                    <mat-icon class="filter-icon">edit</mat-icon>
+                                </button>
+                                <button matTooltip="Delete group" matTooltipClass="TestMatTooltipClass" matTooltipPosition="right" class="clbr-tb-action-btn btn btn-sm btn-default notification" (click)="item_delete(rowData.id)">
+                                    <mat-icon class="filter-icon" >delete</mat-icon>
+                                </button>
+                            </td> -->
+                        </tr>
+                    </ng-template>
+                </p-treeTable>
+            </div>
+        </div>
+    </div>
+    
+</div>

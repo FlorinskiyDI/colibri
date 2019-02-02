@@ -468,7 +468,7 @@ namespace IdentityServer.Webapi.Controllers
 
             var model = new RegisterWithEmailViewModel()
             {
-                UserId = user.Id,
+                UserId = user.Id.ToString(),
                 Code = code,
                 Email = user.Email
             };

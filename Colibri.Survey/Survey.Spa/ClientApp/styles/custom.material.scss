@@ -1,59 +1,235 @@
-.material-icons { vertical-align: sub; }
+// // /* ANGULAR-MATERIAL */
+.cdk-overlay-container { z-index: 999999999; } // more than bootstrap nav {{1030}}
 
-.material-icons.md-14 { font-size: 14px; }
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-36 { font-size: 36px; }
-.material-icons.md-48 { font-size: 48px; }
+.clbr--mat-form-field { width: 100%; }
 
-.material-icons.md-dark { color: #707070 }
-.material-icons.md-light { color: #ffffff }
+
+//// mat-chip-lis
+.mat-chip-list.clbr--mat-chip-list-v1 {
+    .mat-standard-chip.mat-chip-with-trailing-icon {
+        padding-top: 1px;
+        padding-bottom: 1px;
+        padding-right: 5px;
+        padding-left: 8px;
+    }
+    .mat-chip-list-wrapper { margin-left: 0px; margin-right: 0; }
+    .mat-chip { margin-top: 1px; margin-bottom: 2px;}
+}
+
+//// mat-button
+.mat-button.clbr--button-v1 { padding: 0 10px; line-height: 30px; min-width: 65px; }
+.mat-button.clbr--button-v1 .mat-button-wrapper { font-size: 13px; }
+
+
+
+// mat-menu
+.mat-menu-panel.clbr--mat-menu-panel-v1 {
+    min-width: 180px;
+    .mat-menu-item { height: 26px; line-height: 26px; font-size: 12px; }
+    .clbr--mat-menu-item:disabled { background-color: transparent !important; cursor: auto; color: #999 }
+    .clbr--mat-menu-item:hover { background: rgba(0,0,0,.04); }
+    .clbr--mat-menu-item {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        outline: 0;
+        border: none;
+        -webkit-tap-highlight-color: transparent;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        line-height: 48px;
+        height: 48px;
+        padding: 0 16px;
+        text-align: left;
+        text-decoration: none;
+        max-width: 100%;
+        position: relative;
+        height: 26px;
+        line-height: 26px;
+        font-size: 12px;
+        background: 0 0;
+        color: rgba(0,0,0,.87);
+        width: 100%;
+    }
+}
+
+
+
+// mat-raised-button
+.clbr--mat-raised-button-v1 {
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 22px !important;
+    padding: 2px 10px 0px 10px !important;
+    border-radius: 3px !important;
+    color: #666;
+    &.clbr--mat-raised-button-primary {
+        // color: #3370e0;
+    }
+    &.mat-raised-button { margin-right: 10px; font-weight: 500; min-width: auto; }
+    &.mat-raised-button[disabled][disabled] { background-color: rgba(0,0,0,.05); font-weight: 600; color: rgba(0,0,0,.4); }
+    // margin-right: 8px !important;
+}
+.clbr--btn-primary { font-weight: 600; color: #3b78e7; }
+.clbr--btn-default { font-weight: 500 !important; }
+
+// matTooltip
+.clbr--matTooltip {
+    padding: 0px 7px;
+    opacity: 1;
+}
+
+// mat-menu
+.clbr--mat-menu-v1 {
+    margin-top: 30px;
+    .mat-menu-content { padding: 3px 0px !important; }
+    button.mat-menu-item {
+        height: 26px;
+        line-height: 26px;
+        font-size: 13px;
+        font-weight: 300;
+        width: 200px;
+    }
+}
+
+.clbr--mat-form-field-without-border {
+    &.clbr--mat-form-field-full-width { width: 100%; }
+    .mat-form-field-outline { display: none !important; }
+}
 
 .clbr--mat-form-field-full-width { width: 100%; }
-
 .clbr--mat-form-field-without-padding {    
     &.mat-form-field-appearance-legacy .mat-form-field-infix { padding-top: 0 !important; padding-bottom: 0 !important; }
- }
-
- .clbr--mat-form-field-without-border {    
+}
+.clbr--mat-form-field-without-border {    
     .mat-form-field-flex { border: none !important; }
     &.mat-form-field-appearance-legacy .mat-form-field-infix { padding: 0 !important; }
- }
+}
+
 .clbr--mat-form-field {
-    input { font-size: 13px; }
+    input { font-size: 13px; font-weight: 300; }
+    textarea { font-size: 13px; font-weight: 300; }
     .mat-form-field-underline { display: none !important; }
     .mat-form-field-infix {
         border-top: none;
         padding: 6px 10px;
         margin-right: 4px;
     }
-    .mat-form-field-flex {
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-    &.mat-form-field-appearance-legacy .mat-form-field-infix { padding: 6px 0px 6px 0px; }
+    .mat-form-field-flex { border: 1px solid #ccc; border-radius: 3px; }
+    &.mat-form-field-appearance-legacy .mat-form-field-infix { padding: 6px 0px 5px 0px; }
     &.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float.mat-focused .mat-form-field-label { color: #6688a9; }
     &.mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label,
     &.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
         transform: translateY(-1em) scale(.85);
-        font-weight: 500;
-        color: #000;
+        font-weight: 300;
+        color: #888;
         width: auto;
         background-color: #ffffff;
         padding: 0px 5px;
         margin-left: 3px;
     }
     &.mat-form-field-appearance-legacy .mat-form-field-subscript-wrapper { margin-top: 4px; }
-    &.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-empty.mat-form-field-label {
-        margin-left: 8px;
-    }
+    &.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
+    .mat-form-field-empty.mat-form-field-label { margin-left: 8px; }
     .mat-input-element { padding-left: 8px !important; }
     .mat-form-field-label { font-size: 13px !important; margin-top: 2px }
-    .mat-select-value-text { padding-left: 8px !important; font-size: 13px; }
-    
-    .mat-hint { 
-        font-weight: 600;
-        font-size: 11px;
-    }
+    .mat-select-value-text { padding-left: 8px !important; font-size: 13px; }    
+    .mat-hint { font-weight: 600; font-size: 11px; }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// mat-form-field
+// .clbr--mat-form-field {
+//     mat-form-field-wrapper
+//     input { font-size: 13px; }
+//     .mat-form-field-underline { display: none !important; }
+//     .mat-form-field-infix {
+//         border-top: none;
+//         padding: 6px 10px;
+//         margin-right: 4px;
+//     }
+//     .mat-form-field-flex {
+//         border: 1px solid #ccc;
+//         border-radius: 5px;
+//     }
+//     &.mat-form-field-appearance-legacy .mat-form-field-infix { padding: 6px 0px 6px 0px; }
+//     &.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float.mat-focused .mat-form-field-label { color: #6688a9; }
+//     &.mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label,
+//     &.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+//         transform: translateY(-1em) scale(.85);
+//         font-weight: 500;
+//         color: #000;
+//         width: auto;
+//         background-color: #ffffff;
+//         padding: 0px 5px;
+//         margin-left: 3px;
+//     }
+//     &.mat-form-field-appearance-legacy .mat-form-field-subscript-wrapper { margin-top: 4px; }
+//     &.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-empty.mat-form-field-label {
+//         margin-left: 8px;
+//     }
+//     .mat-input-element { padding-left: 8px !important; }
+//     .mat-form-field-label { font-size: 13px !important; margin-top: 2px }
+//     .mat-select-value-text { padding-left: 8px !important; font-size: 13px; }
+    
+//     .mat-hint { 
+//         font-weight: 600;
+//         font-size: 11px;
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// .material-icons { vertical-align: sub; }
+
+// .material-icons.md-14 { font-size: 14px; }
+// .material-icons.md-18 { font-size: 18px; }
+// .material-icons.md-24 { font-size: 24px; }
+// .material-icons.md-36 { font-size: 36px; }
+// .material-icons.md-48 { font-size: 48px; }
+
+// .material-icons.md-dark { color: #707070 }
+// .material-icons.md-light { color: #ffffff }
+
+
 

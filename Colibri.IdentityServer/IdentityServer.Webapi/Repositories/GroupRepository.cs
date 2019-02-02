@@ -22,8 +22,8 @@ namespace IdentityServer.Webapi.Repositories
         {
             using (var ctx = new ApplicationDbContext())
             {
-                return await ctx.Set<ApplicationUserGroups>()
-                    .Where(c => c.UserId == userId)
+                return await ctx.Set<MemberGroups>()
+                    .Where(c => c.UserId == new Guid(userId))
                     .Select(c => c.Group).Include(v => v.InverseParent)
                     .ToListAsync();
             }
@@ -33,8 +33,8 @@ namespace IdentityServer.Webapi.Repositories
         {
             using (var ctx = new ApplicationDbContext())
             {
-                return await ctx.Set<ApplicationUserGroups>()
-                    .Where(c => c.UserId == userId)
+                return await ctx.Set<MemberGroups>()
+                    .Where(c => c.UserId == new Guid(userId))
                     .Select(c => c.Group)
                     .ToListAsync();
             }

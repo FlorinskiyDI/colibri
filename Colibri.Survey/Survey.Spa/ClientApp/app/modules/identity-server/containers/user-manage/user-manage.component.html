@@ -1,0 +1,46 @@
+<!-- page -->
+<div class="cmp--user-manage clbr--page-v1">
+    <div class="container-fluid">
+
+        <!-- page--navigation -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="clbr--page--navigation">
+                    <nav class="clbr--navbar navbar">
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <button class="cmp--nav-btn-back" mat-icon-button (click)="router.navigate(['is/home'])">
+                                    <mat-icon>reply_all</mat-icon>
+                                </button>
+                                <p class="cmp--nav-title">Manage users</p>
+                                <span [hasPermission]="['identity.groups.create']">
+                                    <button hasPermissionCtrl class="clbr--mat-raised-button-v1 clbr--mat-raised-button-primary"
+                                        mat-raised-button (click)="userDialogInviteOpen()">INVITE USER TO SYSTEM</button>
+                                </span>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- page--content -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="clbr--page--content">
+                    <cmp-user-data-grid>
+                    </cmp-user-data-grid>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<cmp-user-dialog-invite
+    [config]="userDialogInviteConfig"
+    (onChange)="userDialogInviteOnChange($event)"
+    (onCancel)="userDialogInviteOnCancel($event)"
+    (onHide)="userDialogInviteOnHide($event)">
+</cmp-user-dialog-invite>

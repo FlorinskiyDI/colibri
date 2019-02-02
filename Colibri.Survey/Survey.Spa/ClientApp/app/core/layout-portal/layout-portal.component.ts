@@ -8,7 +8,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
     styleUrls: ['./layout-portal.component.scss']
 })
 
-export class LayoutPortalComponent  {
+export class LayoutPortal2Component  {
     breadcrumbs$: any;
     simpleDrop = 0;
     constructor(

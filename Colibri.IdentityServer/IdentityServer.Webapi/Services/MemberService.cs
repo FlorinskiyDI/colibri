@@ -8,21 +8,66 @@ using IdentityServer.Webapi.Data;
 using IdentityServer.Webapi.Dtos;
 using IdentityServer.Webapi.Dtos.Search;
 using IdentityServer.Webapi.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace IdentityServer.Webapi.Services
 {
     public class MemberService : IMemberService
     {
-        private readonly IAppUserService _appUserService;
+
+        private readonly ApplicationUserManager _userManager;
+        private readonly IUserService _appUserService;
         protected readonly IUowProvider _uowProvider;
+
         public MemberService(
-            IAppUserService appUserService,
+            UserManager<ApplicationUser> userManager,
+            IUserService appUserService,
             IUowProvider uowProvider
         )
         {
+            _userManager = userManager as ApplicationUserManager;
             _appUserService = appUserService;
             _uowProvider = uowProvider;
+        }
+
+        public async Task<MemberGroups> AddUserToGroup(MemberGroups model)
+        {
+            try
+            {
+                using (var uow = _uowProvider.CreateUnitOfWork())
+                {
+                    var repository = uow.GetRepository<MemberGroups>();
+                    var result = await repository.AddAsync(model);
+                    await uow.SaveChangesAsync();
+
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task DeletePathsWhereGroup(string groupId)
+        {
+            try
+            {
+                using (var uow = _uowProvider.CreateUnitOfWork())
+                {
+                    var repository = uow.GetRepository<MemberGroups>();
+                    var list = await repository.QueryAsync(c => c.GroupId == new Guid(groupId));
+                    repository.RemoveRange(list);
+                    await uow.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return;
         }
 
         public async Task<SearchResult<MemberDto>> GetMembersByGroup(string groupId, SearchQuery searchEntry)
@@ -124,13 +169,44 @@ namespace IdentityServer.Webapi.Services
             return list.Select(c => new MemberDto
             {
                 Id = c.Id,
-                UserId = c.User.Id,
+                UserId = c.User.Id.ToString(),
                 UserName = c.User.UserName,
                 Email = c.User.Email,
                 EmailConfirmed = c.User.EmailConfirmed,
                 DateOfSubscribe = c.DateOfSubscribe
             });
         }
+
+        public async Task GetPolicy(Guid userId)
+        {
+
+            //var roles = ClassHelper.GetConstantValues<SystemStaticPermissions.Groups>();
+            //return roles;
+        }
+
+        public async Task SetPolicy(GroupPolicyDto policy, Guid groupId)
+        {
+            foreach (var email in policy.Emails)
+            {
+                // get user data
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    user = await _appUserService.AddUserByEmailWithoutPassword(email);
+                }
+                foreach (var role in policy.Roles)
+                {
+                    await _userManager.AddToRoleAsync(user, role, groupId);
+                }
+                using (var uow = _uowProvider.CreateUnitOfWork())
+                {
+                    var repository = uow.GetRepository<MemberGroups>();
+                    await repository.AddAsync(new MemberGroups() { UserId = user.Id, GroupId = groupId });
+                    await uow.SaveChangesAsync();
+                }
+            }
+        }
+
 
         //public async Task<bool> AddMembersToGroupAsync(Guid groupId, List<string> emailList)
         //{

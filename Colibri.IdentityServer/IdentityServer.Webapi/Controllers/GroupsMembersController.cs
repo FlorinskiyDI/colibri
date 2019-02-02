@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer.Webapi.Configurations;
+using IdentityServer.Webapi.Dtos;
 using IdentityServer.Webapi.Dtos.Search;
 using IdentityServer.Webapi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityServer.Webapi.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer", Policy = "user")]
+    [Authorize]
     [Produces("application/json")]
     [Route("api/groups/members")]
     [Route("api/groups/{groupId?}/members")]
@@ -52,6 +54,28 @@ namespace IdentityServer.Webapi.Controllers
         {
             var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
             await _groupMemberService.DeleteMemberOfGroupAsync(id);
+            return Ok();
+        }
+
+
+        // GET: api/users/getIamPolicy
+        [HttpGet("iamPolicy")]
+        [Authorize(Policy = SystemStaticPermissions.Groups.GetIamPolicy)]
+        public async Task<IActionResult> GetIamPolicy()
+        {
+            var result = new List<string> { "Admin", "GroupCreator" }; //TODO: get role (db)
+            return Ok(result);
+        }
+
+
+        // POST: api/users/iamPolicy
+        [HttpPost("iamPolicy")]
+        //[Authorize(Policy = SystemStaticPermissions.Groups.SetIamPolicy)]
+        public async Task<IActionResult> SetIamPolicy([FromBody] GroupPolicyDto model)
+        {
+            //var _userId = this.HttpContext.User.Claims.First(c => c.Type == "sub").Value;
+            var groupId = model.GroupId;
+            await _groupMemberService.SetPolicy(model, groupId);
             return Ok();
         }
 

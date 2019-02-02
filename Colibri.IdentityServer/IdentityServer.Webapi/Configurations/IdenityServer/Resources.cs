@@ -39,7 +39,7 @@ namespace IdentityServer.Webapi.Configurations
                             DisplayName = "Scope for the dataEventRecords ApiResource"
                         }
                     },
-                    UserClaims = { "role", "admin", "user", "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user" }
+                    UserClaims = { "role", "admin", "user", "dataEventRecords", "dataEventRecords.admin", "dataEventRecords.user", "tenant" }
                 },
                  new ApiResource("api2")
                 {

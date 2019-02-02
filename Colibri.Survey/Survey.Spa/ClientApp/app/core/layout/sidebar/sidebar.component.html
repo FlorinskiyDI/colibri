@@ -1,0 +1,56 @@
+<div class="cmp-sidebar">
+    <ng-sidebar-container>
+        <!-- sidebar -->
+        <ng-sidebar #sidebarLeft [(opened)]="_opened" [mode]="_MODES[_modeNum]" [keyClose]="_keyClose" [position]="_POSITIONS[_positionNum]" [dock]="_dock"
+            [dockedSize]="'0px'" [autoCollapseHeight]="_autoCollapseHeight" [autoCollapseWidth]="_autoCollapseWidth" [closeOnClickOutside]="_closeOnClickOutside"
+            [closeOnClickBackdrop]="_closeOnClickBackdrop" [showBackdrop]="_showBackdrop" [animate]="_animate" [trapFocus]="_trapFocus"
+            [autoFocus]="_autoFocus" [sidebarClass]="'clbr--sidebar'" [ariaLabel]="'My sidebar'" (onOpenStart)="_onOpenStart()"
+            (onOpened)="_onOpened()" (onCloseStart)="_onCloseStart(menuIdentityTrigger, menuSurveyTrigger)" (onClosed)="_onClosed()"
+            (onTransitionEnd)="_onTransitionEnd()">
+            <div class="clbr--sidebar-block">
+                <ul class="clbr-ul-list">
+                    <li class="clbr-ul-list-item" routerLinkActive="active-route" (mouseenter)="mouseEnter(menuSurveyTrigger, menuIdentityTrigger)">
+                        <a [routerLink]="['/dashboard']" (click)="closeSidebar()">
+                            <span>Survey service</span>
+                            <i class="bowtie-icon bowtie-chevron-right-light" [matMenuTriggerFor]="menuSurvey" #menuSurveyTrigger="matMenuTrigger"></i>
+                            <mat-menu backdropClass="cmp--sidebar-menu-overlay" class="cmp--sidebar-menu-panel-position clbr--mat-menu-panel-v1" #menuSurvey="matMenu">                                
+                                <button mat-menu-item [matMenuTriggerFor]="vertebrates">Dashboard</button>
+                                <button mat-menu-item>Portal</button>
+                            </mat-menu>
+                            <mat-menu class="clbr--mat-menu-panel-v1" #vertebrates="matMenu">
+                                <button mat-menu-item>Home</button>
+                                <button mat-menu-item>Builder</button>
+                                <button mat-menu-item>Explorer</button>
+                            </mat-menu>
+                        </a>
+                    </li>
+                    <li class="clbr-ul-list-item" (mouseenter)="mouseEnter(menuIdentityTrigger, menuSurveyTrigger)" routerLinkActive="active-route">
+                        <a [routerLink]="['/is/home']" (click)="closeSidebar()">
+                            <span>Identity Server</span>
+                            <i class="bowtie-icon bowtie-chevron-right-light" [matMenuTriggerFor]="menuIdentity" #menuIdentityTrigger="matMenuTrigger"></i>
+                            <mat-menu backdropClass="cmp--sidebar-menu-overlay" class="cmp--sidebar-menu-panel-position clbr--mat-menu-panel-v1" #menuIdentity="matMenu">
+                                <ul>
+                                    <li><button mat-menu-item (click)="router.navigateByUrl('is/home')">Home</button></li>
+                                    <li [hasPermission]="['identity.groups.list']" [IsDisable]="true" [matTooltipClass]="'my-tooltip'">
+                                        <button hasPermissionCtrl mat-menu-item class="clbr--mat-menu-item" (click)="router.navigateByUrl('is/groups')">Manage organizations</button>
+                                    </li>
+                                    <li [hasPermission]="['identity.users.list']" [IsDisable]="true" [matTooltipClass]="'my-tooltip'">
+                                        <button hasPermissionCtrl  mat-menu-item class="clbr--mat-menu-item" (click)="router.navigateByUrl('is/users')">Manage users</button>
+                                    </li>
+                                    <li [hasPermission]="['identity.system.config']" [IsDisable]="true" [matTooltipClass]="'my-tooltip'">
+                                        <button hasPermissionCtrl mat-menu-item class="clbr--mat-menu-item" (click)="router.navigateByUrl('is/system')">System configurations</button>
+                                    </li>
+                                    <li [hasPermission]="['identity.users.update']" [IsDisable]="true" [matTooltipClass]="'my-tooltip'">
+                                        <button hasPermissionCtrl mat-menu-item class="clbr--mat-menu-item" (click)="router.navigateByUrl('is/profile')">User profile</button>
+                                    </li>
+                                </ul>
+                            </mat-menu>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </ng-sidebar>
+        <!-- End sidebar -->
+    </ng-sidebar-container>
+
+</div>

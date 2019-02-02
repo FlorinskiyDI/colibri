@@ -1,0 +1,80 @@
+<p-dialog header="Invite user to system" class="clbr--p-dialog-v1" minWidth="450" width="450" showEffect="fade"
+    [responsive]="true" [modal]="true" [resizable]="true" [maximizable]="false" (onHide)="dialogHide($event)"
+    [(visible)]="dialogConfig.visible">
+
+    <div class="cmp-user-dialog-invite clbr--block-v1 container-fluid">
+        <div class="clbr--block--description">
+            <div class="row">
+                <div class="col-md-12">
+                    Enter one or more users below.
+                    Then select a role for these users to grant them access to system. Multiple roles
+                    allowed.
+                </div>
+            </div>
+        </div>
+
+        <div class="clbr--block--content" style="min-height: 300px;">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div #ngFormGroup="ngForm" [formGroup]="formGroup" class="clbr--form form needs-validation" role="form">
+
+                        <div class="clbr--form-group form-group form-group-sm">
+                            <mat-form-field class="clbr--mat-form-field cmp--mat-form-field-members">
+                                <mat-chip-list formControlName="emails" #chipList class="clbr--mat-chip-list-v1">
+                                    <mat-chip *ngFor="let item of emailList" [selectable]="selectable" [removable]="removable"
+                                        (removed)="remove(item)">
+                                        {{item.name}}
+                                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                    </mat-chip>
+                                    <input placeholder="New members" [matChipInputFor]="chipList"
+                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                                        (matChipInputTokenEnd)="add($event)">
+                                </mat-chip-list>
+                                <mat-error *ngIf="formGroup.get('emails').hasError('required') && formGroup.get('emails').touched">
+                                    Value is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div *ngFor="let item of formGroup.controls['roleArray'].controls; let i = index" class="clbr--form-group form-group form-group-sm cmp--form-group-email-value">
+                            <div class="input-group">
+                                <p-dropdown placeholder="Select a role" styleClass="clbr--ui--dropdown-v2" class="cmp--ui--dropdown-view-by"
+                                    [options]="drpdwnRoles" [style]="{'width':'100%'}" [formControl]="item">
+                                    <ng-template let-item pTemplate="selectedItem">
+                                        <span> {{item.label}}</span>
+                                    </ng-template>
+                                </p-dropdown>
+                                <span class="input-group-addon">
+                                    <button mat-icon-button class="cmp--mat-icon-button-role-delete" (click)="deleteRoleControl(item)"
+                                        [disabled]="i==0">
+                                        <mat-icon aria-label="Example icon-button with a heart icon">delete</mat-icon>
+                                    </button>
+                                </span>
+                            </div>
+                            <span class="valid-feedback" *ngIf="item.hasError('required') && item.touched">
+                                Value is required
+                            </span>
+                        </div>
+                        <button class="cmp--mat-button-add-role" mat-button (click)="addRoleControl()">Add Another Role</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-footer>
+        <div style="text-align: right;">
+            <button class="clbr--button-v1" mat-button (click)="formCancel()">Cancel</button>
+            <button class="clbr--button-v1" mat-button color="primary" (click)="formSubmit()">Save</button>
+        </div>
+        <!-- <button class="clbr--btn-default clbr--background-image-without btn btn-sm btn-default notification" (click)="formCancel()">CANCEL</button>
+        <button class="clbr--btn-default btn btn-sm btn-default notification" (click)="formSubmit()">SAVE
+            CHANGES</button> -->
+    </p-footer>
+
+</p-dialog>
+
+<p-growl styleClass="clbr--growl-icon-none" [life]="5000">
+</p-growl>

@@ -24,7 +24,7 @@ namespace IdentityServer.Webapi.Repositories
         {
             using (var ctx = new ApplicationDbContext())
             {
-                return await ctx.Set<ApplicationUserGroups>()
+                return await ctx.Set<MemberGroups>()
                     .Where(c => c.GroupId == groupId)
                     .Select(c => c.User)
                     .ToListAsync();
@@ -37,19 +37,17 @@ namespace IdentityServer.Webapi.Repositories
             using (var ctx = new ApplicationDbContext())
             {
                 var data = await ctx.Set<ApplicationUser>()
-                    .Include(c => c.ApplicationUserGroups).ThenInclude(d => d.Group)
                     .Include(c => c.MemberGroups).ThenInclude(d => d.Group)
-                    .FirstOrDefaultAsync(c => c.Id == userId);
+                    .FirstOrDefaultAsync(c => c.Id == new Guid(userId));
 
                 result = new UserFullDetailsViewModel()
                 {
-                    Id = data.Id,
+                    Id =  data.Id.ToString(),
                     UserName = data.UserName,
                     Email = data.Email,
                     EmailConfirmed = data.EmailConfirmed,
                     EmailConfirmTokenLifespan = data.EmailConfirmTokenLifespan,
                     EmailConfirmInvitationDate = data.EmailConfirmInvitationDate,
-                    GroupsToManage = data.ApplicationUserGroups.Select(d => d.Group).ToList(),
                     GroupsToMember = data.MemberGroups.Select(d => d.Group).ToList()
                 };
             }

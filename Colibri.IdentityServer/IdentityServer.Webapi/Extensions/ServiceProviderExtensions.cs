@@ -27,10 +27,9 @@ namespace IdentityServer.Webapi.Extensions
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddTransient<IAppUserService, AppUserService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IGroupService, GroupService>();
             services.AddTransient<IGroupNodeService, GroupNodeService>();
-            services.AddTransient<IUserGroupService, UserGroupService>();
             services.AddTransient<IMemberService, MemberService>();
             services.AddTransient<IEmailSenderService, EmailSenderService>();
 
@@ -46,8 +45,8 @@ namespace IdentityServer.Webapi.Extensions
         {
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IMemberGroupRepository, MemberGroupRepository>();
-            services.AddScoped<IAppUserGroupRepository, AppUserGroupRepository>();
             services.AddScoped<IAppUserRepository, AppUserRepository>();
+            services.AddScoped<IAppUserRoleRepository, AppUserRoleRepository>();
             //
             return services;
         }

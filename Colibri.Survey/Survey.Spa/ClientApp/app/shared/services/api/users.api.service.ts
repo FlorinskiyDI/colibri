@@ -23,8 +23,13 @@ export class UsersApiService {
         return result;
     }
 
-    sendInvite(userId: any) {
-        const result = this.restangularIdentityServer.one('api/users', userId).customGET('invite');
+    setIamPolicy(data: any) {
+        const result = this.restangularIdentityServer.all('api/users/iamPolicy').customPOST(data, undefined, undefined, { 'Content-Type': 'application/json' });
+        return result;
+    }
+
+    getIamPolicy() {
+        const result = this.restangularIdentityServer.one('api/users').customGET('iamPolicy');
         return result;
     }
 }

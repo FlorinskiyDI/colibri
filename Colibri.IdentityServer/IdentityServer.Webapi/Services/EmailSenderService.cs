@@ -39,13 +39,13 @@ namespace IdentityServer.Webapi.Services
                 var plainTextMessage = await _viewRenderResolver.RenderToStringAsync("EmailTemplates/ConfirmAccountTextEmail", confirmationUrl).ConfigureAwait(false);
                 var htmlMessage = await _viewRenderResolver.RenderToStringAsync("EmailTemplates/ConfirmAccountHtmlEmail", confirmationUrl).ConfigureAwait(false);
 
-                await _emailSender.SendEmailAsync(
-                    smtpOptions,
-                    toAddress,
-                    smtpOptions.DefaultEmailFromAddress,
-                    subject,
-                    plainTextMessage,
-                    htmlMessage).ConfigureAwait(false);
+                //await _emailSender.SendEmailAsync(
+                //    smtpOptions,
+                //    toAddress,
+                //    smtpOptions.DefaultEmailFromAddress,
+                //    subject,
+                //    plainTextMessage,
+                //    htmlMessage).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

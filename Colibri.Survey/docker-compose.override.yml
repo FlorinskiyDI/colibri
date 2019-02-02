@@ -5,11 +5,4 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "5151:80"
-
-  survey.spa:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "8181:80"
-
+      - "80"
