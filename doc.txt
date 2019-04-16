@@ -1,0 +1,243 @@
+
+
+
+
+
+
+organizations
+- surveys
+- tests
+- organization settings
+	- general
+	- members
+	- notifications
+	
+	
+	
+survey
+- diagrams
+- builder
+- reports
+
+600*300*250
+
+10-14 		Self education
+17-19 		Disease
+20-21 		Vacation
+24,26-28 	Self education
+
+
+user
+- 
+
+
+
+groups
+	group-tree
+	
+members
+	member-grid
+	member-add
+
+managementа
+	manage-group
+	manage-group-overview
+	manage-users
+	manage-members
+	
+	
+
+layout
+identity-server
+	layout
+	
+	common
+		pipes
+		services
+	
+	components
+		group
+			- group-grid
+			- group-overview
+			- group-overview-general
+			- group-overview-options
+		member
+			- member-grid
+		user
+			- user-dialog-overview
+			- user-grid
+		system
+			- system-options
+		profile
+			- profile-overview			
+			- profile-member-of
+			
+	containers
+		- groups-manage
+		- group-details
+		- users-manage
+		- system
+		- profile
+
+
+
+survey service
+Control panel
+Identity Server
+
+
+
+service.com/identity-server/orgs
+service.com/identity-server/orgs/1
+service.com/identity-server/orgs/overview
+service.com/identity-server/orgs/members
+service.com/identity-server/users
+service.com/identity-server/system
+
+service.com/survey-dashboard/hneu
+service.com/survey-dashboard/hneu/explorer
+service.com/survey-dashboard/hneu/builder
+service.com/survey-dashboard/hneu/builder/1
+
+service.com/survey-portal
+service.com/survey-portal/hneu
+service.com/survey-portal/hneu/survey/1
+
+
+IDatabaseService
+
+clbr--mat-form-field
+clbr--mat-form-field-full-width
+cmp--mat-form-field-email-value
+mat-form-field ng-tns-c16-22
+mat-primary
+mat-form-field-type-mat-input
+mat-form-field-appearance-legacy
+mat-form-field-can-float
+mat-form-field-hide-placeholder
+ng-dirty ng-touched
+mat-form-field-should-float
+ng-valid
+
+
+TabView TabView TabView TabView TabView
+
+
+    <LangVersion>7.1</LangVersion>
+
+create group:
+superadmin
+groupadmin
+
+SuperAdmin
+GroupOwner
+GroupEditor
+GroupViewer
+
+clbr--page
+clbr--page--title
+clbr--page--description
+clbr--page--navigation
+clbr--page--content
+
+clbr--block
+clbr--block--description
+clbr--block--options
+clbr--block--content
+
+
+GROUPS
+	- "UserList"
+	- "UserGet"
+	- "UserUpdate"
+	- "UserDisable"
+	-
+	- "ConfigsGet"
+	- "ConfigsUpdate"
+	-
+	- "GroupCreate"
+	- "GroupDelete"
+	- "GroupGet"
+	- "GroupGetSubgroups"
+	- "GroupList"
+	- "GroupUpdate"
+	- "GroupSetIAMPolicy"
+	- "GroupGetIAMPolicy"
+		
+		
+		
+USERS
+SYSTEM
+
+
+
+
+SuperAdmin
+		- "UserList"
+		- "UserGet"
+		- "UserUpdate"
+		- "UserDisable"
+		-
+		- "ConfigsGet"
+		- "ConfigsUpdate"
+		-
+		- "GroupCreate"
+		- "GroupDelete"
+		- "GroupGet"
+		- "GroupGetSubgroups"
+		- "GroupList"
+		- "GroupUpdate"
+		- "GroupSetIAMPolicy"
+		- "GroupGetIAMPolicy"
+	Admin
+		UserAdmin
+		- "UserList"
+		- "UserGet"
+		- "UserUpdate"
+		- "UserDisable"
+		-
+		- "GroupCreate"
+		- "GroupDelete"
+		- "GroupGet"
+		- "GroupGetSubgroups"
+		- "GroupList"
+		- "GroupUpdate"
+		- "GroupSetIAMPolicy"
+		- "GroupGetIAMPolicy"
+		
+		GroupAdmin
+				- "GroupCreate"
+				- "GroupDelete"
+				- "GroupGet"
+				- "GroupGetSubgroups"
+				- "GroupList"
+				- "GroupUpdate"
+				- "GroupSetIAMPolicy"
+				- "GroupGetIAMPolicy"
+
+			GroupCreator
+				- "GroupCreate"
+				
+			GroupOwner
+				- "GroupDelete"
+				- "GroupGet"
+				- "GroupGetSubgroups"
+				- "GroupList"
+				- "GroupUpdate"
+
+			GroupEditor
+				- "GroupGet"
+				- "GroupGetSubgroups"
+				- "GroupList"
+				- "GroupUpdate"
+			GroupViewer				
+				- "GroupGet"
+				- "GroupGetSubgroups"
+				- "GroupList"
+
+		
+
+
+
+
+

@@ -9,12 +9,12 @@ using IdentityServer.Webapi.Models.AccountViewModels;
 using IdentityServer.Webapi.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using IdentityServer4;
-using IdentityModel;
-using IdentityServer4.Extensions;
-using IdentityServer4.Models;
-using IdentityServer4.Stores;
-using IdentityServer4.Services;
+//using IdentityModel;
+//using IdentityServer4;
+//using IdentityServer4.Extensions;
+//using IdentityServer4.Models;
+//using IdentityServer4.Stores;
+//using IdentityServer4.Services;
 using IdentityServer.Webapi.Configurations;
 
 namespace IdentityServer.Webapi.Controllers

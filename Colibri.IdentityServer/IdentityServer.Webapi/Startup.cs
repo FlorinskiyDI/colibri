@@ -25,6 +25,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using IdentityServer.Webapi.Helpers;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading.Tasks;
+using System.Net;
 
 namespace IdentityServer.Webapi
 {
@@ -61,7 +64,12 @@ namespace IdentityServer.Webapi
             //services.AddTransient<RoleManager<ApplicationRole>>();
             //services.AddTransient<SignInManager<ApplicationRole>>();
 
+            //services.Configure<CookieAuthenticationOptions>(o =>
+            //{
+            //    o.LoginPath = PathString.Empty;
+            //});
 
+           
 
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -148,7 +156,7 @@ namespace IdentityServer.Webapi
                 options.DefaultPolicy = new AuthorizationPolicyBuilder(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme })
                 .RequireAuthenticatedUser()
                 .Build();
-                // Note: Adding permisions as policy
+                //// Note: Adding permisions as policy
                 var permissionList = new List<string>();
                 permissionList.AddRange(ClassHelper.GetConstantValues<SystemStaticPermissions.Configs>());
                 permissionList.AddRange(ClassHelper.GetConstantValues<SystemStaticPermissions.Users>());
@@ -157,13 +165,21 @@ namespace IdentityServer.Webapi
                 {
                     options.AddPolicy(
                         permission,
-                        policy => {
+                        policy =>
+                        {
                             policy.AddAuthenticationSchemes(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme });
                             policy.Requirements.Add(new PermissionRequirement(permission));
                         });
                 }
             });
-
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
+                };
+            });
             services.AddMvc().AddJsonOptions(options =>
              {
                  options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -204,13 +220,43 @@ namespace IdentityServer.Webapi
             app.UseCors("corsGlobalPolicy");
 
             app.UseIdentityServer();
-            app.UseAuthentication();
+            //app.UseAuthentication(); // not needed, since UseIdentityServer adds the authentication middleware
+
+            app.UseMiddleware<RedirectHandlingMiddleware>();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+        }
+    }
+
+    public class RedirectHandlingMiddleware
+    {
+        private readonly RequestDelegate _next;
+        private readonly ILogger<RedirectHandlingMiddleware> _logger;
+
+        public RedirectHandlingMiddleware(RequestDelegate next, ILogger<RedirectHandlingMiddleware> logger)
+        {
+            _next = next;
+            _logger = logger;
+        }
+
+        public async Task Invoke(HttpContext context)
+        {
+            await HandleRedirect(context);
+            await _next(context);
+        }
+
+        private Task HandleRedirect(HttpContext context)
+        {
+            if (context.Response.StatusCode == 555)
+            {
+                context.Response.StatusCode = 200;
+            }
+            return Task.CompletedTask;
         }
     }
 }

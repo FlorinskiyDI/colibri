@@ -228,7 +228,7 @@ export class OidcSecurityService {
         );
         // debuggerdebugger
         // window.location.href = url;
-
+        debugger
         const customParams = tenant ? ('&acr_values=tenant:' + tenant) : '';
         const myurl = url + customParams;
         window.location.href = myurl;
